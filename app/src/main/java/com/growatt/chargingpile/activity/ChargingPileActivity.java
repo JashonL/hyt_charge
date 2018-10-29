@@ -74,6 +74,8 @@ public class ChargingPileActivity extends BaseActivity {
     @BindView(R.id.ivLeft)
     ImageView ivUserCenter;
 
+    @BindView(R.id.linearlayout)
+    LinearLayout linearlayout;
 
     @BindView(R.id.linearlayout2)
     LinearLayout mStatusGroup;
@@ -507,10 +509,10 @@ public class ChargingPileActivity extends BaseActivity {
                     //默认选中第一项
                     if (charginglist.size() > 1) {
                         MyUtil.hideAllView(View.GONE, emptyPage);
-                        MyUtil.showAllView(rlCharging);
+                        MyUtil.showAllView(rlCharging,linearlayout);
                         refreshChargingUI(position, gunPosition);
                     } else {
-                        MyUtil.hideAllView(View.GONE, rlCharging);
+                        MyUtil.hideAllView(View.GONE, rlCharging,linearlayout);
                         MyUtil.showAllView(emptyPage);
                     }
                 } catch (Exception e) {
@@ -619,7 +621,7 @@ public class ChargingPileActivity extends BaseActivity {
         tvSwitchGun.setText(data.getName());
         //充电枪预约信息
         List<GunBean.ReserveNowBean> reserveNow = gunBean.getReserveNow();
-        if (Cons.mCurrentPile.getType() == 1) {
+        if (Cons.mCurrentPile.getType() == 0) {
             if (reserveNow.size() == 0) {  //没有预约
                 isReservation = false;
                 presetType = 0;
@@ -1156,7 +1158,7 @@ public class ChargingPileActivity extends BaseActivity {
         List<GunBean.DataBean> gunlist = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
             GunBean.DataBean data = new GunBean().getData();
-            data.setTransactionId(i);
+            data.setConnectorId(i);
             gunlist.add(data);
         }
 

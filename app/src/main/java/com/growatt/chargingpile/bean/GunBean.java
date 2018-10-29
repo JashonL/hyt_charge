@@ -8,23 +8,21 @@ import java.util.List;
  */
 
 public class GunBean {
-    public static final String UNAVAILABLE ="Unavailable";
-    public static final String FAULTED ="Faulted";
-    public static final String AVAILABLE ="Available";
-    public static final String PREPARING ="Preparing";
-    public static final String CHARGING ="Charging";
-    public static final String FINISHING ="Finishing";
-    public static final String EXPIRY ="expiry";
-    public static final String ACCEPTED ="Accepted";
-    public static final String WORK ="work";
-    public static final String RESERVED ="Reserved";
-
-
+    public static final String UNAVAILABLE = "Unavailable";
+    public static final String FAULTED = "Faulted";
+    public static final String AVAILABLE = "Available";
+    public static final String PREPARING = "Preparing";
+    public static final String CHARGING = "Charging";
+    public static final String FINISHING = "Finishing";
+    public static final String EXPIRY = "expiry";
+    public static final String ACCEPTED = "Accepted";
+    public static final String WORK = "work";
+    public static final String RESERVED = "Reserved";
 
 
     private int code;
     private DataBean data;
-    private List<ReserveNowBean> ReserveNow=new ArrayList<>();
+    private List<ReserveNowBean> ReserveNow = new ArrayList<>();
 
     public int getCode() {
         return code;
@@ -61,6 +59,7 @@ public class GunBean {
         private String status;
         private double energy;
         private double voltage;
+        private int connectorId = 1;
         private String name;
 
         public String getOrder_status() {
@@ -147,11 +146,27 @@ public class GunBean {
             this.name = name;
         }
 
+        public void setCost(double cost) {
+            this.cost = cost;
+        }
+
+        public void setEnergy(double energy) {
+            this.energy = energy;
+        }
+
+        public int getConnectorId() {
+            return connectorId;
+        }
+
+        public void setConnectorId(int connectorId) {
+            this.connectorId = connectorId;
+        }
+
         public String getName() {
-            if (transactionId==1){
-                setName("A");
-            }else {
-                setName("B");
+            if (connectorId == 1) {
+                setName("A枪");
+            } else {
+                setName("B枪");
             }
             return name;
         }
