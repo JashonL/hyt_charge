@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ShinePhone</string>
+    <string name="app_name">Project EV</string>
     <string name="product_detial">Product details</string>
     <!-- 内部引入 -->
     <string name="fragment3_title">@string/main_service</string>

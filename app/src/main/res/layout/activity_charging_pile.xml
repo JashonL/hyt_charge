@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.growatt.chargingpile.activity.ChargingPileActivity">
 
+
     <RelativeLayout
         android:id="@+id/rl_header"
         android:layout_width="match_parent"
@@ -57,7 +58,7 @@
         <LinearLayout
             android:id="@+id/linearlayout"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/xa168"
+            android:layout_height="match_parent"
             android:layout_below="@+id/relativeLayout1">
 
             <android.support.v7.widget.RecyclerView
@@ -73,13 +74,13 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/srl_pull"
         android:layout_width="match_parent"
+
         android:layout_height="match_parent"
         android:layout_below="@+id/rl_header">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
 
             <RelativeLayout
                 android:id="@+id/rl_Charging"
