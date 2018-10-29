@@ -33,7 +33,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:text="2018/05/22"
                     android:textColor="@color/note_bg_white"
                     android:textSize="@dimen/xa23" />
 
@@ -53,7 +52,6 @@
                     android:layout_width="@dimen/xa69"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:text="8:52"
                     android:textColor="@color/note_bg_white"
                     android:textSize="@dimen/xa24" />
 
@@ -99,10 +97,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/xa22"
-                    android:ellipsize="end"
                     android:gravity="center_vertical"
-                    android:lines="1"
-                    android:text="7444"
                     android:textColor="@color/title_1"
                     android:textSize="@dimen/xa30" />
             </LinearLayout>

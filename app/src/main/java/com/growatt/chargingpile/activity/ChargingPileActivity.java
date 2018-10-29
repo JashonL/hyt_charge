@@ -128,6 +128,8 @@ public class ChargingPileActivity extends BaseActivity {
     public static final int REQUEST_TIME = 102;
     //开启或关闭时间段
     public static final int REQUEST_OPEN_DURATION = 103;
+    //添加充电桩
+    public static final int REQUEST_ADD_CHARGING = 104;
 
     //预约充电方案 0 :只预约了充电时间  1：金额  2：电量  3：时长
     private int presetType = 0;
@@ -509,10 +511,10 @@ public class ChargingPileActivity extends BaseActivity {
                     //默认选中第一项
                     if (charginglist.size() > 1) {
                         MyUtil.hideAllView(View.GONE, emptyPage);
-                        MyUtil.showAllView(rlCharging,linearlayout);
+                        MyUtil.showAllView(rlCharging, linearlayout);
                         refreshChargingUI(position, gunPosition);
                     } else {
-                        MyUtil.hideAllView(View.GONE, rlCharging,linearlayout);
+                        MyUtil.hideAllView(View.GONE, rlCharging, linearlayout);
                         MyUtil.showAllView(emptyPage);
                     }
                 } catch (Exception e) {
@@ -841,7 +843,7 @@ public class ChargingPileActivity extends BaseActivity {
                 startActivity(intent);
                 break;
             case R.id.ll_Authorization:
-                if (Cons.mCurrentPile.getType()==1){
+                if (Cons.mCurrentPile.getType() == 1) {
                     toast(getString(R.string.dataloggers_add_no_jurisdiction));
                     return;
                 }
@@ -859,7 +861,8 @@ public class ChargingPileActivity extends BaseActivity {
                 showStorageList(tvSwitchGun);
                 break;
             case R.id.to_add_device:
-                jumpTo(AddChargingActivity.class, false);
+                Intent intent1 = new Intent(ChargingPileActivity.this, AddChargingActivity.class);
+                startActivityForResult(intent1, REQUEST_ADD_CHARGING);
                 break;
             case R.id.ll_record:
                 jumpTo(ChargingRecoderActivity.class, false);
@@ -1073,7 +1076,8 @@ public class ChargingPileActivity extends BaseActivity {
                 ChargingBean.DataBean bean = mAdapter.getItem(position);
                 int type = bean.getDevType();
                 if (type == ChargingBean.ADD_DEVICE) {
-                    jumpTo(AddChargingActivity.class, false);
+                    Intent intent = new Intent(ChargingPileActivity.this, AddChargingActivity.class);
+                    startActivityForResult(intent, REQUEST_ADD_CHARGING);
                 } else {
                     Cons.mSeletPos = position;
                     refreshChargingUI(position, 1);
@@ -1283,6 +1287,10 @@ public class ChargingPileActivity extends BaseActivity {
             }
             if (requestCode == REQUEST_OPEN_DURATION) {
                 refreshChargingUI(Cons.mSeletPos, Cons.mCurrentGunBeanId);
+            }
+
+            if (requestCode==REQUEST_ADD_CHARGING){
+                freshData(0, 1);
             }
         }
 

@@ -100,7 +100,7 @@ public class AddChargingActivity extends BaseActivity {
     }
 
 
-    private void addCharging(String sn) {
+    private void addCharging(final String sn) {
         String userId = Cons.userId;
         if (TextUtils.isEmpty(sn)) {
             toast(getString(R.string.inverterset_set_no_numberblank));
@@ -124,7 +124,12 @@ public class AddChargingActivity extends BaseActivity {
                 try {
                     JSONObject object = new JSONObject(json);
                     int code = object.getInt("code");
-                    if (code == 0) AddChargingActivity.this.finish();
+                    if (code == 0) {
+                        Intent intent = new Intent();
+                        intent.putExtra("chargingId",sn);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
                     toast(object.getString("data"));
                 } catch (JSONException e) {
                     e.printStackTrace();

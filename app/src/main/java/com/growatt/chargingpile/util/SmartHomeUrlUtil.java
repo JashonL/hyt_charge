@@ -56,7 +56,7 @@ public class SmartHomeUrlUtil {
     public static final String DELETE_UTHORIZATION_USERE = SMARTHOME_BASE_URL + "/ocpp/api/deleteAuthor";
 
     //添加充电桩
-    public static final String ADD_CHARGING = SMARTHOME_BASE_URL + "/ocpp/api/addCharge";
+    public static final String ADD_CHARGING = SMARTHOME_BASE_URL + "/ocpp/api/add";
 
     //充电记录
     public static final String USER_CHARGING_RECORD = SMARTHOME_BASE_URL + "/ocpp/api/chargeRecord";
