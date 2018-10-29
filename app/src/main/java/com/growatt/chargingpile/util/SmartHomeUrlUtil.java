@@ -6,12 +6,12 @@ package com.growatt.chargingpile.util;
 
 public class SmartHomeUrlUtil {
 
-//    public static final String SMARTHOME_BASE_URL = "http://chat.growatt.com";
+    public static final String SMARTHOME_BASE_URL = "http://chat.growatt.com";
 
     //测试地址
 //    public static final String SMARTHOME_BASE_URL = "http://192.168.30.69:8080";
 
-    public static final String SMARTHOME_BASE_URL = "http://192.168.3.228";
+//    public static final String SMARTHOME_BASE_URL = "http://192.168.3.228";
 
     //获取用户所有家庭能源设备数据总接口
     public static final String USER_TOTAL_AllLIST = SMARTHOME_BASE_URL + "/eic_web/tuya/totalList";

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ShinePhone</string>
+    <string name="app_name">Project EV</string>
     <string name="product_detial">Product details</string>
     <string name="all_online">Online</string>
     <!-- 内部引入 -->
