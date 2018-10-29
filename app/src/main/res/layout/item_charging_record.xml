@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/xa290"
+    android:layout_marginTop="@dimen/xa10">
+
+    <LinearLayout
+        android:id="@+id/rl_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/selector_list_rect_item_click"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/xa20">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/xa22"
+            android:paddingLeft="@dimen/xa30"
+            android:paddingRight="@dimen/xa30">
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/m车库充电桩"
+                android:textColor="@color/title_1"
+                android:textSize="@dimen/xa36"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_calendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="2018-05-21"
+                android:textColor="@color/title_1"
+                android:textSize="@dimen/xa30" />
+
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/xa30"
+            android:paddingRight="@dimen/xa30">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_chargingId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/xa11"
+                    android:text="ID:123456"
+                    android:textColor="@color/title_3"
+                    android:textSize="@dimen/xa26" />
+
+                <TextView
+                    android:id="@+id/tv_model"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/xa32"
+                    android:text="2018-05-21"
+                    android:textColor="@color/title_3"
+                    android:textSize="@dimen/xa30" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical">
+
+
+                <LinearLayout
+                    android:id="@+id/ll_start_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/xa52"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/xa15"
+                        android:layout_height="@dimen/xa15"
+                        android:layout_marginLeft="@dimen/xa28"
+                        android:src="@drawable/record_start" />
+
+                    <TextView
+                        android:id="@+id/tv_start"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/xa10"
+                        android:text="12:00"
+                        android:textColor="@color/title_1"
+                        android:textSize="@dimen/xa24" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_stop_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/ll_start_time"
+                    android:layout_marginRight="@dimen/xa52"
+                    android:layout_marginTop="@dimen/xa20"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/xa15"
+                        android:layout_height="@dimen/xa15"
+                        android:layout_marginLeft="@dimen/xa28"
+                        android:src="@drawable/record_finish" />
+
+                    <TextView
+                        android:id="@+id/tv_end"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/xa10"
+                        android:text="12:00"
+                        android:textColor="@color/title_1"
+                        android:textSize="@dimen/xa24" />
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/xa30"
+            android:paddingRight="@dimen/xa30"
+            android:paddingTop="@dimen/xa10">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/iv_charging_time"
+                    android:layout_width="@dimen/xa36"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/tv_charging_time"
+                    android:src="@drawable/charging_time" />
+
+                <TextView
+                    android:id="@+id/tv_duration"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/tv_charging_time"
+                    android:layout_toRightOf="@+id/iv_charging_time"
+                    android:gravity="center"
+                    android:text="4h30min" />
+
+                <TextView
+                    android:id="@+id/tv_charging_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center"
+                    android:text="时长"
+                    android:textColor="@color/title_3"
+                    android:textSize="@dimen/xa26" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/iv_charging_ele"
+                    android:layout_width="@dimen/xa36"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/tv_charging_ele"
+                    android:src="@drawable/charging_record_ele" />
+
+                <TextView
+                    android:id="@+id/tv_ele"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/tv_charging_ele"
+                    android:layout_toRightOf="@+id/iv_charging_ele"
+                    android:gravity="center"
+                    android:text="4h30min" />
+
+                <TextView
+                    android:id="@+id/tv_charging_ele"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center"
+                    android:text="电量"
+                    android:textColor="@color/title_3"
+                    android:textSize="@dimen/xa26" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/iv_charging_money"
+                    android:layout_width="@dimen/xa36"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/tv_charging_money"
+                    android:src="@drawable/charging_money" />
+
+                <TextView
+                    android:id="@+id/tv_money"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/tv_charging_money"
+                    android:layout_toRightOf="@+id/iv_charging_money"
+                    android:gravity="center"
+                    android:text="4h30min" />
+
+                <TextView
+                    android:id="@+id/tv_charging_money"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center"
+                    android:text="金额"
+                    android:textColor="@color/title_3"
+                    android:textSize="@dimen/xa26" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

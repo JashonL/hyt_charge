@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/xa30"
+                android:paddingRight="@dimen/xa30">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="预设充电方案"
+                    android:textColor="@color/title_1"
+                    android:textSize="@dimen/xa30" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="（达到预设金额、电量、时长后停止充电）"
+                    android:textColor="@color/title_3"
+                    android:textSize="@dimen/xa24" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/xa17"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/xa30"
+                android:paddingRight="@dimen/xa30">
+
+                <RelativeLayout
+                    android:id="@+id/rl_prepare_money"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/xa130"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_white_corner_bg">
+
+                    <ImageView
+                        android:id="@+id/iv_money"
+                        android:layout_width="@dimen/xa24"
+                        android:layout_height="@dimen/xa24"
+                        android:layout_marginLeft="@dimen/xa16"
+                        android:layout_marginTop="@dimen/xa18"
+                        android:src="@drawable/charging_money" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/xa11"
+                        android:layout_marginTop="@dimen/xa10"
+                        android:layout_toRightOf="@+id/iv_money"
+                        android:text="金额"
+                        android:textColor="@color/title_3"
+                        android:textSize="@dimen/xa26" />
+
+                    <CheckBox
+                        android:id="@+id/cb_prepare_money_select"
+                        android:layout_width="@dimen/xa36"
+                        android:layout_height="@dimen/xa36"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/xa11"
+                        android:layout_marginTop="@dimen/xa11"
+                        android:button="@drawable/selector_checkbox_bg_blue"
+                        android:enabled="false" />
+
+                    <TextView
+                        android:id="@+id/tv_prepare_money_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="@dimen/xa24"
+                        android:text="--"
+                        android:textColor="@color/title_1"
+                        android:textSize="@dimen/xa30" />
+
+                    <ImageView
+                        android:id="@+id/iv_more_money"
+                        android:layout_width="@dimen/xa10"
+                        android:layout_height="@dimen/xa16"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="@dimen/xa35"
+                        android:layout_marginLeft="@dimen/xa8"
+                        android:layout_toRightOf="@+id/tv_prepare_money_num"
+                        android:src="@drawable/charger_device_item_more" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="@dimen/xa17"
+                    android:layout_height="@dimen/xa130" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_prepare_ele"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/xa130"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_white_corner_bg">
+
+                    <ImageView
+                        android:id="@+id/iv_ele"
+                        android:layout_width="@dimen/xa24"
+                        android:layout_height="@dimen/xa24"
+                        android:layout_marginLeft="@dimen/xa16"
+                        android:layout_marginTop="@dimen/xa18"
+                        android:src="@drawable/charging_ele" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/xa11"
+                        android:layout_marginTop="@dimen/xa10"
+                        android:layout_toRightOf="@+id/iv_ele"
+                        android:text="电量"
+                        android:textColor="@color/title_3"
+                        android:textSize="@dimen/xa26" />
+
+                    <CheckBox
+                        android:id="@+id/cb_prepare_ele_select"
+                        android:layout_width="@dimen/xa36"
+                        android:layout_height="@dimen/xa36"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/xa11"
+                        android:layout_marginTop="@dimen/xa11"
+                        android:button="@drawable/selector_checkbox_bg_blue"
+                        android:enabled="false" />
+
+                    <TextView
+                        android:id="@+id/tv_prepare_ele_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="@dimen/xa24"
+                        android:text="--"
+                        android:textColor="@color/title_1"
+                        android:textSize="@dimen/xa30" />
+
+                    <ImageView
+                        android:id="@+id/iv_more_ele"
+                        android:layout_width="@dimen/xa10"
+                        android:layout_height="@dimen/xa16"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="@dimen/xa35"
+                        android:layout_marginLeft="@dimen/xa8"
+                        android:layout_toRightOf="@+id/tv_prepare_ele_num"
+                        android:src="@drawable/charger_device_item_more" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="@dimen/xa17"
+                    android:layout_height="@dimen/xa130" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_prepare_time"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/xa130"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_white_corner_bg">
+
+                    <ImageView
+                        android:id="@+id/iv_time"
+                        android:layout_width="@dimen/xa24"
+                        android:layout_height="@dimen/xa24"
+                        android:layout_marginLeft="@dimen/xa16"
+                        android:layout_marginTop="@dimen/xa18"
+                        android:src="@drawable/charging_time" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/xa11"
+                        android:layout_marginTop="@dimen/xa10"
+                        android:layout_toRightOf="@+id/iv_time"
+                        android:text="时长"
+                        android:textColor="@color/title_3"
+                        android:textSize="@dimen/xa26" />
+
+                    <CheckBox
+                        android:id="@+id/cb_prepare_time_select"
+                        android:layout_width="@dimen/xa36"
+                        android:layout_height="@dimen/xa36"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/xa11"
+                        android:layout_marginTop="@dimen/xa11"
+                        android:button="@drawable/selector_checkbox_bg_blue"
+                        android:enabled="false" />
+
+                    <TextView
+                        android:id="@+id/tv_prepare_time_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="@dimen/xa24"
+                        android:text="--"
+                        android:textColor="@color/title_1"
+                        android:textSize="@dimen/xa30" />
+
+                    <ImageView
+                        android:id="@+id/iv_more_time"
+                        android:layout_width="@dimen/xa10"
+                        android:layout_height="@dimen/xa16"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="@dimen/xa35"
+                        android:layout_marginLeft="@dimen/xa8"
+                        android:layout_toRightOf="@+id/tv_prepare_time_num"
+                        android:src="@drawable/charger_device_item_more" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/xa32"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/xa30"
+                android:paddingRight="@dimen/xa30">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="预约充电"
+                    android:textColor="@color/title_1"
+                    android:textSize="@dimen/xa30" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_reserve"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/xa130"
+                android:layout_marginLeft="@dimen/xa30"
+                android:layout_marginRight="@dimen/xa30"
+                android:layout_marginTop="@dimen/xa17"
+                android:background="@drawable/shape_white_corner_bg">
+
+                <ImageView
+                    android:id="@+id/iv_clock"
+                    android:layout_width="@dimen/xa24"
+                    android:layout_height="@dimen/xa24"
+                    android:layout_marginLeft="@dimen/xa17"
+                    android:layout_marginTop="@dimen/xa29"
+                    android:src="@drawable/charging_reserve_time" />
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/xa17"
+                    android:layout_marginTop="@dimen/xa20"
+                    android:layout_toRightOf="@+id/iv_clock"
+                    android:text="开始时间"
+                    android:textColor="@color/title_3"
+                    android:textSize="@dimen/xa24" />
+
+
+                <TextView
+                    android:id="@+id/tv_text_open_close"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/tv_time"
+                    android:layout_marginBottom="@dimen/xa27"
+                    android:layout_marginRight="@dimen/xa13"
+                    android:layout_toLeftOf="@+id/iv_resever_switch"
+                    android:text="@string/m开启"
+                    android:textColor="@color/title_3"
+                    android:textSize="@dimen/xa24" />
+
+                <ImageView
+                    android:id="@+id/iv_resever_switch"
+                    android:layout_width="@dimen/xa80"
+                    android:layout_height="@dimen/xa40"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/xa36"
+                    android:layout_marginTop="@dimen/xa21"
+                    android:src="@drawable/checkbox_off" />
+
+                <TextView
+                    android:id="@+id/tv_time_every_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/iv_clock"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="@dimen/xa27"
+                    android:text="每天"
+                    android:textColor="@color/blue_1"
+                    android:textSize="@dimen/xa24" />
+
+                <CheckBox
+                    android:id="@+id/cb_everyday"
+                    android:layout_width="@dimen/xa35"
+                    android:layout_height="@dimen/xa35"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="@dimen/xa27"
+                    android:layout_marginLeft="@dimen/xa21"
+                    android:layout_toRightOf="@+id/tv_time_every_day"
+                    android:background="@drawable/selector_checkbox_bg_white"
+                    android:button="@null"
+                    android:textColor="@color/title_1"
+                    android:textSize="@dimen/xa30" />
+
+                <TextView
+                    android:id="@+id/tv_start_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="@dimen/xa27"
+                    android:layout_marginLeft="@dimen/xa21"
+                    android:layout_toRightOf="@+id/cb_everyday"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:maxWidth="@dimen/xa750"
+                    android:text="--:--"
+                    android:textColor="@color/title_1"
+                    android:textSize="@dimen/xa30" />
+
+                <ImageView
+                    android:id="@+id/iv_resever_select_time"
+                    android:layout_width="@dimen/xa10"
+                    android:layout_height="@dimen/xa16"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="@dimen/xa40"
+                    android:layout_marginLeft="@dimen/xa13"
+                    android:layout_toRightOf="@+id/tv_start_time"
+                    android:src="@drawable/charger_device_item_more" />
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

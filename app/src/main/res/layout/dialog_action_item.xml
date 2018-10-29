@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/ya538"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa80"
+        android:background="@color/headerView"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:paddingLeft="@dimen/xa29"
+            android:background="@color/headerView"
+            android:gravity="left|center_vertical"
+            android:text="@string/all_no"
+            android:textColor="@color/blue_1"
+            android:textSize="@dimen/xa25" />
+
+        <TextView
+            android:id="@+id/tv_sure"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@color/headerView"
+            android:gravity="right|center_vertical"
+            android:text="@string/all_ok"
+            android:paddingRight="@dimen/xa29"
+            android:textColor="@color/blue_1"
+            android:textSize="@dimen/xa25" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_time"
+        android:background="@color/headerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rl_np"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/xa10"
+            android:paddingTop="@dimen/xa10">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <com.growatt.chargingpile.view.NumberPicker
+                    android:id="@+id/np_hour"
+                    android:layout_width="@dimen/xa200"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:theme="@style/SampleTheme" />
+
+                <TextView
+                    android:id="@+id/tv_hour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="时"
+                    android:textColor="@color/title_1"
+                    android:textSize="@dimen/xa25" />
+
+                <com.growatt.chargingpile.view.NumberPicker
+                    android:id="@+id/np_minute"
+                    android:layout_width="@dimen/xa200"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:theme="@style/SampleTheme" />
+
+                <TextView
+                    android:id="@+id/tv_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/xa5"
+                    android:text="分"
+                    android:textColor="@color/title_1"
+                    android:textSize="@dimen/xa20" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/xa70"
+                android:layout_centerInParent="true">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/ya2"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="@dimen/xa15"
+                    android:layout_marginRight="@dimen/xa15"
+                    android:background="@color/preset_edit_divider" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/ya2"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="@dimen/xa15"
+                    android:layout_marginRight="@dimen/xa15"
+                    android:background="@color/preset_edit_divider" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/headerView"
+    android:orientation="vertical"
+    tools:context=".activity.AddAuthorizeRegisterActivity">
+
+    <include layout="@layout/header_view_title" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/headerView">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/xa49"
+                android:gravity="center"
+                android:text="填写资料注册新用户"
+                android:textColor="@color/title_1"
+                android:textSize="@dimen/xa36"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/xa90"
+                android:layout_marginLeft="@dimen/xa30"
+                android:layout_marginRight="@dimen/xa30"
+                android:layout_marginTop="@dimen/xa50"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/xa24"
+                android:paddingRight="@dimen/xa24">
+
+                <TextView
+                    android:layout_width="@dimen/xa20"
+                    android:layout_height="@dimen/xa20"
+                    android:gravity="center"
+                    android:text="*"
+                    android:textColor="@color/red_color"
+                    android:textSize="@dimen/xa15" />
+
+
+                <ImageView
+                    android:id="@+id/imageView1"
+                    android:layout_width="@dimen/xa20"
+                    android:layout_height="@dimen/xa24"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/sign_user" />
+
+
+                <EditText
+                    android:id="@+id/et_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/xa12"
+                    android:background="@null"
+                    android:hint="@string/请输入用户名"
+                    android:textColor="@color/title_2"
+                    android:textSize="@dimen/xa24" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.5dip"
+                android:layout_marginLeft="@dimen/xa30"
+                android:layout_marginRight="@dimen/xa30"
+                android:background="#dedede"
+                android:orientation="vertical" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/xa90"
+                android:layout_marginLeft="@dimen/xa30"
+                android:layout_marginRight="@dimen/xa30"
+                android:layout_marginTop="@dimen/xa30"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/xa24"
+                android:paddingRight="@dimen/xa24">
+
+                <TextView
+                    android:layout_width="@dimen/xa20"
+                    android:layout_height="@dimen/xa20"
+                    android:gravity="center"
+                    android:text="*"
+                    android:textColor="@color/red_color"
+                    android:textSize="@dimen/xa15" />
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="@dimen/xa20"
+                    android:layout_height="@dimen/xa24"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/sign_password" />
+
+                <EditText
+                    android:id="@+id/et_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/xa12"
+                    android:background="@null"
+                    android:hint="@string/请输入密码"
+                    android:textColor="@color/title_2"
+                    android:textSize="@dimen/xa24" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.5dip"
+                android:layout_marginLeft="@dimen/xa30"
+                android:layout_marginRight="@dimen/xa30"
+                android:background="#dedede"
+                android:orientation="vertical" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/xa90"
+                android:layout_marginLeft="@dimen/xa30"
+                android:layout_marginRight="@dimen/xa30"
+                android:layout_marginTop="@dimen/xa30"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/xa24"
+                android:paddingRight="@dimen/xa24">
+
+                <TextView
+                    android:layout_width="@dimen/xa20"
+                    android:layout_height="@dimen/xa20"
+                    android:gravity="center"
+                    android:text="*"
+                    android:textColor="@color/red_color"
+                    android:textSize="@dimen/xa15" />
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="@dimen/xa20"
+                    android:layout_height="@dimen/xa24"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/sign_password" />
+
+                <EditText
+                    android:id="@+id/et_password_confirm"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/xa12"
+                    android:background="@null"
+                    android:hint="@string/重复输入密码"
+                    android:textColor="@color/title_2"
+                    android:textSize="@dimen/xa24" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.5dip"
+                android:layout_marginLeft="@dimen/xa30"
+                android:layout_marginRight="@dimen/xa30"
+                android:background="#dedede"
+                android:orientation="vertical" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/xa90"
+                android:layout_marginLeft="@dimen/xa30"
+                android:layout_marginRight="@dimen/xa30"
+                android:layout_marginTop="@dimen/xa30"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/xa24"
+                android:paddingRight="@dimen/xa24">
+
+                <TextView
+                    android:layout_width="@dimen/xa20"
+                    android:layout_height="@dimen/xa20"
+                    android:gravity="center"
+                    android:text="*"
+                    android:textColor="@color/red_color"
+                    android:textSize="@dimen/xa15" />
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="@dimen/xa20"
+                    android:layout_height="@dimen/xa24"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/sign_mail" />
+
+                <EditText
+                    android:id="@+id/et_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/xa12"
+                    android:background="@null"
+                    android:hint="@string/register_email_no_blank"
+                    android:textColor="@color/title_2"
+                    android:textSize="@dimen/xa24" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.5dip"
+                android:layout_marginLeft="@dimen/xa30"
+                android:layout_marginRight="@dimen/xa30"
+                android:background="#dedede"
+                android:orientation="vertical" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/xa90"
+                android:layout_marginLeft="@dimen/xa30"
+                android:layout_marginRight="@dimen/xa30"
+                android:layout_marginTop="@dimen/xa30"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/xa24"
+                android:paddingRight="@dimen/xa24">
+
+                <TextView
+                    android:layout_width="@dimen/xa20"
+                    android:layout_height="@dimen/xa20"
+                    android:gravity="center"
+                    android:textColor="@color/red_color"
+                    android:textSize="@dimen/xa15" />
+
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="@dimen/xa20"
+                    android:layout_height="@dimen/xa24"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/sign_mail" />
+
+                <EditText
+                    android:id="@+id/et_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/xa12"
+                    android:background="@null"
+                    android:hint="@string/register_phone_no_blank"
+                    android:textColor="@color/title_2"
+                    android:textSize="@dimen/xa24" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.5dip"
+                android:layout_marginLeft="@dimen/xa30"
+                android:layout_marginRight="@dimen/xa30"
+                android:background="#dedede"
+                android:orientation="vertical" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/xa140">
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="@dimen/xa398"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:text="@string/all_terms"
+                    android:textColor="@color/title_3"
+                    android:textSize="@dimen/xa37" />
+
+                <CheckBox
+                    android:id="@+id/checkBox1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/textView4"
+                    android:button="@drawable/selector_checkbox_bg_white"
+                    android:checked="true"
+                    android:scaleX="0.8"
+                    android:scaleY="0.8"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/xa28" />
+            </RelativeLayout>
+
+
+            <Button
+                android:id="@+id/btFinish"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/xa88"
+                android:layout_below="@+id/etPwd"
+                android:layout_marginLeft="@dimen/xa75"
+                android:layout_marginRight="@dimen/xa75"
+                android:layout_marginTop="@dimen/xa80"
+                android:background="@drawable/selector_circle_btn_green_gradient"
+                android:stateListAnimator="@null"
+                android:text="@string/about_cache_ok"
+                android:textColor="@color/headerView" />
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>

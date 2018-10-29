@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--头部和背景颜色-->
+    <!--旧版-->
+    <!--<color name="headerView">#11a7f3</color> &lt;!&ndash;头部颜色&ndash;&gt;-->
+    <!--<color name="headerView_r50">#8011a7f3</color> &lt;!&ndash;头部颜色&ndash;&gt;-->
+    <!--<color name="blue_background">#2ec2f0</color>&lt;!&ndash;主体背景颜色1：蓝色&ndash;&gt;-->
+    <!--新版-->
+    <color name="headerView">#ffffff</color> <!--头部颜色-->
+    <color name="headerView_r50">#80ffffff</color> <!--头部颜色加透明度50%-->
+    <color name="blue_background">#1da7ff</color><!--主体背景颜色1：蓝色-->
+    <color name="headerView_text">@color/headerView</color> <!--字体颜色==主色-->
+    <color name="headerView_gray">#0097f5</color> <!--字体颜色==主色-->
+
+
+    <color name="blue_background_click">@color/headerView</color><!--主体背景颜色1:点击后颜色-->
+    <color name="white_background">#ffffff</color><!--主体背景颜色2：白色-->
+    <color name="white_background_click">#d4d4d4</color><!--主体背景颜色2:点击后颜色-->
+    <color name="gray_background">#f7f7f7</color><!--主体背景颜色3：灰色-->
+    <color name="gray_background_small">#f2f2f2</color><!--主体背景颜色3：灰色小-->
+    <color name="gray_background_click">#d4d4d4</color><!--主体背景颜色3:点击后颜色-->
+    <color name="frg1_storage_line">#e5dc78</color><!--设备页头部动画线条颜色-->
+    <color name="gray_background2">#f0f0f0</color>
+    <!--字体颜色-->
+    <color name="title_bg_white">#333333</color><!--标题颜色-->
+    <color name="title_bg_blue">#ffffff</color>
+    <color name="content_bg_white">#666666</color><!--内容颜色-->
+    <color name="content_bg_blue">#ffffff</color>
+    <color name="note_bg_white">#999999</color><!--注释颜色-->
+    <color name="note2_bg_white">#aaaaaa</color><!--注释颜色-->
+    <color name="note_bg_blue">#ccffffff</color>
+    <color name="hint_bg_white">#bbbbbb</color><!--隐藏字体颜色-->
+    <color name="hint_bg_blue">#99ffffff</color>
+    <color name="grid_bg_white">#dedede</color><!--分割线颜色-->
+    <color name="grid_bg_blue">#4dffffff</color>
+    <color name="grid_bg_blue_2">#b3ffffff</color><!--虚线分割线-->
+    <color name="title_bg_oss">#eeeeee</color>
+    <color name="title_bg_oss_selector">#80ffffff</color>
+    <color name="red_color">#ff0000</color>
+
+    <!--标题颜色分级-->
+    <color name="title_1">#333333</color>
+    <color name="title_2">#666666</color>
+    <color name="title_3">#999999</color>
+    <color name="xy_grid">#B3ffffff</color><!--xy网格线储能能源界面(有背景)-->
+    <color name="xy_grid_st">#999999</color><!--xy网格线逆变器界面（无背景）-->
+    <color name="white_10">#1Affffff</color><!--白色透明度10%-->
+    <color name="white_20">#33ffffff</color><!--白色透明度20%-->
+    <color name="white_30">#4Dffffff</color><!--白色透明度30%-->
+    <color name="white_40">#66ffffff</color><!--白色透明度40%-->
+    <color name="white_50">#80ffffff</color><!--白色透明度50%-->
+    <color name="white_60">#99ffffff</color><!--白色透明度60%-->
+    <color name="white_70">#B3ffffff</color><!--白色透明度70%-->
+    <color name="white_80">#ccffffff</color><!--白色透明度80%-->
+    <color name="white_90">#E6ffffff</color><!--白色透明度90%-->
+
+
+    <color name="translate">#00000000</color>
+
+
+    <!--登录页-->
+
+    <!--绿色-->
+    <color name="green_1">#00e3c0</color>
+    <color name="green_2">#01e672</color>
+    <!--蓝色-->
+    <color name="blue_1">#009cff</color>
+    <color name="forget_password_color">#00e3bf</color>
+
+    <!--充电桩首页-->
+    <color name="charging_button_blue">#23496e</color>
+    <color name="charging_button_blue_50">#5023496e</color>
+    <color name="charging_text_green">#00efad</color>
+    <color name="gray">#dddddd</color>
+    <color name="gray_2">#cad0d5</color>
+    <color name="green_3">#00fff6</color>
+    <color name="red_faulted">#f53232</color>
+
+    <!--方案编辑-->
+    <color name="preset_edit_divider">#c7cbce</color>
+    <color name="preset_edit_time_background">#e8ecef</color>
+    
+    <!--预约编辑-->
+    <color name="timing_delete">#fb2929</color>
+
+
+    
+
+</resources>

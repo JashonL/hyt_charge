@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:id="@+id/smart_home_empty_page"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/iv_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/charging_empty_image" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/xa18"
+        android:text="您暂时还没有设备呢~"
+        android:textColor="@color/title_1"
+        android:textSize="@dimen/xa28" />
+
+    <Button
+        android:id="@+id/to_add_device"
+        android:layout_width="@dimen/xa273"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/xa38"
+        android:background="@drawable/selector_circle_btn_green"
+        android:text="@string/fragment1_popup_item1"
+        android:textColor="@color/headerView" />
+
+
+</LinearLayout>

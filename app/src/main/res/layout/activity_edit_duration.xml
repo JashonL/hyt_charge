@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_background_small"
+    tools:context=".activity.ChargingSetActivity">
+
+    <include layout="@layout/header_view_title" />
+
+    <RelativeLayout
+        android:id="@+id/rl_start"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ya90"
+        android:layout_below="@+id/headerView"
+        android:layout_marginTop="@dimen/xa20"
+        android:background="@color/headerView">
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/xa25"
+            android:layout_toRightOf="@+id/imageView1"
+            android:text="@string/m开启"
+            android:textColor="@color/title_1"
+            android:textSize="@dimen/xa30" />
+
+
+        <TextView
+            android:id="@+id/tv_open"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/xa21"
+            android:text="07:00"
+            android:textColor="@color/title_1"
+            android:textSize="@dimen/xa30" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_divider_1"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dip"
+        android:layout_below="@+id/rl_start"
+        android:background="#dedede"
+        android:orientation="vertical" />
+
+
+    <RelativeLayout
+        android:id="@+id/rl_close"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ya90"
+        android:layout_below="@+id/ll_divider_1"
+        android:background="@color/headerView">
+
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/xa25"
+            android:layout_toRightOf="@+id/imageView3"
+            android:text="@string/m关闭"
+            android:textColor="@color/title_1"
+            android:textSize="@dimen/xa30" />
+
+        <TextView
+            android:id="@+id/tv_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/xa21"
+            android:text="07:00"
+            android:textColor="@color/title_1"
+            android:textSize="@dimen/xa30" />
+
+    </RelativeLayout>
+
+
+
+    <RelativeLayout
+        android:layout_marginTop="@dimen/xa20"
+        android:id="@+id/rl_every_day"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ya90"
+        android:layout_below="@+id/rl_close"
+        android:background="@color/headerView">
+
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="15dp"
+            android:text="每天"
+            android:textColor="@color/blue_1"
+            android:textSize="@dimen/xa30" />
+
+        <CheckBox
+            android:id="@+id/cb_everyday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:button="@null"
+            android:background="@drawable/selector_checkbox_bg_white"
+            android:layout_marginRight="@dimen/xa21"
+            android:textColor="@color/title_1"
+            android:textSize="@dimen/xa30" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rl_charging_grant"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ya90"
+        android:layout_below="@+id/rl_every_day"
+        android:gravity="center">
+
+
+        <TextView
+            android:id="@+id/tv_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="本次时长："
+            android:textColor="@color/title_1"
+            android:textSize="@dimen/xa30" />
+
+        <TextView
+            android:id="@+id/tv_duration_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/tv_duration"
+            android:text="1h"
+            android:textColor="@color/title_1"
+            android:textSize="@dimen/xa30" />
+
+    </RelativeLayout>
+
+
+
+    <RelativeLayout
+        android:id="@+id/rl_delete_reserva"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ya90"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/ya95"
+        android:background="@color/headerView"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="删除"
+            android:textColor="@color/timing_delete"
+            android:textSize="@dimen/xa30" />
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

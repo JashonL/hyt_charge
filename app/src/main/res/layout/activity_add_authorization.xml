@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/headerView"
+    android:orientation="vertical"
+    tools:context=".activity.AddAuthorizationActivity">
+
+    <include layout="@layout/header_view_title" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/xa49"
+        android:gravity="center"
+        android:text="输入用户名添加授权用户"
+        android:textColor="@color/title_1"
+        android:textSize="@dimen/xa40"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa90"
+        android:layout_marginLeft="@dimen/xa30"
+        android:layout_marginRight="@dimen/xa30"
+        android:layout_marginTop="@dimen/xa50"
+        android:gravity="center">
+
+        <EditText
+            android:id="@+id/et_username"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:gravity="center"
+            android:hint="@string/请输入用户名"
+            android:textColor="@color/title_2"
+            android:textSize="@dimen/xa30" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0.5dip"
+        android:layout_marginLeft="@dimen/xa30"
+        android:layout_marginRight="@dimen/xa30"
+        android:background="#dedede"
+        android:orientation="vertical" />
+
+    <Button
+        android:id="@+id/btAdd"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa88"
+        android:layout_below="@+id/etPwd"
+        android:layout_marginLeft="@dimen/xa75"
+        android:layout_marginRight="@dimen/xa75"
+        android:layout_marginTop="@dimen/xa80"
+        android:background="@drawable/selector_circle_btn_green"
+        android:stateListAnimator="@null"
+        android:text="@string/about_cache_ok"
+        android:textColor="@color/headerView" />
+
+</LinearLayout>

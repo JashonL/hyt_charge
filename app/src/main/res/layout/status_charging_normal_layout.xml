@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <LinearLayout
+                android:id="@+id/ll_charged_ele"
+                android:layout_width="@dimen/xa220"
+                android:layout_height="@dimen/xa170"
+                android:layout_marginLeft="@dimen/xa30"
+                android:background="@drawable/shape_white_corner_bg"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/xa15">
+
+                <ImageView
+                    android:layout_width="@dimen/xa36"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/charging_record_ele" />
+
+                <TextView
+                    android:id="@+id/tv_charging_ele"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/title_1"
+                    android:textSize="@dimen/xa36" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="已充电量"
+                    android:textColor="@color/title_3"
+                    android:textSize="@dimen/xa28" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_charging_rate"
+                android:layout_width="@dimen/xa220"
+                android:layout_height="@dimen/xa170"
+                android:layout_marginLeft="@dimen/xa15"
+                android:layout_toRightOf="@+id/ll_charged_ele"
+                android:background="@drawable/shape_white_corner_bg"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/xa15">
+
+                <ImageView
+                    android:layout_width="@dimen/xa36"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/charging_rate" />
+
+                <TextView
+                    android:id="@+id/tv_charging_rate"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/title_1"
+                    android:textSize="@dimen/xa36" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/m充电费率"
+                    android:textColor="@color/title_3"
+                    android:textSize="@dimen/xa28" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_charging_current"
+                android:layout_width="@dimen/xa220"
+                android:layout_height="@dimen/xa170"
+                android:layout_marginLeft="@dimen/xa15"
+                android:layout_toRightOf="@+id/ll_charging_rate"
+                android:background="@drawable/shape_white_corner_bg"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/xa15">
+
+                <ImageView
+                    android:layout_width="@dimen/xa36"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/charging_current" />
+
+                <TextView
+                    android:id="@+id/tv_charging_current"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/title_1"
+                    android:textSize="@dimen/xa36" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/m当前电流"
+                    android:textColor="@color/title_3"
+                    android:textSize="@dimen/xa28" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_charging_time"
+                android:layout_width="@dimen/xa220"
+                android:layout_height="@dimen/xa170"
+                android:layout_alignLeft="@+id/ll_charged_ele"
+                android:layout_below="@+id/ll_charged_ele"
+                android:layout_marginTop="@dimen/xa15"
+                android:background="@drawable/shape_white_corner_bg"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/xa15">
+
+                <ImageView
+                    android:layout_width="@dimen/xa36"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/charging_time" />
+
+                <TextView
+                    android:id="@+id/tv_charging_duration"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/title_1"
+                    android:textSize="@dimen/xa36" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="已充时长"
+                    android:textColor="@color/title_3"
+                    android:textSize="@dimen/xa28" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_charging_money"
+                android:layout_width="@dimen/xa220"
+                android:layout_height="@dimen/xa170"
+                android:layout_alignLeft="@+id/ll_charging_rate"
+                android:layout_below="@+id/ll_charging_rate"
+                android:layout_marginTop="@dimen/xa15"
+                android:background="@drawable/shape_white_corner_bg"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/xa15">
+
+                <ImageView
+                    android:layout_width="@dimen/xa36"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/charging_money" />
+
+                <TextView
+                    android:id="@+id/tv_charging_money"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/title_1"
+                    android:textSize="@dimen/xa36" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="消费金额"
+                    android:textColor="@color/title_3"
+                    android:textSize="@dimen/xa28" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_charging_voltage"
+                android:layout_width="@dimen/xa220"
+                android:layout_height="@dimen/xa170"
+                android:layout_alignLeft="@+id/ll_charging_current"
+                android:layout_below="@+id/ll_charging_current"
+                android:layout_marginTop="@dimen/xa15"
+                android:background="@drawable/shape_white_corner_bg"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/xa15">
+
+                <ImageView
+                    android:layout_width="@dimen/xa36"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/charging_voltage" />
+
+                <TextView
+                    android:id="@+id/tv_current_voltage"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/title_1"
+                    android:textSize="@dimen/xa36" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/m当前电压"
+                    android:textColor="@color/title_3"
+                    android:textSize="@dimen/xa28" />
+
+            </LinearLayout>
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+
+</RelativeLayout>

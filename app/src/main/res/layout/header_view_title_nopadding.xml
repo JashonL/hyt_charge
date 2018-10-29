@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/headerView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/headerView"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/header_height">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/xa70"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/xa35"
+            android:layout_toLeftOf="@+id/tvRight"
+            android:layout_toRightOf="@+id/ivLeft"
+            android:gravity="center"
+            android:text="Title"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/xa37" />
+
+        <ImageView
+            android:id="@+id/ivLeft"
+            android:layout_width="@dimen/xa105"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:background="@drawable/touch_bg_main"
+            android:paddingBottom="@dimen/xa35"
+            android:paddingLeft="@dimen/xa18"
+            android:paddingRight="@dimen/xa18"
+            android:paddingTop="@dimen/xa35"
+            />
+
+        <TextView
+            android:id="@+id/tvRight"
+            android:layout_width="@dimen/xa140"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/touch_bg_main"
+            android:gravity="center"
+            android:paddingBottom="@dimen/xa32"
+            android:paddingRight="@dimen/xa11"
+            android:paddingTop="@dimen/xa32"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/xa35" />
+    </RelativeLayout>
+
+</LinearLayout>

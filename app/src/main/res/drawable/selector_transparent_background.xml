@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 对item的不通状态设置不同的图片，第一行是 他的状态被选中&&他没有被按下的状态就用这个图片-->
+    <item android:drawable="@drawable/shape_rectangle_translate_click" android:state_pressed="true" />
+    <item android:drawable="@drawable/shape_rectangle_translate_click" android:state_checked="true" />
+    <!-- 被checked的时候并且没有按下 -->
+    <item android:drawable="@drawable/shape_rectangle_translate_bg" />
+
+</selector>

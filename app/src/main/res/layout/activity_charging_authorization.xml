@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_background"
+    android:orientation="vertical"
+    tools:context=".activity.ChargingAuthorizationActivity">
+
+    <include layout="@layout/header_view" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray_background"
+        android:paddingLeft="@dimen/xa30"
+        android:paddingRight="@dimen/xa30"
+        android:paddingTop="@dimen/xa10">
+
+    </android.support.v7.widget.RecyclerView>
+
+
+</LinearLayout>

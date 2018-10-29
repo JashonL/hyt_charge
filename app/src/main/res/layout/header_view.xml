@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/headerView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/headerView"
+    android:minHeight="?attr/actionBarSize"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/status_bar_height"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/header_height">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/xa70"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/ivRight"
+            android:layout_toRightOf="@+id/ivLeft"
+            android:gravity="center"
+            android:text="Title"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/xa37" />
+
+        <ImageView
+            android:id="@+id/ivLeft"
+            android:layout_width="@dimen/xa105"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:background="@drawable/touch_bg_main"
+            android:paddingBottom="@dimen/xa35"
+            android:paddingLeft="@dimen/xa18"
+            android:paddingRight="@dimen/xa18"
+            android:paddingTop="@dimen/xa35" />
+
+        <ImageView
+            android:id="@+id/ivRight"
+            android:layout_width="@dimen/xa105"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/touch_bg_main"
+            android:paddingBottom="@dimen/xa37"
+            android:paddingLeft="@dimen/xa23"
+            android:paddingRight="@dimen/xa23"
+            android:paddingTop="@dimen/xa37" />
+    </RelativeLayout>
+
+</LinearLayout>

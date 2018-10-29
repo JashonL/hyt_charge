@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--状态栏高度-->
+    <dimen name="status_bar_height">0dp</dimen>
+    <dimen name="header_height">@dimen/xa112</dimen>
+
+</resources>

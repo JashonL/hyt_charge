@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/xa120"
+    android:layout_marginTop="@dimen/xa10"
+    android:gravity="center">
+
+    <LinearLayout
+        android:id="@+id/rl_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/xa30"
+        android:layout_marginRight="@dimen/xa30"
+        android:background="@drawable/shape_white_corner_bg"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/ll_data"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical">
+
+            <LinearLayout
+                android:id="@+id/linearlayout1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/xa37"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_dayMonth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="2018/05/22"
+                    android:textColor="@color/note_bg_white"
+                    android:textSize="@dimen/xa23" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearlayout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linearlayout1"
+                android:layout_marginLeft="@dimen/xa37"
+                android:layout_marginTop="@dimen/xa28"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="@dimen/xa69"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="8:52"
+                    android:textColor="@color/note_bg_white"
+                    android:textSize="@dimen/xa24" />
+
+              <!--  <TextView
+                    android:id="@+id/tv_amPm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/xa9"
+                    android:gravity="center_vertical"
+                    android:text="am"
+                    android:textColor="@color/note_bg_white"
+                    android:textSize="@dimen/xa18" />-->
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_info"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/xa23"
+            android:layout_toRightOf="@+id/iv_icon"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/iv_username"
+                    android:layout_width="@dimen/xa26"
+                    android:layout_height="@dimen/xa30"
+                    android:gravity="center_vertical"
+                    android:src="@drawable/authorization_add_user_selected"
+                    android:textSize="@dimen/xa24" />
+
+                <com.growatt.chargingpile.view.AutoFitTextViewTwo
+                    android:id="@+id/tv_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/xa22"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:lines="1"
+                    android:text="7444"
+                    android:textColor="@color/title_1"
+                    android:textSize="@dimen/xa30" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_delete"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/xa23"
+            android:layout_toRightOf="@+id/iv_icon"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/tv_delete"
+                android:layout_width="@dimen/xa36"
+                android:layout_height="@dimen/xa36"
+                android:background="@drawable/authorize_user_delete"
+                android:gravity="center"
+                android:text="@string/m复制"
+                android:textSize="@dimen/xa24" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
