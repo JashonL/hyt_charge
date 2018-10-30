@@ -1,14 +1,11 @@
 package com.growatt.chargingpile.activity;
 
 
-import android.annotation.SuppressLint;
-import android.content.IntentFilter;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v4.app.FragmentManager;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -45,7 +42,6 @@ import com.growatt.chargingpile.bean.GunBean;
 import com.growatt.chargingpile.connutil.PostUtil;
 import com.growatt.chargingpile.util.AlertPickDialog;
 import com.growatt.chargingpile.util.Cons;
-import com.growatt.chargingpile.util.LoginUtil;
 import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
@@ -62,8 +58,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -813,7 +807,7 @@ public class ChargingPileActivity extends BaseActivity {
                 hideAnim();
                 mStatusGroup.addView(chargeUnvailableView);
                 setChargGunUi(R.drawable.charging_unavailable, "不可用", ContextCompat.getColor(this, R.color.title_3), R.drawable.btn_stop_charging, "不可用");
-                MyUtil.hideAllView(View.GONE, llBottomGroup);
+                MyUtil.showAllView(llBottomGroup);
                 break;
             case GunBean.WORK:
                 hideAnim();
