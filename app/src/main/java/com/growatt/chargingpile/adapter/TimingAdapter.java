@@ -8,7 +8,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.bean.ReservationBean;
-import com.growatt.chargingpile.bean.TimingBean;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

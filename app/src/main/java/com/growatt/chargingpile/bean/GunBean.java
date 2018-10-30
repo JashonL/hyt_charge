@@ -246,4 +246,9 @@ public class GunBean {
             this.userId = userId;
         }
     }
+
+    public static class LastAction{
+
+    }
+
 }

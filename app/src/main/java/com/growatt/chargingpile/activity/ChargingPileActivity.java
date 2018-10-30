@@ -1,20 +1,16 @@
 package com.growatt.chargingpile.activity;
 
 
-import android.annotation.SuppressLint;
-import android.content.IntentFilter;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v4.app.FragmentManager;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -45,7 +41,6 @@ import com.growatt.chargingpile.bean.GunBean;
 import com.growatt.chargingpile.connutil.PostUtil;
 import com.growatt.chargingpile.util.AlertPickDialog;
 import com.growatt.chargingpile.util.Cons;
-import com.growatt.chargingpile.util.LoginUtil;
 import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
@@ -62,8 +57,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -81,8 +74,6 @@ public class ChargingPileActivity extends BaseActivity {
     LinearLayout mStatusGroup;
     @BindView(R.id.smart_home_empty_page)
     View emptyPage;
-    @BindView(R.id.to_add_device)
-    Button toAddCharging;
     @BindView(R.id.rl_Charging)
     RelativeLayout rlCharging;
     @BindView(R.id.tv_AC_DC)
@@ -119,8 +110,6 @@ public class ChargingPileActivity extends BaseActivity {
     private PopupWindow popupGun;
     private GunSwitchAdapter popGunAdapter;
 
-    //当前充电枪id
-    private int connectorId;
 
     //设置金额 电量  时长 跳转码
     public static final int REQUEST_MONEY = 100;
@@ -193,10 +182,10 @@ public class ChargingPileActivity extends BaseActivity {
     //--------------不可用---------------
     private View chargeUnvailableView;
 
-    //--------------不可用---------------
+    //--------------已经工作过---------------
     private View chargeWorkedView;
 
-    //--------------不可用---------------
+    //--------------启用中---------------
     private View chargeAcceptedView;
 
     //充电桩的上一个状态
@@ -208,6 +197,11 @@ public class ChargingPileActivity extends BaseActivity {
     private long mExitTime;
 
     private boolean needRefresh = false;
+
+
+    private int normalRefreshTime = 5000;
+
+    private int chargingRefreshTime = 10 * 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -616,9 +610,16 @@ public class ChargingPileActivity extends BaseActivity {
                 if (needRefresh && !isFreshing) {
                     freshChargingGun(chargingId, connectorId);
                 }
+               /* if (Cons.mCurrentGunBean != null && Cons.mCurrentGunBean.getData().getStatus().equals(GunBean.CHARGING)) {
+                    handler.sendEmptyMessageDelayed(3, chargingRefreshTime);
+                    LogUtil.d("充电中刷新");
+                } else {
+                    LogUtil.d("普通刷新");
+                    handler.sendEmptyMessageDelayed(3, normalRefreshTime);
+                }*/
 
             }
-        }, 5000);
+        }, normalRefreshTime);
 
     }
 
@@ -714,10 +715,13 @@ public class ChargingPileActivity extends BaseActivity {
             initReserveUi();
             MyUtil.hideAllView(View.GONE, rlReserve, llReserve);
         }
+
+
         //设置当前状态显示
         String status = data.getStatus();
         //状态改变,并且不是充电完成时不再循环刷新
-        if (!status.equals(previous) && !status.equals(GunBean.FINISHING)) {
+        if (!status.equals(previous) && !status.equals(GunBean.FINISHING) && !status
+                .equals(GunBean.CHARGING)) {
             needRefresh = false;
         }
         //记录上一个状态
@@ -731,11 +735,6 @@ public class ChargingPileActivity extends BaseActivity {
                 } else {//普通用户
                     mStatusGroup.addView(availableView);
                 }
-               /* ivChargingStatus.setImageResource(R.drawable.btn_start_charging);
-                tvChargingStatus.setText("充电");
-                tvStatus.setText("空闲");
-                tvStatus.setTextColor(ContextCompat.getColor(this, R.color.charging_text_green));
-                ivChargingIcon.setImageResource(R.drawable.charging_available);*/
                 hideAnim();
                 setChargGunUi(R.drawable.charging_available, getString(R.string.m117空闲), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_start_charging, "充电");
                 MyUtil.showAllView(llBottomGroup);
@@ -744,17 +743,6 @@ public class ChargingPileActivity extends BaseActivity {
             case GunBean.PREPARING:
                 mStatusGroup.addView(preparingView);
                 MyUtil.showAllView(rlReserve);
-                 /*
-                if (Cons.mCurrentPile.getType() == 0) {//只有桩主可以预约
-                    MyUtil.showAllView(rlReserve);
-                } else {
-                    MyUtil.hideAllView(View.GONE, rlReserve);
-                }
-              tvStatus.setText("准备中");
-                ivChargingStatus.setImageResource(R.drawable.btn_start_charging);
-                tvChargingStatus.setText("充电");
-                tvStatus.setTextColor(ContextCompat.getColor(this, R.color.charging_text_green));
-                ivChargingIcon.setImageResource(R.drawable.charging_available);*/
                 hideAnim();
                 setChargGunUi(R.drawable.charging_available, getString(R.string.m119准备中), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_start_charging, "充电");
                 MyUtil.showAllView(llBottomGroup);
@@ -767,12 +755,6 @@ public class ChargingPileActivity extends BaseActivity {
                 int minCharging = timeCharging % 60;
                 String sTimeCharging = hourCharging + "h" + minCharging + "min";
                 mStatusGroup.addView(chargingView);
-/*
-                tvStatus.setText("充电中");
-                tvStatus.setTextColor(ContextCompat.getColor(this, R.color.charging_text_green));
-                ivChargingIcon.setImageResource(R.drawable.charging_available);
-                ivChargingStatus.setImageResource(R.drawable.btn_stop_charging);
-                tvChargingStatus.setText("停止充电");*/
                 setChargGunUi(R.drawable.charging_available, getString(R.string.m118充电中), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_stop_charging, "停止充电");
                 MyUtil.showAllView(llBottomGroup);
                 tvChargingEle.setText(String.valueOf(data.getEnergy()) + "kWh");
@@ -794,11 +776,6 @@ public class ChargingPileActivity extends BaseActivity {
                 tvFinishRate.setText(String.valueOf(data.getRate()));
                 tvFinishTime.setText(sTimeFinishing);
                 tvFinishMoney.setText(String.valueOf(data.getCost()));
-
-             /*
-             tvStatus.setText("充电完成");
-             tvStatus.setTextColor(ContextCompat.getColor(this, R.color.charging_text_green));
-             ivChargingIcon.setImageResource(R.drawable.charging_available);*/
                 stopAnim();
                 MyUtil.showAllView(llBottomGroup);
                 setChargGunUi(R.drawable.charging_available, getString(R.string.m120充电结束), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_start_charging, "充电");
@@ -810,9 +787,6 @@ public class ChargingPileActivity extends BaseActivity {
                 MyUtil.hideAllView(View.GONE, llBottomGroup);
                 break;
             case GunBean.FAULTED:
-              /*  tvStatus.setText("故障");
-                tvStatus.setTextColor(ContextCompat.getColor(this, R.color.red_faulted));
-                ivChargingIcon.setImageResource(R.drawable.charging_faulted);*/
                 hideAnim();
                 mStatusGroup.addView(chargeFaultedView);
                 setChargGunUi(R.drawable.charging_faulted, getString(R.string.m121故障), ContextCompat.getColor(this, R.color.red_faulted), R.drawable.btn_stop_charging, "故障");
@@ -822,8 +796,8 @@ public class ChargingPileActivity extends BaseActivity {
             case GunBean.UNAVAILABLE:
                 hideAnim();
                 mStatusGroup.addView(chargeUnvailableView);
-                setChargGunUi(R.drawable.charging_unavailable, getString(R.string.m122不可用), ContextCompat.getColor(this, R.color.title_3), R.drawable.btn_stop_charging, "不可用");
-                MyUtil.hideAllView(View.GONE, llBottomGroup);
+                setChargGunUi(R.drawable.charging_unavailable, getString(R.string.m122不可用), ContextCompat.getColor(this, R.color.title_3), R.drawable.btn_start_charging, "不可用");
+                MyUtil.showAllView(llBottomGroup);
                 break;
             case GunBean.WORK:
                 hideAnim();
@@ -1000,6 +974,7 @@ public class ChargingPileActivity extends BaseActivity {
                     requestNarmal(0, "", "");
                     break;
                 case GunBean.UNAVAILABLE:
+                    toast(getString(R.string.m216桩体状态为不可用));
                     break;
                 case GunBean.WORK:
                     break;
@@ -1042,7 +1017,7 @@ public class ChargingPileActivity extends BaseActivity {
 
                     break;
                 case GunBean.UNAVAILABLE:
-                    tvStatus.setText(getString(R.string.m122不可用));
+                    toast(getString(R.string.m216桩体状态为不可用));
                     break;
                 case GunBean.WORK:
                     tvStatus.setText(getString(R.string.m126已经工作过));
@@ -1410,7 +1385,7 @@ public class ChargingPileActivity extends BaseActivity {
             public void sendMsgByTime(Handler handler) {
                 freshChargingGun(Cons.mCurrentPile.getChargeId(), Cons.mCurrentGunBeanId);
             }
-        }, 5000);
+        }, normalRefreshTime);
     }
 
 
@@ -1459,7 +1434,7 @@ public class ChargingPileActivity extends BaseActivity {
                 //请求成功后5秒钟刷新状态
                 freshChargingGun(Cons.mCurrentPile.getChargeId(), Cons.mCurrentGunBeanId);
             }
-        }, 5000);
+        }, normalRefreshTime);
     }
 
 

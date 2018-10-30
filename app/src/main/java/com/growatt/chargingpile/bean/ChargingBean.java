@@ -4,8 +4,6 @@ import android.text.TextUtils;
 
 import java.util.List;
 
-import static com.growatt.chargingpile.util.Cons.num;
-
 /**
  * Created by Administrator on 2018/10/18.
  */

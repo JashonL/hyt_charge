@@ -2,7 +2,6 @@ package com.growatt.chargingpile.connutil;
 
 import android.text.TextUtils;
 
-
 import com.growatt.chargingpile.sqlite.SqliteUtil;
 
 import java.io.Serializable;

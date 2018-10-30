@@ -2,17 +2,13 @@ package com.growatt.chargingpile.adapter;
 
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.widget.TextView;
-
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.bean.ChargingRecordBean;
 
-
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 

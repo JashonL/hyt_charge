@@ -1,9 +1,8 @@
 package com.growatt.chargingpile.activity;
 
 import android.content.Intent;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -121,7 +120,7 @@ public class ChargingPresetEditActivity extends BaseActivity {
         if (getLanguage()==0){
             spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.blue_1)), 7, 9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }else {
-            spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.blue_1)), 22, textType.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.blue_1)), 23, textType.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         tvType.setText(spannableString);
     }

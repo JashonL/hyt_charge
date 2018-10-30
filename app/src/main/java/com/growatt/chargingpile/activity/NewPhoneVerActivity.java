@@ -15,7 +15,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.connutil.PostUtil;
@@ -30,14 +29,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.common.util.LogUtil;
 
-
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-;import butterknife.BindView;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+;
 
 public class NewPhoneVerActivity extends BaseActivity {
     @BindView(R.id.etPhone)

@@ -3,21 +3,18 @@ package com.growatt.chargingpile.activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 
 import com.google.gson.Gson;
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.adapter.ChargingRecordAdapter;
-import com.growatt.chargingpile.adapter.ParamsSetAdapter;
 import com.growatt.chargingpile.bean.ChargingRecordBean;
 import com.growatt.chargingpile.connutil.PostUtil;
 import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
 import com.growatt.chargingpile.util.SmartHomeUtil;
-
 
 import org.json.JSONException;
 import org.json.JSONObject;

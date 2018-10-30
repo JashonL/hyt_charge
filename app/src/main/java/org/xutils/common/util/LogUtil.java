@@ -18,7 +18,6 @@ package org.xutils.common.util;
 import android.text.TextUtils;
 import android.util.Log;
 
-
 import com.growatt.chargingpile.util.JsonFormatUtil;
 
 import org.xutils.x;

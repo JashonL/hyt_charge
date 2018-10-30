@@ -6,7 +6,6 @@ import android.net.NetworkInfo;
 import android.text.TextUtils;
 import android.widget.Toast;
 
-
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.application.MyApplication;
 

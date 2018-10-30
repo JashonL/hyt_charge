@@ -2,8 +2,6 @@ package com.growatt.chargingpile;
 
 import android.os.Bundle;
 
-import com.growatt.chargingpile.util.Mydialog;
-
 public class MainActivity extends BaseActivity {
 
     @Override

@@ -2,7 +2,6 @@ package com.growatt.chargingpile.adapter;
 
 import android.support.annotation.Nullable;
 
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.growatt.chargingpile.R;

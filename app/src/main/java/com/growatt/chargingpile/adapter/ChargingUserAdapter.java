@@ -10,7 +10,6 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.bean.ChargingUserBean;
 
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;

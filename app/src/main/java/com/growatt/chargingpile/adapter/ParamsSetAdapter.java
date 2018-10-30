@@ -1,8 +1,6 @@
 package com.growatt.chargingpile.adapter;
 
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -10,7 +8,6 @@ import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.bean.ParamsSetBean;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Administrator on 2018/10/23.

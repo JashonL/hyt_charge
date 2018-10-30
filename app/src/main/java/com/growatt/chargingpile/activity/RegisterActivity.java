@@ -1,7 +1,6 @@
 package com.growatt.chargingpile.activity;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Bundle;

@@ -19,7 +19,6 @@ import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.SharedPreferencesUnit;
 
-
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;

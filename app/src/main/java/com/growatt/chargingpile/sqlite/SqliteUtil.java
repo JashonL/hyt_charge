@@ -8,10 +8,8 @@ import android.util.Log;
 
 import com.growatt.chargingpile.application.MyApplication;
 
-
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xutils.common.util.LogUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;

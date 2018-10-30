@@ -1,11 +1,10 @@
 package com.growatt.chargingpile.util;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
 import android.view.View;
-
-
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;

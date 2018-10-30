@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.application.MyApplication;
 import com.growatt.chargingpile.util.LoginUtil;
-import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.T;
 

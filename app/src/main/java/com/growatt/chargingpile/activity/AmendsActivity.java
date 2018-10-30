@@ -4,10 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
 
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
@@ -18,7 +16,6 @@ import com.growatt.chargingpile.util.Mydialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
 
 import java.util.Map;
 

@@ -24,7 +24,6 @@ import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
 import com.growatt.chargingpile.util.SmartHomeUtil;
 
-
 import org.json.JSONException;
 import org.json.JSONObject;
 

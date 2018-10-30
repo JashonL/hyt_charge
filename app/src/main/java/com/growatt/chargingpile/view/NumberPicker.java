@@ -56,7 +56,6 @@ import android.widget.LinearLayout;
 import android.widget.Scroller;
 import android.widget.TextView;
 
-
 import com.growatt.chargingpile.R;
 
 import java.text.DecimalFormatSymbols;
