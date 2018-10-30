@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/xa59"
             android:gravity="center"
-            android:text="请将充电枪插入车上"
+            android:text="@string/m170请将充电枪插入车辆"
             android:textColor="@color/title_3"
             android:textSize="@dimen/xa30" />
 

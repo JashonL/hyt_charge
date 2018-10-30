@@ -24,7 +24,6 @@
             android:background="@null"
             android:drawableBottom="@drawable/shape_edittext_bg_gray"
             android:gravity="center"
-            android:hint="@string/m42"
             android:textColor="@color/title_1"
             android:textColorHint="@color/hint_bg_blue"
             android:textSize="@dimen/xa30" />
@@ -42,7 +41,7 @@
             android:background="@null"
             android:drawableBottom="@drawable/shape_edittext_bg_gray"
             android:gravity="center"
-            android:hint="@string/m26"
+            android:hint="@string/m60填入不带国家代码的手机号"
             android:paddingLeft="@dimen/xa23"
             android:paddingRight="@dimen/xa23"
             android:textColor="@color/title_1"
@@ -56,7 +55,7 @@
             android:layout_gravity="bottom"
             android:background="@drawable/selector_rect_btn_green"
             android:padding="@dimen/xa4"
-            android:text="@string/m23"
+            android:text="@string/m75发送验证码"
             android:textColor="@color/title_1"
             android:textSize="@dimen/xa28" />
     </LinearLayout>
@@ -77,7 +76,7 @@
         android:layout_marginTop="@dimen/xa35"
         android:background="@null"
         android:gravity="center"
-        android:hint="@string/m21"
+        android:hint="@string/m72请输入短信验证码"
         android:paddingLeft="@dimen/xa23"
         android:paddingRight="@dimen/xa23"
         android:textColor="@color/title_1"
@@ -97,7 +96,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/xa140"
         android:background="@drawable/selector_circle_btn_green"
-        android:text="@string/about_cache_ok"
+        android:text="@string/m3完成"
         android:textColor="@color/headerView"
         android:textSize="@dimen/xa35" />
 </LinearLayout>

@@ -121,7 +121,6 @@
                 android:layout_height="@dimen/xa36"
                 android:background="@drawable/authorize_user_delete"
                 android:gravity="center"
-                android:text="@string/m复制"
                 android:textSize="@dimen/xa24" />
 
         </LinearLayout>

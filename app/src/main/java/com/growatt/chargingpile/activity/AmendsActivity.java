@@ -60,7 +60,7 @@ public class AmendsActivity extends BaseActivity {
             }
         });
 
-        setHeaderTitle(headerView,getString(R.string.updatepwd_title),R.color.title_1,false);
+        setHeaderTitle(headerView,getString(R.string.m57修改密码),R.color.title_1,false);
     }
 
 
@@ -85,12 +85,12 @@ public class AmendsActivity extends BaseActivity {
     private void initViews() {
         if(type.equals("1")){
             etText.setText(PhoneNum);
-            tvTip.setText(R.string.修改手机号);
-            setHeaderTitle(headerView,getString(R.string.修改手机号));
+            tvTip.setText(R.string.m58修改手机号);
+            setHeaderTitle(headerView,getString(R.string.m58修改手机号));
         }else{
             etText.setText(email);
-            tvTip.setText(R.string.修改邮箱);
-            setHeaderTitle(headerView,getString(R.string.修改邮箱));
+            tvTip.setText(R.string.m59修改邮箱);
+            setHeaderTitle(headerView,getString(R.string.m59修改邮箱));
         }
     }
 
@@ -147,12 +147,12 @@ public class AmendsActivity extends BaseActivity {
                             intent.putExtras(bundle);
                             setResult(2, intent);
                         }
-                        toast(R.string.all_success);
+                        toast(R.string.m9确定);
                         finish();
                     } else if ("701".equals(jsonObject.get("msg").toString())) {
-                        toast(R.string.m7);
+                        toast(R.string.m66你的账号没有操作权限);
                     } else {
-                        toast(R.string.all_failed);
+                        toast(R.string.m修改失败);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

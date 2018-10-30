@@ -28,7 +28,7 @@
             android:gravity="center_vertical"
             android:textSize="@dimen/xa30"
             android:textColor="@color/title_3"
-            android:text="@string/充电桩"
+            android:text="@string/m102充电桩"
             android:layout_height="match_parent" />
 
     </LinearLayout>

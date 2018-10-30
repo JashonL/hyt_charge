@@ -189,7 +189,7 @@ public class LoginUtil {
             } else {
                 Mydialog.Dismiss();
                 enableListener.onViewEnable();
-                T.make(R.string.all_login_error, context);
+                T.make(R.string.m20用户名密码错误, context);
 //                jumpLoginActivity(context);
                 Constant.isOss2Server = false;
                 //设置不自动登录
@@ -243,7 +243,7 @@ public class LoginUtil {
                       /*  if (context instanceof WelcomeActivity){
                             jumpLoginActivity(context);
                         }*/
-                        T.make(R.string.all_login_error, context);
+                        T.make(R.string.m20用户名密码错误, context);
                     }
 
                 } catch (JSONException e) {

@@ -56,7 +56,7 @@ public class AddChargingActivity extends BaseActivity {
                 finish();
             }
         });
-        setHeaderTitle(headerView, "添加充电桩", R.color.title_1, true);
+        setHeaderTitle(headerView, getString(R.string.m138添加充电桩), R.color.title_1, true);
     }
 
     @OnClick({R.id.btConfirm, R.id.ll_scan_add})
@@ -103,7 +103,7 @@ public class AddChargingActivity extends BaseActivity {
     private void addCharging(final String sn) {
         String userId = Cons.userId;
         if (TextUtils.isEmpty(sn)) {
-            toast(getString(R.string.inverterset_set_no_numberblank));
+            toast(getString(R.string.m136请输入充电桩ID));
             return;
         }
         Mydialog.Show(this);
@@ -166,7 +166,6 @@ public class AddChargingActivity extends BaseActivity {
                 if (data != null) {
                     String sn = data.getStringExtra(Constant.CODED_CONTENT);
                     if (TextUtils.isEmpty(sn)) {
-                        toast(getString(R.string.inverterset_set_no_numberblank));
                         return;
                     }
                     addCharging(sn);

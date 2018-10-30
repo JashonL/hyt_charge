@@ -41,7 +41,7 @@ public class ChargingListAdapter extends BaseQuickAdapter<ChargingBean.DataBean,
             MyUtil.hideAllView(View.GONE, llitemContainer);
             MyUtil.showAllView(llAdd);
             ivAdd.setImageResource(R.drawable.add);
-            tvAdd.setText(mContext.getText(R.string.DataloggersAct_add));
+            tvAdd.setText(mContext.getText(R.string.m133添加));
         } else {
             MyUtil.hideAllView(View.GONE, llAdd);
             MyUtil.showAllView(llitemContainer);

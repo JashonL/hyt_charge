@@ -27,7 +27,7 @@
                 android:layout_toLeftOf="@+id/ivRight"
                 android:layout_toRightOf="@+id/ivLeft"
                 android:gravity="center"
-                android:text="@string/充电桩"
+                android:text="@string/m102充电桩"
                 android:textColor="@color/headerView"
                 android:textSize="@dimen/xa37" />
 
@@ -181,7 +181,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/xa20"
                             android:gravity="center"
-                            android:text="@string/m空闲"
+                            android:text="@string/m117空闲"
                             android:textColor="@color/charging_text_green"
                             android:textSize="@dimen/xa48" />
                     </LinearLayout>
@@ -259,7 +259,7 @@
                             android:layout_marginLeft="@dimen/xa15"
                             android:layout_marginTop="@dimen/xa18"
                             android:gravity="center"
-                            android:text="电桩设置"
+                            android:text="@string/m105桩体设置"
                             android:textColor="@color/title_1"
                             android:textSize="@dimen/xa30" />
 
@@ -284,7 +284,7 @@
                             android:id="@+id/tv_charging_status"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/m充电"
+                            android:text="@string/m103充电"
                             android:textColor="@color/title_1"
                             android:textSize="@dimen/xa30" />
                     </LinearLayout>
@@ -309,7 +309,7 @@
                             android:layout_marginLeft="@dimen/xa15"
                             android:layout_marginTop="@dimen/xa18"
                             android:gravity="center"
-                            android:text="@string/m充电记录"
+                            android:text="@string/m104充电记录"
                             android:textColor="@color/title_1"
                             android:textSize="@dimen/xa30" />
 

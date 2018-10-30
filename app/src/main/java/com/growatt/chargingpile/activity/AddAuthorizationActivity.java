@@ -65,7 +65,7 @@ public class AddAuthorizationActivity extends BaseActivity {
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.sign_user);
         bitmap=Bitmap.createScaledBitmap(bitmap,getResources().getDimensionPixelSize(R.dimen.xa40), getResources().getDimensionPixelSize(R.dimen.xa40), true);
         ImageSpan imageHint = new ImageSpan(this,bitmap);
-        SpannableString spannableString = new SpannableString("image" + getString(R.string.请输入用户名));
+        SpannableString spannableString = new SpannableString("image" + getString(R.string.m25请输入用户名));
         spannableString.setSpan(imageHint, 0, "image".length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         etUsername.setHint(spannableString);
     }
@@ -82,14 +82,14 @@ public class AddAuthorizationActivity extends BaseActivity {
             }
         });
         tvTitle.setTextColor(ContextCompat.getColor(this, R.color.title_1));
-        tvTitle.setText("添加授权");
+        tvTitle.setText(getString(R.string.m162添加授权));
         //设置字体加粗
         tvTitle.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
 
         int dimen = getResources().getDimensionPixelSize(R.dimen.xa23);
         tvRight.setTextSize(TypedValue.COMPLEX_UNIT_PX,dimen);
         tvRight.setTextColor(ContextCompat.getColor(this, R.color.charging_text_green));
-        tvRight.setText("注册新用户");
+        tvRight.setText(getString(R.string.m164注册新用户));
         tvRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,7 +130,7 @@ public class AddAuthorizationActivity extends BaseActivity {
                         JSONObject obj = object.getJSONObject("obj");
                         String id = obj.getString("id");
                         if (id.equals("null")) {
-                            toast("帐号未注册");
+                            toast(getString(R.string.m账号未注册));
                         } else {
                             toAddAuthorize(id);
                         }
@@ -156,7 +156,7 @@ public class AddAuthorizationActivity extends BaseActivity {
     private void toAddAuthorize(String userId) {
         String userName = etUsername.getText().toString().trim();
         if (TextUtils.isEmpty(String.valueOf(etUsername.getText()))) {
-            toast(R.string.register_username_no_blank);
+            toast(R.string.m25请输入用户名);
             return;
         }
         Map<String, Object> jsonMap = new LinkedHashMap<>();
@@ -176,7 +176,7 @@ public class AddAuthorizationActivity extends BaseActivity {
             @Override
             public void success(String json) {
                 Mydialog.Dismiss();
-                toast(R.string.all_success);
+                toast(R.string.m139添加成功);
                 AddAuthorizationActivity.this.finish();
             }
 

@@ -346,7 +346,7 @@ public class ChargingPileActivity extends BaseActivity {
         rlPpTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("liaojinsha", "选中方案" + presetType);
+                LogUtil.d("选中方案" + presetType);
                 if (presetType == 3) {
                     setTimeUi(false, "--");
                     presetType = 0;
@@ -549,8 +549,18 @@ public class ChargingPileActivity extends BaseActivity {
         dataBean.setChecked(true);
         mAdapter.notifyDataSetChanged();
         //电桩信息
-        tvModel.setText(dataBean.getChargingModle());
-        tvGun.setText(dataBean.getGunNum());
+        String Modle = dataBean.getModel();
+        if ("ACChargingPoint".equals(Modle)) {
+            tvModel.setText(getString(R.string.m112交流));
+        } else {
+            tvModel.setText(getString(R.string.m113直流));
+        }
+        if (gunId == 1) {
+            tvGun.setText(getString(R.string.m110A枪));
+        } else {
+            tvGun.setText(getString(R.string.m111B枪));
+        }
+
 //        connectorId = 1;
         //根据选中项刷新充电桩的充电枪,默认刷新A枪
         freshChargingGun(dataBean.getChargeId(), gunId);
@@ -643,7 +653,7 @@ public class ChargingPileActivity extends BaseActivity {
                     reserveMoney = reserveNow.get(0).getCValue();
                     startTime = expiryDate;
                     setMoneyUi(true, String.valueOf(reserveMoney));
-                    setReserveUi("开始时间", "开启", R.drawable.checkbox_on, expiryDate.substring(11, 16), true);
+                    setReserveUi(getString(R.string.m204开始时间), getString(R.string.m183开启), R.drawable.checkbox_on, expiryDate.substring(11, 16), true);
 
                 } else if (cKey.equals("G_SetEnergy")) {//电量预约
                     presetType = 2;
@@ -653,7 +663,7 @@ public class ChargingPileActivity extends BaseActivity {
                     reserveEle = reserveNow.get(0).getCValue();
                     startTime = expiryDate;
                     setEleUi(true, String.valueOf(reserveEle));
-                    setReserveUi("开始时间", "开启", R.drawable.checkbox_on, expiryDate.substring(11, 16), true);
+                    setReserveUi(getString(R.string.m204开始时间), getString(R.string.m183开启), R.drawable.checkbox_on, expiryDate.substring(11, 16), true);
                 } else if (cKey.equals("G_SetTime")) {//时间段预约
                     presetType = 3;
                     initPresetUi();
@@ -688,14 +698,14 @@ public class ChargingPileActivity extends BaseActivity {
                     int min = duration % 60;
                     String sTime = hour + "h" + min + "min";
                     setTimeUi(true, sTime);
-                    setReserveUi("预约时间段", "开启", R.drawable.checkbox_on, stringBuilder.toString(), false);
+                    setReserveUi(getString(R.string.m预约时间段), getString(R.string.m183开启), R.drawable.checkbox_on, stringBuilder.toString(), false);
 
                 } else {//只预约了开始时间
                     presetType = 0;
                     initPresetUi();
                     initReserveUi();
                     String expiryDate = reserveNow.get(0).getExpiryDate();
-                    setReserveUi("开始时间", "开启", R.drawable.checkbox_on, expiryDate.substring(11, 16), true);
+                    setReserveUi(getString(R.string.m204开始时间), getString(R.string.m183开启), R.drawable.checkbox_on, expiryDate.substring(11, 16), true);
                 }
             }
         } else {//非桩主
@@ -727,7 +737,7 @@ public class ChargingPileActivity extends BaseActivity {
                 tvStatus.setTextColor(ContextCompat.getColor(this, R.color.charging_text_green));
                 ivChargingIcon.setImageResource(R.drawable.charging_available);*/
                 hideAnim();
-                setChargGunUi(R.drawable.charging_available, "空闲", ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_start_charging, "充电");
+                setChargGunUi(R.drawable.charging_available, getString(R.string.m117空闲), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_start_charging, "充电");
                 MyUtil.showAllView(llBottomGroup);
                 break;
             case GunBean.RESERVED:
@@ -746,7 +756,7 @@ public class ChargingPileActivity extends BaseActivity {
                 tvStatus.setTextColor(ContextCompat.getColor(this, R.color.charging_text_green));
                 ivChargingIcon.setImageResource(R.drawable.charging_available);*/
                 hideAnim();
-                setChargGunUi(R.drawable.charging_available, "准备中", ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_start_charging, "充电");
+                setChargGunUi(R.drawable.charging_available, getString(R.string.m119准备中), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_start_charging, "充电");
                 MyUtil.showAllView(llBottomGroup);
                 break;
 
@@ -763,7 +773,7 @@ public class ChargingPileActivity extends BaseActivity {
                 ivChargingIcon.setImageResource(R.drawable.charging_available);
                 ivChargingStatus.setImageResource(R.drawable.btn_stop_charging);
                 tvChargingStatus.setText("停止充电");*/
-                setChargGunUi(R.drawable.charging_available, "充电中", ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_stop_charging, "停止充电");
+                setChargGunUi(R.drawable.charging_available, getString(R.string.m118充电中), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_stop_charging, "停止充电");
                 MyUtil.showAllView(llBottomGroup);
                 tvChargingEle.setText(String.valueOf(data.getEnergy()) + "kWh");
                 tvChargingRate.setText(String.valueOf(data.getRate()));
@@ -791,12 +801,12 @@ public class ChargingPileActivity extends BaseActivity {
              ivChargingIcon.setImageResource(R.drawable.charging_available);*/
                 stopAnim();
                 MyUtil.showAllView(llBottomGroup);
-                setChargGunUi(R.drawable.charging_available, "充电完成", ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_start_charging, "充电");
+                setChargGunUi(R.drawable.charging_available, getString(R.string.m120充电结束), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_start_charging, "充电");
                 break;
 
             case GunBean.EXPIRY:
                 mStatusGroup.addView(chargeExpiryView);
-                setChargGunUi(R.drawable.charging_available, "充电中", ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_stop_charging, "已经注销");
+                setChargGunUi(R.drawable.charging_available, getString(R.string.m118充电中), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_stop_charging, "已经注销");
                 MyUtil.hideAllView(View.GONE, llBottomGroup);
                 break;
             case GunBean.FAULTED:
@@ -805,27 +815,27 @@ public class ChargingPileActivity extends BaseActivity {
                 ivChargingIcon.setImageResource(R.drawable.charging_faulted);*/
                 hideAnim();
                 mStatusGroup.addView(chargeFaultedView);
-                setChargGunUi(R.drawable.charging_faulted, "故障", ContextCompat.getColor(this, R.color.red_faulted), R.drawable.btn_stop_charging, "故障");
+                setChargGunUi(R.drawable.charging_faulted, getString(R.string.m121故障), ContextCompat.getColor(this, R.color.red_faulted), R.drawable.btn_stop_charging, "故障");
                 MyUtil.showAllView(llBottomGroup);
                 break;
 
             case GunBean.UNAVAILABLE:
                 hideAnim();
                 mStatusGroup.addView(chargeUnvailableView);
-                setChargGunUi(R.drawable.charging_unavailable, "不可用", ContextCompat.getColor(this, R.color.title_3), R.drawable.btn_stop_charging, "不可用");
+                setChargGunUi(R.drawable.charging_unavailable, getString(R.string.m122不可用), ContextCompat.getColor(this, R.color.title_3), R.drawable.btn_stop_charging, "不可用");
                 MyUtil.hideAllView(View.GONE, llBottomGroup);
                 break;
             case GunBean.WORK:
                 hideAnim();
                 mStatusGroup.addView(chargeWorkedView);
-                setChargGunUi(R.drawable.charging_available, "已经工作过", ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_start_charging, "充电");
+                setChargGunUi(R.drawable.charging_available, getString(R.string.m126已经工作过), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_start_charging, "充电");
                 MyUtil.hideAllView(View.GONE, llBottomGroup);
                 break;
 
             case GunBean.ACCEPTED:
                 hideAnim();
                 mStatusGroup.addView(chargeAcceptedView);
-                setChargGunUi(R.drawable.charging_available, "启用中", ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_stop_charging, "已经注销");
+                setChargGunUi(R.drawable.charging_available, getString(R.string.m125启用中), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_stop_charging, "已经注销");
                 MyUtil.hideAllView(View.GONE, llBottomGroup);
                 break;
         }
@@ -844,7 +854,7 @@ public class ChargingPileActivity extends BaseActivity {
                 break;
             case R.id.ll_Authorization:
                 if (Cons.mCurrentPile.getType() == 1) {
-                    toast(getString(R.string.dataloggers_add_no_jurisdiction));
+                    toast(getString(R.string.m66你的账号没有操作权限));
                     return;
                 }
                 Intent intent2 = new Intent(this, ChargingSetActivity.class);
@@ -855,7 +865,7 @@ public class ChargingPileActivity extends BaseActivity {
                 toChargingOrStop();
                 break;
             case R.id.rl_switch_gun:
-                if (Cons.mCurrentPile.getGunNum().equals("单枪")) {//单枪
+                if (Cons.mCurrentPile.getConnectors() == 1) {//单枪
                     return;
                 }
                 showStorageList(tvSwitchGun);
@@ -883,7 +893,7 @@ public class ChargingPileActivity extends BaseActivity {
             switch (status) {
                 case GunBean.AVAILABLE://空闲状态，桩主：只能预约
                     if (!isReservation) {
-                        toast("请将充电枪插上车后，电桩处于准备状态再次点击即可充电");
+                        toast(getString(R.string.m131空闲状态无法直接开始充电));
                         return;
                     } else {
                         String loopType;
@@ -896,7 +906,7 @@ public class ChargingPileActivity extends BaseActivity {
                             //预约充电,只预约了时间
                             //预约充电
                             if (TextUtils.isEmpty(startTime)) {
-                                toast("请选择预约充电时间");
+                                toast(getString(R.string.m130未设置开始时间));
                                 return;
                             }
                             requestReserve(0, startTime, "", "", loopType);
@@ -904,14 +914,14 @@ public class ChargingPileActivity extends BaseActivity {
                             //设置金额预约
                             //预约充电
                             if (TextUtils.isEmpty(startTime)) {
-                                toast("请选择预约充电时间");
+                                toast(getString(R.string.m130未设置开始时间));
                                 return;
                             }
                             requestReserve(1, startTime, "G_SetAmount", reserveMoney, loopType);
                         } else if (presetType == 2) {
                             //预约充电
                             if (TextUtils.isEmpty(startTime)) {
-                                toast("请选择预约充电时间");
+                                toast(getString(R.string.m130未设置开始时间));
                                 return;
                             }
                             //设置预约电量
@@ -919,9 +929,9 @@ public class ChargingPileActivity extends BaseActivity {
                         } else if (presetType == 3) {
                             //预约时段的时候
                             FragmentManager fragmentManager = ChargingPileActivity.this.getSupportFragmentManager();
-                            new CircleDialog.Builder().setTitle(getString(R.string.温馨提示))
-                                    .setText("现在正处于时段预约状态，如需立即开始充电，请关闭预约按键，并重新设置时长!")
-                                    .setPositive(getString(R.string.all_ok), null)
+                            new CircleDialog.Builder().setTitle(getString(R.string.m27温馨提示))
+                                    .setText(getString(R.string.m167现在正处于时段预约状态))
+                                    .setPositive(getString(R.string.m9确定), null)
                                     .show(fragmentManager);
                         }
                     }
@@ -952,27 +962,27 @@ public class ChargingPileActivity extends BaseActivity {
                         if (presetType == 0) {//没有选择充电方案,只有时间
                             //预约充电
                             if (TextUtils.isEmpty(startTime)) {
-                                toast("请选择预约充电时间");
+                                toast(getString(R.string.m130未设置开始时间));
                                 return;
                             }
                             requestReserve(0, startTime, "", "", loopType);
                         } else if (presetType == 1) {//设置金额预约
                             if (TextUtils.isEmpty(startTime)) {
-                                toast("请选择预约充电时间");
+                                toast(getString(R.string.m130未设置开始时间));
                                 return;
                             }
                             requestReserve(1, startTime, "G_SetAmount", reserveMoney, loopType);
                         } else if (presetType == 2) {//设置预约电量
                             if (TextUtils.isEmpty(startTime)) {
-                                toast("请选择预约充电时间");
+                                toast(getString(R.string.m130未设置开始时间));
                                 return;
                             }
                             requestReserve(2, startTime, "G_SetEnergy", reserveEle, loopType);
                         } else if (presetType == 3) {
                             FragmentManager fragmentManager = ChargingPileActivity.this.getSupportFragmentManager();
-                            new CircleDialog.Builder().setTitle(getString(R.string.温馨提示))
-                                    .setText("现在正处于时段预约状态，如需立即开始充电，请关闭预约按键，并重新设置时长!")
-                                    .setPositive(getString(R.string.all_ok), null)
+                            new CircleDialog.Builder().setTitle(getString(R.string.m27温馨提示))
+                                    .setText(getString(R.string.m167现在正处于时段预约状态))
+                                    .setPositive(getString(R.string.m9确定), null)
                                     .show(fragmentManager);
                         }
                     }
@@ -984,7 +994,7 @@ public class ChargingPileActivity extends BaseActivity {
                 case GunBean.EXPIRY:
                     break;
                 case GunBean.FAULTED:
-                    toast("该充电桩当前处于故障状态，请选择其他充电桩");
+                    toast(getString(R.string.m215电桩故障));
                     break;
                 case GunBean.FINISHING:
                     requestNarmal(0, "", "");
@@ -1000,7 +1010,7 @@ public class ChargingPileActivity extends BaseActivity {
         } else {//普通用户
             switch (status) {
                 case GunBean.AVAILABLE://空闲状态，桩主：只能预约
-                    toast("请将充电枪插上车后，电桩处于准备状态再次点击即可充电");
+                    toast(getString(R.string.m131空闲状态无法直接开始充电));
                     break;
                 case GunBean.RESERVED:
                 case GunBean.PREPARING://准备中
@@ -1021,25 +1031,25 @@ public class ChargingPileActivity extends BaseActivity {
                     requestStop();
                     break;
                 case GunBean.EXPIRY:
-                    tvStatus.setText("已经注销");
+                    tvStatus.setText(getString(R.string.m124已经注销));
                     break;
                 case GunBean.FAULTED:
-                    tvStatus.setText("故障");
+                    tvStatus.setText(getString(R.string.m124已经注销));
 
                     break;
                 case GunBean.FINISHING:
-                    tvStatus.setText("充电完成");
+                    tvStatus.setText(getString(R.string.m120充电结束));
 
                     break;
                 case GunBean.UNAVAILABLE:
-                    tvStatus.setText("不可用");
+                    tvStatus.setText(getString(R.string.m122不可用));
                     break;
                 case GunBean.WORK:
-                    tvStatus.setText("已经工作过");
+                    tvStatus.setText(getString(R.string.m126已经工作过));
                     break;
 
                 case GunBean.ACCEPTED:
-                    tvStatus.setText("启用中");
+                    tvStatus.setText(getString(R.string.m125启用中));
                     break;
             }
         }
@@ -1100,9 +1110,9 @@ public class ChargingPileActivity extends BaseActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         new CircleDialog.Builder()
                 .setWidth(0.75f)
-                .setTitle(getString(R.string.m190警告))
-                .setText(getString(R.string.myquestion_isdecete))
-                .setGravity(Gravity.CENTER).setPositive(getString(R.string.all_ok), new View.OnClickListener() {
+                .setTitle(getString(R.string.m8警告))
+                .setText(getString(R.string.m确认删除))
+                .setGravity(Gravity.CENTER).setPositive(getString(R.string.m9确定), new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -1127,7 +1137,7 @@ public class ChargingPileActivity extends BaseActivity {
                         try {
                             JSONObject object = new JSONObject(json);
                             if (object.getInt("code") == 0) {
-                                toast("删除成功");
+                                toast(getString(R.string.m135删除成功));
                                 //重新刷新
                                 freshData(0, 1);
                             }
@@ -1147,7 +1157,7 @@ public class ChargingPileActivity extends BaseActivity {
                 });
             }
         })
-                .setNegative(getString(R.string.all_no), null)
+                .setNegative(getString(R.string.m7取消), null)
                 .show(fragmentManager);
 
 
@@ -1233,7 +1243,7 @@ public class ChargingPileActivity extends BaseActivity {
 
                 //设置预约的ui
                 startTime = null;
-                setReserveUi("开始时间", "关闭", R.drawable.checkbox_off, "--:--", true);
+                setReserveUi(getString(R.string.m204开始时间), getString(R.string.m184关闭), R.drawable.checkbox_off, "--:--", true);
               /*  //初始化预约充电相关控件
                 tvTextStart.setText("开始时间");
                 tvTextOpenClose.setText("关闭");
@@ -1255,7 +1265,7 @@ public class ChargingPileActivity extends BaseActivity {
                 startTime = null;
 
                 //初始化预约充电相关控件
-                setReserveUi("开始时间", "关闭", R.drawable.checkbox_off, "--:--", true);
+                setReserveUi(getString(R.string.m204开始时间), getString(R.string.m184关闭), R.drawable.checkbox_off, "--:--", true);
                /* tvTextStart.setText("开始时间");
                 tvTextOpenClose.setText("关闭");
                 ivResever.setImageResource(R.drawable.checkbox_off);
@@ -1277,7 +1287,7 @@ public class ChargingPileActivity extends BaseActivity {
 
                 //初始化预约充电相关控件
                 isReservation = false;
-                setReserveUi("预约时间段", "关闭", R.drawable.checkbox_off, "--:--", false);
+                setReserveUi(getString(R.string.m预约时间段), getString(R.string.m184关闭), R.drawable.checkbox_off, "--:--", false);
 
                /* tvTextStart.setText("预约时间段");
                 tvTextOpenClose.setText("关闭");
@@ -1289,7 +1299,7 @@ public class ChargingPileActivity extends BaseActivity {
                 refreshChargingUI(Cons.mSeletPos, Cons.mCurrentGunBeanId);
             }
 
-            if (requestCode==REQUEST_ADD_CHARGING){
+            if (requestCode == REQUEST_ADD_CHARGING) {
                 freshData(0, 1);
             }
         }
@@ -1336,7 +1346,7 @@ public class ChargingPileActivity extends BaseActivity {
                 String yMd = sdf.format(date);
                 startTime = yMd + "T" + time + ":00.000Z";
                 isReservation = true;
-                setReserveUi("开始时间", "开启", R.drawable.checkbox_on, time, true);
+                setReserveUi(getString(R.string.m204开始时间), getString(R.string.m183开启), R.drawable.checkbox_on, time, true);
                /* tvStartTime.setText(time);
                 ivResever.setImageResource(R.drawable.checkbox_on);
                 MyUtil.showAllView(cbEveryday, tvEveryDay);*/
@@ -1384,10 +1394,7 @@ public class ChargingPileActivity extends BaseActivity {
                 isFreshing = false;
                 try {
                     JSONObject object = new JSONObject(json);
-                    if (object.getInt("code") == 0) {
-                        toast("请求充电成功");
-                    }
-
+                    toast(object.getString("data"));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -1434,9 +1441,7 @@ public class ChargingPileActivity extends BaseActivity {
                 isFreshing = false;
                 try {
                     JSONObject object = new JSONObject(json);
-                    if (object.getInt("code") == 0) {
-                        toast("停止充电");
-                    }
+                    toast(object.getString("data"));
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -1499,7 +1504,7 @@ public class ChargingPileActivity extends BaseActivity {
                     Mydialog.Dismiss();
                     JSONObject object = new JSONObject(json);
                     String data = object.getString("data");
-                    toast("预约成功");
+                    toast(data);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -1533,7 +1538,7 @@ public class ChargingPileActivity extends BaseActivity {
 
     private void setMoneyUi(boolean isCheck, String money) {
         cbPpmoney.setChecked(isCheck);
-        tvPpmoney.setText(money + "kWh");
+        tvPpmoney.setText(money);
     }
 
 
@@ -1560,8 +1565,8 @@ public class ChargingPileActivity extends BaseActivity {
      * 初始化预约相关ui
      */
     private void initReserveUi() {
-        tvTextStart.setText("开始时间");
-        tvTextOpenClose.setText("关闭");
+        tvTextStart.setText(getString(R.string.m204开始时间));
+        tvTextOpenClose.setText(getString(R.string.m184关闭));
         ivResever.setImageResource(R.drawable.checkbox_off);
         tvStartTime.setText("--:--");
         cbEveryday.setChecked(false);
@@ -1637,7 +1642,7 @@ public class ChargingPileActivity extends BaseActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if ((System.currentTimeMillis() - mExitTime) > 2000) {
-                toast(R.string.MainActivity_exit);
+                toast(R.string.m确认退出);
                 mExitTime = System.currentTimeMillis();
             } else {
                 MyApplication.getInstance().exit();

@@ -31,7 +31,7 @@ public class T {
 	}
 	public static void dialog(Context context,String object){
 		Builder builder = new Builder(context);
-		builder.setTitle(R.string.all_prompt).setMessage(object).setNegativeButton(R.string.all_ok, new DialogInterface.OnClickListener() {
+		builder.setTitle(R.string.m27温馨提示).setMessage(object).setNegativeButton(R.string.m9确定, new DialogInterface.OnClickListener() {
 
 			@Override
 			public void onClick(DialogInterface arg0, int arg1) {
@@ -42,7 +42,7 @@ public class T {
 	}
 	public static void dialog(Context context,int object){
 		Builder builder = new Builder(context);
-		builder.setTitle(R.string.all_prompt).setMessage(object).setNegativeButton(R.string.all_ok, new DialogInterface.OnClickListener() {
+		builder.setTitle(R.string.m27温馨提示).setMessage(object).setNegativeButton(R.string.m9确定, new DialogInterface.OnClickListener() {
 			
 			@Override
 			public void onClick(DialogInterface arg0, int arg1) {

@@ -101,13 +101,13 @@ public class GetUtil {
 //		            	 Toast.makeText(x.app(), ShineApplication.context.getString(R.string.Xutil_network_err)+":1"+ex.getMessage(), Toast.LENGTH_LONG).show();
 //						Log.i("err", "onError: "+ex.getMessage());
 						if(ex instanceof HttpException){
-							T.make(R.string.Xutil_network_err, MyApplication.context);
+							T.make(R.string.m网络错误, MyApplication.context);
 						}else if(ex instanceof SocketTimeoutException){
-							T.make(R.string.all_server_overtime, MyApplication.context);
+							T.make(R.string.m网络超时, MyApplication.context);
 						}else if(ex instanceof UnknownHostException){
-							T.make(R.string.serviceerror, MyApplication.context);
+							T.make(R.string.m服务器连接失败, MyApplication.context);
 						}else{
-							T.make(R.string.serviceerror, MyApplication.context);
+							T.make(R.string.m服务器连接失败, MyApplication.context);
 						}
 		            	Message.obtain(handler, 1, ex.getMessage()).sendToTarget();
 //		            	if (ex instanceof HttpException) { //网络错误
@@ -232,14 +232,14 @@ public class GetUtil {
 	            @Override
 	            public void onError(Throwable ex, boolean isOnCallback) {
 //	            	 Toast.makeText(x.app(), ShineApplication.context.getString(R.string.Xutil_network_err)+":1"+ex.getMessage(), Toast.LENGTH_LONG).show();
-	            	if(ex instanceof HttpException){
-						T.make(R.string.Xutil_network_err, MyApplication.context);
+					if(ex instanceof HttpException){
+						T.make(R.string.m网络错误, MyApplication.context);
 					}else if(ex instanceof SocketTimeoutException){
-						T.make(R.string.all_server_overtime, MyApplication.context);
+						T.make(R.string.m网络超时, MyApplication.context);
 					}else if(ex instanceof UnknownHostException){
-						T.make(R.string.serviceerror, MyApplication.context);
+						T.make(R.string.m服务器连接失败, MyApplication.context);
 					}else{
-						T.make(R.string.serviceerror, MyApplication.context);
+						T.make(R.string.m服务器连接失败, MyApplication.context);
 					}
 	            	Message.obtain(handler, 1, ex.getMessage()).sendToTarget();
 //	            	if (ex instanceof HttpException) { //网络错误
@@ -363,13 +363,13 @@ public class GetUtil {
 				public void onError(Throwable ex, boolean isOnCallback) {
 //	            	 Toast.makeText(x.app(), ShineApplication.context.getString(R.string.Xutil_network_err)+":1"+ex.getMessage(), Toast.LENGTH_LONG).show();
 					if(ex instanceof HttpException){
-						T.make(R.string.Xutil_network_err, MyApplication.context);
+						T.make(R.string.m网络错误, MyApplication.context);
 					}else if(ex instanceof SocketTimeoutException){
-						T.make(R.string.all_server_overtime, MyApplication.context);
+						T.make(R.string.m网络超时, MyApplication.context);
 					}else if(ex instanceof UnknownHostException){
-						T.make(R.string.serviceerror, MyApplication.context);
+						T.make(R.string.m服务器连接失败, MyApplication.context);
 					}else{
-						T.make(R.string.serviceerror, MyApplication.context);
+						T.make(R.string.m服务器连接失败, MyApplication.context);
 					}
 					Message.obtain(handler, 1, ex.getMessage()).sendToTarget();
 //	            	if (ex instanceof HttpException) { //网络错误
@@ -482,13 +482,13 @@ public class GetUtil {
 			            public void onError(Throwable ex, boolean isOnCallback) {
 //			            	 Toast.makeText(x.app(), ShineApplication.context.getString(R.string.Xutil_network_err), Toast.LENGTH_LONG).show();
 							if(ex instanceof HttpException){
-								T.make(R.string.Xutil_network_err, MyApplication.context);
+								T.make(R.string.m网络错误, MyApplication.context);
 							}else if(ex instanceof SocketTimeoutException){
-								T.make(R.string.all_server_overtime, MyApplication.context);
+								T.make(R.string.m网络超时, MyApplication.context);
 							}else if(ex instanceof UnknownHostException){
-								T.make(R.string.serviceerror, MyApplication.context);
+								T.make(R.string.m服务器连接失败, MyApplication.context);
 							}else{
-								T.make(R.string.serviceerror, MyApplication.context);
+								T.make(R.string.m服务器连接失败, MyApplication.context);
 							}
 			                Message.obtain(handler, 1, ex.getMessage()).sendToTarget();
 //			            	if (ex instanceof HttpException) { //网络错误

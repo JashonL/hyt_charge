@@ -76,7 +76,7 @@
                     android:layout_marginLeft="@dimen/xa51"
                     android:layout_toLeftOf="@+id/ivBase"
                     android:layout_toRightOf="@+id/imageView2"
-                    android:text="@string/about_agreement"
+                    android:text="@string/m54用户协议"
                     android:textColor="#333333"
                     android:textSize="@dimen/xa32" />
 

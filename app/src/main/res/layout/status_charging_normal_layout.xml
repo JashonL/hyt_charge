@@ -42,7 +42,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:text="已充电量"
+                    android:text="@string/m189已充电量"
                     android:textColor="@color/title_3"
                     android:textSize="@dimen/xa28" />
 
@@ -78,7 +78,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:text="@string/m充电费率"
+                    android:text="@string/m152充电费率"
                     android:textColor="@color/title_3"
                     android:textSize="@dimen/xa28" />
 
@@ -114,7 +114,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:text="@string/m当前电流"
+                    android:text="@string/m193当前电流"
                     android:textColor="@color/title_3"
                     android:textSize="@dimen/xa28" />
 
@@ -151,7 +151,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:text="已充时长"
+                    android:text="@string/m191已充时长"
                     android:textColor="@color/title_3"
                     android:textSize="@dimen/xa28" />
 
@@ -188,7 +188,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:text="消费金额"
+                    android:text="@string/m192消费金额"
                     android:textColor="@color/title_3"
                     android:textSize="@dimen/xa28" />
 
@@ -225,7 +225,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:text="@string/m当前电压"
+                    android:text="@string/m194当前电压"
                     android:textColor="@color/title_3"
                     android:textSize="@dimen/xa28" />
 

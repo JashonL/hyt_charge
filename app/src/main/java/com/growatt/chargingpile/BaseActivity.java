@@ -377,7 +377,7 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
 
         for (EditText et : editTexts) {
             if (TextUtils.isEmpty(et.getText().toString())) {
-                toast(getString(R.string.putin_on_data));
+                toast(getString(R.string.m140不能为空));
                 return true;
             }
         }
@@ -426,9 +426,9 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
                         .Builder(this)
                         .setTitle(R.string.m权限请求)
                         .setRationale(String.format(getString(R.string.m权限请求步骤), permission, permission))
-                        .setPositiveButton(R.string.all_ok)
+                        .setPositiveButton(R.string.m9确定)
                         .setRequestCode(requestCode)
-                        .setNegativeButton(R.string.all_no)
+                        .setNegativeButton(R.string.m7取消)
                         .build()
                         .show();
             } else {

@@ -141,8 +141,8 @@ public class ChargingDurationActivity extends BaseActivity {
                 backToChargingPile();
             }
         });
-        setHeaderTitle(headerView, "定时", R.color.title_1, true);
-        setHeaderTvRight(headerView, "新增", new View.OnClickListener() {
+        setHeaderTitle(headerView, getString(R.string.m178定时), R.color.title_1, true);
+        setHeaderTvRight(headerView, getString(R.string.m179新增), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 jumpTo(EditDurationActivity.class, false);

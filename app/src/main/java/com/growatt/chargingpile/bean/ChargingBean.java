@@ -40,10 +40,7 @@ public class ChargingBean {
         private boolean isChecked;
         //设备类型
         private int devType;
-        //单枪或者双枪
-        private String gunNum;
-        //交流或者直流
-        private String chargingModle;
+
 
         public int getConnectors() {
             return connectors;
@@ -144,32 +141,5 @@ public class ChargingBean {
             this.devType = devType;
         }
 
-        public void setGunNum(String gunNum) {
-            this.gunNum = gunNum;
-        }
-
-        public void setChargingModle(String chargingModle) {
-            this.chargingModle = chargingModle;
-        }
-
-        public String getGunNum() {
-            int num = getConnectors();
-            if (num == 1) {
-                setGunNum("单枪");
-            } else {
-                setGunNum("双枪");
-            }
-            return gunNum;
-        }
-
-        public String getChargingModle() {
-            String Modle = getModel();
-            if ("ACChargingPoint".equals(Modle)) {
-                setChargingModle("交流");
-            } else {
-                setChargingModle("直流");
-            }
-            return chargingModle;
-        }
     }
 }

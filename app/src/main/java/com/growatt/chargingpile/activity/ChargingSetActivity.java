@@ -38,7 +38,7 @@ public class ChargingSetActivity extends BaseActivity {
             }
         });
         tvTitle.setTextColor(ContextCompat.getColor(this, R.color.title_1));
-        tvTitle.setText("桩体设置");
+        tvTitle.setText(getString(R.string.m105桩体设置));
     }
 
     @OnClick({R.id.rl_params_setting, R.id.rl_charging_grant})

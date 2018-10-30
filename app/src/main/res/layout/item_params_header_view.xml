@@ -25,7 +25,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="@string/m充电桩ID"
+                android:text="@string/m146充电桩ID"
                 android:textColor="@color/title_1"
                 android:textSize="@dimen/xa30" />
 
@@ -59,7 +59,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="授权认证密钥"
+                android:text="@string/m147授权认证秘钥"
                 android:textColor="@color/title_1"
                 android:textSize="@dimen/xa30" />
 

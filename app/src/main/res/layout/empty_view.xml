@@ -17,12 +17,12 @@
             android:src="@drawable/empty_data_icon"
             />
         <TextView
+            android:text="@string/m116无"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:textSize="@dimen/xa42"
             android:textColor="@color/note_bg_white"
-            android:text="@string/m没有数据"
             android:layout_gravity="center_horizontal"
             />
     </LinearLayout>

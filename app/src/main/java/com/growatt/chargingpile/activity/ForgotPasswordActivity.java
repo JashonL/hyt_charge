@@ -42,7 +42,7 @@ public class ForgotPasswordActivity extends BaseActivity {
 
     private void initHeaderView() {
         tvTitle.setTextColor(ContextCompat.getColor(this, R.color.title_1));
-        tvTitle.setText(getString(R.string.login_forgotpwd));
+        tvTitle.setText(getString(R.string.m22忘记密码));
         //设置字体加粗
         tvTitle.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
         setHeaderImage(headerView, R.drawable.back, Position.LEFT, new View.OnClickListener() {
@@ -66,7 +66,7 @@ public class ForgotPasswordActivity extends BaseActivity {
     private void repeatPassword() {
         final String s = etUserName.getText().toString();
         if (TextUtils.isEmpty(s)) {
-            toast(R.string.retrievepwd_failed_username_blank);
+            toast(R.string.m25请输入用户名);
             return;
         }
         Mydialog.Show(this, "");
@@ -96,19 +96,19 @@ public class ForgotPasswordActivity extends BaseActivity {
                                     JSONObject jsonObject = new JSONObject(json).getJSONObject("back");
                                     if (jsonObject.opt("success").toString().equals("true")) {
                                         String str = jsonObject.getString("msg").toString();
-                                        String a = getResources().getString(R.string.retrievepwd_message);
+                                        String a = getResources().getString(R.string.m29发送到邮箱);
                                         a = a.concat(str);
                                         toast(a);
                                     } else {
                                         String str = jsonObject.getString("msg").toString();
                                         if (str.equals("501")) {
-                                            toast(R.string.retrievepwd_failed_email);
+                                            toast(R.string.m31发送邮件失败);
                                         }
                                         if (str.equals("502")) {
-                                            toast(R.string.retrievepwd_failed_blank);
+                                            toast(R.string.m65用户不存在);
                                         }
                                         if (str.equals("503")) {
-                                            toast(R.string.serviceerror);
+                                            toast(R.string.m37服务器错误);
                                         }
                                     }
                                 } catch (JSONException e) {
@@ -131,13 +131,13 @@ public class ForgotPasswordActivity extends BaseActivity {
                     } else {
                         String str = jsonObject.getString("msg").toString();
                         if (str.equals("501")) {
-                            toast(R.string.retrievepwd_failed_email);
+                            toast(R.string.m31发送邮件失败);
                         }
                         if (str.equals("502")) {
-                            toast(R.string.retrievepwd_failed_blank);
+                            toast(R.string.m65用户不存在);
                         }
                         if (str.equals("503")) {
-                            toast(R.string.serviceerror);
+                            toast(R.string.m37服务器错误);
                         }
                     }
 

@@ -31,7 +31,7 @@ public class XUtil {
 	    	//检查网络
 	    	if(!isNetworkAvailable()){
 	    		if(context!=null){
-	    			Toast.makeText(context, context.getString(R.string.Xutil_network_no_open), Toast.LENGTH_SHORT).show();
+	    			Toast.makeText(context, context.getString(R.string.m请开启网络), Toast.LENGTH_SHORT).show();
 	    		}
 	    		return null;
 	    	}
@@ -55,7 +55,7 @@ public class XUtil {
 	    	//检查网络
 	    	if(!isNetworkAvailable()){
 	    		if(context!=null){
-	    			Toast.makeText(context, context.getString(R.string.Xutil_network_no_open), Toast.LENGTH_SHORT).show();
+	    			Toast.makeText(context, context.getString(R.string.m请开启网络), Toast.LENGTH_SHORT).show();
 	    		}
 	    		return null;
 	    	}
@@ -78,7 +78,7 @@ public class XUtil {
 		//检查网络
 		if(!isNetworkAvailable()){
 			if(context!=null){
-				Toast.makeText(context, context.getString(R.string.Xutil_network_no_open), Toast.LENGTH_SHORT).show();
+				Toast.makeText(context, context.getString(R.string.m请开启网络), Toast.LENGTH_SHORT).show();
 			}
 			return null;
 		}
@@ -98,7 +98,7 @@ public class XUtil {
 		//检查网络
 		if(!isNetworkAvailable()){
 			if(context!=null){
-				Toast.makeText(context, context.getString(R.string.Xutil_network_no_open), Toast.LENGTH_SHORT).show();
+				Toast.makeText(context, context.getString(R.string.m请开启网络), Toast.LENGTH_SHORT).show();
 			}
 			return null;
 		}
@@ -121,7 +121,7 @@ public class XUtil {
 		//检查网络
 		if(!isNetworkAvailable()){
 			if(context!=null){
-				Toast.makeText(context, context.getString(R.string.Xutil_network_no_open), Toast.LENGTH_SHORT).show();
+				Toast.makeText(context, context.getString(R.string.m请开启网络), Toast.LENGTH_SHORT).show();
 			}
 			return null;
 		}
@@ -144,7 +144,7 @@ public class XUtil {
 		//检查网络
 		if(!isNetworkAvailable()){
 			if(context!=null){
-				Toast.makeText(context, context.getString(R.string.Xutil_network_no_open), Toast.LENGTH_SHORT).show();
+				Toast.makeText(context, context.getString(R.string.m请开启网络), Toast.LENGTH_SHORT).show();
 			}
 			return null;
 		}
@@ -168,7 +168,7 @@ public class XUtil {
 	    	//检查网络
 	    	if(!isNetworkAvailable()){
 	    		if(context!=null){
-	    			Toast.makeText(context, context.getString(R.string.Xutil_network_no_open), Toast.LENGTH_SHORT).show();
+	    			Toast.makeText(context, context.getString(R.string.m请开启网络), Toast.LENGTH_SHORT).show();
 	    		}
 	    		return null;
 	    	}
@@ -201,7 +201,7 @@ public class XUtil {
 	    	//检查网络
 	    	if(!isNetworkAvailable()){
 	    		if(context!=null){
-	    			Toast.makeText(context, context.getString(R.string.Xutil_network_no_open), Toast.LENGTH_SHORT).show();
+	    			Toast.makeText(context, context.getString(R.string.m请开启网络), Toast.LENGTH_SHORT).show();
 	    		}
 	    		return null;
 	    	}
@@ -222,7 +222,7 @@ public class XUtil {
 	    	//检查网络
 	    	if(!isNetworkAvailable()){
 	    		if(context!=null){
-	    			Toast.makeText(context, context.getString(R.string.Xutil_network_no_open), Toast.LENGTH_SHORT).show();
+	    			Toast.makeText(context, context.getString(R.string.m请开启网络), Toast.LENGTH_SHORT).show();
 	    		}
 	    		return null;
 	    	}
@@ -248,7 +248,7 @@ public class XUtil {
 		//检查网络
 		if(!isNetworkAvailable()){
 			if(context!=null){
-				Toast.makeText(context, context.getString(R.string.Xutil_network_no_open), Toast.LENGTH_SHORT).show();
+				Toast.makeText(context, context.getString(R.string.m请开启网络), Toast.LENGTH_SHORT).show();
 			}
 			return null;
 		}
@@ -274,7 +274,7 @@ public class XUtil {
 	    	//检查网络
 	    	if(!isNetworkAvailable()){
 	    		if(context!=null){
-	    			Toast.makeText(context, context.getString(R.string.Xutil_network_no_open), Toast.LENGTH_SHORT).show();
+	    			Toast.makeText(context, context.getString(R.string.m请开启网络), Toast.LENGTH_SHORT).show();
 	    		}
 	    		return null;
 	    	}

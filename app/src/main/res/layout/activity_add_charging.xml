@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/xa138"
         android:gravity="center"
-        android:text="输入充电桩序列号添加充电桩"
+        android:text="@string/m109输入充电桩序列号添加充电桩"
         android:textColor="@color/title_1"
         android:textSize="@dimen/xa40"
         android:textStyle="bold" />
@@ -28,7 +28,7 @@
         android:layout_marginTop="@dimen/xa136"
         android:background="@null"
         android:gravity="center"
-        android:hint="请输入充电桩序列号"
+        android:hint="@string/m146充电桩ID"
         android:textSize="@dimen/xa30" />
 
     <View
@@ -50,7 +50,7 @@
         android:layout_marginTop="@dimen/xa96"
         android:background="@drawable/selector_circle_btn_green"
         android:stateListAnimator="@null"
-        android:text="@string/all_ok"
+        android:text="@string/m9确定"
         android:textColor="@color/headerView"
         />
 
@@ -80,7 +80,7 @@
                 android:layout_marginLeft="@dimen/xa35"
                 android:background="@null"
                 android:gravity="center"
-                android:text="扫码添加"
+                android:text="@string/m137扫码添加"
                 android:textColor="@color/charging_text_green"
                 android:textSize="@dimen/xa36" />
         </LinearLayout>

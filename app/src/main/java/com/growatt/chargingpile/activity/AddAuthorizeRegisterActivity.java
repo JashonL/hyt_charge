@@ -81,10 +81,9 @@ public class AddAuthorizeRegisterActivity extends BaseActivity {
                 finish();
             }
         });
-        setHeaderTitle(headerView, "注册新用户");
+        setHeaderTitle(headerView, getString(R.string.m164注册新用户));
 
         tvTitle.setTextColor(ContextCompat.getColor(this, R.color.title_1));
-        tvTitle.setText("添加授权");
         //设置字体加粗
         tvTitle.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
 
@@ -117,36 +116,36 @@ public class AddAuthorizeRegisterActivity extends BaseActivity {
 
     private void registerNext() throws UnsupportedEncodingException {
         if (!checkBox.isChecked()) {
-            toast(R.string.all_terms_message);
+            toast(R.string.m34选择用户协议);
             return;
         }
         if (TextUtils.isEmpty(String.valueOf(etUsername.getText()))) {
-            toast(R.string.register_username_no_blank);
+            toast(R.string.m21用户名密码为空);
             return;
         }
         if (etUsername.getText().toString().length() < 3) {
-            toast(R.string.register_username_no_short);
+            toast(R.string.m99用户名必须大于3位);
             return;
         }
         if (TextUtils.isEmpty(String.valueOf(etPassword.getText()))) {
-            toast(R.string.register_password_no_blank);
+            toast(R.string.m21用户名密码为空);
             return;
         }
         if (TextUtils.isEmpty(String.valueOf(etConfirm.getText()))) {
-            toast(R.string.register_password_no_blank);
+            toast(R.string.m21用户名密码为空);
             return;
         }
         if (TextUtils.isEmpty(String.valueOf(etEmail.getText()))) {
-            toast(R.string.register_email_no_blank);
+            toast(R.string.m35请输入正确邮箱格式);
             return;
         }
         //校验邮箱
         if (!MyUtil.regexCheckEmail(String.valueOf(etEmail.getText()).trim())) {
-            toast(R.string.m81请输入正确邮箱格式);
+            toast(R.string.m35请输入正确邮箱格式);
             return;
         }
         if (!etPassword.getText().toString().trim().equals(etConfirm.getText().toString().trim())) {
-            toast(R.string.register_password_no_same);
+            toast(R.string.m98请输入相同的密码);
             return;
         }
 
@@ -195,84 +194,84 @@ public class AddAuthorizeRegisterActivity extends BaseActivity {
                         }
                     } else {
                         if (msg.equals("501")) {
-                            toast(R.string.datalogcheck_check_no_overstep);
+                            toast(R.string.m36超出版本限制注册用户数量);
                             return;
                         }
                         if (msg.equals("502")) {
                             MyUtil.putAppErrMsg("注册:" + Cons.regMap.getRegUserName() + "-msg:" + msg, AddAuthorizeRegisterActivity.this);
-                            toast(R.string.datalogcheck_check_no_server);
+                            toast(R.string.m37服务器错误);
                             return;
                         }
                         if (msg.equals("503")) {
-                            toast(R.string.datalogcheck_check_no_userexist);
+                            toast(R.string.m40用户名已被使用);
                             return;
                         }
                         if (msg.equals("602")) {
                             MyUtil.putAppErrMsg("注册:" + Cons.regMap.getRegUserName() + "-msg:" + msg, AddAuthorizeRegisterActivity.this);
-                            toast(R.string.datalogcheck_code_602);
+                            toast(R.string.m38注册错误);
                             return;
                         }
                         if (msg.equals("506")) {
-                            toast(R.string.datalogcheck_check_no_verification);
+                            toast(R.string.m39采集器序列号或校验码错误);
                             return;
                         }
                         if (msg.equals("603")) {
-                            toast(R.string.datalogcheck_check_add_datalog_err);
+                            toast(R.string.m44服务器错误提示);
                             return;
                         }
                         if (msg.equals("604")) {
-                            toast(R.string.datalogcheck_check_no_agentcode);
+                            toast(R.string.m41代理商编码错误);
                             return;
                         }
                         if (msg.equals("605")) {
-                            toast(R.string.datalogcheck_check_no_datalog_exist);
+                            toast(R.string.m43采集器序列号已经存在);
                             return;
                         }
                         if (msg.equals("606")) {
-                            toast(R.string.datalogcheck_check_no_datalog_server);
+                            toast(R.string.m45服务器错误提示2);
                             return;
                         }
                         if (msg.equals("607")) {
-                            toast(R.string.datalogcheck_check_no_datalog_server);
+                            toast(R.string.m45服务器错误提示2);
                             return;
                         }
 
                         if (msg.equals("504")) {
-                            toast(R.string.DatalogCheckAct_username_pwd_empty);
+                            toast(R.string.m21用户名密码为空);
                             return;
                         }
                         if (msg.equals("505")) {
-                            toast(R.string.DatalogCheckAct_email_empty);
+                            toast(R.string.m35请输入正确邮箱格式);
                             return;
                         }
                         if (msg.equals("509")) {
-                            toast(R.string.DatalogCheckAct_country_empty);
+                            toast(R.string.m38注册错误);
                             return;
                         }
                         if (msg.equals("608")) {
-                            toast(R.string.datalogcheck_code_608);
+                            toast(R.string.m18注册失败);
                             return;
                         }
                         if (msg.equals("609")) {
-                            toast(R.string.datalogcheck_code_609);
+                            toast(R.string.m18注册失败);
                             return;
                         }
                         if (msg.equals("701")) {
                             MyUtil.putAppErrMsg("注册:" + Cons.regMap.getRegUserName() + "-msg:" + msg, AddAuthorizeRegisterActivity.this);
-                            toast(R.string.datalogcheck_code_701);
+                            toast(R.string.m18注册失败);
                             return;
                         }
                         if (msg.equals("702")) {
-                            toast(R.string.datalogcheck_code_702);
+                            toast(R.string.m46采集器10位提示);
                             return;
                         }
                         if (msg.equals("507")) {
-                            toast(R.string.datalogcheck_check_no_agentcode);
+                            toast(R.string.m41代理商编码错误);
                             return;
                         }
 
                         MyUtil.putAppErrMsg("注册:" + Cons.regMap.getRegUserName() + "-msg:" + msg, AddAuthorizeRegisterActivity.this);
-                        toast(msg + ":" + getString(R.string.datalogcheck_check_no_server));
+                        toast(msg + ":" + getString(R.string.m44服务器错误提示));
 
                     }
                 } catch (Exception e) {
@@ -359,7 +358,7 @@ public class AddAuthorizeRegisterActivity extends BaseActivity {
 
             @Override
             public void success(String json) {
-                toast(getString(R.string.all_success));
+                toast(getString(R.string.m139添加成功));
                 finish();
             }
 

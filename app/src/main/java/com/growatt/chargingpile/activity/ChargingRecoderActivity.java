@@ -98,7 +98,7 @@ public class ChargingRecoderActivity extends BaseActivity {
                 finish();
             }
         });
-        setHeaderTitle(headerView, "充电记录", R.color.title_1, false);
+        setHeaderTitle(headerView, getString(R.string.m104充电记录), R.color.title_1, false);
     }
 
 

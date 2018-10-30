@@ -22,9 +22,9 @@ public class DialogUtil {
             new CircleDialog.Builder()
                     .setCancelable(false)
                     .setWidth(0.7f)
-                    .setTitle(act.getString(R.string.温馨提示) +(result == -1 ? "" : ("(" + result + ")")))
+                    .setTitle(act.getString(R.string.m27温馨提示) +(result == -1 ? "" : ("(" + result + ")")))
                     .setText(text)
-                    .setPositive(act.getString(R.string.all_ok), new View.OnClickListener() {
+                    .setPositive(act.getString(R.string.m9确定), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             if (isFinish){

@@ -46,7 +46,7 @@ public class UserActivity extends BaseActivity {
 
 
     private void initHeaderView() {
-        setHeaderTitle(headerView, getString(R.string.fragment4_datamanage), R.color.title_1, false);
+        setHeaderTitle(headerView, getString(R.string.m51账号管理), R.color.title_1, false);
         setHeaderImage(headerView, R.drawable.back, Position.LEFT, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,13 +103,13 @@ public class UserActivity extends BaseActivity {
 //                Map<String, Object> map = list.get(positions);
                 switch (resultCode) {
                     case 1:
-                        toast(R.string.all_success);
+                        toast(R.string.m成功);
                         String PhoneNum=data.getStringExtra("PhoneNum");
 //                        map.put("str", PhoneNum);
 //                        adapter.notifyDataSetChanged();
                         break;
                     case 2:
-                        toast(R.string.all_success);
+                        toast(R.string.m成功);
                         String email=data.getStringExtra("email");
 //                        map.put("str", email);
 //                        adapter.notifyDataSetChanged();
