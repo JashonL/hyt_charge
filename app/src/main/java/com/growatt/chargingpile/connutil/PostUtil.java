@@ -72,14 +72,14 @@ public class PostUtil {
                 @Override
                 public void onError(Throwable ex, boolean isOnCallback) {
 //					 Toast.makeText(x.app(), ShineApplication.context.getString(R.string.Xutil_network_err)+":2"+ex.getMessage(), Toast.LENGTH_LONG).show();
-                    if (ex instanceof HttpException) {
-                        T.make(R.string.Xutil_network_err, MyApplication.context);
-                    } else if (ex instanceof SocketTimeoutException) {
-                        T.make(R.string.all_server_overtime, MyApplication.context);
-                    } else if (ex instanceof UnknownHostException) {
-                        T.make(R.string.serviceerror, MyApplication.context);
-                    } else {
-                        T.make(R.string.serviceerror, MyApplication.context);
+                    if(ex instanceof HttpException){
+                        T.make(R.string.m网络错误, MyApplication.context);
+                    }else if(ex instanceof SocketTimeoutException){
+                        T.make(R.string.m网络超时, MyApplication.context);
+                    }else if(ex instanceof UnknownHostException){
+                        T.make(R.string.m服务器连接失败, MyApplication.context);
+                    }else{
+                        T.make(R.string.m服务器连接失败, MyApplication.context);
                     }
 
                     Message.obtain(handler, 1, ex.getMessage()).sendToTarget();
@@ -154,14 +154,14 @@ public class PostUtil {
                 public void onError(Throwable ex, boolean isOnCallback) {
                     if (!isLogErr) return;
 //					 Toast.makeText(x.app(), ShineApplication.context.getString(R.string.Xutil_network_err)+":2"+ex.getMessage(), Toast.LENGTH_LONG).show();
-                    if (ex instanceof HttpException) {
-                        T.make(R.string.Xutil_network_err, MyApplication.context);
-                    } else if (ex instanceof SocketTimeoutException) {
-                        T.make(R.string.all_server_overtime, MyApplication.context);
-                    } else if (ex instanceof UnknownHostException) {
-                        T.make(R.string.serviceerror, MyApplication.context);
-                    } else {
-                        T.make(R.string.serviceerror, MyApplication.context);
+                    if(ex instanceof HttpException){
+                        T.make(R.string.m网络错误, MyApplication.context);
+                    }else if(ex instanceof SocketTimeoutException){
+                        T.make(R.string.m网络超时, MyApplication.context);
+                    }else if(ex instanceof UnknownHostException){
+                        T.make(R.string.m服务器连接失败, MyApplication.context);
+                    }else{
+                        T.make(R.string.m服务器连接失败, MyApplication.context);
                     }
 
                     Message.obtain(handler, 1, ex.getMessage()).sendToTarget();
@@ -234,14 +234,14 @@ public class PostUtil {
                 public void onError(Throwable ex, boolean isOnCallback) {
                     Mydialog.Dismiss();
 //					 Toast.makeText(x.app(), ShineApplication.context.getString(R.string.Xutil_network_err)+":2"+ex.getMessage(), Toast.LENGTH_LONG).show();
-                    if (ex instanceof HttpException) {
-                        T.make(R.string.Xutil_network_err, MyApplication.context);
-                    } else if (ex instanceof SocketTimeoutException) {
-                        T.make(R.string.all_server_overtime, MyApplication.context);
-                    } else if (ex instanceof UnknownHostException) {
-                        T.make(R.string.serviceerror, MyApplication.context);
-                    } else {
-                        T.make(R.string.serviceerror, MyApplication.context);
+                    if(ex instanceof HttpException){
+                        T.make(R.string.m网络错误, MyApplication.context);
+                    }else if(ex instanceof SocketTimeoutException){
+                        T.make(R.string.m网络超时, MyApplication.context);
+                    }else if(ex instanceof UnknownHostException){
+                        T.make(R.string.m服务器连接失败, MyApplication.context);
+                    }else{
+                        T.make(R.string.m服务器连接失败, MyApplication.context);
                     }
 
                     Message.obtain(handler, 1, ex.getMessage()).sendToTarget();
@@ -328,14 +328,14 @@ public class PostUtil {
                 public void onError(Throwable ex, boolean isOnCallback) {
                     Mydialog.Dismiss();
 //					 Toast.makeText(x.app(), ShineApplication.context.getString(R.string.Xutil_network_err)+":2"+ex.getMessage(), Toast.LENGTH_LONG).show();
-                    if (ex instanceof HttpException) {
-                        T.make(R.string.Xutil_network_err, MyApplication.context);
-                    } else if (ex instanceof SocketTimeoutException) {
-                        T.make(R.string.all_server_overtime, MyApplication.context);
-                    } else if (ex instanceof UnknownHostException) {
-                        T.make(R.string.serviceerror, MyApplication.context);
-                    } else {
-                        T.make(R.string.serviceerror, MyApplication.context);
+                    if(ex instanceof HttpException){
+                        T.make(R.string.m网络错误, MyApplication.context);
+                    }else if(ex instanceof SocketTimeoutException){
+                        T.make(R.string.m网络超时, MyApplication.context);
+                    }else if(ex instanceof UnknownHostException){
+                        T.make(R.string.m服务器连接失败, MyApplication.context);
+                    }else{
+                        T.make(R.string.m服务器连接失败, MyApplication.context);
                     }
 
                     Message.obtain(handler, 1, ex.getMessage()).sendToTarget();
@@ -425,14 +425,14 @@ public class PostUtil {
                 @Override
                 public void onError(Throwable ex, boolean isOnCallback) {
 //					 Toast.makeText(x.app(), ShineApplication.context.getString(R.string.Xutil_network_err)+":2"+ex.getMessage(), Toast.LENGTH_LONG).show();
-                    if (ex instanceof HttpException) {
-                        T.make(R.string.Xutil_network_err, MyApplication.context);
-                    } else if (ex instanceof SocketTimeoutException) {
-                        T.make(R.string.all_server_overtime, MyApplication.context);
-                    } else if (ex instanceof UnknownHostException) {
-                        T.make(R.string.serviceerror, MyApplication.context);
-                    } else {
-                        T.make(R.string.serviceerror, MyApplication.context);
+                    if(ex instanceof HttpException){
+                        T.make(R.string.m网络错误, MyApplication.context);
+                    }else if(ex instanceof SocketTimeoutException){
+                        T.make(R.string.m网络超时, MyApplication.context);
+                    }else if(ex instanceof UnknownHostException){
+                        T.make(R.string.m服务器连接失败, MyApplication.context);
+                    }else{
+                        T.make(R.string.m服务器连接失败, MyApplication.context);
                     }
 
                     Message.obtain(handler, 1, ex.getMessage()).sendToTarget();
@@ -519,14 +519,14 @@ public class PostUtil {
                 @Override
                 public void onError(Throwable ex, boolean isOnCallback) {
 //					 Toast.makeText(x.app(), ShineApplication.context.getString(R.string.Xutil_network_err)+":2"+ex.getMessage(), Toast.LENGTH_LONG).show();
-                    if (ex instanceof HttpException) {
-                        T.make(R.string.Xutil_network_err, MyApplication.context);
-                    } else if (ex instanceof SocketTimeoutException) {
-                        T.make(R.string.all_server_overtime, MyApplication.context);
-                    } else if (ex instanceof UnknownHostException) {
-                        T.make(R.string.serviceerror, MyApplication.context);
-                    } else {
-                        T.make(R.string.serviceerror, MyApplication.context);
+                    if(ex instanceof HttpException){
+                        T.make(R.string.m网络错误, MyApplication.context);
+                    }else if(ex instanceof SocketTimeoutException){
+                        T.make(R.string.m网络超时, MyApplication.context);
+                    }else if(ex instanceof UnknownHostException){
+                        T.make(R.string.m服务器连接失败, MyApplication.context);
+                    }else{
+                        T.make(R.string.m服务器连接失败, MyApplication.context);
                     }
 
                     Message.obtain(handler, 1, ex.getMessage()).sendToTarget();
@@ -628,14 +628,14 @@ public class PostUtil {
                 @Override
                 public void onError(Throwable ex, boolean isOnCallback) {
 //					 Toast.makeText(x.app(), ShineApplication.context.getString(R.string.Xutil_network_err)+":2"+ex.getMessage(), Toast.LENGTH_LONG).show();
-                    if (ex instanceof HttpException) {
-                        T.make(R.string.Xutil_network_err, MyApplication.context);
-                    } else if (ex instanceof SocketTimeoutException) {
-                        T.make(R.string.all_server_overtime, MyApplication.context);
-                    } else if (ex instanceof UnknownHostException) {
-                        T.make(R.string.serviceerror, MyApplication.context);
-                    } else {
-                        T.make(R.string.serviceerror, MyApplication.context);
+                    if(ex instanceof HttpException){
+                        T.make(R.string.m网络错误, MyApplication.context);
+                    }else if(ex instanceof SocketTimeoutException){
+                        T.make(R.string.m网络超时, MyApplication.context);
+                    }else if(ex instanceof UnknownHostException){
+                        T.make(R.string.m服务器连接失败, MyApplication.context);
+                    }else{
+                        T.make(R.string.m服务器连接失败, MyApplication.context);
                     }
 
                     Message.obtain(handler, 1, ex.getMessage()).sendToTarget();

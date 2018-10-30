@@ -43,7 +43,7 @@ public class AgreementActivity extends BaseActivity {
                 finish();
             }
         });
-        setHeaderTitle(headerView, getString(R.string.about_agreement),R.color.title_1,true);
+        setHeaderTitle(headerView, getString(R.string.m54用户协议),R.color.title_1,true);
     }
 
 

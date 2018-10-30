@@ -52,7 +52,7 @@ public class UpdatepwdActivity extends BaseActivity {
             }
         });
 
-        setHeaderTitle(headerView,getString(R.string.updatepwd_title),R.color.title_1,false);
+        setHeaderTitle(headerView,getString(R.string.m57修改密码),R.color.title_1,false);
 
     }
 
@@ -72,11 +72,11 @@ public class UpdatepwdActivity extends BaseActivity {
         String s2 = et2.getText().toString();
         String s3 = et3.getText().toString();
         if (s1.equals("") || s2.equals("") || s3.equals("")) {
-            toast(R.string.all_blank);
+            toast(R.string.m21用户名密码为空);
             return;
         }
         if (!s2.equals(s3)) {
-            toast(R.string.register_password_no_same);
+            toast(R.string.m98请输入相同的密码);
             return;
         }
         Mydialog.Show(UpdatepwdActivity.this, "");
@@ -88,18 +88,18 @@ public class UpdatepwdActivity extends BaseActivity {
                     Mydialog.Dismiss();
                     JSONObject jsonObject = new JSONObject(json);
                     if (jsonObject.get("msg").toString().equals("200")) {
-                        toast(R.string.all_success);
+                        toast(R.string.m成功);
                         //设置不自动登录
                         //设置不自动登录
                         SharedPreferencesUnit.getInstance(UpdatepwdActivity.this).putInt(Constant.AUTO_LOGIN, 0);
                         SharedPreferencesUnit.getInstance(UpdatepwdActivity.this).putInt(Constant.AUTO_LOGIN_TYPE, 0);
                         jumpTo(LoginActivity.class, true);
                     } else if (jsonObject.get("msg").toString().equals("502")) {
-                        toast(R.string.updatepwd_oldpwd_failed);
+                        toast(R.string.m64原密码错误);
                     } else if ("701".equals(jsonObject.get("msg").toString())) {
-                        toast(R.string.m7);
+                        toast(R.string.m66你的账号没有操作权限);
                     } else {
-                        toast(R.string.serviceerror);
+                        toast(R.string.m37服务器错误);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

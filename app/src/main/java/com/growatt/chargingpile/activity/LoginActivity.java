@@ -103,12 +103,12 @@ public class LoginActivity extends BaseActivity {
     public void btnLogin() {
         String userName = String.valueOf(etUsername.getText()).trim();
         if (TextUtils.isEmpty(userName)) {
-            toast(R.string.login_no_user);
+            toast(R.string.m21用户名密码为空);
             return;
         }
         String pwd = String.valueOf(etPassword.getText()).trim();
         if (TextUtils.isEmpty(pwd)) {
-            toast(R.string.login_no_pwd);
+            toast(R.string.m21用户名密码为空);
             return;
         }
         btLogin.setEnabled(false);

@@ -104,8 +104,8 @@ public class EditDurationActivity extends BaseActivity {
 
     private void initViews() {
         if (type == 2) {
-            tvOpen.setText("未设置");
-            tvClose.setText("未设置");
+            tvOpen.setText(getString(R.string.m185未设置));
+            tvClose.setText(getString(R.string.m185未设置));
             MyUtil.hideAllView(View.GONE, rlDelete);
         } else {
             cbEveryday.setChecked(loopType != -1);
@@ -152,8 +152,8 @@ public class EditDurationActivity extends BaseActivity {
                 finish();
             }
         });
-        setHeaderTitle(headerView, "设置定时", R.color.title_1, true);
-        setHeaderTvRight(headerView, "保存", new View.OnClickListener() {
+        setHeaderTitle(headerView, getString(R.string.m181设置定时), R.color.title_1, true);
+        setHeaderTvRight(headerView, getString(R.string.m182保存), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (type == 1) {
@@ -165,11 +165,11 @@ public class EditDurationActivity extends BaseActivity {
                         }
                         editTime("1", expiryDate, dataBean.getLoopType());
                     } else {
-                        toast("请选择正确的时间段");
+                        toast(getString(R.string.m请选择正确的时间段));
                     }
                 } else {
                     if (duration < 0) {
-                        toast("请选择正确的时间段");
+                        toast(getString(R.string.m请选择正确的时间段));
                         return;
                     }
                     String loopType;
@@ -264,15 +264,15 @@ public class EditDurationActivity extends BaseActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         new CircleDialog.Builder()
                 .setWidth(0.75f)
-                .setTitle(getString(R.string.m190警告))
-                .setText(getString(R.string.myquestion_isdecete))
-                .setGravity(Gravity.CENTER).setPositive(getString(R.string.all_ok), new View.OnClickListener() {
+                .setTitle(getString(R.string.m8警告))
+                .setText(getString(R.string.m确认删除))
+                .setGravity(Gravity.CENTER).setPositive(getString(R.string.m9确定), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 deleteTime(ctype);
             }
         })
-                .setNegative(getString(R.string.all_no), null)
+                .setNegative(getString(R.string.m7取消), null)
                 .show(fragmentManager);
 
     }
@@ -308,7 +308,7 @@ public class EditDurationActivity extends BaseActivity {
                     JSONObject object = new JSONObject(json);
                     int code = object.getInt("code");
                     if (code == 0) {
-                        toast(R.string.删除成功);
+                        toast(R.string.m135删除成功);
                         finish();
                     }
                 } catch (JSONException e) {
@@ -365,7 +365,7 @@ public class EditDurationActivity extends BaseActivity {
                     JSONObject object = new JSONObject(json);
                     int code = object.getInt("code");
                     if (code == 0) {
-                        toast(R.string.修改成功);
+                        toast(R.string.m修改成功);
                         finish();
                     }
                 } catch (JSONException e) {

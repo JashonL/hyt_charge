@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/xa59"
             android:gravity="center"
-            android:text="桩体状态不可用，请切换使用其他充电桩"
+            android:text="@string/m216桩体状态为不可用"
             android:textColor="@color/title_3"
             android:textSize="@dimen/xa30" />
 

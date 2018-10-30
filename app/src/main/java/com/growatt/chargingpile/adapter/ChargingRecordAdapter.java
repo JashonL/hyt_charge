@@ -32,9 +32,9 @@ public class ChargingRecordAdapter extends BaseQuickAdapter<ChargingRecordBean.D
         helper.setText(R.id.tv_chargingId, item.getChargeId());
         String gunName;
         if (item.getConnectorId() == 1) {
-            gunName = "A枪";
+            gunName = mContext.getString(R.string.m110A枪);
         } else {
-            gunName = "B枪";
+            gunName = mContext.getString(R.string.m111B枪);
         }
         helper.setText(R.id.tv_model, gunName);
         long cTime = item.getCtime() * 60 * 1000;

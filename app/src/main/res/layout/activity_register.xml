@@ -53,7 +53,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/xa12"
                     android:background="@null"
-                    android:hint="@string/请输入用户名"
+                    android:hint="@string/m25请输入用户名"
                     android:textColor="@color/title_2"
                     android:textSize="@dimen/xa24" />
             </LinearLayout>
@@ -100,7 +100,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/xa12"
                     android:background="@null"
-                    android:hint="@string/请输入密码"
+                    android:hint="@string/m26请输入密码"
                     android:inputType="textPassword"
                     android:textColor="@color/title_2"
                     android:textSize="@dimen/xa24" />
@@ -148,7 +148,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/xa12"
                     android:background="@null"
-                    android:hint="@string/重复输入密码"
+                    android:hint="@string/m93重复输入密码"
                     android:inputType="textPassword"
                     android:textColor="@color/title_2"
                     android:textSize="@dimen/xa24" />
@@ -195,7 +195,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/xa12"
                     android:background="@null"
-                    android:hint="@string/register_email_no_blank"
+                    android:hint="@string/m61输入邮箱地址"
                     android:textColor="@color/title_2"
                     android:textSize="@dimen/xa24" />
             </LinearLayout>
@@ -241,7 +241,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/xa12"
                     android:background="@null"
-                    android:hint="@string/register_phone_no_blank"
+                    android:hint="@string/m60填入不带国家代码的手机号"
                     android:textColor="@color/title_2"
                     android:textSize="@dimen/xa24" />
             </LinearLayout>
@@ -265,7 +265,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:gravity="center"
-                    android:text="@string/all_terms"
+                    android:text="@string/m33同意本公司各项用户条款及隐私政策"
                     android:textColor="@color/title_3"
                     android:textSize="@dimen/xa37" />
 
@@ -294,7 +294,7 @@
                 android:layout_marginTop="@dimen/xa80"
                 android:background="@drawable/selector_circle_btn_green"
                 android:stateListAnimator="@null"
-                android:text="@string/all_register"
+                android:text="@string/m23注册"
                 android:textColor="@color/headerView" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

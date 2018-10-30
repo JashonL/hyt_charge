@@ -44,7 +44,7 @@ public class ChargingPresetEditActivity extends BaseActivity {
     NumberPicker npMinute;
 
     private int type = 1;//1.金额 2.电量 3.时长
-    private String textType = "预设方案";
+    private String textType;
 
     private String[] hours;
     private String[] minutes;
@@ -63,6 +63,7 @@ public class ChargingPresetEditActivity extends BaseActivity {
     }
 
     private void initResource() {
+        textType = getString(R.string.m209预设);
         hours = new String[24];
         for (int i = 0; i < 24; i++) {
             if (i < 10) {
@@ -93,7 +94,7 @@ public class ChargingPresetEditActivity extends BaseActivity {
                 finish();
             }
         });
-        setHeaderTitle(headerView, "预设方案编辑", R.color.title_1, false);
+        setHeaderTitle(headerView, getString(R.string.m198预设充电方案), R.color.title_1, false);
     }
 
 
@@ -103,21 +104,25 @@ public class ChargingPresetEditActivity extends BaseActivity {
         if (type == 1) {
             MyUtil.showAllView(llEleMoney);
             MyUtil.hideAllView(View.GONE, llTime);
-            scheme = "金额";
-            etValue.setHint("请输入金额");
+            scheme = getString(R.string.m200金额);
+            etValue.setHint(getString(R.string.m210请输入金额));
         } else if (type == 2) {
             MyUtil.showAllView(llEleMoney);
             MyUtil.hideAllView(View.GONE, llTime);
-            scheme = "电量";
-            etValue.setHint("请输入电量");
+            scheme = getString(R.string.m201电量);
+            etValue.setHint(getString(R.string.m211请输入电量));
         } else {
             MyUtil.showAllView(llTime);
             MyUtil.hideAllView(View.GONE, llEleMoney);
-            scheme = "时长";
+            scheme = getString(R.string.m202时长);
         }
-        textType = String.format("预设方案编辑-%s", scheme);
+        textType = String.format(getString(R.string.m198预设充电方案) + "-%s", scheme);
         SpannableString spannableString = new SpannableString(textType);
-        spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.blue_1)), 7, 9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        if (getLanguage()==0){
+            spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.blue_1)), 7, 9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }else {
+            spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.blue_1)), 22, textType.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
         tvType.setText(spannableString);
     }
 
@@ -140,21 +145,21 @@ public class ChargingPresetEditActivity extends BaseActivity {
         String value = etValue.getText().toString();
         if (type == 1) {
             if (TextUtils.isEmpty(value)) {
-                toast("请输入预设金额");
+                toast(getString(R.string.m210请输入金额));
                 return;
             }
-            if (!MyUtil.isNumber(value)){
-                toast("请输入正确的金额");
+            if (!MyUtil.isNumber(value)) {
+                toast(getString(R.string.m输入金额不正确));
                 return;
             }
             intent.putExtra("money", value);
         } else if (type == 2) {
             if (TextUtils.isEmpty(value)) {
-                toast("请输入预设充电量");
+                toast(getString(R.string.m211请输入电量));
                 return;
             }
-            if (!MyUtil.isNumber(value)){
-                toast("请输入正确的电量");
+            if (!MyUtil.isNumber(value)) {
+                toast(getString(R.string.m输入电量不正确));
                 return;
             }
             intent.putExtra("electric", value);
@@ -162,7 +167,7 @@ public class ChargingPresetEditActivity extends BaseActivity {
             String hour = hours[npHour.getValue()];
             String minute = minutes[npMinute.getValue()];
             if ("00".equals(hour) && "00".equals(minute)) {
-                toast("请选择充电时长");
+                toast(getString(R.string.m129时长设置不能为空));
                 return;
             }
             intent.putExtra("hour", hour);

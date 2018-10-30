@@ -35,7 +35,7 @@ public class AboutActivity extends BaseActivity {
 	}
 
 	private void initHeaderView() {
-		setHeaderTitle(headerView, getString(R.string.about_title), R.color.title_1, true);
+		setHeaderTitle(headerView, getString(R.string.m53关于), R.color.title_1, true);
 		setHeaderImage(headerView, R.drawable.back, Position.LEFT, new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

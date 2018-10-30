@@ -20,7 +20,7 @@
             android:paddingLeft="@dimen/xa29"
             android:background="@color/headerView"
             android:gravity="left|center_vertical"
-            android:text="@string/all_no"
+            android:text="@string/m7取消"
             android:textColor="@color/blue_1"
             android:textSize="@dimen/xa25" />
 
@@ -32,7 +32,7 @@
             android:layout_weight="1"
             android:background="@color/headerView"
             android:gravity="right|center_vertical"
-            android:text="@string/all_ok"
+            android:text="@string/m9确定"
             android:paddingRight="@dimen/xa29"
             android:textColor="@color/blue_1"
             android:textSize="@dimen/xa25" />
@@ -72,7 +72,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="时"
+                    android:text="@string/m207时"
                     android:textColor="@color/title_1"
                     android:textSize="@dimen/xa25" />
 
@@ -89,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/xa5"
-                    android:text="分"
+                    android:text="@string/m208分"
                     android:textColor="@color/title_1"
                     android:textSize="@dimen/xa20" />
 

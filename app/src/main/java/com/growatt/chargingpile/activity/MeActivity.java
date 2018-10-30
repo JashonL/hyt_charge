@@ -103,7 +103,7 @@ public class MeActivity extends BaseActivity {
                         jumpTo(UserActivity.class,false);
                         break;
                     case 1:
-                        toast(getString(R.string.m暂无权限));
+                        toast(getString(R.string.m56暂未开放));
                         break;
                     case 2:
                         jumpTo(AboutActivity.class,false);
@@ -115,7 +115,7 @@ public class MeActivity extends BaseActivity {
     }
 
     private void initResource() {
-        titles = new int[]{R.string.fragment4_datamanage, R.string.fragment4_message, R.string.about_title};
+        titles = new int[]{R.string.m51账号管理, R.string.m52消息中心, R.string.m53关于};
         images = new int[]{R.drawable.manager_center, R.drawable.message_center, R.drawable.about};
         list = new ArrayList<Map<String, Object>>();
         for (int i = 0; i < titles.length; i++) {
@@ -136,8 +136,8 @@ public class MeActivity extends BaseActivity {
             public void onClick(View v) {
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 new CircleDialog.Builder()
-                        .setTitle(getString(R.string.m225请选择))
-                        .setItems(new String[]{getString(R.string.all_photograph), getString(R.string.all_photo_album)}, new AdapterView.OnItemClickListener() {
+                        .setTitle(getString(R.string.m请选择))
+                        .setItems(new String[]{getString(R.string.m5拍照), getString(R.string.m6从相册选取)}, new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 switch (position) {
@@ -159,7 +159,7 @@ public class MeActivity extends BaseActivity {
                                 }
                             }
                         })
-                        .setNegative(getString(R.string.all_no), null)
+                        .setNegative(getString(R.string.m7取消), null)
                         .show(fragmentManager);
             }
         });
@@ -211,7 +211,7 @@ public class MeActivity extends BaseActivity {
             }
         });
         tvTitle.setTextColor(ContextCompat.getColor(this, R.color.title_1));
-        tvTitle.setText(getString(R.string.main_me));
+        tvTitle.setText(getString(R.string.m50我));
     }
 
 
@@ -227,15 +227,15 @@ public class MeActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 FragmentManager fragmentManager = MeActivity.this.getSupportFragmentManager();
-                new CircleDialog.Builder().setTitle(getString(R.string.温馨提示))
-                        .setText(getString(R.string.user_islogout))
-                        .setPositive(getString(R.string.all_ok), new View.OnClickListener() {
+                new CircleDialog.Builder().setTitle(getString(R.string.m27温馨提示))
+                        .setText(getString(R.string.m19是否退出当前账户))
+                        .setPositive(getString(R.string.m9确定), new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 LoginUtil.logout(MeActivity.this);
                             }
                         })
-                        .setNegative(getString(R.string.all_no),null)
+                        .setNegative(getString(R.string.m7取消),null)
                         .show(fragmentManager);
             }
         });
@@ -277,7 +277,7 @@ public class MeActivity extends BaseActivity {
                                  Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
         if (resultCode == MeActivity.this.RESULT_CANCELED) {
-            Toast.makeText(MeActivity.this, getString(R.string.Fragment4_cancel), Toast.LENGTH_LONG).show();
+            Toast.makeText(MeActivity.this, getString(R.string.m7取消), Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -291,7 +291,7 @@ public class MeActivity extends BaseActivity {
                     }
                     cropRawPhoto(newUri, cropImageUri);
                 } else {
-                    Toast.makeText(MeActivity.this, MeActivity.this.getString(R.string.Fragment4_sd), Toast.LENGTH_LONG)
+                    Toast.makeText(MeActivity.this, MeActivity.this.getString(R.string.m没有SD卡), Toast.LENGTH_LONG)
                             .show();
                 }
                 break;

@@ -17,7 +17,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/xa140"
         android:padding="@dimen/xa23"
-        android:text="@string/gui_come"
+        android:text="@string/m1立即体验"
         android:background="@null"
         android:textColor="@color/green_1"
         android:textSize="@dimen/xa35"

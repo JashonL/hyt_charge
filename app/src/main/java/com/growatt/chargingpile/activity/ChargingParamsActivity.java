@@ -118,7 +118,7 @@ public class ChargingParamsActivity extends BaseActivity {
     }
 
     private void initResource() {
-        keys = new String[]{"基础参数", "电桩名称", "国家", "站点", "充电费率", "功率设置", "充电模式", "高级设置", "充电桩IP", "网关", "子网掩码", "网络MAC地址", "服务器URL", "DNS地址"};
+        keys = new String[]{getString(R.string.m148基础参数), getString(R.string.m149电桩名称), getString(R.string.m150国家城市), getString(R.string.m151站点), getString(R.string.m152充电费率), getString(R.string.m153功率设置), getString(R.string.m154充电模式), getString(R.string.m155高级设置), getString(R.string.m156充电桩IP), getString(R.string.m157网关), getString(R.string.m158子网掩码), getString(R.string.m159网络MAC地址), getString(R.string.m160服务器URL), getString(R.string.m161DNS地址)};
         for (int i = 0; i < 14; i++) {
             ParamsSetBean bean = new ParamsSetBean();
             if (i == 0 || i == 7) {
@@ -152,7 +152,7 @@ public class ChargingParamsActivity extends BaseActivity {
                 finish();
             }
         });
-        setHeaderTitle(headerView, "参数设置", R.color.title_1, true);
+        setHeaderTitle(headerView,  getString(R.string.m141参数设置), R.color.title_1, true);
     }
 
 
@@ -165,9 +165,9 @@ public class ChargingParamsActivity extends BaseActivity {
         int dimen = getResources().getDimensionPixelSize(R.dimen.xa24);
         et.setTextSize(TypedValue.COMPLEX_UNIT_PX, dimen);
         et.setPadding(20, 20, 20, 20);
-        AlertDialog dialog = new AlertDialog.Builder(this).setTitle(R.string.reminder)
-                .setMessage("请输入设置内容").setView(
-                        et).setPositiveButton(R.string.all_ok, new DialogInterface.OnClickListener() {
+        AlertDialog dialog = new AlertDialog.Builder(this).setTitle(R.string.m27温馨提示)
+                .setMessage(getString(R.string.m请输入设置内容)).setView(
+                        et).setPositiveButton(R.string.m9确定, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int swich) {
@@ -175,7 +175,7 @@ public class ChargingParamsActivity extends BaseActivity {
 
                         requestEdit(key, s);
                     }
-                }).setNegativeButton(R.string.all_no, null).create();
+                }).setNegativeButton(R.string.m7取消, null).create();
         dialog.setCancelable(true);
         dialog.show();
     }

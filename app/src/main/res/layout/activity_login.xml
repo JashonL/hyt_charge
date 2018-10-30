@@ -26,7 +26,7 @@
             android:layout_toLeftOf="@+id/tvRight"
             android:layout_toRightOf="@+id/ivLeft"
             android:gravity="center"
-            android:text="@string/login"
+            android:text="@string/m24登陆"
             android:textStyle="bold"
             android:textColor="@color/title_1"
             android:textSize="@dimen/xa37" />
@@ -51,7 +51,7 @@
             android:layout_centerVertical="true"
             android:background="@drawable/touch_bg_main"
             android:gravity="center"
-            android:text="@string/all_register"
+            android:text="@string/m23注册"
             android:paddingBottom="@dimen/xa32"
             android:paddingRight="@dimen/xa11"
             android:paddingTop="@dimen/xa32"
@@ -91,7 +91,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/xa12"
             android:background="@null"
-            android:hint="@string/请输入用户名"
+            android:hint="@string/m25请输入用户名"
             android:textColor="@color/title_2"
             android:textSize="@dimen/xa24" />
     </LinearLayout>
@@ -129,7 +129,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/xa12"
             android:background="@null"
-            android:hint="@string/请输入密码"
+            android:hint="@string/m26请输入密码"
             android:inputType="textPassword"
             android:textColor="@color/title_2"
             android:textSize="@dimen/xa24" />
@@ -155,7 +155,7 @@
         android:layout_marginTop="@dimen/xa49"
         android:background="@drawable/selector_circle_btn_green_gradient"
         android:stateListAnimator="@null"
-        android:text="@string/login"
+        android:text="@string/m24登陆"
         android:textColor="@color/headerView" />
 
     <TextView
@@ -164,7 +164,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/ya40"
         android:gravity="center"
-        android:text="@string/login_forgotpwd"
+        android:text="@string/m22忘记密码"
         android:textColor="@color/forget_password_color"
         android:textSize="@dimen/xa30" />
 

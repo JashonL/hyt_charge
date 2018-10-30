@@ -40,7 +40,7 @@
                 android:layout_marginTop="@dimen/xa136"
                 android:background="@null"
                 android:gravity="center"
-                android:hint="请输入电量(kwh)"
+                android:hint="@string/m211请输入电量"
                 android:textSize="@dimen/xa30" />
 
             <View
@@ -87,7 +87,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="时"
+                        android:text="@string/m207时"
                         android:textColor="@color/title_1"
                         android:textSize="@dimen/xa25" />
 
@@ -104,7 +104,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/xa5"
-                        android:text="分"
+                        android:text="@string/m208分"
                         android:textColor="@color/title_1"
                         android:textSize="@dimen/xa20" />
 
@@ -148,7 +148,7 @@
         android:layout_marginTop="@dimen/xa80"
         android:background="@drawable/selector_circle_btn_green"
         android:stateListAnimator="@null"
-        android:text="@string/all_ok"
+        android:text="@string/m9确定"
         android:textColor="@color/headerView" />
 
 

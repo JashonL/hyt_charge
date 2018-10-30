@@ -12,7 +12,7 @@
         android:layout_marginBottom="@dimen/xa70"
         android:layout_marginTop="@dimen/xa70"
         android:background="@drawable/selector_circle_btn_green"
-        android:text="@string/fragment4_logout"
+        android:text="@string/m55注销账号"
         android:textColor="@color/headerView"
         android:textSize="@dimen/xa32" />
 

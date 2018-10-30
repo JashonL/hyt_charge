@@ -33,7 +33,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/xa25"
             android:layout_toRightOf="@+id/imageView1"
-            android:text="@string/m284参数设置"
+            android:text="@string/m141参数设置"
             android:textColor="@color/title_1"
             android:textSize="@dimen/xa30" />
 
@@ -79,7 +79,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/xa25"
             android:layout_toRightOf="@+id/imageView3"
-            android:text="@string/m授权管理"
+            android:text="@string/m142授权管理"
             android:textColor="@color/title_1"
             android:textSize="@dimen/xa30" />
 

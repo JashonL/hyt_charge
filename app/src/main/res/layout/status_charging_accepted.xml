@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/xa59"
             android:gravity="center"
-            android:text="充电桩启用中"
+            android:text="@string/m125启用中"
             android:textColor="@color/title_3"
             android:textSize="@dimen/xa30" />
 

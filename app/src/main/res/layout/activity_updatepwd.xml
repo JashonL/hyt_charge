@@ -30,7 +30,7 @@
                 android:layout_marginLeft="@dimen/xa58"
                 android:textSize="@dimen/xa30"
                 android:textColor="@color/title_1"
-                android:text="@string/updatepwd_oldpwd" />
+                android:text="@string/m28原密码" />
 
             <EditText
                 android:id="@+id/editText1"
@@ -61,7 +61,7 @@
                 android:layout_marginLeft="@dimen/xa58"
                 android:textSize="@dimen/xa30"
                 android:textColor="@color/title_1"
-                android:text="@string/updatepwd_newpwd" />
+                android:text="@string/m26请输入密码" />
 
             <EditText
                 android:id="@+id/editText2"
@@ -92,7 +92,7 @@
                 android:layout_marginLeft="@dimen/xa58"
                 android:textSize="@dimen/xa30"
                 android:textColor="@color/title_1"
-                android:text="@string/updatepwd_newpwd" />
+                android:text="@string/m92重复密码" />
 
             <EditText
                 android:id="@+id/editText3"
@@ -124,7 +124,7 @@
         android:layout_marginTop="@dimen/xa49"
         android:background="@drawable/selector_circle_btn_green"
         android:stateListAnimator="@null"
-        android:text="@string/all_ok"
+        android:text="@string/m9确定"
         android:textColor="@color/headerView" />
 
 </RelativeLayout>

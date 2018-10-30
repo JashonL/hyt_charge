@@ -13,7 +13,7 @@
             android:layout_height="@dimen/ya69"
             android:layout_gravity="center_horizontal"
             android:textColor="@color/title_1"
-            android:text="@string/修改手机号"
+            android:text="@string/m58修改手机号"
             android:gravity="center"
             android:layout_marginTop="@dimen/ya83"
             android:textSize="@dimen/xa35"
@@ -38,7 +38,7 @@
         android:layout_marginTop="@dimen/xa49"
         android:background="@drawable/selector_circle_btn_green"
         android:stateListAnimator="@null"
-        android:text="@string/all_ok"
+        android:text="@string/m9确定"
         android:textColor="@color/headerView" />
 
 </LinearLayout>

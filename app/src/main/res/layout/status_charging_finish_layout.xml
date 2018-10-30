@@ -43,7 +43,7 @@
                 android:layout_marginTop="@dimen/xa10"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="已充电量"
+                android:text="@string/m189已充电量"
                 android:textColor="@color/title_1"
                 android:textSize="@dimen/xa28" />
         </LinearLayout>
@@ -91,7 +91,7 @@
                 android:layout_marginTop="@dimen/xa10"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="@string/m充电费率"
+                android:text="@string/m152充电费率"
                 android:textColor="@color/title_1"
                 android:textSize="@dimen/xa28" />
         </LinearLayout>
@@ -140,7 +140,7 @@
                 android:layout_marginTop="@dimen/xa10"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="已充时长"
+                android:text="@string/m191已充时长"
                 android:textColor="@color/title_1"
                 android:textSize="@dimen/xa28" />
         </LinearLayout>
@@ -191,7 +191,7 @@
                 android:layout_marginTop="@dimen/xa10"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="消费金额"
+                android:text="@string/m192消费金额"
                 android:textColor="@color/title_1"
                 android:textSize="@dimen/xa28" />
         </LinearLayout>

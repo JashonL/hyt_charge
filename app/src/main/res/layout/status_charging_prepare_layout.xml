@@ -24,14 +24,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="预设充电方案"
+                    android:text="@string/m198预设充电方案"
                     android:textColor="@color/title_1"
                     android:textSize="@dimen/xa30" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="（达到预设金额、电量、时长后停止充电）"
+                    android:text="@string/m199达到预设停止充电"
                     android:textColor="@color/title_3"
                     android:textSize="@dimen/xa24" />
             </LinearLayout>
@@ -65,7 +65,7 @@
                         android:layout_marginLeft="@dimen/xa11"
                         android:layout_marginTop="@dimen/xa10"
                         android:layout_toRightOf="@+id/iv_money"
-                        android:text="金额"
+                        android:text="@string/m200金额"
                         android:textColor="@color/title_3"
                         android:textSize="@dimen/xa26" />
 
@@ -127,7 +127,7 @@
                         android:layout_marginLeft="@dimen/xa11"
                         android:layout_marginTop="@dimen/xa10"
                         android:layout_toRightOf="@+id/iv_ele"
-                        android:text="电量"
+                        android:text="@string/m201电量"
                         android:textColor="@color/title_3"
                         android:textSize="@dimen/xa26" />
 
@@ -189,7 +189,7 @@
                         android:layout_marginLeft="@dimen/xa11"
                         android:layout_marginTop="@dimen/xa10"
                         android:layout_toRightOf="@+id/iv_time"
-                        android:text="时长"
+                        android:text="@string/m202时长"
                         android:textColor="@color/title_3"
                         android:textSize="@dimen/xa26" />
 
@@ -240,7 +240,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="预约充电"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true"
+                    android:text="@string/m203预约充电"
                     android:textColor="@color/title_1"
                     android:textSize="@dimen/xa30" />
 
@@ -270,7 +272,7 @@
                     android:layout_marginLeft="@dimen/xa17"
                     android:layout_marginTop="@dimen/xa20"
                     android:layout_toRightOf="@+id/iv_clock"
-                    android:text="开始时间"
+                    android:text="@string/m204开始时间"
                     android:textColor="@color/title_3"
                     android:textSize="@dimen/xa24" />
 
@@ -283,7 +285,7 @@
                     android:layout_marginBottom="@dimen/xa27"
                     android:layout_marginRight="@dimen/xa13"
                     android:layout_toLeftOf="@+id/iv_resever_switch"
-                    android:text="@string/m开启"
+                    android:text="@string/m183开启"
                     android:textColor="@color/title_3"
                     android:textSize="@dimen/xa24" />
 
@@ -303,7 +305,7 @@
                     android:layout_alignLeft="@+id/iv_clock"
                     android:layout_alignParentBottom="true"
                     android:layout_marginBottom="@dimen/xa27"
-                    android:text="每天"
+                    android:text="@string/m186每天"
                     android:textColor="@color/blue_1"
                     android:textSize="@dimen/xa24" />
 

@@ -118,7 +118,7 @@ public class ChargingAuthorizationActivity extends BaseActivity {
                 finish();
             }
         });
-        setHeaderTitle(headerView, getResources().getString(R.string.m授权管理),R.color.title_1,false);
+        setHeaderTitle(headerView, getResources().getString(R.string.m142授权管理),R.color.title_1,false);
         setHeaderImage(headerView, R.drawable.add_authorization_user, Position.RIGHT, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -157,9 +157,9 @@ public class ChargingAuthorizationActivity extends BaseActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         new CircleDialog.Builder()
                 .setWidth(0.75f)
-                .setTitle(getString(R.string.m190警告))
-                .setText(getString(R.string.myquestion_isdecete))
-                .setGravity(Gravity.CENTER).setPositive(getString(R.string.all_ok), new View.OnClickListener() {
+                .setTitle(getString(R.string.m8警告))
+                .setText(getString(R.string.m确认删除))
+                .setGravity(Gravity.CENTER).setPositive(getString(R.string.m9确定), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Mydialog.Show(ChargingAuthorizationActivity.this);
@@ -195,7 +195,7 @@ public class ChargingAuthorizationActivity extends BaseActivity {
                 });
             }
         })
-                .setNegative(getString(R.string.all_no), null)
+                .setNegative(getString(R.string.m7取消), null)
                 .show(fragmentManager);
 
 

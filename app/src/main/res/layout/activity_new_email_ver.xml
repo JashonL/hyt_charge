@@ -21,7 +21,7 @@
             android:layout_width="@dimen/xa421"
             android:layout_height="match_parent"
             android:background="@null"
-            android:hint="@string/register_email_no_blank"
+            android:hint="@string/m61输入邮箱地址"
             android:paddingLeft="@dimen/xa23"
             android:paddingRight="@dimen/xa23"
             android:gravity="center"
@@ -36,7 +36,7 @@
             android:gravity="center"
             android:background="@drawable/selector_rect_btn_green"
             android:padding="@dimen/xa4"
-            android:text="@string/m23"
+            android:text="@string/m75发送验证码"
             android:textColor="@color/content_bg_blue"
             android:textSize="@dimen/xa28"
             />
@@ -58,7 +58,7 @@
         android:layout_marginTop="@dimen/xa35"
         android:background="@null"
         android:gravity="center"
-        android:hint="@string/m21"
+        android:hint="@string/m75发送验证码"
         android:paddingLeft="@dimen/xa23"
         android:paddingRight="@dimen/xa23"
         android:textColor="@color/title_1"
@@ -78,7 +78,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/xa140"
         android:background="@drawable/selector_circle_btn_green"
-        android:text="@string/about_cache_ok"
+        android:text="@string/m3完成"
         android:textColor="@color/headerView"
         android:textSize="@dimen/xa35" />
 </LinearLayout>

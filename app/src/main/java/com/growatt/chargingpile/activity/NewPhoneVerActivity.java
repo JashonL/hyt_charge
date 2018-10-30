@@ -82,11 +82,11 @@ public class NewPhoneVerActivity extends BaseActivity {
         AbsoluteSizeSpan ass = new AbsoluteSizeSpan((int)getResources().getDimension(R.dimen.xa23),false);
 // 新建一个可以添加属性的文本对象
         //国家编码
-        SpannableString ss1 = new SpannableString(getString(R.string.m42));
+        SpannableString ss1 = new SpannableString(getString(R.string.m国家区号));
         //手机号
-        SpannableString ss2 = new SpannableString(getString(R.string.m26));
+        SpannableString ss2 = new SpannableString(getString(R.string.m60填入不带国家代码的手机号));
         //验证码
-        SpannableString ss3 = new SpannableString(getString(R.string.m21));
+        SpannableString ss3 = new SpannableString(getString(R.string.m72请输入短信验证码));
         etAreaCode.setText(MyUtil.getCountryAndPhoneCodeByCountryCode(this,2));
         ss1.setSpan(ass, 0, ss1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         etAreaCode.setHint(new SpannedString(ss1)); // 一定要进行转换,否则属性会消失
@@ -116,7 +116,7 @@ public class NewPhoneVerActivity extends BaseActivity {
                 finish();
             }
         });
-        setHeaderTitle(headerView,getString(R.string.m97验证用户手机号码),R.color.title_1,false);
+        setHeaderTitle(headerView,getString(R.string.m69验证用户手机号码),R.color.title_1,false);
     }
 
     @OnClick({R.id.btnSendCode,R.id.btnOk})
@@ -146,7 +146,7 @@ public class NewPhoneVerActivity extends BaseActivity {
             areaCode =  areaCode.replace("0","");
         }
         if (TextUtils.isEmpty(areaCode) || areaCode.length()>5 ){
-            toast(R.string.m27);
+            toast(R.string.m76国际区号错误);
             return;
         }
         //发送后对button做处理
@@ -165,7 +165,7 @@ public class NewPhoneVerActivity extends BaseActivity {
                     int result = jsonObject.getInt("result");
                     if (result == 1){
                         vCode = jsonObject.getJSONObject("obj").getString("validate");
-                        toast(R.string.all_success);
+                        toast(R.string.m成功);
                     }else {
                         mHandler.sendEmptyMessage(result);
                     }
@@ -189,7 +189,7 @@ public class NewPhoneVerActivity extends BaseActivity {
             btnSendCode.setBackgroundColor(getResources().getColor(R.color.white_background_click));
         }
         //显示文本
-        btnSendCode.setText(TIME_COUNT + getString(R.string.WifiNewtoolAct_time_s));
+        btnSendCode.setText(TIME_COUNT + getString(R.string.m秒));
         //发送消息
         handler.sendEmptyMessageDelayed(102,1000);
     }
@@ -199,7 +199,7 @@ public class NewPhoneVerActivity extends BaseActivity {
         btnSendCode.setBackgroundColor(getResources().getColor(R.color.green_2));
         TIME_COUNT = TOTAL_TIME;
         //显示文本
-        btnSendCode.setText(R.string.m23);
+        btnSendCode.setText(R.string.m75发送验证码);
     }
     Handler handler = new Handler(){
         @Override
@@ -209,11 +209,11 @@ public class NewPhoneVerActivity extends BaseActivity {
             switch (msg.what){
                 case 101://发送验证码
                     if ("501".equals(errorCode)){
-                        toast(R.string.m30);
+                        toast(R.string.m78发送短信验证码不成功);
                     }else if ("502".equals(errorCode)){
-                        toast(R.string.m18);
+                        toast(R.string.m77手机号格式错误);
                     }else if ("503".equals(errorCode)){
-                        toast(R.string.m31);
+                        toast(R.string.m79该手机号没有注册用户);
                     }
                     break;
                 case 102://发送验证码后倒计时
@@ -233,18 +233,18 @@ public class NewPhoneVerActivity extends BaseActivity {
             String code = etVCode.getText().toString().trim();
 //            phone = etPhone.getText().toString().trim();
             if (TextUtils.isEmpty(phone)){
-                toast(R.string.m18);
+                toast(R.string.m77手机号格式错误);
                 return;
             }
             if (TextUtils.isEmpty(code)){
-                toast(R.string.m21);
+                toast(R.string.m72请输入短信验证码);
                 return;
             }
             if (code.equals(vCode)) {
                 //更新用户验证信息
                 updateUserPhone();
             }else {
-                toast(R.string.m22);
+                toast(R.string.m74验证码错误);
             }
     }
 
@@ -272,7 +272,7 @@ public class NewPhoneVerActivity extends BaseActivity {
                     if (result == 1){
                         Cons.isValiPhone = true;
                         Cons.userBean.setPhoneNum(phone);
-                        DialogUtil.circlerDialog(NewPhoneVerActivity.this, getString(R.string.all_success), result,false, new OnCirclerDialogListener() {
+                        DialogUtil.circlerDialog(NewPhoneVerActivity.this, getString(R.string.m成功), result,false, new OnCirclerDialogListener() {
                             @Override
                             public void onCirclerPositive() {
                                 setResult(RESULT_OK);
@@ -309,7 +309,7 @@ public class NewPhoneVerActivity extends BaseActivity {
             switch (msg.what){
 
             }
-            DialogUtil.circlerDialog(NewPhoneVerActivity.this,getString(R.string.all_failed),msg.what,false,null);
+            DialogUtil.circlerDialog(NewPhoneVerActivity.this,getString(R.string.m失败),msg.what,false,null);
         }
     };
 }

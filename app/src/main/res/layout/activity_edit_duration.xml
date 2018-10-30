@@ -23,7 +23,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/xa25"
             android:layout_toRightOf="@+id/imageView1"
-            android:text="@string/m开启"
+            android:text="@string/m183开启"
             android:textColor="@color/title_1"
             android:textSize="@dimen/xa30" />
 
@@ -65,7 +65,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/xa25"
             android:layout_toRightOf="@+id/imageView3"
-            android:text="@string/m关闭"
+            android:text="@string/m184关闭"
             android:textColor="@color/title_1"
             android:textSize="@dimen/xa30" />
 
@@ -100,7 +100,7 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:layout_marginStart="15dp"
-            android:text="每天"
+            android:text="@string/m186每天"
             android:textColor="@color/blue_1"
             android:textSize="@dimen/xa30" />
 
@@ -132,7 +132,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="本次时长："
+            android:text="@string/m202时长"
             android:textColor="@color/title_1"
             android:textSize="@dimen/xa30" />
 
@@ -163,7 +163,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="删除"
+            android:text="@string/m187删除"
             android:textColor="@color/timing_delete"
             android:textSize="@dimen/xa30" />
 
