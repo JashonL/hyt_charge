@@ -116,9 +116,9 @@ public class ChargingPresetEditActivity extends BaseActivity {
         textType = String.format(getString(R.string.m198预设充电方案) + "-%s", scheme);
         SpannableString spannableString = new SpannableString(textType);
         if (getLanguage()==0){
-            spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.blue_1)), 7, 9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.green_1)), 7, 9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }else {
-            spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.blue_1)), 23, textType.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.green_1)), 23, textType.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         tvType.setText(spannableString);
     }

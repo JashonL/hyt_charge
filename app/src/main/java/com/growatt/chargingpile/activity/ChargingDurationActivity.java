@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -89,6 +90,7 @@ public class ChargingDurationActivity extends BaseActivity {
         jsonMap.put("sn", Cons.mCurrentPile.getChargeId());
         jsonMap.put("connectorId", 1);
         jsonMap.put("cKey", "G_SetTime");
+        jsonMap.put("lan",getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         PostUtil.postJson(SmartHomeUrlUtil.REQUEST_CHARGING_RESERVELIST, json, new PostUtil.postListener() {
             @Override
@@ -206,6 +208,8 @@ public class ChargingDurationActivity extends BaseActivity {
         });
         recyclerView.setLayoutManager(mLinearLayoutManager);
         recyclerView.setAdapter(mAdapter);
+        View emptyView = LayoutInflater.from(this).inflate(R.layout.empty_view, null);
+        mAdapter.setEmptyView(emptyView);
     }
 
 
@@ -216,6 +220,7 @@ public class ChargingDurationActivity extends BaseActivity {
             try {
                 JSONObject object = new JSONObject(json);
                 object.put("ctype", ctype);
+                object.put("lan",getLanguage());//测试id
                 json = object.toString();
             } catch (JSONException e) {
                 e.printStackTrace();

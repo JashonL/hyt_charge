@@ -347,6 +347,7 @@ public class AddAuthorizeRegisterActivity extends BaseActivity {
         Map<String, Object> jsonMap = new LinkedHashMap<>();
         jsonMap.put("sn", Cons.mCurrentPile.getChargeId());
         jsonMap.put("userName", userName);
+        jsonMap.put("lan",getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         Mydialog.Show(this);
         PostUtil.postJson(SmartHomeUrlUtil.ADD_AUTHORIZATION_USERE, json, new PostUtil.postListener() {

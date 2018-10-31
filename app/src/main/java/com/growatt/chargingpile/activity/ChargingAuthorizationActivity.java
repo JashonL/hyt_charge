@@ -71,6 +71,7 @@ public class ChargingAuthorizationActivity extends BaseActivity {
         jsonMap.put("userId", Cons.userBean.getId());
         jsonMap.put("page", 1);
         jsonMap.put("psize", 30);
+        jsonMap.put("lan",getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         LogUtil.i(json);
         PostUtil.postJson(SmartHomeUrlUtil.GET_AUTHORIZATION_USEER_LIST, json, new PostUtil.postListener() {
@@ -162,6 +163,7 @@ public class ChargingAuthorizationActivity extends BaseActivity {
                 Map<String, Object> jsonMap = new LinkedHashMap<String, Object>();
                 jsonMap.put("sn", Cons.mCurrentPile.getChargeId());
                 jsonMap.put("userId", userId);
+                jsonMap.put("lan",getLanguage());//测试id
                 String json = SmartHomeUtil.mapToJsonString(jsonMap);
                 LogUtil.i(json);
                 PostUtil.postJson(SmartHomeUrlUtil.DELETE_UTHORIZATION_USERE, json, new PostUtil.postListener() {

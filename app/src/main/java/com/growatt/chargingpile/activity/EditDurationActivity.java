@@ -288,6 +288,7 @@ public class EditDurationActivity extends BaseActivity {
         try {
             object = new JSONObject(json);
             object.put("ctype", ctype);
+            object.put("lan",getLanguage());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -341,6 +342,8 @@ public class EditDurationActivity extends BaseActivity {
         jsonMap.put("cValue", dataBean.getCValue());
         jsonMap.put("reservationId", dataBean.getReservationId());
         jsonMap.put("expiryDate", expiryDate);
+        jsonMap.put("lan", getLanguage());
+
         if (loopType == -1) {
             jsonMap.put("loopType", loopType);
         } else {
@@ -389,6 +392,7 @@ public class EditDurationActivity extends BaseActivity {
         jsonMap.put("cKey", "G_SetTime");
         jsonMap.put("cValue", cValue);
         jsonMap.put("loopType", loopType);
+        jsonMap.put("lan",getLanguage());
         if ("0".equals(loopType)) {
             jsonMap.put("loopValue", loopValue);
         }

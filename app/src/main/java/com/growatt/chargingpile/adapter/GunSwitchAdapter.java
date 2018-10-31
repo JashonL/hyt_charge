@@ -18,6 +18,12 @@ public class GunSwitchAdapter extends BaseQuickAdapter<GunBean.DataBean,BaseView
 
     @Override
     protected void convert(BaseViewHolder helper, GunBean.DataBean item) {
-        helper.setText(R.id.textView1,item.getName());
+        int connectorId = item.getConnectorId();
+        if (connectorId==1){
+            helper.setText(R.id.textView1,mContext.getString(R.string.m110A枪));
+
+        }else {
+            helper.setText(R.id.textView1,mContext.getString(R.string.m110A枪));
+        }
     }
 }

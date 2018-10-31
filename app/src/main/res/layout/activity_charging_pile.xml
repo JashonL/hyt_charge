@@ -192,6 +192,14 @@
                         android:padding="@dimen/xa27"
                         android:src="@drawable/charging_roll_anim"
                         android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/iv_circle_background"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/xa27"
+                        android:src="@drawable/charging_finish_anim"
+                        android:visibility="gone" />
                 </RelativeLayout>
 
                 <LinearLayout

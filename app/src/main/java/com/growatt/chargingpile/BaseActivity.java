@@ -43,7 +43,7 @@ import pub.devrel.easypermissions.EasyPermissions;
  * Created by Administrator on 2018/10/16.
  */
 
-public abstract class BaseActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks{
+public abstract class BaseActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
 
     Toast toast;
     protected Context mContext;
@@ -53,7 +53,7 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
     protected boolean isContinue = true;
 
     public enum Position {
-        LEFT,CENTER,RIGHT
+        LEFT, CENTER, RIGHT
     }
 
     @Override
@@ -137,52 +137,18 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
     }
 
     /**
-     *
      * @return
      */
     public int getLanguage() {
-        int lan = 1;
+        int lan;
         Locale locale = getResources().getConfiguration().locale;
         String language = locale.getLanguage();
         if (language.toLowerCase().contains("zh")) {
-            language = "zh_cn";
             lan = 0;
-        }
-        if (language.toLowerCase().contains("en")) {
-            language = "en";
+        } else if (language.toLowerCase().contains("en")) {
             lan = 1;
-        }
-        if (language.toLowerCase().contains("fr")) {
-            language = "fr";
+        } else {
             lan = 2;
-        }
-        if (language.toLowerCase().contains("ja")) {
-            language = "ja";
-            lan = 3;
-        }
-        if (language.toLowerCase().contains("it")) {
-            language = "it";
-            lan = 4;
-        }
-        if (language.toLowerCase().contains("ho")) {
-            language = "ho";
-            lan = 5;
-        }
-        if (language.toLowerCase().contains("tk")) {
-            language = "tk";
-            lan = 6;
-        }
-        if (language.toLowerCase().contains("pl")) {
-            language = "pl";
-            lan = 7;
-        }
-        if (language.toLowerCase().contains("gk")) {
-            language = "gk";
-            lan = 8;
-        }
-        if (language.toLowerCase().contains("gm")) {
-            language = "gm";
-            lan = 9;
         }
         return lan;
     }
@@ -216,12 +182,12 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         return language;
     }
 
-    public TextView setHeaderTitle(View headerView, String title, Position position,int textColor,boolean isBold) {
+    public TextView setHeaderTitle(View headerView, String title, Position position, int textColor, boolean isBold) {
         TextView tv = (TextView) headerView.findViewById(R.id.tvTitle);
-        if (textColor!=-1){
-            tv.setTextColor(ContextCompat.getColor(this,textColor));
+        if (textColor != -1) {
+            tv.setTextColor(ContextCompat.getColor(this, textColor));
         }
-        if (isBold){
+        if (isBold) {
             tv.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
         }
         if (title == null) {
@@ -243,7 +209,7 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
 
     }
 
-    public TextView setHeaderTvRight(View headerView, String title, View.OnClickListener listener,int textColor) {
+    public TextView setHeaderTvRight(View headerView, String title, View.OnClickListener listener, int textColor) {
         TextView tv = (TextView) headerView.findViewById(R.id.tvRight);
         tv.setTextColor(textColor);
         if (title == null) {
@@ -270,12 +236,12 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
     }
 
     public void setHeaderTitle(View headerView, String title) {
-        setHeaderTitle(headerView,title,-1,false);
+        setHeaderTitle(headerView, title, -1, false);
     }
 
 
-    public void setHeaderTitle(View headerView, String title,int textcolor,boolean isBold){
-        setHeaderTitle(headerView, title, Position.CENTER,textcolor,isBold);
+    public void setHeaderTitle(View headerView, String title, int textcolor, boolean isBold) {
+        setHeaderTitle(headerView, title, Position.CENTER, textcolor, isBold);
     }
 
     /**
@@ -383,7 +349,6 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
 
         return false;
     }
-
 
 
     public String getNumberFormat(String str, int num) {

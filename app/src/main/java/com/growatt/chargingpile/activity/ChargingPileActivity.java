@@ -95,6 +95,8 @@ public class ChargingPileActivity extends BaseActivity {
     LinearLayout llBottomGroup;
     @BindView(R.id.iv_anim)
     ImageView ivAnim;
+    @BindView(R.id.iv_circle_background)
+    ImageView ivfinishBackground;
     @BindView(R.id.srl_pull)
     SwipeRefreshLayout srlPull;
 
@@ -214,10 +216,10 @@ public class ChargingPileActivity extends BaseActivity {
 
     private long mExitTime;
 
-    private boolean needRefresh = false;
-
-
-    private int normalRefreshTime = 5000;
+    /**
+     * 状态是否发生改变
+     */
+    private boolean isStatusChange = false;
 
 
     @Override
@@ -361,6 +363,8 @@ public class ChargingPileActivity extends BaseActivity {
                 if (presetType == 3) {
                     setTimeUi(false, "--");
                     presetType = 0;
+                    isReservation = false;
+                    setReserveUi(getString(R.string.m204开始时间), getString(R.string.m184关闭), R.drawable.checkbox_off, "--:--", true);
                 } else {
                     Intent intent = new Intent(ChargingPileActivity.this, ChargingPresetEditActivity.class);
                     intent.putExtra("type", 3);
@@ -504,12 +508,14 @@ public class ChargingPileActivity extends BaseActivity {
     /**
      * 刷新列表数据
      * position :刷新列表时选中第几项
+     * millis
      */
     private void freshData(final int position, final int gunPosition) {
         Mydialog.Show(this);
         isFreshing = true;
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         jsonMap.put("userId", Cons.userBean.getId());//测试id
+        jsonMap.put("lan", getLanguage());
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         LogUtil.i(json);
         PostUtil.postJson(SmartHomeUrlUtil.GET_MY_ADD_CHARGING_LIST, json, new PostUtil.postListener() {
@@ -590,7 +596,7 @@ public class ChargingPileActivity extends BaseActivity {
         }
 //        connectorId = 1;
         //根据选中项刷新充电桩的充电枪,默认刷新A枪
-        freshChargingGun(dataBean.getChargeId(), gunId, normalRefreshTime);
+        freshChargingGun(dataBean.getChargeId(), gunId);
     }
 
     /**
@@ -598,16 +604,18 @@ public class ChargingPileActivity extends BaseActivity {
      * 参数
      * chargingId 充电桩的id
      * connectorId 充电枪的id
-     * millis 几秒后刷新
+     * millis
+     * needSenmessage 是否需要发送通知
      */
 
-    private void freshChargingGun(final String chargingId, final int connectorId, final int millis) {
+    private void freshChargingGun(final String chargingId, final int connectorId) {
         Mydialog.Show(this);
         isFreshing = true;
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         jsonMap.put("sn", chargingId);//测试id
         jsonMap.put("connectorId", connectorId);//测试id
         jsonMap.put("userId", Cons.userBean.getId());//测试id
+        jsonMap.put("lan", getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         LogUtil.i(json);
         PostUtil.postJson(SmartHomeUrlUtil.GET_CHARGING_GUN_DATA, json, new PostUtil.JsonListener() {
@@ -642,18 +650,13 @@ public class ChargingPileActivity extends BaseActivity {
             //到达指定时间时会执行这个方法，判断是否需要刷新在这里操作
             @Override
             public void sendMsgByTime(Handler handler) {
-                LogUtil.d("============刷新机制=========" + "\n" + "刷新变量：" + needRefresh + "   是否在刷新中：" + isFreshing + "   当前状态：" + Cons.mCurrentGunBean.getData().getStatus() + "  上一个状态：" + previous);
-            /*    if (needRefresh && !isFreshing) {
-                    int time;
-                    if (Cons.mCurrentGunBean.getData().getStatus().equals(GunBean.CHARGING)) {//如果是在充电中那就5分钟刷新一次
-                        time = 5 * 60 * 1000;
-                    } else {//其他都是正常刷新
-                        time = 50 * 1000;
-                    }
-                    freshChargingGun(chargingId, connectorId, time);
-                }*/
+                //刷新
+                if (previous.equals(GunBean.CHARGING)){
+
+                }
+
             }
-        }, millis);
+        }, 3000);
 
     }
 
@@ -665,8 +668,148 @@ public class ChargingPileActivity extends BaseActivity {
     private void refreshBygun(GunBean gunBean) {
         //充电枪详细数据
         GunBean.DataBean data = gunBean.getData();
-        tvSwitchGun.setText(data.getName());
-        //充电枪预约信息
+        String name = getString(R.string.m110A枪);
+        if (data.getConnectorId() == 1) {
+            name = getString(R.string.m110A枪);
+        } else {
+            getString(R.string.m111B枪);
+        }
+        tvSwitchGun.setText(name);
+        //初始化充电枪准备中的显示
+//        gunPrepareInfoByResever(gunBean);
+        gunPrepareInfoByLastAction(gunBean);
+        //设置当前状态显示
+        String status = data.getStatus();
+        //状态改变,并且不是充电完成时不再循环刷新
+        if (!status.equals(previous)) {
+            isStatusChange = true;
+        } else {
+            isStatusChange = false;
+        }
+        //记录上一个状态
+        previous = status;
+
+        mStatusGroup.removeAllViews();
+        switch (status) {
+            case GunBean.AVAILABLE://空闲
+                if (Cons.mCurrentPile.getType() == 0) {//桩主
+                    mStatusGroup.addView(preparingView);
+                } else {//普通用户
+                    mStatusGroup.addView(availableView);
+                }
+                hideAnim();
+                setChargGunUi(R.drawable.charging_available, getString(R.string.m117空闲), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_start_charging, "充电");
+                MyUtil.showAllView(llBottomGroup);
+                break;
+            case GunBean.RESERVED:
+            case GunBean.PREPARING:
+                mStatusGroup.addView(preparingView);
+                MyUtil.showAllView(rlReserve);
+                hideAnim();
+                setChargGunUi(R.drawable.charging_available, getString(R.string.m119准备中), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_start_charging, "充电");
+                MyUtil.showAllView(llBottomGroup);
+                break;
+
+            case GunBean.CHARGING:
+                transactionId = data.getTransactionId();
+                setChargGunUi(R.drawable.charging_available, getString(R.string.m118充电中), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_stop_charging, "停止充电");
+                MyUtil.showAllView(llBottomGroup);
+                startAnim();
+                String presetType = data.getcKey();
+                if (presetType.equals("0")) {
+                    mStatusGroup.addView(normalChargingView);
+                    setNormalCharging(data);
+                } else if (presetType.equals("G_SetAmount")) {
+                    mStatusGroup.addView(presetChargingView);
+                    String scheme = String.format(getString(R.string.m198预设充电方案) + "-%s", getString(R.string.m200金额));
+                    int timeCharging = data.getCtime();
+                    int hourCharging = timeCharging / 60;
+                    int minCharging = timeCharging % 60;
+                    String sTimeCharging = hourCharging + "h" + minCharging + "min";
+                    setPresetChargingUi(data, scheme, getString(R.string.m192消费金额), R.drawable.charging_ele, String.valueOf(data.getEnergy()), getString(R.string.m189已充电量), R.drawable.charging_time, sTimeCharging, getString(R.string.m191已充时长));
+                } else if (presetType.equals("G_SetEnergy")) {
+                    mStatusGroup.addView(presetChargingView);
+                    String scheme = String.format(getString(R.string.m198预设充电方案) + "-%s", getString(R.string.m201电量));
+                    int timeCharging = data.getCtime();
+                    int hourCharging = timeCharging / 60;
+                    int minCharging = timeCharging % 60;
+                    String sTimeCharging = hourCharging + "h" + minCharging + "min";
+                    setPresetChargingUi(data, scheme, getString(R.string.m189已充电量), R.drawable.charging_money, String.valueOf(data.getCost()), getString(R.string.m192消费金额), R.drawable.charging_time, sTimeCharging, getString(R.string.m191已充时长));
+                } else {
+                    mStatusGroup.addView(presetChargingView);
+                    String scheme = String.format(getString(R.string.m198预设充电方案) + "-%s", getString(R.string.m202时长));
+                    setPresetChargingUi(data, scheme, getString(R.string.m191已充时长), R.drawable.charging_time, String.valueOf(data.getCost()), getString(R.string.m192消费金额), R.drawable.charging_ele, String.valueOf(data.getCtime()), getString(R.string.m189已充电量));
+                }
+                break;
+
+            case GunBean.FINISHING:
+                int timeFinishing = data.getCtime();
+                int hourFinishing = timeFinishing / 60;
+                int minFinishing = timeFinishing % 60;
+                String sTimeFinishing = hourFinishing + "h" + minFinishing + "min";
+                mStatusGroup.addView(chargeFinishView);
+                tvFinishEle.setText(String.valueOf(data.getEnergy()) + "kWh");
+                tvFinishRate.setText(String.valueOf(data.getRate()));
+                tvFinishTime.setText(sTimeFinishing);
+                tvFinishMoney.setText(String.valueOf(data.getCost()));
+                stopAnim();
+                MyUtil.showAllView(llBottomGroup);
+                setChargGunUi(R.drawable.charging_available, getString(R.string.m120充电结束), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_start_charging, "充电");
+                break;
+
+            case GunBean.EXPIRY:
+                mStatusGroup.addView(chargeExpiryView);
+                setChargGunUi(R.drawable.charging_available, getString(R.string.m118充电中), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_stop_charging, "已经注销");
+                MyUtil.hideAllView(View.GONE, llBottomGroup);
+                break;
+            case GunBean.FAULTED:
+                hideAnim();
+                mStatusGroup.addView(chargeFaultedView);
+                setChargGunUi(R.drawable.charging_faulted, getString(R.string.m121故障), ContextCompat.getColor(this, R.color.red_faulted), R.drawable.btn_stop_charging, "故障");
+                MyUtil.showAllView(llBottomGroup);
+                break;
+
+            case GunBean.UNAVAILABLE:
+                hideAnim();
+                mStatusGroup.addView(chargeUnvailableView);
+                setChargGunUi(R.drawable.charging_unavailable, getString(R.string.m122不可用), ContextCompat.getColor(this, R.color.title_3), R.drawable.btn_start_charging, "不可用");
+                MyUtil.showAllView(llBottomGroup);
+                break;
+            case GunBean.WORK:
+                hideAnim();
+                mStatusGroup.addView(chargeWorkedView);
+                setChargGunUi(R.drawable.charging_available, getString(R.string.m126已经工作过), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_start_charging, "充电");
+                MyUtil.hideAllView(View.GONE, llBottomGroup);
+                break;
+
+            case GunBean.ACCEPTED:
+                hideAnim();
+                mStatusGroup.addView(chargeAcceptedView);
+                setChargGunUi(R.drawable.charging_available, getString(R.string.m125启用中), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_stop_charging, "已经注销");
+                MyUtil.hideAllView(View.GONE, llBottomGroup);
+                break;
+        }
+    }
+
+    private void setNormalCharging(GunBean.DataBean data) {
+        int timeCharging = data.getCtime();
+        int hourCharging = timeCharging / 60;
+        int minCharging = timeCharging % 60;
+        String sTimeCharging = hourCharging + "h" + minCharging + "min";
+        tvChargingEle.setText(String.valueOf(data.getEnergy()) + "kWh");
+        tvChargingRate.setText(String.valueOf(data.getRate()));
+        tvChargingCurrent.setText(String.valueOf(data.getCurrent() + "A"));
+        tvChargingDuration.setText(sTimeCharging);
+        tvChargingMoney.setText(String.valueOf(data.getCost()));
+        tvChargingVoltage.setText(String.valueOf(data.getVoltage()) + "V");
+    }
+
+    /**
+     * 根据预约信息来初始化
+     *
+     * @param gunBean
+     */
+    private void gunPrepareInfoByResever(GunBean gunBean) {
         List<GunBean.ReserveNowBean> reserveNow = gunBean.getReserveNow();
         if (Cons.mCurrentPile.getType() == 0) {
             if (reserveNow.size() == 0) {  //没有预约
@@ -752,127 +895,125 @@ public class ChargingPileActivity extends BaseActivity {
             initReserveUi();
             MyUtil.hideAllView(View.GONE, rlReserve, llReserve);
         }
-
-
-        //设置当前状态显示
-        String status = data.getStatus();
-        //状态改变,并且不是充电完成时不再循环刷新
-        if (!status.equals(previous) && !status.equals(GunBean.FINISHING) && !status
-                .equals(GunBean.CHARGING)) {
-            needRefresh = false;
-        } else {
-            needRefresh = true;
-        }
-        //记录上一个状态
-        previous = status;
-
-        mStatusGroup.removeAllViews();
-        switch (status) {
-            case GunBean.AVAILABLE://空闲
-                if (Cons.mCurrentPile.getType() == 0) {//桩主
-                    mStatusGroup.addView(preparingView);
-                } else {//普通用户
-                    mStatusGroup.addView(availableView);
-                }
-                hideAnim();
-                setChargGunUi(R.drawable.charging_available, getString(R.string.m117空闲), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_start_charging, "充电");
-                MyUtil.showAllView(llBottomGroup);
-                break;
-            case GunBean.RESERVED:
-            case GunBean.PREPARING:
-                mStatusGroup.addView(preparingView);
-                MyUtil.showAllView(rlReserve);
-                hideAnim();
-                setChargGunUi(R.drawable.charging_available, getString(R.string.m119准备中), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_start_charging, "充电");
-                MyUtil.showAllView(llBottomGroup);
-                break;
-
-            case GunBean.CHARGING:
-                transactionId = data.getTransactionId();
-                int timeCharging = data.getCtime();
-                int hourCharging = timeCharging / 60;
-                int minCharging = timeCharging % 60;
-                String sTimeCharging = hourCharging + "h" + minCharging + "min";
-                setChargGunUi(R.drawable.charging_available, getString(R.string.m118充电中), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_stop_charging, "停止充电");
-                MyUtil.showAllView(llBottomGroup);
-                startAnim();
-                String presetType = data.getcKey();
-                if (presetType.equals("0")) {
-                    mStatusGroup.addView(normalChargingView);
-                    tvChargingEle.setText(String.valueOf(data.getEnergy()) + "kWh");
-                    tvChargingRate.setText(String.valueOf(data.getRate()));
-                    tvChargingCurrent.setText(String.valueOf(data.getCurrent() + "A"));
-                    tvChargingDuration.setText(sTimeCharging);
-                    tvChargingMoney.setText(String.valueOf(data.getCost()));
-                    tvChargingVoltage.setText(String.valueOf(data.getVoltage()) + "V");
-                } else if (presetType.equals("G_SetAmount")) {
-                    mStatusGroup.addView(presetChargingView);
-                    String scheme = String.format(getString(R.string.m198预设充电方案) + "-%s", getString(R.string.m200金额));
-                    setPresetChargingUi(data, scheme, getString(R.string.m192消费金额), R.drawable.charging_ele, String.valueOf(data.getEnergy()), getString(R.string.m189已充电量), R.drawable.charging_time, String.valueOf(data.getCtime()), getString(R.string.m191已充时长));
-                } else if (presetType.equals("G_SetEnergy")) {
-                    mStatusGroup.addView(presetChargingView);
-                    String scheme = String.format(getString(R.string.m198预设充电方案) + "-%s", getString(R.string.m201电量));
-                    setPresetChargingUi(data, scheme, getString(R.string.m189已充电量), R.drawable.charging_money, String.valueOf(data.getCost()), getString(R.string.m192消费金额), R.drawable.charging_time, String.valueOf(data.getCtime()), getString(R.string.m191已充时长));
-                } else {
-                    mStatusGroup.addView(presetChargingView);
-                    String scheme = String.format(getString(R.string.m198预设充电方案) + "-%s", getString(R.string.m202时长));
-                    setPresetChargingUi(data, scheme, getString(R.string.m191已充时长), R.drawable.charging_time, String.valueOf(data.getCost()), getString(R.string.m192消费金额), R.drawable.charging_ele, String.valueOf(data.getCtime()), getString(R.string.m189已充电量));
-                }
-
-
-                break;
-
-            case GunBean.FINISHING:
-                int timeFinishing = data.getCtime();
-                int hourFinishing = timeFinishing / 60;
-                int minFinishing = timeFinishing % 60;
-                String sTimeFinishing = hourFinishing + "h" + minFinishing + "min";
-                mStatusGroup.addView(chargeFinishView);
-                tvFinishEle.setText(String.valueOf(data.getEnergy()) + "kWh");
-                tvFinishRate.setText(String.valueOf(data.getRate()));
-                tvFinishTime.setText(sTimeFinishing);
-                tvFinishMoney.setText(String.valueOf(data.getCost()));
-                stopAnim();
-                MyUtil.showAllView(llBottomGroup);
-                setChargGunUi(R.drawable.charging_available, getString(R.string.m120充电结束), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_start_charging, "充电");
-                break;
-
-            case GunBean.EXPIRY:
-                mStatusGroup.addView(chargeExpiryView);
-                setChargGunUi(R.drawable.charging_available, getString(R.string.m118充电中), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_stop_charging, "已经注销");
-                MyUtil.hideAllView(View.GONE, llBottomGroup);
-                break;
-            case GunBean.FAULTED:
-                hideAnim();
-                mStatusGroup.addView(chargeFaultedView);
-                setChargGunUi(R.drawable.charging_faulted, getString(R.string.m121故障), ContextCompat.getColor(this, R.color.red_faulted), R.drawable.btn_stop_charging, "故障");
-                MyUtil.showAllView(llBottomGroup);
-                break;
-
-            case GunBean.UNAVAILABLE:
-                hideAnim();
-                mStatusGroup.addView(chargeUnvailableView);
-                setChargGunUi(R.drawable.charging_unavailable, getString(R.string.m122不可用), ContextCompat.getColor(this, R.color.title_3), R.drawable.btn_start_charging, "不可用");
-                MyUtil.showAllView(llBottomGroup);
-                break;
-            case GunBean.WORK:
-                hideAnim();
-                mStatusGroup.addView(chargeWorkedView);
-                setChargGunUi(R.drawable.charging_available, getString(R.string.m126已经工作过), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_start_charging, "充电");
-                MyUtil.hideAllView(View.GONE, llBottomGroup);
-                break;
-
-            case GunBean.ACCEPTED:
-                hideAnim();
-                mStatusGroup.addView(chargeAcceptedView);
-                setChargGunUi(R.drawable.charging_available, getString(R.string.m125启用中), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_stop_charging, "已经注销");
-                MyUtil.hideAllView(View.GONE, llBottomGroup);
-                break;
-        }
-
-
     }
 
+
+    private void gunPrepareInfoByLastAction(GunBean gunBean) {
+        //最后一次操作
+        GunBean.LastActionBean actionBean = gunBean.getActionBean();
+        if (Cons.mCurrentPile.getType() == 0) {//桩主
+            if (actionBean == null) {  //没有操作过
+                isReservation = false;
+                presetType = 0;
+                initPresetUi();
+                initReserveUi();
+            } else {
+                String action = actionBean.getAction();
+                //直接开始充电
+                if (action.equals("remoteStartTransaction") || action.equals("remoteStopTransaction")) {
+                    isReservation = false;
+                    presetType = 0;
+                    initPresetUi();
+                    initReserveUi();
+                } else {//预约充电
+                    //预约信息
+                    isReservation = true;
+                    List<GunBean.ReserveNowBean> reserveNow = gunBean.getReserveNow();
+                    if (reserveNow.size() != 0) {
+                        //判断是什么预约
+                        String cKey = reserveNow.get(0).getCKey();
+                        if (cKey.equals("G_SetAmount")) {//金额预约
+                            presetType = 1;
+                            //先全部初始化，在设置金额预约相关
+                            initPresetUi();
+                            initReserveUi();
+                            String expiryDate = reserveNow.get(0).getExpiryDate();
+//                String expiryDate = "2018-10-26T19:13:25.000Z";
+                            reserveMoney = reserveNow.get(0).getCValue();
+                            startTime = expiryDate;
+                            setMoneyUi(true, String.valueOf(reserveMoney));
+                            setReserveUi(getString(R.string.m204开始时间), getString(R.string.m183开启), R.drawable.checkbox_on, expiryDate.substring(11, 16), true);
+
+                        } else if (cKey.equals("G_SetEnergy")) {//电量预约
+                            presetType = 2;
+                            initPresetUi();
+                            initReserveUi();
+                            String expiryDate = reserveNow.get(0).getExpiryDate();
+                            reserveEle = reserveNow.get(0).getCValue();
+                            startTime = expiryDate;
+                            setEleUi(true, String.valueOf(reserveEle));
+                            setReserveUi(getString(R.string.m204开始时间), getString(R.string.m183开启), R.drawable.checkbox_on, expiryDate.substring(11, 16), true);
+                        } else if (cKey.equals("G_SetTime")) {//时间段预约
+                            presetType = 3;
+                            initPresetUi();
+                            initReserveUi();
+                            StringBuilder stringBuilder = new StringBuilder();
+                            //显示多个时间段
+                            int duration = 0;
+                            for (int i = 0; i < reserveNow.size(); i++) {
+                                GunBean.ReserveNowBean bean = reserveNow.get(i);
+                                String expiryDate = bean.getExpiryDate();//开始时间
+                                String endDate = null;
+                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                                try {
+                                    if (!TextUtils.isEmpty(expiryDate)) {
+                                        Date startDate = sdf.parse(expiryDate);
+                                        long endDateValue = (long) (startDate.getTime() + bean.getCValue() * 60 * 1000);
+                                        Date endTime = new Date(endDateValue);
+                                        endDate = sdf.format(endTime);
+                                    }
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                if (!TextUtils.isEmpty(expiryDate)) {
+                                    String start = expiryDate.substring(11, 16);
+                                    String end = endDate.substring(11, 16);
+                                    stringBuilder.append(start).append("~").append(end);
+                                    if (i != reserveNow.size() - 1) {
+                                        stringBuilder.append(",");
+                                    }
+                                    duration += bean.getCValue();
+                                }
+                            }
+                            //显示累计时长
+                            int hour = duration / 60;
+                            int min = duration % 60;
+                            String sTime = hour + "h" + min + "min";
+                            setTimeUi(true, sTime);
+                            setReserveUi(getString(R.string.m预约时间段), getString(R.string.m183开启), R.drawable.checkbox_on, stringBuilder.toString(), false);
+
+                        } else {//只预约了开始时间
+                            presetType = 0;
+                            initPresetUi();
+                            initReserveUi();
+                            String expiryDate = reserveNow.get(0).getExpiryDate();
+                            setReserveUi(getString(R.string.m204开始时间), getString(R.string.m183开启), R.drawable.checkbox_on, expiryDate.substring(11, 16), true);
+                        }
+                    }
+                }
+            }
+        } else {//非桩主
+            isReservation = false;
+            initPresetUi();
+            initReserveUi();
+            MyUtil.hideAllView(View.GONE, rlReserve, llReserve);
+        }
+    }
+
+
+    /**
+     * 设置预设充电时，充电中的ui
+     *
+     * @param data
+     * @param scheme
+     * @param type
+     * @param resOther
+     * @param otherValue
+     * @param otherText
+     * @param resOhter2
+     * @param otherValue2
+     * @param otherText2
+     */
     private void setPresetChargingUi(GunBean.DataBean data, String scheme, String type, int resOther, String otherValue, String otherText, int resOhter2, String otherValue2, String otherText2) {
         tvPresetText.setText(scheme);
         tvPresetValue.setText(String.valueOf(data.getcValue()));
@@ -1177,6 +1318,7 @@ public class ChargingPileActivity extends BaseActivity {
                 Map<String, Object> jsonMap = new HashMap<String, Object>();
                 jsonMap.put("sn", bean.getChargeId());
                 jsonMap.put("userId", bean.getUserId());
+                jsonMap.put("lan", getLanguage());
                 String json = SmartHomeUtil.mapToJsonString(jsonMap);
                 LogUtil.i(json);
                 PostUtil.postJson(SmartHomeUrlUtil.REQUEST_DELETE_CHARGING, json, new PostUtil.postListener() {
@@ -1251,10 +1393,15 @@ public class ChargingPileActivity extends BaseActivity {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (position != Cons.mCurrentGunBeanId) {
                     Cons.mCurrentGunBeanId = position;
-                    String name = popGunAdapter.getData().get(position).getName();
+                    String name;
+                    if (position == 0) {
+                        name = getString(R.string.m110A枪);
+                    } else {
+                        name = getString(R.string.m111B枪);
+                    }
                     tvSwitchGun.setText(name);
                     //刷新充电枪
-                    freshChargingGun(Cons.mCurrentPile.getChargeId(), Cons.mCurrentGunBeanId, normalRefreshTime);
+                    freshChargingGun(Cons.mCurrentPile.getChargeId(), Cons.mCurrentGunBeanId);
                 }
             }
         });
@@ -1389,6 +1536,7 @@ public class ChargingPileActivity extends BaseActivity {
         jsonMap.put("connectorId", Cons.mCurrentGunBeanId);
         jsonMap.put("userId", Cons.userBean.getId());
         jsonMap.put("chargeId", Cons.mCurrentPile.getChargeId());
+        jsonMap.put("lan", getLanguage());
         if (type != 0) {
             jsonMap.put("cKey", key);
             jsonMap.put("cValue", value);
@@ -1425,9 +1573,9 @@ public class ChargingPileActivity extends BaseActivity {
 
             @Override
             public void sendMsgByTime(Handler handler) {
-                freshChargingGun(Cons.mCurrentPile.getChargeId(), Cons.mCurrentGunBeanId, normalRefreshTime);
+                freshChargingGun(Cons.mCurrentPile.getChargeId(), Cons.mCurrentGunBeanId);
             }
-        }, normalRefreshTime);
+        }, 3000);
     }
 
 
@@ -1444,6 +1592,7 @@ public class ChargingPileActivity extends BaseActivity {
         jsonMap.put("userId", Cons.userBean.getId());
         jsonMap.put("chargeId", Cons.mCurrentPile.getChargeId());
         jsonMap.put("transactionId", transactionId);
+        jsonMap.put("lan", getLanguage());
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         LogUtil.i(json);
         PostUtil.postJson(SmartHomeUrlUtil.REQUEST_RESEERVE_CHARGING, json, new PostUtil.JsonListener() {
@@ -1474,9 +1623,9 @@ public class ChargingPileActivity extends BaseActivity {
             @Override
             public void sendMsgByTime(Handler handler) {
                 //请求成功后5秒钟刷新状态
-                freshChargingGun(Cons.mCurrentPile.getChargeId(), Cons.mCurrentGunBeanId, normalRefreshTime);
+                freshChargingGun(Cons.mCurrentPile.getChargeId(), Cons.mCurrentGunBeanId);
             }
-        }, normalRefreshTime);
+        }, 3000);
     }
 
 
@@ -1494,6 +1643,7 @@ public class ChargingPileActivity extends BaseActivity {
         jsonMap.put("chargeId", Cons.mCurrentPile.getChargeId());
         jsonMap.put("userId", Cons.userBean.getId());
         jsonMap.put("loopType", loopType);
+        jsonMap.put("lan", getLanguage());
         if (loopType.equals("0")) {
             String loopValue = expiryDate.substring(11, 16);
             jsonMap.put("loopValue", loopValue);
@@ -1627,6 +1777,7 @@ public class ChargingPileActivity extends BaseActivity {
      */
 
     private void startAnim() {
+        MyUtil.hideAllView(View.GONE, ivfinishBackground);
         MyUtil.showAllView(ivAnim);
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.pile_charging);
         ivAnim.startAnimation(animation);
@@ -1636,9 +1787,10 @@ public class ChargingPileActivity extends BaseActivity {
      * 完成充电
      */
     private void stopAnim() {
-        MyUtil.showAllView(ivAnim);
+        MyUtil.hideAllView(View.GONE);
+        MyUtil.showAllView(ivfinishBackground);
         ivAnim.clearAnimation();
-        ivAnim.setImageResource(R.drawable.charging_finish_anim);
+        ivfinishBackground.setImageResource(R.drawable.charging_finish_anim);
     }
 
     /**
@@ -1646,7 +1798,7 @@ public class ChargingPileActivity extends BaseActivity {
      */
     private void hideAnim() {
         ivAnim.clearAnimation();
-        MyUtil.hideAllView(View.GONE, ivAnim);
+        MyUtil.hideAllView(View.GONE, ivAnim, ivfinishBackground);
     }
 
     /**

@@ -23,7 +23,7 @@ public class GunBean {
     private int code;
     private DataBean data;
     private List<ReserveNowBean> ReserveNow = new ArrayList<>();
-    private LastAction actionBean;
+    private LastActionBean LastAction;
 
     public int getCode() {
         return code;
@@ -49,12 +49,12 @@ public class GunBean {
         this.ReserveNow = ReserveNow;
     }
 
-    public LastAction getActionBean() {
-        return actionBean;
+    public LastActionBean getActionBean() {
+        return LastAction;
     }
 
-    public void setActionBean(LastAction actionBean) {
-        this.actionBean = actionBean;
+    public void setActionBean(LastActionBean actionBean) {
+        this.LastAction = actionBean;
     }
 
     public static class DataBean {
@@ -275,7 +275,7 @@ public class GunBean {
         }
     }
 
-    public static class LastAction {
+    public static class LastActionBean {
         private String action;
         private String expiryDate;
         private int connectorId;
@@ -285,6 +285,10 @@ public class GunBean {
         private String loopValue;
         private long actionTime;
         private String transactionId;
+        private String cKey;
+        private double cValue;
+        private int lan;
+
 
         public String getAction() {
             return action;
@@ -356,6 +360,30 @@ public class GunBean {
 
         public void setTransactionId(String transactionId) {
             this.transactionId = transactionId;
+        }
+
+        public String getcKey() {
+            return cKey;
+        }
+
+        public void setcKey(String cKey) {
+            this.cKey = cKey;
+        }
+
+        public double getcValue() {
+            return cValue;
+        }
+
+        public void setcValue(double cValue) {
+            this.cValue = cValue;
+        }
+
+        public int getLan() {
+            return lan;
+        }
+
+        public void setLan(int lan) {
+            this.lan = lan;
         }
     }
 

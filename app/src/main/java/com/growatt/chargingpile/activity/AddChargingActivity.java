@@ -109,6 +109,7 @@ public class AddChargingActivity extends BaseActivity {
         Map<String, Object> jsonMap = new LinkedHashMap<String, Object>();
         jsonMap.put("userId", Cons.userBean.getId());
         jsonMap.put("sn", sn);
+        jsonMap.put("lan",getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         LogUtil.i(json);
         PostUtil.postJson(SmartHomeUrlUtil.ADD_CHARGING, json, new PostUtil.postListener() {
