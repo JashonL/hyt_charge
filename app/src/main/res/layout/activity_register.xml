@@ -276,7 +276,6 @@
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/textView4"
                     android:button="@drawable/selector_checkbox_bg_white"
-                    android:checked="true"
                     android:scaleX="0.8"
                     android:scaleY="0.8"
                     android:textColor="@color/headerView"

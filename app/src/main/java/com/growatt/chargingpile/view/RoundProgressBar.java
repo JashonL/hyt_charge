@@ -103,18 +103,18 @@ public class RoundProgressBar extends View {
 		float textWidth = paint.measureText(percent + "%");   //���������ȣ�������Ҫ��������Ŀ��������Բ���м�
 		
 		if(textIsDisplayable && percent != 0 && style == STROKE){
-//			canvas.drawText(percent + "%", centre - textWidth / 2, centre + textSize/2, paint); //�������Ȱٷֱ�
+			canvas.drawText(percent + "%", centre - textWidth / 2, centre + textSize/2, paint);
 		}
 		
 		
 		/**
 		 */
 		
-		//���ý�����ʵ�Ļ��ǿ���
-		paint.setStrokeWidth(roundWidth); //����Բ���Ŀ��
-		paint.setColor(roundProgressColor);  //���ý��ȵ���ɫ
+
+		paint.setStrokeWidth(roundWidth);
+		paint.setColor(roundProgressColor);
 		RectF oval = new RectF(centre - radius, centre - radius, centre
-				+ radius, centre + radius);  //���ڶ����Բ������״�ʹ�С�Ľ���
+				+ radius, centre + radius);
 		
 		switch (style) {
 		case STROKE:{

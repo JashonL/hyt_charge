@@ -1,6 +1,7 @@
 package com.growatt.chargingpile.adapter;
 
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
@@ -41,14 +42,20 @@ public class TimingAdapter extends BaseQuickAdapter<ReservationBean.DataBean, Ba
             long endDateValue = startDate.getTime() + cValue * 60 * 1000;
             Date endTime = new Date(endDateValue);
             endDate = sdf.format(endTime);
+            item.setLoopValue(expiryDate.substring(11, 16));
         } catch (ParseException e) {
             e.printStackTrace();
         }
         final int hour = cValue / 60;
         int min = cValue % 60;
         String status = item.getStatus();
-        helper.setText(R.id.tv_start_time, expiryDate.substring(11, 16));
-        helper.setText(R.id.tv_stop_time, endDate.substring(11, 16));
+
+        if (!TextUtils.isEmpty(expiryDate)){
+            helper.setText(R.id.tv_start_time, expiryDate.substring(11, 16));
+        }
+        if (!TextUtils.isEmpty(endDate)){
+            helper.setText(R.id.tv_stop_time, endDate.substring(11, 16));
+        }
         helper.setText(R.id.tvDuration, hour + "h" + min + "min");
         if (status.equals("Accepted")) {
             helper.setChecked(R.id.cb_switch, true);

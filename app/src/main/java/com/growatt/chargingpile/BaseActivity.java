@@ -137,7 +137,6 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
     }
 
     /**
-     * ��ȡϵͳ����
      *
      * @return
      */

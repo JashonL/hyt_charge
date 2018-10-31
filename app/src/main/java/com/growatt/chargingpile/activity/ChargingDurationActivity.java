@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -17,6 +18,7 @@ import com.growatt.chargingpile.adapter.TimingAdapter;
 import com.growatt.chargingpile.bean.ReservationBean;
 import com.growatt.chargingpile.connutil.PostUtil;
 import com.growatt.chargingpile.util.Cons;
+import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
 import com.growatt.chargingpile.util.SmartHomeUtil;
@@ -39,6 +41,8 @@ public class ChargingDurationActivity extends BaseActivity {
     @BindView(R.id.headerView)
     View headerView;
 
+    @BindView(R.id.ll_duration)
+    LinearLayout llDuration;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.tv_total_time)
@@ -117,17 +121,23 @@ public class ChargingDurationActivity extends BaseActivity {
     }
 
     private void setTotal(List<ReservationBean.DataBean> reserveList) {
-        int total = 0;
-        for (int i = 0; i < reserveList.size(); i++) {
-            ReservationBean.DataBean dataBean = reserveList.get(i);
-            int cValue = dataBean.getCValue();
-            total += cValue;
+        if (reserveList.size() <= 0) {
+            MyUtil.hideAllView(View.GONE, llDuration);
+        } else {
+            MyUtil.showAllView(llDuration);
+            int total = 0;
+            for (int i = 0; i < reserveList.size(); i++) {
+                ReservationBean.DataBean dataBean = reserveList.get(i);
+                int cValue = dataBean.getCValue();
+                total += cValue;
+            }
+            int hour = total / 60;
+            int minute = total % 60;
+            String time = hour + "h" + minute + "min";
+            tvTotal.setText(time);
+            totalMinute = total;
         }
-        int hour = total / 60;
-        int minute = total % 60;
-        String time = hour + "h" + minute + "min";
-        tvTotal.setText(time);
-        totalMinute = total;
+
     }
 
 

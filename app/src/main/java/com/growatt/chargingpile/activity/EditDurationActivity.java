@@ -165,7 +165,7 @@ public class EditDurationActivity extends BaseActivity {
                         toast(getString(R.string.m请选择正确的时间段));
                     }
                 } else {
-                    if (duration < 0) {
+                    if (duration <=0) {
                         toast(getString(R.string.m请选择正确的时间段));
                         return;
                     }

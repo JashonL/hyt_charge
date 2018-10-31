@@ -23,6 +23,7 @@ public class GunBean {
     private int code;
     private DataBean data;
     private List<ReserveNowBean> ReserveNow = new ArrayList<>();
+    private LastAction actionBean;
 
     public int getCode() {
         return code;
@@ -48,6 +49,14 @@ public class GunBean {
         this.ReserveNow = ReserveNow;
     }
 
+    public LastAction getActionBean() {
+        return actionBean;
+    }
+
+    public void setActionBean(LastAction actionBean) {
+        this.actionBean = actionBean;
+    }
+
     public static class DataBean {
         private String order_status;
         private double current;
@@ -61,6 +70,25 @@ public class GunBean {
         private double voltage;
         private int connectorId = 1;
         private String name;
+        private String cKey;
+        private double cValue;
+
+
+        public String getcKey() {
+            return cKey;
+        }
+
+        public void setcKey(String cKey) {
+            this.cKey = cKey;
+        }
+
+        public double getcValue() {
+            return cValue;
+        }
+
+        public void setcValue(int cValue) {
+            this.cValue = cValue;
+        }
 
         public String getOrder_status() {
             return order_status;
@@ -247,8 +275,88 @@ public class GunBean {
         }
     }
 
-    public static class LastAction{
+    public static class LastAction {
+        private String action;
+        private String expiryDate;
+        private int connectorId;
+        private String chargeId;
+        private String userId;
+        private String loopType;
+        private String loopValue;
+        private long actionTime;
+        private String transactionId;
 
+        public String getAction() {
+            return action;
+        }
+
+        public void setAction(String action) {
+            this.action = action;
+        }
+
+        public String getExpiryDate() {
+            return expiryDate;
+        }
+
+        public void setExpiryDate(String expiryDate) {
+            this.expiryDate = expiryDate;
+        }
+
+        public int getConnectorId() {
+            return connectorId;
+        }
+
+        public void setConnectorId(int connectorId) {
+            this.connectorId = connectorId;
+        }
+
+        public String getChargeId() {
+            return chargeId;
+        }
+
+        public void setChargeId(String chargeId) {
+            this.chargeId = chargeId;
+        }
+
+        public String getUserId() {
+            return userId;
+        }
+
+        public void setUserId(String userId) {
+            this.userId = userId;
+        }
+
+        public String getLoopType() {
+            return loopType;
+        }
+
+        public void setLoopType(String loopType) {
+            this.loopType = loopType;
+        }
+
+        public String getLoopValue() {
+            return loopValue;
+        }
+
+        public void setLoopValue(String loopValue) {
+            this.loopValue = loopValue;
+        }
+
+        public long getActionTime() {
+            return actionTime;
+        }
+
+        public void setActionTime(long actionTime) {
+            this.actionTime = actionTime;
+        }
+
+        public String getTransactionId() {
+            return transactionId;
+        }
+
+        public void setTransactionId(String transactionId) {
+            this.transactionId = transactionId;
+        }
     }
 
 }

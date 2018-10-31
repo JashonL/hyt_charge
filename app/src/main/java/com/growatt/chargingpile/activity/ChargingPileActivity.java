@@ -45,6 +45,7 @@ import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
 import com.growatt.chargingpile.util.SmartHomeUtil;
+import com.growatt.chargingpile.view.RoundProgressBar;
 import com.mylhyl.circledialog.CircleDialog;
 
 import org.json.JSONObject;
@@ -154,13 +155,30 @@ public class ChargingPileActivity extends BaseActivity {
     private LinearLayout llReserve;
 
     //--------------充电中---------------
-    private View chargingView;
+    //正常充电
+    private View normalChargingView;
     private TextView tvChargingEle;
     private TextView tvChargingRate;
     private TextView tvChargingCurrent;
     private TextView tvChargingDuration;
     private TextView tvChargingMoney;
     private TextView tvChargingVoltage;
+    //预设方案充电
+    private View presetChargingView;
+    private TextView tvPresetText;
+    private TextView tvPresetValue;
+    private TextView tvChargingValue;
+    private TextView tvPresetType;
+    private RoundProgressBar roundProgressBar;
+    private ImageView ivChargedOther;
+    private TextView tvOtherValue;
+    private TextView tvOtherText;
+    private ImageView ivChargedOther2;
+    private TextView tvOtherValue2;
+    private TextView tvOtherText2;
+    private TextView tvRate;
+    private TextView tvCurrent;
+    private TextView tvVoltage;
 
 
     private int transactionId;//充电编号，停止充电时用
@@ -444,13 +462,30 @@ public class ChargingPileActivity extends BaseActivity {
      * 充电中
      */
     private void initChargingView() {
-        chargingView = LayoutInflater.from(this).inflate(R.layout.status_charging_normal_layout, mStatusGroup, false);
-        tvChargingEle = chargingView.findViewById(R.id.tv_charging_ele);
-        tvChargingRate = chargingView.findViewById(R.id.tv_charging_rate);
-        tvChargingCurrent = chargingView.findViewById(R.id.tv_charging_current);
-        tvChargingDuration = chargingView.findViewById(R.id.tv_charging_duration);
-        tvChargingMoney = chargingView.findViewById(R.id.tv_charging_money);
-        tvChargingVoltage = chargingView.findViewById(R.id.tv_current_voltage);
+        normalChargingView = LayoutInflater.from(this).inflate(R.layout.status_charging_normal_layout, mStatusGroup, false);
+        tvChargingEle = normalChargingView.findViewById(R.id.tv_charging_ele);
+        tvChargingRate = normalChargingView.findViewById(R.id.tv_charging_rate);
+        tvChargingCurrent = normalChargingView.findViewById(R.id.tv_charging_current);
+        tvChargingDuration = normalChargingView.findViewById(R.id.tv_charging_duration);
+        tvChargingMoney = normalChargingView.findViewById(R.id.tv_charging_money);
+        tvChargingVoltage = normalChargingView.findViewById(R.id.tv_current_voltage);
+
+        presetChargingView = LayoutInflater.from(this).inflate(R.layout.status_charging_preset_layout, mStatusGroup, false);
+        tvPresetText = presetChargingView.findViewById(R.id.tv_preset_text);
+        tvPresetValue = presetChargingView.findViewById(R.id.tv_preset_value);
+        tvChargingValue = presetChargingView.findViewById(R.id.tv_charging_value);
+        tvPresetType = presetChargingView.findViewById(R.id.tv_preset_type);
+        roundProgressBar = presetChargingView.findViewById(R.id.roundProgressBar1);
+        ivChargedOther = presetChargingView.findViewById(R.id.icon_charged_other);
+        tvOtherValue = presetChargingView.findViewById(R.id.tv_other_value);
+        tvOtherText = presetChargingView.findViewById(R.id.tv_other_text);
+        ivChargedOther2 = presetChargingView.findViewById(R.id.icon_charged_other_2);
+        tvOtherValue2 = presetChargingView.findViewById(R.id.tv_other_value_2);
+        tvOtherText2 = presetChargingView.findViewById(R.id.tv_other_text_2);
+        tvRate = presetChargingView.findViewById(R.id.tv_rate);
+        tvCurrent = presetChargingView.findViewById(R.id.tv_current);
+        tvVoltage = presetChargingView.findViewById(R.id.tv_voltage);
+
     }
 
 
@@ -608,7 +643,7 @@ public class ChargingPileActivity extends BaseActivity {
             @Override
             public void sendMsgByTime(Handler handler) {
                 LogUtil.d("============刷新机制=========" + "\n" + "刷新变量：" + needRefresh + "   是否在刷新中：" + isFreshing + "   当前状态：" + Cons.mCurrentGunBean.getData().getStatus() + "  上一个状态：" + previous);
-                if (needRefresh && !isFreshing) {
+            /*    if (needRefresh && !isFreshing) {
                     int time;
                     if (Cons.mCurrentGunBean.getData().getStatus().equals(GunBean.CHARGING)) {//如果是在充电中那就5分钟刷新一次
                         time = 5 * 60 * 1000;
@@ -616,7 +651,7 @@ public class ChargingPileActivity extends BaseActivity {
                         time = 50 * 1000;
                     }
                     freshChargingGun(chargingId, connectorId, time);
-                }
+                }*/
             }
         }, millis);
 
@@ -677,21 +712,24 @@ public class ChargingPileActivity extends BaseActivity {
                         String endDate = null;
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
                         try {
-                            Date startDate = sdf.parse(expiryDate);
-                            long endDateValue = (long) (startDate.getTime() + bean.getCValue() * 60 * 1000);
-                            Date endTime = new Date(endDateValue);
-                            endDate = sdf.format(endTime);
+                            if (!TextUtils.isEmpty(expiryDate)) {
+                                Date startDate = sdf.parse(expiryDate);
+                                long endDateValue = (long) (startDate.getTime() + bean.getCValue() * 60 * 1000);
+                                Date endTime = new Date(endDateValue);
+                                endDate = sdf.format(endTime);
+                            }
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
-
-                        String start = expiryDate.substring(11, 16);
-                        String end = endDate.substring(11, 16);
-                        stringBuilder.append(start).append("~").append(end);
-                        if (i != reserveNow.size() - 1) {
-                            stringBuilder.append(",");
+                        if (!TextUtils.isEmpty(expiryDate)) {
+                            String start = expiryDate.substring(11, 16);
+                            String end = endDate.substring(11, 16);
+                            stringBuilder.append(start).append("~").append(end);
+                            if (i != reserveNow.size() - 1) {
+                                stringBuilder.append(",");
+                            }
+                            duration += bean.getCValue();
                         }
-                        duration += bean.getCValue();
                     }
                     //显示累计时长
                     int hour = duration / 60;
@@ -755,16 +793,33 @@ public class ChargingPileActivity extends BaseActivity {
                 int hourCharging = timeCharging / 60;
                 int minCharging = timeCharging % 60;
                 String sTimeCharging = hourCharging + "h" + minCharging + "min";
-                mStatusGroup.addView(chargingView);
                 setChargGunUi(R.drawable.charging_available, getString(R.string.m118充电中), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_stop_charging, "停止充电");
                 MyUtil.showAllView(llBottomGroup);
-                tvChargingEle.setText(String.valueOf(data.getEnergy()) + "kWh");
-                tvChargingRate.setText(String.valueOf(data.getRate()));
-                tvChargingCurrent.setText(String.valueOf(data.getCurrent() + "A"));
-                tvChargingDuration.setText(sTimeCharging);
-                tvChargingMoney.setText(String.valueOf(data.getCost()));
-                tvChargingVoltage.setText(String.valueOf(data.getVoltage()) + "V");
                 startAnim();
+                String presetType = data.getcKey();
+                if (presetType.equals("0")) {
+                    mStatusGroup.addView(normalChargingView);
+                    tvChargingEle.setText(String.valueOf(data.getEnergy()) + "kWh");
+                    tvChargingRate.setText(String.valueOf(data.getRate()));
+                    tvChargingCurrent.setText(String.valueOf(data.getCurrent() + "A"));
+                    tvChargingDuration.setText(sTimeCharging);
+                    tvChargingMoney.setText(String.valueOf(data.getCost()));
+                    tvChargingVoltage.setText(String.valueOf(data.getVoltage()) + "V");
+                } else if (presetType.equals("G_SetAmount")) {
+                    mStatusGroup.addView(presetChargingView);
+                    String scheme = String.format(getString(R.string.m198预设充电方案) + "-%s", getString(R.string.m200金额));
+                    setPresetChargingUi(data, scheme, getString(R.string.m192消费金额), R.drawable.charging_ele, String.valueOf(data.getEnergy()), getString(R.string.m189已充电量), R.drawable.charging_time, String.valueOf(data.getCtime()), getString(R.string.m191已充时长));
+                } else if (presetType.equals("G_SetEnergy")) {
+                    mStatusGroup.addView(presetChargingView);
+                    String scheme = String.format(getString(R.string.m198预设充电方案) + "-%s", getString(R.string.m201电量));
+                    setPresetChargingUi(data, scheme, getString(R.string.m189已充电量), R.drawable.charging_money, String.valueOf(data.getCost()), getString(R.string.m192消费金额), R.drawable.charging_time, String.valueOf(data.getCtime()), getString(R.string.m191已充时长));
+                } else {
+                    mStatusGroup.addView(presetChargingView);
+                    String scheme = String.format(getString(R.string.m198预设充电方案) + "-%s", getString(R.string.m202时长));
+                    setPresetChargingUi(data, scheme, getString(R.string.m191已充时长), R.drawable.charging_time, String.valueOf(data.getCost()), getString(R.string.m192消费金额), R.drawable.charging_ele, String.valueOf(data.getCtime()), getString(R.string.m189已充电量));
+                }
+
+
                 break;
 
             case GunBean.FINISHING:
@@ -816,6 +871,30 @@ public class ChargingPileActivity extends BaseActivity {
         }
 
 
+    }
+
+    private void setPresetChargingUi(GunBean.DataBean data, String scheme, String type, int resOther, String otherValue, String otherText, int resOhter2, String otherValue2, String otherText2) {
+        tvPresetText.setText(scheme);
+        tvPresetValue.setText(String.valueOf(data.getcValue()));
+        tvChargingValue.setText(String.valueOf(data.getCost()));
+        tvPresetType.setText(type);
+
+        ivChargedOther.setImageResource(resOther);
+        tvOtherValue.setText(otherValue);
+        tvOtherText.setText(otherText);
+
+        ivChargedOther2.setImageResource(resOhter2);
+        tvOtherValue2.setText(otherValue2);
+        tvOtherText2.setText(otherText2);
+        if (data.getcValue() > 0) {
+            roundProgressBar.setMax((int) data.getcValue());
+        }
+        roundProgressBar.setProgress((int) data.getCost());
+        roundProgressBar.setTextSize(getResources().getDimensionPixelSize(R.dimen.xa26));
+
+        tvRate.setText(String.valueOf(data.getRate()));
+        tvCurrent.setText(String.valueOf(data.getCurrent()));
+        tvVoltage.setText(String.valueOf(data.getVoltage()));
     }
 
 

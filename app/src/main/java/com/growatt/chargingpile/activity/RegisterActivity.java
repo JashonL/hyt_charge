@@ -1,6 +1,7 @@
 package com.growatt.chargingpile.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -93,6 +94,7 @@ public class RegisterActivity extends BaseActivity {
     public void toRegister(View view) {
         switch (view.getId()) {
             case R.id.textView4:
+                startActivity(new Intent(this,AgreementActivity.class));
                 break;
             case R.id.btRegister:
                 try {

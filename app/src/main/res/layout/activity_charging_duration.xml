@@ -9,6 +9,7 @@
     <include layout="@layout/header_view_title"/>
 
     <LinearLayout
+        android:id="@+id/ll_duration"
         android:paddingLeft="@dimen/xa35"
         android:gravity="center_vertical"
         android:orientation="horizontal"

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-
     android:layout_height="match_parent">
 
 
@@ -198,5 +197,26 @@
 
     </RelativeLayout>
 
+
+    <RelativeLayout
+        android:id="@+id/ll_tip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/ll_charged_money"
+        android:layout_marginLeft="@dimen/xa27"
+        android:layout_marginRight="@dimen/xa27"
+        android:layout_marginTop="@dimen/xa30"
+        android:background="@drawable/shape_white_corner_bg">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/m195充电结束提示拔枪"
+            android:textColor="@color/title_3"
+            android:textSize="@dimen/xa28"
+            />
+
+    </RelativeLayout>
 
 </RelativeLayout>
