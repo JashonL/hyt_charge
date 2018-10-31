@@ -201,7 +201,6 @@ public class ChargingPileActivity extends BaseActivity {
 
     private int normalRefreshTime = 5000;
 
-    private int chargingRefreshTime = 10 * 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -554,10 +553,9 @@ public class ChargingPileActivity extends BaseActivity {
         } else {
             tvGun.setText(getString(R.string.m111B枪));
         }
-
 //        connectorId = 1;
         //根据选中项刷新充电桩的充电枪,默认刷新A枪
-        freshChargingGun(dataBean.getChargeId(), gunId);
+        freshChargingGun(dataBean.getChargeId(), gunId, normalRefreshTime);
     }
 
     /**
@@ -565,9 +563,10 @@ public class ChargingPileActivity extends BaseActivity {
      * 参数
      * chargingId 充电桩的id
      * connectorId 充电枪的id
+     * millis 几秒后刷新
      */
 
-    private void freshChargingGun(final String chargingId, final int connectorId) {
+    private void freshChargingGun(final String chargingId, final int connectorId, final int millis) {
         Mydialog.Show(this);
         isFreshing = true;
         Map<String, Object> jsonMap = new HashMap<String, Object>();
@@ -605,21 +604,21 @@ public class ChargingPileActivity extends BaseActivity {
                 isFreshing = false;
             }
 
+            //到达指定时间时会执行这个方法，判断是否需要刷新在这里操作
             @Override
             public void sendMsgByTime(Handler handler) {
+                LogUtil.d("============刷新机制=========" + "\n" + "刷新变量：" + needRefresh + "   是否在刷新中：" + isFreshing + "   当前状态：" + Cons.mCurrentGunBean.getData().getStatus() + "  上一个状态：" + previous);
                 if (needRefresh && !isFreshing) {
-                    freshChargingGun(chargingId, connectorId);
+                    int time;
+                    if (Cons.mCurrentGunBean.getData().getStatus().equals(GunBean.CHARGING)) {//如果是在充电中那就5分钟刷新一次
+                        time = 5 * 60 * 1000;
+                    } else {//其他都是正常刷新
+                        time = 50 * 1000;
+                    }
+                    freshChargingGun(chargingId, connectorId, time);
                 }
-               /* if (Cons.mCurrentGunBean != null && Cons.mCurrentGunBean.getData().getStatus().equals(GunBean.CHARGING)) {
-                    handler.sendEmptyMessageDelayed(3, chargingRefreshTime);
-                    LogUtil.d("充电中刷新");
-                } else {
-                    LogUtil.d("普通刷新");
-                    handler.sendEmptyMessageDelayed(3, normalRefreshTime);
-                }*/
-
             }
-        }, normalRefreshTime);
+        }, millis);
 
     }
 
@@ -723,6 +722,8 @@ public class ChargingPileActivity extends BaseActivity {
         if (!status.equals(previous) && !status.equals(GunBean.FINISHING) && !status
                 .equals(GunBean.CHARGING)) {
             needRefresh = false;
+        } else {
+            needRefresh = true;
         }
         //记录上一个状态
         previous = status;
@@ -1174,7 +1175,7 @@ public class ChargingPileActivity extends BaseActivity {
                     String name = popGunAdapter.getData().get(position).getName();
                     tvSwitchGun.setText(name);
                     //刷新充电枪
-                    freshChargingGun(Cons.mCurrentPile.getChargeId(), Cons.mCurrentGunBeanId);
+                    freshChargingGun(Cons.mCurrentPile.getChargeId(), Cons.mCurrentGunBeanId, normalRefreshTime);
                 }
             }
         });
@@ -1196,9 +1197,6 @@ public class ChargingPileActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null) {
-            /*tvPpmoney.setText("--");
-            tvPpEle.setText("--");
-            tvPpTime.setText("--");*/
             //初始化预设方案和预约的ui
             initReserveUi();
             initPresetUi();
@@ -1209,22 +1207,10 @@ public class ChargingPileActivity extends BaseActivity {
                 isReservation = false;
 
                 //设置预设方案的ui
-
                 setMoneyUi(true, money);
-
-               /* cbPpmoney.setChecked(true);
-                tvPpmoney.setText(money);*/
-
-
                 //设置预约的ui
                 startTime = null;
                 setReserveUi(getString(R.string.m204开始时间), getString(R.string.m184关闭), R.drawable.checkbox_off, "--:--", true);
-              /*  //初始化预约充电相关控件
-                tvTextStart.setText("开始时间");
-                tvTextOpenClose.setText("关闭");
-                ivResever.setImageResource(R.drawable.checkbox_off);
-                tvStartTime.setText("--:--");
-                MyUtil.showAllView(cbEveryday, tvEveryDay);*/
 
             }
             if (requestCode == REQUEST_ELE) {
@@ -1234,18 +1220,9 @@ public class ChargingPileActivity extends BaseActivity {
                 isReservation = false;
 
                 setEleUi(true, electric);
-                /*cbPpEle.setChecked(true);
-                tvPpEle.setText(electric);*/
-
                 startTime = null;
-
                 //初始化预约充电相关控件
                 setReserveUi(getString(R.string.m204开始时间), getString(R.string.m184关闭), R.drawable.checkbox_off, "--:--", true);
-               /* tvTextStart.setText("开始时间");
-                tvTextOpenClose.setText("关闭");
-                ivResever.setImageResource(R.drawable.checkbox_off);
-                tvStartTime.setText("--:--");
-                MyUtil.showAllView(cbEveryday, tvEveryDay);*/
             }
             if (requestCode == REQUEST_TIME) {
                 String hour = data.getStringExtra("hour");
@@ -1254,21 +1231,10 @@ public class ChargingPileActivity extends BaseActivity {
                 timeEvaryDay = hour + ":" + minute;
                 ReserveTime = Integer.parseInt(hour) * 60 + Integer.parseInt(minute);
                 presetType = 3;
-
                 setTimeUi(true, time);
-
-               /* tvPpTime.setText(time);
-                cbPpTime.setChecked(true);*/
-
                 //初始化预约充电相关控件
                 isReservation = false;
                 setReserveUi(getString(R.string.m预约时间段), getString(R.string.m184关闭), R.drawable.checkbox_off, "--:--", false);
-
-               /* tvTextStart.setText("预约时间段");
-                tvTextOpenClose.setText("关闭");
-                ivResever.setImageResource(R.drawable.checkbox_off);
-                tvStartTime.setText("--:--");
-                MyUtil.hideAllView(View.GONE, cbEveryday, tvEveryDay);*/
             }
             if (requestCode == REQUEST_OPEN_DURATION) {
                 refreshChargingUI(Cons.mSeletPos, Cons.mCurrentGunBeanId);
@@ -1322,9 +1288,6 @@ public class ChargingPileActivity extends BaseActivity {
                 startTime = yMd + "T" + time + ":00.000Z";
                 isReservation = true;
                 setReserveUi(getString(R.string.m204开始时间), getString(R.string.m183开启), R.drawable.checkbox_on, time, true);
-               /* tvStartTime.setText(time);
-                ivResever.setImageResource(R.drawable.checkbox_on);
-                MyUtil.showAllView(cbEveryday, tvEveryDay);*/
             }
 
             @Override
@@ -1383,7 +1346,7 @@ public class ChargingPileActivity extends BaseActivity {
 
             @Override
             public void sendMsgByTime(Handler handler) {
-                freshChargingGun(Cons.mCurrentPile.getChargeId(), Cons.mCurrentGunBeanId);
+                freshChargingGun(Cons.mCurrentPile.getChargeId(), Cons.mCurrentGunBeanId, normalRefreshTime);
             }
         }, normalRefreshTime);
     }
@@ -1432,7 +1395,7 @@ public class ChargingPileActivity extends BaseActivity {
             @Override
             public void sendMsgByTime(Handler handler) {
                 //请求成功后5秒钟刷新状态
-                freshChargingGun(Cons.mCurrentPile.getChargeId(), Cons.mCurrentGunBeanId);
+                freshChargingGun(Cons.mCurrentPile.getChargeId(), Cons.mCurrentGunBeanId, normalRefreshTime);
             }
         }, normalRefreshTime);
     }
