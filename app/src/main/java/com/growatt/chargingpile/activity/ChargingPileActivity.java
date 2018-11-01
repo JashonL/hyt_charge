@@ -280,15 +280,15 @@ public class ChargingPileActivity extends BaseActivity {
      * 刷新充电桩+枪数据
      */
     private void refreshAll() {
+        if (Cons.mSeletPos > mAdapter.getData().size() - 1) {
+            Cons.mSeletPos = 0;
+        }
+        freshData(Cons.mSeletPos, Cons.mCurrentGunBeanId);
         //列表有充电桩的时候才开启定时器
         if (mAdapter.getData().size() > 0) {
             timeHandler.removeMessages(1);
             timeHandler.sendEmptyMessageDelayed(1, 10 * 1000);
         }
-        if (Cons.mSeletPos > mAdapter.getData().size() - 1) {
-            Cons.mSeletPos = 0;
-        }
-        freshData(Cons.mSeletPos, Cons.mCurrentGunBeanId);
     }
 
 
@@ -685,7 +685,7 @@ public class ChargingPileActivity extends BaseActivity {
         jsonMap.put("lan", getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         LogUtil.i(json);
-        PostUtil.postJson(SmartHomeUrlUtil.GET_CHARGING_GUN_DATA, json, new PostUtil.JsonListener() {
+        PostUtil.postJson(SmartHomeUrlUtil.GET_CHARGING_GUN_DATA, json, new PostUtil.postListener() {
             @Override
             public void Params(Map<String, String> params) {
 
@@ -714,11 +714,6 @@ public class ChargingPileActivity extends BaseActivity {
                 isFreshing = false;
             }
 
-            //到达指定时间时会执行这个方法，在这里判断是否需要刷新
-            @Override
-            public void sendMsgByTime(Handler handler) {
-
-            }
         });
 
     }
@@ -741,7 +736,7 @@ public class ChargingPileActivity extends BaseActivity {
         jsonMap.put("lan", getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         LogUtil.i(json);
-        PostUtil.postJson(SmartHomeUrlUtil.GET_CHARGING_GUN_DATA, json, new PostUtil.JsonListener() {
+        PostUtil.postJson(SmartHomeUrlUtil.GET_CHARGING_GUN_DATA, json, new PostUtil.postListener() {
             @Override
             public void Params(Map<String, String> params) {
 
@@ -770,11 +765,6 @@ public class ChargingPileActivity extends BaseActivity {
                 isFreshing = false;
             }
 
-            //到达指定时间时会执行这个方法，在这里判断是否需要刷新
-            @Override
-            public void sendMsgByTime(Handler handler) {
-
-            }
         });
 
     }
