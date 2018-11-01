@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -233,20 +235,56 @@ public class ChargingPileActivity extends BaseActivity {
         initPullView();
         initStatusView();
         initResource();
-        freshData(0, 1);
+//        freshData(0, 1);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshAll();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        timeHandler.removeMessages(1);
+    }
+
+    /*定时刷新机制*/
+    private boolean isTimeRefresh = false;
+    private Handler timeHandler = new Handler(Looper.getMainLooper()){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case 1:
+                    isTimeRefresh = true;
+                    refreshAll();
+                    break;
+            }
+        }
+    };
     private void initPullView() {
         srlPull.setColorSchemeColors(ContextCompat.getColor(this, R.color.green_1));
         srlPull.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (Cons.mSeletPos > mAdapter.getData().size() - 1) {
-                    Cons.mSeletPos = 0;
-                }
-                freshData(Cons.mSeletPos, Cons.mCurrentGunBeanId);
+                isTimeRefresh = false;
+                refreshAll();
             }
         });
+    }
+
+    /**
+     * 刷新充电桩+枪数据
+     */
+    private void refreshAll() {
+        timeHandler.removeMessages(1);
+        timeHandler.sendEmptyMessageDelayed(1,10*1000);
+        if (Cons.mSeletPos > mAdapter.getData().size() - 1) {
+            Cons.mSeletPos = 0;
+        }
+        freshData(Cons.mSeletPos, Cons.mCurrentGunBeanId);
     }
 
 
@@ -511,7 +549,7 @@ public class ChargingPileActivity extends BaseActivity {
      * millis
      */
     private void freshData(final int position, final int gunPosition) {
-        Mydialog.Show(this);
+        if (!isTimeRefresh) {Mydialog.Show(this);}
         isFreshing = true;
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         jsonMap.put("userId", Cons.userBean.getId());//测试id
