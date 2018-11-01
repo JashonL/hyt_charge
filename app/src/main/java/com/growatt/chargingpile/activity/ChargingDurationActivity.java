@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -28,7 +30,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.common.util.LogUtil;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -108,7 +113,7 @@ public class ChargingDurationActivity extends BaseActivity {
                     if (code == 0) {
                         ReservationBean recordBean = new Gson().fromJson(json, ReservationBean.class);
                         List<ReservationBean.DataBean> reserveList = recordBean.getData();
-                        mAdapter.replaceData(reserveList);
+                        refreshAdapter(reserveList);
                         setTotal(reserveList);
                     } else {
                         toast(data);
@@ -123,6 +128,34 @@ public class ChargingDurationActivity extends BaseActivity {
 
             }
         });
+    }
+
+    private void refreshAdapter(List<ReservationBean.DataBean> reserveList) {
+        for (int i = 0; i < reserveList.size(); i++) {
+            ReservationBean.DataBean bean = reserveList.get(i);
+            String expiryDate = bean.getExpiryDate();
+            String endDate = bean.getEndDate();
+            //获取年月
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = new Date();
+            String yMd = sdf.format(date);
+            //把时间改成今天的
+            expiryDate = yMd + "T" + expiryDate.substring(11, 16) + ":00.000Z";
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            try {
+                Date startDate = format.parse(expiryDate);
+                long sysStartTime = startDate.getTime();
+                long sysEndTime = sysStartTime + bean.getCValue() * 60 * 1000;
+                Date closeDate = new Date(sysEndTime);
+                endDate = format.format(closeDate);
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            bean.setExpiryDate(expiryDate);
+            bean.setEndDate(endDate);
+        }
+        mAdapter.replaceData(reserveList);
     }
 
     private void setTotal(List<ReservationBean.DataBean> reserveList) {
@@ -190,14 +223,31 @@ public class ChargingDurationActivity extends BaseActivity {
             }
 
             @Override
-            public void switchlistener(int position, boolean isOpen, boolean isCycle) {
+            public void switchlistener(CompoundButton buttonView, int position, boolean isOpen, boolean isCycle) {
                 ReservationBean.DataBean dataBean = mAdapter.getData().get(position);
+                String expiryDate = dataBean.getExpiryDate();
                 //开启关闭
                 if (isOpen) {
                     if (isCycle) {
                         dataBean.setLoopType(0);//勾选每天开启
                         editTime(dataBean, "1");
                     } else {
+                        Date todayDate = new Date();
+                        long daytime = todayDate.getTime();
+                        long onTime = 0;
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                        //开始的日期
+                        try {
+                            Date start = format.parse(expiryDate);
+                            onTime = start.getTime();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        if (daytime > onTime) {
+                            buttonView.setChecked(false);
+                            toast(getString(R.string.m请选择正确的时间段));
+                            return;
+                        }
                         dataBean.setLoopType(-1);
                         editTime(dataBean, "1");
                     }

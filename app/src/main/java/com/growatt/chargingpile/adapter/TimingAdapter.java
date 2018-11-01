@@ -2,6 +2,7 @@ package com.growatt.chargingpile.adapter;
 
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
@@ -49,7 +50,7 @@ public class TimingAdapter extends BaseQuickAdapter<ReservationBean.DataBean, Ba
         final int hour = cValue / 60;
         int min = cValue % 60;
         String status = item.getStatus();
-
+        Log.d("liaojinsha","结束时间："+endDate);
         if (!TextUtils.isEmpty(expiryDate)){
             helper.setText(R.id.tv_start_time, expiryDate.substring(11, 16));
         }
@@ -78,13 +79,13 @@ public class TimingAdapter extends BaseQuickAdapter<ReservationBean.DataBean, Ba
         cbSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mCheckListener.switchlistener(helper.getAdapterPosition(), isChecked, cbEveryDay.isChecked());
+                mCheckListener.switchlistener(buttonView,helper.getAdapterPosition(), isChecked, cbEveryDay.isChecked());
             }
         });
     }
 
     public interface CheckListnerListener {
-        void switchlistener(int position, boolean isOpen, boolean isCycle);
+        void switchlistener(CompoundButton buttonView,int position, boolean isOpen, boolean isCycle);
 
         void cyclelistener(int position, boolean isOpen, boolean isCycle);
     }

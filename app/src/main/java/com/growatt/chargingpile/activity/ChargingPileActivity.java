@@ -1634,6 +1634,23 @@ public class ChargingPileActivity extends BaseActivity {
      */
     private void requestReserve(int type, String expiryDate, String key, Object value, String loopType) {
         LogUtil.d("预约充电，指令发送");
+
+        Date todayDate = new Date();
+        long daytime = todayDate.getTime();
+        long onTime = 0;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        //开始的日期
+        try {
+            Date start = format.parse(expiryDate);
+            onTime = start.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (daytime > onTime) {
+            toast(getString(R.string.m204开始时间));
+            return;
+        }
+
         Mydialog.Show(this);
         isFreshing = true;
         Map<String, Object> jsonMap = new HashMap<String, Object>();

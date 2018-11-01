@@ -142,7 +142,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/tv_duration"
-            android:text="1h"
+            android:text="0h0min"
             android:textColor="@color/title_1"
             android:textSize="@dimen/xa30" />
 

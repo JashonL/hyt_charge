@@ -76,37 +76,37 @@ public class ChargingParamsActivity extends BaseActivity {
                         inputEdit("name", (String) bean.getValue());
                         break;
                     case 2:
-                        inputEdit("address",(String) bean.getValue());
+                        inputEdit("address", (String) bean.getValue());
                         break;
                     case 3:
-                        inputEdit("address",(String) bean.getValue());
+                        inputEdit("address", (String) bean.getValue());
                         break;
                     case 4:
-                        inputEdit("rate",(String) bean.getValue());
+                        inputEdit("rate", String.valueOf(bean.getValue()));
                         break;
                     case 5:
-                        inputEdit("power",(String) bean.getValue());
+                        inputEdit("power", String.valueOf(bean.getValue()));
                         break;
                     case 6:
-                        inputEdit("model",(String) bean.getValue());
+                        inputEdit("model", (String) bean.getValue());
                         break;
                     case 8:
-                        inputEdit("ip",(String) bean.getValue());
+                        inputEdit("ip", (String) bean.getValue());
                         break;
                     case 9:
-                        inputEdit("gateway",(String) bean.getValue());
+                        inputEdit("gateway", (String) bean.getValue());
                         break;
                     case 10:
-                        inputEdit("mask",(String) bean.getValue());
+                        inputEdit("mask", (String) bean.getValue());
                         break;
                     case 11:
-                        inputEdit("mac",(String) bean.getValue());
+                        inputEdit("mac", (String) bean.getValue());
                         break;
                     case 12:
-                        inputEdit("host",(String) bean.getValue());
+                        inputEdit("host", (String) bean.getValue());
                         break;
                     case 13:
-                        inputEdit("dns",(String) bean.getValue());
+                        inputEdit("dns", (String) bean.getValue());
                         break;
                 }
 
@@ -149,7 +149,7 @@ public class ChargingParamsActivity extends BaseActivity {
                 finish();
             }
         });
-        setHeaderTitle(headerView,  getString(R.string.m141参数设置), R.color.title_1, true);
+        setHeaderTitle(headerView, getString(R.string.m141参数设置), R.color.title_1, true);
     }
 
 
@@ -157,7 +157,7 @@ public class ChargingParamsActivity extends BaseActivity {
      * 弹框输入修改内容
      * item 修改项
      */
-    private void inputEdit(final String key,final String value) {
+    private void inputEdit(final String key, final String value) {
         final EditText et = new EditText(this);
         int dimen = getResources().getDimensionPixelSize(R.dimen.xa24);
         et.setTextSize(TypedValue.COMPLEX_UNIT_PX, dimen);
@@ -188,7 +188,7 @@ public class ChargingParamsActivity extends BaseActivity {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         jsonMap.put("chargeId", Cons.mCurrentPile.getChargeId());//测试id
         jsonMap.put("userId", Cons.userBean.getId());//测试id
-        jsonMap.put("lan",getLanguage());//测试id
+        jsonMap.put("lan", getLanguage());//测试id
         jsonMap.put(key, value);
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         PostUtil.postJson(SmartHomeUrlUtil.SET_CHARGING_PARAMS, json, new PostUtil.postListener() {
@@ -216,7 +216,7 @@ public class ChargingParamsActivity extends BaseActivity {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         jsonMap.put("sn", Cons.mCurrentPile.getChargeId());//测试id
         jsonMap.put("userId", Cons.userBean.getId());//测试id
-        jsonMap.put("lan",getLanguage());//测试id
+        jsonMap.put("lan", getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         PostUtil.postJson(SmartHomeUrlUtil.REQUEST_CHARGING_PARAMS, json, new PostUtil.postListener() {
             @Override
