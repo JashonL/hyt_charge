@@ -236,12 +236,13 @@ public class ChargingPileActivity extends BaseActivity {
         initStatusView();
         initResource();
 //        freshData(0, 1);
+        refreshAll();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        refreshAll();
+
     }
 
     @Override
@@ -252,18 +253,18 @@ public class ChargingPileActivity extends BaseActivity {
 
     /*定时刷新机制*/
     private boolean isTimeRefresh = false;
-    private Handler timeHandler = new Handler(Looper.getMainLooper()){
+    private Handler timeHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case 1:
-                    isTimeRefresh = true;
-                    refreshAll();
+                    reTimeFreshTask();
                     break;
             }
         }
     };
+
     private void initPullView() {
         srlPull.setColorSchemeColors(ContextCompat.getColor(this, R.color.green_1));
         srlPull.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -279,12 +280,41 @@ public class ChargingPileActivity extends BaseActivity {
      * 刷新充电桩+枪数据
      */
     private void refreshAll() {
-        timeHandler.removeMessages(1);
-        timeHandler.sendEmptyMessageDelayed(1,10*1000);
+        //列表有充电桩的时候才开启定时器
+        if (mAdapter.getData().size() > 0) {
+            timeHandler.removeMessages(1);
+            timeHandler.sendEmptyMessageDelayed(1, 10 * 1000);
+        }
         if (Cons.mSeletPos > mAdapter.getData().size() - 1) {
             Cons.mSeletPos = 0;
         }
         freshData(Cons.mSeletPos, Cons.mCurrentGunBeanId);
+    }
+
+
+    /**
+     * 定时刷新任务
+     */
+    private void reTimeFreshTask() {
+        timeHandler.removeMessages(1);
+        switch (previous) {
+            case GunBean.CHARGING:
+                isTimeRefresh = true;
+                freshChargingGun(Cons.mCurrentPile.getChargeId(), Cons.mCurrentGunBeanId);
+                timeHandler.sendEmptyMessageDelayed(1, 60 * 1000);
+                break;
+            case GunBean.PREPARING://在准备中，只更新状态，不更新其他ui
+                isTimeRefresh = true;
+                timeTaskRefresh(Cons.mCurrentPile.getChargeId(), Cons.mCurrentGunBeanId);
+                timeHandler.sendEmptyMessageDelayed(1, 3 * 1000);
+                break;
+            default:
+                isTimeRefresh = true;
+                freshChargingGun(Cons.mCurrentPile.getChargeId(), Cons.mCurrentGunBeanId);
+                timeHandler.sendEmptyMessageDelayed(1, 10 * 1000);
+                break;
+        }
+
     }
 
 
@@ -549,7 +579,9 @@ public class ChargingPileActivity extends BaseActivity {
      * millis
      */
     private void freshData(final int position, final int gunPosition) {
-        if (!isTimeRefresh) {Mydialog.Show(this);}
+        if (!isTimeRefresh) {
+            Mydialog.Show(this);
+        }
         isFreshing = true;
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         jsonMap.put("userId", Cons.userBean.getId());//测试id
@@ -637,18 +669,70 @@ public class ChargingPileActivity extends BaseActivity {
         freshChargingGun(dataBean.getChargeId(), gunId);
     }
 
+
+    /**
+     * 刷新充电枪状态
+     * 定时任务刷新枪的状态不刷新ui
+     */
+
+    private void timeTaskRefresh(final String chargingId, final int connectorId) {
+        if (!isTimeRefresh) Mydialog.Show(this);
+        isFreshing = true;
+        Map<String, Object> jsonMap = new HashMap<String, Object>();
+        jsonMap.put("sn", chargingId);//测试id
+        jsonMap.put("connectorId", connectorId);//测试id
+        jsonMap.put("userId", Cons.userBean.getId());//测试id
+        jsonMap.put("lan", getLanguage());//测试id
+        String json = SmartHomeUtil.mapToJsonString(jsonMap);
+        LogUtil.i(json);
+        PostUtil.postJson(SmartHomeUrlUtil.GET_CHARGING_GUN_DATA, json, new PostUtil.JsonListener() {
+            @Override
+            public void Params(Map<String, String> params) {
+
+            }
+
+            @Override
+            public void success(String json) {
+                Mydialog.Dismiss();
+                isFreshing = false;
+                try {
+                    JSONObject object = new JSONObject(json);
+                    if (object.getInt("code") == 0) {
+                        GunBean gunBean = new Gson().fromJson(json, GunBean.class);
+                        Cons.mCurrentGunBean = gunBean;
+                        previous = gunBean.getData().getStatus();
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void LoginError(String str) {
+                isFreshing = false;
+            }
+
+            //到达指定时间时会执行这个方法，在这里判断是否需要刷新
+            @Override
+            public void sendMsgByTime(Handler handler) {
+
+            }
+        });
+
+    }
+
+
     /**
      * 刷新充电枪状态
      * 参数
      * chargingId 充电桩的id
      * connectorId 充电枪的id
-     * millis
-     * needSenmessage 是否需要发送通知
-     * isStartOrStop 是否操作过
      */
 
     private void freshChargingGun(final String chargingId, final int connectorId) {
-        Mydialog.Show(this);
+        if (!isTimeRefresh) Mydialog.Show(this);
         isFreshing = true;
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         jsonMap.put("sn", chargingId);//测试id
@@ -750,7 +834,7 @@ public class ChargingPileActivity extends BaseActivity {
                 MyUtil.showAllView(llBottomGroup);
                 startAnim();
                 String presetType = data.getcKey();
-                if ("0".equals(presetType)||TextUtils.isEmpty(presetType)) {
+                if ("0".equals(presetType) || TextUtils.isEmpty(presetType)) {
                     mStatusGroup.addView(normalChargingView);
                     setNormalCharging(data);
                 } else if (presetType.equals("G_SetAmount")) {
@@ -874,7 +958,7 @@ public class ChargingPileActivity extends BaseActivity {
                     String expiryDate = reserveNow.get(0).getExpiryDate();
                     reserveEle = reserveNow.get(0).getCValue();
                     startTime = expiryDate;
-                    setEleUi(true, String.valueOf(reserveEle));
+                    setEleUi(true, String.valueOf(reserveEle) + "kwh");
                     setReserveUi(getString(R.string.m204开始时间), getString(R.string.m183开启), R.drawable.checkbox_on, expiryDate.substring(11, 16), true);
                 } else if (cKey.equals("G_SetTime")) {//时间段预约
                     presetType = 3;
@@ -975,7 +1059,7 @@ public class ChargingPileActivity extends BaseActivity {
                             String expiryDate = reserveNow.get(0).getExpiryDate();
                             reserveEle = reserveNow.get(0).getCValue();
                             startTime = expiryDate;
-                            setEleUi(true, String.valueOf(reserveEle));
+                            setEleUi(true, String.valueOf(reserveEle) + "kwh");
                             setReserveUi(getString(R.string.m204开始时间), getString(R.string.m183开启), R.drawable.checkbox_on, expiryDate.substring(11, 16), true);
                         } else if (cKey.equals("G_SetTime")) {//时间段预约
                             presetType = 3;
@@ -1247,9 +1331,7 @@ public class ChargingPileActivity extends BaseActivity {
                     break;
                 case GunBean.RESERVED:
                 case GunBean.PREPARING://准备中
-                    //没有预约
                     if (presetType == 0) {//没有选择充电方案
-                        //预约充电
                         requestNarmal(0, "", "");
                     } else if (presetType == 1) {//设置金额预约
                         requestNarmal(1, "G_SetAmount", reserveMoney);
@@ -1323,6 +1405,9 @@ public class ChargingPileActivity extends BaseActivity {
                     startActivityForResult(intent, REQUEST_ADD_CHARGING);
                 } else {
                     Cons.mSeletPos = position;
+                    isTimeRefresh = false;
+                    timeHandler.removeMessages(1);
+                    timeHandler.sendEmptyMessageDelayed(1, 10 * 1000);
                     refreshChargingUI(position, 1);
                 }
             }
@@ -1482,7 +1567,7 @@ public class ChargingPileActivity extends BaseActivity {
                 presetType = 2;
                 isReservation = false;
 
-                setEleUi(true, electric);
+                setEleUi(true, electric + "kwh");
                 startTime = null;
                 //初始化预约充电相关控件
                 setReserveUi(getString(R.string.m204开始时间), getString(R.string.m184关闭), R.drawable.checkbox_off, "--:--", true);
@@ -1584,7 +1669,7 @@ public class ChargingPileActivity extends BaseActivity {
         }
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         LogUtil.i(json);
-        PostUtil.postJson(SmartHomeUrlUtil.REQUEST_RESEERVE_CHARGING, json, new PostUtil.JsonListener() {
+        PostUtil.postJson(SmartHomeUrlUtil.REQUEST_RESEERVE_CHARGING, json, new PostUtil.postListener() {
             @Override
             public void Params(Map<String, String> params) {
 
@@ -1598,6 +1683,8 @@ public class ChargingPileActivity extends BaseActivity {
                     JSONObject object = new JSONObject(json);
                     toast(object.getString("data"));
                     cycleTime = 0;
+                    timeHandler.removeMessages(1);
+                    timeHandler.sendEmptyMessageDelayed(1, 5 * 1000);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -1609,10 +1696,6 @@ public class ChargingPileActivity extends BaseActivity {
                 isFreshing = false;
             }
 
-            @Override
-            public void sendMsgByTime(Handler handler) {
-                freshChargingGun(Cons.mCurrentPile.getChargeId(), Cons.mCurrentGunBeanId);
-            }
         });
     }
 
@@ -1633,7 +1716,7 @@ public class ChargingPileActivity extends BaseActivity {
         jsonMap.put("lan", getLanguage());
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         LogUtil.i(json);
-        PostUtil.postJson(SmartHomeUrlUtil.REQUEST_RESEERVE_CHARGING, json, new PostUtil.JsonListener() {
+        PostUtil.postJson(SmartHomeUrlUtil.REQUEST_RESEERVE_CHARGING, json, new PostUtil.postListener() {
             @Override
             public void Params(Map<String, String> params) {
 
@@ -1647,6 +1730,8 @@ public class ChargingPileActivity extends BaseActivity {
                     JSONObject object = new JSONObject(json);
                     toast(object.getString("data"));
                     cycleTime = 0;
+                    timeHandler.removeMessages(1);
+                    timeHandler.sendEmptyMessageDelayed(1, 5 * 1000);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -1658,11 +1743,6 @@ public class ChargingPileActivity extends BaseActivity {
                 isFreshing = false;
             }
 
-            @Override
-            public void sendMsgByTime(Handler handler) {
-                //请求成功后5秒钟刷新状态
-                freshChargingGun(Cons.mCurrentPile.getChargeId(), Cons.mCurrentGunBeanId);
-            }
         });
     }
 
@@ -1770,7 +1850,7 @@ public class ChargingPileActivity extends BaseActivity {
 
     private void setEleUi(boolean isCheck, String ele) {
         cbPpEle.setChecked(isCheck);
-        tvPpEle.setText(ele + "kWh");
+        tvPpEle.setText(ele);
     }
 
 
