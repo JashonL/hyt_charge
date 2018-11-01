@@ -255,6 +255,7 @@
     <string name="m请选择正确的时间段">请选择正确的时间段</string>
     <string name="m输入金额不正确">您输入的金额数量不正确</string>
     <string name="m输入电量不正确">您输入的电量不正确</string>
+    <string name="m开始时间错误">开始时间错误</string>
 </resources>
 
 

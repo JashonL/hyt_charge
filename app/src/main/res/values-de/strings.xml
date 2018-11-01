@@ -251,6 +251,7 @@
     <string name="m请选择正确的时间段">Please select the correct time period</string>
     <string name="m输入金额不正确">The amount you entered is incorrect</string>
     <string name="m输入电量不正确">The battery you entered is incorrect</string>
+    <string name="m开始时间错误">Wrong appointment time</string>
 </resources>
 
 
