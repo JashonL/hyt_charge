@@ -70,42 +70,43 @@ public class ChargingParamsActivity extends BaseActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (position == 0 || position == 7) return;
+                ParamsSetBean bean = mAdapter.getData().get(position);
                 switch (position) {
                     case 1:
-                        inputEdit("name");
+                        inputEdit("name", (String) bean.getValue());
                         break;
                     case 2:
-                        inputEdit("address");
+                        inputEdit("address",(String) bean.getValue());
                         break;
                     case 3:
-                        inputEdit("address");
+                        inputEdit("address",(String) bean.getValue());
                         break;
                     case 4:
-                        inputEdit("rate");
+                        inputEdit("rate",(String) bean.getValue());
                         break;
                     case 5:
-                        inputEdit("power");
+                        inputEdit("power",(String) bean.getValue());
                         break;
                     case 6:
-                        inputEdit("model");
+                        inputEdit("model",(String) bean.getValue());
                         break;
                     case 8:
-                        inputEdit("ip");
+                        inputEdit("ip",(String) bean.getValue());
                         break;
                     case 9:
-                        inputEdit("gateway");
+                        inputEdit("gateway",(String) bean.getValue());
                         break;
                     case 10:
-                        inputEdit("mask");
+                        inputEdit("mask",(String) bean.getValue());
                         break;
                     case 11:
-                        inputEdit("mac");
+                        inputEdit("mac",(String) bean.getValue());
                         break;
                     case 12:
-                        inputEdit("host");
+                        inputEdit("host",(String) bean.getValue());
                         break;
                     case 13:
-                        inputEdit("dns");
+                        inputEdit("dns",(String) bean.getValue());
                         break;
                 }
 
@@ -156,10 +157,11 @@ public class ChargingParamsActivity extends BaseActivity {
      * 弹框输入修改内容
      * item 修改项
      */
-    private void inputEdit(final String key) {
+    private void inputEdit(final String key,final String value) {
         final EditText et = new EditText(this);
         int dimen = getResources().getDimensionPixelSize(R.dimen.xa24);
         et.setTextSize(TypedValue.COMPLEX_UNIT_PX, dimen);
+        et.setHint(value);
         et.setPadding(20, 20, 20, 20);
         AlertDialog dialog = new AlertDialog.Builder(this).setTitle(R.string.m27温馨提示)
                 .setMessage(getString(R.string.m请输入设置内容)).setView(

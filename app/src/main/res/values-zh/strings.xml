@@ -125,7 +125,7 @@
     <string name="m119准备中">准备中</string>
     <string name="m120充电结束">充电结束</string>
     <string name="m121故障">故障</string>
-    <string name="m122不可用">不可用</string>
+    <string name="m122不可用">通讯异常</string>
     <string name="m123暂停充电">暂停充电</string>
     <string name="m124已经注销">已经注销</string>
     <string name="m125启用中">启用中</string>
@@ -219,7 +219,7 @@
     <string name="m213输入更改的设置">输入更改的设置</string>
     <string name="m214请连接充电枪到车辆">请连接充电枪到车辆</string>
     <string name="m215电桩故障">电桩故障，请切换使用其他充电桩</string>
-    <string name="m216桩体状态为不可用">桩体状态为不可用，请切换使用其他充电桩</string>
+    <string name="m216桩体状态为不可用">桩体通讯异常，请切换使用其他充电桩</string>
 
 
     <!--安卓额外部分-->

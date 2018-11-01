@@ -32,9 +32,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/xa18">
 
-                        <TextView
+                        <com.growatt.chargingpile.view.AutoFitTextViewTwo
                             android:id="@+id/tv_preset_text"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/m196预设"
                             android:textColor="@color/title_3"
@@ -113,6 +113,7 @@
                             android:layout_height="@dimen/xa120"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
+                            app:textColor="@color/green_1"
                             app:roundColor="@color/gray_2"
                             app:roundWidth="@dimen/xa10" />
 

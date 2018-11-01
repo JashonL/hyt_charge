@@ -164,7 +164,7 @@
     <string name="m161DNS地址">DNS</string>
     <string name="m162添加授权">Add authorized users</string>
     <string name="m163输入用户名添加授权用户">Enter a user name to add an authorized user</string>
-    <string name="m164注册新用户">Sign up for new users</string>
+    <string name="m164注册新用户">Sign up</string>
     <string name="m165填写资料注册新用户">Fill in the information to register new users</string>
     <string name="m166请输入用户名车牌电话邮箱">Please enter user name/license plate/phone/email address</string>
     <string name="m167现在正处于时段预约状态">If you need to start charging immediately, please close the reservation button and reset the time!</string>

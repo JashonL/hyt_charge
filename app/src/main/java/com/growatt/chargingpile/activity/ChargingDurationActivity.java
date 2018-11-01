@@ -90,7 +90,7 @@ public class ChargingDurationActivity extends BaseActivity {
         jsonMap.put("sn", Cons.mCurrentPile.getChargeId());
         jsonMap.put("connectorId", 1);
         jsonMap.put("cKey", "G_SetTime");
-        jsonMap.put("lan",getLanguage());//测试id
+        jsonMap.put("lan", getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         PostUtil.postJson(SmartHomeUrlUtil.REQUEST_CHARGING_RESERVELIST, json, new PostUtil.postListener() {
             @Override
@@ -104,11 +104,14 @@ public class ChargingDurationActivity extends BaseActivity {
                     Mydialog.Dismiss();
                     JSONObject object = new JSONObject(json);
                     int code = object.getInt("code");
+                    String data = object.getString("data");
                     if (code == 0) {
                         ReservationBean recordBean = new Gson().fromJson(json, ReservationBean.class);
                         List<ReservationBean.DataBean> reserveList = recordBean.getData();
                         mAdapter.replaceData(reserveList);
                         setTotal(reserveList);
+                    } else {
+                        toast(data);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -220,7 +223,7 @@ public class ChargingDurationActivity extends BaseActivity {
             try {
                 JSONObject object = new JSONObject(json);
                 object.put("ctype", ctype);
-                object.put("lan",getLanguage());//测试id
+                object.put("lan", getLanguage());//测试id
                 json = object.toString();
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -239,7 +242,11 @@ public class ChargingDurationActivity extends BaseActivity {
                 try {
                     JSONObject object = new JSONObject(json);
                     int code = object.getInt("code");
+                    String data = object.getString("data");
                     if (code == 0) {
+                        toast(R.string.m成功);
+                    } else {
+                        toast(data);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

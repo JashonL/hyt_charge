@@ -182,7 +182,7 @@
                             android:gravity="center"
                             android:text="@string/m117空闲"
                             android:textColor="@color/charging_text_green"
-                            android:textSize="@dimen/xa48" />
+                            android:textSize="@dimen/xa38" />
                     </LinearLayout>
 
                     <ImageView

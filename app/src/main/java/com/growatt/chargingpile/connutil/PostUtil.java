@@ -70,13 +70,13 @@ public class PostUtil {
                 @Override
                 public void onError(Throwable ex, boolean isOnCallback) {
 //					 Toast.makeText(x.app(), ShineApplication.context.getString(R.string.Xutil_network_err)+":2"+ex.getMessage(), Toast.LENGTH_LONG).show();
-                    if(ex instanceof HttpException){
+                    if (ex instanceof HttpException) {
                         T.make(R.string.m网络错误, MyApplication.context);
-                    }else if(ex instanceof SocketTimeoutException){
+                    } else if (ex instanceof SocketTimeoutException) {
                         T.make(R.string.m网络超时, MyApplication.context);
-                    }else if(ex instanceof UnknownHostException){
+                    } else if (ex instanceof UnknownHostException) {
                         T.make(R.string.m服务器连接失败, MyApplication.context);
-                    }else{
+                    } else {
                         T.make(R.string.m服务器连接失败, MyApplication.context);
                     }
 
@@ -106,6 +106,7 @@ public class PostUtil {
             handler.sendMessage(msg);
         }
     }
+
     public static void post(final String url, final boolean isLogErr, final postListener httpListener) {
         final Map<String, String> params = new HashMap<String, String>();
         LogUtil.i("post_utl:" + url);
@@ -152,13 +153,13 @@ public class PostUtil {
                 public void onError(Throwable ex, boolean isOnCallback) {
                     if (!isLogErr) return;
 //					 Toast.makeText(x.app(), ShineApplication.context.getString(R.string.Xutil_network_err)+":2"+ex.getMessage(), Toast.LENGTH_LONG).show();
-                    if(ex instanceof HttpException){
+                    if (ex instanceof HttpException) {
                         T.make(R.string.m网络错误, MyApplication.context);
-                    }else if(ex instanceof SocketTimeoutException){
+                    } else if (ex instanceof SocketTimeoutException) {
                         T.make(R.string.m网络超时, MyApplication.context);
-                    }else if(ex instanceof UnknownHostException){
+                    } else if (ex instanceof UnknownHostException) {
                         T.make(R.string.m服务器连接失败, MyApplication.context);
-                    }else{
+                    } else {
                         T.make(R.string.m服务器连接失败, MyApplication.context);
                     }
 
@@ -188,6 +189,7 @@ public class PostUtil {
             handler.sendMessage(msg);
         }
     }
+
     public static void postJson(final String url, final String json, final postListener httpListener) {
         LogUtil.i("postJson_url:" + url);
         final Handler handler = new Handler() {
@@ -232,13 +234,13 @@ public class PostUtil {
                 public void onError(Throwable ex, boolean isOnCallback) {
                     Mydialog.Dismiss();
 //					 Toast.makeText(x.app(), ShineApplication.context.getString(R.string.Xutil_network_err)+":2"+ex.getMessage(), Toast.LENGTH_LONG).show();
-                    if(ex instanceof HttpException){
+                    if (ex instanceof HttpException) {
                         T.make(R.string.m网络错误, MyApplication.context);
-                    }else if(ex instanceof SocketTimeoutException){
+                    } else if (ex instanceof SocketTimeoutException) {
                         T.make(R.string.m网络超时, MyApplication.context);
-                    }else if(ex instanceof UnknownHostException){
+                    } else if (ex instanceof UnknownHostException) {
                         T.make(R.string.m服务器连接失败, MyApplication.context);
-                    }else{
+                    } else {
                         T.make(R.string.m服务器连接失败, MyApplication.context);
                     }
 
@@ -271,14 +273,12 @@ public class PostUtil {
 
 
     /**
-     *
      * @param url
      * @param json
      * @param httpListener
-     * @param millis  多少秒后一条消息
      */
 
-    public static void postJson(final String url, final String json, final JsonListener httpListener, final long millis) {
+    public static void postJson(final String url, final String json, final JsonListener httpListener) {
         LogUtil.i("postJson_url:" + url);
         final Handler handler = new Handler() {
             @Override
@@ -288,7 +288,9 @@ public class PostUtil {
                 switch (msg.what) {
                     case 0:
                         httpListener.success(a);
-                        sendEmptyMessageDelayed(3,millis);
+                        //指定时间后发送消息
+                        sendEmptyMessageDelayed(3, 5000);
+
                         break;
                     case 1:
                         httpListener.LoginError(a);
@@ -326,13 +328,13 @@ public class PostUtil {
                 public void onError(Throwable ex, boolean isOnCallback) {
                     Mydialog.Dismiss();
 //					 Toast.makeText(x.app(), ShineApplication.context.getString(R.string.Xutil_network_err)+":2"+ex.getMessage(), Toast.LENGTH_LONG).show();
-                    if(ex instanceof HttpException){
+                    if (ex instanceof HttpException) {
                         T.make(R.string.m网络错误, MyApplication.context);
-                    }else if(ex instanceof SocketTimeoutException){
+                    } else if (ex instanceof SocketTimeoutException) {
                         T.make(R.string.m网络超时, MyApplication.context);
-                    }else if(ex instanceof UnknownHostException){
+                    } else if (ex instanceof UnknownHostException) {
                         T.make(R.string.m服务器连接失败, MyApplication.context);
-                    }else{
+                    } else {
                         T.make(R.string.m服务器连接失败, MyApplication.context);
                     }
 
@@ -362,8 +364,6 @@ public class PostUtil {
             handler.sendMessage(msg);
         }
     }
-
-
 
 
     /**
@@ -423,13 +423,13 @@ public class PostUtil {
                 @Override
                 public void onError(Throwable ex, boolean isOnCallback) {
 //					 Toast.makeText(x.app(), ShineApplication.context.getString(R.string.Xutil_network_err)+":2"+ex.getMessage(), Toast.LENGTH_LONG).show();
-                    if(ex instanceof HttpException){
+                    if (ex instanceof HttpException) {
                         T.make(R.string.m网络错误, MyApplication.context);
-                    }else if(ex instanceof SocketTimeoutException){
+                    } else if (ex instanceof SocketTimeoutException) {
                         T.make(R.string.m网络超时, MyApplication.context);
-                    }else if(ex instanceof UnknownHostException){
+                    } else if (ex instanceof UnknownHostException) {
                         T.make(R.string.m服务器连接失败, MyApplication.context);
-                    }else{
+                    } else {
                         T.make(R.string.m服务器连接失败, MyApplication.context);
                     }
 
@@ -517,13 +517,13 @@ public class PostUtil {
                 @Override
                 public void onError(Throwable ex, boolean isOnCallback) {
 //					 Toast.makeText(x.app(), ShineApplication.context.getString(R.string.Xutil_network_err)+":2"+ex.getMessage(), Toast.LENGTH_LONG).show();
-                    if(ex instanceof HttpException){
+                    if (ex instanceof HttpException) {
                         T.make(R.string.m网络错误, MyApplication.context);
-                    }else if(ex instanceof SocketTimeoutException){
+                    } else if (ex instanceof SocketTimeoutException) {
                         T.make(R.string.m网络超时, MyApplication.context);
-                    }else if(ex instanceof UnknownHostException){
+                    } else if (ex instanceof UnknownHostException) {
                         T.make(R.string.m服务器连接失败, MyApplication.context);
-                    }else{
+                    } else {
                         T.make(R.string.m服务器连接失败, MyApplication.context);
                     }
 
@@ -580,7 +580,6 @@ public class PostUtil {
     }
 
 
-
     public static void postObj(final String url, final PostListenerObj httpListener) {
         final Map<String, Object> params = new HashMap<String, Object>();
         LogUtil.i("post_utl:" + url);
@@ -626,13 +625,13 @@ public class PostUtil {
                 @Override
                 public void onError(Throwable ex, boolean isOnCallback) {
 //					 Toast.makeText(x.app(), ShineApplication.context.getString(R.string.Xutil_network_err)+":2"+ex.getMessage(), Toast.LENGTH_LONG).show();
-                    if(ex instanceof HttpException){
+                    if (ex instanceof HttpException) {
                         T.make(R.string.m网络错误, MyApplication.context);
-                    }else if(ex instanceof SocketTimeoutException){
+                    } else if (ex instanceof SocketTimeoutException) {
                         T.make(R.string.m网络超时, MyApplication.context);
-                    }else if(ex instanceof UnknownHostException){
+                    } else if (ex instanceof UnknownHostException) {
                         T.make(R.string.m服务器连接失败, MyApplication.context);
-                    }else{
+                    } else {
                         T.make(R.string.m服务器连接失败, MyApplication.context);
                     }
 
