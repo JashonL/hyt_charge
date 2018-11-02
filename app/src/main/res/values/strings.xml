@@ -141,7 +141,7 @@
     <string name="m138添加充电桩">Add charger</string>
     <string name="m139添加成功">Added successfully</string>
     <string name="m140不能为空">Can\'t be empty!</string>
-    <string name="m141参数设置">Parameter setting!</string>
+    <string name="m141参数设置">Parameter setting</string>
     <string name="m142授权管理">Authorization management</string>
     <string name="m143基本参数">Basic parameter </string>
     <string name="m144重要数据">Important data</string>
@@ -217,7 +217,6 @@
     <string name="m214请连接充电枪到车辆">Please connect the vehicle to the charging gun.</string>
     <string name="m215电桩故障">Pile failure, please switch to other charging piles.</string>
     <string name="m216桩体状态为不可用">Pile unavailable, please switch to other charging piles.</string>
-
 
 
     <!--权限问题-->

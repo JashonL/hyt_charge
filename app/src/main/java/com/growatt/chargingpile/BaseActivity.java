@@ -74,6 +74,17 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
 
 
     /**
+     * 通过不同类型activity请求
+     */
+    public void requestWindowTitleByActivity(){
+        if (this instanceof AppCompatActivity){
+            ((AppCompatActivity)this).supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        }else {
+            this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        }
+    }
+
+    /**
      * 沉浸式状态栏处理
      */
     private void initStatusBar() {

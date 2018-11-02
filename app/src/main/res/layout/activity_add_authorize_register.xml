@@ -242,7 +242,7 @@
                     android:layout_height="@dimen/xa24"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/sign_mail" />
+                    android:src="@drawable/sign_phone" />
 
                 <EditText
                     android:id="@+id/et_phone"
@@ -250,6 +250,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/xa12"
                     android:background="@null"
+                    android:hint="@string/m60填入不带国家代码的手机号"
                     android:textColor="@color/title_2"
                     android:textSize="@dimen/xa24" />
             </LinearLayout>

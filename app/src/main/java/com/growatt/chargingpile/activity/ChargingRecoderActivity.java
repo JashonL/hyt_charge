@@ -1,8 +1,10 @@
 package com.growatt.chargingpile.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.View;
 
 import com.google.gson.Gson;
@@ -92,7 +94,7 @@ public class ChargingRecoderActivity extends BaseActivity {
 
             @Override
             public void onClick(View v) {
-                finish();
+                backPileActivity();
             }
         });
         setHeaderTitle(headerView, getString(R.string.m104充电记录), R.color.title_1, false);
@@ -161,4 +163,18 @@ public class ChargingRecoderActivity extends BaseActivity {
         });
     }
 
+
+
+    private void backPileActivity(){
+        Intent intent = new Intent();
+        intent.putExtra("activity",ChargingRecoderActivity.this.getClass().getName());
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        backPileActivity();
+        return super.onKeyDown(keyCode, event);
+    }
 }

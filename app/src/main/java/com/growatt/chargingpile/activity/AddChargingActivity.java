@@ -3,6 +3,7 @@ package com.growatt.chargingpile.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -10,6 +11,7 @@ import android.widget.LinearLayout;
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.connutil.PostUtil;
+import com.growatt.chargingpile.scan.activity.MyCaptureActivity;
 import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.PermissionCodeUtil;
@@ -52,7 +54,7 @@ public class AddChargingActivity extends BaseActivity {
         setHeaderImage(headerView, R.drawable.back, Position.LEFT, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                backPileActivity(Cons.mCurrentPile.getChargeId());
             }
         });
         setHeaderTitle(headerView, getString(R.string.m138添加充电桩), R.color.title_1, true);
@@ -77,7 +79,7 @@ public class AddChargingActivity extends BaseActivity {
     }
 
     private void addByScan() {
-        Intent intent = new Intent(this, CaptureActivity.class);
+        Intent intent = new Intent(this, MyCaptureActivity.class);
                                 /*ZxingConfig是配置类
                                  *可以设置是否显示底部布局，闪光灯，相册，
                                  * 是否播放提示音  震动
@@ -88,6 +90,7 @@ public class AddChargingActivity extends BaseActivity {
         config.setPlayBeep(true);//是否播放扫描声音 默认为true
         config.setShake(true);//是否震动  默认为true
         config.setFullScreenScan(true);//是否全屏扫描  默认为true  设为false则只会在扫描框中扫描
+        config.setShowbottomLayout(false);
         intent.putExtra(Constant.INTENT_ZXING_CONFIG, config);
         startActivityForResult(intent, 105);
 
@@ -125,10 +128,7 @@ public class AddChargingActivity extends BaseActivity {
                     JSONObject object = new JSONObject(json);
                     int code = object.getInt("code");
                     if (code == 0) {
-                        Intent intent = new Intent();
-                        intent.putExtra("chargingId",sn);
-                        setResult(RESULT_OK, intent);
-                        finish();
+                        backPileActivity(sn);
                     }
                     toast(object.getString("data"));
                 } catch (JSONException e) {
@@ -156,6 +156,21 @@ public class AddChargingActivity extends BaseActivity {
         }
     }
 
+
+
+    private void backPileActivity(String sn) {
+        Intent intent = new Intent();
+        intent.putExtra("chargingId",sn);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        backPileActivity(Cons.mCurrentPile.getChargeId());
+        return super.onKeyDown(keyCode, event);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

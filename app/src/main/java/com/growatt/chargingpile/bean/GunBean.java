@@ -209,6 +209,8 @@ public class GunBean {
         private String chargeId;
         private double cValue;
         private String userId;
+        private int loopType;
+        private String loopValue;
 
         public String getExpiryDate() {
             return expiryDate;
@@ -272,6 +274,38 @@ public class GunBean {
 
         public void setUserId(String userId) {
             this.userId = userId;
+        }
+
+        public String getcKey() {
+            return cKey;
+        }
+
+        public void setcKey(String cKey) {
+            this.cKey = cKey;
+        }
+
+        public double getcValue() {
+            return cValue;
+        }
+
+        public void setcValue(double cValue) {
+            this.cValue = cValue;
+        }
+
+        public int getLoopType() {
+            return loopType;
+        }
+
+        public void setLoopType(int loopType) {
+            this.loopType = loopType;
+        }
+
+        public String getLoopValue() {
+            return loopValue;
+        }
+
+        public void setLoopValue(String loopValue) {
+            this.loopValue = loopValue;
         }
     }
 

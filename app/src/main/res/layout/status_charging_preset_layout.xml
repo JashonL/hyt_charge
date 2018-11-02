@@ -65,7 +65,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/xa10"
-                                android:text="30kwh"
                                 android:textColor="@color/title_1"
                                 android:textSize="@dimen/xa36" />
                         </LinearLayout>
@@ -100,7 +99,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/xa10"
-                                android:text="30kwh"
                                 android:textColor="@color/title_1"
                                 android:textSize="@dimen/xa36" />
                         </LinearLayout>
@@ -160,7 +158,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/xa30"
                             android:layout_toRightOf="@+id/icon_charged_other"
-                            android:text="30"
                             android:textColor="@color/title_1"
                             android:textSize="@dimen/xa36" />
 
@@ -198,7 +195,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/xa30"
                             android:layout_toRightOf="@+id/icon_charged_other_2"
-                            android:text="30"
                             android:textColor="@color/title_1"
                             android:textSize="@dimen/xa36" />
 

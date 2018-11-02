@@ -17,6 +17,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextPaint;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -207,7 +208,7 @@ public class MeActivity extends BaseActivity {
         setHeaderImage(headerView, R.drawable.back, Position.LEFT, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                backPileActivity();
             }
         });
         tvTitle.setTextColor(ContextCompat.getColor(this, R.color.title_1));
@@ -447,4 +448,16 @@ public class MeActivity extends BaseActivity {
     }
 
 
+    private void backPileActivity(){
+        Intent intent = new Intent();
+        intent.putExtra("activity",MeActivity.this.getClass().getName());
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        backPileActivity();
+        return super.onKeyDown(keyCode, event);
+    }
 }

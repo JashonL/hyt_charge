@@ -44,7 +44,18 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        initUser();
         AutoLogin();
+    }
+
+    private void initUser() {
+        Map<String, Object> inquirylogin = SqliteUtil.inquirylogin();
+        if (inquirylogin.size()>0){
+            etUsername.setText(inquirylogin.get("name").toString());
+            etPassword.setText(inquirylogin.get("pwd").toString());
+            etUsername.setSelection(inquirylogin.get("name").toString().length());
+            etPassword.setSelection(inquirylogin.get("pwd").toString().length());
+        }
     }
 
 

@@ -311,15 +311,14 @@
 
                 <CheckBox
                     android:id="@+id/cb_everyday"
-                    android:layout_width="@dimen/xa35"
-                    android:layout_height="@dimen/xa35"
+                    android:layout_width="@dimen/xa50"
+                    android:layout_height="@dimen/xa50"
                     android:layout_alignParentBottom="true"
                     android:layout_centerVertical="true"
                     android:layout_marginBottom="@dimen/xa27"
                     android:layout_marginLeft="@dimen/xa21"
                     android:layout_toRightOf="@+id/tv_time_every_day"
-                    android:background="@drawable/selector_checkbox_bg_white"
-                    android:button="@null"
+                    android:button="@drawable/selector_checkbox_bg_white"
                     android:textColor="@color/title_1"
                     android:textSize="@dimen/xa30" />
 

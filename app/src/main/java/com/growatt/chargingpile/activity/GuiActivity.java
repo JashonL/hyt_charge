@@ -31,6 +31,7 @@ public class GuiActivity extends BaseActivity {
     private int isFrist;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        requestWindowTitleByActivity();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gui);
         isFrist= SharedPreferencesUnit.getInstance(this).getInt("num");
