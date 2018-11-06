@@ -186,9 +186,9 @@ public class EditDurationActivity extends BaseActivity {
                         toast(getString(R.string.m请选择正确的时间段));
                         return;
                     }
-                    String loopType;
+                    int loopType;
                     if (cbEveryday.isChecked()) {
-                        loopType = "0";
+                        loopType = 0;
                     } else {
                         Date todayDate = new Date();
                         long daytime = todayDate.getTime();
@@ -206,7 +206,7 @@ public class EditDurationActivity extends BaseActivity {
                             toast(getString(R.string.m请选择正确的时间段));
                             return;
                         }
-                        loopType = "-1";
+                        loopType = -1;
                     }
                     addReserve(loopType, duration, loopValue);
 
@@ -445,7 +445,7 @@ public class EditDurationActivity extends BaseActivity {
     }
 
 
-    private void addReserve(String loopType, long cValue, String loopValue) {
+    private void addReserve(int loopType, long cValue, String loopValue) {
         Mydialog.Show(EditDurationActivity.this);
         Map<String, Object> jsonMap = new LinkedHashMap<String, Object>();
         jsonMap.put("action", "ReserveNow");
@@ -457,7 +457,7 @@ public class EditDurationActivity extends BaseActivity {
         jsonMap.put("cValue", cValue);
         jsonMap.put("loopType", loopType);
         jsonMap.put("lan", getLanguage());
-        if ("0".equals(loopType)) {
+        if (loopType==0) {
             jsonMap.put("loopValue", loopValue);
         }
         String json = SmartHomeUtil.mapToJsonString(jsonMap);

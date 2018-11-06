@@ -1150,7 +1150,7 @@ public class ChargingPileActivity extends BaseActivity {
                             String expiryDate = reserveNow.get(0).getExpiryDate();
                             setReserveUi(getString(R.string.m204开始时间), getString(R.string.m183开启), R.drawable.checkbox_on, expiryDate.substring(11, 16), true, false);
                         }
-                    }else {
+                    } else {
                         isReservation = false;
                         presetType = 0;
                         initPresetUi();
@@ -1263,11 +1263,11 @@ public class ChargingPileActivity extends BaseActivity {
                         toast(getString(R.string.m131空闲状态无法直接开始充电));
                         return;
                     } else {
-                        String loopType;
+                        int loopType;
                         if (cbEveryday.isChecked()) {
-                            loopType = "0";
+                            loopType = 0;
                         } else {
-                            loopType = "-1";
+                            loopType = -1;
                         }
                         if (presetType == 0) {//没有选择充电方案
                             //预约充电,只预约了时间
@@ -1319,11 +1319,11 @@ public class ChargingPileActivity extends BaseActivity {
                         }
 
                     } else {
-                        String loopType;
+                        int loopType;
                         if (cbEveryday.isChecked()) {
-                            loopType = "0";
+                            loopType = 0;
                         } else {
-                            loopType = "-1";
+                            loopType = -1;
                         }
 
                         if (presetType == 0) {//没有选择充电方案,只有时间
@@ -1807,7 +1807,7 @@ public class ChargingPileActivity extends BaseActivity {
     /**
      * 预约充电
      */
-    private void requestReserve(int type, String expiryDate, String key, Object value, String loopType) {
+    private void requestReserve(int type, String expiryDate, String key, Object value, int loopType) {
         LogUtil.d("预约充电，指令发送");
 
         Date todayDate = new Date();
@@ -1821,11 +1821,12 @@ public class ChargingPileActivity extends BaseActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        if (daytime > onTime) {
-            toast(getString(R.string.m开始时间错误));
-            return;
+        if (loopType != 0) {
+            if (daytime > onTime) {
+                toast(getString(R.string.m开始时间错误));
+                return;
+            }
         }
-
         Mydialog.Show(this);
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         jsonMap.put("action", "ReserveNow");
@@ -1835,7 +1836,7 @@ public class ChargingPileActivity extends BaseActivity {
         jsonMap.put("userId", Cons.userBean.getId());
         jsonMap.put("loopType", loopType);
         jsonMap.put("lan", getLanguage());
-        if (loopType.equals("0")) {
+        if (loopType == 0) {
             String loopValue = expiryDate.substring(11, 16);
             jsonMap.put("loopValue", loopValue);
         }
