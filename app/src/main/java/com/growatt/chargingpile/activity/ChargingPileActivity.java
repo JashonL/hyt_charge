@@ -128,7 +128,6 @@ public class ChargingPileActivity extends BaseActivity {
     public static final int REQUEST_FRESH_CHARGING = 105;
 
 
-
     //预约充电方案 0 :只预约了充电时间  1：金额  2：电量  3：时长
     private int presetType = 0;
 
@@ -216,17 +215,12 @@ public class ChargingPileActivity extends BaseActivity {
 
     //充电桩的上一个状态
     private String previous = null;
-    //是否在刷新中
-    private boolean isFreshing = false;
 
 
     private long mExitTime;
 
-    /**
-     * 状态是否发生改变
-     */
-    private boolean isStatusChange = false;
-    private int cycleTime = 0;
+
+    private boolean isClicked = false;//是否点击了充电
 
 
     @Override
@@ -309,13 +303,22 @@ public class ChargingPileActivity extends BaseActivity {
             case GunBean.CHARGING:
                 isTimeRefresh = true;
                 freshChargingGun(Cons.mCurrentPile.getChargeId(), Cons.mCurrentGunBeanId);
-                timeHandler.sendEmptyMessageDelayed(1, 10 * 1000);
+                if (isClicked) {
+                    timeHandler.sendEmptyMessageDelayed(1, 1000);
+                } else {
+                    timeHandler.sendEmptyMessageDelayed(1, 10 * 1000);
+                }
                 break;
             case GunBean.PREPARING://在准备中，只更新状态，不更新其他ui
                 isTimeRefresh = true;
                 timeTaskRefresh(Cons.mCurrentPile.getChargeId(), Cons.mCurrentGunBeanId);
-                timeHandler.sendEmptyMessageDelayed(1, 5 * 1000);
+                if (isClicked) {
+                    timeHandler.sendEmptyMessageDelayed(1, 1000);
+                } else {
+                    timeHandler.sendEmptyMessageDelayed(1, 5 * 1000);
+                }
                 break;
+
             default:
                 isTimeRefresh = true;
                 freshChargingGun(Cons.mCurrentPile.getChargeId(), Cons.mCurrentGunBeanId);
@@ -590,7 +593,6 @@ public class ChargingPileActivity extends BaseActivity {
         if (!isTimeRefresh) {
             Mydialog.Show(this);
         }
-        isFreshing = true;
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         jsonMap.put("userId", Cons.userBean.getId());//测试id
         jsonMap.put("lan", getLanguage());
@@ -606,7 +608,6 @@ public class ChargingPileActivity extends BaseActivity {
             public void success(String json) {
                 Mydialog.Dismiss();
                 srlPull.setRefreshing(false);
-                isFreshing = false;
                 try {
                     List<ChargingBean.DataBean> charginglist = new ArrayList<>();
                     JSONObject object = new JSONObject(json);
@@ -638,7 +639,6 @@ public class ChargingPileActivity extends BaseActivity {
             @Override
             public void LoginError(String str) {
                 srlPull.setRefreshing(false);
-                isFreshing = false;
                 MyUtil.hideAllView(View.GONE, rlCharging);
                 MyUtil.showAllView(emptyPage);
             }
@@ -685,7 +685,6 @@ public class ChargingPileActivity extends BaseActivity {
 
     private void timeTaskRefresh(final String chargingId, final int connectorId) {
         if (!isTimeRefresh) Mydialog.Show(this);
-        isFreshing = true;
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         jsonMap.put("sn", chargingId);//测试id
         jsonMap.put("connectorId", connectorId);//测试id
@@ -702,13 +701,16 @@ public class ChargingPileActivity extends BaseActivity {
             @Override
             public void success(String json) {
                 Mydialog.Dismiss();
-                isFreshing = false;
                 try {
                     JSONObject object = new JSONObject(json);
                     if (object.getInt("code") == 0) {
                         GunBean gunBean = new Gson().fromJson(json, GunBean.class);
                         Cons.mCurrentGunBean = gunBean;
-                        previous = gunBean.getData().getStatus();
+                        String status = gunBean.getData().getStatus();
+                        if (!status.equals(previous)) {
+                            isClicked = false;
+                        }
+                        previous = status;
                     }
 
                 } catch (Exception e) {
@@ -719,7 +721,6 @@ public class ChargingPileActivity extends BaseActivity {
 
             @Override
             public void LoginError(String str) {
-                isFreshing = false;
             }
 
         });
@@ -736,7 +737,6 @@ public class ChargingPileActivity extends BaseActivity {
 
     private void freshChargingGun(final String chargingId, final int connectorId) {
         if (!isTimeRefresh) Mydialog.Show(this);
-        isFreshing = true;
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         jsonMap.put("sn", chargingId);//测试id
         jsonMap.put("connectorId", connectorId);//测试id
@@ -753,7 +753,6 @@ public class ChargingPileActivity extends BaseActivity {
             @Override
             public void success(String json) {
                 Mydialog.Dismiss();
-                isFreshing = false;
                 try {
                     JSONObject object = new JSONObject(json);
                     if (object.getInt("code") == 0) {
@@ -770,7 +769,6 @@ public class ChargingPileActivity extends BaseActivity {
 
             @Override
             public void LoginError(String str) {
-                isFreshing = false;
             }
 
         });
@@ -796,12 +794,9 @@ public class ChargingPileActivity extends BaseActivity {
         gunPrepareInfoByLastAction(gunBean);
         //设置当前状态显示
         String status = data.getStatus();
-//        String status = GunBean.CHARGING;
-        //状态改变,并且不是充电完成时不再循环刷新
+        //状态改变
         if (!status.equals(previous)) {
-            cycleTime = 0;
-        } else {
-            cycleTime = 0;
+            isClicked = false;
         }
         //记录上一个状态
         previous = status;
@@ -1153,7 +1148,7 @@ public class ChargingPileActivity extends BaseActivity {
                             initPresetUi();
                             initReserveUi();
                             String expiryDate = reserveNow.get(0).getExpiryDate();
-                            setReserveUi(getString(R.string.m204开始时间), getString(R.string.m183开启), R.drawable.checkbox_on, expiryDate.substring(11, 16), true,false);
+                            setReserveUi(getString(R.string.m204开始时间), getString(R.string.m183开启), R.drawable.checkbox_on, expiryDate.substring(11, 16), true, false);
                         }
                     }
                 }
@@ -1212,7 +1207,7 @@ public class ChargingPileActivity extends BaseActivity {
             case R.id.ivLeft:
                 Intent intent = new Intent(this, MeActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivityForResult(intent,REQUEST_FRESH_CHARGING);
+                startActivityForResult(intent, REQUEST_FRESH_CHARGING);
                 break;
             case R.id.ll_Authorization:
                 if (Cons.mCurrentPile.getType() == 1) {
@@ -1221,7 +1216,7 @@ public class ChargingPileActivity extends BaseActivity {
                 }
                 Intent intent2 = new Intent(this, ChargingSetActivity.class);
                 intent2.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivityForResult(intent2,REQUEST_FRESH_CHARGING);
+                startActivityForResult(intent2, REQUEST_FRESH_CHARGING);
                 break;
             case R.id.ll_charging:
                 toChargingOrStop();
@@ -1239,7 +1234,7 @@ public class ChargingPileActivity extends BaseActivity {
             case R.id.ll_record:
                 Intent intent4 = new Intent(this, ChargingRecoderActivity.class);
                 intent4.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivityForResult(intent4,REQUEST_FRESH_CHARGING);
+                startActivityForResult(intent4, REQUEST_FRESH_CHARGING);
                 break;
         }
 
@@ -1487,7 +1482,6 @@ public class ChargingPileActivity extends BaseActivity {
             public void onClick(View v) {
                 LogUtil.d("删除充电桩");
                 Mydialog.Show(ChargingPileActivity.this);
-                isFreshing = true;
                 Map<String, Object> jsonMap = new HashMap<String, Object>();
                 jsonMap.put("sn", bean.getChargeId());
                 jsonMap.put("userId", bean.getUserId());
@@ -1503,7 +1497,6 @@ public class ChargingPileActivity extends BaseActivity {
                     @Override
                     public void success(String json) {
                         Mydialog.Dismiss();
-                        isFreshing = false;
                         try {
                             JSONObject object = new JSONObject(json);
                             if (object.getInt("code") == 0) {
@@ -1522,7 +1515,6 @@ public class ChargingPileActivity extends BaseActivity {
 
                     @Override
                     public void LoginError(String str) {
-                        isFreshing = false;
                     }
 
 
@@ -1650,7 +1642,7 @@ public class ChargingPileActivity extends BaseActivity {
                 refreshAll();
             }
 
-            if (requestCode==REQUEST_FRESH_CHARGING){
+            if (requestCode == REQUEST_FRESH_CHARGING) {
                 //列表有充电桩的时候才开启定时器
                 if (mAdapter.getData().size() > 0) {
                     timeHandler.removeMessages(1);
@@ -1718,7 +1710,6 @@ public class ChargingPileActivity extends BaseActivity {
     private void requestNarmal(final int type, String key, Object value) {
         LogUtil.d("正常充电，指令发送");
         Mydialog.Show(this);
-        isFreshing = true;
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         jsonMap.put("action", "remoteStartTransaction");
         jsonMap.put("connectorId", Cons.mCurrentGunBeanId);
@@ -1744,13 +1735,12 @@ public class ChargingPileActivity extends BaseActivity {
             @Override
             public void success(String json) {
                 Mydialog.Dismiss();
-                isFreshing = false;
                 try {
                     JSONObject object = new JSONObject(json);
                     toast(object.getString("data"));
-                    cycleTime = 0;
+                    isClicked = true;
                     timeHandler.removeMessages(1);
-                    timeHandler.sendEmptyMessageDelayed(1, 3 * 1000);
+                    timeHandler.sendEmptyMessageDelayed(1, 1000);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -1759,7 +1749,6 @@ public class ChargingPileActivity extends BaseActivity {
 
             @Override
             public void LoginError(String str) {
-                isFreshing = false;
             }
 
         });
@@ -1772,7 +1761,6 @@ public class ChargingPileActivity extends BaseActivity {
     private void requestStop() {
         LogUtil.d("手动停止充电，指令发送");
         Mydialog.Show(this);
-        isFreshing = true;
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         jsonMap.put("action", "remoteStopTransaction");
         jsonMap.put("connectorId", Cons.mCurrentGunBeanId);
@@ -1791,13 +1779,12 @@ public class ChargingPileActivity extends BaseActivity {
             @Override
             public void success(String json) {
                 Mydialog.Dismiss();
-                isFreshing = false;
                 try {
                     JSONObject object = new JSONObject(json);
                     toast(object.getString("data"));
-                    cycleTime = 0;
+                    isClicked = true;
                     timeHandler.removeMessages(1);
-                    timeHandler.sendEmptyMessageDelayed(1, 3 * 1000);
+                    timeHandler.sendEmptyMessageDelayed(1, 1000);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -1806,7 +1793,6 @@ public class ChargingPileActivity extends BaseActivity {
 
             @Override
             public void LoginError(String str) {
-                isFreshing = false;
             }
 
         });
@@ -1836,7 +1822,6 @@ public class ChargingPileActivity extends BaseActivity {
         }
 
         Mydialog.Show(this);
-        isFreshing = true;
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         jsonMap.put("action", "ReserveNow");
         jsonMap.put("expiryDate", expiryDate);
@@ -1867,7 +1852,6 @@ public class ChargingPileActivity extends BaseActivity {
 
             @Override
             public void success(String json) {
-                isFreshing = false;
                 try {
                     Mydialog.Dismiss();
                     JSONObject object = new JSONObject(json);
@@ -1881,7 +1865,6 @@ public class ChargingPileActivity extends BaseActivity {
 
             @Override
             public void LoginError(String str) {
-                isFreshing = false;
             }
         });
     }
