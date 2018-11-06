@@ -309,17 +309,17 @@ public class ChargingPileActivity extends BaseActivity {
             case GunBean.CHARGING:
                 isTimeRefresh = true;
                 freshChargingGun(Cons.mCurrentPile.getChargeId(), Cons.mCurrentGunBeanId);
-                timeHandler.sendEmptyMessageDelayed(1, 60 * 1000);
+                timeHandler.sendEmptyMessageDelayed(1, 10 * 1000);
                 break;
             case GunBean.PREPARING://在准备中，只更新状态，不更新其他ui
                 isTimeRefresh = true;
                 timeTaskRefresh(Cons.mCurrentPile.getChargeId(), Cons.mCurrentGunBeanId);
-                timeHandler.sendEmptyMessageDelayed(1, 3 * 1000);
+                timeHandler.sendEmptyMessageDelayed(1, 5 * 1000);
                 break;
             default:
                 isTimeRefresh = true;
                 freshChargingGun(Cons.mCurrentPile.getChargeId(), Cons.mCurrentGunBeanId);
-                timeHandler.sendEmptyMessageDelayed(1, 10 * 1000);
+                timeHandler.sendEmptyMessageDelayed(1, 5 * 1000);
                 break;
         }
 
@@ -872,8 +872,8 @@ public class ChargingPileActivity extends BaseActivity {
                         int minPreset = (int) (presetTime % 60);
                         String sTimePreset = hourPreset + "h" + minPreset + "min";
                         setPresetChargingUi(scheme, sTimePreset, sTimeCharging, getString(R.string.m191已充时长),
-                                R.drawable.charging_money, money, getString(R.string.m192消费金额), R.drawable.charging_ele, sTimeCharging, getString(R.string.m191已充时长),
-                                (int) data.getcValue(), (int) data.getCost(),
+                                R.drawable.charging_money, money, getString(R.string.m192消费金额), R.drawable.charging_ele, energy, getString(R.string.m189已充电量),
+                                (int) data.getcValue(), (int) data.getCtime(),
                                 String.valueOf(data.getRate()), String.valueOf(data.getCurrent()), String.valueOf(data.getVoltage()));
                     }
                 }
@@ -1458,7 +1458,7 @@ public class ChargingPileActivity extends BaseActivity {
                     Cons.mSeletPos = position;
                     isTimeRefresh = false;
                     timeHandler.removeMessages(1);
-                    timeHandler.sendEmptyMessageDelayed(1, 10 * 1000);
+                    timeHandler.sendEmptyMessageDelayed(1, 5 * 1000);
                     refreshChargingUI(position, 1);
                 }
             }
@@ -1511,7 +1511,7 @@ public class ChargingPileActivity extends BaseActivity {
                                 //删除之后,重新刷新
                                 freshData(0, 1);
                                 timeHandler.removeMessages(1);
-                                timeHandler.sendEmptyMessageDelayed(1, 10 * 1000);
+                                timeHandler.sendEmptyMessageDelayed(1, 5 * 1000);
                             }
 
                         } catch (Exception e) {
@@ -1642,7 +1642,7 @@ public class ChargingPileActivity extends BaseActivity {
                 //列表有充电桩的时候才开启定时器
                 if (mAdapter.getData().size() > 0) {
                     timeHandler.removeMessages(1);
-                    timeHandler.sendEmptyMessageDelayed(1, 10 * 1000);
+                    timeHandler.sendEmptyMessageDelayed(1, 5 * 1000);
                 }
             }
 
@@ -1654,7 +1654,7 @@ public class ChargingPileActivity extends BaseActivity {
                 //列表有充电桩的时候才开启定时器
                 if (mAdapter.getData().size() > 0) {
                     timeHandler.removeMessages(1);
-                    timeHandler.sendEmptyMessageDelayed(1, 10 * 1000);
+                    timeHandler.sendEmptyMessageDelayed(1, 5 * 1000);
                 }
             }
         }
@@ -1750,7 +1750,7 @@ public class ChargingPileActivity extends BaseActivity {
                     toast(object.getString("data"));
                     cycleTime = 0;
                     timeHandler.removeMessages(1);
-                    timeHandler.sendEmptyMessageDelayed(1, 5 * 1000);
+                    timeHandler.sendEmptyMessageDelayed(1, 3 * 1000);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -1797,7 +1797,7 @@ public class ChargingPileActivity extends BaseActivity {
                     toast(object.getString("data"));
                     cycleTime = 0;
                     timeHandler.removeMessages(1);
-                    timeHandler.sendEmptyMessageDelayed(1, 5 * 1000);
+                    timeHandler.sendEmptyMessageDelayed(1, 3 * 1000);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

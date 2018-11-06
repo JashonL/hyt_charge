@@ -105,8 +105,8 @@ public class ChargingDurationActivity extends BaseActivity {
 
             @Override
             public void success(String json) {
+                Mydialog.Dismiss();
                 try {
-                    Mydialog.Dismiss();
                     JSONObject object = new JSONObject(json);
                     int code = object.getInt("code");
                     String data = object.getString("data");

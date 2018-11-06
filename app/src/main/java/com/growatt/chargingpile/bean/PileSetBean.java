@@ -40,6 +40,9 @@ public class PileSetBean {
         private String gateway = "";
         private int cid = 0;
         private String mask = "";
+        private String site="";
+        private String G_Authentication="";
+        private String G_ChargerMode="";
 
         public int getConnectors() {
             return connectors;
@@ -223,6 +226,30 @@ public class PileSetBean {
 
         public void setMask(String mask) {
             this.mask = mask;
+        }
+
+        public String getSite() {
+            return site;
+        }
+
+        public void setSite(String site) {
+            this.site = site;
+        }
+
+        public String getG_Authentication() {
+            return G_Authentication;
+        }
+
+        public void setG_Authentication(String g_Authentication) {
+            G_Authentication = g_Authentication;
+        }
+
+        public String getG_ChargerMode() {
+            return G_ChargerMode;
+        }
+
+        public void setG_ChargerMode(String g_ChargerMode) {
+            G_ChargerMode = g_ChargerMode;
         }
     }
 }

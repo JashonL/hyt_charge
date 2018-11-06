@@ -217,7 +217,9 @@
     <string name="m214请连接充电枪到车辆">Please connect the vehicle to the charging gun.</string>
     <string name="m215电桩故障">Pile failure, please switch to other charging piles.</string>
     <string name="m216桩体状态为不可用">Pile unavailable, please switch to other charging piles.</string>
-
+    <string name="m217扫码刷卡">APP/RFID</string>
+    <string name="m218仅刷卡充电">Only RFID</string>
+    <string name="m219插枪充电">Plug&amp;Charge</string>
 
     <!--权限问题-->
     <string name="m权限获取某权限说明">Requested %1$s Permission</string>

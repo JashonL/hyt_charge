@@ -2,12 +2,17 @@ package com.growatt.chargingpile.activity;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -20,15 +25,18 @@ import com.growatt.chargingpile.bean.ParamsSetBean;
 import com.growatt.chargingpile.bean.PileSetBean;
 import com.growatt.chargingpile.connutil.PostUtil;
 import com.growatt.chargingpile.util.Cons;
+import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
 import com.growatt.chargingpile.util.SmartHomeUtil;
+import com.mylhyl.circledialog.CircleDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +49,8 @@ public class ChargingParamsActivity extends BaseActivity {
     View headerView;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+    @BindView(R.id.srl_pull)
+    SwipeRefreshLayout srlPull;
 
     private TextView tvId;
     private TextView tvKeys;
@@ -51,6 +61,9 @@ public class ChargingParamsActivity extends BaseActivity {
     private LinearLayoutManager mLinearLayoutManager;
     private String[] keys;
     private View paramHeadView;
+
+    private String[] mModels;
+    private boolean isModyfi = false;
 
 
     @Override
@@ -63,7 +76,20 @@ public class ChargingParamsActivity extends BaseActivity {
         initRecyclerView();
         refreshDate();
         setOnclickListener();
+        initPullView();
     }
+
+    private void initPullView() {
+        srlPull.setColorSchemeColors(ContextCompat.getColor(this, R.color.green_1));
+        srlPull.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                isModyfi = false;
+                refreshDate();
+            }
+        });
+    }
+
 
     private void setOnclickListener() {
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -79,7 +105,7 @@ public class ChargingParamsActivity extends BaseActivity {
                         inputEdit("address", (String) bean.getValue());
                         break;
                     case 3:
-                        inputEdit("address", (String) bean.getValue());
+                        inputEdit("site", (String) bean.getValue());
                         break;
                     case 4:
                         inputEdit("rate", String.valueOf(bean.getValue()));
@@ -88,7 +114,8 @@ public class ChargingParamsActivity extends BaseActivity {
                         inputEdit("power", String.valueOf(bean.getValue()));
                         break;
                     case 6:
-                        inputEdit("model", (String) bean.getValue());
+//                        inputEdit("model", (String) bean.getValue());
+                        setModle();
                         break;
                     case 8:
                         inputEdit("ip", (String) bean.getValue());
@@ -115,6 +142,7 @@ public class ChargingParamsActivity extends BaseActivity {
     }
 
     private void initResource() {
+        mModels = new String[]{getString(R.string.m217扫码刷卡), getString(R.string.m218仅刷卡充电), getString(R.string.m219插枪充电)};
         keys = new String[]{getString(R.string.m148基础参数), getString(R.string.m149电桩名称), getString(R.string.m150国家城市), getString(R.string.m151站点), getString(R.string.m152充电费率), getString(R.string.m153功率设置), getString(R.string.m154充电模式), getString(R.string.m155高级设置), getString(R.string.m156充电桩IP), getString(R.string.m157网关), getString(R.string.m158子网掩码), getString(R.string.m159网络MAC地址), getString(R.string.m160服务器URL), getString(R.string.m161DNS地址)};
         for (int i = 0; i < 14; i++) {
             ParamsSetBean bean = new ParamsSetBean();
@@ -170,7 +198,17 @@ public class ChargingParamsActivity extends BaseActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int swich) {
                         String s = et.getText().toString();
-
+                        if (TextUtils.isEmpty(s)) {
+                            toast(R.string.m140不能为空);
+                            return;
+                        }
+                        if ("ip".equals(key)) {
+                            boolean b = MyUtil.isboolIp(value);
+                            if (!b) {
+                                toast(R.string.m177输入格式不正确);
+                                return;
+                            }
+                        }
                         requestEdit(key, s);
                     }
                 }).setNegativeButton(R.string.m7取消, null).create();
@@ -200,7 +238,18 @@ public class ChargingParamsActivity extends BaseActivity {
             @Override
             public void success(String json) {
                 Mydialog.Dismiss();
-                refreshDate();
+                try {
+                    JSONObject object = new JSONObject(json);
+                    int code = object.getInt("code");
+                    if (code == 0) {
+                        isModyfi = true;
+                        refreshDate();
+                    }
+                    toast(object.getString("data"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
 
             @Override
@@ -212,7 +261,7 @@ public class ChargingParamsActivity extends BaseActivity {
 
 
     private void refreshDate() {
-        Mydialog.Show(this);
+        if (!isModyfi) Mydialog.Show(this);
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         jsonMap.put("sn", Cons.mCurrentPile.getChargeId());//测试id
         jsonMap.put("userId", Cons.userBean.getId());//测试id
@@ -227,6 +276,7 @@ public class ChargingParamsActivity extends BaseActivity {
             @Override
             public void success(String json) {
                 Mydialog.Dismiss();
+                srlPull.setRefreshing(false);
                 try {
                     JSONObject jsonObject = new JSONObject(json);
                     int code = jsonObject.getInt("code");
@@ -256,7 +306,7 @@ public class ChargingParamsActivity extends BaseActivity {
 
     private void setHeadView(PileSetBean.DataBean data) {
         tvId.setText(data.getChargeId());
-        tvKeys.setText(data.getSerialNumber());
+        tvKeys.setText(data.getCode());
     }
 
 
@@ -283,7 +333,7 @@ public class ChargingParamsActivity extends BaseActivity {
                 case 3:
                     bean.setType(ParamsSetBean.PARAM_ITEM);
                     bean.setKey(keys[i]);
-                    bean.setValue(data.getAddress());
+                    bean.setValue(data.getSite());
                     break;
                 case 4:
                     bean.setType(ParamsSetBean.PARAM_ITEM);
@@ -298,7 +348,16 @@ public class ChargingParamsActivity extends BaseActivity {
                 case 6:
                     bean.setType(ParamsSetBean.PARAM_ITEM);
                     bean.setKey(keys[i]);
-                    bean.setValue(data.getModel());
+                    String model = data.getG_ChargerMode();
+                    if ("1".equals(model)) {
+                        bean.setValue(mModels[0]);
+                    } else if ("2".equals(model)) {
+                        bean.setValue(mModels[1]);
+                    } else if ("3".equals(model)) {
+                        bean.setValue(mModels[2]);
+                    } else {
+                        bean.setValue("");
+                    }
                     break;
 
                 case 8:
@@ -335,5 +394,35 @@ public class ChargingParamsActivity extends BaseActivity {
             newlist.add(bean);
             mAdapter.replaceData(newlist);
         }
+    }
+
+
+    /**
+     * 设置模式
+     */
+    public void setModle() {
+        FragmentManager fragmentManager = ChargingParamsActivity.this.getSupportFragmentManager();
+        new CircleDialog.Builder()
+                .setTitle(getString(R.string.m154充电模式))
+                .setItems(mModels, new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        int model = 4;
+                        switch (position) {
+                            case 0:
+                                model = 1;
+                                break;
+                            case 1:
+                                model = 2;
+                                break;
+                            case 2:
+                                model = 3;
+                                break;
+                        }
+                        requestEdit("G_ChargerMode", model);
+                    }
+                })
+                .setNegative(getString(R.string.m7取消), null)
+                .show(fragmentManager);
     }
 }

@@ -43,12 +43,14 @@ public class MyUtil {
 
     /**
      * 判断通知栏是否开启
+     *
      * @param context 调用方法的上下文
      * @return
      */
 
-    @SuppressLint("NewApi") public static boolean isNotificationEnabled(Context context) {
-        if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.KITKAT){
+    @SuppressLint("NewApi")
+    public static boolean isNotificationEnabled(Context context) {
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.KITKAT) {
             return true;
         }
         AppOpsManager mAppOps = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
@@ -60,8 +62,8 @@ public class MyUtil {
             appOpsClass = Class.forName(AppOpsManager.class.getName());
             Method checkOpNoThrowMethod = appOpsClass.getMethod(CHECK_OP_NO_THROW, Integer.TYPE, Integer.TYPE, String.class);
             Field opPostNotificationValue = appOpsClass.getDeclaredField(OP_POST_NOTIFICATION);
-            int value = (Integer)opPostNotificationValue.get(Integer.class);
-            return ((Integer)checkOpNoThrowMethod.invoke(mAppOps,value, uid, pkg) == AppOpsManager.MODE_ALLOWED);
+            int value = (Integer) opPostNotificationValue.get(Integer.class);
+            return ((Integer) checkOpNoThrowMethod.invoke(mAppOps, value, uid, pkg) == AppOpsManager.MODE_ALLOWED);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -70,16 +72,17 @@ public class MyUtil {
 
     /**
      * 校验手机号
+     *
      * @param phone 手机号
      * @return
      */
     public static boolean regexCheckPhone(String phone) {
         boolean flag = false;
-        try{
+        try {
             Pattern regex = Pattern.compile("^(((13[0-9])|(15([0-3]|[5-9]))|(18[0,5-9]))\\d{8})|(0\\d{2}-\\d{8})|(0\\d{3}-\\d{7})$");
             Matcher matcher = regex.matcher(phone);
             flag = matcher.matches();
-        }catch(Exception e){
+        } catch (Exception e) {
             flag = false;
         }
         return flag;
@@ -87,12 +90,12 @@ public class MyUtil {
 
     public static boolean regexCheckEmail(String email) {
         boolean flag = false;
-        try{
+        try {
             String check = "^([a-z0-9A-Z]+[-|_|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
             Pattern regex = Pattern.compile(check);
             Matcher matcher = regex.matcher(email);
             flag = matcher.matches();
-        }catch(Exception e){
+        } catch (Exception e) {
             flag = false;
         }
         return flag;
@@ -101,48 +104,49 @@ public class MyUtil {
 
     /**
      * 通过国家码获取国家或者国家区号
+     *
      * @param context
      * @param status:status=1(获取国家);status=2(获取国际区号);
      * @return
      */
-    public static String getCountryAndPhoneCodeByCountryCode(Context context,int status){
+    public static String getCountryAndPhoneCodeByCountryCode(Context context, int status) {
         String countryCode = Locale.getDefault().getCountry();
-        String country = getCountryAndPhoneCode(context,countryCode,status);
+        String country = getCountryAndPhoneCode(context, countryCode, status);
         return country;
     }
 
     private static String getCountryAndPhoneCode(Context context, String countryCode, int status) {
         String countryOrPhoneCode = null;
-        if (status == 1){
+        if (status == 1) {
             countryOrPhoneCode = "Other";
-        }else if (status == 2){
+        } else if (status == 2) {
             countryOrPhoneCode = "86";
         }
         try {
             String json = readCountryByAssets(context);
-            countryOrPhoneCode = parseJsonByCountryCode(countryOrPhoneCode,json,countryCode,status);
+            countryOrPhoneCode = parseJsonByCountryCode(countryOrPhoneCode, json, countryCode, status);
             return countryOrPhoneCode;
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return countryOrPhoneCode;
         }
     }
 
-    private static String parseJsonByCountryCode(String countryOrPhoneCode,String json, String countryCode, int status) throws Exception{
+    private static String parseJsonByCountryCode(String countryOrPhoneCode, String json, String countryCode, int status) throws Exception {
         //解析Json
-        JSONObject jsonObj=new JSONObject(json);
+        JSONObject jsonObj = new JSONObject(json);
         JSONArray array = jsonObj.getJSONArray("data");
-        if (array!=null){
+        if (array != null) {
             int length = array.length();
-            for (int i = 0; i <length; i++){
+            for (int i = 0; i < length; i++) {
                 JSONObject countryObj = array.getJSONObject(i);
-                if (status == 1){
-                    if (countryCode.contains(countryObj.getString("countryCode")) || countryCode.toUpperCase().contains(countryObj.getString("countryCode"))){
+                if (status == 1) {
+                    if (countryCode.contains(countryObj.getString("countryCode")) || countryCode.toUpperCase().contains(countryObj.getString("countryCode"))) {
                         countryOrPhoneCode = countryObj.getString("countryName");
                         break;
                     }
-                }else if (status == 2){
-                    if (countryCode.contains(countryObj.getString("countryCode")) || countryCode.toUpperCase().contains(countryObj.getString("countryCode"))){
+                } else if (status == 2) {
+                    if (countryCode.contains(countryObj.getString("countryCode")) || countryCode.toUpperCase().contains(countryObj.getString("countryCode"))) {
                         countryOrPhoneCode = countryObj.getString("phoneCode");
                         break;
                     }
@@ -153,23 +157,22 @@ public class MyUtil {
         return countryOrPhoneCode;
     }
 
-    private static String readCountryByAssets(Context context) throws Exception{
+    private static String readCountryByAssets(Context context) throws Exception {
         InputStream inputStream = context.getAssets().open("englishCountryJson.txt");
-        byte[] buffer=new byte[inputStream.available()];
+        byte[] buffer = new byte[inputStream.available()];
         inputStream.read(buffer);
-        String json = new String(buffer,"GB2312");
+        String json = new String(buffer, "GB2312");
         return json;
     }
 
 
-
-    public static void putAppErrMsg(final String errMsg,final Context context) {
-        final String msg="SystemType:1"+
-                ";AppVersion:"+getAppVersion(context)+
-                ";"+"SystemVersion:"+android.os.Build.VERSION.RELEASE+
-                ";"+"PhoneModel:"+android.os.Build.MODEL+
-                ";"+"UserName:"+(Cons.userBean!=null?Cons.userBean.getAccountName():"")+
-                ";"+"msg:"+errMsg;
+    public static void putAppErrMsg(final String errMsg, final Context context) {
+        final String msg = "SystemType:1" +
+                ";AppVersion:" + getAppVersion(context) +
+                ";" + "SystemVersion:" + android.os.Build.VERSION.RELEASE +
+                ";" + "PhoneModel:" + android.os.Build.MODEL +
+                ";" + "UserName:" + (Cons.userBean != null ? Cons.userBean.getAccountName() : "") +
+                ";" + "msg:" + errMsg;
         Log.i("TAG", msg);
         PostUtil.post(new Urlsutil().postSaveAppErrorMsg, new PostUtil.postListener() {
 
@@ -179,10 +182,11 @@ public class MyUtil {
 
             @Override
             public void Params(Map<String, String> params) {
-                params.put("time", MyUtil.getFormatDate("",null));
+                params.put("time", MyUtil.getFormatDate("", null));
                 params.put("msg", msg);
 //				params.put("msg", "AppVersion:"+getAppVersion(context));
             }
+
             @Override
             public void LoginError(String str) {
             }
@@ -190,32 +194,32 @@ public class MyUtil {
     }
 
 
-    public static String getFormatDate(String dateFromat,Date date){
-        if(TextUtils.isEmpty(dateFromat)){
-            dateFromat=DATE_FORMAT;
+    public static String getFormatDate(String dateFromat, Date date) {
+        if (TextUtils.isEmpty(dateFromat)) {
+            dateFromat = DATE_FORMAT;
         }
-        if(date==null){
-            date=new Date();
+        if (date == null) {
+            date = new Date();
         }
         return getDateFormat(dateFromat).format(date);
     }
 
     private static ThreadLocal<DateFormat> threadLocal = new ThreadLocal<DateFormat>();
+
     /**
      * 获取SimpleDateFormat对象，线程安全
+     *
      * @param dateFormat："yyyy-MM-dd HH:mm:ss"
      * @return
      */
-    public static DateFormat getDateFormat(String dateFormat)
-    {
+    public static DateFormat getDateFormat(String dateFormat) {
         DateFormat df = threadLocal.get();
-        if(df==null){
+        if (df == null) {
             df = new SimpleDateFormat(dateFormat);
             threadLocal.set(df);
         }
         return df;
     }
-
 
 
     public static String getAppVersion(Context context) {
@@ -231,23 +235,26 @@ public class MyUtil {
 
     /**
      * 隐藏所有的view
+     *
      * @param visibity VISIBLE, INVISIBLE, or GONE
      * @param views
      */
-    public static void hideAllView(int visibity,View... views){
-        for (View view : views){
-            if (view != null && view.getVisibility() == View.VISIBLE){
+    public static void hideAllView(int visibity, View... views) {
+        for (View view : views) {
+            if (view != null && view.getVisibility() == View.VISIBLE) {
                 view.setVisibility(visibity);
             }
         }
     }
+
     /**
      * 隐藏所有的view
+     *
      * @param views
      */
-    public static void showAllView(View... views){
-        for (View view : views){
-            if (view != null && view.getVisibility() != View.VISIBLE){
+    public static void showAllView(View... views) {
+        for (View view : views) {
+            if (view != null && view.getVisibility() != View.VISIBLE) {
                 view.setVisibility(View.VISIBLE);
             }
         }
@@ -309,26 +316,36 @@ public class MyUtil {
     }
 
 
-
     //显示虚拟键盘
-    public static void showKeyboard(View v)
-    {
-        InputMethodManager imm = ( InputMethodManager ) v.getContext( ).getSystemService( Context.INPUT_METHOD_SERVICE );
+    public static void showKeyboard(View v) {
+        InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        imm.showSoftInput(v,0);
+        imm.showSoftInput(v, 0);
 
     }
 
 
     //小数验证
-    public static boolean isNumber(String str){
-        Pattern pattern=Pattern.compile("^(([1-9]{1}\\d*)|([0]{1}))(\\.(\\d){0,2})?$"); // 判断小数点后2位的数字的正则表达式
-        Matcher match=pattern.matcher(str);
-        if(match.matches()==false){
+    public static boolean isNumber(String str) {
+        Pattern pattern = Pattern.compile("^(([1-9]{1}\\d*)|([0]{1}))(\\.(\\d){0,2})?$"); // 判断小数点后2位的数字的正则表达式
+        Matcher match = pattern.matcher(str);
+        if (match.matches() == false) {
             return false;
-        }else{
+        } else {
             return true;
         }
+    }
+
+
+    /**
+     * 判断是否为合法IP * @return the ip
+     */
+    public static boolean isboolIp(String ipAddress) {
+        if(TextUtils.isEmpty(ipAddress))
+            return false;
+        Pattern pattern = Pattern.compile("^(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|[1-9])\\.(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\.(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\.(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)$");
+        Matcher matcher = pattern.matcher(ipAddress);
+        return matcher.find();
     }
 
 }

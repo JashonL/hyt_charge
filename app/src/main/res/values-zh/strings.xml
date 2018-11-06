@@ -220,6 +220,9 @@
     <string name="m214请连接充电枪到车辆">请连接充电枪到车辆</string>
     <string name="m215电桩故障">电桩故障，请切换使用其他充电桩</string>
     <string name="m216桩体状态为不可用">桩体通讯异常，请切换使用其他充电桩</string>
+    <string name="m217扫码刷卡">扫码/刷卡</string>
+    <string name="m218仅刷卡充电">仅刷卡充电</string>
+    <string name="m219插枪充电">插枪充电</string>
 
 
     <!--安卓额外部分-->
