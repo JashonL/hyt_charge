@@ -1364,7 +1364,7 @@ public class ChargingPileActivity extends BaseActivity {
                     toast(getString(R.string.m215电桩故障));
                     break;
                 case GunBean.FINISHING:
-                    requestNarmal(0, "", "");
+//                    requestNarmal(0, "", "");
                     break;
                 case GunBean.UNAVAILABLE:
                     toast(getString(R.string.m216桩体状态为不可用));
