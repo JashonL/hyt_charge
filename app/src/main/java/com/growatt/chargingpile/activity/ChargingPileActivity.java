@@ -1059,10 +1059,10 @@ public class ChargingPileActivity extends BaseActivity {
                     initPresetUi();
                     initReserveUi();
                 } else {//预约充电
-                    //预约信息
-                    isReservation = true;
                     List<GunBean.ReserveNowBean> reserveNow = gunBean.getReserveNow();
                     if (reserveNow.size() != 0) {
+                        //预约信息
+                        isReservation = true;
                         //判断是什么预约
                         String cKey = reserveNow.get(0).getCKey();
                         if (cKey.equals("G_SetAmount")) {//金额预约
@@ -1150,6 +1150,11 @@ public class ChargingPileActivity extends BaseActivity {
                             String expiryDate = reserveNow.get(0).getExpiryDate();
                             setReserveUi(getString(R.string.m204开始时间), getString(R.string.m183开启), R.drawable.checkbox_on, expiryDate.substring(11, 16), true, false);
                         }
+                    }else {
+                        isReservation = false;
+                        presetType = 0;
+                        initPresetUi();
+                        initReserveUi();
                     }
                 }
             }

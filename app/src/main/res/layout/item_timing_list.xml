@@ -80,30 +80,44 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginRight="@dimen/xa20"
-            android:layout_toLeftOf="@+id/cb_everyday"
+            android:layout_toLeftOf="@+id/rl_every_day"
             android:text="@string/m186每天"
             android:textColor="@color/blue_1"
             android:textSize="@dimen/xa30" />
 
-        <CheckBox
-            android:id="@+id/cb_everyday"
-            android:layout_width="@dimen/xa40"
-            android:layout_height="@dimen/xa40"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/xa20"
-            android:layout_toLeftOf="@+id/cb_switch"
-            android:background="@drawable/selector_checkbox_bg_white"
-            android:button="@null" />
+
+        <RelativeLayout
+            android:id="@+id/rl_every_day"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@+id/rl_switch">
+
+            <ImageView
+                android:id="@+id/iv_everyday"
+                android:layout_width="@dimen/xa40"
+                android:layout_height="@dimen/xa40"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="@dimen/xa20"
+                android:background="@drawable/selector_checkbox_bg_white" />
+
+        </RelativeLayout>
 
 
-        <CheckBox
-            android:id="@+id/cb_switch"
-            android:layout_width="@dimen/xa80"
-            android:layout_height="@dimen/xa40"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/selector_checkbox_on_off"
-            android:button="@null" />
+        <RelativeLayout
+            android:id="@+id/rl_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true">
+
+            <ImageView
+                android:id="@+id/iv_switch"
+                android:layout_width="@dimen/xa80"
+                android:layout_height="@dimen/xa40"
+                android:layout_centerInParent="true"
+                android:background="@drawable/selector_checkbox_on_off" />
+
+        </RelativeLayout>
+
 
     </RelativeLayout>
 

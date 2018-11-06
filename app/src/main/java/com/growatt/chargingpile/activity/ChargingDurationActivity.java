@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.google.gson.Gson;
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
@@ -59,6 +60,7 @@ public class ChargingDurationActivity extends BaseActivity {
     private TimingAdapter mAdapter;
 
     private int totalMinute;
+    private boolean isUpdate = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +75,7 @@ public class ChargingDurationActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        isUpdate = false;
         refresh();
     }
 
@@ -86,10 +89,65 @@ public class ChargingDurationActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+
+        recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
+            @Override
+            public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                int viewId = view.getId();
+                ReservationBean.DataBean dataBean = mAdapter.getData().get(position);
+                if (dataBean == null) return;
+                String status = dataBean.getStatus();
+                int loopType = dataBean.getLoopType();
+                String expiryDate = dataBean.getExpiryDate();
+                switch (viewId) {
+                    case R.id.rl_every_day:
+                        if (status.equals("Accepted")) {
+                            if (loopType == -1) {
+                                dataBean.setLoopType(0);
+                            } else {
+                                dataBean.setLoopType(-1);
+                            }
+                            editTime(dataBean, "1");
+                        }
+                        break;
+                    case R.id.rl_switch:
+                        //开启关闭
+                        if (!status.equals("Accepted")) {
+                            if (loopType != -1) {
+                                dataBean.setLoopType(0);//勾选每天开启
+                                mAdapter.notifyDataSetChanged();
+                                editTime(dataBean, "1");
+                            } else {
+                                Date todayDate = new Date();
+                                long daytime = todayDate.getTime();
+                                long onTime = 0;
+                                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                                //开始的日期
+                                try {
+                                    Date start = format.parse(expiryDate);
+                                    onTime = start.getTime();
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                if (daytime > onTime) {
+                                    toast(getString(R.string.m请选择正确的时间段));
+                                    return;
+                                }
+                                dataBean.setLoopType(-1);
+                                mAdapter.notifyDataSetChanged();
+                                editTime(dataBean, "1");
+                            }
+                        } else {
+                            editTime(dataBean, "2");
+                        }
+                        break;
+                }
+            }
+        });
     }
 
     private void refresh() {
-        Mydialog.Show(this);
+        if (!isUpdate) Mydialog.Show(this);
         Map<String, Object> jsonMap = new LinkedHashMap<String, Object>();
         jsonMap.put("userId", Cons.userBean.getId());
         jsonMap.put("sn", Cons.mCurrentPile.getChargeId());
@@ -207,7 +265,7 @@ public class ChargingDurationActivity extends BaseActivity {
     private void initRecyclerView() {
         mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mAdapter = new TimingAdapter(mTimingList);
-        mAdapter.setCheckListener(new TimingAdapter.CheckListnerListener() {
+  /*      mAdapter.setCheckListener(new TimingAdapter.CheckListnerListener() {
 
             @Override
             public void cyclelistener(int position, boolean isOpen, boolean isCycle) {
@@ -258,7 +316,7 @@ public class ChargingDurationActivity extends BaseActivity {
 
             }
 
-        });
+        });*/
         recyclerView.setLayoutManager(mLinearLayoutManager);
         recyclerView.setAdapter(mAdapter);
         View emptyView = LayoutInflater.from(this).inflate(R.layout.empty_view, null);
@@ -294,6 +352,8 @@ public class ChargingDurationActivity extends BaseActivity {
                     int code = object.getInt("code");
                     String data = object.getString("data");
                     if (code == 0) {
+                        isUpdate = true;
+                        refresh();
                         toast(R.string.m成功);
                     } else {
                         toast(data);

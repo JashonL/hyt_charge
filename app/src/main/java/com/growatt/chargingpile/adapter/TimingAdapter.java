@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -50,27 +51,34 @@ public class TimingAdapter extends BaseQuickAdapter<ReservationBean.DataBean, Ba
         final int hour = cValue / 60;
         int min = cValue % 60;
         String status = item.getStatus();
-        Log.d("liaojinsha","结束时间："+endDate);
-        if (!TextUtils.isEmpty(expiryDate)){
+        if (!TextUtils.isEmpty(expiryDate)) {
             helper.setText(R.id.tv_start_time, expiryDate.substring(11, 16));
         }
-        if (!TextUtils.isEmpty(endDate)){
+        if (!TextUtils.isEmpty(endDate)) {
             helper.setText(R.id.tv_stop_time, endDate.substring(11, 16));
         }
         helper.setText(R.id.tvDuration, hour + "h" + min + "min");
-        if (status.equals("Accepted")) {
-            helper.setChecked(R.id.cb_switch, true);
-        } else {
-            helper.setChecked(R.id.cb_switch, false);
-        }
+
+        final ImageView ivEveryDay = helper.getView(R.id.iv_everyday);
+        final ImageView ivSwitch = helper.getView(R.id.iv_switch);
         if (item.getLoopType() != -1) {
-            helper.setChecked(R.id.cb_everyday, true);
+            ivEveryDay.setBackgroundResource(R.drawable.sign_protocal_checked);
+//            helper.setChecked(R.id.cb_everyday, true);
         } else {
-            helper.setChecked(R.id.cb_everyday, false);
+            ivEveryDay.setBackgroundResource(R.drawable.sign_protocal_not_check);
+//            helper.setChecked(R.id.cb_everyday, false);
         }
-        final CheckBox cbEveryDay = helper.getView(R.id.cb_everyday);
-        final CheckBox cbSwitch = helper.getView(R.id.cb_switch);
-        cbEveryDay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        if (status.equals("Accepted")) {
+            ivSwitch.setBackgroundResource(R.drawable.checkbox_on);
+//            helper.setChecked(R.id.cb_switch, true);
+        } else {
+            ivSwitch.setBackgroundResource(R.drawable.checkbox_off);
+//            helper.setChecked(R.id.cb_switch, false);
+        }
+        helper.addOnClickListener(R.id.rl_every_day);
+        helper.addOnClickListener(R.id.rl_switch);
+
+      /*  cbEveryDay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mCheckListener.cyclelistener(helper.getAdapterPosition(), cbSwitch.isChecked(), isChecked);
@@ -79,13 +87,13 @@ public class TimingAdapter extends BaseQuickAdapter<ReservationBean.DataBean, Ba
         cbSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mCheckListener.switchlistener(buttonView,helper.getAdapterPosition(), isChecked, cbEveryDay.isChecked());
+                mCheckListener.switchlistener(buttonView, helper.getAdapterPosition(), isChecked, cbEveryDay.isChecked());
             }
-        });
+        });*/
     }
 
     public interface CheckListnerListener {
-        void switchlistener(CompoundButton buttonView,int position, boolean isOpen, boolean isCycle);
+        void switchlistener(CompoundButton buttonView, int position, boolean isOpen, boolean isCycle);
 
         void cyclelistener(int position, boolean isOpen, boolean isCycle);
     }
