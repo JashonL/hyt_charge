@@ -240,7 +240,11 @@ public class ChargingPileActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
+        //列表有充电桩的时候才开启定时器
+        if (mAdapter.getData().size() > 0) {
+            timeHandler.removeMessages(1);
+            timeHandler.sendEmptyMessageDelayed(1, 5 * 1000);
+        }
     }
 
     @Override
@@ -282,11 +286,6 @@ public class ChargingPileActivity extends BaseActivity {
             Cons.mSeletPos = 0;
         }
         freshData(Cons.mSeletPos, Cons.mCurrentGunBeanId);
-        //列表有充电桩的时候才开启定时器
-        if (mAdapter.getData().size() > 0) {
-            timeHandler.removeMessages(1);
-            timeHandler.sendEmptyMessageDelayed(1, 10 * 1000);
-        }
     }
 
 
@@ -296,7 +295,7 @@ public class ChargingPileActivity extends BaseActivity {
     private void reTimeFreshTask() {
         timeHandler.removeMessages(1);
         if (TextUtils.isEmpty(previous)) {
-            timeHandler.sendEmptyMessageDelayed(1, 10 * 1000);
+            timeHandler.sendEmptyMessageDelayed(1, 5 * 1000);
             return;
         }
         switch (previous) {
@@ -306,7 +305,7 @@ public class ChargingPileActivity extends BaseActivity {
                 if (isClicked) {
                     timeHandler.sendEmptyMessageDelayed(1, 1000);
                 } else {
-                    timeHandler.sendEmptyMessageDelayed(1, 10 * 1000);
+                    timeHandler.sendEmptyMessageDelayed(1, 5 * 1000);
                 }
                 break;
             case GunBean.PREPARING://在准备中，只更新状态，不更新其他ui
