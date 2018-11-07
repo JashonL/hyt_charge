@@ -131,7 +131,7 @@ public class AddChargingActivity extends BaseActivity {
                         backPileActivity(sn);
                     }
                     toast(object.getString("data"));
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 

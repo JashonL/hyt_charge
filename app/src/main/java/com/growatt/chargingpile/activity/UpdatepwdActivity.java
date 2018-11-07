@@ -100,7 +100,7 @@ public class UpdatepwdActivity extends BaseActivity {
                     } else {
                         toast(R.string.m37服务器错误);
                     }
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

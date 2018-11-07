@@ -152,7 +152,7 @@ public class NewEmailVerActivity extends BaseActivity {
                     } else {
                         mHandler.sendEmptyMessage(result);
                     }
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -258,7 +258,7 @@ public class NewEmailVerActivity extends BaseActivity {
                     } else {
                         mHandler.sendEmptyMessage(result);
                     }
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     Mydialog.Dismiss();
                 }

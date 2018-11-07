@@ -176,7 +176,7 @@ public class ChargingDurationActivity extends BaseActivity {
                     } else {
                         toast(data);
                     }
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -333,7 +333,7 @@ public class ChargingDurationActivity extends BaseActivity {
                 object.put("ctype", ctype);
                 object.put("lan", getLanguage());//测试id
                 json = object.toString();
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -358,7 +358,7 @@ public class ChargingDurationActivity extends BaseActivity {
                     } else {
                         toast(data);
                     }
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

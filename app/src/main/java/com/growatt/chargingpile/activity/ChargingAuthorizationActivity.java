@@ -93,7 +93,7 @@ public class ChargingAuthorizationActivity extends BaseActivity {
                         }
                     }
 
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -181,7 +181,7 @@ public class ChargingAuthorizationActivity extends BaseActivity {
                             if (code == 0) mChargingUserAdapter.remove(pos);
                             String data = object.getString("data");
                             toast(data);
-                        } catch (JSONException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }

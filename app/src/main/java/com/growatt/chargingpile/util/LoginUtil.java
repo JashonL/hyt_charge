@@ -243,7 +243,7 @@ public class LoginUtil {
                         T.make(R.string.m20用户名密码错误, context);
                     }
 
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     Mydialog.Dismiss();
                     enableListener.onViewEnable();

@@ -151,7 +151,7 @@ public class AmendsActivity extends BaseActivity {
                     } else {
                         toast(R.string.m修改失败);
                     }
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     Mydialog.Dismiss();
                 }

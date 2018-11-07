@@ -169,7 +169,7 @@ public class NewPhoneVerActivity extends BaseActivity {
                     }else {
                         mHandler.sendEmptyMessage(result);
                     }
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

@@ -111,7 +111,7 @@ public class ForgotPasswordActivity extends BaseActivity {
                                             toast(R.string.m37服务器错误);
                                         }
                                     }
-                                } catch (JSONException e) {
+                                } catch (Exception e) {
                                     e.printStackTrace();
                                 }
                             }
@@ -141,7 +141,7 @@ public class ForgotPasswordActivity extends BaseActivity {
                         }
                     }
 
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

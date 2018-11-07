@@ -163,7 +163,7 @@ public class RegisterActivity extends BaseActivity {
                         //注册
                         registerByCountry(country);
                     }
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

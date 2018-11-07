@@ -221,7 +221,7 @@ public class SqliteUtil {
 			values.put("type", jsonObject.get("type").toString());
 			values.put("date", jsonObject.get("date").toString());
 			values.put("title", jsonObject.get("title").toString());
-		} catch (JSONException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		values.put("id", map.get("cn.jpush.android.NOTIFICATION_ID").toString());

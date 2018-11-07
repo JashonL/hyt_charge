@@ -135,7 +135,7 @@ public class AddAuthorizationActivity extends BaseActivity {
                         }
                     }
 
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

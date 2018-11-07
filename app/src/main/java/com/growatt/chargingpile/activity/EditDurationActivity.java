@@ -353,7 +353,7 @@ public class EditDurationActivity extends BaseActivity {
             object = new JSONObject(json);
             object.put("ctype", ctype);
             object.put("lan", getLanguage());
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         LogUtil.i(json);
@@ -373,7 +373,7 @@ public class EditDurationActivity extends BaseActivity {
                         toast(R.string.m135删除成功);
                         finish();
                     }
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -432,7 +432,7 @@ public class EditDurationActivity extends BaseActivity {
                         toast(R.string.m修改成功);
                         finish();
                     }
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -479,7 +479,7 @@ public class EditDurationActivity extends BaseActivity {
                     if (code == 0) {
                         finish();
                     }
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

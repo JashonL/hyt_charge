@@ -412,7 +412,7 @@ import java.util.Map;
             }
             params2Json(jsonObject, list);
             return jsonObject.toString();
-        } catch (JSONException ex) {
+        } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
     }
@@ -471,7 +471,7 @@ import java.util.Map;
                 params2Json(jsonObject, bodyParams);
                 bodyContent = jsonObject.toString();
                 bodyParams.clear();
-            } catch (JSONException ex) {
+            } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
         }

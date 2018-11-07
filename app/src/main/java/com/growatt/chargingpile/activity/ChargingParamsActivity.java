@@ -246,7 +246,7 @@ public class ChargingParamsActivity extends BaseActivity {
                         refreshDate();
                     }
                     toast(object.getString("data"));
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -290,7 +290,7 @@ public class ChargingParamsActivity extends BaseActivity {
 
                     }
 
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
