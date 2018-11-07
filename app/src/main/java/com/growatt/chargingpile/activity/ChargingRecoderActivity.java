@@ -147,7 +147,7 @@ public class ChargingRecoderActivity extends BaseActivity {
                             currentPage--;
                         }
                     }
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     isLastPage = true;
                     if (currentPage > 1) {
                         currentPage--;
