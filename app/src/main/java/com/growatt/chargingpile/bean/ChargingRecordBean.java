@@ -32,8 +32,8 @@ public class ChargingRecordBean {
 
         private String name="";
         private long sysEndTime;
-        private int cost;
-        private int rate;
+        private double cost;
+        private double rate;
         private int connectorId;
         private String chargeId;
         private long sysStartTime;
@@ -49,7 +49,7 @@ public class ChargingRecordBean {
             this.sysEndTime = sysEndTime;
         }
 
-        public int getCost() {
+        public double getCost() {
             return cost;
         }
 
@@ -57,7 +57,7 @@ public class ChargingRecordBean {
             this.cost = cost;
         }
 
-        public int getRate() {
+        public double getRate() {
             return rate;
         }
 
