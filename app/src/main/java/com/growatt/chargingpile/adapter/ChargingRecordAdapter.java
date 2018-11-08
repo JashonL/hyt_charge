@@ -7,6 +7,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.bean.ChargingRecordBean;
+import com.growatt.chargingpile.util.MathUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -41,7 +42,6 @@ public class ChargingRecordAdapter extends BaseQuickAdapter<ChargingRecordBean.D
         Date endDate = new Date(sysEndTime);
         String startTime = sdf.format(startDate);
         String endTime = sdf.format(endDate);
-        Log.d("liaojinsha","开始时间："+"("+sysStartTime+")"+startTime+"结束时间："+"("+sysEndTime+")"+endTime);
         helper.setText(R.id.tv_calendar, startTime.substring(0, 11));
         helper.setText(R.id.tv_start, startTime.substring(11,16));
         helper.setText(R.id.tv_end, endTime.substring(11,16));
@@ -52,7 +52,9 @@ public class ChargingRecordAdapter extends BaseQuickAdapter<ChargingRecordBean.D
         long min = durationTime % 60;
         String stringDuration = hour + "h" + min + "min";
         helper.setText(R.id.tv_duration, stringDuration);
-        helper.setText(R.id.tv_ele, item.getEnergy() + "kWh");
-        helper.setText(R.id.tv_money, item.getCost() + "");
+        String energy = MathUtil.roundDouble2String(item.getEnergy(), 2) + "kWh";
+        helper.setText(R.id.tv_ele, energy);
+        String money = MathUtil.roundDouble2String(item.getCost(), 2);
+        helper.setText(R.id.tv_money, money);
     }
 }

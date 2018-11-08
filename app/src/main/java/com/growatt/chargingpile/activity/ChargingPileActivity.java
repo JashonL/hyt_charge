@@ -42,6 +42,7 @@ import com.growatt.chargingpile.bean.GunBean;
 import com.growatt.chargingpile.connutil.PostUtil;
 import com.growatt.chargingpile.util.AlertPickDialog;
 import com.growatt.chargingpile.util.Cons;
+import com.growatt.chargingpile.util.MathUtil;
 import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
@@ -838,8 +839,10 @@ public class ChargingPileActivity extends BaseActivity {
                     mStatusGroup.addView(normalChargingView);
                     setNormalCharging(data);
                 } else {
-                    String money = String.valueOf(data.getCost());
-                    String energy = String.valueOf(data.getEnergy()) + "kwh";
+//                    String money = String.valueOf(data.getCost());
+                    String money = MathUtil.roundDouble2String(data.getCost(), 2);
+//                    String energy = String.valueOf(data.getEnergy()) + "kwh";
+                    String energy = MathUtil.roundDouble2String(data.getEnergy(), 2) + "kwh";
                     int timeCharging = data.getCtime();
                     int hourCharging = timeCharging / 60;
                     int minCharging = timeCharging % 60;
@@ -879,10 +882,12 @@ public class ChargingPileActivity extends BaseActivity {
                 int minFinishing = timeFinishing % 60;
                 String sTimeFinishing = hourFinishing + "h" + minFinishing + "min";
                 mStatusGroup.addView(chargeFinishView);
-                tvFinishEle.setText(String.valueOf(data.getEnergy()) + "kWh");
+                String energy = MathUtil.roundDouble2String(data.getEnergy(), 2) + "kWh";
+                tvFinishEle.setText(energy);
                 tvFinishRate.setText(String.valueOf(data.getRate()));
                 tvFinishTime.setText(sTimeFinishing);
-                tvFinishMoney.setText(String.valueOf(data.getCost()));
+                String cost = MathUtil.roundDouble2String(data.getCost(), 2);
+                tvFinishMoney.setText(cost);
                 stopAnim();
                 MyUtil.showAllView(llBottomGroup);
                 setChargGunUi(R.drawable.charging_available, getString(R.string.m120充电结束), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_start_charging, getString(R.string.m103充电));
@@ -927,11 +932,13 @@ public class ChargingPileActivity extends BaseActivity {
         int hourCharging = timeCharging / 60;
         int minCharging = timeCharging % 60;
         String sTimeCharging = hourCharging + "h" + minCharging + "min";
-        tvChargingEle.setText(String.valueOf(data.getEnergy()) + "kWh");
+        String energy = MathUtil.roundDouble2String(data.getEnergy(), 2) + "kWh";
+        tvChargingEle.setText(energy);
         tvChargingRate.setText(String.valueOf(data.getRate()));
         tvChargingCurrent.setText(String.valueOf(data.getCurrent() + "A"));
         tvChargingDuration.setText(sTimeCharging);
-        tvChargingMoney.setText(String.valueOf(data.getCost()));
+        String money = MathUtil.roundDouble2String(data.getCost(), 2);
+        tvChargingMoney.setText(money);
         tvChargingVoltage.setText(String.valueOf(data.getVoltage()) + "V");
     }
 
