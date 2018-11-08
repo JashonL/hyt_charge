@@ -891,7 +891,7 @@ public class ChargingPileActivity extends BaseActivity {
                 tvFinishMoney.setText(cost);
                 stopAnim();
                 MyUtil.showAllView(llBottomGroup);
-                setChargGunUi(R.drawable.charging_available, getString(R.string.m120充电结束), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_start_charging, getString(R.string.m103充电));
+                setChargGunUi(R.drawable.charging_available, getString(R.string.m120充电结束), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_stop_charging, getString(R.string.m108停止充电));
                 break;
 
             case GunBean.EXPIRY:
@@ -1371,7 +1371,7 @@ public class ChargingPileActivity extends BaseActivity {
                     toast(getString(R.string.m215电桩故障));
                     break;
                 case GunBean.FINISHING:
-//                    requestNarmal(0, "", "");
+                    requestStop();
                     break;
                 case GunBean.UNAVAILABLE:
                     toast(getString(R.string.m216桩体状态为不可用));
