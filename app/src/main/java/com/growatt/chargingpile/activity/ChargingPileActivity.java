@@ -309,6 +309,7 @@ public class ChargingPileActivity extends BaseActivity {
                     timeHandler.sendEmptyMessageDelayed(1, 5 * 1000);
                 }
                 break;
+            case GunBean.RESERVED:
             case GunBean.PREPARING://在准备中，只更新状态，不更新其他ui
                 isTimeRefresh = true;
                 timeTaskRefresh(Cons.mCurrentPile.getChargeId(), Cons.mCurrentGunBeanId);
