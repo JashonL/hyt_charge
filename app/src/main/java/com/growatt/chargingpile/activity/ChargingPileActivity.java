@@ -258,6 +258,7 @@ public class ChargingPileActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        animation=null;
         timeHandler.removeMessages(1);
     }
 
@@ -306,6 +307,9 @@ public class ChargingPileActivity extends BaseActivity {
             timeHandler.sendEmptyMessageDelayed(1, 3 * 1000);
             return;
         }
+        if (!isClicked){
+            Mydialog.Dismiss();
+        }
         switch (previous) {
             case GunBean.CHARGING:
                 isTimeRefresh = true;
@@ -313,7 +317,7 @@ public class ChargingPileActivity extends BaseActivity {
                 if (isClicked) {
                     timeHandler.sendEmptyMessageDelayed(1, 1000);
                 } else {
-                    timeHandler.sendEmptyMessageDelayed(1, 3 * 1000);
+                    timeHandler.sendEmptyMessageDelayed(1, 5 * 1000);
                 }
                 break;
             case GunBean.RESERVED:
@@ -623,7 +627,7 @@ public class ChargingPileActivity extends BaseActivity {
 
             @Override
             public void success(String json) {
-                Mydialog.Dismiss();
+                if (!isTimeRefresh) Mydialog.Dismiss();
                 srlPull.setRefreshing(false);
                 try {
                     List<ChargingBean.DataBean> charginglist = new ArrayList<>();
@@ -701,7 +705,6 @@ public class ChargingPileActivity extends BaseActivity {
      */
 
     private void timeTaskRefresh(final String chargingId, final int connectorId) {
-        if (!isTimeRefresh) Mydialog.Show(this);
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         jsonMap.put("sn", chargingId);//测试id
         jsonMap.put("connectorId", connectorId);//测试id
@@ -717,13 +720,13 @@ public class ChargingPileActivity extends BaseActivity {
 
             @Override
             public void success(String json) {
-                Mydialog.Dismiss();
                 try {
                     JSONObject object = new JSONObject(json);
                     if (object.getInt("code") == 0) {
                         GunBean gunBean = new Gson().fromJson(json, GunBean.class);
                         Cons.mCurrentGunBean = gunBean;
                         String status = gunBean.getData().getStatus();
+                        //状态发生改变时就已经不是刚点击过的了
                         if (!status.equals(previous)) {
                             isClicked = false;
                         }
@@ -769,7 +772,7 @@ public class ChargingPileActivity extends BaseActivity {
 
             @Override
             public void success(String json) {
-                Mydialog.Dismiss();
+                if (!isTimeRefresh) Mydialog.Dismiss();
                 try {
                     JSONObject object = new JSONObject(json);
                     if (object.getInt("code") == 0) {
@@ -927,6 +930,7 @@ public class ChargingPileActivity extends BaseActivity {
                 break;
 
             case GunBean.EXPIRY:
+                hideAnim();
                 mStatusGroup.addView(chargeExpiryView);
                 setChargGunUi(R.drawable.charging_available, getString(R.string.m118充电中), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_start_charging, getString(R.string.m124已经注销));
                 MyUtil.hideAllView(View.GONE, llBottomGroup);
@@ -1499,10 +1503,11 @@ public class ChargingPileActivity extends BaseActivity {
                     Intent intent = new Intent(ChargingPileActivity.this, AddChargingActivity.class);
                     startActivityForResult(intent, REQUEST_ADD_CHARGING);
                 } else {
+                    animation=null;
                     Cons.mSeletPos = position;
                     isTimeRefresh = false;
                     timeHandler.removeMessages(1);
-                    timeHandler.sendEmptyMessageDelayed(1, 3 * 1000);
+                    timeHandler.sendEmptyMessageDelayed(1, 5 * 1000);
                     refreshChargingUI(position, 1);
                 }
             }
@@ -1553,7 +1558,7 @@ public class ChargingPileActivity extends BaseActivity {
                                 //删除之后,重新刷新
                                 freshData(0, 1);
                                 timeHandler.removeMessages(1);
-                                timeHandler.sendEmptyMessageDelayed(1, 3 * 1000);
+                                timeHandler.sendEmptyMessageDelayed(1, 5 * 1000);
                             }
 
                         } catch (Exception e) {
@@ -1608,6 +1613,7 @@ public class ChargingPileActivity extends BaseActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (position != Cons.mCurrentGunBeanId) {
+                    animation=null;
                     Cons.mCurrentGunBeanId = position;
                     String name;
                     if (position == 0) {
@@ -1683,7 +1689,7 @@ public class ChargingPileActivity extends BaseActivity {
                 //列表有充电桩的时候才开启定时器
                 if (mAdapter.getData().size() > 0) {
                     timeHandler.removeMessages(1);
-                    timeHandler.sendEmptyMessageDelayed(1, 3 * 1000);
+                    timeHandler.sendEmptyMessageDelayed(1, 5 * 1000);
                 }
             }
 
@@ -1783,7 +1789,6 @@ public class ChargingPileActivity extends BaseActivity {
 
             @Override
             public void success(String json) {
-                Mydialog.Dismiss();
                 try {
                     JSONObject object = new JSONObject(json);
                     toast(object.getString("data"));
@@ -1827,7 +1832,6 @@ public class ChargingPileActivity extends BaseActivity {
 
             @Override
             public void success(String json) {
-                Mydialog.Dismiss();
                 try {
                     JSONObject object = new JSONObject(json);
                     toast(object.getString("data"));
@@ -2024,6 +2028,7 @@ public class ChargingPileActivity extends BaseActivity {
      * 完成充电
      */
     private void stopAnim() {
+        animation=null;
         MyUtil.hideAllView(View.GONE);
         MyUtil.showAllView(ivfinishBackground);
         ivAnim.clearAnimation();
@@ -2034,6 +2039,7 @@ public class ChargingPileActivity extends BaseActivity {
      * 隐藏动画
      */
     private void hideAnim() {
+        animation=null;
         ivAnim.clearAnimation();
         MyUtil.hideAllView(View.GONE, ivAnim, ivfinishBackground);
     }
