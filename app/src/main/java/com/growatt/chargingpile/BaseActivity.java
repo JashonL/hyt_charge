@@ -24,10 +24,12 @@ import android.widget.Toast;
 import com.growatt.chargingpile.activity.LoginActivity;
 import com.growatt.chargingpile.application.MyApplication;
 import com.growatt.chargingpile.util.BarTextColorUtils;
+import com.growatt.chargingpile.util.Constant;
 import com.growatt.chargingpile.util.EToast;
 import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.PermissionCodeUtil;
+import com.growatt.chargingpile.util.SharedPreferencesUnit;
 
 import org.xutils.x;
 
@@ -103,6 +105,9 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
     }
 
     public void savedInstanceState(Bundle b) {
+        //设置不自动登录
+        SharedPreferencesUnit.getInstance(MyApplication.context).putInt(Constant.AUTO_LOGIN, 0);
+        SharedPreferencesUnit.getInstance(MyApplication.context).putInt(Constant.AUTO_LOGIN_TYPE, 0);
         Intent intent = new Intent(MyApplication.context, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         MyApplication.context.startActivity(intent);

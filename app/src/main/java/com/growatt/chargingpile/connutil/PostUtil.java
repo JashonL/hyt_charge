@@ -9,8 +9,10 @@ import android.text.TextUtils;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.activity.LoginActivity;
 import com.growatt.chargingpile.application.MyApplication;
+import com.growatt.chargingpile.util.Constant;
 import com.growatt.chargingpile.util.LoginUtil;
 import com.growatt.chargingpile.util.Mydialog;
+import com.growatt.chargingpile.util.SharedPreferencesUnit;
 import com.growatt.chargingpile.util.T;
 
 import org.xutils.common.Callback.Cancelable;
@@ -301,6 +303,8 @@ public class PostUtil {
 //					Cons.isflag=false;
 //					Cons.plants.clear();
 //					SqliteUtil.time("0");
+                        SharedPreferencesUnit.getInstance(MyApplication.context).putInt(Constant.AUTO_LOGIN, 0);
+                        SharedPreferencesUnit.getInstance(MyApplication.context).putInt(Constant.AUTO_LOGIN_TYPE, 0);
                         Intent intent = new Intent(MyApplication.context, LoginActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         MyApplication.context.startActivity(intent);
@@ -395,6 +399,8 @@ public class PostUtil {
 //					Cons.isflag=false;
 //					Cons.plants.clear();
 //					SqliteUtil.time("0");
+                        SharedPreferencesUnit.getInstance(MyApplication.context).putInt(Constant.AUTO_LOGIN, 0);
+                        SharedPreferencesUnit.getInstance(MyApplication.context).putInt(Constant.AUTO_LOGIN_TYPE, 0);
                         Intent intent = new Intent(MyApplication.context, LoginActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         MyApplication.context.startActivity(intent);

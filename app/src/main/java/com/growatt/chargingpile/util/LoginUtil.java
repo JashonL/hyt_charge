@@ -1,6 +1,7 @@
 package com.growatt.chargingpile.util;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
@@ -24,6 +25,8 @@ import org.json.JSONObject;
 import java.util.Locale;
 import java.util.Map;
 
+import static com.growatt.chargingpile.application.MyApplication.context;
+
 /**
  * Created by Administrator on 2018/10/17.
  */
@@ -45,10 +48,12 @@ public class LoginUtil {
         Map<String, Object> map = SqliteUtil.inquirylogin();
         String url = SqliteUtil.inquiryurl();
         if (map != null && map.size() > 0 && (!TextUtils.isEmpty(url))) {
-            serverLogin(1, MyApplication.context, url, map.get("name").toString().trim(), map.get("pwd").toString().trim(), new OnViewEnableListener() {
+            serverLogin(1, context, url, map.get("name").toString().trim(), map.get("pwd").toString().trim(), new OnViewEnableListener() {
             });
         } else {
-            jumpLoginActivity(MyApplication.context);
+            SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN, 0);
+            SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN_TYPE, 0);
+            jumpActivity(context,LoginActivity.class);
         }
     }
 
@@ -97,20 +102,11 @@ public class LoginUtil {
             public void LoginError(String str) {
                 Mydialog.Dismiss();
                 enableListener.onViewEnable();
-                jumpLoginActivity(context);
             }
         });
     }
 
 
-    /**
-     * 跳转到登录界面
-     *
-     * @param context
-     */
-    public static void jumpLoginActivity(Context context) {
-        jumpActivity(context, LoginActivity.class);
-    }
 
     /**
      * 跳转到指定界面
@@ -121,7 +117,7 @@ public class LoginUtil {
     public static void jumpActivity(Context context, Class<?> clazz) {
         try {
             if (context == null) {
-                context = MyApplication.context;
+                context = context;
             }
             if (context instanceof Activity) {
                 Activity act = (Activity) context;
@@ -269,7 +265,6 @@ public class LoginUtil {
                     case 2:
                         serverNum = 1;
                         enableListener.onViewEnable();
-                        jumpLoginActivity(context);
                         break;
                 }
             }
@@ -302,12 +297,11 @@ public class LoginUtil {
         SqliteUtil.url("");
         SqliteUtil.plant("");
         Urlsutil.setUrl_Full("");
-        act.startActivity(new Intent(act, LoginActivity.class));
-        act.finish();
-
         //设置不自动登录
         SharedPreferencesUnit.getInstance(act).putInt(Constant.AUTO_LOGIN, 0);
         SharedPreferencesUnit.getInstance(act).putInt(Constant.AUTO_LOGIN_TYPE, 0);
+        act.startActivity(new Intent(act, LoginActivity.class));
+        act.finish();
     }
 
 
