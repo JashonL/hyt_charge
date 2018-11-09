@@ -228,6 +228,7 @@ public class ChargingPileActivity extends BaseActivity {
 
 
     private boolean isClicked = false;//是否点击了充电
+    private Animation animation;
 
 
     @Override
@@ -250,7 +251,7 @@ public class ChargingPileActivity extends BaseActivity {
         //列表有充电桩的时候才开启定时器
         if (mAdapter.getData().size() > 0) {
             timeHandler.removeMessages(1);
-            timeHandler.sendEmptyMessageDelayed(1, 5 * 1000);
+            timeHandler.sendEmptyMessageDelayed(1, 1 * 1000);
         }
     }
 
@@ -302,7 +303,7 @@ public class ChargingPileActivity extends BaseActivity {
     private void reTimeFreshTask() {
         timeHandler.removeMessages(1);
         if (TextUtils.isEmpty(previous)) {
-            timeHandler.sendEmptyMessageDelayed(1, 5 * 1000);
+            timeHandler.sendEmptyMessageDelayed(1, 3 * 1000);
             return;
         }
         switch (previous) {
@@ -312,7 +313,7 @@ public class ChargingPileActivity extends BaseActivity {
                 if (isClicked) {
                     timeHandler.sendEmptyMessageDelayed(1, 1000);
                 } else {
-                    timeHandler.sendEmptyMessageDelayed(1, 5 * 1000);
+                    timeHandler.sendEmptyMessageDelayed(1, 3 * 1000);
                 }
                 break;
             case GunBean.RESERVED:
@@ -322,14 +323,14 @@ public class ChargingPileActivity extends BaseActivity {
                 if (isClicked) {
                     timeHandler.sendEmptyMessageDelayed(1, 1000);
                 } else {
-                    timeHandler.sendEmptyMessageDelayed(1, 5 * 1000);
+                    timeHandler.sendEmptyMessageDelayed(1, 2 * 1000);
                 }
                 break;
 
             default:
                 isTimeRefresh = true;
                 freshChargingGun(Cons.mCurrentPile.getChargeId(), Cons.mCurrentGunBeanId);
-                timeHandler.sendEmptyMessageDelayed(1, 5 * 1000);
+                timeHandler.sendEmptyMessageDelayed(1, 3 * 1000);
                 break;
         }
 
@@ -1501,7 +1502,7 @@ public class ChargingPileActivity extends BaseActivity {
                     Cons.mSeletPos = position;
                     isTimeRefresh = false;
                     timeHandler.removeMessages(1);
-                    timeHandler.sendEmptyMessageDelayed(1, 5 * 1000);
+                    timeHandler.sendEmptyMessageDelayed(1, 3 * 1000);
                     refreshChargingUI(position, 1);
                 }
             }
@@ -1552,7 +1553,7 @@ public class ChargingPileActivity extends BaseActivity {
                                 //删除之后,重新刷新
                                 freshData(0, 1);
                                 timeHandler.removeMessages(1);
-                                timeHandler.sendEmptyMessageDelayed(1, 5 * 1000);
+                                timeHandler.sendEmptyMessageDelayed(1, 3 * 1000);
                             }
 
                         } catch (Exception e) {
@@ -1682,7 +1683,7 @@ public class ChargingPileActivity extends BaseActivity {
                 //列表有充电桩的时候才开启定时器
                 if (mAdapter.getData().size() > 0) {
                     timeHandler.removeMessages(1);
-                    timeHandler.sendEmptyMessageDelayed(1, 5 * 1000);
+                    timeHandler.sendEmptyMessageDelayed(1, 3 * 1000);
                 }
             }
 
@@ -1694,7 +1695,7 @@ public class ChargingPileActivity extends BaseActivity {
                 //列表有充电桩的时候才开启定时器
                 if (mAdapter.getData().size() > 0) {
                     timeHandler.removeMessages(1);
-                    timeHandler.sendEmptyMessageDelayed(1, 5 * 1000);
+                    timeHandler.sendEmptyMessageDelayed(1, 1 * 1000);
                 }
             }
         }
@@ -2013,8 +2014,10 @@ public class ChargingPileActivity extends BaseActivity {
     private void startAnim() {
         MyUtil.hideAllView(View.GONE, ivfinishBackground);
         MyUtil.showAllView(ivAnim);
-        Animation animation = AnimationUtils.loadAnimation(this, R.anim.pile_charging);
-        ivAnim.startAnimation(animation);
+        if (animation==null){
+            animation = AnimationUtils.loadAnimation(this, R.anim.pile_charging);
+            ivAnim.startAnimation(animation);
+        }
     }
 
     /**

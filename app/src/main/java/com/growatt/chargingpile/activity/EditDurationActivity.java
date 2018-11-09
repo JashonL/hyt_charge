@@ -131,15 +131,13 @@ public class EditDurationActivity extends BaseActivity {
                 hours[i] = String.valueOf(i);
             }
         }
-        minutes = new String[6];
-        int minute = 0;
-        for (int i = 0; i < 6; i++) {
-            if (i == 0) {
-                minutes[i] = "00";
+        minutes = new String[60];
+        for (int i = 0; i < minutes.length; i++) {
+            if (i < 10) {
+                minutes[i] = "0" + String.valueOf(i);
             } else {
-                minutes[i] = String.valueOf(minute);
+                minutes[i] = String.valueOf(i);
             }
-            minute += 10;
         }
     }
 
