@@ -200,10 +200,7 @@ public class ChargingPileActivity extends BaseActivity {
 
     //----------------暂停--------------------
     private View chargeSuspendeevView;
-    private TextView tvSuspendeevEle;
-    private TextView tvSuspendeevRate;
-    private TextView tvSuspendeevTime;
-    private TextView tvSuspendeevMoney;
+
 
     //--------------故障---------------
     private View chargeFaultedView;
@@ -317,7 +314,7 @@ public class ChargingPileActivity extends BaseActivity {
                 if (isClicked) {
                     timeHandler.sendEmptyMessageDelayed(1, 1000);
                 } else {
-                    timeHandler.sendEmptyMessageDelayed(1, 5 * 1000);
+                    timeHandler.sendEmptyMessageDelayed(1, 10 * 1000);
                 }
                 break;
             case GunBean.RESERVED:
@@ -327,14 +324,17 @@ public class ChargingPileActivity extends BaseActivity {
                 if (isClicked) {
                     timeHandler.sendEmptyMessageDelayed(1, 1000);
                 } else {
-                    timeHandler.sendEmptyMessageDelayed(1, 2 * 1000);
+                    timeHandler.sendEmptyMessageDelayed(1, 10 * 1000);
                 }
+                break;
+            case GunBean.FINISHING:
+                timeHandler.removeMessages(1);
                 break;
 
             default:
                 isTimeRefresh = true;
                 freshChargingGun(Cons.mCurrentPile.getChargeId(), Cons.mCurrentGunBeanId);
-                timeHandler.sendEmptyMessageDelayed(1, 3 * 1000);
+                timeHandler.sendEmptyMessageDelayed(1, 10 * 1000);
                 break;
         }
 
@@ -367,10 +367,6 @@ public class ChargingPileActivity extends BaseActivity {
 
     private void initSuspendeevView() {
         chargeSuspendeevView = LayoutInflater.from(this).inflate(R.layout.status_charging_suspendeev_layout, mStatusGroup, false);
-        tvSuspendeevEle = chargeSuspendeevView.findViewById(R.id.tv_suspendeev_ele);
-        tvSuspendeevRate = chargeSuspendeevView.findViewById(R.id.tv_suspendeev_rate);
-        tvSuspendeevTime = chargeSuspendeevView.findViewById(R.id.tv_suspendeev_time);
-        tvSuspendeevMoney = chargeSuspendeevView.findViewById(R.id.tv_suspendeev_money);
     }
 
     private void initAcceptView() {
@@ -897,20 +893,10 @@ public class ChargingPileActivity extends BaseActivity {
                 break;
 
             case GunBean.SUSPENDEEV:
-                int timeSuspendEev = data.getCtime();
-                int hourSuspendEeving = timeSuspendEev / 60;
-                int minSuspendEeving = timeSuspendEev % 60;
-                String sTimeSuspendEevEnergy = hourSuspendEeving + "h" + minSuspendEeving + "min";
-                mStatusGroup.addView(chargeSuspendeevView);
-                String SuspendEevEnergy = MathUtil.roundDouble2String(data.getEnergy(), 2) + "kWh";
-                tvSuspendeevEle.setText(SuspendEevEnergy);
-                tvSuspendeevRate.setText(String.valueOf(data.getRate()));
-                tvSuspendeevTime.setText(sTimeSuspendEevEnergy);
-                String SuspendEevCost = MathUtil.roundDouble2String(data.getCost(), 2);
-                tvSuspendeevMoney.setText(SuspendEevCost);
                 hideAnim();
+                mStatusGroup.addView(chargeSuspendeevView);
+                setChargGunUi(R.drawable.charging_unavailable, getString(R.string.m122不可用), ContextCompat.getColor(this, R.color.title_3), R.drawable.btn_start_charging, getString(R.string.m122不可用));
                 MyUtil.showAllView(llBottomGroup);
-                setChargGunUi(R.drawable.charging_available, getString(R.string.m120充电结束), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_start_charging, getString(R.string.m103充电));
                 break;
             case GunBean.FINISHING:
                 int timeFinishing = data.getCtime();
@@ -1454,7 +1440,6 @@ public class ChargingPileActivity extends BaseActivity {
                     tvStatus.setText(getString(R.string.m120充电结束));
                     break;
                 case GunBean.SUSPENDEEV:
-                    break;
                 case GunBean.UNAVAILABLE:
                     toast(getString(R.string.m216桩体状态为不可用));
                     break;
@@ -1507,7 +1492,7 @@ public class ChargingPileActivity extends BaseActivity {
                     Cons.mSeletPos = position;
                     isTimeRefresh = false;
                     timeHandler.removeMessages(1);
-                    timeHandler.sendEmptyMessageDelayed(1, 5 * 1000);
+                    timeHandler.sendEmptyMessageDelayed(1, 10 * 1000);
                     refreshChargingUI(position, 1);
                 }
             }
@@ -1558,7 +1543,7 @@ public class ChargingPileActivity extends BaseActivity {
                                 //删除之后,重新刷新
                                 freshData(0, 1);
                                 timeHandler.removeMessages(1);
-                                timeHandler.sendEmptyMessageDelayed(1, 5 * 1000);
+                                timeHandler.sendEmptyMessageDelayed(1, 10 * 1000);
                             }
 
                         } catch (Exception e) {
@@ -1689,7 +1674,7 @@ public class ChargingPileActivity extends BaseActivity {
                 //列表有充电桩的时候才开启定时器
                 if (mAdapter.getData().size() > 0) {
                     timeHandler.removeMessages(1);
-                    timeHandler.sendEmptyMessageDelayed(1, 5 * 1000);
+                    timeHandler.sendEmptyMessageDelayed(1, 10 * 1000);
                 }
             }
 
