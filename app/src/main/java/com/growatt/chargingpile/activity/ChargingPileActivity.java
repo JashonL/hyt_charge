@@ -255,7 +255,7 @@ public class ChargingPileActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        animation=null;
+        animation = null;
         timeHandler.removeMessages(1);
     }
 
@@ -304,7 +304,7 @@ public class ChargingPileActivity extends BaseActivity {
             timeHandler.sendEmptyMessageDelayed(1, 3 * 1000);
             return;
         }
-        if (!isClicked){
+        if (!isClicked) {
             Mydialog.Dismiss();
         }
         switch (previous) {
@@ -948,7 +948,16 @@ public class ChargingPileActivity extends BaseActivity {
                 MyUtil.hideAllView(View.GONE, llBottomGroup);
                 break;
 
-
+            default:
+                if (Cons.mCurrentPile.getType() == 0) {//桩主
+                    mStatusGroup.addView(preparingView);
+                } else {//普通用户
+                    mStatusGroup.addView(availableView);
+                }
+                hideAnim();
+                setChargGunUi(R.drawable.charging_available, getString(R.string.m117空闲), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_start_charging, getString(R.string.m103充电));
+                MyUtil.showAllView(llBottomGroup);
+                break;
         }
     }
 
@@ -1286,6 +1295,10 @@ public class ChargingPileActivity extends BaseActivity {
         }
         //获取状态
         String status = Cons.mCurrentGunBean.getData().getStatus();
+        if(TextUtils.isEmpty(status)){
+            toast(R.string.m服务器连接失败);
+            return;
+        }
         //判断桩主或者普通用户
         if (Cons.mCurrentPile.getType() == 0) {//桩主
             switch (status) {
@@ -1406,6 +1419,10 @@ public class ChargingPileActivity extends BaseActivity {
                     break;
                 case GunBean.ACCEPTED:
                     break;
+                default:
+                    toast(getString(R.string.m131空闲状态无法直接开始充电));
+                    break;
+
             }
 
         } else {//普通用户
@@ -1450,6 +1467,9 @@ public class ChargingPileActivity extends BaseActivity {
                 case GunBean.ACCEPTED:
                     tvStatus.setText(getString(R.string.m125启用中));
                     break;
+                default:
+                    toast(getString(R.string.m131空闲状态无法直接开始充电));
+                    break;
             }
         }
 
@@ -1488,7 +1508,7 @@ public class ChargingPileActivity extends BaseActivity {
                     Intent intent = new Intent(ChargingPileActivity.this, AddChargingActivity.class);
                     startActivityForResult(intent, REQUEST_ADD_CHARGING);
                 } else {
-                    animation=null;
+                    animation = null;
                     Cons.mSeletPos = position;
                     isTimeRefresh = false;
                     timeHandler.removeMessages(1);
@@ -1598,7 +1618,7 @@ public class ChargingPileActivity extends BaseActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (position != Cons.mCurrentGunBeanId) {
-                    animation=null;
+                    animation = null;
                     Cons.mCurrentGunBeanId = position;
                     String name;
                     if (position == 0) {
@@ -2003,7 +2023,7 @@ public class ChargingPileActivity extends BaseActivity {
     private void startAnim() {
         MyUtil.hideAllView(View.GONE, ivfinishBackground);
         MyUtil.showAllView(ivAnim);
-        if (animation==null){
+        if (animation == null) {
             animation = AnimationUtils.loadAnimation(this, R.anim.pile_charging);
             ivAnim.startAnimation(animation);
         }
@@ -2013,7 +2033,7 @@ public class ChargingPileActivity extends BaseActivity {
      * 完成充电
      */
     private void stopAnim() {
-        animation=null;
+        animation = null;
         MyUtil.hideAllView(View.GONE);
         MyUtil.showAllView(ivfinishBackground);
         ivAnim.clearAnimation();
@@ -2024,7 +2044,7 @@ public class ChargingPileActivity extends BaseActivity {
      * 隐藏动画
      */
     private void hideAnim() {
-        animation=null;
+        animation = null;
         ivAnim.clearAnimation();
         MyUtil.hideAllView(View.GONE, ivAnim, ivfinishBackground);
     }
