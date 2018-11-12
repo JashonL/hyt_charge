@@ -1448,6 +1448,7 @@ public class ChargingPileActivity extends BaseActivity {
                     requestStop();
                     break;
                 case GunBean.SUSPENDEEV:
+                    toast(getString(R.string.m216桩体状态为不可用));
                     break;
                 case GunBean.UNAVAILABLE:
                     toast(getString(R.string.m216桩体状态为不可用));
