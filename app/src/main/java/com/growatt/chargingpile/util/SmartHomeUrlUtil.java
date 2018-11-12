@@ -79,4 +79,6 @@ public class SmartHomeUrlUtil {
     //删除充电桩
     public static final String REQUEST_DELETE_CHARGING = SMARTHOME_BASE_URL + "/ocpp/api/deleteAuthor";
 
+    //预约列表
+    public static final String REQUEST_RESERVENOW_LIST = SMARTHOME_BASE_URL + "/ocpp/api/ReserveNow";
 }
