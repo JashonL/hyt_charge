@@ -330,12 +330,15 @@ public class ChargingPileActivity extends BaseActivity {
                 }
                 break;
             case GunBean.FINISHING:
+                freshChargingGun(Cons.mCurrentPile.getChargeId(), Cons.mCurrentGunBeanId);
                 timeHandler.removeMessages(1);
+                timeHandler.sendEmptyMessageDelayed(1, 5 * 1000);
                 break;
 
             default:
                 isTimeRefresh = true;
                 freshChargingGun(Cons.mCurrentPile.getChargeId(), Cons.mCurrentGunBeanId);
+                timeHandler.removeMessages(1);
                 timeHandler.sendEmptyMessageDelayed(1, 10 * 1000);
                 break;
         }
