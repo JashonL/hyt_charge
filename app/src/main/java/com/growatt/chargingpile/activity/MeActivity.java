@@ -107,6 +107,7 @@ public class MeActivity extends BaseActivity {
                         toast(getString(R.string.m56暂未开放));
                         break;
                     case 2:
+
                         jumpTo(AboutActivity.class,false);
                         break;
                 }
