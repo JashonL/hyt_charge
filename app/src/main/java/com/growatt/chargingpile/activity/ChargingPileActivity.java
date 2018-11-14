@@ -660,6 +660,7 @@ public class ChargingPileActivity extends BaseActivity {
 
             @Override
             public void LoginError(String str) {
+                Mydialog.Dismiss();
                 srlPull.setRefreshing(false);
                 MyUtil.hideAllView(View.GONE, rlCharging);
                 MyUtil.showAllView(emptyPage);
@@ -1837,10 +1838,16 @@ public class ChargingPileActivity extends BaseActivity {
             public void success(String json) {
                 try {
                     JSONObject object = new JSONObject(json);
+                    int code=object.getInt("code");
+                    if (code==0){
+                        isClicked = true;
+                        timeHandler.removeMessages(1);
+                        timeHandler.sendEmptyMessageDelayed(1, 1000);
+                    }else {
+                        Mydialog.Dismiss();
+                    }
                     toast(object.getString("data"));
-                    isClicked = true;
-                    timeHandler.removeMessages(1);
-                    timeHandler.sendEmptyMessageDelayed(1, 1000);
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -1880,10 +1887,16 @@ public class ChargingPileActivity extends BaseActivity {
             public void success(String json) {
                 try {
                     JSONObject object = new JSONObject(json);
+                    int code=object.getInt("code");
+                    if (code==0){
+                        isClicked = true;
+                        timeHandler.removeMessages(1);
+                        timeHandler.sendEmptyMessageDelayed(1, 1000);
+                    }else {
+                        Mydialog.Dismiss();
+                    }
                     toast(object.getString("data"));
-                    isClicked = true;
-                    timeHandler.removeMessages(1);
-                    timeHandler.sendEmptyMessageDelayed(1, 1000);
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -1892,6 +1905,7 @@ public class ChargingPileActivity extends BaseActivity {
 
             @Override
             public void LoginError(String str) {
+                Mydialog.Dismiss();
             }
 
         });
@@ -1952,8 +1966,8 @@ public class ChargingPileActivity extends BaseActivity {
 
             @Override
             public void success(String json) {
+                Mydialog.Dismiss();
                 try {
-                    Mydialog.Dismiss();
                     JSONObject object = new JSONObject(json);
                     String data = object.getString("data");
                     toast(data);
@@ -1965,6 +1979,7 @@ public class ChargingPileActivity extends BaseActivity {
 
             @Override
             public void LoginError(String str) {
+                Mydialog.Dismiss();
             }
         });
     }

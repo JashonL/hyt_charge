@@ -4,8 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/headerView"
     android:gravity="center_horizontal"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <View
         android:layout_width="match_parent"
@@ -27,9 +26,9 @@
             android:layout_toRightOf="@+id/ivLeft"
             android:gravity="center"
             android:text="@string/m24登陆"
-            android:textStyle="bold"
             android:textColor="@color/title_1"
-            android:textSize="@dimen/xa37" />
+            android:textSize="@dimen/xa37"
+            android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/ivLeft"
@@ -51,10 +50,10 @@
             android:layout_centerVertical="true"
             android:background="@drawable/touch_bg_main"
             android:gravity="center"
-            android:text="@string/m23注册"
             android:paddingBottom="@dimen/xa32"
             android:paddingRight="@dimen/xa11"
             android:paddingTop="@dimen/xa32"
+            android:text="@string/m23注册"
             android:textColor="@color/forget_password_color"
             android:textSize="@dimen/xa35" />
     </RelativeLayout>
@@ -167,5 +166,24 @@
         android:text="@string/m22忘记密码"
         android:textColor="@color/forget_password_color"
         android:textSize="@dimen/xa30" />
+
+    <LinearLayout
+        android:id="@+id/ll_demo"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa88"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="@dimen/xa80"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/m体验馆"
+            android:textColor="@color/green_1"
+            android:textSize="@dimen/xa35" />
+
+    </LinearLayout>
+
 
 </LinearLayout>

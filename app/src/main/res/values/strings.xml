@@ -252,6 +252,7 @@
     <string name="m输入金额不正确">The amount you entered is incorrect</string>
     <string name="m输入电量不正确">The battery you entered is incorrect</string>
     <string name="m开始时间错误">Wrong appointment time</string>
+    <string name="m体验馆">demo</string>
 </resources>
 
 
