@@ -44,7 +44,8 @@ public class ChargingUserAdapter extends BaseQuickAdapter<ChargingUserBean.DataB
         String name = item.getUserName();
         tvUsername.setText(name);
 
-        final String userId=item.getUserId();
+        //所有的userId都是传userName
+        final String userId=item.getUserName();
         //设置时间
         long t = item.getTime();
         Date date = new Date(t);

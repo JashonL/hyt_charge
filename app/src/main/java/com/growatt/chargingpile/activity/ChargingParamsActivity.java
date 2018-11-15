@@ -225,7 +225,7 @@ public class ChargingParamsActivity extends BaseActivity {
         Mydialog.Show(this);
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         jsonMap.put("chargeId", Cons.mCurrentPile.getChargeId());//测试id
-        jsonMap.put("userId", Cons.userBean.getId());//测试id
+        jsonMap.put("userId",Cons.userBean.getAccountName());//测试id
         jsonMap.put("lan", getLanguage());//测试id
         jsonMap.put(key, value);
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
@@ -264,7 +264,7 @@ public class ChargingParamsActivity extends BaseActivity {
         if (!isModyfi) Mydialog.Show(this);
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         jsonMap.put("sn", Cons.mCurrentPile.getChargeId());//测试id
-        jsonMap.put("userId", Cons.userBean.getId());//测试id
+        jsonMap.put("userId", Cons.userBean.getAccountName());//测试id
         jsonMap.put("lan", getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         PostUtil.postJson(SmartHomeUrlUtil.REQUEST_CHARGING_PARAMS, json, new PostUtil.postListener() {

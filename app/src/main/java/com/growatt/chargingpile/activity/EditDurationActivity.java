@@ -397,7 +397,7 @@ public class EditDurationActivity extends BaseActivity {
         Mydialog.Show(EditDurationActivity.this);
         Map<String, Object> jsonMap = new LinkedHashMap<String, Object>();
         jsonMap.put("sn", Cons.mCurrentPile.getChargeId());
-        jsonMap.put("userId", Cons.mCurrentPile.getUserId());
+        jsonMap.put("userId", Cons.userBean.getAccountName());
         jsonMap.put("ctype", ctype);
         jsonMap.put("connectorId", dataBean.getConnectorId());
         jsonMap.put("cKey", dataBean.getCKey());
@@ -450,7 +450,7 @@ public class EditDurationActivity extends BaseActivity {
         jsonMap.put("connectorId", 1);
         jsonMap.put("expiryDate", expiryDate);
         jsonMap.put("chargeId", Cons.mCurrentPile.getChargeId());
-        jsonMap.put("userId", Cons.userBean.getId());
+        jsonMap.put("userId",Cons.userBean.getAccountName());
         jsonMap.put("cKey", "G_SetTime");
         jsonMap.put("cValue", cValue);
         jsonMap.put("loopType", loopType);

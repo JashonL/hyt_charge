@@ -68,7 +68,7 @@ public class ChargingAuthorizationActivity extends BaseActivity {
         Mydialog.Show(this);
         Map<String, Object> jsonMap = new LinkedHashMap<String, Object>();
         jsonMap.put("sn", Cons.mCurrentPile.getChargeId());
-        jsonMap.put("userId", Cons.userBean.getId());
+        jsonMap.put("userId", Cons.userBean.getAccountName());
         jsonMap.put("page", 1);
         jsonMap.put("psize", 30);
         jsonMap.put("lan",getLanguage());//测试id

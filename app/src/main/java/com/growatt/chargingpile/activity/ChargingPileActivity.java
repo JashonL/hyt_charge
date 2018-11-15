@@ -616,7 +616,7 @@ public class ChargingPileActivity extends BaseActivity {
             Mydialog.Show(this);
         }
         Map<String, Object> jsonMap = new HashMap<String, Object>();
-        jsonMap.put("userId", Cons.userBean.getId());//测试id
+        jsonMap.put("userId",Cons.userBean.getAccountName());//测试id
         jsonMap.put("lan", getLanguage());
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         LogUtil.i(json);
@@ -710,7 +710,7 @@ public class ChargingPileActivity extends BaseActivity {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         jsonMap.put("sn", chargingId);//测试id
         jsonMap.put("connectorId", connectorId);//测试id
-        jsonMap.put("userId", Cons.userBean.getId());//测试id
+        jsonMap.put("userId", Cons.userBean.getAccountName());//测试id
         jsonMap.put("lan", getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         LogUtil.i(json);
@@ -762,7 +762,7 @@ public class ChargingPileActivity extends BaseActivity {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         jsonMap.put("sn", chargingId);//测试id
         jsonMap.put("connectorId", connectorId);//测试id
-        jsonMap.put("userId", Cons.userBean.getId());//测试id
+        jsonMap.put("userId", Cons.userBean.getAccountName());//测试id
         jsonMap.put("lan", getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         LogUtil.i(json);
@@ -1585,7 +1585,7 @@ public class ChargingPileActivity extends BaseActivity {
                 Mydialog.Show(ChargingPileActivity.this);
                 Map<String, Object> jsonMap = new HashMap<String, Object>();
                 jsonMap.put("sn", bean.getChargeId());
-                jsonMap.put("userId", bean.getUserId());
+                jsonMap.put("userId", bean.getUserName());
                 jsonMap.put("lan", getLanguage());
                 String json = SmartHomeUtil.mapToJsonString(jsonMap);
                 LogUtil.i(json);
@@ -1815,7 +1815,7 @@ public class ChargingPileActivity extends BaseActivity {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         jsonMap.put("action", "remoteStartTransaction");
         jsonMap.put("connectorId", Cons.mCurrentGunBeanId);
-        jsonMap.put("userId", Cons.userBean.getId());
+        jsonMap.put("userId",Cons.userBean.getAccountName());
         jsonMap.put("chargeId", Cons.mCurrentPile.getChargeId());
         jsonMap.put("lan", getLanguage());
         if (type != 0) {
@@ -1871,7 +1871,7 @@ public class ChargingPileActivity extends BaseActivity {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         jsonMap.put("action", "remoteStopTransaction");
         jsonMap.put("connectorId", Cons.mCurrentGunBeanId);
-        jsonMap.put("userId", Cons.userBean.getId());
+        jsonMap.put("userId",Cons.userBean.getAccountName());
         jsonMap.put("chargeId", Cons.mCurrentPile.getChargeId());
         jsonMap.put("transactionId", transactionId);
         jsonMap.put("lan", getLanguage());
@@ -1941,7 +1941,7 @@ public class ChargingPileActivity extends BaseActivity {
         jsonMap.put("expiryDate", expiryDate);
         jsonMap.put("connectorId", Cons.mCurrentGunBeanId);
         jsonMap.put("chargeId", Cons.mCurrentPile.getChargeId());
-        jsonMap.put("userId", Cons.userBean.getId());
+        jsonMap.put("userId", Cons.userBean.getAccountName());
         jsonMap.put("loopType", loopType);
         jsonMap.put("lan", getLanguage());
         if (loopType == 0) {

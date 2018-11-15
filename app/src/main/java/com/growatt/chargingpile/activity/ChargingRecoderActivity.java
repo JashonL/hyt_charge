@@ -104,7 +104,7 @@ public class ChargingRecoderActivity extends BaseActivity {
     private void refresh(int page, int psize) {
         Mydialog.Show(this);
         Map<String, Object> jsonMap = new LinkedHashMap<String, Object>();
-        jsonMap.put("userId", Cons.userBean.getId());
+        jsonMap.put("userId", Cons.userBean.getAccountName());
         jsonMap.put("sn", Cons.mCurrentPile.getChargeId());
         jsonMap.put("page", page);
         jsonMap.put("psize", psize);

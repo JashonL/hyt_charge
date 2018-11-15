@@ -161,7 +161,7 @@ public class AddAuthorizationActivity extends BaseActivity {
         Map<String, Object> jsonMap = new LinkedHashMap<>();
         jsonMap.put("ownerId",Cons.userBean.getId());
         jsonMap.put("sn", Cons.mCurrentPile.getChargeId());
-        jsonMap.put("userId", userId);
+        jsonMap.put("userId", userName);
         jsonMap.put("phone", "");
         jsonMap.put("userName",userName);
         jsonMap.put("lan",getLanguage());//测试id

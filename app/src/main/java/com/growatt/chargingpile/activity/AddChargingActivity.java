@@ -110,7 +110,7 @@ public class AddChargingActivity extends BaseActivity {
         }
         Mydialog.Show(this);
         Map<String, Object> jsonMap = new LinkedHashMap<String, Object>();
-        jsonMap.put("userId", Cons.userBean.getId());
+        jsonMap.put("userId", Cons.userBean.getAccountName());
         jsonMap.put("sn", sn);
         jsonMap.put("lan",getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);

@@ -149,7 +149,7 @@ public class ChargingDurationActivity extends BaseActivity {
     private void refresh() {
         if (!isUpdate) Mydialog.Show(this);
         Map<String, Object> jsonMap = new LinkedHashMap<String, Object>();
-        jsonMap.put("userId", Cons.userBean.getId());
+        jsonMap.put("userId",Cons.userBean.getAccountName());
         jsonMap.put("sn", Cons.mCurrentPile.getChargeId());
         jsonMap.put("connectorId", 1);
         jsonMap.put("cKey", "G_SetTime");
