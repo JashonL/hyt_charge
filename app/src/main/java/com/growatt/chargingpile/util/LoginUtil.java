@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.growatt.chargingpile.R;
@@ -36,8 +37,9 @@ public class LoginUtil {
     /**
      * 自动登录
      */
-    public static void autoLogin( Context context,  String userName, String password) {
-        ossErrAutoLogin(context, userName, password, new OnViewEnableListener(){});
+    public static void autoLogin(Context context, String userName, String password) {
+        ossErrAutoLogin(context, userName, password, new OnViewEnableListener() {
+        });
     }
 
 
@@ -53,10 +55,9 @@ public class LoginUtil {
         } else {
             SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN, 0);
             SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN_TYPE, 0);
-            jumpActivity(context,LoginActivity.class);
+            jumpActivity(context, LoginActivity.class);
         }
     }
-
 
 
     /**
@@ -107,7 +108,6 @@ public class LoginUtil {
     }
 
 
-
     /**
      * 跳转到指定界面
      *
@@ -154,9 +154,12 @@ public class LoginUtil {
                 JSONObject jsonObject2 = jsonObject.getJSONObject("user");
                 UserBean userBean = new Gson().fromJson(jsonObject2.toString(), UserBean.class);
                 Cons.userId = userBean.getId();
-                //浏览账号
-                if ("2".equals(userBean.rightlevel) || userBean.parentUserId > 0) {
-                    Cons.isflag = true;
+                //设置帐号是否是浏览帐号
+                Log.d("liaojinsha","账户id"+"体验帐号："+Cons.isflagId+"登录帐号："+userBean.getId());
+                if (Cons.isflagId.equals(userBean.getAccountName())) {
+                    userBean.setAuth(1);
+                } else {
+                    userBean.setAuth(0);
                 }
                 if (userBean.getIsValiEmail() == 1) {
                     Cons.isValiEmail = true;
@@ -304,5 +307,18 @@ public class LoginUtil {
         act.finish();
     }
 
+
+    /**
+     * demo帐号登录
+     */
+
+    public static void demoLogin(Context context, String userName, String password) {
+        ossErrAutoLogin(context, userName, password, new OnViewEnableListener() {
+            @Override
+            public void onViewEnable() {
+                super.onViewEnable();
+            }
+        });
+    }
 
 }

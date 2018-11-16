@@ -35,6 +35,7 @@ import com.growatt.chargingpile.util.LoadLocalImageUtil;
 import com.growatt.chargingpile.util.LoginUtil;
 import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.PermissionCodeUtil;
+import com.growatt.chargingpile.util.SmartHomeUtil;
 import com.growatt.chargingpile.view.CircleImageView;
 import com.mylhyl.circledialog.CircleDialog;
 
@@ -101,6 +102,10 @@ public class MeActivity extends BaseActivity {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (position){
                     case 0:
+                        if (SmartHomeUtil.isFlagUser()){
+                            toast(getString(R.string.m66你的账号没有操作权限));
+                            return;
+                        }
                         jumpTo(UserActivity.class,false);
                         break;
                     case 1:

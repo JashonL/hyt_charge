@@ -3,14 +3,17 @@ package com.growatt.chargingpile.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.application.MyApplication;
+import com.growatt.chargingpile.connutil.PostUtil;
 import com.growatt.chargingpile.listener.OnViewEnableListener;
 import com.growatt.chargingpile.sqlite.SqliteUtil;
 import com.growatt.chargingpile.util.Cons;
@@ -18,7 +21,12 @@ import com.growatt.chargingpile.util.Constant;
 import com.growatt.chargingpile.util.LoginUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SharedPreferencesUnit;
+import com.growatt.chargingpile.util.SmartHomeUrlUtil;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -37,7 +45,8 @@ public class LoginActivity extends BaseActivity {
     EditText etPassword;
     @BindView(R.id.bt_login)
     Button btLogin;
-
+    @BindView(R.id.ll_demo)
+    LinearLayout llDemo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +59,7 @@ public class LoginActivity extends BaseActivity {
 
     private void initUser() {
         Map<String, Object> inquirylogin = SqliteUtil.inquirylogin();
-        if (inquirylogin.size()>0){
+        if (inquirylogin.size() > 0) {
             etUsername.setText(inquirylogin.get("name").toString());
             etPassword.setText(inquirylogin.get("pwd").toString());
             etUsername.setSelection(inquirylogin.get("name").toString().length());
@@ -65,28 +74,29 @@ public class LoginActivity extends BaseActivity {
     private void AutoLogin() {
         final Map<String, Object> map = SqliteUtil.inquirylogin();
         int autoLoginNum = SharedPreferencesUnit.getInstance(this).getInt(Constant.AUTO_LOGIN);
-        if(autoLoginNum == 0 || map.size()==0){
+        if (autoLoginNum == 0 || map.size() == 0) {
             return;
         }
-        SqliteUtil.time((System.currentTimeMillis()+500000)+"");
-        Mydialog.Show(LoginActivity.this,"");
+        SqliteUtil.time((System.currentTimeMillis() + 500000) + "");
+        Mydialog.Show(LoginActivity.this, "");
         //oss登录
         int autoLoginType = SharedPreferencesUnit.getInstance(this).getInt(Constant.AUTO_LOGIN_TYPE);
-        switch (autoLoginType){
+        switch (autoLoginType) {
             case 0://oss登录
                 break;
             case 1://server登录
-                String url=SqliteUtil.inquiryurl();
-                if(TextUtils.isEmpty(url)){
-                    LoginUtil.autoLogin(mContext,map.get("name").toString().trim(), map.get("pwd").toString().trim());
-                }else {
-                    LoginUtil.serverLogin(mContext,url,map.get("name").toString().trim(), map.get("pwd").toString().trim(), new OnViewEnableListener(){});
+                String url = SqliteUtil.inquiryurl();
+                if (TextUtils.isEmpty(url)) {
+                    LoginUtil.autoLogin(mContext, map.get("name").toString().trim(), map.get("pwd").toString().trim());
+                } else {
+                    LoginUtil.serverLogin(mContext, url, map.get("name").toString().trim(), map.get("pwd").toString().trim(), new OnViewEnableListener() {
+                    });
                 }
                 break;
         }
     }
 
-    @OnClick({R.id.tvRight, R.id.bt_login, R.id.tv_foget})
+    @OnClick({R.id.tvRight, R.id.bt_login, R.id.tv_foget, R.id.ll_demo})
     public void onClickListeners(View view) {
         switch (view.getId()) {
             case R.id.tvRight:
@@ -102,8 +112,52 @@ public class LoginActivity extends BaseActivity {
             case R.id.tv_foget:
                 jumpTo(ForgotPasswordActivity.class, false);
                 break;
+            case R.id.ll_demo:
+                Log.d("liaojinsha", "点击了demo");
+                loginDemo();
+                break;
         }
     }
+
+
+    /**
+     * demo登录
+     */
+
+    private void loginDemo() {
+        PostUtil.postJson(SmartHomeUrlUtil.GET_DEMO_USER, "", new PostUtil.postListener() {
+            @Override
+            public void Params(Map<String, String> params) {
+
+            }
+
+            @Override
+            public void success(String json) {
+                try {
+                    JSONObject object = new JSONObject(json);
+                    int code = object.getInt("code");
+                    if (code == 0) {
+                        JSONObject demoUserObject = object.getJSONObject("data");
+                        String password = demoUserObject.getString("password");
+                        String userId = demoUserObject.getString("userId");
+                        Cons.isflagId = userId;
+                        LoginUtil.demoLogin(mContext, userId, password);
+                    } else {
+                        toast(R.string.m37服务器错误);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void LoginError(String str) {
+
+            }
+        });
+
+    }
+
 
     /**
      * 登录

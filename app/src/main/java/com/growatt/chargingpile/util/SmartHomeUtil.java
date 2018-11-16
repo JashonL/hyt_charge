@@ -125,4 +125,18 @@ public class SmartHomeUtil {
         DecimalFormat df = new DecimalFormat("0.#####");
         return df.format(value);
     }
+
+
+    /**
+     * 判断是否是浏览用户
+     */
+
+    public static boolean isFlagUser(){
+        int auth = Cons.userBean.getAuth();
+        boolean isflag=false;
+        if (auth==1){
+            isflag=true;
+        }
+        return isflag;
+    }
 }

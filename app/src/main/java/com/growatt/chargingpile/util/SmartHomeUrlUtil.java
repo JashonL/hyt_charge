@@ -6,10 +6,10 @@ package com.growatt.chargingpile.util;
 
 public class SmartHomeUrlUtil {
 
-//    public static final String SMARTHOME_BASE_URL = "http://chat.growatt.com";
+    public static final String SMARTHOME_BASE_URL = "http://chat.growatt.com";
 
     //欧洲服务器
-    public static final String SMARTHOME_BASE_URL = "http://charge.growatt.com";
+//    public static final String SMARTHOME_BASE_URL = "http://charge.growatt.com";
 
     //测试地址
 //    public static final String SMARTHOME_BASE_URL = "http://192.168.30.69:8080";
@@ -84,4 +84,10 @@ public class SmartHomeUrlUtil {
 
     //预约列表
     public static final String REQUEST_RESERVENOW_LIST = SMARTHOME_BASE_URL + "/ocpp/api/ReserveNow";
+
+    //获取浏览账户
+    public static final String GET_DEMO_USER = SMARTHOME_BASE_URL + "/ocpp/user/glanceUser";
+
+    //获取验证码
+    public static final String GET_DEMO_CODE = SMARTHOME_BASE_URL + "/ocpp/user/checkCode";
 }

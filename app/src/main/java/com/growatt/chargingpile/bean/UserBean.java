@@ -27,6 +27,17 @@ public class UserBean implements Serializable{
 	public String noticeType;
 	private int isValiEmail;
 	private int isValiPhone;
+	//1是否是浏览账户,0是注册用户
+	private int auth;
+
+
+	public int getAuth() {
+		return auth;
+	}
+
+	public void setAuth(int auth) {
+		this.auth = auth;
+	}
 
 	public int getIsValiEmail() {
 		return isValiEmail;
@@ -50,7 +61,7 @@ public class UserBean implements Serializable{
                     String approved, String smsNotice, String email,
                     int parentUserId, String company, String activeName,
                     String counrty, String isBigCustomer, String createDate,
-                    String rightlevel, String lastLoginTime, String noticeType) {
+                    String rightlevel, String lastLoginTime, String noticeType,int auth) {
 		super();
 		this.enabled = enabled;
 		this.agentCode = agentCode;
@@ -74,6 +85,7 @@ public class UserBean implements Serializable{
 		this.rightlevel = rightlevel;
 		this.lastLoginTime = lastLoginTime;
 		this.noticeType = noticeType;
+		this.auth=auth;
 	}
 	public UserBean() {
 		super();
@@ -210,6 +222,6 @@ public class UserBean implements Serializable{
 	public void setNoticeType(String noticeType) {
 		this.noticeType = noticeType;
 	}
-	
-	
+
+
 }

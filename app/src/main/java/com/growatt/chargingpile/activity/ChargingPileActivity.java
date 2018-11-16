@@ -13,6 +13,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -43,6 +44,7 @@ import com.growatt.chargingpile.bean.ReservationBean;
 import com.growatt.chargingpile.connutil.PostUtil;
 import com.growatt.chargingpile.util.AlertPickDialog;
 import com.growatt.chargingpile.util.Cons;
+import com.growatt.chargingpile.util.LoginUtil;
 import com.growatt.chargingpile.util.MathUtil;
 import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
@@ -50,6 +52,9 @@ import com.growatt.chargingpile.util.SmartHomeUrlUtil;
 import com.growatt.chargingpile.util.SmartHomeUtil;
 import com.growatt.chargingpile.view.RoundProgressBar;
 import com.mylhyl.circledialog.CircleDialog;
+import com.mylhyl.circledialog.callback.ConfigInput;
+import com.mylhyl.circledialog.params.InputParams;
+import com.mylhyl.circledialog.view.listener.OnInputClickListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -616,7 +621,7 @@ public class ChargingPileActivity extends BaseActivity {
             Mydialog.Show(this);
         }
         Map<String, Object> jsonMap = new HashMap<String, Object>();
-        jsonMap.put("userId",Cons.userBean.getAccountName());//测试id
+        jsonMap.put("userId", Cons.userBean.getAccountName());//测试id
         jsonMap.put("lan", getLanguage());
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         LogUtil.i(json);
@@ -1296,6 +1301,10 @@ public class ChargingPileActivity extends BaseActivity {
                 startActivityForResult(intent, REQUEST_FRESH_CHARGING);
                 break;
             case R.id.ll_Authorization:
+                if (SmartHomeUtil.isFlagUser()) {
+                    toast(getString(R.string.m66你的账号没有操作权限));
+                    return;
+                }
                 if (Cons.mCurrentPile.getType() == 1) {
                     toast(getString(R.string.m66你的账号没有操作权限));
                     return;
@@ -1314,10 +1323,13 @@ public class ChargingPileActivity extends BaseActivity {
                 showStorageList(tvSwitchGun);
                 break;
             case R.id.to_add_device:
-                Intent intent1 = new Intent(ChargingPileActivity.this, AddChargingActivity.class);
-                startActivityForResult(intent1, REQUEST_ADD_CHARGING);
+                addChargingPile();
                 break;
             case R.id.ll_record:
+                if (SmartHomeUtil.isFlagUser()) {
+                    toast(getString(R.string.m66你的账号没有操作权限));
+                    return;
+                }
                 Intent intent4 = new Intent(this, ChargingRecoderActivity.class);
                 intent4.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivityForResult(intent4, REQUEST_FRESH_CHARGING);
@@ -1326,6 +1338,74 @@ public class ChargingPileActivity extends BaseActivity {
 
     }
 
+
+    private void addChargingPile() {
+        if (SmartHomeUtil.isFlagUser()) {//浏览账户
+            FragmentManager fragmentManager = ChargingPileActivity.this.getSupportFragmentManager();
+            new CircleDialog.Builder()
+                    .setTitle(getString(R.string.m27温馨提示))
+                    //添加标题，参考普通对话框
+                    .setInputHint(getString(R.string.m72请输入短信验证码))//提示
+                    .setInputHeight(100)//输入框高度
+                    .autoInputShowKeyboard()//自动弹出键盘
+                    .configInput(new ConfigInput() {
+                        @Override
+                        public void onConfig(InputParams params) {
+                            params.textSize = 30;
+                        }
+                    })
+                    .setPositiveInput(getString(R.string.m9确定), new OnInputClickListener() {
+                        @Override
+                        public void onClick(String text, View v) {
+                            Map<String, Object> params = new HashMap<>();
+                            params.put("code", text);
+                            params.put("userId", Cons.userBean.accountName);
+                            params.put("lan", getLanguage());
+                            String json = SmartHomeUtil.mapToJsonString(params);
+                            PostUtil.postJson(SmartHomeUrlUtil.GET_DEMO_CODE, json, new PostUtil.postListener() {
+                                @Override
+                                public void Params(Map<String, String> params) {
+
+                                }
+
+                                @Override
+                                public void success(String json) {
+                                    try {
+                                        JSONObject object = new JSONObject(json);
+                                        int code = object.getInt("code");
+                                        if (code == 0) {
+                                            Intent intent = new Intent(ChargingPileActivity.this, AddChargingActivity.class);
+                                            startActivityForResult(intent, REQUEST_ADD_CHARGING);
+                                        } else {
+                                            String data = object.getString("data");
+                                            toast(data);
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void LoginError(String str) {
+
+                                }
+                            });
+                        }
+                    })
+                    //添加取消按钮，参考普通对话框
+                    .setNegative(getString(R.string.m7取消), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                        }
+                    })
+                    .show(fragmentManager);
+        } else {
+            Intent intent = new Intent(ChargingPileActivity.this, AddChargingActivity.class);
+            startActivityForResult(intent, REQUEST_ADD_CHARGING);
+        }
+
+    }
 
     /**
      * 去充电或停充
@@ -1547,8 +1627,7 @@ public class ChargingPileActivity extends BaseActivity {
                 ChargingBean.DataBean bean = mAdapter.getItem(position);
                 int type = bean.getDevType();
                 if (type == ChargingBean.ADD_DEVICE) {
-                    Intent intent = new Intent(ChargingPileActivity.this, AddChargingActivity.class);
-                    startActivityForResult(intent, REQUEST_ADD_CHARGING);
+                    addChargingPile();
                 } else {
                     animation = null;
                     Cons.mSeletPos = position;
@@ -1815,7 +1894,7 @@ public class ChargingPileActivity extends BaseActivity {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         jsonMap.put("action", "remoteStartTransaction");
         jsonMap.put("connectorId", Cons.mCurrentGunBeanId);
-        jsonMap.put("userId",Cons.userBean.getAccountName());
+        jsonMap.put("userId", Cons.userBean.getAccountName());
         jsonMap.put("chargeId", Cons.mCurrentPile.getChargeId());
         jsonMap.put("lan", getLanguage());
         if (type != 0) {
@@ -1838,12 +1917,12 @@ public class ChargingPileActivity extends BaseActivity {
             public void success(String json) {
                 try {
                     JSONObject object = new JSONObject(json);
-                    int code=object.getInt("code");
-                    if (code==0){
+                    int code = object.getInt("code");
+                    if (code == 0) {
                         isClicked = true;
                         timeHandler.removeMessages(1);
                         timeHandler.sendEmptyMessageDelayed(1, 1000);
-                    }else {
+                    } else {
                         Mydialog.Dismiss();
                     }
                     toast(object.getString("data"));
@@ -1871,7 +1950,7 @@ public class ChargingPileActivity extends BaseActivity {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         jsonMap.put("action", "remoteStopTransaction");
         jsonMap.put("connectorId", Cons.mCurrentGunBeanId);
-        jsonMap.put("userId",Cons.userBean.getAccountName());
+        jsonMap.put("userId", Cons.userBean.getAccountName());
         jsonMap.put("chargeId", Cons.mCurrentPile.getChargeId());
         jsonMap.put("transactionId", transactionId);
         jsonMap.put("lan", getLanguage());
@@ -1887,12 +1966,12 @@ public class ChargingPileActivity extends BaseActivity {
             public void success(String json) {
                 try {
                     JSONObject object = new JSONObject(json);
-                    int code=object.getInt("code");
-                    if (code==0){
+                    int code = object.getInt("code");
+                    if (code == 0) {
                         isClicked = true;
                         timeHandler.removeMessages(1);
                         timeHandler.sendEmptyMessageDelayed(1, 1000);
-                    }else {
+                    } else {
                         Mydialog.Dismiss();
                     }
                     toast(object.getString("data"));

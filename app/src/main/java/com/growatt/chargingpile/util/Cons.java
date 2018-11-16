@@ -33,9 +33,7 @@ public class Cons {
     public static String userId = "";
     public static String plant;
     public static String url = "";
-    //	public static String guestyrl="";
-//	public static boolean flag=false;
-    public static boolean isflag = false;
+    public static String isflagId="ceshi00701";
     public static ArrayList<Map<String, Object>> plants = new ArrayList<Map<String, Object>>();
     public static RegisterMap regMap = new RegisterMap();
     public static UserBean userBean;
