@@ -22,6 +22,7 @@ import com.growatt.chargingpile.util.LoginUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SharedPreferencesUnit;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
+import com.growatt.chargingpile.util.SmartHomeUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -60,10 +61,14 @@ public class LoginActivity extends BaseActivity {
     private void initUser() {
         Map<String, Object> inquirylogin = SqliteUtil.inquirylogin();
         if (inquirylogin.size() > 0) {
-            etUsername.setText(inquirylogin.get("name").toString());
-            etPassword.setText(inquirylogin.get("pwd").toString());
-            etUsername.setSelection(inquirylogin.get("name").toString().length());
-            etPassword.setSelection(inquirylogin.get("pwd").toString().length());
+            String name = inquirylogin.get("name").toString();
+            String pwd = inquirylogin.get("pwd").toString();
+            if (!Cons.isflagId.equals(name)) {
+                etUsername.setText(name);
+                etPassword.setText(pwd);
+                etUsername.setSelection(name.length());
+                etPassword.setSelection(pwd.length());
+            }
         }
     }
 
@@ -113,7 +118,6 @@ public class LoginActivity extends BaseActivity {
                 jumpTo(ForgotPasswordActivity.class, false);
                 break;
             case R.id.ll_demo:
-                Log.d("liaojinsha", "点击了demo");
                 loginDemo();
                 break;
         }

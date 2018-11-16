@@ -155,7 +155,6 @@ public class LoginUtil {
                 UserBean userBean = new Gson().fromJson(jsonObject2.toString(), UserBean.class);
                 Cons.userId = userBean.getId();
                 //设置帐号是否是浏览帐号
-                Log.d("liaojinsha","账户id"+"体验帐号："+Cons.isflagId+"登录帐号："+userBean.getId());
                 if (Cons.isflagId.equals(userBean.getAccountName())) {
                     userBean.setAuth(1);
                 } else {
@@ -175,8 +174,17 @@ public class LoginUtil {
                 if (loginType != 2) {
                     SqliteUtil.login(userName, password);
                 }
-                SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN, 1);
-                SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN_TYPE, 1);
+                int autoLogin;
+                int autoLoginType;
+                if (SmartHomeUtil.isFlagUser()) {
+                     autoLogin=0;
+                     autoLoginType=0;
+                } else {
+                    autoLogin=1;
+                    autoLoginType=1;
+                }
+                SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN, autoLogin);
+                SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN_TYPE, autoLoginType);
                 enableListener.onViewEnable();
                 if (loginType == 0 || loginType == 2) {
                     jumpActivity(context, ChargingPileActivity.class);

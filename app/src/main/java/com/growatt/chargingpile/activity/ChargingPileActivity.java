@@ -1345,13 +1345,16 @@ public class ChargingPileActivity extends BaseActivity {
             new CircleDialog.Builder()
                     .setTitle(getString(R.string.m27温馨提示))
                     //添加标题，参考普通对话框
-                    .setInputHint(getString(R.string.m72请输入短信验证码))//提示
+                    .setInputHint(getString(R.string.m26请输入密码))//提示
                     .setInputHeight(100)//输入框高度
                     .autoInputShowKeyboard()//自动弹出键盘
                     .configInput(new ConfigInput() {
                         @Override
                         public void onConfig(InputParams params) {
-                            params.textSize = 30;
+                            params.gravity = Gravity.CENTER;
+                            params.textSize = 45;
+//                            params.backgroundColor=ContextCompat.getColor(ChargingPileActivity.this, R.color.preset_edit_time_background);
+                            params.strokeColor = ContextCompat.getColor(ChargingPileActivity.this, R.color.preset_edit_time_background);
                         }
                     })
                     .setPositiveInput(getString(R.string.m9确定), new OnInputClickListener() {
