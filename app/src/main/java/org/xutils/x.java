@@ -2,6 +2,7 @@ package org.xutils;
 
 import android.app.Application;
 import android.content.Context;
+import android.text.TextUtils;
 
 import org.xutils.common.TaskController;
 import org.xutils.common.task.TaskControllerImpl;
@@ -93,7 +94,14 @@ public final class x {
             HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
                 @Override
                 public boolean verify(String hostname, SSLSession session) {
+                    if(TextUtils.isEmpty(hostname)||session==null||session.getPeerHost()==null){
+                        return false;
+                    }
+                    if(hostname.contains("growatt")||session.getPeerHost().contains("growatt")){
                         return true;
+                    } else {
+                        return false;
+                    }
                 }
             });
         }

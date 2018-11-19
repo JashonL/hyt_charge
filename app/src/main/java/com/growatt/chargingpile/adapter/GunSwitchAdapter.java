@@ -23,7 +23,7 @@ public class GunSwitchAdapter extends BaseQuickAdapter<GunBean.DataBean,BaseView
             helper.setText(R.id.textView1,mContext.getString(R.string.m110A枪));
 
         }else {
-            helper.setText(R.id.textView1,mContext.getString(R.string.m110A枪));
+            helper.setText(R.id.textView1,mContext.getString(R.string.m111B枪));
         }
     }
 }

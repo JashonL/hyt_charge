@@ -41,7 +41,6 @@
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.ACCESS_GPS" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- apn设置权限 -->
     <uses-permission android:name="Android.permission.WRITE_APN_SETTINGS" />
 
