@@ -174,7 +174,9 @@ public class ChargingRecoderActivity extends BaseActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        backPileActivity();
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            backPileActivity();
+        }
         return super.onKeyDown(keyCode, event);
     }
 }

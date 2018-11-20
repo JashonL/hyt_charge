@@ -100,20 +100,20 @@ public class MeActivity extends BaseActivity {
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (position){
+                switch (position) {
                     case 0:
-                        if (SmartHomeUtil.isFlagUser()){
+                        if (SmartHomeUtil.isFlagUser()) {
                             toast(getString(R.string.m66你的账号没有操作权限));
                             return;
                         }
-                        jumpTo(UserActivity.class,false);
+                        jumpTo(UserActivity.class, false);
                         break;
                     case 1:
                         toast(getString(R.string.m56暂未开放));
                         break;
                     case 2:
 
-                        jumpTo(AboutActivity.class,false);
+                        jumpTo(AboutActivity.class, false);
                         break;
                 }
             }
@@ -177,7 +177,7 @@ public class MeActivity extends BaseActivity {
      * 拍照
      */
     private void choseHeadImageFromCameraCapture() {
-         picName=System.currentTimeMillis()+".png";
+        picName = System.currentTimeMillis() + ".png";
         fileUri = new File(Environment.getExternalStorageDirectory().getPath(), picName);
         fileCropUri = new File(Environment.getExternalStorageDirectory().getPath(), "crop_photo.jpg");
         Intent intentFromCapture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -199,15 +199,14 @@ public class MeActivity extends BaseActivity {
      * 相册
      */
     private void choseHeadImageFromGallery() {
-        picName=System.currentTimeMillis()+".png";
-        fileUri = new File(Environment.getExternalStorageDirectory().getPath(),picName);
+        picName = System.currentTimeMillis() + ".png";
+        fileUri = new File(Environment.getExternalStorageDirectory().getPath(), picName);
         fileCropUri = new File(Environment.getExternalStorageDirectory().getPath(), "crop_photo.jpg");
         Intent intentFromGallery = new Intent("android.intent.action.PICK");
         // �����ļ�����
         intentFromGallery.setType("image/*");
         startActivityForResult(intentFromGallery, CODE_GALLERY_REQUEST);
     }
-
 
 
     private void initHeaderView() {
@@ -242,7 +241,7 @@ public class MeActivity extends BaseActivity {
                                 LoginUtil.logout(MeActivity.this);
                             }
                         })
-                        .setNegative(getString(R.string.m7取消),null)
+                        .setNegative(getString(R.string.m7取消), null)
                         .show(fragmentManager);
             }
         });
@@ -253,6 +252,7 @@ public class MeActivity extends BaseActivity {
 
     /**
      * 权限请求结果处理
+     *
      * @param requestCode
      * @param perms
      */
@@ -274,6 +274,7 @@ public class MeActivity extends BaseActivity {
 
     /**
      * 拍照、去照片结果返回处理
+     *
      * @param requestCode
      * @param resultCode
      * @param intent
@@ -363,9 +364,9 @@ public class MeActivity extends BaseActivity {
     }
 
 
-
     private static int output_X = 80;
     private static int output_Y = 80;
+
     public void cropRawPhoto(Uri orgUri, Uri desUri) {
 
         Intent intent = new Intent("com.android.camera.action.CROP");
@@ -454,16 +455,18 @@ public class MeActivity extends BaseActivity {
     }
 
 
-    private void backPileActivity(){
+    private void backPileActivity() {
         Intent intent = new Intent();
-        intent.putExtra("activity",MeActivity.this.getClass().getName());
+        intent.putExtra("activity", MeActivity.this.getClass().getName());
         setResult(RESULT_OK, intent);
         finish();
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        backPileActivity();
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            backPileActivity();
+        }
         return super.onKeyDown(keyCode, event);
     }
 }

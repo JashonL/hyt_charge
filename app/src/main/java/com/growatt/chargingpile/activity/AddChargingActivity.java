@@ -112,7 +112,7 @@ public class AddChargingActivity extends BaseActivity {
         Map<String, Object> jsonMap = new LinkedHashMap<String, Object>();
         jsonMap.put("userId", Cons.userBean.getAccountName());
         jsonMap.put("sn", sn);
-        jsonMap.put("lan",getLanguage());//测试id
+        jsonMap.put("lan", getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         LogUtil.i(json);
         PostUtil.postJson(SmartHomeUrlUtil.ADD_CHARGING, json, new PostUtil.postListener() {
@@ -157,10 +157,9 @@ public class AddChargingActivity extends BaseActivity {
     }
 
 
-
     private void backPileActivity(String sn) {
         Intent intent = new Intent();
-        intent.putExtra("chargingId",sn);
+        intent.putExtra("chargingId", sn);
         setResult(RESULT_OK, intent);
         finish();
     }
@@ -168,7 +167,9 @@ public class AddChargingActivity extends BaseActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        backPileActivity(Cons.mCurrentPile.getChargeId());
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            backPileActivity(Cons.mCurrentPile.getChargeId());
+        }
         return super.onKeyDown(keyCode, event);
     }
 
