@@ -90,6 +90,35 @@
 
 
                 <RelativeLayout
+                    android:layout_width="@dimen/xa140"
+                    android:layout_height="@dimen/xa44"
+                    android:layout_marginLeft="@dimen/xa28"
+                    android:layout_marginTop="@dimen/xa28"
+                    android:background="@drawable/shape_button_gradient_normal"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/iv_limit"
+                        android:layout_width="@dimen/xa28"
+                        android:layout_height="@dimen/xa28"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/limit_power_off" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/iv_limit"
+                        android:text="Solar"
+                        android:layout_marginLeft="@dimen/xa10"
+                        android:textSize="@dimen/xa28"
+                        android:textColor="@color/headerView"
+                        android:layout_marginStart="@dimen/xa10"
+                        android:layout_toEndOf="@+id/iv_limit" />
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
                     android:id="@+id/linearlayout1"
                     android:layout_width="@dimen/xa389"
                     android:layout_height="@dimen/xa389"

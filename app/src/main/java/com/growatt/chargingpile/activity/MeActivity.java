@@ -133,7 +133,11 @@ public class MeActivity extends BaseActivity {
         }
         mRvHeaderView = LayoutInflater.from(this).inflate(R.layout.header_me_recyclerview_header, null);
         TextView name = (TextView) mRvHeaderView.findViewById(R.id.textView_name);
-        name.setText(Cons.userBean.getAccountName());
+        if (SmartHomeUtil.isFlagUser()) {
+            name.setText(getText(R.string.m浏览账户));
+        } else {
+            name.setText(Cons.userBean.getAccountName());
+        }
         TextPaint tp = name.getPaint();
         tp.setFakeBoldText(true);
         ivHead = (ImageView) mRvHeaderView.findViewById(R.id.imageView2);
