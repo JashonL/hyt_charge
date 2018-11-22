@@ -10,7 +10,7 @@
         android:id="@+id/tv_text1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="限制功率1kw充电"
+        android:text="@string/m限制功率1kw"
         android:textColor="@color/title_1"
         android:textSize="@dimen/xa26" />
 

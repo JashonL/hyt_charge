@@ -255,6 +255,7 @@
     <string name="m体验馆">demo</string>
     <string name="m浏览账户">Demo account</string>
     <string name="solar">Solar</string>
+    <string name="m限制功率1kw">Limit power 1kw charging</string>
     <string name="m限制时间段">8:00am~8:00pm</string>
 </resources>
 
