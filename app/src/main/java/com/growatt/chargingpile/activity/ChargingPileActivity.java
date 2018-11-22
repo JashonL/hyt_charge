@@ -117,6 +117,16 @@ public class ChargingPileActivity extends BaseActivity {
     private LinearLayoutManager mLinearLayoutManager;
     private ChargingListAdapter mAdapter;
 
+    /*限制充电桩功率*/
+    @BindView(R.id.rl_solar)
+    RelativeLayout mRlSolar;
+
+    @BindView(R.id.iv_limit)
+    ImageView mIvLimit;
+
+    @BindView(R.id.tv_solar)
+    TextView mTvSolar;
+
 
     //选择充电桩popuwindow
     private PopupWindow popupGun;
@@ -255,7 +265,7 @@ public class ChargingPileActivity extends BaseActivity {
         //列表有充电桩的时候才开启定时器
         if (mAdapter.getData().size() > 0) {
             timeHandler.removeMessages(1);
-            timeHandler.sendEmptyMessageDelayed(1, 1 * 1000);
+            timeHandler.sendEmptyMessageDelayed(1, 1000);
         }
     }
 
@@ -700,6 +710,9 @@ public class ChargingPileActivity extends BaseActivity {
         } else {
             tvGun.setText(getString(R.string.m115双枪));
         }
+        //是否限制了功率
+        int solar = dataBean.getSolar();
+        initSolarUi(solar);
 //        connectorId = 1;
         //根据选中项刷新充电桩的充电枪,默认刷新A枪
         freshChargingGun(dataBean.getChargeId(), gunId);
@@ -731,13 +744,16 @@ public class ChargingPileActivity extends BaseActivity {
                     JSONObject object = new JSONObject(json);
                     if (object.getInt("code") == 0) {
                         GunBean gunBean = new Gson().fromJson(json, GunBean.class);
+                        GunBean.DataBean data = gunBean.getData();
                         Cons.mCurrentGunBean = gunBean;
-                        String status = gunBean.getData().getStatus();
-                        //状态发生改变时就已经不是刚点击过的了
-                        if (!status.equals(previous)) {
-                            isClicked = false;
+                        if (data != null) {
+                            String status = data.getStatus();
+                            //状态发生改变时就已经不是刚点击过的了
+                            if (!status.equals(previous)) {
+                                isClicked = false;
+                            }
+                            previous = status;
                         }
-                        previous = status;
                     }
 
                 } catch (Exception e) {
@@ -784,18 +800,25 @@ public class ChargingPileActivity extends BaseActivity {
                     JSONObject object = new JSONObject(json);
                     if (object.getInt("code") == 0) {
                         GunBean gunBean = new Gson().fromJson(json, GunBean.class);
-                        Cons.mCurrentGunBean = gunBean;
+                        if (gunBean != null) {
+                            Cons.mCurrentGunBean = gunBean;
+                        }
                         refreshBygun(gunBean);
                     }
 
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    mStatusGroup.removeAllViews();
+                    hideAnim();
+                    mStatusGroup.addView(chargeUnvailableView);
+                    setChargGunUi(R.drawable.charging_unavailable, getString(R.string.m122不可用), ContextCompat.getColor(ChargingPileActivity.this, R.color.title_3), R.drawable.btn_start_charging, getString(R.string.m122不可用));
+                    MyUtil.showAllView(llBottomGroup);
                 }
 
             }
 
             @Override
             public void LoginError(String str) {
+
             }
 
         });
@@ -808,8 +831,16 @@ public class ChargingPileActivity extends BaseActivity {
      * @param gunBean 充电枪
      */
     private void refreshBygun(GunBean gunBean) {
+        mStatusGroup.removeAllViews();
         //充电枪详细数据
         GunBean.DataBean data = gunBean.getData();
+        if (data == null) {
+            hideAnim();
+            mStatusGroup.addView(chargeUnvailableView);
+            setChargGunUi(R.drawable.charging_unavailable, getString(R.string.m122不可用), ContextCompat.getColor(this, R.color.title_3), R.drawable.btn_start_charging, getString(R.string.m122不可用));
+            MyUtil.showAllView(llBottomGroup);
+            return;
+        }
         String name = getString(R.string.m110A枪);
         if (data.getConnectorId() == 1) {
             name = getString(R.string.m110A枪);
@@ -828,7 +859,6 @@ public class ChargingPileActivity extends BaseActivity {
         //记录上一个状态
         previous = status;
 
-        mStatusGroup.removeAllViews();
         switch (status) {
             case GunBean.AVAILABLE://空闲
                 if (Cons.mCurrentPile.getType() == 0) {//桩主
@@ -976,7 +1006,7 @@ public class ChargingPileActivity extends BaseActivity {
         String energy = MathUtil.roundDouble2String(data.getEnergy(), 2) + "kWh";
         tvChargingEle.setText(energy);
         tvChargingRate.setText(String.valueOf(data.getRate()));
-        tvChargingCurrent.setText(String.valueOf(data.getCurrent() + "A"));
+        tvChargingCurrent.setText(String.valueOf(data.getCurrent()) + "A");
         tvChargingDuration.setText(sTimeCharging);
         String money = MathUtil.roundDouble2String(data.getCost(), 2);
         tvChargingMoney.setText(money);
@@ -1292,7 +1322,7 @@ public class ChargingPileActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.ivLeft, R.id.ll_Authorization, R.id.ll_record, R.id.ll_charging, R.id.rl_switch_gun, R.id.to_add_device})
+    @OnClick({R.id.ivLeft, R.id.ll_Authorization, R.id.ll_record, R.id.ll_charging, R.id.rl_switch_gun, R.id.to_add_device, R.id.rl_solar})
     public void onClickListener(View view) {
         switch (view.getId()) {
             case R.id.ivLeft:
@@ -1334,10 +1364,103 @@ public class ChargingPileActivity extends BaseActivity {
                 intent4.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivityForResult(intent4, REQUEST_FRESH_CHARGING);
                 break;
+            case R.id.rl_solar:
+                setPowerLimit();
+                break;
         }
 
     }
 
+    /**
+     * 设置限制功率弹框
+     */
+    private void setPowerLimit() {
+        //弹出时停止刷新
+        timeHandler.removeMessages(1);
+        View view = LayoutInflater.from(ChargingPileActivity.this).inflate(R.layout.popuwindow_power_limit, null);
+        TextView tvConfirm = view.findViewById(R.id.tv_confirm);
+        int solar = Cons.mCurrentPile.getSolar();
+        if (solar == 1) {
+            tvConfirm.setText(R.string.m184关闭);
+        } else {
+            tvConfirm.setText(R.string.m183开启);
+        }
+        int width = getResources().getDimensionPixelSize(R.dimen.xa450);
+        int height = getResources().getDimensionPixelSize(R.dimen.xa230);
+        PopupWindow pwPowerTips = new PopupWindow(view, width, height, true);
+        tvConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requestLimit();
+                pwPowerTips.dismiss();
+            }
+        });
+        pwPowerTips.setOutsideTouchable(true);
+        pwPowerTips.setTouchable(true);
+        pwPowerTips.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        pwPowerTips.setBackgroundDrawable(new ColorDrawable(0));
+        int[] location = new int[2];
+        mRlSolar.getLocationOnScreen(location);
+        pwPowerTips.showAtLocation(mRlSolar, Gravity.NO_GRAVITY, location[0] + mRlSolar.getWidth(), location[1]);
+        pwPowerTips.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                //消失时重新开始刷新
+                timeHandler.removeMessages(1);
+                timeHandler.sendEmptyMessageDelayed(1, 1000);
+            }
+        });
+    }
+
+
+    /**
+     * 向后台请求限制充电功率
+     */
+    private void requestLimit() {
+        Mydialog.Show(this);
+        Map<String, Object> jsonMap = new HashMap<String, Object>();
+        jsonMap.put("chargeId", Cons.mCurrentPile.getChargeId());
+        jsonMap.put("userId", Cons.userBean.getAccountName());
+        int solar = Cons.mCurrentPile.getSolar();
+        int salarValue;
+        if (solar == 1) {
+            salarValue=0;
+        } else {
+            salarValue=1;
+        }
+        jsonMap.put("solar", salarValue);
+        jsonMap.put("lan", getLanguage());
+        String json = SmartHomeUtil.mapToJsonString(jsonMap);
+        PostUtil.postJson(SmartHomeUrlUtil.REQUEST_SET_SOLAR, json, new PostUtil.postListener() {
+            @Override
+            public void Params(Map<String, String> params) {
+
+            }
+
+            @Override
+            public void success(String json) {
+                try {
+                    JSONObject object = new JSONObject(json);
+                    int code = object.getInt("code");
+                    if (code == 0) {
+                        initSolarUi(salarValue);
+                        Cons.mCurrentPile.setSolar(salarValue);
+                    }
+                    String data = object.getString("data");
+                    toast(data);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                timeHandler.removeMessages(1);
+                timeHandler.sendEmptyMessageDelayed(1, 1000);
+            }
+
+            @Override
+            public void LoginError(String str) {
+
+            }
+        });
+    }
 
     private void addChargingPile() {
         if (SmartHomeUtil.isFlagUser()) {//浏览账户
@@ -1718,8 +1841,8 @@ public class ChargingPileActivity extends BaseActivity {
     public void showStorageList(View v) {
         List<GunBean.DataBean> gunlist = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
-            GunBean.DataBean data = new GunBean().getData();
-            data.setConnectorId(i);
+            GunBean.DataBean data = new GunBean.DataBean();
+            data.setConnectorId(i + 1);
             gunlist.add(data);
         }
 
@@ -1741,11 +1864,12 @@ public class ChargingPileActivity extends BaseActivity {
         popGunAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (position != Cons.mCurrentGunBeanId) {
+                int id = popGunAdapter.getData().get(position).getConnectorId();
+                if (id != Cons.mCurrentGunBeanId) {
                     animation = null;
-                    Cons.mCurrentGunBeanId = position;
+                    Cons.mCurrentGunBeanId = id;
                     String name;
-                    if (position == 0) {
+                    if (id == 1) {
                         name = getString(R.string.m110A枪);
                     } else {
                         name = getString(R.string.m111B枪);
@@ -1756,7 +1880,9 @@ public class ChargingPileActivity extends BaseActivity {
                 }
             }
         });
-        popupGun = new PopupWindow(contentView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+
+        int width=getResources().getDimensionPixelSize(R.dimen.xa150);
+        popupGun = new PopupWindow(contentView, width, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         popupGun.setTouchable(true);
         popupGun.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         popupGun.setTouchInterceptor(new View.OnTouchListener() {
@@ -1922,6 +2048,7 @@ public class ChargingPileActivity extends BaseActivity {
                     JSONObject object = new JSONObject(json);
                     int code = object.getInt("code");
                     if (code == 0) {
+                        Mydialog.showDelayDismissDialog(15 * 1000, ChargingPileActivity.this);
                         isClicked = true;
                         timeHandler.removeMessages(1);
                         timeHandler.sendEmptyMessageDelayed(1, 1000);
@@ -1971,6 +2098,7 @@ public class ChargingPileActivity extends BaseActivity {
                     JSONObject object = new JSONObject(json);
                     int code = object.getInt("code");
                     if (code == 0) {
+                        Mydialog.showDelayDismissDialog(15 * 1000, ChargingPileActivity.this);
                         isClicked = true;
                         timeHandler.removeMessages(1);
                         timeHandler.sendEmptyMessageDelayed(1, 1000);
@@ -2064,6 +2192,35 @@ public class ChargingPileActivity extends BaseActivity {
                 Mydialog.Dismiss();
             }
         });
+    }
+
+
+    /**
+     * 设置限制功率ui
+     */
+    private void initSolarUi(int solar) {
+        if (solar == 1) {
+            mRlSolar.setBackgroundResource(R.drawable.selector_circle_btn_green_gradient);
+            mIvLimit.setImageResource(R.drawable.limit_power_off);
+            mTvSolar.setTextColor(ContextCompat.getColor(this, R.color.headerView));
+        } else {
+            mRlSolar.setBackgroundResource(R.drawable.selector_circle_btn_white);
+            mIvLimit.setImageResource(R.drawable.limit_power_on);
+            mTvSolar.setTextColor(ContextCompat.getColor(this, R.color.green_1));
+        }
+        mTvSolar.setText(R.string.solar);
+
+    }
+
+    /**
+     * 隐藏/显示限制功率
+     */
+    private void setSolarUi(boolean isShow) {
+        if (isShow) {
+            MyUtil.showAllView(mRlSolar);
+        } else {
+            MyUtil.hideAllView(View.GONE, mRlSolar);
+        }
     }
 
 

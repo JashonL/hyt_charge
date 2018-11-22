@@ -90,4 +90,7 @@ public class SmartHomeUrlUtil {
 
     //获取验证码
     public static final String GET_DEMO_CODE = SMARTHOME_BASE_URL + "/ocpp/user/checkCode";
+
+    //设置功率限制
+    public static final String REQUEST_SET_SOLAR = SMARTHOME_BASE_URL + "/ocpp/api/setSolar";
 }

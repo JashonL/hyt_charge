@@ -33,6 +33,7 @@ public class ChargingBean {
         private int type;
         private String userId;
         private List<String> status;
+        private int solar;
 
         //是否被选中
         private boolean isChecked;
@@ -139,5 +140,12 @@ public class ChargingBean {
             this.devType = devType;
         }
 
+        public int getSolar() {
+            return solar;
+        }
+
+        public void setSolar(int solar) {
+            this.solar = solar;
+        }
     }
 }

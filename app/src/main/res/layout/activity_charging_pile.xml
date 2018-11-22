@@ -90,6 +90,7 @@
 
 
                 <RelativeLayout
+                    android:id="@+id/rl_solar"
                     android:layout_width="@dimen/xa140"
                     android:layout_height="@dimen/xa44"
                     android:layout_marginLeft="@dimen/xa28"
@@ -105,10 +106,11 @@
                         android:src="@drawable/limit_power_off" />
 
                     <TextView
+                        android:id="@+id/tv_solar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/iv_limit"
-                        android:text="Solar"
+                        android:text="@string/solar"
                         android:layout_marginLeft="@dimen/xa10"
                         android:textSize="@dimen/xa28"
                         android:textColor="@color/headerView"

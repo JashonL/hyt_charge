@@ -256,6 +256,8 @@
     <string name="m开始时间错误">Wrong appointment time</string>
     <string name="m体验馆">demo</string>
     <string name="m浏览账户">Demo account</string>
+    <string name="solar">Solar</string>
+    <string name="m限制时间段">8:00am~8:00pm</string>
 </resources>
 
 
