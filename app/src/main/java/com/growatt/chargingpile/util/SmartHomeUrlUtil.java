@@ -46,6 +46,9 @@ public class SmartHomeUrlUtil {
     //查询充电枪详情
     public static final String GET_CHARGING_GUN_DATA = SMARTHOME_BASE_URL + "/ocpp/api/info";
 
+    //查询充电枪详情新接口
+    public static final String GET_CHARGING_GUN_DATA_NEW = SMARTHOME_BASE_URL + "/ocpp/charge/info";
+
     //获取已授权的用户列表
     public static final String GET_AUTHORIZATION_USEER_LIST = SMARTHOME_BASE_URL + "/ocpp/api/userList";
 
@@ -93,4 +96,7 @@ public class SmartHomeUrlUtil {
 
     //设置功率限制
     public static final String REQUEST_SET_SOLAR = SMARTHOME_BASE_URL + "/ocpp/api/setSolar";
+
+    //获取最后一次操作信息
+    public static final String REQUEST_LAST_ACTION = SMARTHOME_BASE_URL + "/ocpp/api/LastAction";
 }
