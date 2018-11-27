@@ -167,7 +167,7 @@ public class AddAuthorizationActivity extends BaseActivity {
         jsonMap.put("lan",getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         Mydialog.Show(this);
-        PostUtil.postJson(SmartHomeUrlUtil.ADD_AUTHORIZATION_USERE, json, new PostUtil.postListener() {
+        PostUtil.postJson(SmartHomeUrlUtil.postAddAuthorizationUser(), json, new PostUtil.postListener() {
             @Override
             public void Params(Map<String, String> params) {
 

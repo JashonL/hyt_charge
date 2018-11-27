@@ -115,7 +115,7 @@ public class AddChargingActivity extends BaseActivity {
         jsonMap.put("lan", getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         LogUtil.i(json);
-        PostUtil.postJson(SmartHomeUrlUtil.ADD_CHARGING, json, new PostUtil.postListener() {
+        PostUtil.postJson(SmartHomeUrlUtil.postAddCharging(), json, new PostUtil.postListener() {
             @Override
             public void Params(Map<String, String> params) {
 

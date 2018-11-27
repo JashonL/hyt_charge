@@ -355,7 +355,7 @@ public class EditDurationActivity extends BaseActivity {
             e.printStackTrace();
         }
         LogUtil.i(json);
-        PostUtil.postJson(SmartHomeUrlUtil.UPDATE_CHARGING_RESERVELIST, object.toString(), new PostUtil.postListener() {
+        PostUtil.postJson(SmartHomeUrlUtil.postUpdateChargingReservelist(), object.toString(), new PostUtil.postListener() {
             @Override
             public void Params(Map<String, String> params) {
 
@@ -414,7 +414,7 @@ public class EditDurationActivity extends BaseActivity {
         }
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         LogUtil.i(json);
-        PostUtil.postJson(SmartHomeUrlUtil.UPDATE_CHARGING_RESERVELIST, json, new PostUtil.postListener() {
+        PostUtil.postJson(SmartHomeUrlUtil.postUpdateChargingReservelist(), json, new PostUtil.postListener() {
             @Override
             public void Params(Map<String, String> params) {
 
@@ -460,7 +460,7 @@ public class EditDurationActivity extends BaseActivity {
         }
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         LogUtil.i(json);
-        PostUtil.postJson(SmartHomeUrlUtil.REQUEST_RESEERVE_CHARGING, json, new PostUtil.postListener() {
+        PostUtil.postJson(SmartHomeUrlUtil.postRequestReseerveCharging(), json, new PostUtil.postListener() {
             @Override
             public void Params(Map<String, String> params) {
 

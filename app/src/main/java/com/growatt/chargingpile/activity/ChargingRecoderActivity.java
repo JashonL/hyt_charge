@@ -110,7 +110,7 @@ public class ChargingRecoderActivity extends BaseActivity {
         jsonMap.put("psize", psize);
         jsonMap.put("lan",getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
-        PostUtil.postJson(SmartHomeUrlUtil.USER_CHARGING_RECORD, json, new PostUtil.postListener() {
+        PostUtil.postJson(SmartHomeUrlUtil.postUserChargingRecord(), json, new PostUtil.postListener() {
             @Override
             public void Params(Map<String, String> params) {
 

@@ -229,7 +229,7 @@ public class ChargingParamsActivity extends BaseActivity {
         jsonMap.put("lan", getLanguage());//测试id
         jsonMap.put(key, value);
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
-        PostUtil.postJson(SmartHomeUrlUtil.SET_CHARGING_PARAMS, json, new PostUtil.postListener() {
+        PostUtil.postJson(SmartHomeUrlUtil.postSetChargingParams(), json, new PostUtil.postListener() {
             @Override
             public void Params(Map<String, String> params) {
 
@@ -267,7 +267,7 @@ public class ChargingParamsActivity extends BaseActivity {
         jsonMap.put("userId", Cons.userBean.getAccountName());//测试id
         jsonMap.put("lan", getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
-        PostUtil.postJson(SmartHomeUrlUtil.REQUEST_CHARGING_PARAMS, json, new PostUtil.postListener() {
+        PostUtil.postJson(SmartHomeUrlUtil.postRequestChargingParams(), json, new PostUtil.postListener() {
             @Override
             public void Params(Map<String, String> params) {
 

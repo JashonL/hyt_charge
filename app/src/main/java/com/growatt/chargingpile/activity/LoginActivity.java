@@ -129,7 +129,7 @@ public class LoginActivity extends BaseActivity {
      */
 
     private void loginDemo() {
-        PostUtil.postJson(SmartHomeUrlUtil.GET_DEMO_USER, "", new PostUtil.postListener() {
+        PostUtil.postJson(SmartHomeUrlUtil.postGetDemoUser(), "", new PostUtil.postListener() {
             @Override
             public void Params(Map<String, String> params) {
 

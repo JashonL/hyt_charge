@@ -43,17 +43,34 @@ public class SmartHomeUrlUtil {
     //查询充电桩列表
     public static final String GET_MY_ADD_CHARGING_LIST = SMARTHOME_BASE_URL + "/ocpp/api/list";
 
+    public static String postGetChargingList() {
+        return SMARTHOME_BASE_URL + "/ocpp/api/info";
+    }
+
+
     //查询充电枪详情
     public static final String GET_CHARGING_GUN_DATA = SMARTHOME_BASE_URL + "/ocpp/api/info";
 
     //查询充电枪详情新接口
     public static final String GET_CHARGING_GUN_DATA_NEW = SMARTHOME_BASE_URL + "/ocpp/charge/info";
 
+    public static String postGetChargingGunNew() {
+        return SMARTHOME_BASE_URL + "/ocpp/charge/info";
+    }
+
     //获取已授权的用户列表
     public static final String GET_AUTHORIZATION_USEER_LIST = SMARTHOME_BASE_URL + "/ocpp/api/userList";
 
+    public static String postGetAuthorizationList() {
+        return SMARTHOME_BASE_URL + "/ocpp/api/userList";
+    }
+
     //添加授权用户
     public static final String ADD_AUTHORIZATION_USERE = SMARTHOME_BASE_URL + "/ocpp/api/author";
+
+    public static String postAddAuthorizationUser() {
+        return SMARTHOME_BASE_URL + "/ocpp/api/author";
+    }
 
     //注册并授权新用户
     public static final String REGISTER_AND_AUTHORIZATION_USERE = SMARTHOME_BASE_URL + "/ocpp/api/registerAuthor";
@@ -61,42 +78,102 @@ public class SmartHomeUrlUtil {
     //删除用户
     public static final String DELETE_UTHORIZATION_USERE = SMARTHOME_BASE_URL + "/ocpp/api/deleteAuthor";
 
+    public static String postDeleteAuthorizationUser() {
+        return SMARTHOME_BASE_URL + "/ocpp/api/deleteAuthor";
+    }
+
     //添加充电桩
     public static final String ADD_CHARGING = SMARTHOME_BASE_URL + "/ocpp/api/add";
+
+    public static String postAddCharging() {
+        return SMARTHOME_BASE_URL + "/ocpp/api/add";
+    }
 
     //充电记录
     public static final String USER_CHARGING_RECORD = SMARTHOME_BASE_URL + "/ocpp/api/chargeRecord";
 
+    public static String postUserChargingRecord() {
+        return SMARTHOME_BASE_URL + "/ocpp/api/chargeRecord";
+    }
+
     //设置参数
     public static final String SET_CHARGING_PARAMS = SMARTHOME_BASE_URL + "/ocpp/api/config";
+
+    public static String postSetChargingParams() {
+        return SMARTHOME_BASE_URL + "/ocpp/api/config";
+    }
 
     //请求充电桩设置
     public static final String REQUEST_CHARGING_PARAMS = SMARTHOME_BASE_URL + "/ocpp/api/configInfo";
 
+    public static String postRequestChargingParams() {
+        return SMARTHOME_BASE_URL + "/ocpp/api/configInfo";
+    }
+
+
     //请求预约列表
     public static final String REQUEST_CHARGING_RESERVELIST = SMARTHOME_BASE_URL + "/ocpp/api/reserveList";
+
+    public static String postRequestChargingReserveList() {
+        return SMARTHOME_BASE_URL + "/ocpp/api/reserveList";
+    }
 
     //修改预约
     public static final String UPDATE_CHARGING_RESERVELIST = SMARTHOME_BASE_URL + "/ocpp/api/updateReserve";
 
+    public static String postUpdateChargingReservelist() {
+        return SMARTHOME_BASE_URL + "/ocpp/api/updateReserve";
+    }
+
     //充电指令
     public static final String REQUEST_RESEERVE_CHARGING = SMARTHOME_BASE_URL + "/ocpp/cmd/";
+
+    public static String postRequestReseerveCharging() {
+        return SMARTHOME_BASE_URL + "/ocpp/cmd/";
+    }
+
 
     //删除充电桩
     public static final String REQUEST_DELETE_CHARGING = SMARTHOME_BASE_URL + "/ocpp/api/deleteAuthor";
 
+    public static String postRequestDeleteCharging() {
+        return SMARTHOME_BASE_URL + "/ocpp/api/deleteAuthor";
+    }
+
     //预约列表
     public static final String REQUEST_RESERVENOW_LIST = SMARTHOME_BASE_URL + "/ocpp/api/ReserveNow";
+
+    public static String postRequestReserveNowList() {
+        return SMARTHOME_BASE_URL + "/ocpp/api/ReserveNow";
+    }
 
     //获取浏览账户
     public static final String GET_DEMO_USER = SMARTHOME_BASE_URL + "/ocpp/user/glanceUser";
 
+    public static String postGetDemoUser() {
+        return SMARTHOME_BASE_URL + "/ocpp/user/glanceUser";
+    }
+
     //获取验证码
     public static final String GET_DEMO_CODE = SMARTHOME_BASE_URL + "/ocpp/user/checkCode";
+
+    public static String postGetDemoCode() {
+        return SMARTHOME_BASE_URL + "/ocpp/user/checkCode";
+    }
+
 
     //设置功率限制
     public static final String REQUEST_SET_SOLAR = SMARTHOME_BASE_URL + "/ocpp/api/setSolar";
 
+
+    public static String postRequestSetSolar() {
+        return SMARTHOME_BASE_URL + "/ocpp/api/setSolar";
+    }
+
     //获取最后一次操作信息
     public static final String REQUEST_LAST_ACTION = SMARTHOME_BASE_URL + "/ocpp/api/LastAction";
+
+    public static String postRequestLastAction() {
+        return SMARTHOME_BASE_URL + "/ocpp/api/LastAction";
+    }
 }

@@ -155,7 +155,7 @@ public class ChargingDurationActivity extends BaseActivity {
         jsonMap.put("cKey", "G_SetTime");
         jsonMap.put("lan", getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
-        PostUtil.postJson(SmartHomeUrlUtil.REQUEST_CHARGING_RESERVELIST, json, new PostUtil.postListener() {
+        PostUtil.postJson(SmartHomeUrlUtil.postRequestChargingReserveList(), json, new PostUtil.postListener() {
             @Override
             public void Params(Map<String, String> params) {
 
@@ -338,7 +338,7 @@ public class ChargingDurationActivity extends BaseActivity {
             }
         }
         LogUtil.i(json);
-        PostUtil.postJson(SmartHomeUrlUtil.UPDATE_CHARGING_RESERVELIST, json, new PostUtil.postListener() {
+        PostUtil.postJson(SmartHomeUrlUtil.postUpdateChargingReservelist(), json, new PostUtil.postListener() {
             @Override
             public void Params(Map<String, String> params) {
 

@@ -635,7 +635,7 @@ public class ChargingPileActivity extends BaseActivity {
         jsonMap.put("lan", getLanguage());
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         LogUtil.i(json);
-        PostUtil.postJson(SmartHomeUrlUtil.GET_MY_ADD_CHARGING_LIST, json, new PostUtil.postListener() {
+        PostUtil.postJson(SmartHomeUrlUtil.postGetChargingList(), json, new PostUtil.postListener() {
             @Override
             public void Params(Map<String, String> params) {
 
@@ -732,7 +732,7 @@ public class ChargingPileActivity extends BaseActivity {
         jsonMap.put("lan", getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         LogUtil.i(json);
-        PostUtil.postJson(SmartHomeUrlUtil.GET_CHARGING_GUN_DATA_NEW, json, new PostUtil.postListener() {
+        PostUtil.postJson(SmartHomeUrlUtil.postGetChargingGunNew(), json, new PostUtil.postListener() {
             @Override
             public void Params(Map<String, String> params) {
 
@@ -787,7 +787,7 @@ public class ChargingPileActivity extends BaseActivity {
         jsonMap.put("lan", getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         LogUtil.i(json);
-        PostUtil.postJson(SmartHomeUrlUtil.GET_CHARGING_GUN_DATA_NEW, json, new PostUtil.postListener() {
+        PostUtil.postJson(SmartHomeUrlUtil.postGetChargingGunNew(), json, new PostUtil.postListener() {
             @Override
             public void Params(Map<String, String> params) {
 
@@ -1035,7 +1035,7 @@ public class ChargingPileActivity extends BaseActivity {
                     jsonMap.put("chargeId", Cons.mCurrentPile.getChargeId());//测试id
                     jsonMap.put("connectorId", Cons.mCurrentGunBeanId);//测试id
                     String json = SmartHomeUtil.mapToJsonString(jsonMap);
-                    PostUtil.postJson(SmartHomeUrlUtil.REQUEST_RESERVENOW_LIST, json, new PostUtil.postListener() {
+                    PostUtil.postJson(SmartHomeUrlUtil.postRequestReserveNowList(), json, new PostUtil.postListener() {
                         @Override
                         public void Params(Map<String, String> params) {
 
@@ -1083,7 +1083,7 @@ public class ChargingPileActivity extends BaseActivity {
         jsonMap.put("userId", Cons.userBean.getAccountName());
         jsonMap.put("lan", getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
-        PostUtil.postJson(SmartHomeUrlUtil.REQUEST_LAST_ACTION, json, new PostUtil.postListener() {
+        PostUtil.postJson(SmartHomeUrlUtil.postRequestLastAction(), json, new PostUtil.postListener() {
             @Override
             public void Params(Map<String, String> params) {
 
@@ -1376,7 +1376,7 @@ public class ChargingPileActivity extends BaseActivity {
         jsonMap.put("solar", salarValue);
         jsonMap.put("lan", getLanguage());
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
-        PostUtil.postJson(SmartHomeUrlUtil.REQUEST_SET_SOLAR, json, new PostUtil.postListener() {
+        PostUtil.postJson(SmartHomeUrlUtil.postRequestSetSolar(), json, new PostUtil.postListener() {
             @Override
             public void Params(Map<String, String> params) {
 
@@ -1433,7 +1433,7 @@ public class ChargingPileActivity extends BaseActivity {
                             params.put("userId", Cons.userBean.accountName);
                             params.put("lan", getLanguage());
                             String json = SmartHomeUtil.mapToJsonString(params);
-                            PostUtil.postJson(SmartHomeUrlUtil.GET_DEMO_CODE, json, new PostUtil.postListener() {
+                            PostUtil.postJson(SmartHomeUrlUtil.postGetDemoCode(), json, new PostUtil.postListener() {
                                 @Override
                                 public void Params(Map<String, String> params) {
 
@@ -1739,7 +1739,7 @@ public class ChargingPileActivity extends BaseActivity {
                 jsonMap.put("lan", getLanguage());
                 String json = SmartHomeUtil.mapToJsonString(jsonMap);
                 LogUtil.i(json);
-                PostUtil.postJson(SmartHomeUrlUtil.REQUEST_DELETE_CHARGING, json, new PostUtil.postListener() {
+                PostUtil.postJson(SmartHomeUrlUtil.postRequestDeleteCharging(), json, new PostUtil.postListener() {
                     @Override
                     public void Params(Map<String, String> params) {
 
@@ -1981,7 +1981,7 @@ public class ChargingPileActivity extends BaseActivity {
         }
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         LogUtil.i(json);
-        PostUtil.postJson(SmartHomeUrlUtil.REQUEST_RESEERVE_CHARGING, json, new PostUtil.postListener() {
+        PostUtil.postJson(SmartHomeUrlUtil.postRequestReseerveCharging(), json, new PostUtil.postListener() {
             @Override
             public void Params(Map<String, String> params) {
 
@@ -2031,7 +2031,7 @@ public class ChargingPileActivity extends BaseActivity {
         jsonMap.put("lan", getLanguage());
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         LogUtil.i(json);
-        PostUtil.postJson(SmartHomeUrlUtil.REQUEST_RESEERVE_CHARGING, json, new PostUtil.postListener() {
+        PostUtil.postJson(SmartHomeUrlUtil.postRequestReseerveCharging(), json, new PostUtil.postListener() {
             @Override
             public void Params(Map<String, String> params) {
 
@@ -2113,7 +2113,7 @@ public class ChargingPileActivity extends BaseActivity {
         }
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         LogUtil.i(json);
-        PostUtil.postJson(SmartHomeUrlUtil.REQUEST_RESEERVE_CHARGING, json, new PostUtil.postListener() {
+        PostUtil.postJson(SmartHomeUrlUtil.postRequestReseerveCharging(), json, new PostUtil.postListener() {
             @Override
             public void Params(Map<String, String> params) {
 
