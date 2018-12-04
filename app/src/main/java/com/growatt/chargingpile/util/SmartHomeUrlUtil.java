@@ -44,7 +44,7 @@ public class SmartHomeUrlUtil {
     public static final String GET_MY_ADD_CHARGING_LIST = SMARTHOME_BASE_URL + "/ocpp/api/list";
 
     public static String postGetChargingList() {
-        return SMARTHOME_BASE_URL + "/ocpp/api/info";
+        return SMARTHOME_BASE_URL + "/ocpp/api/list";
     }
 
 
