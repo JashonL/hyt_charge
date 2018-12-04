@@ -76,7 +76,8 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="@dimen/xa11"
                         android:layout_marginTop="@dimen/xa11"
-                        android:button="@drawable/selector_checkbox_bg_blue"
+                        android:background="@drawable/selector_checkbox_bg_blue"
+                        android:button="@null"
                         android:enabled="false" />
 
                     <TextView
@@ -138,7 +139,8 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="@dimen/xa11"
                         android:layout_marginTop="@dimen/xa11"
-                        android:button="@drawable/selector_checkbox_bg_blue"
+                        android:background="@drawable/selector_checkbox_bg_blue"
+                        android:button="@null"
                         android:enabled="false" />
 
                     <TextView
@@ -200,7 +202,8 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="@dimen/xa11"
                         android:layout_marginTop="@dimen/xa11"
-                        android:button="@drawable/selector_checkbox_bg_blue"
+                        android:background="@drawable/selector_checkbox_bg_blue"
+                        android:button="@null"
                         android:enabled="false" />
 
                     <TextView
@@ -241,7 +244,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_alignParentStart="true"
                     android:text="@string/m203预约充电"
                     android:textColor="@color/title_1"
                     android:textSize="@dimen/xa30" />
