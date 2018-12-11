@@ -1096,7 +1096,7 @@ public class ChargingPileActivity extends BaseActivity {
                     int code = jsonObject.getInt("code");
                     if (code == 0) {
                         JSONObject object = jsonObject.getJSONObject("data");
-                        GunBean.LastActionBean  actionBean = new Gson().fromJson(object.toString(), GunBean.LastActionBean.class);
+                        GunBean.LastActionBean actionBean = new Gson().fromJson(object.toString(), GunBean.LastActionBean.class);
                         gunPrepareInfoByLastAction(actionBean);
                     }
                 } catch (Exception e) {
@@ -1696,6 +1696,7 @@ public class ChargingPileActivity extends BaseActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 ChargingBean.DataBean bean = mAdapter.getItem(position);
+                if (bean == null) return;
                 int type = bean.getDevType();
                 if (type == ChargingBean.ADD_DEVICE) {
                     addChargingPile();
@@ -1714,7 +1715,11 @@ public class ChargingPileActivity extends BaseActivity {
             @Override
             public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
                 ChargingBean.DataBean bean = mAdapter.getItem(position);
-                requestDelete(bean);
+                if (bean == null) return false;
+                int type = bean.getDevType();
+                if (type != ChargingBean.ADD_DEVICE) {
+                    requestDelete(bean);
+                }
                 return false;
             }
         });
