@@ -837,7 +837,7 @@ public class ChargingPileActivity extends BaseActivity {
         if (data == null) {
             hideAnim();
             mStatusGroup.addView(chargeUnvailableView);
-            setChargGunUi(R.drawable.charging_unavailable, getString(R.string.m122不可用), ContextCompat.getColor(this, R.color.title_3), R.drawable.btn_start_charging, getString(R.string.m122不可用));
+            setChargGunUi(R.drawable.charging_unavailable, getString(R.string.m122不可用), ContextCompat.getColor(this, R.color.title_3), R.drawable.btn_start_charging, getString(R.string.m103充电));
             MyUtil.showAllView(llBottomGroup);
             return;
         }
@@ -936,7 +936,7 @@ public class ChargingPileActivity extends BaseActivity {
             case GunBean.SUSPENDEEV:
                 hideAnim();
                 mStatusGroup.addView(chargeSuspendeevView);
-                setChargGunUi(R.drawable.charging_unavailable, getString(R.string.m122不可用), ContextCompat.getColor(this, R.color.title_3), R.drawable.btn_start_charging, getString(R.string.m122不可用));
+                setChargGunUi(R.drawable.charging_unavailable, getString(R.string.m122不可用), ContextCompat.getColor(this, R.color.title_3), R.drawable.btn_start_charging, getString(R.string.m103充电));
                 MyUtil.showAllView(llBottomGroup);
                 break;
             case GunBean.FINISHING:
@@ -959,20 +959,20 @@ public class ChargingPileActivity extends BaseActivity {
             case GunBean.EXPIRY:
                 hideAnim();
                 mStatusGroup.addView(chargeExpiryView);
-                setChargGunUi(R.drawable.charging_available, getString(R.string.m118充电中), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_start_charging, getString(R.string.m124已经注销));
+                setChargGunUi(R.drawable.charging_available, getString(R.string.m118充电中), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_start_charging, getString(R.string.m103充电));
                 MyUtil.hideAllView(View.GONE, llBottomGroup);
                 break;
             case GunBean.FAULTED:
                 hideAnim();
                 mStatusGroup.addView(chargeFaultedView);
-                setChargGunUi(R.drawable.charging_faulted, getString(R.string.m121故障), ContextCompat.getColor(this, R.color.red_faulted), R.drawable.btn_stop_charging, getString(R.string.m121故障));
+                setChargGunUi(R.drawable.charging_faulted, getString(R.string.m121故障), ContextCompat.getColor(this, R.color.red_faulted), R.drawable.btn_start_charging, getString(R.string.m103充电));
                 MyUtil.showAllView(llBottomGroup);
                 break;
 
             case GunBean.UNAVAILABLE:
                 hideAnim();
                 mStatusGroup.addView(chargeUnvailableView);
-                setChargGunUi(R.drawable.charging_unavailable, getString(R.string.m122不可用), ContextCompat.getColor(this, R.color.title_3), R.drawable.btn_start_charging, getString(R.string.m122不可用));
+                setChargGunUi(R.drawable.charging_unavailable, getString(R.string.m122不可用), ContextCompat.getColor(this, R.color.title_3), R.drawable.btn_start_charging, getString(R.string.m103充电));
                 MyUtil.showAllView(llBottomGroup);
                 break;
             case GunBean.WORK:
@@ -985,14 +985,14 @@ public class ChargingPileActivity extends BaseActivity {
             case GunBean.ACCEPTED:
                 hideAnim();
                 mStatusGroup.addView(chargeAcceptedView);
-                setChargGunUi(R.drawable.charging_available, getString(R.string.m125启用中), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_start_charging, getString(R.string.m124已经注销));
+                setChargGunUi(R.drawable.charging_available, getString(R.string.m125启用中), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_start_charging, getString(R.string.m103充电));
                 MyUtil.hideAllView(View.GONE, llBottomGroup);
                 break;
 
             default:
                 hideAnim();
                 mStatusGroup.addView(chargeUnvailableView);
-                setChargGunUi(R.drawable.charging_unavailable, getString(R.string.m122不可用), ContextCompat.getColor(this, R.color.title_3), R.drawable.btn_start_charging, getString(R.string.m122不可用));
+                setChargGunUi(R.drawable.charging_unavailable, getString(R.string.m122不可用), ContextCompat.getColor(this, R.color.title_3), R.drawable.btn_start_charging, getString(R.string.m103充电));
                 MyUtil.showAllView(llBottomGroup);
                 break;
         }
