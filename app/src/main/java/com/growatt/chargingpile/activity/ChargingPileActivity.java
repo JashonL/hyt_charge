@@ -1034,6 +1034,7 @@ public class ChargingPileActivity extends BaseActivity {
                     Map<String, Object> jsonMap = new HashMap<String, Object>();
                     jsonMap.put("chargeId", Cons.mCurrentPile.getChargeId());//测试id
                     jsonMap.put("connectorId", Cons.mCurrentGunBeanId);//测试id
+                    jsonMap.put("lan",getLanguage());
                     String json = SmartHomeUtil.mapToJsonString(jsonMap);
                     PostUtil.postJson(SmartHomeUrlUtil.postRequestReserveNowList(), json, new PostUtil.postListener() {
                         @Override
