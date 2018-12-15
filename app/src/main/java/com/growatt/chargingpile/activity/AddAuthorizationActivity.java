@@ -114,6 +114,9 @@ public class AddAuthorizationActivity extends BaseActivity {
     @OnClick(R.id.btAdd)
     public void toAddUser(View view) {
         final String username = etUsername.getText().toString();
+        if (TextUtils.isEmpty(username.trim())){
+            toast(R.string.m25请输入用户名);
+        }
         PostUtil.post(new Urlsutil().postServerUserId, new PostUtil.postListener() {
             @Override
             public void Params(Map<String, String> params) {
@@ -133,6 +136,8 @@ public class AddAuthorizationActivity extends BaseActivity {
                         } else {
                             toAddAuthorize(id);
                         }
+                    }else {
+                        toast(getString(R.string.m账号未注册));
                     }
 
                 } catch (Exception e) {
@@ -176,8 +181,17 @@ public class AddAuthorizationActivity extends BaseActivity {
             @Override
             public void success(String json) {
                 Mydialog.Dismiss();
-                toast(R.string.m139添加成功);
-                AddAuthorizationActivity.this.finish();
+                try {
+                    JSONObject jsonObject = new JSONObject(json);
+                    int code = jsonObject.getInt("code");
+                    if (code == 0) {
+                        AddAuthorizationActivity.this.finish();
+                    }
+                    String data = jsonObject.getString("data");
+                    if (!TextUtils.isEmpty(data)) toast(R.string.m139添加成功);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
