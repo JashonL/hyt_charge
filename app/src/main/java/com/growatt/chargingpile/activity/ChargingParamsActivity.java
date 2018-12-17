@@ -186,6 +186,30 @@ public class ChargingParamsActivity extends BaseActivity {
      * item 修改项
      */
     private void inputEdit(final String key, final String value) {
+        new CircleDialog.Builder()
+                .setWidth(0.8f)
+                .setTitle(this.getString(R.string.m27温馨提示))
+                .setInputHint(value)
+                .setNegative(this.getString(R.string.m7取消), null)
+                .setPositiveInput(this.getString(R.string.m9确定), (text, v) -> {
+                    if (TextUtils.isEmpty(text)) {
+                        toast(R.string.m140不能为空);
+                        return;
+                    }
+                    if ("ip".equals(key)) {
+                        boolean b = MyUtil.isboolIp(value);
+                        if (!b) {
+                            toast(R.string.m177输入格式不正确);
+                            return;
+                        }
+                    }
+                    requestEdit(key, text);
+                })
+                .show(this.getSupportFragmentManager());
+
+/*
+
+
         final EditText et = new EditText(this);
         int dimen = getResources().getDimensionPixelSize(R.dimen.xa24);
         et.setTextSize(TypedValue.COMPLEX_UNIT_PX, dimen);
@@ -213,7 +237,7 @@ public class ChargingParamsActivity extends BaseActivity {
                     }
                 }).setNegativeButton(R.string.m7取消, null).create();
         dialog.setCancelable(true);
-        dialog.show();
+        dialog.show();*/
     }
 
 
