@@ -95,6 +95,7 @@
                     android:layout_height="@dimen/xa44"
                     android:layout_marginLeft="@dimen/xa28"
                     android:layout_marginTop="@dimen/xa28"
+                    android:visibility="gone"
                     android:background="@drawable/shape_button_gradient_normal"
                     android:gravity="center">
 
