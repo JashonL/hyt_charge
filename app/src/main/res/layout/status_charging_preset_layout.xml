@@ -50,20 +50,22 @@
 
                         <LinearLayout
                             android:id="@+id/ll_preset"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
+                            android:layout_toLeftOf="@+id/roundProgressBar1"
                             android:orientation="horizontal">
 
                             <ImageView
                                 android:layout_width="@dimen/xa15"
                                 android:layout_height="@dimen/xa15"
-                                android:src="@drawable/shape_circle_gray" />
+                                android:src="@drawable/circle_gray" />
 
-                            <TextView
+                            <com.growatt.chargingpile.view.AutoFitTextViewTwo
                                 android:id="@+id/tv_preset_value"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
                                 android:layout_marginLeft="@dimen/xa10"
                                 android:textColor="@color/title_1"
                                 android:textSize="@dimen/xa36" />
@@ -82,22 +84,24 @@
 
                         <LinearLayout
                             android:id="@+id/ll_charged"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/tv_text_preset"
                             android:layout_marginTop="@dimen/xa18"
                             android:gravity="center"
+                            android:layout_toLeftOf="@+id/roundProgressBar1"
                             android:orientation="horizontal">
 
                             <ImageView
                                 android:layout_width="@dimen/xa15"
                                 android:layout_height="@dimen/xa15"
-                                android:src="@drawable/shape_circle_green" />
+                                android:src="@drawable/circle_green" />
 
-                            <TextView
+                            <com.growatt.chargingpile.view.AutoFitTextViewTwo
                                 android:id="@+id/tv_charging_value"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
                                 android:layout_marginLeft="@dimen/xa10"
                                 android:textColor="@color/title_1"
                                 android:textSize="@dimen/xa36" />
@@ -113,7 +117,11 @@
                             android:layout_centerVertical="true"
                             app:textColor="@color/green_1"
                             app:roundColor="@color/gray_2"
-                            app:roundWidth="@dimen/xa10" />
+                            app:roundWidth="@dimen/xa10"
+                            app:isShowPercent="true"
+                            app:textIsDisplayable="true"
+                            app:style="STROKE"
+                            />
 
                         <TextView
                             android:id="@+id/tv_preset_type"
@@ -152,9 +160,9 @@
                             android:layout_marginLeft="@dimen/xa30"
                             android:src="@drawable/charging_money" />
 
-                        <TextView
+                        <com.growatt.shinephone.view.AutoFitTextViewTwo
                             android:id="@+id/tv_other_value"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/xa30"
                             android:layout_toRightOf="@+id/icon_charged_other"
@@ -189,9 +197,9 @@
                             android:layout_marginLeft="@dimen/xa30"
                             android:src="@drawable/charging_time" />
 
-                        <TextView
+                        <com.growatt.chargingpile.view.AutoFitTextViewTwo
                             android:id="@+id/tv_other_value_2"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/xa30"
                             android:layout_toRightOf="@+id/icon_charged_other_2"
@@ -240,9 +248,9 @@
                         android:layout_marginLeft="@dimen/xa30"
                         android:src="@drawable/charging_rate" />
 
-                    <TextView
+                    <com.growatt.chargingpile.view.AutoFitTextViewTwo
                         android:id="@+id/tv_rate"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/xa30"
                         android:layout_toRightOf="@+id/icon_charged_rate"
@@ -250,12 +258,13 @@
                         android:textColor="@color/title_1"
                         android:textSize="@dimen/xa36" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <com.growatt.chargingpile.view.AutoFitTextViewTwo
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignLeft="@+id/tv_rate"
                         android:layout_below="@+id/tv_rate"
                         android:layout_marginTop="@dimen/xa10"
+                        android:gravity="center_vertical"
                         android:text="@string/m152充电费率"
                         android:textColor="@color/title_1"
                         android:textSize="@dimen/xa28" />
@@ -276,9 +285,9 @@
                         android:layout_marginLeft="@dimen/xa30"
                         android:src="@drawable/charging_current" />
 
-                    <TextView
+                    <com.growatt.chargingpile.view.AutoFitTextViewTwo
                         android:id="@+id/tv_current"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/xa30"
                         android:layout_toRightOf="@+id/icon_charged_current"
@@ -287,12 +296,13 @@
                         android:textSize="@dimen/xa36" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignLeft="@+id/tv_current"
                         android:layout_below="@+id/tv_current"
                         android:layout_marginTop="@dimen/xa10"
                         android:text="@string/m193当前电流"
+                        android:gravity="center_vertical"
                         android:textColor="@color/title_1"
                         android:textSize="@dimen/xa28" />
                 </RelativeLayout>
@@ -312,9 +322,9 @@
                         android:layout_marginLeft="@dimen/xa30"
                         android:src="@drawable/charging_voltage" />
 
-                    <TextView
+                    <com.growatt.chargingpile.view.AutoFitTextViewTwo
                         android:id="@+id/tv_voltage"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/xa30"
                         android:layout_toRightOf="@+id/icon_charged_voltage"
@@ -322,13 +332,14 @@
                         android:textColor="@color/title_1"
                         android:textSize="@dimen/xa36" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <com.growatt.chargingpile.view.AutoFitTextViewTwo
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignLeft="@+id/tv_voltage"
                         android:layout_below="@+id/tv_voltage"
                         android:layout_marginTop="@dimen/xa10"
                         android:text="@string/m194当前电压"
+                        android:gravity="center_vertical"
                         android:textColor="@color/title_1"
                         android:textSize="@dimen/xa28" />
                 </RelativeLayout>
