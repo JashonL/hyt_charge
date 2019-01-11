@@ -59,7 +59,7 @@
                             <ImageView
                                 android:layout_width="@dimen/xa15"
                                 android:layout_height="@dimen/xa15"
-                                android:src="@drawable/circle_gray" />
+                                android:src="@drawable/shape_circle_gray" />
 
                             <com.growatt.chargingpile.view.AutoFitTextViewTwo
                                 android:id="@+id/tv_preset_value"
@@ -95,7 +95,7 @@
                             <ImageView
                                 android:layout_width="@dimen/xa15"
                                 android:layout_height="@dimen/xa15"
-                                android:src="@drawable/circle_green" />
+                                android:src="@drawable/shape_circle_green" />
 
                             <com.growatt.chargingpile.view.AutoFitTextViewTwo
                                 android:id="@+id/tv_charging_value"
@@ -118,7 +118,6 @@
                             app:textColor="@color/green_1"
                             app:roundColor="@color/gray_2"
                             app:roundWidth="@dimen/xa10"
-                            app:isShowPercent="true"
                             app:textIsDisplayable="true"
                             app:style="STROKE"
                             />
@@ -160,7 +159,7 @@
                             android:layout_marginLeft="@dimen/xa30"
                             android:src="@drawable/charging_money" />
 
-                        <com.growatt.shinephone.view.AutoFitTextViewTwo
+                        <com.growatt.chargingpile.view.AutoFitTextViewTwo
                             android:id="@+id/tv_other_value"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
