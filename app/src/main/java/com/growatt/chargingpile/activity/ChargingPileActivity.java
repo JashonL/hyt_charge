@@ -74,6 +74,9 @@ import butterknife.OnClick;
 
 public class ChargingPileActivity extends BaseActivity {
 
+    @BindView(R.id.ivRight)
+    ImageView ivSetting;
+
     @BindView(R.id.ivLeft)
     ImageView ivUserCenter;
 
@@ -292,12 +295,9 @@ public class ChargingPileActivity extends BaseActivity {
 
     private void initPullView() {
         srlPull.setColorSchemeColors(ContextCompat.getColor(this, R.color.green_1));
-        srlPull.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                isTimeRefresh = false;
-                refreshAll();
-            }
+        srlPull.setOnRefreshListener(() -> {
+            isTimeRefresh = false;
+            refreshAll();
         });
     }
 
@@ -366,6 +366,7 @@ public class ChargingPileActivity extends BaseActivity {
      */
     private void initHeaderViews() {
         ivUserCenter.setImageResource(R.drawable.user_index);
+        ivSetting.setImageResource(R.drawable.charging_setting);
     }
 
 
@@ -527,29 +528,26 @@ public class ChargingPileActivity extends BaseActivity {
         tvStartTime = preparingView.findViewById(R.id.tv_start_time);
         ivResever = preparingView.findViewById(R.id.iv_resever_switch);
         llReserve = preparingView.findViewById(R.id.ll_reserve);
-        ivResever.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (presetType == 3) {
-                    if (!isReservation) {
-                        //去预约列表操作
-                        Intent intent = new Intent(ChargingPileActivity.this, ChargingDurationActivity.class);
-                        startActivityForResult(intent, REQUEST_OPEN_DURATION);
-                    } else {
-                        //关闭预约
-                        isReservation = false;
-                        ivResever.setImageResource(R.drawable.checkbox_off);
-                    }
-
+        ivResever.setOnClickListener(v -> {
+            if (presetType == 3) {
+                if (!isReservation) {
+                    //去预约列表操作
+                    Intent intent = new Intent(ChargingPileActivity.this, ChargingDurationActivity.class);
+                    startActivityForResult(intent, REQUEST_OPEN_DURATION);
                 } else {
-                    if (isReservation) {
-                        isReservation = false;
-                        ivResever.setImageResource(R.drawable.checkbox_off);
-                    } else {
-                        selectTime();
-                    }
-
+                    //关闭预约
+                    isReservation = false;
+                    ivResever.setImageResource(R.drawable.checkbox_off);
                 }
+
+            } else {
+                if (isReservation) {
+                    isReservation = false;
+                    ivResever.setImageResource(R.drawable.checkbox_off);
+                } else {
+                    selectTime();
+                }
+
             }
         });
 
@@ -1261,7 +1259,8 @@ public class ChargingPileActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.ivLeft, R.id.ll_Authorization, R.id.ll_record, R.id.ll_charging, R.id.rl_switch_gun, R.id.to_add_device, R.id.rl_solar})
+    @OnClick({R.id.ivLeft, R.id.ll_Authorization, R.id.ll_record, R.id.ll_charging,
+            R.id.rl_switch_gun, R.id.to_add_device, R.id.rl_solar,R.id.ivRight})
     public void onClickListener(View view) {
         switch (view.getId()) {
             case R.id.ivLeft:
@@ -1305,6 +1304,9 @@ public class ChargingPileActivity extends BaseActivity {
                 break;
             case R.id.rl_solar:
                 setPowerLimit();
+                break;
+            case R.id.ivRight:
+                jumpTo(WanDeviceListActivity.class,false);
                 break;
         }
 
@@ -1693,36 +1695,30 @@ public class ChargingPileActivity extends BaseActivity {
 
 
     private void initListeners() {
-        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ChargingBean.DataBean bean = mAdapter.getItem(position);
-                if (bean == null) return;
-                int type = bean.getDevType();
-                if (type == ChargingBean.ADD_DEVICE) {
-                    addChargingPile();
-                } else {
-                    animation = null;
-                    Cons.mSeletPos = position;
-                    isTimeRefresh = false;
-                    timeHandler.removeMessages(1);
-                    timeHandler.sendEmptyMessageDelayed(1, 10 * 1000);
-                    refreshChargingUI(position, 1);
-                }
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            ChargingBean.DataBean bean = mAdapter.getItem(position);
+            if (bean == null) return;
+            int type = bean.getDevType();
+            if (type == ChargingBean.ADD_DEVICE) {
+                addChargingPile();
+            } else {
+                animation = null;
+                Cons.mSeletPos = position;
+                isTimeRefresh = false;
+                timeHandler.removeMessages(1);
+                timeHandler.sendEmptyMessageDelayed(1, 10 * 1000);
+                refreshChargingUI(position, 1);
             }
         });
 
-        mAdapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
-                ChargingBean.DataBean bean = mAdapter.getItem(position);
-                if (bean == null) return false;
-                int type = bean.getDevType();
-                if (type != ChargingBean.ADD_DEVICE) {
-                    requestDelete(bean);
-                }
-                return false;
+        mAdapter.setOnItemLongClickListener((adapter, view, position) -> {
+            ChargingBean.DataBean bean = mAdapter.getItem(position);
+            if (bean == null) return false;
+            int type = bean.getDevType();
+            if (type != ChargingBean.ADD_DEVICE) {
+                requestDelete(bean);
             }
+            return false;
         });
     }
 

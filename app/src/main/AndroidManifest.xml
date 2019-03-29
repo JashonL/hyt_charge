@@ -100,7 +100,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.UpdatepwdActivity"
-
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
         <activity
@@ -172,6 +171,8 @@
             android:name=".scan.activity.MyCaptureActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
+        <activity android:name=".activity.WanDeviceListActivity" />
+        <activity android:name=".activity.ConnetWiFiActivity"></activity>
     </application>
 
 </manifest>

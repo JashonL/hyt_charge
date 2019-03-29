@@ -25,7 +25,10 @@
             android:gravity="center"
             android:text="Title"
             android:textColor="#ffffff"
-            android:textSize="@dimen/xa37" />
+            android:textSize="@dimen/xa37"
+            android:layout_marginStart="@dimen/xa35"
+            android:layout_toStartOf="@+id/tvRight"
+            android:layout_toEndOf="@+id/ivLeft" />
 
         <ImageView
             android:id="@+id/ivLeft"
@@ -37,7 +40,8 @@
             android:paddingBottom="@dimen/xa35"
             android:paddingLeft="@dimen/xa18"
             android:paddingRight="@dimen/xa18"
-            android:paddingTop="@dimen/xa35" />
+            android:paddingTop="@dimen/xa35"
+            android:layout_alignParentStart="true" />
 
         <TextView
             android:id="@+id/tvRight"
@@ -51,7 +55,9 @@
             android:paddingRight="@dimen/xa11"
             android:paddingTop="@dimen/xa32"
             android:textColor="#ffffff"
-            android:textSize="@dimen/xa35" />
+            android:textSize="@dimen/xa35"
+            android:layout_alignParentEnd="true"
+            android:paddingEnd="@dimen/xa11" />
     </RelativeLayout>
 
 </LinearLayout>
