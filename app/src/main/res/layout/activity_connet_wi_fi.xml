@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white_background"
+    android:orientation="vertical"
+    tools:context=".activity.ConnetWiFiActivity">
+
+    <include layout="@layout/header_view_title" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/xa100"
+                android:background="@color/gray"
+                android:gravity="center"
+                android:text="@string/m107连接"
+                android:textSize="@dimen/xa24" />
+
+
+            <TextView
+                android:id="@+id/tv_wifi_prompt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/xa60"
+                android:text="当前连接WIFI"
+                android:textColor="@color/title_3"
+                android:textSize="@dimen/xa24"
+                android:visibility="visible" />
+
+
+            <LinearLayout
+                android:id="@+id/linearlayout2"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="@dimen/xa30"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/xa37"
+                    android:layout_height="@dimen/xa27"
+                    android:src="@drawable/smart_home_connect_wifi" />
+
+                <TextView
+                    android:id="@+id/tv_wifi_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/xa24"
+                    android:gravity="center"
+                    android:text="Tenda_DA8BB0"
+                    android:textColor="@color/title_1"
+                    android:textSize="@dimen/xa30" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="23dp"
+                android:background="@color/white_background"
+                android:orientation="horizontal"
+                android:padding="3dp">
+
+                <TextView
+                    android:id="@+id/et_wifi_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:text="去WLAN页面进行设置>"
+                    android:textColor="@color/green_1"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnOk"
+                android:layout_width="200dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/selector_circle_btn_green_gradient"
+                android:text="@string/m2下一步"
+                android:textColor="@color/white_background"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>
