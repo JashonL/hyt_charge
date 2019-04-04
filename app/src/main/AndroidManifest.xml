@@ -172,7 +172,8 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.WanDeviceListActivity" />
-        <activity android:name=".activity.ConnetWiFiActivity"></activity>
+        <activity android:name=".activity.ConnetWiFiActivity" />
+        <activity android:name=".activity.WifiSetActivity"></activity>
     </application>
 
 </manifest>

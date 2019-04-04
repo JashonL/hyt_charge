@@ -1,20 +1,33 @@
 package com.growatt.chargingpile.util;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AppOpsManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Environment;
+import android.provider.Settings;
+import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.connutil.PostUtil;
 import com.growatt.chargingpile.connutil.Urlsutil;
+import com.mylhyl.circledialog.CircleDialog;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -25,6 +38,7 @@ import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -367,6 +381,104 @@ public class MyUtil {
             stringBuilder.append(hv).append(" ");
         }
         return stringBuilder.toString();
+    }
+
+
+//判断网络是否可用
+
+    public static boolean isNetworkAvailable(Context context) {
+        boolean result = false;
+        if(getNetworkType(context) != null) {
+            result = true;
+        }
+
+        return result;
+    }
+
+
+
+    public static String getNetworkType(Context context) {
+        String result = null;
+        ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(connectivity == null) {
+            result = null;
+        } else {
+            NetworkInfo[] info = null;
+
+            try {
+                if(Build.VERSION.SDK_INT >= 21) {
+                    Network[] allNetworks = connectivity.getAllNetworks();
+                    if(allNetworks != null && allNetworks.length > 0) {
+                        info = new NetworkInfo[allNetworks.length];
+                        int i = 0;
+                        Network[] var6 = allNetworks;
+                        int var7 = allNetworks.length;
+
+                        for(int var8 = 0; var8 < var7; ++var8) {
+                            Network network = var6[var8];
+                            info[i++] = connectivity.getNetworkInfo(network);
+                        }
+                    }
+                } else {
+                    info = connectivity.getAllNetworkInfo();
+                }
+            } catch (Exception var10) {
+                ;
+            }
+
+            if(info != null) {
+                for(int i = 0; i < info.length; ++i) {
+                    if(info[i] != null) {
+                        NetworkInfo.State tem = info[i].getState();
+                        if(tem == NetworkInfo.State.CONNECTED || tem == NetworkInfo.State.CONNECTING) {
+                            String temp = info[i].getExtraInfo();
+                            result = info[i].getTypeName() + " " + info[i].getSubtypeName() + temp;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
+
+    /**
+     * 获取SSID
+     *
+     * @param activity 上下文
+     * @return WIFI 的SSID
+     */
+    public static String getWIFISSID(Activity activity) {
+        String ssid = "";
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O) {
+            WifiManager mWifiManager = (WifiManager) activity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+            assert mWifiManager != null;
+            WifiInfo info = mWifiManager.getConnectionInfo();
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+                return info.getSSID();
+            } else {
+                return info.getSSID().replace("\"", "");
+            }
+        } else {
+            WifiManager mWifiManager = (WifiManager) activity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+            if (mWifiManager != null) {
+                WifiInfo connectionInfo = mWifiManager.getConnectionInfo();
+                int networkId = connectionInfo.getNetworkId();
+                List<WifiConfiguration> configuredNetworks = mWifiManager.getConfiguredNetworks();
+                for (WifiConfiguration wificonf : configuredNetworks) {
+                    if (wificonf.networkId == networkId) {
+                        ssid = wificonf.SSID;
+                        break;
+                    }
+                }
+            }
+            if (ssid.contains("\"")) {
+                ssid = ssid.replace("\"", "");
+            }
+        }
+        return ssid;
     }
 
 }

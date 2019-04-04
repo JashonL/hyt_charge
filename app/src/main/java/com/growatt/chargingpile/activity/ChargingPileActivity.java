@@ -1306,7 +1306,7 @@ public class ChargingPileActivity extends BaseActivity {
                 setPowerLimit();
                 break;
             case R.id.ivRight:
-                jumpTo(WanDeviceListActivity.class,false);
+                jumpTo(ConnetWiFiActivity.class,false);
                 break;
         }
 

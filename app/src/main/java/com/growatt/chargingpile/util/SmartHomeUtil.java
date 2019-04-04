@@ -53,7 +53,7 @@ public class SmartHomeUtil {
     public static byte[] commonkeys = {(byte) 0x5A, (byte) 0xA5, (byte) 0x5A, (byte) 0xA5};
 
     public static byte[] decodeKey(byte[] src, byte[] keys) {
-        if (src == null) return src;
+        if (src == null) return null;
         for (int j = 0; j < src.length; j++)    // Payload数据做掩码处理
         {
             src[j] = (byte) (src[j] ^ keys[j % 4]);
@@ -92,8 +92,7 @@ public class SmartHomeUtil {
         for (int i = 0; i < length - 2; i++) {
             sum += (int) buffer[i];
         }
-        byte end = (byte) (sum & 0xff);
-        return end;
+        return (byte) (sum & 0xff);
     }
 
     /**

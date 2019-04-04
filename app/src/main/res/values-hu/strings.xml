@@ -257,6 +257,11 @@
     <string name="solar">Solar</string>
     <string name="m限制功率1kw">Limit power 1kw charging</string>
     <string name="m限制时间段">8:00am~8:00pm</string>
+    <string name="m位置">Elhelyezkedés</string>
+    <string name="m368请重试或检查网络连接">Please try again or check network connection</string>
+    <string name="wifi">wifi</string>
+    <string name="wifi_ssid">wifi_ssid</string>
+    <string name="wifi_key">wifi_key</string>
 </resources>
 
 

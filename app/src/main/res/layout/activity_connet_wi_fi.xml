@@ -25,7 +25,7 @@
                 android:layout_height="@dimen/xa100"
                 android:background="@color/gray"
                 android:gravity="center"
-                android:text="@string/m107连接"
+                android:text="请将手机连接到充电桩wifi"
                 android:textSize="@dimen/xa24" />
 
 
@@ -44,7 +44,7 @@
             <LinearLayout
                 android:id="@+id/linearlayout2"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/xa90"
                 android:layout_marginTop="@dimen/xa30"
                 android:gravity="center"
                 android:orientation="horizontal">
@@ -69,9 +69,10 @@
 
 
             <LinearLayout
+                android:id="@+id/ll_setwifi"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginTop="23dp"
+                android:layout_height="@dimen/xa90"
+                android:layout_marginTop="@dimen/xa46"
                 android:background="@color/white_background"
                 android:orientation="horizontal"
                 android:padding="3dp">
@@ -89,12 +90,14 @@
 
             </LinearLayout>
 
+
+
             <Button
                 android:id="@+id/btnOk"
                 android:layout_width="200dp"
-                android:layout_height="45dp"
+                android:layout_height="@dimen/xa90"
                 android:layout_gravity="center"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="@dimen/xa90"
                 android:background="@drawable/selector_circle_btn_green_gradient"
                 android:text="@string/m2下一步"
                 android:textColor="@color/white_background"

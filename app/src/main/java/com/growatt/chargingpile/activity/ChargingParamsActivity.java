@@ -58,9 +58,7 @@ public class ChargingParamsActivity extends BaseActivity {
 
     private ParamsSetAdapter mAdapter;
     private List<ParamsSetBean> list = new ArrayList<>();
-    private LinearLayoutManager mLinearLayoutManager;
     private String[] keys;
-    private View paramHeadView;
 
     private String[] mModels;
     private boolean isModyfi = false;
@@ -159,10 +157,10 @@ public class ChargingParamsActivity extends BaseActivity {
     }
 
     private void initRecyclerView() {
-        paramHeadView = LayoutInflater.from(this).inflate(R.layout.item_params_header_view, null);
+        View paramHeadView = LayoutInflater.from(this).inflate(R.layout.item_params_header_view, null);
         tvId = paramHeadView.findViewById(R.id.tv_id);
         tvKeys = paramHeadView.findViewById(R.id.tv_keys);
-        mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mAdapter = new ParamsSetAdapter(list);
         recyclerView.setLayoutManager(mLinearLayoutManager);
         recyclerView.setAdapter(mAdapter);
