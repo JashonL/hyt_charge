@@ -86,7 +86,7 @@ public class SocketClientUtil {
                         receiveMsg(mSocket);
                         if (mHandler != null) {
                             mHandler.sendEmptyMessage(SOCKET_OPEN);
-                            mHandler.sendEmptyMessageDelayed(SOCKET_SEND, 1000);
+                            mHandler.sendEmptyMessageDelayed(SOCKET_SEND, 5000);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

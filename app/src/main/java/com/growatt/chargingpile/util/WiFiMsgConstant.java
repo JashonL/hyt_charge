@@ -38,6 +38,17 @@ public class WiFiMsgConstant {
     public static final byte BLT_MSG_END = (byte) 0x88;
 
 
+    //错误消息指令
+    public static final byte ERROR_MSG_E1 = (byte) 0xE1;
+    public static final byte ERROR_MSG_E2 = (byte) 0xE2;
+    public static final byte ERROR_MSG_E3 = (byte) 0xE3;
+    public static final byte ERROR_MSG_E4 = (byte) 0xE4;
+    public static final byte ERROR_MSG_E5 = (byte) 0xE5;
+    public static final byte ERROR_MSG_E6 = (byte) 0xE6;
+    public static final byte ERROR_MSG_E7 = (byte) 0xE7;
+    public static final byte ERROR_MSG_E8 = (byte) 0xE8;
+    public static final byte ERROR_MSG_E9 = (byte) 0xE9;
+    public static final byte ERROR_MSG_EA = (byte) 0xEA;
 
 
 }

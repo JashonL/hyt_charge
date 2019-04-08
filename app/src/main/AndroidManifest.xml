@@ -171,9 +171,18 @@
             android:name=".scan.activity.MyCaptureActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.WanDeviceListActivity" />
-        <activity android:name=".activity.ConnetWiFiActivity" />
-        <activity android:name=".activity.WifiSetActivity"></activity>
+        <activity
+            android:name=".activity.WanDeviceListActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ConnetWiFiActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.WifiSetActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

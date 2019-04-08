@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,8 +21,10 @@ import android.widget.TextView;
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.adapter.WifiSetAdapter;
+import com.growatt.chargingpile.application.MyApplication;
 import com.growatt.chargingpile.bean.WiFiRequestMsgBean;
 import com.growatt.chargingpile.bean.WifiSetBean;
+import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUtil;
 import com.growatt.chargingpile.util.SocketClientUtil;
 import com.growatt.chargingpile.util.T;
@@ -228,6 +231,7 @@ public class WifiSetActivity extends BaseActivity {
      */
     private void connectSendMsg() {
         isReceiveSucc = false;
+        Mydialog.Show(this);
         connectServer();
     }
 
@@ -246,7 +250,7 @@ public class WifiSetActivity extends BaseActivity {
             if (!isAllowed) return;
             if (position == 0 || position == 7) return;
             WifiSetBean bean = mAdapter.getData().get(position);
-            inputEdit(position, (String) bean.getValue());
+            inputEdit(position, String.valueOf(bean.getValue()));
         });
     }
 
@@ -268,83 +272,83 @@ public class WifiSetActivity extends BaseActivity {
                     }
                     switch (key) {
                         case 1:
-                            ipByte=new byte[15];
                             byte[] bytes = text.getBytes();
-                            System.arraycopy(bytes, 0, ipByte, 0, bytes.length);
-                            if (ipByte.length > 15) {
+                            if (bytes.length > 15) {
                                 T.make("输入错误", this);
                                 return;
                             }
+                            ipByte = new byte[15];
+                            System.arraycopy(bytes, 0, ipByte, 0, bytes.length);
                             setInternt();
                             break;
                         case 2:
-                            gatewayByte=new byte[15];
-                            byte[] bytes1 = text.getBytes();
-                            System.arraycopy(bytes1, 0, gatewayByte, 0, bytes1.length);
-                            if (gatewayByte.length > 15) {
+                            byte[] bytes1 = text.trim().getBytes();
+                            if (bytes1.length > 15) {
                                 T.make("输入错误", this);
                                 return;
                             }
+                            gatewayByte = new byte[15];
+                            System.arraycopy(bytes1, 0, gatewayByte, 0, bytes1.length);
                             setInternt();
                             break;
                         case 3:
-                            maskByte=new byte[15];
-                            byte[] bytes2 = text.getBytes();
-                            System.arraycopy(bytes2, 0, maskByte, 0, bytes2.length);
-                            if (maskByte.length > 15) {
+                            byte[] bytes2 = text.trim().getBytes();
+                            if (bytes2.length > 15) {
                                 T.make("输入错误", this);
                                 return;
                             }
+                            maskByte = new byte[15];
+                            System.arraycopy(bytes2, 0, maskByte, 0, bytes2.length);
                             setInternt();
                             break;
                         case 4:
-                            macByte=new byte[17];
-                            byte[] bytes3 = text.getBytes();
-                            System.arraycopy(bytes3, 0, macByte, 0, bytes3.length);
-                            if (macByte.length > 17) {
+                            byte[] bytes3 = text.trim().getBytes();
+                            if (bytes3.length > 17) {
                                 T.make("输入错误", this);
                                 return;
                             }
+                            macByte = new byte[17];
+                            System.arraycopy(bytes3, 0, macByte, 0, bytes3.length);
                             setInternt();
                             break;
                         case 5:
-                            urlByte=new byte[70];
-                            byte[] bytes4 = text.getBytes();
-                            System.arraycopy(bytes4, 0, urlByte, 0, bytes4.length);
-                            if (urlByte.length > 70) {
+                            byte[] bytes4 = text.trim().getBytes();
+                            if (bytes4.length > 70) {
                                 T.make("输入错误", this);
                                 return;
                             }
+                            urlByte = new byte[70];
+                            System.arraycopy(bytes4, 0, urlByte, 0, bytes4.length);
                             setUrl();
                             break;
                         case 6:
-                            dnsByte=new byte[15];
-                            byte[] bytes5 = text.getBytes();
-                            System.arraycopy(bytes5, 0, dnsByte, 0, bytes5.length);
-                            if (dnsByte.length > 15) {
+                            byte[] bytes5 = text.trim().getBytes();
+                            if (bytes5.length > 15) {
                                 T.make("输入错误", this);
                                 return;
                             }
+                            dnsByte = new byte[15];
+                            System.arraycopy(bytes5, 0, dnsByte, 0, bytes5.length);
                             setInternt();
                             break;
                         case 8:
-                            ssidByte=new byte[16];
-                            byte[] bytes6 = text.getBytes();
-                            System.arraycopy(bytes6, 0, ssidByte, 0, bytes6.length);
-                            if (ssidByte.length > 16) {
+                            byte[] bytes6 = text.trim().getBytes();
+                            if (bytes6.length > 16) {
                                 T.make("输入错误", this);
                                 return;
                             }
+                            ssidByte = new byte[16];
+                            System.arraycopy(bytes6, 0, ssidByte, 0, bytes6.length);
                             setWifi();
                             break;
                         case 9:
-                            wifiKeyByte=new byte[16];
-                            byte[] bytes7 = text.getBytes();
-                            System.arraycopy(bytes7, 0, wifiKeyByte, 0, bytes7.length);
-                            if (wifiKeyByte.length > 16) {
+                            byte[] bytes7 = text.trim().getBytes();
+                            if (bytes7.length > 16) {
                                 T.make("输入错误", this);
                                 return;
                             }
+                            wifiKeyByte = new byte[16];
+                            System.arraycopy(bytes7, 0, wifiKeyByte, 0, bytes7.length);
                             setWifi();
                             break;
                     }
@@ -406,6 +410,47 @@ public class WifiSetActivity extends BaseActivity {
         LogUtil.i("idBytes：" + SmartHomeUtil.bytesToHexString(idBytes));
         LogUtil.i("key：" + SmartHomeUtil.bytesToHexString(timeBytes));
         LogUtil.i("keyBytes：" + SmartHomeUtil.bytesToHexString(key));
+    }
+
+
+    /*退出命令*/
+    private void sendCmdExit() {
+        //头1
+        byte frame1 = WiFiMsgConstant.FRAME_1;
+        //头2
+        byte frame2 = WiFiMsgConstant.FRAME_2;
+        //交流直流
+        byte devType = this.devType;
+        //加密方式
+        byte encryption = this.encryption;
+        //指令
+        byte cmd = WiFiMsgConstant.CMD_A1;
+
+        /*****有效数据*****/
+        byte len = (byte) 14;
+        byte[] prayload = new byte[14];
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault());
+        String time = simpleDateFormat.format(new Date());
+        byte[] timeBytes = time.getBytes();
+        System.arraycopy(timeBytes, 0, prayload, 0, timeBytes.length);
+
+//        byte[] encryptedData = SmartHomeUtil.decodeKey(prayload, key);
+
+        byte end = WiFiMsgConstant.BLT_MSG_END;
+
+        byte[] exit = WiFiRequestMsgBean.Builder.newInstance()
+                .setFrame_1(frame1)
+                .setFrame_2(frame2)
+                .setDevType(devType)
+                .setEncryption(encryption)
+                .setCmd(cmd)
+                .setDataLen(len)
+                .setPrayload(prayload)
+                .setMsgEnd(end)
+                .create();
+
+        mClientUtil.sendMsg(exit);
     }
 
 
@@ -516,7 +561,7 @@ public class WifiSetActivity extends BaseActivity {
         //加密方式
         byte encryption = this.encryption;
         //指令
-        byte cmd = WiFiMsgConstant.CONSTANT_MSG_12;
+        byte cmd = WiFiMsgConstant.CONSTANT_MSG_13;
 
         /*****有效数据*****/
         byte len = (byte) 112;
@@ -568,7 +613,7 @@ public class WifiSetActivity extends BaseActivity {
         //加密方式
         byte encryption = this.encryption;
         //指令
-        byte cmd = WiFiMsgConstant.CONSTANT_MSG_12;
+        byte cmd = WiFiMsgConstant.CONSTANT_MSG_14;
 
         /*****有效数据*****/
         byte len = (byte) 102;
@@ -608,124 +653,198 @@ public class WifiSetActivity extends BaseActivity {
     /**********************************解析数据************************************/
 
     private void parseReceivData(byte[] data) {
-        byte cmd = data[4];//指令类型
-        switch (cmd) {
-            case WiFiMsgConstant.CMD_A0://连接命令
-                //电桩类型，直流或者交流
-                devType = data[2];
-                //加密还是不加密
-                encryption = data[3];
-                //是否允许进入
-                byte allow = data[6];
-                if ((int) allow == 0) {
-                    isAllowed = false;
-                    srlPull.setEnabled(true);
-                    T.make("拒绝进入", WifiSetActivity.this);
-                } else {
-                    srlPull.setEnabled(false);
-                    isAllowed = true;
-                    T.make("允许进入", WifiSetActivity.this);
-                    getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_01);
-                }
-                break;
+        int length = data.length;
+        if (length == 3) {//异常应答
+            byte cmd = data[2];//指令类型
+            switch (cmd) {
+                case WiFiMsgConstant.ERROR_MSG_E1:
+                    T.make("类型错误",this);
+                    break;
+                case WiFiMsgConstant.ERROR_MSG_E2:
+                    T.make("非法命令",this);
+                    break;
+                case WiFiMsgConstant.ERROR_MSG_E3:
+                    T.make("总长度错误",this);
+                    break;
+                case WiFiMsgConstant.ERROR_MSG_E4:
+                    T.make("数据长度错误",this);
+                    break;
+                case WiFiMsgConstant.ERROR_MSG_E5:
+                    T.make("校验错误",this);
+                    break;
+                case WiFiMsgConstant.ERROR_MSG_E6:
+                    T.make("结束符错误",this);
+                    break;
+                case WiFiMsgConstant.ERROR_MSG_E7:
+                    T.make("协议格式错误",this);
+                    break;
+                case WiFiMsgConstant.ERROR_MSG_E8:
+                    T.make("多包数据不连续",this);
+                    break;
+                case WiFiMsgConstant.ERROR_MSG_E9:
+                    T.make("多包数据重复包",this);
+                    break;
+                case WiFiMsgConstant.ERROR_MSG_EA:
+                    T.make("后续包超时错误",this);
+                    break;
+                default:
+                    break;
+            }
 
-            case WiFiMsgConstant.CONSTANT_MSG_01://获取设备信息
-                String devId = new String(data, 6, 20);
-                tvId.setText(devId);
-                getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_02);
-                break;
-            case WiFiMsgConstant.CONSTANT_MSG_02://获取
-                ipByte = new byte[15];
-                System.arraycopy(data, 6, ipByte, 0, 15);
-                String devIp = new String(ipByte, 0, ipByte.length);
-                mAdapter.getData().get(1).setValue(devIp);
+        } else {
+            byte cmd = data[4];//指令类型
+            switch (cmd) {
+                case WiFiMsgConstant.CMD_A0://连接命令
+                    //电桩类型，直流或者交流
+                    devType = data[2];
+                    //加密还是不加密
+                    encryption = data[3];
+                    //是否允许进入
+                    byte allow = data[6];
+                    Mydialog.Dismiss();
+                    if ((int) allow == 0) {
+                        isAllowed = false;
+                        T.make("拒绝进入", WifiSetActivity.this);
+                    } else {
+                        isAllowed = true;
+                        T.make("允许进入", WifiSetActivity.this);
+                        getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_01);
+                    }
+                    break;
 
-                gatewayByte = new byte[15];
-                System.arraycopy(data, 21, gatewayByte, 0, 15);
-                String gateway = new String(gatewayByte, 0, gatewayByte.length);
-                mAdapter.getData().get(2).setValue(gateway);
+                case WiFiMsgConstant.CMD_A1://连接命令
+                    byte exit = data[6];
+                    if ((int) exit == 1) {
+                        T.make("退出成功", WifiSetActivity.this);
+                    } else {
+                        T.make("退出失败", WifiSetActivity.this);
+                    }
+                    break;
 
+                case WiFiMsgConstant.CONSTANT_MSG_01://获取设备信息
+                    String devId = new String(data, 6, 20);
+                    tvId.setText(devId);
+                    getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_02);
+                    break;
+                case WiFiMsgConstant.CONSTANT_MSG_02://获取
+                    ipByte = new byte[15];
+                    System.arraycopy(data, 6, ipByte, 0, 15);
+                    String devIp = new String(ipByte, 0, ipByte.length);
+                    mAdapter.getData().get(1).setValue(devIp);
 
-                maskByte = new byte[15];
-                System.arraycopy(data, 36, maskByte, 0, 15);
-                String mask = new String(maskByte, 0, maskByte.length);
-                mAdapter.getData().get(3).setValue(mask);
-
-
-                macByte = new byte[17];
-                System.arraycopy(data, 51, macByte, 0, 17);
-                String mac = new String(macByte, 0, macByte.length);
-                mAdapter.getData().get(4).setValue(mac);
-
-                dnsByte = new byte[15];
-                System.arraycopy(data, 68, dnsByte, 0, 15);
-                String dns = new String(dnsByte, 0, dnsByte.length);
-                mAdapter.getData().get(6).setValue(dns);
-
-                mAdapter.notifyDataSetChanged();
-                getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_03);
-                break;
-            case WiFiMsgConstant.CONSTANT_MSG_03:
-                ssidByte = new byte[16];
-                System.arraycopy(data, 6, ssidByte, 0, 16);
-                String ssid = new String(ssidByte, 0, ssidByte.length);
-                mAdapter.getData().get(8).setValue(ssid);
-
-                wifiKeyByte = new byte[16];
-                System.arraycopy(data, 22, wifiKeyByte, 0, 16);
-                String wifikey = new String(wifiKeyByte, 0, wifiKeyByte.length);
-                mAdapter.getData().get(9).setValue(wifikey);
-
-
-                bltNameByte = new byte[16];
-                System.arraycopy(data, 6, bltNameByte, 0, 16);
-
-                bltPwdByte = new byte[16];
-                System.arraycopy(data, 22, bltPwdByte, 0, 16);
-
-                name4GByte = new byte[16];
-                System.arraycopy(data, 70, name4GByte, 0, 16);
-
-                pwd4GByte = new byte[16];
-                System.arraycopy(data, 86, pwd4GByte, 0, 16);
-
-                apn4GByte = new byte[16];
-                System.arraycopy(data, 102, apn4GByte, 0, 16);
+                    gatewayByte = new byte[15];
+                    System.arraycopy(data, 21, gatewayByte, 0, 15);
+                    String gateway = new String(gatewayByte, 0, gatewayByte.length);
+                    mAdapter.getData().get(2).setValue(gateway);
 
 
-                mAdapter.notifyDataSetChanged();
-                getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_04);
-                break;
-            case WiFiMsgConstant.CONSTANT_MSG_04:
-                urlByte = new byte[70];
-                System.arraycopy(data, 6, urlByte, 0, 70);
-                String url = new String(urlByte, 0, urlByte.length);
-                mAdapter.getData().get(5).setValue(url);
+                    maskByte = new byte[15];
+                    System.arraycopy(data, 36, maskByte, 0, 15);
+                    String mask = new String(maskByte, 0, maskByte.length);
+                    mAdapter.getData().get(3).setValue(mask);
 
-                hskeyByte = new byte[20];
-                System.arraycopy(data, 76, hskeyByte, 0, 20);
 
-                heatByte = new byte[4];
-                System.arraycopy(data, 96, heatByte, 0, 4);
+                    macByte = new byte[17];
+                    System.arraycopy(data, 51, macByte, 0, 17);
+                    String mac = new String(macByte, 0, macByte.length);
+                    mAdapter.getData().get(4).setValue(mac);
 
-                pingByte = new byte[4];
-                System.arraycopy(data, 100, pingByte, 0, 4);
+                    dnsByte = new byte[15];
+                    System.arraycopy(data, 68, dnsByte, 0, 15);
+                    String dns = new String(dnsByte, 0, dnsByte.length);
+                    mAdapter.getData().get(6).setValue(dns);
 
-                intervalByte = new byte[4];
-                System.arraycopy(data, 104, intervalByte, 0, 4);
+                    mAdapter.notifyDataSetChanged();
+                    getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_03);
+                    break;
+                case WiFiMsgConstant.CONSTANT_MSG_03:
+                    ssidByte = new byte[16];
+                    System.arraycopy(data, 6, ssidByte, 0, 16);
+                    String ssid = new String(ssidByte, 0, ssidByte.length);
+                    mAdapter.getData().get(8).setValue(ssid);
 
-                mAdapter.notifyDataSetChanged();
-                break;
+                    wifiKeyByte = new byte[16];
+                    System.arraycopy(data, 22, wifiKeyByte, 0, 16);
+                    String wifikey = new String(wifiKeyByte, 0, wifiKeyByte.length);
+                    mAdapter.getData().get(9).setValue(wifikey);
+
+
+                    bltNameByte = new byte[16];
+                    System.arraycopy(data, 6, bltNameByte, 0, 16);
+
+                    bltPwdByte = new byte[16];
+                    System.arraycopy(data, 22, bltPwdByte, 0, 16);
+
+                    name4GByte = new byte[16];
+                    System.arraycopy(data, 70, name4GByte, 0, 16);
+
+                    pwd4GByte = new byte[16];
+                    System.arraycopy(data, 86, pwd4GByte, 0, 16);
+
+                    apn4GByte = new byte[16];
+                    System.arraycopy(data, 102, apn4GByte, 0, 16);
+
+
+                    mAdapter.notifyDataSetChanged();
+                    getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_04);
+                    break;
+                case WiFiMsgConstant.CONSTANT_MSG_04:
+                    urlByte = new byte[70];
+                    System.arraycopy(data, 6, urlByte, 0, 70);
+                    String url = new String(urlByte, 0, urlByte.length);
+                    mAdapter.getData().get(5).setValue(url);
+
+                    hskeyByte = new byte[20];
+                    System.arraycopy(data, 76, hskeyByte, 0, 20);
+
+                    heatByte = new byte[4];
+                    System.arraycopy(data, 96, heatByte, 0, 4);
+
+                    pingByte = new byte[4];
+                    System.arraycopy(data, 100, pingByte, 0, 4);
+
+                    intervalByte = new byte[4];
+                    System.arraycopy(data, 104, intervalByte, 0, 4);
+
+                    mAdapter.notifyDataSetChanged();
+                    break;
+
+                case WiFiMsgConstant.CONSTANT_MSG_12:
+                case WiFiMsgConstant.CONSTANT_MSG_13:
+                case WiFiMsgConstant.CONSTANT_MSG_14:
+                    byte result = data[6];
+                    if ((int) result == 1) {
+                        getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_02);
+                        T.make("设置成功", WifiSetActivity.this);
+                    } else {
+                        T.make("设置失败", WifiSetActivity.this);
+                    }
+                    break;
+            }
+
         }
+
     }
 
 
     @OnClick(R.id.ivLeft)
     public void onViewClicked(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.ivLeft:
+                sendCmdExit();
                 finish();
                 break;
         }
+    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            sendCmdExit();
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
