@@ -187,7 +187,7 @@ public class ChargingParamsActivity extends BaseActivity {
         new CircleDialog.Builder()
                 .setWidth(0.8f)
                 .setTitle(this.getString(R.string.m27温馨提示))
-                .setInputHint(value)
+                .setInputText(value)
                 .setNegative(this.getString(R.string.m7取消), null)
                 .setPositiveInput(this.getString(R.string.m9确定), (text, v) -> {
                     if (TextUtils.isEmpty(text)) {

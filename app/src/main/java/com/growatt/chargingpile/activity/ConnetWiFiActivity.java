@@ -1,6 +1,7 @@
 package com.growatt.chargingpile.activity;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +15,10 @@ import android.os.Looper;
 import android.os.Message;
 import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -73,6 +77,9 @@ public class ConnetWiFiActivity extends BaseActivity {
     public static final int SEARCH_DEVICE_FINISH = 2;
     private List<UdpSearchBean> mDeviceList;
     private String devId;
+    private Dialog dialog;
+    private TextView tvProgress;
+    private boolean isCancel = false;
 
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -90,13 +97,14 @@ public class ConnetWiFiActivity extends BaseActivity {
             super.handleMessage(msg);
             switch (msg.what) {
                 case SEARCH_DEVICE_START:
-                    Mydialog.Show(ConnetWiFiActivity.this);
+                    mDeviceList.clear();
+                    showProgress();
                     break;
                 case SEARCH_DEVICE_FINISH:
                     if (mDeviceList.size() == 0) {
-                        searchDevice();
+                        if (!isCancel) searchDevice();
                     } else {
-                        Mydialog.Dismiss();
+                        dialog.dismiss();
                         mIP = getServerIp();
                         devId = mDeviceList.get(0).getDevName();
                         toSetWifiParams();
@@ -236,6 +244,7 @@ public class ConnetWiFiActivity extends BaseActivity {
 
 
     private void searchDevice() {
+        isCancel = false;
         new DeviceSearchThread() {
             @Override
             public void onSearchStart() {
@@ -254,6 +263,32 @@ public class ConnetWiFiActivity extends BaseActivity {
                 handler.sendMessage(msg);
             }
         }.start();
+    }
+
+
+    /*显示进度对话框*/
+    private void showProgress() {
+        if (dialog == null) {
+            View view = View.inflate(this, R.layout.progress_dialog_layout, null);
+            tvProgress = view.findViewById(R.id.tv_progress);
+            Button btnCancel = view.findViewById(R.id.btnCancel);
+            btnCancel.setOnClickListener(v -> {
+                isCancel = true;
+                dialog.dismiss();
+            });
+            dialog = new Dialog(this, R.style.myDialogStyle);
+            dialog.setContentView(view);
+            Window win = dialog.getWindow();
+            WindowManager.LayoutParams params = win.getAttributes();
+            DisplayMetrics dm = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(dm);
+            int cxScreen = dm.widthPixels;
+            params.width = cxScreen / 9 * 7;
+            params.height = WindowManager.LayoutParams.MATCH_PARENT;
+            dialog.setCanceledOnTouchOutside(false);
+        }
+        dialog.show();
+        tvProgress.setText("搜索设备中");
     }
 
 }

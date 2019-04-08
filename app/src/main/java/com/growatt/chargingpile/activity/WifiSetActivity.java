@@ -6,7 +6,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -18,15 +17,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
-import com.growatt.chargingpile.adapter.ParamsSetAdapter;
 import com.growatt.chargingpile.adapter.WifiSetAdapter;
-import com.growatt.chargingpile.bean.ParamsSetBean;
 import com.growatt.chargingpile.bean.WiFiRequestMsgBean;
 import com.growatt.chargingpile.bean.WifiSetBean;
-import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.SmartHomeUtil;
 import com.growatt.chargingpile.util.SocketClientUtil;
 import com.growatt.chargingpile.util.T;
@@ -37,13 +32,14 @@ import org.xutils.common.util.LogUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class WifiSetActivity extends BaseActivity {
 
@@ -108,34 +104,40 @@ public class WifiSetActivity extends BaseActivity {
                 case SocketClientUtil.SOCKET_EXCETION_CLOSE:
                     String message = (String) msg.obj;
                     text = "异常退出：" + message;
+                    Log.d("liaojinsha", text);
                     break;
                 case SocketClientUtil.SOCKET_CLOSE:
                     text = "连接关闭";
+                    Log.d("liaojinsha", text);
                     break;
                 case SocketClientUtil.SOCKET_OPEN:
                     text = "连接成功";
-                    sendCmdConnect();
+                    Log.d("liaojinsha", text);
+                    srlPull.setEnabled(true);
                     break;
                 case SocketClientUtil.SOCKET_SEND_MSG:
                     text = "发送消息";
-
+                    Log.d("liaojinsha", text);
                     break;
                 case SocketClientUtil.SOCKET_RECEIVE_MSG:
                     text = "回应字符串消息";
                     String receiString = (String) msg.obj;
-                    LogUtil.d("回应字符串消息" + receiString);
+                    Log.d("liaojinsha", text + receiString);
                     break;
 
                 case SocketClientUtil.SOCKET_RECEIVE_BYTES:
                     text = "回应字节消息";
                     byte[] receiByte = (byte[]) msg.obj;
                     parseReceivData(receiByte);
+                    Log.d("liaojinsha", text);
                     break;
                 case SocketClientUtil.SOCKET_CONNECT:
                     text = "socket已连接";
+                    Log.d("liaojinsha", text);
                     break;
                 case SocketClientUtil.SOCKET_SEND:
-
+                    Log.d("liaojinsha", "socket已连接发送消息");
+                    sendCmdConnect();
                     break;
                 case 100://恢复按钮点击
 
@@ -147,7 +149,7 @@ public class WifiSetActivity extends BaseActivity {
 
                     break;
             }
-            Log.d("liaojinsha", text);
+            srlPull.setRefreshing(false);
         }
     };
 
@@ -178,7 +180,6 @@ public class WifiSetActivity extends BaseActivity {
         srlPull.setColorSchemeColors(ContextCompat.getColor(this, R.color.green_1));
         srlPull.setOnRefreshListener(this::refresh);
         srlPull.setEnabled(false);
-
     }
 
 
@@ -241,51 +242,11 @@ public class WifiSetActivity extends BaseActivity {
     }
 
     private void setOnclickListener() {
-        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (isAllowed) return;
-                if (position == 0 || position == 7) return;
-                WifiSetBean bean = mAdapter.getData().get(position);
-                switch (position) {
-                    case 1:
-                        inputEdit("name", (String) bean.getValue());
-                        break;
-                    case 2:
-                        inputEdit("address", (String) bean.getValue());
-                        break;
-                    case 3:
-                        inputEdit("site", (String) bean.getValue());
-                        break;
-                    case 4:
-                        inputEdit("rate", String.valueOf(bean.getValue()));
-                        break;
-                    case 5:
-                        inputEdit("power", String.valueOf(bean.getValue()));
-                        break;
-                    case 6:
-                        inputEdit("model", (String) bean.getValue());
-                        break;
-                    case 8:
-                        inputEdit("ip", (String) bean.getValue());
-                        break;
-                    case 9:
-                        inputEdit("gateway", (String) bean.getValue());
-                        break;
-                    case 10:
-                        inputEdit("mask", (String) bean.getValue());
-                        break;
-                    case 11:
-                        inputEdit("mac", (String) bean.getValue());
-                        break;
-                    case 12:
-                        inputEdit("host", (String) bean.getValue());
-                        break;
-                    case 13:
-                        inputEdit("dns", (String) bean.getValue());
-                        break;
-                }
-            }
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            if (!isAllowed) return;
+            if (position == 0 || position == 7) return;
+            WifiSetBean bean = mAdapter.getData().get(position);
+            inputEdit(position, (String) bean.getValue());
         });
     }
 
@@ -294,14 +255,99 @@ public class WifiSetActivity extends BaseActivity {
      * 弹框输入修改内容
      * item 修改项
      */
-    private void inputEdit(final String key, final String value) {
+    private void inputEdit(final int key, final String value) {
         new CircleDialog.Builder()
                 .setWidth(0.8f)
                 .setTitle(this.getString(R.string.m27温馨提示))
-                .setInputHint(value)
+                .setInputText(value)
                 .setNegative(this.getString(R.string.m7取消), null)
                 .setPositiveInput(this.getString(R.string.m9确定), (text, v) -> {
-
+                    if (TextUtils.isEmpty(text)) {
+                        toast(R.string.m140不能为空);
+                        return;
+                    }
+                    switch (key) {
+                        case 1:
+                            ipByte=new byte[15];
+                            byte[] bytes = text.getBytes();
+                            System.arraycopy(bytes, 0, ipByte, 0, bytes.length);
+                            if (ipByte.length > 15) {
+                                T.make("输入错误", this);
+                                return;
+                            }
+                            setInternt();
+                            break;
+                        case 2:
+                            gatewayByte=new byte[15];
+                            byte[] bytes1 = text.getBytes();
+                            System.arraycopy(bytes1, 0, gatewayByte, 0, bytes1.length);
+                            if (gatewayByte.length > 15) {
+                                T.make("输入错误", this);
+                                return;
+                            }
+                            setInternt();
+                            break;
+                        case 3:
+                            maskByte=new byte[15];
+                            byte[] bytes2 = text.getBytes();
+                            System.arraycopy(bytes2, 0, maskByte, 0, bytes2.length);
+                            if (maskByte.length > 15) {
+                                T.make("输入错误", this);
+                                return;
+                            }
+                            setInternt();
+                            break;
+                        case 4:
+                            macByte=new byte[17];
+                            byte[] bytes3 = text.getBytes();
+                            System.arraycopy(bytes3, 0, macByte, 0, bytes3.length);
+                            if (macByte.length > 17) {
+                                T.make("输入错误", this);
+                                return;
+                            }
+                            setInternt();
+                            break;
+                        case 5:
+                            urlByte=new byte[70];
+                            byte[] bytes4 = text.getBytes();
+                            System.arraycopy(bytes4, 0, urlByte, 0, bytes4.length);
+                            if (urlByte.length > 70) {
+                                T.make("输入错误", this);
+                                return;
+                            }
+                            setUrl();
+                            break;
+                        case 6:
+                            dnsByte=new byte[15];
+                            byte[] bytes5 = text.getBytes();
+                            System.arraycopy(bytes5, 0, dnsByte, 0, bytes5.length);
+                            if (dnsByte.length > 15) {
+                                T.make("输入错误", this);
+                                return;
+                            }
+                            setInternt();
+                            break;
+                        case 8:
+                            ssidByte=new byte[16];
+                            byte[] bytes6 = text.getBytes();
+                            System.arraycopy(bytes6, 0, ssidByte, 0, bytes6.length);
+                            if (ssidByte.length > 16) {
+                                T.make("输入错误", this);
+                                return;
+                            }
+                            setWifi();
+                            break;
+                        case 9:
+                            wifiKeyByte=new byte[16];
+                            byte[] bytes7 = text.getBytes();
+                            System.arraycopy(bytes7, 0, wifiKeyByte, 0, bytes7.length);
+                            if (wifiKeyByte.length > 16) {
+                                T.make("输入错误", this);
+                                return;
+                            }
+                            setWifi();
+                            break;
+                    }
                 })
                 .show(this.getSupportFragmentManager());
     }
@@ -511,7 +557,6 @@ public class WifiSetActivity extends BaseActivity {
     }
 
 
-
     //设置url
     private void setUrl() {
         //头1
@@ -560,7 +605,6 @@ public class WifiSetActivity extends BaseActivity {
     }
 
 
-
     /**********************************解析数据************************************/
 
     private void parseReceivData(byte[] data) {
@@ -578,7 +622,7 @@ public class WifiSetActivity extends BaseActivity {
                     srlPull.setEnabled(true);
                     T.make("拒绝进入", WifiSetActivity.this);
                 } else {
-                    srlPull.setEnabled(true);
+                    srlPull.setEnabled(false);
                     isAllowed = true;
                     T.make("允许进入", WifiSetActivity.this);
                     getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_01);
@@ -653,21 +697,21 @@ public class WifiSetActivity extends BaseActivity {
                 getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_04);
                 break;
             case WiFiMsgConstant.CONSTANT_MSG_04:
-                urlByte=new byte[70];
+                urlByte = new byte[70];
                 System.arraycopy(data, 6, urlByte, 0, 70);
                 String url = new String(urlByte, 0, urlByte.length);
                 mAdapter.getData().get(5).setValue(url);
 
-                hskeyByte = new byte[16];
+                hskeyByte = new byte[20];
                 System.arraycopy(data, 76, hskeyByte, 0, 20);
 
-                heatByte=new byte[4];
+                heatByte = new byte[4];
                 System.arraycopy(data, 96, heatByte, 0, 4);
 
-                pingByte=new byte[4];
+                pingByte = new byte[4];
                 System.arraycopy(data, 100, pingByte, 0, 4);
 
-                intervalByte=new byte[4];
+                intervalByte = new byte[4];
                 System.arraycopy(data, 104, intervalByte, 0, 4);
 
                 mAdapter.notifyDataSetChanged();
@@ -676,4 +720,12 @@ public class WifiSetActivity extends BaseActivity {
     }
 
 
+    @OnClick(R.id.ivLeft)
+    public void onViewClicked(View view) {
+        switch (view.getId()){
+            case R.id.ivLeft:
+                finish();
+                break;
+        }
+    }
 }
