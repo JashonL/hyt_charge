@@ -1,6 +1,7 @@
 package com.growatt.chargingpile.adapter;
 
 import android.text.TextUtils;
+import android.view.View;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -27,6 +28,7 @@ public class WifiSetAdapter extends BaseMultiItemQuickAdapter<WifiSetBean, BaseV
         super(data);
         addItemType(WifiSetBean.PARAM_TITILE, R.layout.item_params_set_title);
         addItemType(WifiSetBean.PARAM_ITEM, R.layout.item_params_set_layout);
+        addItemType(WifiSetBean.PARAM_ITEM_CANT_CLICK, R.layout.item_params_set_layout);
     }
 
     @Override
@@ -36,6 +38,13 @@ public class WifiSetAdapter extends BaseMultiItemQuickAdapter<WifiSetBean, BaseV
 
         } else if (item.getItemType() == WifiSetBean.PARAM_ITEM) {
             helper.setText(R.id.tv_key, item.getKey());
+            if (TextUtils.isEmpty(item.getValue().toString())) {
+                helper.setText(R.id.tv_value, "");
+            } else {
+                helper.setText(R.id.tv_value, item.getValue().toString());
+            }
+        } else {
+            helper.getView(R.id.iv_more1).setVisibility(View.INVISIBLE);
             if (TextUtils.isEmpty(item.getValue().toString())) {
                 helper.setText(R.id.tv_value, "");
             } else {

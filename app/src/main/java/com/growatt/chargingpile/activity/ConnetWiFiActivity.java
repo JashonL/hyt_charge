@@ -109,6 +109,7 @@ public class ConnetWiFiActivity extends BaseActivity {
                         devId = mDeviceList.get(0).getDevName();
                         toSetWifiParams();
                     }
+//                    toSetWifiParams();//测试
                     break;
             }
         }

@@ -77,6 +77,11 @@ public class WifiSetActivity extends BaseActivity {
     private byte devType;//交流直流
     private byte encryption;//加密类型
 
+    //信息参数相关
+    private byte[] idByte;
+    private byte[] lanByte;
+    private byte[] cardByte;
+    private byte[] rcdByte;
     //网络相关设置
     private byte[] ipByte;
     private byte[] gatewayByte;
@@ -97,6 +102,14 @@ public class WifiSetActivity extends BaseActivity {
     private byte[] heatByte;
     private byte[] pingByte;
     private byte[] intervalByte;
+    //充电参数
+    private byte[] modeByte;
+    private byte[] maxCurrentByte;
+    private byte[] rateByte;
+    private byte[] tempByte;
+    private byte[] powerByte;
+    private byte[] timeByte;
+
 
     //是否已经连接
     private boolean isConnected = false;
@@ -197,27 +210,37 @@ public class WifiSetActivity extends BaseActivity {
 
 
     private void initRecyclerView() {
-        View paramHeadView = LayoutInflater.from(this).inflate(R.layout.item_wifi_set_head, null);
+      /*  View paramHeadView = LayoutInflater.from(this).inflate(R.layout.item_wifi_set_head, null);
         tvId = paramHeadView.findViewById(R.id.tv_id);
         tvName = paramHeadView.findViewById(R.id.tv_name);
         View view = paramHeadView.findViewById(R.id.ll_name);
-        view.setVisibility(View.GONE);
+        view.setVisibility(View.GONE);*/
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mAdapter = new WifiSetAdapter(list);
         recyclerView.setLayoutManager(mLinearLayoutManager);
         recyclerView.setAdapter(mAdapter);
-        mAdapter.addHeaderView(paramHeadView);
+       /* mAdapter.addHeaderView(paramHeadView);*/
     }
 
 
     private void initResource() {
-        keys = new String[]{getString(R.string.m155高级设置), getString(R.string.m156充电桩IP), getString(R.string.m157网关), getString(R.string.m158子网掩码), getString(R.string.m159网络MAC地址), getString(R.string.m160服务器URL), getString(R.string.m161DNS地址)
-                , getString(R.string.wifi), getString(R.string.wifi_ssid), getString(R.string.wifi_key)};
+        keys = new String[]{
+                "信息参数", "设备名称", "语言", "读卡器密钥", "RCD保护值",
+                "以太网参数", getString(R.string.m156充电桩IP), getString(R.string.m157网关), getString(R.string.m158子网掩码), getString(R.string.m159网络MAC地址), getString(R.string.m161DNS地址),
+                "设备帐号密码参数", getString(R.string.wifi_ssid), getString(R.string.wifi_key), "蓝牙名称", "蓝牙密码", "4G用户名", "4G密码", "4G APN",
+                "服务器参数", getString(R.string.m160服务器URL), "授权密钥", "心跳间隔时间", "PING间隔时间", "表记上传间隔时间",
+                "充电参数", getString(R.string.m154充电模式), "最大输出电流(A)", "充电费率", "保护温度(℃)", "外部监测最大输出功率(KW)", "允许充电时间"
+        };
+
         for (int i = 0; i < keys.length; i++) {
             WifiSetBean bean = new WifiSetBean();
-            if (i == 0 || i == 7) {
+            if (i == 0 || i == 5 || i == 11 || i == 19 || i == 25) {
                 bean.setTitle(keys[i]);
                 bean.setType(WifiSetBean.PARAM_TITILE);
+            } else if (i == 1) {
+                bean.setType(WifiSetBean.PARAM_ITEM_CANT_CLICK);
+                bean.setKey(keys[i]);
+                bean.setValue("");
             } else {
                 bean.setType(WifiSetBean.PARAM_ITEM);
                 bean.setKey(keys[i]);
@@ -279,9 +302,37 @@ public class WifiSetActivity extends BaseActivity {
                         toast(R.string.m140不能为空);
                         return;
                     }
+                    byte[] bytes = text.trim().getBytes();
                     switch (key) {
-                        case 1:
-                            byte[] bytes = text.trim().getBytes();
+                        case 2:
+                            if (bytes.length > 1) {
+                                T.make("输入错误", this);
+                                return;
+                            }
+                            lanByte = new byte[1];
+                            System.arraycopy(bytes, 0, lanByte, 0, bytes.length);
+                            setInfo();
+                            break;
+                        case 3:
+                            if (bytes.length > 6) {
+                                T.make("输入错误", this);
+                                return;
+                            }
+                            cardByte = new byte[6];
+                            System.arraycopy(bytes, 0, cardByte, 0, bytes.length);
+                            setInfo();
+                            break;
+                        case 4:
+                            if (bytes.length > 1) {
+                                T.make("输入错误", this);
+                                return;
+                            }
+                            rcdByte = new byte[1];
+                            System.arraycopy(bytes, 0, rcdByte, 0, bytes.length);
+                            setInfo();
+                            break;
+
+                        case 6:
                             if (bytes.length > 15) {
                                 T.make("输入错误", this);
                                 return;
@@ -290,76 +341,208 @@ public class WifiSetActivity extends BaseActivity {
                             System.arraycopy(bytes, 0, ipByte, 0, bytes.length);
                             setInternt();
                             break;
-                        case 2:
-                            byte[] bytes1 = text.trim().getBytes();
-                            if (bytes1.length > 15) {
+                        case 7:
+                            if (bytes.length > 15) {
                                 T.make("输入错误", this);
                                 return;
                             }
                             gatewayByte = new byte[15];
-                            System.arraycopy(bytes1, 0, gatewayByte, 0, bytes1.length);
+                            System.arraycopy(bytes, 0, gatewayByte, 0, bytes.length);
                             setInternt();
                             break;
-                        case 3:
-                            byte[] bytes2 = text.trim().getBytes();
-                            if (bytes2.length > 15) {
+                        case 8:
+                            if (bytes.length > 15) {
                                 T.make("输入错误", this);
                                 return;
                             }
                             maskByte = new byte[15];
-                            System.arraycopy(bytes2, 0, maskByte, 0, bytes2.length);
+                            System.arraycopy(bytes, 0, maskByte, 0, bytes.length);
                             setInternt();
                             break;
-                        case 4:
-                            byte[] bytes3 = text.trim().getBytes();
-                            if (bytes3.length > 17) {
+                        case 9:
+                            if (bytes.length > 17) {
                                 T.make("输入错误", this);
                                 return;
                             }
                             macByte = new byte[17];
-                            System.arraycopy(bytes3, 0, macByte, 0, bytes3.length);
+                            System.arraycopy(bytes, 0, macByte, 0, bytes.length);
                             setInternt();
                             break;
-                        case 5:
-                            byte[] bytes4 = text.trim().getBytes();
-                            if (bytes4.length > 70) {
-                                T.make("输入错误", this);
-                                return;
-                            }
-                            urlByte = new byte[70];
-                            System.arraycopy(bytes4, 0, urlByte, 0, bytes4.length);
-                            setUrl();
-                            break;
-                        case 6:
-                            byte[] bytes5 = text.trim().getBytes();
-                            if (bytes5.length > 15) {
+                        case 10:
+                            if (bytes.length > 15) {
                                 T.make("输入错误", this);
                                 return;
                             }
                             dnsByte = new byte[15];
-                            System.arraycopy(bytes5, 0, dnsByte, 0, bytes5.length);
+                            System.arraycopy(bytes, 0, dnsByte, 0, bytes.length);
                             setInternt();
                             break;
-                        case 8:
-                            byte[] bytes6 = text.trim().getBytes();
-                            if (bytes6.length > 16) {
+                        case 12:
+                            if (bytes.length > 16) {
                                 T.make("输入错误", this);
                                 return;
                             }
                             ssidByte = new byte[16];
-                            System.arraycopy(bytes6, 0, ssidByte, 0, bytes6.length);
+                            System.arraycopy(bytes, 0, ssidByte, 0, bytes.length);
                             setWifi();
                             break;
-                        case 9:
-                            byte[] bytes7 = text.trim().getBytes();
-                            if (bytes7.length > 16) {
+                        case 13:
+                            if (bytes.length > 16) {
                                 T.make("输入错误", this);
                                 return;
                             }
                             wifiKeyByte = new byte[16];
-                            System.arraycopy(bytes7, 0, wifiKeyByte, 0, bytes7.length);
+                            System.arraycopy(bytes, 0, wifiKeyByte, 0, bytes.length);
                             setWifi();
                             break;
+
+                        case 14:
+                            if (bytes.length > 16) {
+                                T.make("输入错误", this);
+                                return;
+                            }
+                            bltNameByte = new byte[16];
+                            System.arraycopy(bytes, 0, bltNameByte, 0, bytes.length);
+                            setWifi();
+                            break;
+                        case 15:
+                            if (bytes.length > 16) {
+                                T.make("输入错误", this);
+                                return;
+                            }
+                            bltPwdByte = new byte[16];
+                            System.arraycopy(bytes, 0, bltPwdByte, 0, bytes.length);
+                            setWifi();
+                            break;
+                        case 16:
+                            if (bytes.length > 16) {
+                                T.make("输入错误", this);
+                                return;
+                            }
+                            name4GByte = new byte[16];
+                            System.arraycopy(bytes, 0, name4GByte, 0, bytes.length);
+                            setWifi();
+                            break;
+                        case 17:
+                            if (bytes.length > 16) {
+                                T.make("输入错误", this);
+                                return;
+                            }
+                            pwd4GByte = new byte[16];
+                            System.arraycopy(bytes, 0, pwd4GByte, 0, bytes.length);
+                            setWifi();
+                            break;
+                        case 18:
+                            if (bytes.length > 16) {
+                                T.make("输入错误", this);
+                                return;
+                            }
+                            apn4GByte = new byte[16];
+                            System.arraycopy(bytes, 0, apn4GByte, 0, bytes.length);
+                            setWifi();
+                            break;
+
+                        case 20:
+                            if (bytes.length > 70) {
+                                T.make("输入错误", this);
+                                return;
+                            }
+                            urlByte = new byte[70];
+                            System.arraycopy(bytes, 0, urlByte, 0, bytes.length);
+                            setUrl();
+                            break;
+                        case 21:
+                            if (bytes.length > 20) {
+                                T.make("输入错误", this);
+                                return;
+                            }
+                            hskeyByte = new byte[20];
+                            System.arraycopy(bytes, 0, hskeyByte, 0, bytes.length);
+                            setUrl();
+                            break;
+                        case 22:
+                            if (bytes.length > 4) {
+                                T.make("输入错误", this);
+                                return;
+                            }
+                            heatByte = new byte[4];
+                            System.arraycopy(bytes, 0, heatByte, 0, bytes.length);
+                            setUrl();
+                            break;
+                        case 23:
+                            if (bytes.length > 4) {
+                                T.make("输入错误", this);
+                                return;
+                            }
+                            pingByte = new byte[4];
+                            System.arraycopy(bytes, 0, pingByte, 0, bytes.length);
+                            setUrl();
+                            break;
+                        case 24:
+                            if (bytes.length > 4) {
+                                T.make("输入错误", this);
+                                return;
+                            }
+                            intervalByte = new byte[4];
+                            System.arraycopy(bytes, 0, intervalByte, 0, bytes.length);
+                            setUrl();
+                            break;
+
+                        case 26:
+                            if (bytes.length > 1) {
+                                T.make("输入错误", this);
+                                return;
+                            }
+                            modeByte = new byte[1];
+                            System.arraycopy(bytes, 0, modeByte, 0, bytes.length);
+                            setCharging();
+                            break;
+                        case 27:
+                            if (bytes.length > 2) {
+                                T.make("输入错误", this);
+                                return;
+                            }
+                            maxCurrentByte = new byte[2];
+                            System.arraycopy(bytes, 0, maxCurrentByte, 0, bytes.length);
+                            setCharging();
+                            break;
+                        case 28:
+                            if (bytes.length > 5) {
+                                T.make("输入错误", this);
+                                return;
+                            }
+                            rateByte = new byte[5];
+                            System.arraycopy(bytes, 0, rateByte, 0, bytes.length);
+                            setCharging();
+                            break;
+                        case 29:
+                            if (bytes.length > 3) {
+                                T.make("输入错误", this);
+                                return;
+                            }
+                            tempByte = new byte[3];
+                            System.arraycopy(bytes, 0, tempByte, 0, bytes.length);
+                            setCharging();
+                            break;
+                        case 30:
+                            if (bytes.length > 2) {
+                                T.make("输入错误", this);
+                                return;
+                            }
+                            powerByte = new byte[2];
+                            System.arraycopy(bytes, 0, powerByte, 0, bytes.length);
+                            setCharging();
+                            break;
+                        case 31:
+                            if (bytes.length > 11) {
+                                T.make("输入错误", this);
+                                return;
+                            }
+                            timeByte = new byte[11];
+                            System.arraycopy(bytes, 0, timeByte, 0, bytes.length);
+                            setCharging();
+                            break;
+
                     }
                 })
                 .show(this.getSupportFragmentManager());
@@ -510,7 +693,54 @@ public class WifiSetActivity extends BaseActivity {
     }
 
 
-    /*********设置充电桩**********/
+    /**************************************设置充电桩*****************************************/
+
+    //信息参数设置
+    private void setInfo() {
+        //头1
+        byte frame1 = WiFiMsgConstant.FRAME_1;
+        //头2
+        byte frame2 = WiFiMsgConstant.FRAME_2;
+        //交流直流
+        byte devType = this.devType;
+        //加密方式
+        byte encryption = this.encryption;
+        //指令
+        byte cmd = WiFiMsgConstant.CONSTANT_MSG_11;
+
+        /*****有效数据*****/
+        byte len = (byte) 28;
+        byte[] prayload = new byte[28];
+
+        //id
+        System.arraycopy(idByte, 0, prayload, 0, idByte.length);
+        //语言
+        System.arraycopy(lanByte, 0, prayload, idByte.length, lanByte.length);
+        //card
+        System.arraycopy(cardByte, 0, prayload, idByte.length + lanByte.length, cardByte.length);
+        //rcd
+        System.arraycopy(rcdByte, 0, prayload, idByte.length + lanByte.length + cardByte.length, rcdByte.length);
+
+
+//        byte[] encryptedData = SmartHomeUtil.decodeKey(prayload, key);
+
+        byte end = WiFiMsgConstant.BLT_MSG_END;
+
+        byte[] setInfo = WiFiRequestMsgBean.Builder.newInstance()
+                .setFrame_1(frame1)
+                .setFrame_2(frame2)
+                .setDevType(devType)
+                .setEncryption(encryption)
+                .setCmd(cmd)
+                .setDataLen(len)
+                .setPrayload(prayload)
+                .setMsgEnd(end)
+                .create();
+
+        mClientUtil.sendMsg(setInfo);
+        LogUtil.i("设置id：" + SmartHomeUtil.bytesToHexString(setInfo));
+    }
+
 
     //网络设置
     private void setInternt() {
@@ -660,6 +890,55 @@ public class WifiSetActivity extends BaseActivity {
     }
 
 
+    //设置充电参数
+    private void setCharging() {
+        //头1
+        byte frame1 = WiFiMsgConstant.FRAME_1;
+        //头2
+        byte frame2 = WiFiMsgConstant.FRAME_2;
+        //交流直流
+        byte devType = this.devType;
+        //加密方式
+        byte encryption = this.encryption;
+        //指令
+        byte cmd = WiFiMsgConstant.CONSTANT_MSG_15;
+
+        /*****有效数据*****/
+        byte len = (byte) 44;
+        byte[] prayload = new byte[44];
+
+        //模式
+        System.arraycopy(modeByte, 0, prayload, 0, modeByte.length);
+        //电流
+        System.arraycopy(maxCurrentByte, 0, prayload, 1, maxCurrentByte.length);
+        //充电费率
+        System.arraycopy(rateByte, 0, prayload, 3, rateByte.length);
+        //保护温度
+        System.arraycopy(tempByte, 0, prayload, 8, tempByte.length);
+        //最大电流
+        System.arraycopy(powerByte, 0, prayload, 11, powerByte.length);
+        //允许充电时间
+        System.arraycopy(timeByte, 0, prayload, 13, timeByte.length);
+
+
+//        byte[] encryptedData = SmartHomeUtil.decodeKey(prayload, key);
+
+        byte end = WiFiMsgConstant.BLT_MSG_END;
+
+        byte[] setCharging = WiFiRequestMsgBean.Builder.newInstance()
+                .setFrame_1(frame1)
+                .setFrame_2(frame2)
+                .setDevType(devType)
+                .setEncryption(encryption)
+                .setCmd(cmd)
+                .setDataLen(len)
+                .setPrayload(prayload)
+                .setMsgEnd(end)
+                .create();
+
+        mClientUtil.sendMsg(setCharging);
+    }
+
     /**********************************解析数据************************************/
 
     private void parseReceivData(byte[] data) {
@@ -731,90 +1010,165 @@ public class WifiSetActivity extends BaseActivity {
                     }
                     break;
 
-                case WiFiMsgConstant.CONSTANT_MSG_01://获取设备信息
-                    String devId = new String(data, 6, 20);
-                    tvId.setText(devId);
+                case WiFiMsgConstant.CONSTANT_MSG_01://获取信息参数
+                    idByte = new byte[20];
+                    System.arraycopy(data, 6, idByte, 0, 20);
+                    String devId = MyUtil.ByteToString(idByte);
+                    mAdapter.getData().get(1).setValue(devId);
+
+                    lanByte = new byte[1];
+                    System.arraycopy(data, 26, lanByte, 0, 1);
+                    String lan = MyUtil.ByteToString(lanByte);
+                    mAdapter.getData().get(2).setValue(lan);
+
+
+                    cardByte = new byte[6];
+                    System.arraycopy(data, 27, cardByte, 0, 6);
+                    String card = MyUtil.ByteToString(cardByte);
+                    mAdapter.getData().get(3).setValue(card);
+
+
+                    rcdByte = new byte[1];
+                    System.arraycopy(data, 33, rcdByte, 0, 1);
+                    String rcd = MyUtil.ByteToString(rcdByte);
+                    mAdapter.getData().get(4).setValue(rcd);
+
+
+                    mAdapter.notifyDataSetChanged();
+
                     getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_02);
                     break;
-                case WiFiMsgConstant.CONSTANT_MSG_02://获取
+                case WiFiMsgConstant.CONSTANT_MSG_02://获取以太网参数
                     ipByte = new byte[15];
                     System.arraycopy(data, 6, ipByte, 0, 15);
                     String devIp = MyUtil.ByteToString(ipByte);
-                    mAdapter.getData().get(1).setValue(devIp);
+                    mAdapter.getData().get(6).setValue(devIp);
 
                     gatewayByte = new byte[15];
                     System.arraycopy(data, 21, gatewayByte, 0, 15);
                     String gateway = MyUtil.ByteToString(gatewayByte);
-                    mAdapter.getData().get(2).setValue(gateway);
+                    mAdapter.getData().get(7).setValue(gateway);
 
 
                     maskByte = new byte[15];
                     System.arraycopy(data, 36, maskByte, 0, 15);
                     String mask = MyUtil.ByteToString(maskByte);
-                    mAdapter.getData().get(3).setValue(mask);
+                    mAdapter.getData().get(8).setValue(mask);
 
 
                     macByte = new byte[17];
                     System.arraycopy(data, 51, macByte, 0, 17);
                     String mac = MyUtil.ByteToString(macByte);
-                    mAdapter.getData().get(4).setValue(mac);
+                    mAdapter.getData().get(9).setValue(mac);
 
                     dnsByte = new byte[15];
                     System.arraycopy(data, 68, dnsByte, 0, 15);
                     String dns = MyUtil.ByteToString(dnsByte);
-                    mAdapter.getData().get(6).setValue(dns);
+                    mAdapter.getData().get(10).setValue(dns);
 
                     mAdapter.notifyDataSetChanged();
                     getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_03);
                     break;
-                case WiFiMsgConstant.CONSTANT_MSG_03:
+                case WiFiMsgConstant.CONSTANT_MSG_03://获取设备帐号密码参数
                     ssidByte = new byte[16];
                     System.arraycopy(data, 6, ssidByte, 0, 16);
                     String ssid = MyUtil.ByteToString(ssidByte);
-                    mAdapter.getData().get(8).setValue(ssid);
+                    mAdapter.getData().get(12).setValue(ssid);
 
                     wifiKeyByte = new byte[16];
                     System.arraycopy(data, 22, wifiKeyByte, 0, 16);
                     String wifikey = MyUtil.ByteToString(wifiKeyByte);
-                    mAdapter.getData().get(9).setValue(wifikey);
+                    mAdapter.getData().get(13).setValue(wifikey);
 
 
                     bltNameByte = new byte[16];
-                    System.arraycopy(data, 6, bltNameByte, 0, 16);
+                    System.arraycopy(data, 38, bltNameByte, 0, 16);
+                    String bltName = MyUtil.ByteToString(bltNameByte);
+                    mAdapter.getData().get(14).setValue(bltName);
 
                     bltPwdByte = new byte[16];
-                    System.arraycopy(data, 22, bltPwdByte, 0, 16);
+                    System.arraycopy(data, 54, bltPwdByte, 0, 16);
+                    String bltPwd = MyUtil.ByteToString(bltPwdByte);
+                    mAdapter.getData().get(15).setValue(bltPwd);
 
                     name4GByte = new byte[16];
                     System.arraycopy(data, 70, name4GByte, 0, 16);
+                    String name4G = MyUtil.ByteToString(name4GByte);
+                    mAdapter.getData().get(16).setValue(name4G);
 
                     pwd4GByte = new byte[16];
                     System.arraycopy(data, 86, pwd4GByte, 0, 16);
+                    String pwd4G = MyUtil.ByteToString(pwd4GByte);
+                    mAdapter.getData().get(17).setValue(pwd4G);
 
                     apn4GByte = new byte[16];
                     System.arraycopy(data, 102, apn4GByte, 0, 16);
-
+                    String apn4G = MyUtil.ByteToString(apn4GByte);
+                    mAdapter.getData().get(18).setValue(apn4G);
 
                     mAdapter.notifyDataSetChanged();
                     getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_04);
                     break;
-                case WiFiMsgConstant.CONSTANT_MSG_04:
+                case WiFiMsgConstant.CONSTANT_MSG_04://获取服务器参数
                     urlByte = new byte[70];
                     System.arraycopy(data, 6, urlByte, 0, 70);
                     String url = MyUtil.ByteToString(urlByte);
-                    mAdapter.getData().get(5).setValue(url);
+                    mAdapter.getData().get(20).setValue(url);
 
                     hskeyByte = new byte[20];
                     System.arraycopy(data, 76, hskeyByte, 0, 20);
+                    String hskey = MyUtil.ByteToString(hskeyByte);
+                    mAdapter.getData().get(21).setValue(hskey);
 
                     heatByte = new byte[4];
                     System.arraycopy(data, 96, heatByte, 0, 4);
+                    String heat = MyUtil.ByteToString(heatByte);
+                    mAdapter.getData().get(22).setValue(heat);
 
                     pingByte = new byte[4];
                     System.arraycopy(data, 100, pingByte, 0, 4);
+                    String ping = MyUtil.ByteToString(pingByte);
+                    mAdapter.getData().get(23).setValue(ping);
 
                     intervalByte = new byte[4];
                     System.arraycopy(data, 104, intervalByte, 0, 4);
+                    String interval = MyUtil.ByteToString(intervalByte);
+                    mAdapter.getData().get(24).setValue(interval);
+
+                    mAdapter.notifyDataSetChanged();
+                    getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_05);
+                    break;
+
+                case WiFiMsgConstant.CONSTANT_MSG_05://获取充电参数
+                    modeByte = new byte[1];
+                    System.arraycopy(data, 6, modeByte, 0, 1);
+                    String mode = MyUtil.ByteToString(modeByte);
+                    mAdapter.getData().get(26).setValue(mode);
+
+                    maxCurrentByte = new byte[2];
+                    System.arraycopy(data, 7, maxCurrentByte, 0, 2);
+                    String maxCurrent = MyUtil.ByteToString(maxCurrentByte);
+                    mAdapter.getData().get(27).setValue(maxCurrent);
+
+                    rateByte = new byte[5];
+                    System.arraycopy(data, 9, rateByte, 0, 5);
+                    String rate = MyUtil.ByteToString(rateByte);
+                    mAdapter.getData().get(28).setValue(rate);
+
+                    tempByte = new byte[3];
+                    System.arraycopy(data, 14, tempByte, 0, 3);
+                    String temp = MyUtil.ByteToString(tempByte);
+                    mAdapter.getData().get(29).setValue(temp);
+
+                    powerByte = new byte[2];
+                    System.arraycopy(data, 17, powerByte, 0, 2);
+                    String power = MyUtil.ByteToString(powerByte);
+                    mAdapter.getData().get(30).setValue(power);
+
+                    timeByte = new byte[11];
+                    System.arraycopy(data, 19, timeByte, 0, 11);
+                    String time = MyUtil.ByteToString(timeByte);
+                    mAdapter.getData().get(31).setValue(time);
 
                     mAdapter.notifyDataSetChanged();
                     break;

@@ -18,7 +18,8 @@
             android:gravity="center_vertical"
             android:text="@string/m149电桩名称"
             android:textColor="@color/title_1"
-            android:textSize="@dimen/xa30" />
+            android:textSize="@dimen/xa30"
+            android:layout_marginStart="@dimen/xa30" />
 
         <TextView
             android:id="@+id/tv_value"
@@ -28,7 +29,9 @@
             android:layout_toLeftOf="@+id/iv_more1"
             android:gravity="center_vertical"
             android:textColor="@color/title_3"
-            android:textSize="@dimen/xa30" />
+            android:textSize="@dimen/xa30"
+            android:layout_marginEnd="@dimen/xa21"
+            android:layout_toStartOf="@+id/iv_more1" />
 
         <ImageView
             android:id="@+id/iv_more1"
@@ -37,7 +40,9 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/xa30"
-            android:src="@drawable/charger_device_item_more" />
+            android:src="@drawable/charger_device_item_more"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/xa30" />
 
         <View
             android:layout_width="match_parent"
