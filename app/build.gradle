@@ -37,7 +37,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.0'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.27'
     implementation 'com.android.support:recyclerview-v7:26.1.0'
-    implementation 'com.mylhyl:circleDialog:2.6.6'
+    implementation 'com.mylhyl:circleDialog:2.6.7'
     implementation 'pub.devrel:easypermissions:1.0.0'
     /*添加依赖*/
     implementation 'com.github.yuzhiqiang1993:zxing:2.2.0'

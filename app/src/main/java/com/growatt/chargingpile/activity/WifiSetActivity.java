@@ -24,6 +24,7 @@ import com.growatt.chargingpile.adapter.WifiSetAdapter;
 import com.growatt.chargingpile.application.MyApplication;
 import com.growatt.chargingpile.bean.WiFiRequestMsgBean;
 import com.growatt.chargingpile.bean.WifiSetBean;
+import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUtil;
 import com.growatt.chargingpile.util.SocketClientUtil;
@@ -272,7 +273,7 @@ public class WifiSetActivity extends BaseActivity {
                     }
                     switch (key) {
                         case 1:
-                            byte[] bytes = text.getBytes();
+                            byte[] bytes = text.trim().getBytes();
                             if (bytes.length > 15) {
                                 T.make("输入错误", this);
                                 return;
@@ -548,6 +549,7 @@ public class WifiSetActivity extends BaseActivity {
                 .create();
 
         mClientUtil.sendMsg(setInterNet);
+        LogUtil.i("设置ip：" + SmartHomeUtil.bytesToHexString(setInterNet));
     }
 
     //设置wifi
@@ -729,29 +731,29 @@ public class WifiSetActivity extends BaseActivity {
                 case WiFiMsgConstant.CONSTANT_MSG_02://获取
                     ipByte = new byte[15];
                     System.arraycopy(data, 6, ipByte, 0, 15);
-                    String devIp = new String(ipByte, 0, ipByte.length);
+                    String devIp = MyUtil.ByteToString(ipByte);
                     mAdapter.getData().get(1).setValue(devIp);
 
                     gatewayByte = new byte[15];
                     System.arraycopy(data, 21, gatewayByte, 0, 15);
-                    String gateway = new String(gatewayByte, 0, gatewayByte.length);
+                    String gateway = MyUtil.ByteToString(gatewayByte);
                     mAdapter.getData().get(2).setValue(gateway);
 
 
                     maskByte = new byte[15];
                     System.arraycopy(data, 36, maskByte, 0, 15);
-                    String mask = new String(maskByte, 0, maskByte.length);
+                    String mask = MyUtil.ByteToString(maskByte);
                     mAdapter.getData().get(3).setValue(mask);
 
 
                     macByte = new byte[17];
                     System.arraycopy(data, 51, macByte, 0, 17);
-                    String mac = new String(macByte, 0, macByte.length);
+                    String mac = MyUtil.ByteToString(macByte);
                     mAdapter.getData().get(4).setValue(mac);
 
                     dnsByte = new byte[15];
                     System.arraycopy(data, 68, dnsByte, 0, 15);
-                    String dns = new String(dnsByte, 0, dnsByte.length);
+                    String dns =  MyUtil.ByteToString(dnsByte);
                     mAdapter.getData().get(6).setValue(dns);
 
                     mAdapter.notifyDataSetChanged();
@@ -760,12 +762,12 @@ public class WifiSetActivity extends BaseActivity {
                 case WiFiMsgConstant.CONSTANT_MSG_03:
                     ssidByte = new byte[16];
                     System.arraycopy(data, 6, ssidByte, 0, 16);
-                    String ssid = new String(ssidByte, 0, ssidByte.length);
+                    String ssid =  MyUtil.ByteToString(ssidByte);
                     mAdapter.getData().get(8).setValue(ssid);
 
                     wifiKeyByte = new byte[16];
                     System.arraycopy(data, 22, wifiKeyByte, 0, 16);
-                    String wifikey = new String(wifiKeyByte, 0, wifiKeyByte.length);
+                    String wifikey = MyUtil.ByteToString(wifiKeyByte);
                     mAdapter.getData().get(9).setValue(wifikey);
 
 
@@ -791,7 +793,7 @@ public class WifiSetActivity extends BaseActivity {
                 case WiFiMsgConstant.CONSTANT_MSG_04:
                     urlByte = new byte[70];
                     System.arraycopy(data, 6, urlByte, 0, 70);
-                    String url = new String(urlByte, 0, urlByte.length);
+                    String url =MyUtil.ByteToString(urlByte);
                     mAdapter.getData().get(5).setValue(url);
 
                     hskeyByte = new byte[20];
