@@ -48,7 +48,7 @@ public abstract class DeviceSearchThread extends Thread {
             sendData = "www.usr.cn".getBytes();
             String s1 = bytesToHexString(sendData);
             Log.d("liaojinsha", "发送广播" + s1);
-            for (int i = 0; i < 3; i++) {
+
                 // 发送搜索广播
                 sendPack.setData(sendData);
                 hostSocket.send(sendPack);
@@ -82,8 +82,7 @@ public abstract class DeviceSearchThread extends Thread {
                     }
                 } catch (SocketTimeoutException e) {
                 }
-                Log.i("liaojinsha", "@@@zjun: 结束搜索" + i);
-            }
+
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

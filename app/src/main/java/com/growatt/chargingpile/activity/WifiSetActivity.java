@@ -98,6 +98,9 @@ public class WifiSetActivity extends BaseActivity {
     private byte[] pingByte;
     private byte[] intervalByte;
 
+    //是否已经连接
+    private boolean isConnected = false;
+
 
     private Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -116,6 +119,7 @@ public class WifiSetActivity extends BaseActivity {
                     break;
                 case SocketClientUtil.SOCKET_OPEN:
                     text = "连接成功";
+                    isConnected = true;
                     Log.d("liaojinsha", text);
                     srlPull.setEnabled(true);
                     break;
@@ -141,7 +145,12 @@ public class WifiSetActivity extends BaseActivity {
                     break;
                 case SocketClientUtil.SOCKET_SEND:
                     Log.d("liaojinsha", "socket已连接发送消息");
-                    sendCmdConnect();
+                    this.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            sendCmdConnect();
+                        }
+                    }, 500);
                     break;
                 case 100://恢复按钮点击
 
@@ -167,7 +176,7 @@ public class WifiSetActivity extends BaseActivity {
         initHeaderView();
         initResource();
         initRecyclerView();
-        refresh();
+        connectSendMsg();
         setOnclickListener();
     }
 
@@ -220,14 +229,6 @@ public class WifiSetActivity extends BaseActivity {
 
 
     /**
-     * 刷新界面
-     */
-    private void refresh() {
-        connectSendMsg();
-    }
-
-
-    /**
      * 真正的连接逻辑
      */
     private void connectSendMsg() {
@@ -235,6 +236,13 @@ public class WifiSetActivity extends BaseActivity {
         Mydialog.Show(this);
         connectServer();
     }
+
+
+    private void refresh() {
+        if (isConnected) connectSendMsg();
+        else sendCmdConnect();
+    }
+
 
     //连接对象
     private SocketClientUtil mClientUtil;
@@ -630,7 +638,7 @@ public class WifiSetActivity extends BaseActivity {
         //蓝牙密码
         System.arraycopy(pingByte, 0, prayload, 94, pingByte.length);
         //4G用户名
-        System.arraycopy(intervalByte, 0, prayload, 100, intervalByte.length);
+        System.arraycopy(intervalByte, 0, prayload, 98, intervalByte.length);
 
 
 //        byte[] encryptedData = SmartHomeUtil.decodeKey(prayload, key);
@@ -660,34 +668,34 @@ public class WifiSetActivity extends BaseActivity {
             byte cmd = data[2];//指令类型
             switch (cmd) {
                 case WiFiMsgConstant.ERROR_MSG_E1:
-                    T.make("类型错误",this);
+                    T.make("类型错误", this);
                     break;
                 case WiFiMsgConstant.ERROR_MSG_E2:
-                    T.make("非法命令",this);
+                    T.make("非法命令", this);
                     break;
                 case WiFiMsgConstant.ERROR_MSG_E3:
-                    T.make("总长度错误",this);
+                    T.make("总长度错误", this);
                     break;
                 case WiFiMsgConstant.ERROR_MSG_E4:
-                    T.make("数据长度错误",this);
+                    T.make("数据长度错误", this);
                     break;
                 case WiFiMsgConstant.ERROR_MSG_E5:
-                    T.make("校验错误",this);
+                    T.make("校验错误", this);
                     break;
                 case WiFiMsgConstant.ERROR_MSG_E6:
-                    T.make("结束符错误",this);
+                    T.make("结束符错误", this);
                     break;
                 case WiFiMsgConstant.ERROR_MSG_E7:
-                    T.make("协议格式错误",this);
+                    T.make("协议格式错误", this);
                     break;
                 case WiFiMsgConstant.ERROR_MSG_E8:
-                    T.make("多包数据不连续",this);
+                    T.make("多包数据不连续", this);
                     break;
                 case WiFiMsgConstant.ERROR_MSG_E9:
-                    T.make("多包数据重复包",this);
+                    T.make("多包数据重复包", this);
                     break;
                 case WiFiMsgConstant.ERROR_MSG_EA:
-                    T.make("后续包超时错误",this);
+                    T.make("后续包超时错误", this);
                     break;
                 default:
                     break;
@@ -753,7 +761,7 @@ public class WifiSetActivity extends BaseActivity {
 
                     dnsByte = new byte[15];
                     System.arraycopy(data, 68, dnsByte, 0, 15);
-                    String dns =  MyUtil.ByteToString(dnsByte);
+                    String dns = MyUtil.ByteToString(dnsByte);
                     mAdapter.getData().get(6).setValue(dns);
 
                     mAdapter.notifyDataSetChanged();
@@ -762,7 +770,7 @@ public class WifiSetActivity extends BaseActivity {
                 case WiFiMsgConstant.CONSTANT_MSG_03:
                     ssidByte = new byte[16];
                     System.arraycopy(data, 6, ssidByte, 0, 16);
-                    String ssid =  MyUtil.ByteToString(ssidByte);
+                    String ssid = MyUtil.ByteToString(ssidByte);
                     mAdapter.getData().get(8).setValue(ssid);
 
                     wifiKeyByte = new byte[16];
@@ -793,7 +801,7 @@ public class WifiSetActivity extends BaseActivity {
                 case WiFiMsgConstant.CONSTANT_MSG_04:
                     urlByte = new byte[70];
                     System.arraycopy(data, 6, urlByte, 0, 70);
-                    String url =MyUtil.ByteToString(urlByte);
+                    String url = MyUtil.ByteToString(urlByte);
                     mAdapter.getData().get(5).setValue(url);
 
                     hskeyByte = new byte[20];
@@ -834,6 +842,7 @@ public class WifiSetActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.ivLeft:
                 sendCmdExit();
+                SocketClientUtil.close(mClientUtil);
                 finish();
                 break;
         }
@@ -844,6 +853,7 @@ public class WifiSetActivity extends BaseActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             sendCmdExit();
+            SocketClientUtil.close(mClientUtil);
             finish();
             return true;
         }
