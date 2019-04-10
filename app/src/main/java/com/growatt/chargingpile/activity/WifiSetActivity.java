@@ -18,6 +18,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
+import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.bigkoo.pickerview.view.TimePickerView;
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.adapter.WifiSetAdapter;
@@ -37,6 +43,7 @@ import org.xutils.common.util.LogUtil;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -51,23 +58,19 @@ public class WifiSetActivity extends BaseActivity {
     TextView tvTitle;
     @BindView(R.id.ivLeft)
     ImageView ivLeft;
-    @BindView(R.id.tvRight)
-    TextView tvRight;
-    @BindView(R.id.relativeLayout1)
-    RelativeLayout relativeLayout1;
     @BindView(R.id.headerView)
     LinearLayout headerView;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.srl_pull)
     SwipeRefreshLayout srlPull;
-    private TextView tvId;
-    private TextView tvName;
 
     private WifiSetAdapter mAdapter;
     private List<WifiSetBean> list = new ArrayList<>();
     private String[] keys;
-    private boolean isReceiveSucc = false;
+    private String[] lanArray;
+    private String[] rcdArray;
+    private String[] modeArray;
 
     private String ip;
     private int port;
@@ -76,6 +79,8 @@ public class WifiSetActivity extends BaseActivity {
 
     private byte devType;//交流直流
     private byte encryption;//加密类型
+    private String startTime;
+    private String endTime;
 
     //信息参数相关
     private byte[] idByte;
@@ -163,7 +168,7 @@ public class WifiSetActivity extends BaseActivity {
                         public void run() {
                             sendCmdConnect();
                         }
-                    }, 500);
+                    }, 3500);
                     break;
                 case 100://恢复按钮点击
 
@@ -210,25 +215,19 @@ public class WifiSetActivity extends BaseActivity {
 
 
     private void initRecyclerView() {
-      /*  View paramHeadView = LayoutInflater.from(this).inflate(R.layout.item_wifi_set_head, null);
-        tvId = paramHeadView.findViewById(R.id.tv_id);
-        tvName = paramHeadView.findViewById(R.id.tv_name);
-        View view = paramHeadView.findViewById(R.id.ll_name);
-        view.setVisibility(View.GONE);*/
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mAdapter = new WifiSetAdapter(list);
         recyclerView.setLayoutManager(mLinearLayoutManager);
         recyclerView.setAdapter(mAdapter);
-       /* mAdapter.addHeaderView(paramHeadView);*/
     }
 
 
     private void initResource() {
         keys = new String[]{
-                "信息参数", "设备名称", "语言", "读卡器密钥", "RCD保护值",
+                "信息参数", "设备名称", "语言", "读卡器密钥", "RCD保护值(mA)",
                 "以太网参数", getString(R.string.m156充电桩IP), getString(R.string.m157网关), getString(R.string.m158子网掩码), getString(R.string.m159网络MAC地址), getString(R.string.m161DNS地址),
                 "设备帐号密码参数", getString(R.string.wifi_ssid), getString(R.string.wifi_key), "蓝牙名称", "蓝牙密码", "4G用户名", "4G密码", "4G APN",
-                "服务器参数", getString(R.string.m160服务器URL), "授权密钥", "心跳间隔时间", "PING间隔时间", "表记上传间隔时间",
+                "服务器参数", getString(R.string.m160服务器URL), "授权密钥", "心跳间隔时间(s)", "PING间隔时间(s)", "表记上传间隔时间(s)",
                 "充电参数", getString(R.string.m154充电模式), "最大输出电流(A)", "充电费率", "保护温度(℃)", "外部监测最大输出功率(KW)", "允许充电时间"
         };
 
@@ -248,14 +247,19 @@ public class WifiSetActivity extends BaseActivity {
             }
             list.add(bean);
         }
+
+        lanArray = new String[]{"英文", "泰文", "中文"};
+        rcdArray = new String[9];
+        for (int i = 0; i < 9; i++) {
+            int rcdValue = (i + 1) * 6;
+            rcdArray[i] = String.valueOf(rcdValue);
+        }
+        modeArray = new String[]{"APP/RFID", "RFID", "Plug&Charge"};
     }
 
 
-    /**
-     * 真正的连接逻辑
-     */
+    /*建立TCP连接*/
     private void connectSendMsg() {
-        isReceiveSucc = false;
         Mydialog.Show(this);
         connectServer();
     }
@@ -280,9 +284,26 @@ public class WifiSetActivity extends BaseActivity {
     private void setOnclickListener() {
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
             if (!isAllowed) return;
-            if (position == 0 || position == 7) return;
+            int itemType = mAdapter.getData().get(position).getItemType();
+            if (itemType != WifiSetBean.PARAM_ITEM) return;
             WifiSetBean bean = mAdapter.getData().get(position);
-            inputEdit(position, String.valueOf(bean.getValue()));
+            switch (position) {
+                case 2:
+                    setLanguage();
+                    break;
+                case 4:
+                    setRcd();
+                    break;
+                case 26:
+                    setMode();
+                    break;
+                case 31:
+                    showTimePickView(false);
+                    break;
+                default:
+                    inputEdit(position, String.valueOf(bean.getValue()));
+                    break;
+            }
         });
     }
 
@@ -304,15 +325,6 @@ public class WifiSetActivity extends BaseActivity {
                     }
                     byte[] bytes = text.trim().getBytes();
                     switch (key) {
-                        case 2:
-                            if (bytes.length > 1) {
-                                T.make("输入错误", this);
-                                return;
-                            }
-                            lanByte = new byte[1];
-                            System.arraycopy(bytes, 0, lanByte, 0, bytes.length);
-                            setInfo();
-                            break;
                         case 3:
                             if (bytes.length > 6) {
                                 T.make("输入错误", this);
@@ -322,17 +334,12 @@ public class WifiSetActivity extends BaseActivity {
                             System.arraycopy(bytes, 0, cardByte, 0, bytes.length);
                             setInfo();
                             break;
-                        case 4:
-                            if (bytes.length > 1) {
-                                T.make("输入错误", this);
+                        case 6:
+                            boolean b = MyUtil.isboolIp(value);
+                            if (!b) {
+                                toast(R.string.m177输入格式不正确);
                                 return;
                             }
-                            rcdByte = new byte[1];
-                            System.arraycopy(bytes, 0, rcdByte, 0, bytes.length);
-                            setInfo();
-                            break;
-
-                        case 6:
                             if (bytes.length > 15) {
                                 T.make("输入错误", this);
                                 return;
@@ -488,15 +495,6 @@ public class WifiSetActivity extends BaseActivity {
                             setUrl();
                             break;
 
-                        case 26:
-                            if (bytes.length > 1) {
-                                T.make("输入错误", this);
-                                return;
-                            }
-                            modeByte = new byte[1];
-                            System.arraycopy(bytes, 0, modeByte, 0, bytes.length);
-                            setCharging();
-                            break;
                         case 27:
                             if (bytes.length > 2) {
                                 T.make("输入错误", this);
@@ -533,16 +531,6 @@ public class WifiSetActivity extends BaseActivity {
                             System.arraycopy(bytes, 0, powerByte, 0, bytes.length);
                             setCharging();
                             break;
-                        case 31:
-                            if (bytes.length > 11) {
-                                T.make("输入错误", this);
-                                return;
-                            }
-                            timeByte = new byte[11];
-                            System.arraycopy(bytes, 0, timeByte, 0, bytes.length);
-                            setCharging();
-                            break;
-
                     }
                 })
                 .show(this.getSupportFragmentManager());
@@ -1005,6 +993,7 @@ public class WifiSetActivity extends BaseActivity {
                     byte exit = data[6];
                     if ((int) exit == 1) {
                         T.make("退出成功", WifiSetActivity.this);
+                        SocketClientUtil.close(mClientUtil);
                     } else {
                         T.make("退出失败", WifiSetActivity.this);
                     }
@@ -1019,8 +1008,14 @@ public class WifiSetActivity extends BaseActivity {
                     lanByte = new byte[1];
                     System.arraycopy(data, 26, lanByte, 0, 1);
                     String lan = MyUtil.ByteToString(lanByte);
+                    if ("1".equals(lan)) {
+                        lan = lanArray[0];
+                    } else if ("2".equals(lan)) {
+                        lan = lanArray[1];
+                    } else {
+                        lan = lanArray[2];
+                    }
                     mAdapter.getData().get(2).setValue(lan);
-
 
                     cardByte = new byte[6];
                     System.arraycopy(data, 27, cardByte, 0, 6);
@@ -1031,7 +1026,10 @@ public class WifiSetActivity extends BaseActivity {
                     rcdByte = new byte[1];
                     System.arraycopy(data, 33, rcdByte, 0, 1);
                     String rcd = MyUtil.ByteToString(rcdByte);
-                    mAdapter.getData().get(4).setValue(rcd);
+                    int i = Integer.parseInt(rcd);
+                    if (i<=0)i=1;
+                    String s = rcdArray[i - 1];
+                    mAdapter.getData().get(4).setValue(s);
 
 
                     mAdapter.notifyDataSetChanged();
@@ -1143,7 +1141,10 @@ public class WifiSetActivity extends BaseActivity {
                     modeByte = new byte[1];
                     System.arraycopy(data, 6, modeByte, 0, 1);
                     String mode = MyUtil.ByteToString(modeByte);
-                    mAdapter.getData().get(26).setValue(mode);
+                    int modeSet = Integer.parseInt(mode);
+                    if (modeSet<=0)modeSet=1;
+                    String modeValue = modeArray[modeSet - 1];
+                    mAdapter.getData().get(26).setValue(modeValue);
 
                     maxCurrentByte = new byte[2];
                     System.arraycopy(data, 7, maxCurrentByte, 0, 2);
@@ -1172,13 +1173,15 @@ public class WifiSetActivity extends BaseActivity {
 
                     mAdapter.notifyDataSetChanged();
                     break;
-
+                //设置回应
+                case WiFiMsgConstant.CONSTANT_MSG_11:
                 case WiFiMsgConstant.CONSTANT_MSG_12:
                 case WiFiMsgConstant.CONSTANT_MSG_13:
                 case WiFiMsgConstant.CONSTANT_MSG_14:
+                case WiFiMsgConstant.CONSTANT_MSG_15:
                     byte result = data[6];
                     if ((int) result == 1) {
-                        getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_02);
+                        getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_01);
                         T.make("设置成功", WifiSetActivity.this);
                     } else {
                         T.make("设置失败", WifiSetActivity.this);
@@ -1196,7 +1199,6 @@ public class WifiSetActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.ivLeft:
                 sendCmdExit();
-                SocketClientUtil.close(mClientUtil);
                 finish();
                 break;
         }
@@ -1207,10 +1209,173 @@ public class WifiSetActivity extends BaseActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             sendCmdExit();
-            SocketClientUtil.close(mClientUtil);
             finish();
             return true;
         }
         return super.onKeyDown(keyCode, event);
     }
+
+    /*设置语言*/
+    private void setLanguage() {
+        List<String> list = Arrays.asList(lanArray);
+        OptionsPickerView<String> pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                final String tx = list.get(options1);
+                String pos = String.valueOf(options1+1);
+                byte[] bytes = pos.trim().getBytes();
+                if (bytes.length > 1) {
+                    T.make("输入错误", WifiSetActivity.this);
+                    return;
+                }
+                lanByte = new byte[1];
+                System.arraycopy(bytes, 0, lanByte, 0, bytes.length);
+                setInfo();
+            }
+        })
+                .setTitleText("设置语言")
+                .setTitleBgColor(0xffffffff)
+                .setTitleColor(0xff333333)
+                .setSubmitColor(0xff333333)
+                .setCancelColor(0xff999999)
+                .setBgColor(0xffffffff)
+                .setTitleSize(22)
+                .setTextColorCenter(0xff333333)
+                .build();
+        pvOptions.setPicker(list);
+        pvOptions.show();
+    }
+
+
+    /*设置rcd*/
+    private void setRcd() {
+        List<String> list = Arrays.asList(rcdArray);
+        OptionsPickerView<String> pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                final String tx = list.get(options1);
+                String pos = String.valueOf(options1+1);
+                byte[] bytes = pos.trim().getBytes();
+                if (bytes.length > 1) {
+                    T.make("输入错误", WifiSetActivity.this);
+                    return;
+                }
+                rcdByte = new byte[1];
+                System.arraycopy(bytes, 0, rcdByte, 0, bytes.length);
+                setInfo();
+            }
+        })
+                .setTitleText("设置rcd保护值")
+                .setTitleBgColor(0xffffffff)
+                .setTitleColor(0xff333333)
+                .setSubmitColor(0xff333333)
+                .setCancelColor(0xff999999)
+                .setBgColor(0xffffffff)
+                .setTitleSize(22)
+                .setLabels("mA", "", "")
+                .setTextColorCenter(0xff333333)
+                .build();
+        pvOptions.setPicker(list);
+        pvOptions.show();
+    }
+
+
+    /*设置模式*/
+    private void setMode() {
+        List<String> list = Arrays.asList(modeArray);
+        OptionsPickerView<String> pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                final String tx = list.get(options1);
+                String pos = String.valueOf(options1+1);
+                byte[] bytes = pos.trim().getBytes();
+                if (bytes.length > 1) {
+                    T.make("输入错误", WifiSetActivity.this);
+                    return;
+                }
+                modeByte = new byte[1];
+                System.arraycopy(bytes, 0, modeByte, 0, bytes.length);
+                setCharging();
+            }
+        })
+                .setTitleText("设置电桩模式")
+                .setTitleBgColor(0xffffffff)
+                .setTitleColor(0xff333333)
+                .setSubmitColor(0xff333333)
+                .setCancelColor(0xff999999)
+                .setBgColor(0xffffffff)
+                .setTitleSize(22)
+                .setTextColorCenter(0xff333333)
+                .build();
+        pvOptions.setPicker(list);
+        pvOptions.show();
+    }
+
+
+    /**
+     * 弹出时间选择器
+     */
+    public void showTimePickView(boolean isEnd) {
+        Calendar selectedDate = Calendar.getInstance();//系统当前时间
+        Calendar startDate = Calendar.getInstance();
+        Calendar endDate = Calendar.getInstance();
+        String tittleText;
+        if (isEnd) {
+            tittleText = "选择结束时间";
+        } else {
+            tittleText = "选择开始时间";
+        }
+        TimePickerView pvCustomTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(Date date, View v) {//选中事件回调
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", getResources().getConfiguration().locale);
+                String time = sdf.format(date);
+                if (isEnd) {
+                    endTime = time;
+                    String[] start = startTime.split(":");
+                    String[] end = endTime.split(":");
+                    int statValue = Integer.parseInt(start[0]) * 60 + Integer.parseInt(start[1]);
+                    int endValue = Integer.parseInt(end[0]) * 60 + Integer.parseInt(end[1]);
+                    if (statValue >= endValue) {
+                        T.make("开始时间必须小于结束时间", WifiSetActivity.this);
+                    } else {
+                        String chargingTime = startTime + "-" + endTime;
+                        byte[] bytes = chargingTime.trim().getBytes();
+                        if (bytes.length > 11) {
+                            T.make("输入错误", WifiSetActivity.this);
+                            return;
+                        }
+                        timeByte = new byte[11];
+                        System.arraycopy(bytes, 0, timeByte, 0, bytes.length);
+                        setCharging();
+                    }
+                } else {
+                    startTime = time;
+                    showTimePickView(true);
+                }
+            }
+        })
+                .setType(new boolean[]{false, false, false, true, true, false})// 默认全部显示
+                .setCancelText("取消")//取消按钮文字
+                .setSubmitText("确定")//确认按钮文字
+                .setContentTextSize(18)
+                .setTitleSize(20)//标题文字大小
+                .setTitleText(tittleText)//标题文字
+                .setOutSideCancelable(false)//点击屏幕，点在控件外部范围时，是否取消显示
+                .isCyclic(true)//是否循环滚动
+                .setTitleColor(0xff333333)//标题文字颜色
+                .setSubmitColor(0xff333333)//确定按钮文字颜色
+                .setCancelColor(0xff999999)//取消按钮文字颜色
+                .setTitleBgColor(0xffffffff)//标题背景颜色 Night mode
+                .setBgColor(0xffffffff)//滚轮背景颜色 Night mode
+                .setTextColorCenter(0xff333333)
+                .setDate(selectedDate)// 如果不设置的话，默认是系统时间*/
+                .setRangDate(startDate, endDate)//起始终止年月日设定
+                .setLabel("", "", "", "时", "分", "")//默认设置为年月日时分秒
+                .isCenterLabel(false) //是否只显示中间选中项的label文字，false则每项item全部都带有label。
+                .isDialog(false)//是否显示为对话框样式
+                .build();
+        pvCustomTime.show();
+    }
+
 }

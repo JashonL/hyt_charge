@@ -496,4 +496,20 @@ public class MyUtil {
         return strBuilder.toString();
     }
 
+
+    public static String ByteToInteger(byte[] bytes)
+    {
+
+        StringBuilder strBuilder = new StringBuilder();
+        for (int i = 0; i <bytes.length ; i++) {
+            if (bytes[i]!=0){
+                strBuilder.append((int) bytes[i]);
+            }else {
+                break;
+            }
+
+        }
+        return strBuilder.toString();
+    }
+
 }

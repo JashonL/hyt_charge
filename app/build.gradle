@@ -42,4 +42,5 @@ dependencies {
     /*添加依赖*/
     implementation 'com.github.yuzhiqiang1993:zxing:2.2.0'
     compile 'com.github.maning0303:MNProgressHUD:V1.1.4'
+    compile 'com.contrarywind:Android-PickerView:4.1.6'
 }
