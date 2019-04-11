@@ -25,7 +25,7 @@
                 android:layout_height="@dimen/xa100"
                 android:background="@color/gray"
                 android:gravity="center"
-                android:text="请将手机连接到充电桩wifi"
+                android:text="@string/m248连接至电桩热点"
                 android:textSize="@dimen/xa24" />
 
 
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/xa60"
-                android:text="当前连接WIFI"
+                android:text="@string/m249当前手机连接WiFi"
                 android:textColor="@color/title_3"
                 android:textSize="@dimen/xa24"
                 android:visibility="visible" />
@@ -60,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/xa24"
                     android:gravity="center"
-                    android:text="Tenda_DA8BB0"
+                    android:text="@string/m253手机暂未连接wifi"
                     android:textColor="@color/title_1"
                     android:textSize="@dimen/xa30" />
 
@@ -84,7 +84,7 @@
                     android:background="@null"
                     android:gravity="center"
                     android:lines="1"
-                    android:text="去WLAN页面进行设置>"
+                    android:text="@string/m去WLAN页面进行设置"
                     android:textColor="@color/green_1"
                     android:textSize="15sp" />
 

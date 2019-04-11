@@ -138,7 +138,7 @@ public class ConnetWiFiActivity extends BaseActivity {
 
     private void initViews() {
         ivLeft.setImageResource(R.drawable.back);
-        tvTitle.setText("连接电桩wifi");
+        tvTitle.setText(R.string.m247热点连接);
         tvTitle.setTextColor(ContextCompat.getColor(this, R.color.title_1));
     }
 
@@ -289,7 +289,7 @@ public class ConnetWiFiActivity extends BaseActivity {
             dialog.setCanceledOnTouchOutside(false);
         }
         dialog.show();
-        tvProgress.setText("搜索设备中");
+        tvProgress.setText(R.string.m252连接充电桩中);
     }
 
 }

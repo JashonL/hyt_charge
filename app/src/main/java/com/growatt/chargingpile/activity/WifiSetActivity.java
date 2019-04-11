@@ -206,7 +206,7 @@ public class WifiSetActivity extends BaseActivity {
 
     private void initHeaderView() {
         ivLeft.setImageResource(R.drawable.back);
-        tvTitle.setText("电桩设置");
+        tvTitle.setText(getString(R.string.m105桩体设置));
         tvTitle.setTextColor(ContextCompat.getColor(this, R.color.title_1));
         srlPull.setColorSchemeColors(ContextCompat.getColor(this, R.color.green_1));
         srlPull.setOnRefreshListener(this::refresh);
@@ -224,11 +224,11 @@ public class WifiSetActivity extends BaseActivity {
 
     private void initResource() {
         keys = new String[]{
-                "信息参数", "设备名称", "语言", "读卡器密钥", "RCD保护值(mA)",
-                "以太网参数", getString(R.string.m156充电桩IP), getString(R.string.m157网关), getString(R.string.m158子网掩码), getString(R.string.m159网络MAC地址), getString(R.string.m161DNS地址),
-                "设备帐号密码参数", getString(R.string.wifi_ssid), getString(R.string.wifi_key), "蓝牙名称", "蓝牙密码", "4G用户名", "4G密码", "4G APN",
-                "服务器参数", getString(R.string.m160服务器URL), "授权密钥", "心跳间隔时间(s)", "PING间隔时间(s)", "表记上传间隔时间(s)",
-                "充电参数", getString(R.string.m154充电模式), "最大输出电流(A)", "充电费率", "保护温度(℃)", "外部监测最大输出功率(KW)", "允许充电时间"
+                getString(R.string.m255设备信息参数设置), getString(R.string.m146充电桩ID), getString(R.string.m260语言), getString(R.string.m264读卡器秘钥), getString(R.string.m265RCD保护值),
+                getString(R.string.m256设备以太网参数设置), getString(R.string.m156充电桩IP), getString(R.string.m157网关), getString(R.string.m158子网掩码), getString(R.string.m159网络MAC地址), getString(R.string.m161DNS地址),
+                getString(R.string.m257设备账号密码参数设置), getString(R.string.m266Wifi名称), getString(R.string.m267Wifi密码), getString(R.string.m268蓝牙名称), getString(R.string.m269蓝牙密码), getString(R.string.m2704G用户名), getString(R.string.m2714G密码), getString(R.string.m2724GAPN),
+                getString(R.string.m258设备服务器参数设置), getString(R.string.m160服务器URL), getString(R.string.m273握手登录授权秘钥), getString(R.string.m274心跳间隔时间), getString(R.string.m275PING间隔时间), getString(R.string.m276表计上传间隔时间),
+                getString(R.string.m259设备充电参数设置), getString(R.string.m154充电模式), getString(R.string.m277电桩最大输出电流), getString(R.string.m152充电费率), getString(R.string.m278保护温度), getString(R.string.m279外部监测最大输入功率), getString(R.string.m280允许充电时间)
         };
 
         for (int i = 0; i < keys.length; i++) {
@@ -248,13 +248,13 @@ public class WifiSetActivity extends BaseActivity {
             list.add(bean);
         }
 
-        lanArray = new String[]{"英文", "泰文", "中文"};
+        lanArray = new String[]{getString(R.string.m263英文), getString(R.string.m262泰文), getString(R.string.m261中文)};
         rcdArray = new String[9];
         for (int i = 0; i < 9; i++) {
-            int rcdValue = (i + 1) * 6;
-            rcdArray[i] = String.valueOf(rcdValue);
+            int rcdValue = (i + 1);
+            rcdArray[i] = String.valueOf(rcdValue) + getString(R.string.m287级);
         }
-        modeArray = new String[]{"APP/RFID", "RFID", "Plug&Charge"};
+        modeArray = new String[]{getString(R.string.m217扫码刷卡), getString(R.string.m218仅刷卡充电), getString(R.string.m219插枪充电)};
     }
 
 
@@ -267,7 +267,7 @@ public class WifiSetActivity extends BaseActivity {
 
     private void refresh() {
         if (isConnected) connectSendMsg();
-        else sendCmdConnect();
+        else getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_01);
     }
 
 
@@ -326,8 +326,13 @@ public class WifiSetActivity extends BaseActivity {
                     byte[] bytes = text.trim().getBytes();
                     switch (key) {
                         case 3:
+                            boolean letterDigit = MyUtil.isLetterDigit(text);
+                            if (!letterDigit) {
+                                T.make(getString(R.string.m177输入格式不正确), this);
+                                return;
+                            }
                             if (bytes.length > 6) {
-                                T.make("输入错误", this);
+                                T.make(getString(R.string.m286输入值超出规定长度), this);
                                 return;
                             }
                             cardByte = new byte[6];
@@ -335,13 +340,13 @@ public class WifiSetActivity extends BaseActivity {
                             setInfo();
                             break;
                         case 6:
-                            boolean b = MyUtil.isboolIp(value);
+                            boolean b = MyUtil.isboolIp(text);
                             if (!b) {
                                 toast(R.string.m177输入格式不正确);
                                 return;
                             }
                             if (bytes.length > 15) {
-                                T.make("输入错误", this);
+                                T.make(getString(R.string.m286输入值超出规定长度), this);
                                 return;
                             }
                             ipByte = new byte[15];
@@ -349,8 +354,13 @@ public class WifiSetActivity extends BaseActivity {
                             setInternt();
                             break;
                         case 7:
+                            boolean b1 = MyUtil.isboolIp(text);
+                            if (!b1) {
+                                toast(R.string.m177输入格式不正确);
+                                return;
+                            }
                             if (bytes.length > 15) {
-                                T.make("输入错误", this);
+                                T.make(getString(R.string.m286输入值超出规定长度), this);
                                 return;
                             }
                             gatewayByte = new byte[15];
@@ -358,8 +368,13 @@ public class WifiSetActivity extends BaseActivity {
                             setInternt();
                             break;
                         case 8:
+                            boolean b2 = MyUtil.isboolIp(text);
+                            if (!b2) {
+                                toast(R.string.m177输入格式不正确);
+                                return;
+                            }
                             if (bytes.length > 15) {
-                                T.make("输入错误", this);
+                                T.make(getString(R.string.m286输入值超出规定长度), this);
                                 return;
                             }
                             maskByte = new byte[15];
@@ -367,8 +382,13 @@ public class WifiSetActivity extends BaseActivity {
                             setInternt();
                             break;
                         case 9:
+                            boolean macLetterDigit = MyUtil.isLetterDigit(text);
+                            if (!macLetterDigit) {
+                                T.make(getString(R.string.m177输入格式不正确), this);
+                                return;
+                            }
                             if (bytes.length > 17) {
-                                T.make("输入错误", this);
+                                T.make(getString(R.string.m286输入值超出规定长度), this);
                                 return;
                             }
                             macByte = new byte[17];
@@ -376,8 +396,13 @@ public class WifiSetActivity extends BaseActivity {
                             setInternt();
                             break;
                         case 10:
+                            boolean b3 = MyUtil.isboolIp(text);
+                            if (!b3) {
+                                toast(R.string.m177输入格式不正确);
+                                return;
+                            }
                             if (bytes.length > 15) {
-                                T.make("输入错误", this);
+                                T.make(getString(R.string.m286输入值超出规定长度), this);
                                 return;
                             }
                             dnsByte = new byte[15];
@@ -385,8 +410,14 @@ public class WifiSetActivity extends BaseActivity {
                             setInternt();
                             break;
                         case 12:
+                            boolean letterDigit1 = MyUtil.isLetterDigit(text);
+                            if (!letterDigit1) {
+                                T.make(getString(R.string.m177输入格式不正确), this);
+                                return;
+                            }
+
                             if (bytes.length > 16) {
-                                T.make("输入错误", this);
+                                T.make(getString(R.string.m286输入值超出规定长度), this);
                                 return;
                             }
                             ssidByte = new byte[16];
@@ -394,8 +425,13 @@ public class WifiSetActivity extends BaseActivity {
                             setWifi();
                             break;
                         case 13:
+                            boolean letterDigit2 = MyUtil.isLetterDigit(text);
+                            if (!letterDigit2) {
+                                T.make(getString(R.string.m177输入格式不正确), this);
+                                return;
+                            }
                             if (bytes.length > 16) {
-                                T.make("输入错误", this);
+                                T.make(getString(R.string.m286输入值超出规定长度), this);
                                 return;
                             }
                             wifiKeyByte = new byte[16];
@@ -404,8 +440,13 @@ public class WifiSetActivity extends BaseActivity {
                             break;
 
                         case 14:
+                            boolean letterDigit3 = MyUtil.isLetterDigit(text);
+                            if (!letterDigit3) {
+                                T.make(getString(R.string.m177输入格式不正确), this);
+                                return;
+                            }
                             if (bytes.length > 16) {
-                                T.make("输入错误", this);
+                                T.make(getString(R.string.m286输入值超出规定长度), this);
                                 return;
                             }
                             bltNameByte = new byte[16];
@@ -413,8 +454,13 @@ public class WifiSetActivity extends BaseActivity {
                             setWifi();
                             break;
                         case 15:
+                            boolean letterDigit4 = MyUtil.isLetterDigit(text);
+                            if (!letterDigit4) {
+                                T.make(getString(R.string.m177输入格式不正确), this);
+                                return;
+                            }
                             if (bytes.length > 16) {
-                                T.make("输入错误", this);
+                                T.make(getString(R.string.m286输入值超出规定长度), this);
                                 return;
                             }
                             bltPwdByte = new byte[16];
@@ -422,8 +468,13 @@ public class WifiSetActivity extends BaseActivity {
                             setWifi();
                             break;
                         case 16:
+                            boolean letterDigit5 = MyUtil.isLetterDigit(text);
+                            if (!letterDigit5) {
+                                T.make(getString(R.string.m177输入格式不正确), this);
+                                return;
+                            }
                             if (bytes.length > 16) {
-                                T.make("输入错误", this);
+                                T.make(getString(R.string.m286输入值超出规定长度), this);
                                 return;
                             }
                             name4GByte = new byte[16];
@@ -431,8 +482,14 @@ public class WifiSetActivity extends BaseActivity {
                             setWifi();
                             break;
                         case 17:
+                            boolean letterDigit6 = MyUtil.isLetterDigit(text);
+                            if (!letterDigit6) {
+                                T.make(getString(R.string.m177输入格式不正确), this);
+                                return;
+                            }
+
                             if (bytes.length > 16) {
-                                T.make("输入错误", this);
+                                T.make(getString(R.string.m286输入值超出规定长度), this);
                                 return;
                             }
                             pwd4GByte = new byte[16];
@@ -440,8 +497,14 @@ public class WifiSetActivity extends BaseActivity {
                             setWifi();
                             break;
                         case 18:
+                            boolean letterDigit7 = MyUtil.isLetterDigit(text);
+                            if (!letterDigit7) {
+                                T.make(getString(R.string.m177输入格式不正确), this);
+                                return;
+                            }
+
                             if (bytes.length > 16) {
-                                T.make("输入错误", this);
+                                T.make(getString(R.string.m286输入值超出规定长度), this);
                                 return;
                             }
                             apn4GByte = new byte[16];
@@ -451,7 +514,7 @@ public class WifiSetActivity extends BaseActivity {
 
                         case 20:
                             if (bytes.length > 70) {
-                                T.make("输入错误", this);
+                                T.make(getString(R.string.m286输入值超出规定长度), this);
                                 return;
                             }
                             urlByte = new byte[70];
@@ -459,8 +522,13 @@ public class WifiSetActivity extends BaseActivity {
                             setUrl();
                             break;
                         case 21:
+                            boolean letterDigit8 = MyUtil.isLetterDigit(text);
+                            if (!letterDigit8) {
+                                T.make(getString(R.string.m177输入格式不正确), this);
+                                return;
+                            }
                             if (bytes.length > 20) {
-                                T.make("输入错误", this);
+                                T.make(getString(R.string.m286输入值超出规定长度), this);
                                 return;
                             }
                             hskeyByte = new byte[20];
@@ -468,8 +536,13 @@ public class WifiSetActivity extends BaseActivity {
                             setUrl();
                             break;
                         case 22:
+                            boolean numeric = MyUtil.isNumeric(text);
+                            if (!numeric){
+                                T.make(getString(R.string.m177输入格式不正确), this);
+                                return;
+                            }
                             if (bytes.length > 4) {
-                                T.make("输入错误", this);
+                                T.make(getString(R.string.m286输入值超出规定长度), this);
                                 return;
                             }
                             heatByte = new byte[4];
@@ -477,8 +550,13 @@ public class WifiSetActivity extends BaseActivity {
                             setUrl();
                             break;
                         case 23:
+                            boolean numeric1 = MyUtil.isNumeric(text);
+                            if (!numeric1){
+                                T.make(getString(R.string.m177输入格式不正确), this);
+                                return;
+                            }
                             if (bytes.length > 4) {
-                                T.make("输入错误", this);
+                                T.make(getString(R.string.m286输入值超出规定长度), this);
                                 return;
                             }
                             pingByte = new byte[4];
@@ -486,8 +564,13 @@ public class WifiSetActivity extends BaseActivity {
                             setUrl();
                             break;
                         case 24:
+                            boolean numeric2 = MyUtil.isNumeric(text);
+                            if (!numeric2){
+                                T.make(getString(R.string.m177输入格式不正确), this);
+                                return;
+                            }
                             if (bytes.length > 4) {
-                                T.make("输入错误", this);
+                                T.make(getString(R.string.m286输入值超出规定长度), this);
                                 return;
                             }
                             intervalByte = new byte[4];
@@ -496,8 +579,13 @@ public class WifiSetActivity extends BaseActivity {
                             break;
 
                         case 27:
+                            boolean numeric3 = MyUtil.isNumeric(text);
+                            if (!numeric3){
+                                T.make(getString(R.string.m177输入格式不正确), this);
+                                return;
+                            }
                             if (bytes.length > 2) {
-                                T.make("输入错误", this);
+                                T.make(getString(R.string.m286输入值超出规定长度), this);
                                 return;
                             }
                             maxCurrentByte = new byte[2];
@@ -505,8 +593,13 @@ public class WifiSetActivity extends BaseActivity {
                             setCharging();
                             break;
                         case 28:
+                            boolean numeric4 = MyUtil.isNumeric(text);
+                            if (!numeric4){
+                                T.make(getString(R.string.m177输入格式不正确), this);
+                                return;
+                            }
                             if (bytes.length > 5) {
-                                T.make("输入错误", this);
+                                T.make(getString(R.string.m286输入值超出规定长度), this);
                                 return;
                             }
                             rateByte = new byte[5];
@@ -514,8 +607,13 @@ public class WifiSetActivity extends BaseActivity {
                             setCharging();
                             break;
                         case 29:
+                            boolean numeric5 = MyUtil.isNumeric(text);
+                            if (!numeric5){
+                                T.make(getString(R.string.m177输入格式不正确), this);
+                                return;
+                            }
                             if (bytes.length > 3) {
-                                T.make("输入错误", this);
+                                T.make(getString(R.string.m286输入值超出规定长度), this);
                                 return;
                             }
                             tempByte = new byte[3];
@@ -523,8 +621,13 @@ public class WifiSetActivity extends BaseActivity {
                             setCharging();
                             break;
                         case 30:
+                            boolean numeric6 = MyUtil.isNumeric(text);
+                            if (!numeric6){
+                                T.make(getString(R.string.m177输入格式不正确), this);
+                                return;
+                            }
                             if (bytes.length > 2) {
-                                T.make("输入错误", this);
+                                T.make(getString(R.string.m286输入值超出规定长度), this);
                                 return;
                             }
                             powerByte = new byte[2];
@@ -935,40 +1038,31 @@ public class WifiSetActivity extends BaseActivity {
             byte cmd = data[2];//指令类型
             switch (cmd) {
                 case WiFiMsgConstant.ERROR_MSG_E1:
-                    T.make("类型错误", this);
                     break;
                 case WiFiMsgConstant.ERROR_MSG_E2:
-                    T.make("非法命令", this);
                     break;
                 case WiFiMsgConstant.ERROR_MSG_E3:
-                    T.make("总长度错误", this);
                     break;
                 case WiFiMsgConstant.ERROR_MSG_E4:
-                    T.make("数据长度错误", this);
                     break;
                 case WiFiMsgConstant.ERROR_MSG_E5:
-                    T.make("校验错误", this);
                     break;
                 case WiFiMsgConstant.ERROR_MSG_E6:
-                    T.make("结束符错误", this);
                     break;
                 case WiFiMsgConstant.ERROR_MSG_E7:
-                    T.make("协议格式错误", this);
                     break;
                 case WiFiMsgConstant.ERROR_MSG_E8:
-                    T.make("多包数据不连续", this);
                     break;
                 case WiFiMsgConstant.ERROR_MSG_E9:
-                    T.make("多包数据重复包", this);
                     break;
                 case WiFiMsgConstant.ERROR_MSG_EA:
-                    T.make("后续包超时错误", this);
                     break;
                 default:
                     break;
             }
 
         } else {
+            if (length < 4) return;
             byte cmd = data[4];//指令类型
             switch (cmd) {
                 case WiFiMsgConstant.CMD_A0://连接命令
@@ -981,21 +1075,19 @@ public class WifiSetActivity extends BaseActivity {
                     Mydialog.Dismiss();
                     if ((int) allow == 0) {
                         isAllowed = false;
-                        T.make("拒绝进入", WifiSetActivity.this);
+                        T.make(getString(R.string.m254连接失败), WifiSetActivity.this);
                     } else {
                         isAllowed = true;
-                        T.make("允许进入", WifiSetActivity.this);
+                        T.make(getString(R.string.m169连接成功), WifiSetActivity.this);
                         getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_01);
                     }
                     break;
 
-                case WiFiMsgConstant.CMD_A1://连接命令
+                case WiFiMsgConstant.CMD_A1:
                     byte exit = data[6];
                     if ((int) exit == 1) {
-                        T.make("退出成功", WifiSetActivity.this);
+                        T.make(getString(R.string.m281电桩断开), WifiSetActivity.this);
                         SocketClientUtil.close(mClientUtil);
-                    } else {
-                        T.make("退出失败", WifiSetActivity.this);
                     }
                     break;
 
@@ -1027,7 +1119,7 @@ public class WifiSetActivity extends BaseActivity {
                     System.arraycopy(data, 33, rcdByte, 0, 1);
                     String rcd = MyUtil.ByteToString(rcdByte);
                     int i = Integer.parseInt(rcd);
-                    if (i<=0)i=1;
+                    if (i <= 0) i = 1;
                     String s = rcdArray[i - 1];
                     mAdapter.getData().get(4).setValue(s);
 
@@ -1142,7 +1234,7 @@ public class WifiSetActivity extends BaseActivity {
                     System.arraycopy(data, 6, modeByte, 0, 1);
                     String mode = MyUtil.ByteToString(modeByte);
                     int modeSet = Integer.parseInt(mode);
-                    if (modeSet<=0)modeSet=1;
+                    if (modeSet <= 0) modeSet = 1;
                     String modeValue = modeArray[modeSet - 1];
                     mAdapter.getData().get(26).setValue(modeValue);
 
@@ -1182,9 +1274,9 @@ public class WifiSetActivity extends BaseActivity {
                     byte result = data[6];
                     if ((int) result == 1) {
                         getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_01);
-                        T.make("设置成功", WifiSetActivity.this);
+                        T.make(getString(R.string.m243设置成功), WifiSetActivity.this);
                     } else {
-                        T.make("设置失败", WifiSetActivity.this);
+                        T.make(getString(R.string.m244设置失败), WifiSetActivity.this);
                     }
                     break;
             }
@@ -1222,10 +1314,10 @@ public class WifiSetActivity extends BaseActivity {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
                 final String tx = list.get(options1);
-                String pos = String.valueOf(options1+1);
+                String pos = String.valueOf(options1 + 1);
                 byte[] bytes = pos.trim().getBytes();
                 if (bytes.length > 1) {
-                    T.make("输入错误", WifiSetActivity.this);
+                    T.make(getString(R.string.m286输入值超出规定长度), WifiSetActivity.this);
                     return;
                 }
                 lanByte = new byte[1];
@@ -1233,7 +1325,7 @@ public class WifiSetActivity extends BaseActivity {
                 setInfo();
             }
         })
-                .setTitleText("设置语言")
+                .setTitleText(getString(R.string.m260语言))
                 .setTitleBgColor(0xffffffff)
                 .setTitleColor(0xff333333)
                 .setSubmitColor(0xff333333)
@@ -1254,10 +1346,10 @@ public class WifiSetActivity extends BaseActivity {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
                 final String tx = list.get(options1);
-                String pos = String.valueOf(options1+1);
+                String pos = String.valueOf(options1 + 1);
                 byte[] bytes = pos.trim().getBytes();
                 if (bytes.length > 1) {
-                    T.make("输入错误", WifiSetActivity.this);
+                    T.make(getString(R.string.m286输入值超出规定长度), WifiSetActivity.this);
                     return;
                 }
                 rcdByte = new byte[1];
@@ -1265,7 +1357,7 @@ public class WifiSetActivity extends BaseActivity {
                 setInfo();
             }
         })
-                .setTitleText("设置rcd保护值")
+                .setTitleText(getString(R.string.m265RCD保护值))
                 .setTitleBgColor(0xffffffff)
                 .setTitleColor(0xff333333)
                 .setSubmitColor(0xff333333)
@@ -1287,10 +1379,10 @@ public class WifiSetActivity extends BaseActivity {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
                 final String tx = list.get(options1);
-                String pos = String.valueOf(options1+1);
+                String pos = String.valueOf(options1 + 1);
                 byte[] bytes = pos.trim().getBytes();
                 if (bytes.length > 1) {
-                    T.make("输入错误", WifiSetActivity.this);
+                    T.make(getString(R.string.m286输入值超出规定长度), WifiSetActivity.this);
                     return;
                 }
                 modeByte = new byte[1];
@@ -1298,7 +1390,7 @@ public class WifiSetActivity extends BaseActivity {
                 setCharging();
             }
         })
-                .setTitleText("设置电桩模式")
+                .setTitleText(getString(R.string.m154充电模式))
                 .setTitleBgColor(0xffffffff)
                 .setTitleColor(0xff333333)
                 .setSubmitColor(0xff333333)
@@ -1321,9 +1413,9 @@ public class WifiSetActivity extends BaseActivity {
         Calendar endDate = Calendar.getInstance();
         String tittleText;
         if (isEnd) {
-            tittleText = "选择结束时间";
+            tittleText = getString(R.string.m282结束时间);
         } else {
-            tittleText = "选择开始时间";
+            tittleText = getString(R.string.m283选择时间);
         }
         TimePickerView pvCustomTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
             @Override
@@ -1337,12 +1429,12 @@ public class WifiSetActivity extends BaseActivity {
                     int statValue = Integer.parseInt(start[0]) * 60 + Integer.parseInt(start[1]);
                     int endValue = Integer.parseInt(end[0]) * 60 + Integer.parseInt(end[1]);
                     if (statValue >= endValue) {
-                        T.make("开始时间必须小于结束时间", WifiSetActivity.this);
+                        T.make(getString(R.string.m285开始时间不能大于结束时间), WifiSetActivity.this);
                     } else {
                         String chargingTime = startTime + "-" + endTime;
                         byte[] bytes = chargingTime.trim().getBytes();
                         if (bytes.length > 11) {
-                            T.make("输入错误", WifiSetActivity.this);
+                            T.make(getString(R.string.m286输入值超出规定长度), WifiSetActivity.this);
                             return;
                         }
                         timeByte = new byte[11];
@@ -1356,8 +1448,8 @@ public class WifiSetActivity extends BaseActivity {
             }
         })
                 .setType(new boolean[]{false, false, false, true, true, false})// 默认全部显示
-                .setCancelText("取消")//取消按钮文字
-                .setSubmitText("确定")//确认按钮文字
+                .setCancelText(getString(R.string.m7取消))//取消按钮文字
+                .setSubmitText(getString(R.string.m9确定))//确认按钮文字
                 .setContentTextSize(18)
                 .setTitleSize(20)//标题文字大小
                 .setTitleText(tittleText)//标题文字

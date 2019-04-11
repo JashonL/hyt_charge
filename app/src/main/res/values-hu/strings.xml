@@ -220,7 +220,78 @@
     <string name="m217扫码刷卡">APP/RFID</string>
     <string name="m218仅刷卡充电">Only RFID</string>
     <string name="m219插枪充电">Plug&amp;Charge</string>
+    <!--220-->
+    <!--221-->
+    <!--222-->
+    <!--223-->
+    <!--224-->
+    <!--225-->
+    <!--226-->
+    <!--227-->
+    <!--228-->
+    <!--229-->
+    <!--230-->
+    <!--231-->
+    <!--232-->
+    <!--233-->
+    <!--234-->
+    <!--235-->
+    <!--236-->
+    <!--237-->
+    <!--238-->
+    <!--239-->
+    <!--240-->
+    <!--241-->
+    <!--242-->
+    <string name="m243设置成功">Set up successfully</string>
+    <string name="m244设置失败">Setup failed</string>
+    <!--245-->
+    <!--246-->
+    <string name="m247热点连接">热点连接</string>
+    <string name="m248连接至电桩热点">打开手机WLAN,将手机连接至电桩热点</string>
+    <string name="m249当前手机连接WiFi">当前手机连接WiFi</string>
+    <string name="m250刷新">刷新</string>
+    <string name="m251已连接下一步">已连接，下一步</string>
+    <string name="m252连接充电桩中">连接充电桩中…</string>
+    <string name="m253手机暂未连接wifi">手机暂未连接wifi</string>
+    <string name="m254连接失败">连接失败</string>
+    <string name="m255设备信息参数设置">设备信息参数设置</string>
+    <string name="m256设备以太网参数设置">设备以太网参数设置</string>
+    <string name="m257设备账号密码参数设置">设备账号密码参数设置</string>
+    <string name="m258设备服务器参数设置">设备服务器参数设置</string>
+    <string name="m259设备充电参数设置">设备充电参数设置</string>
+    <string name="m260语言">语言</string>
+    <string name="m261中文">中文</string>
+    <string name="m262泰文">泰文</string>
+    <string name="m263英文">英文</string>
+    <string name="m264读卡器秘钥">读卡器秘钥</string>
+    <string name="m265RCD保护值">RCD保护值</string>
+    <string name="m266Wifi名称">wifi名称</string>
+    <string name="m267Wifi密码">wifi密码</string>
+    <string name="m268蓝牙名称">蓝牙名称</string>
+    <string name="m269蓝牙密码">蓝牙密码</string>
+    <string name="m2704G用户名">4G用户名</string>
+    <string name="m2714G密码">4G密码</string>
+    <string name="m2724GAPN">4G APN</string>
+    <string name="m273握手登录授权秘钥">握手登录授权秘钥</string>
+    <string name="m274心跳间隔时间">心跳间隔时间(秒)</string>
+    <string name="m275PING间隔时间">PING间隔时间(秒)</string>
+    <string name="m276表计上传间隔时间">表计上传间隔时间(秒)</string>
+    <string name="m277电桩最大输出电流">电桩最大输出电流(A)</string>
+    <string name="m278保护温度">保护温度(℃)</string>
+    <string name="m279外部监测最大输入功率">外部监测最大输入功率(KW)</string>
+    <string name="m280允许充电时间">允许充电时间</string>
+    <string name="m281电桩断开">电桩断开</string>
+    <string name="m282结束时间">结束时间</string>
+    <string name="m283选择时间">选择时间</string>
+    <string name="m284未设置结束时间">未设置结束时间</string>
+    <string name="m285开始时间不能大于结束时间">开始时间不能大于结束时间</string>
+    <string name="m286输入值超出规定长度">输入值超出规定长度</string>
+    <string name="m287级">级</string>
 
+
+
+    <!--安卓额外部分-->
     <!--权限问题-->
     <string name="m权限获取某权限说明">Requested %1$s Permission</string>
     <string name="m权限请求">Requested Permission</string>
@@ -262,6 +333,7 @@
     <string name="wifi">wifi</string>
     <string name="wifi_ssid">wifi_ssid</string>
     <string name="wifi_key">wifi_key</string>
+    <string name="m去WLAN页面进行设置">去WLAN页面进行设置&gt;</string>
 </resources>
 
 
