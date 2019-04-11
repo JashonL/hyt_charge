@@ -133,16 +133,68 @@ public class ChargingParamsActivity extends BaseActivity {
                     case 13:
                         inputEdit("dns", (String) bean.getValue());
                         break;
+                    case 14:
+                        apMode();
+                        break;
                 }
 
             }
         });
     }
 
+
+    private void apMode(){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        new CircleDialog.Builder().setTitle(getString(R.string.m27温馨提示))
+                .setText(getString(R.string.m247热点连接))
+                .setPositive(getString(R.string.m9确定), v -> {
+                    Mydialog.Show(this);
+                    Map<String, Object> jsonMap = new HashMap<String, Object>();
+                    jsonMap.put("chargeId", Cons.mCurrentPile.getChargeId());//测试id
+                    jsonMap.put("userId",Cons.userBean.getAccountName());//测试id
+                    jsonMap.put("lan", getLanguage());//测试id
+                    String json = SmartHomeUtil.mapToJsonString(jsonMap);
+                    PostUtil.postJson(SmartHomeUrlUtil.postRequestSwitchAp(), json, new PostUtil.postListener() {
+                        @Override
+                        public void Params(Map<String, String> params) {
+
+                        }
+
+                        @Override
+                        public void success(String json) {
+                            Mydialog.Dismiss();
+                            try {
+                                JSONObject object = new JSONObject(json);
+                                int code = object.getInt("code");
+                                if (code == 0) {
+                                   jumpTo(ConnetWiFiActivity.class,false);
+                                }
+                                toast(object.getString("data"));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                        @Override
+                        public void LoginError(String str) {
+
+                        }
+                    });
+                })
+                .setNegative(getString(R.string.m7取消), v -> {
+
+                })
+                .show(fragmentManager);
+    }
+
+
     private void initResource() {
         mModels = new String[]{getString(R.string.m217扫码刷卡), getString(R.string.m218仅刷卡充电), getString(R.string.m219插枪充电)};
-        keys = new String[]{getString(R.string.m148基础参数), getString(R.string.m149电桩名称), getString(R.string.m150国家城市), getString(R.string.m151站点), getString(R.string.m152充电费率), getString(R.string.m153功率设置), getString(R.string.m154充电模式), getString(R.string.m155高级设置), getString(R.string.m156充电桩IP), getString(R.string.m157网关), getString(R.string.m158子网掩码), getString(R.string.m159网络MAC地址), getString(R.string.m160服务器URL), getString(R.string.m161DNS地址)};
-        for (int i = 0; i < 14; i++) {
+        keys = new String[]{getString(R.string.m148基础参数), getString(R.string.m149电桩名称), getString(R.string.m150国家城市), getString(R.string.m151站点), getString(R.string.m152充电费率), getString(R.string.m153功率设置), getString(R.string.m154充电模式),
+                getString(R.string.m155高级设置), getString(R.string.m156充电桩IP), getString(R.string.m157网关), getString(R.string.m158子网掩码), getString(R.string.m159网络MAC地址), getString(R.string.m160服务器URL),
+                getString(R.string.m161DNS地址),getString(R.string.m288进入AP模式)};
+        for (int i = 0; i < keys.length; i++) {
             ParamsSetBean bean = new ParamsSetBean();
             if (i == 0 || i == 7) {
                 bean.setTitle(keys[i]);
@@ -334,7 +386,7 @@ public class ChargingParamsActivity extends BaseActivity {
 
     private void refreshRv(PileSetBean.DataBean data) {
         List<ParamsSetBean> newlist = new ArrayList<>();
-        for (int i = 0; i < 14; i++) {
+        for (int i = 0; i < keys.length; i++) {
             ParamsSetBean bean = new ParamsSetBean();
             switch (i) {
                 case 0:
@@ -411,6 +463,11 @@ public class ChargingParamsActivity extends BaseActivity {
                     bean.setType(ParamsSetBean.PARAM_ITEM);
                     bean.setKey(keys[i]);
                     bean.setValue(data.getDns());
+                    break;
+                case 14:
+                    bean.setType(ParamsSetBean.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue("");
                     break;
             }
             newlist.add(bean);

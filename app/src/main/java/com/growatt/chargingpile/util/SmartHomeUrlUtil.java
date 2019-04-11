@@ -176,4 +176,9 @@ public class SmartHomeUrlUtil {
     public static String postRequestLastAction() {
         return SMARTHOME_BASE_URL + "/ocpp/api/LastAction";
     }
+
+
+    public static String postRequestSwitchAp() {
+        return SMARTHOME_BASE_URL + "/ocpp/user/appMode";
+    }
 }
