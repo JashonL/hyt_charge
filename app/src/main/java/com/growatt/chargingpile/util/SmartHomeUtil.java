@@ -62,25 +62,15 @@ public class SmartHomeUtil {
     }
 
     /**
-     * 新的密钥
+     * 生成新的密钥
      */
-    public static byte[] newkeys = new byte[4];
-
     public static byte[] createKey() {
         Random randomno = new Random();
         byte[] nbyte = new byte[4];
         randomno.nextBytes(nbyte);
-        setNewkeys(nbyte);
         return nbyte;
     }
 
-    public static byte[] getNewkeys() {
-        return newkeys;
-    }
-
-    private static void setNewkeys(byte[] keys) {
-        newkeys = keys;
-    }
 
     /**
      * @param buffer 有效数据数组

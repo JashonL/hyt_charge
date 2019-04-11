@@ -115,6 +115,10 @@ public class WifiSetActivity extends BaseActivity {
     private byte[] powerByte;
     private byte[] timeByte;
 
+    //加密密钥
+    private byte[] oldKey;
+    private byte[] newKey;
+
 
     //是否已经连接
     private boolean isConnected = false;
@@ -196,6 +200,12 @@ public class WifiSetActivity extends BaseActivity {
         initRecyclerView();
         connectSendMsg();
         setOnclickListener();
+        createNewKey();
+    }
+
+    private void createNewKey() {
+        oldKey = SmartHomeUtil.commonkeys;
+        newKey = SmartHomeUtil.createKey();
     }
 
     private void initIntent() {
@@ -537,7 +547,7 @@ public class WifiSetActivity extends BaseActivity {
                             break;
                         case 22:
                             boolean numeric = MyUtil.isNumeric(text);
-                            if (!numeric){
+                            if (!numeric) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
                             }
@@ -551,7 +561,7 @@ public class WifiSetActivity extends BaseActivity {
                             break;
                         case 23:
                             boolean numeric1 = MyUtil.isNumeric(text);
-                            if (!numeric1){
+                            if (!numeric1) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
                             }
@@ -565,7 +575,7 @@ public class WifiSetActivity extends BaseActivity {
                             break;
                         case 24:
                             boolean numeric2 = MyUtil.isNumeric(text);
-                            if (!numeric2){
+                            if (!numeric2) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
                             }
@@ -580,7 +590,7 @@ public class WifiSetActivity extends BaseActivity {
 
                         case 27:
                             boolean numeric3 = MyUtil.isNumeric(text);
-                            if (!numeric3){
+                            if (!numeric3) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
                             }
@@ -594,7 +604,7 @@ public class WifiSetActivity extends BaseActivity {
                             break;
                         case 28:
                             boolean numeric4 = MyUtil.isNumeric(text);
-                            if (!numeric4){
+                            if (!numeric4) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
                             }
@@ -608,7 +618,7 @@ public class WifiSetActivity extends BaseActivity {
                             break;
                         case 29:
                             boolean numeric5 = MyUtil.isNumeric(text);
-                            if (!numeric5){
+                            if (!numeric5) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
                             }
@@ -622,7 +632,7 @@ public class WifiSetActivity extends BaseActivity {
                             break;
                         case 30:
                             boolean numeric6 = MyUtil.isNumeric(text);
-                            if (!numeric6){
+                            if (!numeric6) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
                             }
@@ -648,7 +658,8 @@ public class WifiSetActivity extends BaseActivity {
         //交流直流
         byte devType = WiFiMsgConstant.CONSTANT_MSG_10;
         //加密方式
-        byte encryption = WiFiMsgConstant.CONSTANT_MSG_00;
+        byte encryption = WiFiMsgConstant.CONSTANT_MSG_01;
+        this.encryption = encryption;
         //指令
         byte cmd = WiFiMsgConstant.CMD_A0;
 
@@ -665,11 +676,9 @@ public class WifiSetActivity extends BaseActivity {
         byte[] idBytesReal = devId.getBytes();
         System.arraycopy(idBytesReal, 0, idBytes, idBytes.length - idBytesReal.length, idBytesReal.length);
         System.arraycopy(idBytes, 0, prayload, timeBytes.length, idBytes.length);
+        System.arraycopy(newKey, 0, prayload, timeBytes.length + idBytes.length, newKey.length);
 
-        byte[] key = SmartHomeUtil.commonkeys;
-        System.arraycopy(key, 0, prayload, timeBytes.length + idBytes.length, key.length);
-
-//        byte[] encryptedData = SmartHomeUtil.decodeKey(prayload, key);
+        byte[] encryptedData = SmartHomeUtil.decodeKey(prayload, oldKey);
 
         byte end = WiFiMsgConstant.BLT_MSG_END;
 
@@ -680,7 +689,7 @@ public class WifiSetActivity extends BaseActivity {
                 .setEncryption(encryption)
                 .setCmd(cmd)
                 .setDataLen(len)
-                .setPrayload(prayload)
+                .setPrayload(encryptedData)
                 .setMsgEnd(end)
                 .create();
 
@@ -692,7 +701,7 @@ public class WifiSetActivity extends BaseActivity {
         LogUtil.i("id：" + SmartHomeUtil.bytesToHexString(timeBytes));
         LogUtil.i("idBytes：" + SmartHomeUtil.bytesToHexString(idBytes));
         LogUtil.i("key：" + SmartHomeUtil.bytesToHexString(timeBytes));
-        LogUtil.i("keyBytes：" + SmartHomeUtil.bytesToHexString(key));
+        LogUtil.i("keyBytes：" + SmartHomeUtil.bytesToHexString(newKey));
     }
 
 
@@ -718,7 +727,7 @@ public class WifiSetActivity extends BaseActivity {
         byte[] timeBytes = time.getBytes();
         System.arraycopy(timeBytes, 0, prayload, 0, timeBytes.length);
 
-//        byte[] encryptedData = SmartHomeUtil.decodeKey(prayload, key);
+        byte[] encryptedData = SmartHomeUtil.decodeKey(prayload, newKey);
 
         byte end = WiFiMsgConstant.BLT_MSG_END;
 
@@ -729,7 +738,7 @@ public class WifiSetActivity extends BaseActivity {
                 .setEncryption(encryption)
                 .setCmd(cmd)
                 .setDataLen(len)
-                .setPrayload(prayload)
+                .setPrayload(encryptedData)
                 .setMsgEnd(end)
                 .create();
 
@@ -762,7 +771,7 @@ public class WifiSetActivity extends BaseActivity {
         byte[] prayload = new byte[1];
         byte[] getInfo = "1".getBytes();
         System.arraycopy(getInfo, 0, prayload, 0, getInfo.length);
-//        byte[] encryptedData = SmartHomeUtil.decodeKey(prayload, key);
+        byte[] encryptedData = SmartHomeUtil.decodeKey(prayload, newKey);
 
         byte end = WiFiMsgConstant.BLT_MSG_END;
 
@@ -773,7 +782,7 @@ public class WifiSetActivity extends BaseActivity {
                 .setEncryption(encryption)
                 .setCmd(cmd)
                 .setDataLen(len)
-                .setPrayload(prayload)
+                .setPrayload(encryptedData)
                 .setMsgEnd(end)
                 .create();
 
@@ -813,7 +822,7 @@ public class WifiSetActivity extends BaseActivity {
         System.arraycopy(rcdByte, 0, prayload, idByte.length + lanByte.length + cardByte.length, rcdByte.length);
 
 
-//        byte[] encryptedData = SmartHomeUtil.decodeKey(prayload, key);
+        byte[] encryptedData = SmartHomeUtil.decodeKey(prayload, newKey);
 
         byte end = WiFiMsgConstant.BLT_MSG_END;
 
@@ -824,7 +833,7 @@ public class WifiSetActivity extends BaseActivity {
                 .setEncryption(encryption)
                 .setCmd(cmd)
                 .setDataLen(len)
-                .setPrayload(prayload)
+                .setPrayload(encryptedData)
                 .setMsgEnd(end)
                 .create();
 
@@ -862,7 +871,7 @@ public class WifiSetActivity extends BaseActivity {
         System.arraycopy(dnsByte, 0, prayload, ipByte.length + gatewayByte.length + maskByte.length + macByte.length, dnsByte.length);
 
 
-//        byte[] encryptedData = SmartHomeUtil.decodeKey(prayload, key);
+        byte[] encryptedData = SmartHomeUtil.decodeKey(prayload, newKey);
 
         byte end = WiFiMsgConstant.BLT_MSG_END;
 
@@ -873,7 +882,7 @@ public class WifiSetActivity extends BaseActivity {
                 .setEncryption(encryption)
                 .setCmd(cmd)
                 .setDataLen(len)
-                .setPrayload(prayload)
+                .setPrayload(encryptedData)
                 .setMsgEnd(end)
                 .create();
 
@@ -914,7 +923,7 @@ public class WifiSetActivity extends BaseActivity {
         System.arraycopy(apn4GByte, 0, prayload, ssidByte.length + wifiKeyByte.length + bltNameByte.length + bltPwdByte.length + name4GByte.length + pwd4GByte.length, apn4GByte.length);
 
 
-//        byte[] encryptedData = SmartHomeUtil.decodeKey(prayload, key);
+        byte[] encryptedData = SmartHomeUtil.decodeKey(prayload, newKey);
 
         byte end = WiFiMsgConstant.BLT_MSG_END;
 
@@ -925,7 +934,7 @@ public class WifiSetActivity extends BaseActivity {
                 .setEncryption(encryption)
                 .setCmd(cmd)
                 .setDataLen(len)
-                .setPrayload(prayload)
+                .setPrayload(encryptedData)
                 .setMsgEnd(end)
                 .create();
 
@@ -962,7 +971,7 @@ public class WifiSetActivity extends BaseActivity {
         System.arraycopy(intervalByte, 0, prayload, 98, intervalByte.length);
 
 
-//        byte[] encryptedData = SmartHomeUtil.decodeKey(prayload, key);
+        byte[] encryptedData = SmartHomeUtil.decodeKey(prayload, newKey);
 
         byte end = WiFiMsgConstant.BLT_MSG_END;
 
@@ -973,7 +982,7 @@ public class WifiSetActivity extends BaseActivity {
                 .setEncryption(encryption)
                 .setCmd(cmd)
                 .setDataLen(len)
-                .setPrayload(prayload)
+                .setPrayload(encryptedData)
                 .setMsgEnd(end)
                 .create();
 
@@ -1012,7 +1021,7 @@ public class WifiSetActivity extends BaseActivity {
         System.arraycopy(timeByte, 0, prayload, 13, timeByte.length);
 
 
-//        byte[] encryptedData = SmartHomeUtil.decodeKey(prayload, key);
+        byte[] encryptedData = SmartHomeUtil.decodeKey(prayload, newKey);
 
         byte end = WiFiMsgConstant.BLT_MSG_END;
 
@@ -1023,7 +1032,7 @@ public class WifiSetActivity extends BaseActivity {
                 .setEncryption(encryption)
                 .setCmd(cmd)
                 .setDataLen(len)
-                .setPrayload(prayload)
+                .setPrayload(encryptedData)
                 .setMsgEnd(end)
                 .create();
 
@@ -1034,44 +1043,30 @@ public class WifiSetActivity extends BaseActivity {
 
     private void parseReceivData(byte[] data) {
         int length = data.length;
-        if (length == 3) {//异常应答
-            byte cmd = data[2];//指令类型
-            switch (cmd) {
-                case WiFiMsgConstant.ERROR_MSG_E1:
-                    break;
-                case WiFiMsgConstant.ERROR_MSG_E2:
-                    break;
-                case WiFiMsgConstant.ERROR_MSG_E3:
-                    break;
-                case WiFiMsgConstant.ERROR_MSG_E4:
-                    break;
-                case WiFiMsgConstant.ERROR_MSG_E5:
-                    break;
-                case WiFiMsgConstant.ERROR_MSG_E6:
-                    break;
-                case WiFiMsgConstant.ERROR_MSG_E7:
-                    break;
-                case WiFiMsgConstant.ERROR_MSG_E8:
-                    break;
-                case WiFiMsgConstant.ERROR_MSG_E9:
-                    break;
-                case WiFiMsgConstant.ERROR_MSG_EA:
-                    break;
-                default:
-                    break;
-            }
-
-        } else {
-            if (length < 4) return;
+        if (length > 4) {
             byte cmd = data[4];//指令类型
+            //校验位
+            byte sum = data[length-2];
+            byte checkSum = SmartHomeUtil.getCheckSum(data);
+            if (checkSum != sum) {
+                LogUtil.d("数据校验失败-->" + "返回校验数据：" + sum + "真实数据校验:" + checkSum);
+                return;
+            }
+            int len=(int) data[5];
+            //有效数据
+            byte[] prayload = new byte[len];
+            System.arraycopy(data, 6, prayload, 0, prayload.length);
+            if (WifiSetActivity.this.encryption == WiFiMsgConstant.CONSTANT_MSG_01) {//解密
+                if (cmd==WiFiMsgConstant.CMD_A0)
+                prayload = SmartHomeUtil.decodeKey(prayload, oldKey);
+                else  prayload = SmartHomeUtil.decodeKey(prayload, newKey);
+            }
             switch (cmd) {
                 case WiFiMsgConstant.CMD_A0://连接命令
                     //电桩类型，直流或者交流
                     devType = data[2];
-                    //加密还是不加密
-                    encryption = data[3];
                     //是否允许进入
-                    byte allow = data[6];
+                    byte allow = prayload[0];
                     Mydialog.Dismiss();
                     if ((int) allow == 0) {
                         isAllowed = false;
@@ -1084,7 +1079,7 @@ public class WifiSetActivity extends BaseActivity {
                     break;
 
                 case WiFiMsgConstant.CMD_A1:
-                    byte exit = data[6];
+                    byte exit = prayload[0];
                     if ((int) exit == 1) {
                         T.make(getString(R.string.m281电桩断开), WifiSetActivity.this);
                         SocketClientUtil.close(mClientUtil);
@@ -1093,12 +1088,12 @@ public class WifiSetActivity extends BaseActivity {
 
                 case WiFiMsgConstant.CONSTANT_MSG_01://获取信息参数
                     idByte = new byte[20];
-                    System.arraycopy(data, 6, idByte, 0, 20);
+                    System.arraycopy(prayload, 0, idByte, 0, 20);
                     String devId = MyUtil.ByteToString(idByte);
                     mAdapter.getData().get(1).setValue(devId);
 
                     lanByte = new byte[1];
-                    System.arraycopy(data, 26, lanByte, 0, 1);
+                    System.arraycopy(prayload, 20, lanByte, 0, 1);
                     String lan = MyUtil.ByteToString(lanByte);
                     if ("1".equals(lan)) {
                         lan = lanArray[0];
@@ -1110,13 +1105,13 @@ public class WifiSetActivity extends BaseActivity {
                     mAdapter.getData().get(2).setValue(lan);
 
                     cardByte = new byte[6];
-                    System.arraycopy(data, 27, cardByte, 0, 6);
+                    System.arraycopy(prayload, 21, cardByte, 0, 6);
                     String card = MyUtil.ByteToString(cardByte);
                     mAdapter.getData().get(3).setValue(card);
 
 
                     rcdByte = new byte[1];
-                    System.arraycopy(data, 33, rcdByte, 0, 1);
+                    System.arraycopy(prayload, 27, rcdByte, 0, 1);
                     String rcd = MyUtil.ByteToString(rcdByte);
                     int i = Integer.parseInt(rcd);
                     if (i <= 0) i = 1;
@@ -1130,29 +1125,29 @@ public class WifiSetActivity extends BaseActivity {
                     break;
                 case WiFiMsgConstant.CONSTANT_MSG_02://获取以太网参数
                     ipByte = new byte[15];
-                    System.arraycopy(data, 6, ipByte, 0, 15);
+                    System.arraycopy(prayload, 0, ipByte, 0, 15);
                     String devIp = MyUtil.ByteToString(ipByte);
                     mAdapter.getData().get(6).setValue(devIp);
 
                     gatewayByte = new byte[15];
-                    System.arraycopy(data, 21, gatewayByte, 0, 15);
+                    System.arraycopy(prayload, 15, gatewayByte, 0, 15);
                     String gateway = MyUtil.ByteToString(gatewayByte);
                     mAdapter.getData().get(7).setValue(gateway);
 
 
                     maskByte = new byte[15];
-                    System.arraycopy(data, 36, maskByte, 0, 15);
+                    System.arraycopy(prayload, 30, maskByte, 0, 15);
                     String mask = MyUtil.ByteToString(maskByte);
                     mAdapter.getData().get(8).setValue(mask);
 
 
                     macByte = new byte[17];
-                    System.arraycopy(data, 51, macByte, 0, 17);
+                    System.arraycopy(prayload, 45, macByte, 0, 17);
                     String mac = MyUtil.ByteToString(macByte);
                     mAdapter.getData().get(9).setValue(mac);
 
                     dnsByte = new byte[15];
-                    System.arraycopy(data, 68, dnsByte, 0, 15);
+                    System.arraycopy(prayload, 62, dnsByte, 0, 15);
                     String dns = MyUtil.ByteToString(dnsByte);
                     mAdapter.getData().get(10).setValue(dns);
 
@@ -1161,38 +1156,38 @@ public class WifiSetActivity extends BaseActivity {
                     break;
                 case WiFiMsgConstant.CONSTANT_MSG_03://获取设备帐号密码参数
                     ssidByte = new byte[16];
-                    System.arraycopy(data, 6, ssidByte, 0, 16);
+                    System.arraycopy(prayload, 0, ssidByte, 0, 16);
                     String ssid = MyUtil.ByteToString(ssidByte);
                     mAdapter.getData().get(12).setValue(ssid);
 
                     wifiKeyByte = new byte[16];
-                    System.arraycopy(data, 22, wifiKeyByte, 0, 16);
+                    System.arraycopy(prayload, 16, wifiKeyByte, 0, 16);
                     String wifikey = MyUtil.ByteToString(wifiKeyByte);
                     mAdapter.getData().get(13).setValue(wifikey);
 
 
                     bltNameByte = new byte[16];
-                    System.arraycopy(data, 38, bltNameByte, 0, 16);
+                    System.arraycopy(prayload, 32, bltNameByte, 0, 16);
                     String bltName = MyUtil.ByteToString(bltNameByte);
                     mAdapter.getData().get(14).setValue(bltName);
 
                     bltPwdByte = new byte[16];
-                    System.arraycopy(data, 54, bltPwdByte, 0, 16);
+                    System.arraycopy(prayload, 48, bltPwdByte, 0, 16);
                     String bltPwd = MyUtil.ByteToString(bltPwdByte);
                     mAdapter.getData().get(15).setValue(bltPwd);
 
                     name4GByte = new byte[16];
-                    System.arraycopy(data, 70, name4GByte, 0, 16);
+                    System.arraycopy(prayload, 64, name4GByte, 0, 16);
                     String name4G = MyUtil.ByteToString(name4GByte);
                     mAdapter.getData().get(16).setValue(name4G);
 
                     pwd4GByte = new byte[16];
-                    System.arraycopy(data, 86, pwd4GByte, 0, 16);
+                    System.arraycopy(prayload, 80, pwd4GByte, 0, 16);
                     String pwd4G = MyUtil.ByteToString(pwd4GByte);
                     mAdapter.getData().get(17).setValue(pwd4G);
 
                     apn4GByte = new byte[16];
-                    System.arraycopy(data, 102, apn4GByte, 0, 16);
+                    System.arraycopy(prayload, 96, apn4GByte, 0, 16);
                     String apn4G = MyUtil.ByteToString(apn4GByte);
                     mAdapter.getData().get(18).setValue(apn4G);
 
@@ -1201,27 +1196,27 @@ public class WifiSetActivity extends BaseActivity {
                     break;
                 case WiFiMsgConstant.CONSTANT_MSG_04://获取服务器参数
                     urlByte = new byte[70];
-                    System.arraycopy(data, 6, urlByte, 0, 70);
+                    System.arraycopy(prayload, 0, urlByte, 0, 70);
                     String url = MyUtil.ByteToString(urlByte);
                     mAdapter.getData().get(20).setValue(url);
 
                     hskeyByte = new byte[20];
-                    System.arraycopy(data, 76, hskeyByte, 0, 20);
+                    System.arraycopy(prayload, 70, hskeyByte, 0, 20);
                     String hskey = MyUtil.ByteToString(hskeyByte);
                     mAdapter.getData().get(21).setValue(hskey);
 
                     heatByte = new byte[4];
-                    System.arraycopy(data, 96, heatByte, 0, 4);
+                    System.arraycopy(prayload, 90, heatByte, 0, 4);
                     String heat = MyUtil.ByteToString(heatByte);
                     mAdapter.getData().get(22).setValue(heat);
 
                     pingByte = new byte[4];
-                    System.arraycopy(data, 100, pingByte, 0, 4);
+                    System.arraycopy(prayload, 94, pingByte, 0, 4);
                     String ping = MyUtil.ByteToString(pingByte);
                     mAdapter.getData().get(23).setValue(ping);
 
                     intervalByte = new byte[4];
-                    System.arraycopy(data, 104, intervalByte, 0, 4);
+                    System.arraycopy(prayload, 98, intervalByte, 0, 4);
                     String interval = MyUtil.ByteToString(intervalByte);
                     mAdapter.getData().get(24).setValue(interval);
 
@@ -1231,7 +1226,7 @@ public class WifiSetActivity extends BaseActivity {
 
                 case WiFiMsgConstant.CONSTANT_MSG_05://获取充电参数
                     modeByte = new byte[1];
-                    System.arraycopy(data, 6, modeByte, 0, 1);
+                    System.arraycopy(prayload, 0, modeByte, 0, 1);
                     String mode = MyUtil.ByteToString(modeByte);
                     int modeSet = Integer.parseInt(mode);
                     if (modeSet <= 0) modeSet = 1;
@@ -1239,27 +1234,27 @@ public class WifiSetActivity extends BaseActivity {
                     mAdapter.getData().get(26).setValue(modeValue);
 
                     maxCurrentByte = new byte[2];
-                    System.arraycopy(data, 7, maxCurrentByte, 0, 2);
+                    System.arraycopy(prayload, 1, maxCurrentByte, 0, 2);
                     String maxCurrent = MyUtil.ByteToString(maxCurrentByte);
                     mAdapter.getData().get(27).setValue(maxCurrent);
 
                     rateByte = new byte[5];
-                    System.arraycopy(data, 9, rateByte, 0, 5);
+                    System.arraycopy(prayload, 3, rateByte, 0, 5);
                     String rate = MyUtil.ByteToString(rateByte);
                     mAdapter.getData().get(28).setValue(rate);
 
                     tempByte = new byte[3];
-                    System.arraycopy(data, 14, tempByte, 0, 3);
+                    System.arraycopy(prayload, 8, tempByte, 0, 3);
                     String temp = MyUtil.ByteToString(tempByte);
                     mAdapter.getData().get(29).setValue(temp);
 
                     powerByte = new byte[2];
-                    System.arraycopy(data, 17, powerByte, 0, 2);
+                    System.arraycopy(prayload, 11, powerByte, 0, 2);
                     String power = MyUtil.ByteToString(powerByte);
                     mAdapter.getData().get(30).setValue(power);
 
                     timeByte = new byte[11];
-                    System.arraycopy(data, 19, timeByte, 0, 11);
+                    System.arraycopy(prayload, 13, timeByte, 0, 11);
                     String time = MyUtil.ByteToString(timeByte);
                     mAdapter.getData().get(31).setValue(time);
 
@@ -1271,7 +1266,7 @@ public class WifiSetActivity extends BaseActivity {
                 case WiFiMsgConstant.CONSTANT_MSG_13:
                 case WiFiMsgConstant.CONSTANT_MSG_14:
                 case WiFiMsgConstant.CONSTANT_MSG_15:
-                    byte result = data[6];
+                    byte result = prayload[0];
                     if ((int) result == 1) {
                         getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_01);
                         T.make(getString(R.string.m243设置成功), WifiSetActivity.this);
@@ -1280,8 +1275,8 @@ public class WifiSetActivity extends BaseActivity {
                     }
                     break;
             }
-
         }
+
 
     }
 

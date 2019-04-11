@@ -64,6 +64,24 @@
                     android:textColor="@color/title_1"
                     android:textSize="@dimen/xa30" />
 
+                <LinearLayout
+                    android:id="@+id/ll_refresh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_marginLeft="@dimen/xa24"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/get_wifi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/m250刷新"
+                        android:textColor="@color/blue_1"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
 
             </LinearLayout>
 

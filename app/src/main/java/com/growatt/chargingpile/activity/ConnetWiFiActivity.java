@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Paint;
 import android.net.DhcpInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
@@ -67,6 +68,11 @@ public class ConnetWiFiActivity extends BaseActivity {
     Button btnOk;
     @BindView(R.id.ll_setwifi)
     LinearLayout llSetwifi;
+    @BindView(R.id.get_wifi)
+    TextView tvGetWifi;
+    @BindView(R.id.ll_refresh)
+    LinearLayout llRefresh;
+
 
 
     public String mIP;//服务器地址
@@ -140,6 +146,8 @@ public class ConnetWiFiActivity extends BaseActivity {
         ivLeft.setImageResource(R.drawable.back);
         tvTitle.setText(R.string.m247热点连接);
         tvTitle.setTextColor(ContextCompat.getColor(this, R.color.title_1));
+        tvGetWifi.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
+        tvGetWifi.getPaint().setAntiAlias(true);//抗锯齿
     }
 
 
@@ -204,7 +212,7 @@ public class ConnetWiFiActivity extends BaseActivity {
         startActivity(intent);
     }
 
-    @OnClick({R.id.ll_setwifi, R.id.ivLeft, R.id.btnOk})
+    @OnClick({R.id.ll_setwifi, R.id.ivLeft, R.id.btnOk,R.id.ll_refresh})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_setwifi:
@@ -215,6 +223,9 @@ public class ConnetWiFiActivity extends BaseActivity {
                 break;
             case R.id.btnOk:
                 searchDevice();
+                break;
+            case R.id.ll_refresh:
+                checkWifiNetworkStatus();
                 break;
         }
     }
