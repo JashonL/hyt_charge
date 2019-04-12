@@ -290,7 +290,8 @@
     <string name="m287级">level </string>
     <string name="m288级"> not connected</string>
     <string name="m289进入AP模式">Switch to AP mode</string>
-
+    <string name="m290超出设置范围">Out of setting range</string>
+    <string name="m291设定值不能小于">Value cannot be less than 3</string>
 
     <!--安卓额外部分-->
     <!--权限问题-->

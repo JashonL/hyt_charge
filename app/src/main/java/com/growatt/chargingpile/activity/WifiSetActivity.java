@@ -187,6 +187,7 @@ public class WifiSetActivity extends BaseActivity {
             srlPull.setRefreshing(false);
         }
     };
+    private String tips;
 
 
     @Override
@@ -323,9 +324,27 @@ public class WifiSetActivity extends BaseActivity {
      * item 修改项
      */
     private void inputEdit(final int key, final String value) {
+        tips = "";
+        switch (key) {
+            case 22:
+            case 23:
+            case 24://心跳间隔时间、PING间隔时间、表记上传时间
+                tips = "5~300(s)";
+                break;
+            case 27://输出最大电流
+                tips = getString(R.string.m291设定值不能小于);
+                break;
+            case 29://保护温度
+                tips = "65~85(℃)";
+                break;
+            case 30://外部检测最大输入功率
+                tips = getString(R.string.m291设定值不能小于);
+                break;
+        }
         new CircleDialog.Builder()
                 .setWidth(0.8f)
                 .setTitle(this.getString(R.string.m27温馨提示))
+                .setInputHint(tips)
                 .setInputText(value)
                 .setNegative(this.getString(R.string.m7取消), null)
                 .setPositiveInput(this.getString(R.string.m9确定), (text, v) -> {
@@ -546,11 +565,17 @@ public class WifiSetActivity extends BaseActivity {
                             setUrl();
                             break;
                         case 22:
-                            boolean numeric = MyUtil.isNumeric(text);
+                            boolean numeric = MyUtil.isNumberiZidai(text);
                             if (!numeric) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
                             }
+
+                            if (Integer.parseInt(text) < 5 || Integer.parseInt(text) > 300) {
+                                T.make(getString(R.string.m290超出设置范围) + tips, WifiSetActivity.this);
+                                return;
+                            }
+
                             if (bytes.length > 4) {
                                 T.make(getString(R.string.m286输入值超出规定长度), this);
                                 return;
@@ -560,11 +585,17 @@ public class WifiSetActivity extends BaseActivity {
                             setUrl();
                             break;
                         case 23:
-                            boolean numeric1 = MyUtil.isNumeric(text);
+                            boolean numeric1 = MyUtil.isNumberiZidai(text);
                             if (!numeric1) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
                             }
+
+                            if (Integer.parseInt(text) < 5 || Integer.parseInt(text) > 300) {
+                                T.make(getString(R.string.m290超出设置范围) + tips, WifiSetActivity.this);
+                                return;
+                            }
+
                             if (bytes.length > 4) {
                                 T.make(getString(R.string.m286输入值超出规定长度), this);
                                 return;
@@ -574,11 +605,17 @@ public class WifiSetActivity extends BaseActivity {
                             setUrl();
                             break;
                         case 24:
-                            boolean numeric2 = MyUtil.isNumeric(text);
+                            boolean numeric2 = MyUtil.isNumberiZidai(text);
                             if (!numeric2) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
                             }
+
+                            if (Integer.parseInt(text) < 5 || Integer.parseInt(text) > 300) {
+                                T.make(getString(R.string.m290超出设置范围) + tips, WifiSetActivity.this);
+                                return;
+                            }
+
                             if (bytes.length > 4) {
                                 T.make(getString(R.string.m286输入值超出规定长度), this);
                                 return;
@@ -589,11 +626,17 @@ public class WifiSetActivity extends BaseActivity {
                             break;
 
                         case 27:
-                            boolean numeric3 = MyUtil.isNumeric(text);
+                            boolean numeric3 = MyUtil.isNumberiZidai(text);
                             if (!numeric3) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
                             }
+
+                            if (Integer.parseInt(text) < 3) {
+                                T.make(getString(R.string.m291设定值不能小于), this);
+                                return;
+                            }
+
                             if (bytes.length > 2) {
                                 T.make(getString(R.string.m286输入值超出规定长度), this);
                                 return;
@@ -617,11 +660,17 @@ public class WifiSetActivity extends BaseActivity {
                             setCharging();
                             break;
                         case 29:
-                            boolean numeric5 = MyUtil.isNumeric(text);
+                            boolean numeric5 = MyUtil.isNumberiZidai(text);
                             if (!numeric5) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
                             }
+
+                            if (Integer.parseInt(text) < 65 || Integer.parseInt(text) > 85) {
+                                T.make(getString(R.string.m290超出设置范围) + tips, WifiSetActivity.this);
+                                return;
+                            }
+
                             if (bytes.length > 3) {
                                 T.make(getString(R.string.m286输入值超出规定长度), this);
                                 return;
@@ -631,9 +680,13 @@ public class WifiSetActivity extends BaseActivity {
                             setCharging();
                             break;
                         case 30:
-                            boolean numeric6 = MyUtil.isNumeric(text);
+                            boolean numeric6 = MyUtil.isNumberiZidai(text);
                             if (!numeric6) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
+                                return;
+                            }
+                            if (Integer.parseInt(text) < 3) {
+                                T.make(getString(R.string.m291设定值不能小于), this);
                                 return;
                             }
                             if (bytes.length > 2) {
@@ -1046,22 +1099,22 @@ public class WifiSetActivity extends BaseActivity {
         if (length > 4) {
             byte cmd = data[4];//指令类型
             //校验位
-            byte sum = data[length-2];
+            byte sum = data[length - 2];
             byte checkSum = SmartHomeUtil.getCheckSum(data);
             if (checkSum != sum) {
                 LogUtil.d("数据校验失败-->" + "返回校验数据：" + sum + "真实数据校验:" + checkSum);
                 return;
             }
-            int len=(int) data[5];
+            int len = (int) data[5];
             //有效数据
             byte[] prayload = new byte[len];
             System.arraycopy(data, 6, prayload, 0, prayload.length);
             if (WifiSetActivity.this.encryption == WiFiMsgConstant.CONSTANT_MSG_01) {//解密
-                if (cmd==WiFiMsgConstant.CMD_A0)
-                prayload = SmartHomeUtil.decodeKey(prayload, oldKey);
-                else  prayload = SmartHomeUtil.decodeKey(prayload, newKey);
+                if (cmd == WiFiMsgConstant.CMD_A0)
+                    prayload = SmartHomeUtil.decodeKey(prayload, oldKey);
+                else prayload = SmartHomeUtil.decodeKey(prayload, newKey);
             }
-            Log.d("liaojinsha",SmartHomeUtil.bytesToHexString(prayload));
+            Log.d("liaojinsha", SmartHomeUtil.bytesToHexString(prayload));
             switch (cmd) {
                 case WiFiMsgConstant.CMD_A0://连接命令
                     //电桩类型，直流或者交流

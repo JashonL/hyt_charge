@@ -516,7 +516,7 @@ public class MyUtil {
 
 
 
-    private static boolean isNumberiZidai(String string) {
+    public static boolean isNumberiZidai(String string) {
         for (int i = 0; i < string.length(); i++) {
             if (!Character.isDigit(string.charAt(i))) return false;
         }
