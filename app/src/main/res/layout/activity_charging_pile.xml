@@ -28,7 +28,9 @@
                 android:gravity="center"
                 android:text="@string/m102充电桩"
                 android:textColor="@color/headerView"
-                android:textSize="@dimen/xa37" />
+                android:textSize="@dimen/xa37"
+                android:layout_toStartOf="@+id/ivRight"
+                android:layout_toEndOf="@+id/ivLeft" />
 
             <ImageView
                 android:id="@+id/ivLeft"
@@ -42,9 +44,10 @@
                 android:paddingRight="@dimen/xa18"
                 android:paddingTop="@dimen/xa35" />
 
+
             <ImageView
                 android:id="@+id/ivRight"
-                android:layout_width="@dimen/xa140"
+                android:layout_width="@dimen/xa105"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
@@ -95,9 +98,9 @@
                     android:layout_height="@dimen/xa44"
                     android:layout_marginLeft="@dimen/xa28"
                     android:layout_marginTop="@dimen/xa28"
-                    android:visibility="gone"
                     android:background="@drawable/shape_button_gradient_normal"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:visibility="gone">
 
                     <ImageView
                         android:id="@+id/iv_limit"
@@ -110,13 +113,13 @@
                         android:id="@+id/tv_solar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/xa10"
+                        android:layout_marginStart="@dimen/xa10"
+                        android:layout_toEndOf="@+id/iv_limit"
                         android:layout_toRightOf="@+id/iv_limit"
                         android:text="@string/solar"
-                        android:layout_marginLeft="@dimen/xa10"
-                        android:textSize="@dimen/xa28"
                         android:textColor="@color/headerView"
-                        android:layout_marginStart="@dimen/xa10"
-                        android:layout_toEndOf="@+id/iv_limit" />
+                        android:textSize="@dimen/xa28" />
 
                 </RelativeLayout>
 
@@ -152,24 +155,23 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/iv_charging_icon"
-                                android:layout_marginTop="@dimen/xa12"
-                              >
+                                android:layout_marginTop="@dimen/xa12">
 
                                 <TextView
                                     android:id="@+id/tv_AC_DC"
-                                    android:gravity="right"
                                     android:layout_width="@dimen/xa135"
                                     android:layout_height="@dimen/xa35"
                                     android:layout_marginRight="@dimen/xa5"
                                     android:layout_toLeftOf="@+id/vDivider"
+                                    android:gravity="right"
                                     android:textColor="@color/title_3"
                                     android:textSize="@dimen/xa28" />
 
                                 <View
                                     android:id="@+id/vDivider"
-                                    android:layout_centerInParent="true"
                                     android:layout_width="@dimen/xa1"
                                     android:layout_height="@dimen/xa35"
+                                    android:layout_centerInParent="true"
                                     android:background="@color/title_3" />
 
                                 <TextView

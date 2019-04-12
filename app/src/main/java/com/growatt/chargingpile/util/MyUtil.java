@@ -526,7 +526,7 @@ public class MyUtil {
 
 
     public static boolean isLetterDigit(String s){
-        String regex="[a-z,0-9,A-Z,-]*";
+        String regex="[a-z,0-9,A-Z,_,-]*";
         Pattern pattern=Pattern.compile(regex);
         return pattern.matcher(s).matches();
     }

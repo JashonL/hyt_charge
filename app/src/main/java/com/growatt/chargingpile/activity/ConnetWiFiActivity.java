@@ -33,6 +33,7 @@ import com.growatt.chargingpile.util.DeviceSearchThread;
 import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.PermissionCodeUtil;
+import com.growatt.chargingpile.util.T;
 import com.mylhyl.circledialog.CircleDialog;
 
 import java.util.ArrayList;
@@ -74,7 +75,6 @@ public class ConnetWiFiActivity extends BaseActivity {
     LinearLayout llRefresh;
 
 
-
     public String mIP;//服务器地址
     public int mPort = 8888;//服务器端口号
     //wifi名称
@@ -86,6 +86,7 @@ public class ConnetWiFiActivity extends BaseActivity {
     private Dialog dialog;
     private TextView tvProgress;
     private boolean isCancel = false;
+    private int second = 5;
 
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -107,8 +108,14 @@ public class ConnetWiFiActivity extends BaseActivity {
                     showProgress();
                     break;
                 case SEARCH_DEVICE_FINISH:
+                    second--;
+                    tvProgress.setText(String.valueOf(second));
                     if (mDeviceList.size() == 0) {
-                        if (!isCancel) searchDevice();
+                        if (!isCancel && second > 0) searchDevice();
+                        else {
+                            T.make(getString(R.string.m288级),ConnetWiFiActivity.this);
+                            dialog.dismiss();
+                        }
                     } else {
                         dialog.dismiss();
                         mIP = getServerIp();
@@ -162,9 +169,12 @@ public class ConnetWiFiActivity extends BaseActivity {
             } else {
                 currentSSID = MyUtil.getWIFISSID(this);
             }
+            setWiFiName();
+            mIP = getServerIp();
+        } else {
+            tvWifiName.setText(R.string.m288级);
         }
-        setWiFiName();
-        mIP = getServerIp();
+
     }
 
 
@@ -176,6 +186,8 @@ public class ConnetWiFiActivity extends BaseActivity {
                 currentSSID = MyUtil.getWIFISSID(this);
                 setWiFiName();
                 mIP = getServerIp();
+            } else {
+                tvWifiName.setText(R.string.m288级);
             }
         }
     }
@@ -212,7 +224,7 @@ public class ConnetWiFiActivity extends BaseActivity {
         startActivity(intent);
     }
 
-    @OnClick({R.id.ll_setwifi, R.id.ivLeft, R.id.btnOk,R.id.ll_refresh})
+    @OnClick({R.id.ll_setwifi, R.id.ivLeft, R.id.btnOk, R.id.ll_refresh})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_setwifi:
@@ -222,6 +234,8 @@ public class ConnetWiFiActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.btnOk:
+                second = 60;
+                isCancel = false;
                 searchDevice();
                 break;
             case R.id.ll_refresh:
@@ -256,7 +270,6 @@ public class ConnetWiFiActivity extends BaseActivity {
 
 
     private void searchDevice() {
-        isCancel = false;
         new DeviceSearchThread() {
             @Override
             public void onSearchStart() {
@@ -283,6 +296,7 @@ public class ConnetWiFiActivity extends BaseActivity {
         if (dialog == null) {
             View view = View.inflate(this, R.layout.progress_dialog_layout, null);
             tvProgress = view.findViewById(R.id.tv_progress);
+            tvProgress.setText(String.valueOf(second));
             Button btnCancel = view.findViewById(R.id.btnCancel);
             btnCancel.setOnClickListener(v -> {
                 isCancel = true;
@@ -300,7 +314,6 @@ public class ConnetWiFiActivity extends BaseActivity {
             dialog.setCanceledOnTouchOutside(false);
         }
         dialog.show();
-        tvProgress.setText(R.string.m252连接充电桩中);
     }
 
 }

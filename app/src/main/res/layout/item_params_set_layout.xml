@@ -23,15 +23,18 @@
 
         <TextView
             android:id="@+id/tv_value"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginRight="@dimen/xa21"
             android:layout_toLeftOf="@+id/iv_more1"
+            android:layout_toRightOf="@+id/tv_key"
             android:gravity="center_vertical"
             android:textColor="@color/title_3"
             android:textSize="@dimen/xa30"
             android:layout_marginEnd="@dimen/xa21"
-            android:layout_toStartOf="@+id/iv_more1" />
+            android:layout_marginStart="@dimen/xa21"
+            android:layout_toStartOf="@+id/iv_more1"
+            android:layout_toEndOf="@+id/tv_key" />
 
         <ImageView
             android:id="@+id/iv_more1"

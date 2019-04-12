@@ -193,7 +193,7 @@ public class ChargingParamsActivity extends BaseActivity {
         mModels = new String[]{getString(R.string.m217扫码刷卡), getString(R.string.m218仅刷卡充电), getString(R.string.m219插枪充电)};
         keys = new String[]{getString(R.string.m148基础参数), getString(R.string.m149电桩名称), getString(R.string.m150国家城市), getString(R.string.m151站点), getString(R.string.m152充电费率), getString(R.string.m153功率设置), getString(R.string.m154充电模式),
                 getString(R.string.m155高级设置), getString(R.string.m156充电桩IP), getString(R.string.m157网关), getString(R.string.m158子网掩码), getString(R.string.m159网络MAC地址), getString(R.string.m160服务器URL),
-                getString(R.string.m161DNS地址),getString(R.string.m288进入AP模式)};
+                getString(R.string.m161DNS地址),getString(R.string.m289进入AP模式)};
         for (int i = 0; i < keys.length; i++) {
             ParamsSetBean bean = new ParamsSetBean();
             if (i == 0 || i == 7) {

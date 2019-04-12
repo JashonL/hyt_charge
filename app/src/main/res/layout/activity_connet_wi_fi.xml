@@ -60,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/xa24"
                     android:gravity="center"
-                    android:text="@string/m253手机暂未连接wifi"
+                    android:text="@string/m288级"
                     android:textColor="@color/title_1"
                     android:textSize="@dimen/xa30" />
 

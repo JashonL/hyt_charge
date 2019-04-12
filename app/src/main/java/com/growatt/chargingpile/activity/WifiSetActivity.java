@@ -1061,6 +1061,7 @@ public class WifiSetActivity extends BaseActivity {
                 prayload = SmartHomeUtil.decodeKey(prayload, oldKey);
                 else  prayload = SmartHomeUtil.decodeKey(prayload, newKey);
             }
+            Log.d("liaojinsha",SmartHomeUtil.bytesToHexString(prayload));
             switch (cmd) {
                 case WiFiMsgConstant.CMD_A0://连接命令
                     //电桩类型，直流或者交流
@@ -1082,8 +1083,8 @@ public class WifiSetActivity extends BaseActivity {
                     byte exit = prayload[0];
                     if ((int) exit == 1) {
                         T.make(getString(R.string.m281电桩断开), WifiSetActivity.this);
-                        SocketClientUtil.close(mClientUtil);
                     }
+                    SocketClientUtil.close(mClientUtil);
                     break;
 
                 case WiFiMsgConstant.CONSTANT_MSG_01://获取信息参数
@@ -1359,7 +1360,6 @@ public class WifiSetActivity extends BaseActivity {
                 .setCancelColor(0xff999999)
                 .setBgColor(0xffffffff)
                 .setTitleSize(22)
-                .setLabels("mA", "", "")
                 .setTextColorCenter(0xff333333)
                 .build();
         pvOptions.setPicker(list);

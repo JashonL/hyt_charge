@@ -366,7 +366,7 @@ public class ChargingPileActivity extends BaseActivity {
      */
     private void initHeaderViews() {
         ivUserCenter.setImageResource(R.drawable.user_index);
-        ivSetting.setImageResource(R.drawable.charging_setting);
+        ivSetting.setImageResource(R.drawable.link_wifi_set);
     }
 
 
