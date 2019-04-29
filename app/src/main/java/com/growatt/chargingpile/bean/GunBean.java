@@ -19,6 +19,7 @@ public class GunBean {
     public static final String WORK = "work";
     public static final String RESERVED = "Reserved";
     public static final String SUSPENDEEV="SuspendedEV";
+    public static final String SUSPENDEDEVSE="SuspendedEVSE";
 
 
     private int code;

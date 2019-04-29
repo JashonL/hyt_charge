@@ -130,6 +130,8 @@ public class ChargingPileActivity extends BaseActivity {
     @BindView(R.id.tv_solar)
     TextView mTvSolar;
 
+    TextView mTvContent;
+
 
     //选择充电桩popuwindow
     private PopupWindow popupGun;
@@ -388,6 +390,7 @@ public class ChargingPileActivity extends BaseActivity {
 
     private void initSuspendeevView() {
         chargeSuspendeevView = LayoutInflater.from(this).inflate(R.layout.status_charging_suspendeev_layout, mStatusGroup, false);
+        mTvContent=chargeSuspendeevView.findViewById(R.id.tv_content);
     }
 
     private void initAcceptView() {
@@ -934,9 +937,18 @@ public class ChargingPileActivity extends BaseActivity {
             case GunBean.SUSPENDEEV:
                 hideAnim();
                 mStatusGroup.addView(chargeSuspendeevView);
-                setChargGunUi(R.drawable.charging_unavailable, getString(R.string.m122不可用), ContextCompat.getColor(this, R.color.title_3), R.drawable.btn_start_charging, getString(R.string.m103充电));
+                mTvContent.setText(R.string.m293车拒绝充电提示);
+                setChargGunUi(R.drawable.charging_unavailable, getString(R.string.m133车拒绝充电), ContextCompat.getColor(this, R.color.title_3), R.drawable.btn_start_charging, getString(R.string.m103充电));
                 MyUtil.showAllView(llBottomGroup);
                 break;
+            case GunBean.SUSPENDEDEVSE:
+                hideAnim();
+                mTvContent.setText(R.string.m294桩拒绝充电提示);
+                mStatusGroup.addView(chargeSuspendeevView);
+                setChargGunUi(R.drawable.charging_unavailable, getString(R.string.m292桩拒绝充电), ContextCompat.getColor(this, R.color.title_3), R.drawable.btn_start_charging, getString(R.string.m103充电));
+                MyUtil.showAllView(llBottomGroup);
+                break;
+
             case GunBean.FINISHING:
                 int timeFinishing = data.getCtime();
                 int hourFinishing = timeFinishing / 60;
@@ -969,6 +981,7 @@ public class ChargingPileActivity extends BaseActivity {
 
             case GunBean.UNAVAILABLE:
                 hideAnim();
+                mTvContent.setText(R.string.m122不可用);
                 mStatusGroup.addView(chargeUnvailableView);
                 setChargGunUi(R.drawable.charging_unavailable, getString(R.string.m122不可用), ContextCompat.getColor(this, R.color.title_3), R.drawable.btn_start_charging, getString(R.string.m103充电));
                 MyUtil.showAllView(llBottomGroup);

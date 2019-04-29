@@ -514,8 +514,11 @@ public class MyUtil {
     }
 
 
-
-
+    /**
+     * 只有数字
+     * @param string
+     * @return
+     */
     public static boolean isNumberiZidai(String string) {
         for (int i = 0; i < string.length(); i++) {
             if (!Character.isDigit(string.charAt(i))) return false;
@@ -524,12 +527,29 @@ public class MyUtil {
 
     }
 
-
+    /**
+     * 字母 数字 下划线
+     * @param s
+     * @return
+     */
     public static boolean isLetterDigit(String s){
-        String regex="[a-z,0-9,A-Z,_,-]*";
+        String regex="[a-z,0-9,A-Z,_]*";
         Pattern pattern=Pattern.compile(regex);
         return pattern.matcher(s).matches();
     }
+
+
+    /**
+     * 字母 数字 下划线 空格
+     * @param s
+     * @return
+     */
+    public static boolean isLetterDigit2(String s){
+        String regex="[a-z,0-9,A-Z,_, ,-]*";
+        Pattern pattern=Pattern.compile(regex);
+        return pattern.matcher(s).matches();
+    }
+
 
     /**
      * 匹配是否为数字

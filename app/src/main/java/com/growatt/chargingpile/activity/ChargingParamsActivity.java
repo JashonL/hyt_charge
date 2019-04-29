@@ -97,6 +97,7 @@ public class ChargingParamsActivity extends BaseActivity {
                 ParamsSetBean bean = mAdapter.getData().get(position);
                 switch (position) {
                     case 1:
+
                         inputEdit("name", (String) bean.getValue());
                         break;
                     case 2:
@@ -146,7 +147,7 @@ public class ChargingParamsActivity extends BaseActivity {
     private void apMode(){
         FragmentManager fragmentManager = getSupportFragmentManager();
         new CircleDialog.Builder().setTitle(getString(R.string.m27温馨提示))
-                .setText(getString(R.string.m247热点连接))
+                .setText(getString(R.string.m289进入AP模式))
                 .setPositive(getString(R.string.m9确定), v -> {
                     Mydialog.Show(this);
                     Map<String, Object> jsonMap = new HashMap<String, Object>();

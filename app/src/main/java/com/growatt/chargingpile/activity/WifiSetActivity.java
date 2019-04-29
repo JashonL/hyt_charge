@@ -439,7 +439,7 @@ public class WifiSetActivity extends BaseActivity {
                             setInternt();
                             break;
                         case 12:
-                            boolean letterDigit1 = MyUtil.isLetterDigit(text);
+                            boolean letterDigit1 = MyUtil.isLetterDigit2(text);
                             if (!letterDigit1) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
@@ -469,7 +469,7 @@ public class WifiSetActivity extends BaseActivity {
                             break;
 
                         case 14:
-                            boolean letterDigit3 = MyUtil.isLetterDigit(text);
+                            boolean letterDigit3 = MyUtil.isLetterDigit2(text);
                             if (!letterDigit3) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
@@ -497,7 +497,7 @@ public class WifiSetActivity extends BaseActivity {
                             setWifi();
                             break;
                         case 16:
-                            boolean letterDigit5 = MyUtil.isLetterDigit(text);
+                            boolean letterDigit5 = MyUtil.isLetterDigit2(text);
                             if (!letterDigit5) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
@@ -1476,9 +1476,9 @@ public class WifiSetActivity extends BaseActivity {
                     String[] end = endTime.split(":");
                     int statValue = Integer.parseInt(start[0]) * 60 + Integer.parseInt(start[1]);
                     int endValue = Integer.parseInt(end[0]) * 60 + Integer.parseInt(end[1]);
-                    if (statValue >= endValue) {
+                   /* if (statValue >= endValue) {
                         T.make(getString(R.string.m285开始时间不能大于结束时间), WifiSetActivity.this);
-                    } else {
+                    } else {*/
                         String chargingTime = startTime + "-" + endTime;
                         byte[] bytes = chargingTime.trim().getBytes();
                         if (bytes.length > 11) {
@@ -1488,7 +1488,7 @@ public class WifiSetActivity extends BaseActivity {
                         timeByte = new byte[11];
                         System.arraycopy(bytes, 0, timeByte, 0, bytes.length);
                         setCharging();
-                    }
+//                    }
                 } else {
                     startTime = time;
                     showTimePickView(true);

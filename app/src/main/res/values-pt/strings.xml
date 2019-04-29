@@ -131,7 +131,7 @@
     <string name="m128设置电量不能为0">Energy settings cannot be 0</string>
     <string name="m129时长设置不能为空">Time settings can not be empty.</string>
     <string name="m130未设置开始时间">No start time was set</string>
-    <string name="m131空闲状态无法直接开始充电">You cannot start charging directly. Please connect the vehicle with the charging pile first.</string>
+    <string name="m131空闲状态无法直接开始充电">You cannot start charging directly. Please connect the vehicle with the Charging Point first.</string>
     <string name="m132切换">Switch</string>
     <string name="m133添加">Add</string>
     <string name="m134是否确定删除设备">Are you sure you want to delete the device?</string>
@@ -215,8 +215,8 @@
     <string name="m212暂时还没有设备">No device</string>
     <string name="m213输入更改的设置">Input change settings</string>
     <string name="m214请连接充电枪到车辆">Please connect the vehicle to the charging gun.</string>
-    <string name="m215电桩故障">Pile failure, please switch to other charging piles.</string>
-    <string name="m216桩体状态为不可用">Pile unavailable, please switch to other charging piles.</string>
+    <string name="m215电桩故障">Charging Point failure, please switch to other Charging Point.</string>
+    <string name="m216桩体状态为不可用">Charging Point unavailable, please switch to other Charging Point.</string>
     <string name="m217扫码刷卡">APP/RFID</string>
     <string name="m218仅刷卡充电">Only RFID</string>
     <string name="m219插枪充电">Plug&amp;Charge</string>
@@ -292,6 +292,9 @@
     <string name="m289进入AP模式">Switch to AP mode</string>
     <string name="m290超出设置范围">Out of setting range</string>
     <string name="m291设定值不能小于">Value cannot be less than 3</string>
+    <string name="m292桩拒绝充电">SuspendedEVSE</string>
+    <string name="m293车拒绝充电提示">The car refuses to charge, please switch to other charging Point</string>
+    <string name="m294桩拒绝充电提示">Charging Point refused to charge, please switch to other charging Point</string>
     <!--安卓额外部分-->
 
     <!--权限问题-->
@@ -336,7 +339,8 @@
     <string name="wifi">wifi</string>
     <string name="wifi_ssid">wifi_ssid</string>
     <string name="wifi_key">wifi_key</string>
-    <string name="m去WLAN页面进行设置">去WLAN页面进行设置&gt;</string>
+    <string name="m去WLAN页面进行设置">Go to the WLAN page to set up&gt;</string>
+    <string name="m133车拒绝充电">SuspendedEV</string>
 </resources>
 
 

@@ -295,7 +295,9 @@
     <string name="m289进入AP模式">进入AP模式</string>
     <string name="m290超出设置范围">超出设置范围</string>
     <string name="m291设定值不能小于">设定值不能小于3</string>
-
+    <string name="m292桩拒绝充电">桩拒绝充电</string>
+    <string name="m293车拒绝充电提示">车拒绝充电,请切换使用其他充电桩</string>
+    <string name="m294桩拒绝充电提示">桩拒绝充电,请切换使用其他充电桩</string>
 
     <!--安卓额外部分-->
     <!--权限问题-->
@@ -342,6 +344,7 @@
     <string name="wifi_ssid">wifi_ssid</string>
     <string name="wifi_key">wifi_key</string>
     <string name="m去WLAN页面进行设置">去WLAN页面进行设置&gt;</string>
+    <string name="m133车拒绝充电">车拒绝充电</string>
 </resources>
 
 
