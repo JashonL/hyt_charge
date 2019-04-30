@@ -355,7 +355,7 @@ public class WifiSetActivity extends BaseActivity {
                     byte[] bytes = text.trim().getBytes();
                     switch (key) {
                         case 3:
-                            boolean letterDigit = MyUtil.isLetterDigit(text);
+                            boolean letterDigit = MyUtil.isLetterDigit2(text);
                             if (!letterDigit) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
@@ -411,7 +411,7 @@ public class WifiSetActivity extends BaseActivity {
                             setInternt();
                             break;
                         case 9:
-                            boolean macLetterDigit = MyUtil.isLetterDigit(text);
+                            boolean macLetterDigit = MyUtil.isLetterDigit2(text);
                             if (!macLetterDigit) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
@@ -454,7 +454,7 @@ public class WifiSetActivity extends BaseActivity {
                             setWifi();
                             break;
                         case 13:
-                            boolean letterDigit2 = MyUtil.isLetterDigit(text);
+                            boolean letterDigit2 = MyUtil.isLetterDigit2(text);
                             if (!letterDigit2) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
@@ -483,7 +483,7 @@ public class WifiSetActivity extends BaseActivity {
                             setWifi();
                             break;
                         case 15:
-                            boolean letterDigit4 = MyUtil.isLetterDigit(text);
+                            boolean letterDigit4 = MyUtil.isLetterDigit2(text);
                             if (!letterDigit4) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
@@ -511,7 +511,7 @@ public class WifiSetActivity extends BaseActivity {
                             setWifi();
                             break;
                         case 17:
-                            boolean letterDigit6 = MyUtil.isLetterDigit(text);
+                            boolean letterDigit6 = MyUtil.isLetterDigit2(text);
                             if (!letterDigit6) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
@@ -526,7 +526,7 @@ public class WifiSetActivity extends BaseActivity {
                             setWifi();
                             break;
                         case 18:
-                            boolean letterDigit7 = MyUtil.isLetterDigit(text);
+                            boolean letterDigit7 = MyUtil.isLetterDigit2(text);
                             if (!letterDigit7) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
@@ -551,7 +551,7 @@ public class WifiSetActivity extends BaseActivity {
                             setUrl();
                             break;
                         case 21:
-                            boolean letterDigit8 = MyUtil.isLetterDigit(text);
+                            boolean letterDigit8 = MyUtil.isLetterDigit2(text);
                             if (!letterDigit8) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;

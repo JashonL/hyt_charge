@@ -66,6 +66,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -1619,7 +1620,10 @@ public class ChargingPileActivity extends BaseActivity {
                     requestStop();
                     break;
                 case GunBean.SUSPENDEEV:
-                    toast(getString(R.string.m216桩体状态为不可用));
+                    requestStop();
+                    break;
+                case GunBean.SUSPENDEDEVSE:
+
                     break;
                 case GunBean.UNAVAILABLE:
                     toast(getString(R.string.m216桩体状态为不可用));
@@ -1958,7 +1962,7 @@ public class ChargingPileActivity extends BaseActivity {
             public void confirm(String hour, String minute) {
                 String time = hour + ":" + minute;
                 //获取年月
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 Date date = new Date();
                 String yMd = sdf.format(date);
                 startTime = yMd + "T" + time + ":00.000Z";

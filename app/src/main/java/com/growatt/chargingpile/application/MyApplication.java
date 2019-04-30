@@ -6,6 +6,7 @@ import android.content.Context;
 
 import org.xutils.x;
 
+import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,36 +27,50 @@ public class MyApplication extends Application {
 
     public static Context context;
     //运用list来保存们每一个activity是关键
-    private List<Activity> mList = new ArrayList<Activity>();
+    private List<SoftReference<Activity>> mList = new ArrayList<SoftReference<Activity>>();
 
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
-        context = this;
+        context = getApplicationContext();
         // 初始化
         x.Ext.init(this);
         // 设置是否输出debug
-        x.Ext.setDebug(true);
+        x.Ext.setDebug(false);
+    }
+
+
+    public static Context getContext() {
+        return context;
+    }
+
+    public static void setContext(Context context) {
+        MyApplication.context = context;
     }
 
     // add Activity
-    public void addActivity(Activity activity) {
-        mList.add(activity);
+    public void addActivity(SoftReference<Activity> softReference) {
+        mList.add(softReference);
     }
 
 
-    //关闭每一个list内的activity
-    public void exit() {
+    //遍历所有Activity并finish
+    public void exit(){
         try {
-            for (Activity activity : mList) {
-                if (activity != null)
+            for(int i=0;i<mList.size();i++){
+                Activity activity = mList.get(i).get();
+                if(activity != null){
                     activity.finish();
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             System.exit(0);
         }
+
     }
+
+
 }

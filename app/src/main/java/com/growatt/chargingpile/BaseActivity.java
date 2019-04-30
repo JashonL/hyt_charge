@@ -33,6 +33,7 @@ import com.growatt.chargingpile.util.SharedPreferencesUnit;
 
 import org.xutils.x;
 
+import java.lang.ref.SoftReference;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.List;
@@ -71,7 +72,7 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
             savedInstanceState(savedInstanceState);
             return;
         }
-        MyApplication.getInstance().addActivity(this);
+        MyApplication.getInstance().addActivity(new SoftReference<>(this));
     }
 
 

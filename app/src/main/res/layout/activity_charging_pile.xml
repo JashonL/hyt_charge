@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:autofit="http://schemas.android.com/apk/res-auto"
     tools:context="com.growatt.chargingpile.activity.ChargingPileActivity">
 
 
@@ -211,12 +212,14 @@
                         </RelativeLayout>
 
 
-                        <com.growatt.chargingpile.view.AutoFitTextViewTwo
+                        <com.growatt.chargingpile.view.AutofitTextView
                             android:id="@+id/tv_status"
                             android:layout_width="@dimen/xa200"
-                            android:layout_height="@dimen/xa46"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/xa20"
                             android:gravity="center"
+                            android:singleLine="true"
+                            autofit:minTextSize="8sp"
                             android:text="@string/m117空闲"
                             android:textColor="@color/charging_text_green"
                             android:textSize="@dimen/xa38" />
