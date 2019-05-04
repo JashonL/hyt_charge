@@ -158,6 +158,7 @@ public class WifiSetActivity extends BaseActivity {
                 case SocketClientUtil.SOCKET_RECEIVE_BYTES:
                     text = "回应字节消息";
                     byte[] receiByte = (byte[]) msg.obj;
+
                     parseReceivData(receiByte);
                     Log.d("liaojinsha", text);
                     break;
@@ -865,6 +866,11 @@ public class WifiSetActivity extends BaseActivity {
         byte len = (byte) 28;
         byte[] prayload = new byte[28];
 
+
+        if (idByte == null || lanByte == null || cardByte == null || rcdByte == null) {
+            T.make(R.string.m244设置失败, this);
+            return;
+        }
         //id
         System.arraycopy(idByte, 0, prayload, 0, idByte.length);
         //语言
@@ -911,6 +917,11 @@ public class WifiSetActivity extends BaseActivity {
         /*****有效数据*****/
         byte len = (byte) 77;
         byte[] prayload = new byte[77];
+
+        if (ipByte == null || gatewayByte == null || maskByte == null || macByte == null || dnsByte == null) {
+            T.make(R.string.m244设置失败, this);
+            return;
+        }
 
         //ip
         System.arraycopy(ipByte, 0, prayload, 0, ipByte.length);
@@ -959,6 +970,11 @@ public class WifiSetActivity extends BaseActivity {
         /*****有效数据*****/
         byte len = (byte) 112;
         byte[] prayload = new byte[112];
+
+        if (ssidByte == null || wifiKeyByte == null || bltNameByte == null || bltPwdByte == null || name4GByte == null || pwd4GByte == null || apn4GByte == null) {
+            T.make(R.string.m244设置失败, this);
+            return;
+        }
 
         //ssid
         System.arraycopy(ssidByte, 0, prayload, 0, ssidByte.length);
@@ -1012,6 +1028,13 @@ public class WifiSetActivity extends BaseActivity {
         byte len = (byte) 102;
         byte[] prayload = new byte[102];
 
+
+        if (urlByte == null || hskeyByte == null || heatByte == null || pingByte == null || intervalByte == null) {
+            T.make(R.string.m244设置失败, this);
+            return;
+        }
+
+
         //url
         System.arraycopy(urlByte, 0, prayload, 0, urlByte.length);
         //key
@@ -1060,6 +1083,12 @@ public class WifiSetActivity extends BaseActivity {
         byte len = (byte) 44;
         byte[] prayload = new byte[44];
 
+
+        if (modeByte == null || maxCurrentByte == null || rateByte == null || tempByte == null || powerByte == null || timeByte == null) {
+            T.make(R.string.m244设置失败, this);
+            return;
+        }
+
         //模式
         System.arraycopy(modeByte, 0, prayload, 0, modeByte.length);
         //电流
@@ -1095,8 +1124,12 @@ public class WifiSetActivity extends BaseActivity {
     /**********************************解析数据************************************/
 
     private void parseReceivData(byte[] data) {
+        if (data == null) return;
         int length = data.length;
-        if (length > 4) {
+        byte frame1 = data[0];
+        byte frame2 = data[1];
+        byte end = data[length-1];
+        if (length > 4 && frame1 == WiFiMsgConstant.FRAME_1 && frame2 == WiFiMsgConstant.FRAME_2&&end==WiFiMsgConstant.BLT_MSG_END) {
             byte cmd = data[4];//指令类型
             //校验位
             byte sum = data[length - 2];
@@ -1328,6 +1361,8 @@ public class WifiSetActivity extends BaseActivity {
                         T.make(getString(R.string.m244设置失败), WifiSetActivity.this);
                     }
                     break;
+                default:
+                    break;
             }
         }
 
@@ -1479,15 +1514,15 @@ public class WifiSetActivity extends BaseActivity {
                    /* if (statValue >= endValue) {
                         T.make(getString(R.string.m285开始时间不能大于结束时间), WifiSetActivity.this);
                     } else {*/
-                        String chargingTime = startTime + "-" + endTime;
-                        byte[] bytes = chargingTime.trim().getBytes();
-                        if (bytes.length > 11) {
-                            T.make(getString(R.string.m286输入值超出规定长度), WifiSetActivity.this);
-                            return;
-                        }
-                        timeByte = new byte[11];
-                        System.arraycopy(bytes, 0, timeByte, 0, bytes.length);
-                        setCharging();
+                    String chargingTime = startTime + "-" + endTime;
+                    byte[] bytes = chargingTime.trim().getBytes();
+                    if (bytes.length > 11) {
+                        T.make(getString(R.string.m286输入值超出规定长度), WifiSetActivity.this);
+                        return;
+                    }
+                    timeByte = new byte[11];
+                    System.arraycopy(bytes, 0, timeByte, 0, bytes.length);
+                    setCharging();
 //                    }
                 } else {
                     startTime = time;

@@ -16,6 +16,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
@@ -98,35 +99,35 @@ public class ConnetWiFiActivity extends BaseActivity {
     };
 
 
-    private Handler handler = new Handler(Looper.getMainLooper()) {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case SEARCH_DEVICE_START:
-                    mDeviceList.clear();
-                    showProgress();
-                    break;
-                case SEARCH_DEVICE_FINISH:
-                    second--;
-                    tvProgress.setText(String.valueOf(second));
-                    if (mDeviceList.size() == 0) {
-                        if (!isCancel && second > 0) searchDevice();
-                        else {
-                            T.make(getString(R.string.m288级),ConnetWiFiActivity.this);
-                            dialog.dismiss();
-                        }
-                    } else {
-                        dialog.dismiss();
-                        mIP = getServerIp();
-                        devId = mDeviceList.get(0).getDevName();
-                        toSetWifiParams();
-                    }
-//                    toSetWifiParams();//测试
-                    break;
-            }
-        }
-    };
+//    private Handler handler = new Handler(Looper.getMainLooper()) {
+//        @Override
+//        public void handleMessage(Message msg) {
+//            super.handleMessage(msg);
+//            switch (msg.what) {
+//                case SEARCH_DEVICE_START:
+//                    mDeviceList.clear();
+//                    showProgress();
+//                    break;
+//                case SEARCH_DEVICE_FINISH:
+//                    second--;
+//                    tvProgress.setText(String.valueOf(second));
+//                    if (mDeviceList.size() == 0) {
+//                        if (!isCancel && second > 0) searchDevice();
+//                        else {
+//                            T.make(getString(R.string.m288级),ConnetWiFiActivity.this);
+//                            dialog.dismiss();
+//                        }
+//                    } else {
+//                        dialog.dismiss();
+//                        mIP = getServerIp();
+//                        devId = mDeviceList.get(0).getDevName();
+//                        toSetWifiParams();
+//                    }
+////                    toSetWifiParams();//测试
+//                    break;
+//            }
+//        }
+//    };
 
     private static final int FIRSTACT_TO_WIFI = 10000;
 
@@ -135,7 +136,7 @@ public class ConnetWiFiActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connet_wi_fi);
         ButterKnife.bind(this);
-        mDeviceList = new ArrayList<>();
+//        mDeviceList = new ArrayList<>();
         initViews();
         initWifi();
     }
@@ -172,7 +173,8 @@ public class ConnetWiFiActivity extends BaseActivity {
             setWiFiName();
             mIP = getServerIp();
         } else {
-            tvWifiName.setText(R.string.m288级);
+            currentSSID = null;
+            tvWifiName.setText(R.string.m288未连接);
         }
 
     }
@@ -187,14 +189,17 @@ public class ConnetWiFiActivity extends BaseActivity {
                 setWiFiName();
                 mIP = getServerIp();
             } else {
-                tvWifiName.setText(R.string.m288级);
+                currentSSID = null;
+                tvWifiName.setText(R.string.m288未连接);
             }
         }
     }
 
 
     private void setWiFiName() {
-        tvWifiName.setText(currentSSID);
+        if (TextUtils.isEmpty(currentSSID))
+        tvWifiName.setText(R.string.m288未连接);
+        else  tvWifiName.setText(currentSSID);
     }
 
 
@@ -249,7 +254,7 @@ public class ConnetWiFiActivity extends BaseActivity {
         Intent intent = new Intent(this, WifiSetActivity.class);
         intent.putExtra("ip", mIP);
         intent.putExtra("port", mPort);
-        intent.putExtra("devId", devId);
+        intent.putExtra("devId", currentSSID);
         startActivity(intent);
     }
 
@@ -270,7 +275,13 @@ public class ConnetWiFiActivity extends BaseActivity {
 
 
     private void searchDevice() {
-        new DeviceSearchThread() {
+        if (TextUtils.isEmpty(currentSSID)) {
+            T.make(R.string.m253手机暂未连接wifi, this);
+        } else {
+            toSetWifiParams();
+        }
+
+     /*   new DeviceSearchThread() {
             @Override
             public void onSearchStart() {
                 Message msg = Message.obtain();
@@ -287,7 +298,7 @@ public class ConnetWiFiActivity extends BaseActivity {
                 msg.what = SEARCH_DEVICE_FINISH;
                 handler.sendMessage(msg);
             }
-        }.start();
+        }.start();*/
     }
 
 

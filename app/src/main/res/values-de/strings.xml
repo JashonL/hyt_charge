@@ -288,7 +288,7 @@
     <string name="m285开始时间不能大于结束时间">Start time cannot be later than end time</string>
     <string name="m286输入值超出规定长度">Input value exceeds the specified length </string>
     <string name="m287级">level </string>
-    <string name="m288级"> not connected</string>
+    <string name="m288未连接"> not connected</string>
     <string name="m289进入AP模式">Switch to AP mode</string>
     <string name="m290超出设置范围">Out of setting range</string>
     <string name="m291设定值不能小于">Value cannot be less than 3</string>

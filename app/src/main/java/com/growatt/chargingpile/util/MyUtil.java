@@ -452,7 +452,7 @@ public class MyUtil {
      * @return WIFI 的SSID
      */
     public static String getWIFISSID(Activity activity) {
-        String ssid = "";
+        String ssid = null;
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O) {
             WifiManager mWifiManager = (WifiManager) activity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
             assert mWifiManager != null;
@@ -475,6 +475,7 @@ public class MyUtil {
                     }
                 }
             }
+            if (TextUtils.isEmpty(ssid)) return ssid;
             if (ssid.contains("\"")) {
                 ssid = ssid.replace("\"", "");
             }

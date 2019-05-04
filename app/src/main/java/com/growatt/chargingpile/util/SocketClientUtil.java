@@ -349,9 +349,7 @@ public class SocketClientUtil {
                     int len = 0;
                     while((len = socketIn.read(buffer)) != -1) {
                         byte[] bytes = new byte[len];
-                        for (int i =0;i<len;i++){
-                            bytes[i] = buffer[i];
-                        }
+                        System.arraycopy(buffer, 0, bytes, 0, len);
                         receive = bytesToHexString(bytes);
                         //接收字符串信息
                         Message msg = Message.obtain();
