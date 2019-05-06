@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.growatt.chargingpile.BaseActivity;
+import com.growatt.chargingpile.EventBusMsg.FreshTimingMsg;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.bean.ReservationBean;
 import com.growatt.chargingpile.connutil.PostUtil;
@@ -23,6 +24,7 @@ import com.growatt.chargingpile.util.SmartHomeUrlUtil;
 import com.growatt.chargingpile.util.SmartHomeUtil;
 import com.mylhyl.circledialog.CircleDialog;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.common.util.LogUtil;
@@ -66,6 +68,7 @@ public class EditDurationActivity extends BaseActivity {
     private int loopType = -1;
 
     private String loopValue;
+    private String chargingId;
 
 
     @Override
@@ -81,6 +84,7 @@ public class EditDurationActivity extends BaseActivity {
 
 
     private void initIntent() {
+        chargingId = getIntent().getStringExtra("sn");
         String jsonBean = getIntent().getStringExtra("bean");
         if (!TextUtils.isEmpty(jsonBean)) {
             type = 1;
@@ -369,6 +373,7 @@ public class EditDurationActivity extends BaseActivity {
                     int code = object.getInt("code");
                     if (code == 0) {
                         toast(R.string.m135删除成功);
+                        EventBus.getDefault().post(new FreshTimingMsg());
                         finish();
                     }
                 } catch (Exception e) {
@@ -396,7 +401,7 @@ public class EditDurationActivity extends BaseActivity {
         LogUtil.d("修改预约时间段");
         Mydialog.Show(EditDurationActivity.this);
         Map<String, Object> jsonMap = new LinkedHashMap<String, Object>();
-        jsonMap.put("sn", Cons.mCurrentPile.getChargeId());
+        jsonMap.put("sn", chargingId);
         jsonMap.put("userId", Cons.userBean.getAccountName());
         jsonMap.put("ctype", ctype);
         jsonMap.put("connectorId", dataBean.getConnectorId());
@@ -427,6 +432,7 @@ public class EditDurationActivity extends BaseActivity {
                     JSONObject object = new JSONObject(json);
                     int code = object.getInt("code");
                     if (code == 0) {
+                        EventBus.getDefault().post(new FreshTimingMsg());
                         toast(R.string.m修改成功);
                         finish();
                     }
@@ -449,7 +455,7 @@ public class EditDurationActivity extends BaseActivity {
         jsonMap.put("action", "ReserveNow");
         jsonMap.put("connectorId", 1);
         jsonMap.put("expiryDate", expiryDate);
-        jsonMap.put("chargeId", Cons.mCurrentPile.getChargeId());
+        jsonMap.put("chargeId",chargingId);
         jsonMap.put("userId",Cons.userBean.getAccountName());
         jsonMap.put("cKey", "G_SetTime");
         jsonMap.put("cValue", cValue);
@@ -475,6 +481,7 @@ public class EditDurationActivity extends BaseActivity {
                     String data = object.getString("data");
                     toast(data);
                     if (code == 0) {
+                        EventBus.getDefault().post(new FreshTimingMsg());
                         finish();
                     }
                 } catch (Exception e) {

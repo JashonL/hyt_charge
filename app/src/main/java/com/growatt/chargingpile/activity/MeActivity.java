@@ -64,9 +64,6 @@ public class MeActivity extends BaseActivity {
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     private List<Map<String, Object>> list;
-    private LinearLayoutManager mLinearLayoutManager;
-    private int[] titles;
-    private int[] images;
     private Myadapter adapter;
     private View mRvHeaderView;
 
@@ -82,8 +79,6 @@ public class MeActivity extends BaseActivity {
     private static final int CODE_RESULT_REQUEST = 0xa2;
     private ImageView ivHead;
     private String picName;
-    private View footerView;
-    private Button btnLogout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,8 +117,8 @@ public class MeActivity extends BaseActivity {
     }
 
     private void initResource() {
-        titles = new int[]{R.string.m51账号管理, R.string.m52消息中心, R.string.m53关于};
-        images = new int[]{R.drawable.manager_center, R.drawable.message_center, R.drawable.about};
+        int[] titles = new int[]{R.string.m51账号管理, R.string.m52消息中心, R.string.m53关于};
+        int[] images = new int[]{R.drawable.manager_center, R.drawable.message_center, R.drawable.about};
         list = new ArrayList<Map<String, Object>>();
         for (int i = 0; i < titles.length; i++) {
             Map<String, Object> map = new HashMap<String, Object>();
@@ -217,7 +212,7 @@ public class MeActivity extends BaseActivity {
         setHeaderImage(headerView, R.drawable.back, Position.LEFT, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                backPileActivity();
+               finish();
             }
         });
         tvTitle.setTextColor(ContextCompat.getColor(this, R.color.title_1));
@@ -226,13 +221,13 @@ public class MeActivity extends BaseActivity {
 
 
     private void initRecycleView() {
-        mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         adapter = new Myadapter(list);
         adapter.addHeaderView(mRvHeaderView);
         recyclerView.setLayoutManager(mLinearLayoutManager);
         recyclerView.setAdapter(adapter);
-        footerView = getLayoutInflater().inflate(R.layout.footer_me_activity, recyclerView, false);
-        btnLogout = (Button) footerView.findViewById(R.id.logout);
+        View footerView = getLayoutInflater().inflate(R.layout.footer_me_activity, recyclerView, false);
+        Button btnLogout = (Button) footerView.findViewById(R.id.logout);
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -456,21 +451,5 @@ public class MeActivity extends BaseActivity {
             return pathHead + uri.getPath();
         }
         return null;
-    }
-
-
-    private void backPileActivity() {
-        Intent intent = new Intent();
-        intent.putExtra("activity", MeActivity.this.getClass().getName());
-        setResult(RESULT_OK, intent);
-        finish();
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            backPileActivity();
-        }
-        return super.onKeyDown(keyCode, event);
     }
 }

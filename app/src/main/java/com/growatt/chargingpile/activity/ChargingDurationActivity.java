@@ -17,6 +17,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.google.gson.Gson;
 import com.growatt.chargingpile.BaseActivity;
+import com.growatt.chargingpile.EventBusMsg.FreshTimingMsg;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.adapter.TimingAdapter;
 import com.growatt.chargingpile.bean.ReservationBean;
@@ -27,6 +28,7 @@ import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
 import com.growatt.chargingpile.util.SmartHomeUtil;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.common.util.LogUtil;
@@ -56,20 +58,26 @@ public class ChargingDurationActivity extends BaseActivity {
     TextView tvTotal;
 
     private List<ReservationBean.DataBean> mTimingList = new ArrayList<>();
-    private LinearLayoutManager mLinearLayoutManager;
     private TimingAdapter mAdapter;
 
     private int totalMinute;
     private boolean isUpdate = false;
+    private String chargingId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charging_duration);
         ButterKnife.bind(this);
+        initIntent();
         initHeaderView();
         initRecyclerView();
         initListeners();
+    }
+
+    private void initIntent() {
+        chargingId=getIntent().getStringExtra("sn");
     }
 
     @Override
@@ -80,14 +88,12 @@ public class ChargingDurationActivity extends BaseActivity {
     }
 
     private void initListeners() {
-        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ReservationBean.DataBean dataBean = mAdapter.getData().get(position);
-                Intent intent = new Intent(ChargingDurationActivity.this, EditDurationActivity.class);
-                intent.putExtra("bean", new Gson().toJson(dataBean));
-                startActivity(intent);
-            }
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            ReservationBean.DataBean dataBean = mAdapter.getData().get(position);
+            Intent intent = new Intent(ChargingDurationActivity.this, EditDurationActivity.class);
+            intent.putExtra("bean", new Gson().toJson(dataBean));
+            intent.putExtra("sn", chargingId);
+            startActivity(intent);
         });
 
         recyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
@@ -150,7 +156,7 @@ public class ChargingDurationActivity extends BaseActivity {
         if (!isUpdate) Mydialog.Show(this);
         Map<String, Object> jsonMap = new LinkedHashMap<String, Object>();
         jsonMap.put("userId",Cons.userBean.getAccountName());
-        jsonMap.put("sn", Cons.mCurrentPile.getChargeId());
+        jsonMap.put("sn",chargingId);
         jsonMap.put("connectorId", 1);
         jsonMap.put("cKey", "G_SetTime");
         jsonMap.put("lan", getLanguage());//测试id
@@ -241,14 +247,16 @@ public class ChargingDurationActivity extends BaseActivity {
         setHeaderImage(headerView, R.drawable.back, Position.LEFT, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                backToChargingPile();
+               finish();
             }
         });
         setHeaderTitle(headerView, getString(R.string.m178定时), R.color.title_1, true);
         setHeaderTvRight(headerView, getString(R.string.m179新增), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                jumpTo(EditDurationActivity.class, false);
+                Intent intent=new Intent(ChargingDurationActivity.this,EditDurationActivity.class);
+                intent.putExtra("sn",chargingId);
+                jumpTo(intent,false);
             }
         }, R.color.blue_1);
     }
@@ -263,60 +271,8 @@ public class ChargingDurationActivity extends BaseActivity {
 
 
     private void initRecyclerView() {
-        mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mAdapter = new TimingAdapter(mTimingList);
-  /*      mAdapter.setCheckListener(new TimingAdapter.CheckListnerListener() {
-
-            @Override
-            public void cyclelistener(int position, boolean isOpen, boolean isCycle) {
-                ReservationBean.DataBean dataBean = mAdapter.getData().get(position);
-                if (isOpen) {
-                    if (isCycle) {
-                        dataBean.setLoopType(0);
-                    } else {
-                        dataBean.setLoopType(-1);
-                    }
-                    editTime(dataBean, "1");
-                }
-            }
-
-            @Override
-            public void switchlistener(CompoundButton buttonView, int position, boolean isOpen, boolean isCycle) {
-                ReservationBean.DataBean dataBean = mAdapter.getData().get(position);
-                String expiryDate = dataBean.getExpiryDate();
-                //开启关闭
-                if (isOpen) {
-                    if (isCycle) {
-                        dataBean.setLoopType(0);//勾选每天开启
-                        editTime(dataBean, "1");
-                    } else {
-                        Date todayDate = new Date();
-                        long daytime = todayDate.getTime();
-                        long onTime = 0;
-                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-                        //开始的日期
-                        try {
-                            Date start = format.parse(expiryDate);
-                            onTime = start.getTime();
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        if (daytime > onTime) {
-                            buttonView.setChecked(false);
-                            toast(getString(R.string.m请选择正确的时间段));
-                            return;
-                        }
-                        dataBean.setLoopType(-1);
-                        editTime(dataBean, "1");
-                    }
-                } else {
-                    editTime(dataBean, "2");
-                }
-
-
-            }
-
-        });*/
         recyclerView.setLayoutManager(mLinearLayoutManager);
         recyclerView.setAdapter(mAdapter);
         View emptyView = LayoutInflater.from(this).inflate(R.layout.empty_view, null);
@@ -354,6 +310,7 @@ public class ChargingDurationActivity extends BaseActivity {
                     if (code == 0) {
                         isUpdate = true;
                         refresh();
+                        EventBus.getDefault().post(new FreshTimingMsg());
                         toast(R.string.m成功);
                     } else {
                         toast(data);
@@ -368,15 +325,6 @@ public class ChargingDurationActivity extends BaseActivity {
 
             }
         });
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            backToChargingPile();
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
     }
 
 }

@@ -54,13 +54,4 @@ public class Cons {
     //登录接口中是否通过手机或邮箱验证
     public static boolean isValiEmail;
     public static boolean isValiPhone;
-    //当前选中的桩
-    public static ChargingBean.DataBean mCurrentPile = new ChargingBean.DataBean();
-    //当前选中的枪
-    public static GunBean mCurrentGunBean = new GunBean();
-    //当前选中位置
-    public static int mSeletPos = 0;
-    //当前充电枪id
-    public static int mCurrentGunBeanId = 1;
-
 }

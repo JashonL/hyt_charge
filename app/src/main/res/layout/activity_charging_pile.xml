@@ -10,7 +10,7 @@
     <RelativeLayout
         android:id="@+id/rl_header"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/xa317"
+        android:layout_height="wrap_content"
         android:background="@drawable/charging_bg"
         android:paddingTop="@dimen/status_bar_height">
 
@@ -61,13 +61,14 @@
         <LinearLayout
             android:id="@+id/linearlayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/xa155"
             android:layout_below="@+id/relativeLayout1">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_charging"
+                android:layout_gravity="center_vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
             </android.support.v7.widget.RecyclerView>
 

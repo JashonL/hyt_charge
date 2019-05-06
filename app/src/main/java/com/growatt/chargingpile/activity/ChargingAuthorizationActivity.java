@@ -43,9 +43,8 @@ public class ChargingAuthorizationActivity extends BaseActivity {
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
     private List<ChargingUserBean.DataBean> mUserList = new ArrayList<>();
-    private LinearLayoutManager mLinearLayoutManager;
     private ChargingUserAdapter mChargingUserAdapter;
-
+    private String chargingId;
 
 
     @Override
@@ -53,8 +52,13 @@ public class ChargingAuthorizationActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charging_authorization);
         ButterKnife.bind(this);
+        initIntent();
         initHeaderView();
         initRecyclerView();
+    }
+
+    private void initIntent() {
+        chargingId = getIntent().getStringExtra("sn");
     }
 
 
@@ -67,11 +71,11 @@ public class ChargingAuthorizationActivity extends BaseActivity {
     private void refresh() {
         Mydialog.Show(this);
         Map<String, Object> jsonMap = new LinkedHashMap<String, Object>();
-        jsonMap.put("sn", Cons.mCurrentPile.getChargeId());
+        jsonMap.put("sn", chargingId);
         jsonMap.put("userId", Cons.userBean.getAccountName());
         jsonMap.put("page", 1);
         jsonMap.put("psize", 30);
-        jsonMap.put("lan",getLanguage());//测试id
+        jsonMap.put("lan", getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         LogUtil.i(json);
         PostUtil.postJson(SmartHomeUrlUtil.postGetAuthorizationList(), json, new PostUtil.postListener() {
@@ -115,7 +119,7 @@ public class ChargingAuthorizationActivity extends BaseActivity {
                 finish();
             }
         });
-        setHeaderTitle(headerView, getResources().getString(R.string.m142授权管理),R.color.title_1,false);
+        setHeaderTitle(headerView, getResources().getString(R.string.m142授权管理), R.color.title_1, false);
         setHeaderImage(headerView, R.drawable.add_authorization_user, Position.RIGHT, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,7 +137,7 @@ public class ChargingAuthorizationActivity extends BaseActivity {
 
 
     private void initRecyclerView() {
-        mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mChargingUserAdapter = new ChargingUserAdapter(mUserList);
         mChargingUserAdapter.setDelListener(new ChargingUserAdapter.DeleteListener() {
             @Override
@@ -148,8 +152,6 @@ public class ChargingAuthorizationActivity extends BaseActivity {
     }
 
 
-
-
     private void deleteUser(final String userId, final int pos) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         new CircleDialog.Builder()
@@ -161,9 +163,9 @@ public class ChargingAuthorizationActivity extends BaseActivity {
             public void onClick(View v) {
                 Mydialog.Show(ChargingAuthorizationActivity.this);
                 Map<String, Object> jsonMap = new LinkedHashMap<String, Object>();
-                jsonMap.put("sn", Cons.mCurrentPile.getChargeId());
+                jsonMap.put("sn", chargingId);
                 jsonMap.put("userId", userId);
-                jsonMap.put("lan",getLanguage());//测试id
+                jsonMap.put("lan", getLanguage());//测试id
                 String json = SmartHomeUtil.mapToJsonString(jsonMap);
                 LogUtil.i(json);
                 PostUtil.postJson(SmartHomeUrlUtil.postDeleteAuthorizationUser(), json, new PostUtil.postListener() {

@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.growatt.chargingpile.EventBusMsg.EmptyMsg;
 import com.growatt.chargingpile.activity.LoginActivity;
 import com.growatt.chargingpile.application.MyApplication;
 import com.growatt.chargingpile.util.BarTextColorUtils;
@@ -31,6 +32,9 @@ import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.PermissionCodeUtil;
 import com.growatt.chargingpile.util.SharedPreferencesUnit;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.xutils.x;
 
 import java.lang.ref.SoftReference;
@@ -48,7 +52,6 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 public abstract class BaseActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
 
-    Toast toast;
     protected Context mContext;
     /**
      * 是否继续询问权限
@@ -67,24 +70,26 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         BarTextColorUtils.StatusBarLightMode(this);
         mContext = this;
         x.view().inject(this);
-        toast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
         if (savedInstanceState != null) {
             savedInstanceState(savedInstanceState);
             return;
         }
+        EventBus.getDefault().register(this);
         MyApplication.getInstance().addActivity(new SoftReference<>(this));
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void aa(EmptyMsg msg) {
+
     }
 
 
     /**
      * 通过不同类型activity请求
      */
-    public void requestWindowTitleByActivity(){
-        if (this instanceof AppCompatActivity){
-            ((AppCompatActivity)this).supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-        }else {
-            this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        }
+    public void requestWindowTitleByActivity() {
+        this.supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
     }
 
     /**
@@ -132,6 +137,7 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
     protected void onDestroy() {
         EToast.reset();
         Mydialog.Dismiss();
+        EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 

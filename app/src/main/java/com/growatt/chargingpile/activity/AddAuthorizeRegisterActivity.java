@@ -60,16 +60,22 @@ public class AddAuthorizeRegisterActivity extends BaseActivity {
     @BindView(R.id.textView4)
     TextView terms;
 
+    private String chargingId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_authorize_register);
         ButterKnife.bind(this);
+        initIntent();
         initHeaderView();
         initViews();
     }
 
+    private void initIntent() {
+        chargingId=getIntent().getStringExtra("sn");
+    }
 
 
     private void initHeaderView() {
@@ -345,7 +351,7 @@ public class AddAuthorizeRegisterActivity extends BaseActivity {
     private void toAddAuthorize() {
         String userName = etUsername.getText().toString().trim();
         Map<String, Object> jsonMap = new LinkedHashMap<>();
-        jsonMap.put("sn", Cons.mCurrentPile.getChargeId());
+        jsonMap.put("sn", chargingId);
         jsonMap.put("userName", userName);
         jsonMap.put("lan",getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);

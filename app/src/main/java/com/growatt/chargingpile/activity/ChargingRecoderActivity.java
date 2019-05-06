@@ -48,15 +48,23 @@ public class ChargingRecoderActivity extends BaseActivity {
     private boolean isLoading = false;
     private int lastVisiblePosition = 0;
 
+    private String chargingId;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charging_recoder);
         ButterKnife.bind(this);
+        initIntent();
         initHeaderView();
         initRecyclerView();
         setOnClickListener();
         refresh(1, 30);
+    }
+
+    private void initIntent() {
+        chargingId=getIntent().getStringExtra("sn");
     }
 
     private void setOnClickListener() {
@@ -94,7 +102,7 @@ public class ChargingRecoderActivity extends BaseActivity {
 
             @Override
             public void onClick(View v) {
-                backPileActivity();
+               finish();
             }
         });
         setHeaderTitle(headerView, getString(R.string.m104充电记录), R.color.title_1, false);
@@ -105,7 +113,7 @@ public class ChargingRecoderActivity extends BaseActivity {
         Mydialog.Show(this);
         Map<String, Object> jsonMap = new LinkedHashMap<String, Object>();
         jsonMap.put("userId", Cons.userBean.getAccountName());
-        jsonMap.put("sn", Cons.mCurrentPile.getChargeId());
+        jsonMap.put("sn",chargingId);
         jsonMap.put("page", page);
         jsonMap.put("psize", psize);
         jsonMap.put("lan",getLanguage());//测试id
@@ -163,20 +171,4 @@ public class ChargingRecoderActivity extends BaseActivity {
         });
     }
 
-
-
-    private void backPileActivity(){
-        Intent intent = new Intent();
-        intent.putExtra("activity",ChargingRecoderActivity.this.getClass().getName());
-        setResult(RESULT_OK, intent);
-        finish();
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            backPileActivity();
-        }
-        return super.onKeyDown(keyCode, event);
-    }
 }

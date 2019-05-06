@@ -22,13 +22,6 @@ import java.util.List;
  */
 
 public class TimingAdapter extends BaseQuickAdapter<ReservationBean.DataBean, BaseViewHolder> {
-
-    private CheckListnerListener mCheckListener;
-
-    public void setCheckListener(CheckListnerListener listener) {
-        this.mCheckListener = listener;
-    }
-
     public TimingAdapter(@Nullable List<ReservationBean.DataBean> data) {
         super(R.layout.item_timing_list, data);
     }
@@ -63,38 +56,15 @@ public class TimingAdapter extends BaseQuickAdapter<ReservationBean.DataBean, Ba
         final ImageView ivSwitch = helper.getView(R.id.iv_switch);
         if (item.getLoopType() != -1) {
             ivEveryDay.setBackgroundResource(R.drawable.sign_protocal_checked);
-//            helper.setChecked(R.id.cb_everyday, true);
         } else {
             ivEveryDay.setBackgroundResource(R.drawable.sign_protocal_not_check);
-//            helper.setChecked(R.id.cb_everyday, false);
         }
         if (status.equals("Accepted")) {
             ivSwitch.setBackgroundResource(R.drawable.checkbox_on);
-//            helper.setChecked(R.id.cb_switch, true);
         } else {
             ivSwitch.setBackgroundResource(R.drawable.checkbox_off);
-//            helper.setChecked(R.id.cb_switch, false);
         }
         helper.addOnClickListener(R.id.rl_every_day);
         helper.addOnClickListener(R.id.rl_switch);
-
-      /*  cbEveryDay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mCheckListener.cyclelistener(helper.getAdapterPosition(), cbSwitch.isChecked(), isChecked);
-            }
-        });
-        cbSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mCheckListener.switchlistener(buttonView, helper.getAdapterPosition(), isChecked, cbEveryDay.isChecked());
-            }
-        });*/
-    }
-
-    public interface CheckListnerListener {
-        void switchlistener(CompoundButton buttonView, int position, boolean isOpen, boolean isCycle);
-
-        void cyclelistener(int position, boolean isOpen, boolean isCycle);
     }
 }

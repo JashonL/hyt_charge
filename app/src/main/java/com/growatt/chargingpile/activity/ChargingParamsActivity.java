@@ -62,19 +62,24 @@ public class ChargingParamsActivity extends BaseActivity {
 
     private String[] mModels;
     private boolean isModyfi = false;
-
+    private String chargingId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charging_params);
         ButterKnife.bind(this);
+        initIntent();
         initHeaderView();
         initResource();
         initRecyclerView();
         refreshDate();
         setOnclickListener();
         initPullView();
+    }
+
+    private void initIntent() {
+        chargingId = getIntent().getStringExtra("sn");
     }
 
     private void initPullView() {
@@ -144,15 +149,15 @@ public class ChargingParamsActivity extends BaseActivity {
     }
 
 
-    private void apMode(){
+    private void apMode() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         new CircleDialog.Builder().setTitle(getString(R.string.m27温馨提示))
                 .setText(getString(R.string.m289进入AP模式))
                 .setPositive(getString(R.string.m9确定), v -> {
                     Mydialog.Show(this);
                     Map<String, Object> jsonMap = new HashMap<String, Object>();
-                    jsonMap.put("chargeId", Cons.mCurrentPile.getChargeId());//测试id
-                    jsonMap.put("userId",Cons.userBean.getAccountName());//测试id
+                    jsonMap.put("chargeId", chargingId);//测试id
+                    jsonMap.put("userId", Cons.userBean.getAccountName());//测试id
                     jsonMap.put("lan", getLanguage());//测试id
                     String json = SmartHomeUtil.mapToJsonString(jsonMap);
                     PostUtil.postJson(SmartHomeUrlUtil.postRequestSwitchAp(), json, new PostUtil.postListener() {
@@ -168,7 +173,7 @@ public class ChargingParamsActivity extends BaseActivity {
                                 JSONObject object = new JSONObject(json);
                                 int code = object.getInt("code");
                                 if (code == 0) {
-                                   jumpTo(ConnetWiFiActivity.class,false);
+                                    jumpTo(ConnetWiFiActivity.class, false);
                                 }
                                 toast(object.getString("data"));
                             } catch (Exception e) {
@@ -194,7 +199,7 @@ public class ChargingParamsActivity extends BaseActivity {
         mModels = new String[]{getString(R.string.m217扫码刷卡), getString(R.string.m218仅刷卡充电), getString(R.string.m219插枪充电)};
         keys = new String[]{getString(R.string.m148基础参数), getString(R.string.m149电桩名称), getString(R.string.m150国家城市), getString(R.string.m151站点), getString(R.string.m152充电费率), getString(R.string.m153功率设置), getString(R.string.m154充电模式),
                 getString(R.string.m155高级设置), getString(R.string.m156充电桩IP), getString(R.string.m157网关), getString(R.string.m158子网掩码), getString(R.string.m159网络MAC地址), getString(R.string.m160服务器URL),
-                getString(R.string.m161DNS地址),getString(R.string.m289进入AP模式)};
+                getString(R.string.m161DNS地址), getString(R.string.m289进入AP模式)};
         for (int i = 0; i < keys.length; i++) {
             ParamsSetBean bean = new ParamsSetBean();
             if (i == 0 || i == 7) {
@@ -299,8 +304,8 @@ public class ChargingParamsActivity extends BaseActivity {
     private void requestEdit(String key, Object value) {
         Mydialog.Show(this);
         Map<String, Object> jsonMap = new HashMap<String, Object>();
-        jsonMap.put("chargeId", Cons.mCurrentPile.getChargeId());//测试id
-        jsonMap.put("userId",Cons.userBean.getAccountName());//测试id
+        jsonMap.put("chargeId", chargingId);//测试id
+        jsonMap.put("userId", Cons.userBean.getAccountName());//测试id
         jsonMap.put("lan", getLanguage());//测试id
         jsonMap.put(key, value);
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
@@ -338,7 +343,7 @@ public class ChargingParamsActivity extends BaseActivity {
     private void refreshDate() {
         if (!isModyfi) Mydialog.Show(this);
         Map<String, Object> jsonMap = new HashMap<String, Object>();
-        jsonMap.put("sn", Cons.mCurrentPile.getChargeId());//测试id
+        jsonMap.put("sn",chargingId);//测试id
         jsonMap.put("userId", Cons.userBean.getAccountName());//测试id
         jsonMap.put("lan", getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);

@@ -104,7 +104,7 @@ public class AddAuthorizationActivity extends BaseActivity {
      */
     private void gotoRegister() {
         Intent intent = new Intent(this, AddAuthorizeRegisterActivity.class);
-        intent.putExtra("chargingId", chargingId);
+        intent.putExtra("sn", chargingId);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
 
@@ -165,7 +165,7 @@ public class AddAuthorizationActivity extends BaseActivity {
         }
         Map<String, Object> jsonMap = new LinkedHashMap<>();
         jsonMap.put("ownerId",Cons.userBean.getAccountName());
-        jsonMap.put("sn", Cons.mCurrentPile.getChargeId());
+        jsonMap.put("sn", chargingId);
         jsonMap.put("userId", userName);
         jsonMap.put("phone", "");
         jsonMap.put("userName",userName);

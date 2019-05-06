@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.growatt.chargingpile.BaseActivity;
+import com.growatt.chargingpile.EventBusMsg.AddDevMsg;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.connutil.PostUtil;
 import com.growatt.chargingpile.scan.activity.MyCaptureActivity;
@@ -21,9 +22,11 @@ import com.yzq.zxinglibrary.android.CaptureActivity;
 import com.yzq.zxinglibrary.bean.ZxingConfig;
 import com.yzq.zxinglibrary.common.Constant;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.common.util.LogUtil;
+import org.xutils.view.annotation.Event;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -54,7 +57,7 @@ public class AddChargingActivity extends BaseActivity {
         setHeaderImage(headerView, R.drawable.back, Position.LEFT, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                backPileActivity(Cons.mCurrentPile.getChargeId());
+                finish();
             }
         });
         setHeaderTitle(headerView, getString(R.string.m138添加充电桩), R.color.title_1, true);
@@ -128,7 +131,8 @@ public class AddChargingActivity extends BaseActivity {
                     JSONObject object = new JSONObject(json);
                     int code = object.getInt("code");
                     if (code == 0) {
-                        backPileActivity(sn);
+                        EventBus.getDefault().post(new AddDevMsg());
+                        finish();
                     }
                     toast(object.getString("data"));
                 } catch (Exception e) {
@@ -157,18 +161,10 @@ public class AddChargingActivity extends BaseActivity {
     }
 
 
-    private void backPileActivity(String sn) {
-        Intent intent = new Intent();
-        intent.putExtra("chargingId", sn);
-        setResult(RESULT_OK, intent);
-        finish();
-    }
-
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            backPileActivity(Cons.mCurrentPile.getChargeId());
+            finish();
         }
         return super.onKeyDown(keyCode, event);
     }

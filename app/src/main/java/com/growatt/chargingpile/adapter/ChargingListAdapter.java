@@ -1,5 +1,6 @@
 package com.growatt.chargingpile.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,6 +13,7 @@ import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.bean.ChargingBean;
 import com.growatt.chargingpile.util.MyUtil;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -19,6 +21,9 @@ import java.util.List;
  */
 
 public class ChargingListAdapter extends BaseQuickAdapter<ChargingBean.DataBean, BaseViewHolder>{
+
+    //当前选择的item
+    private int nowSelectPosition = -1;
 
     public ChargingListAdapter(@Nullable List<ChargingBean.DataBean> data) {
         super(R.layout.item_charging_list,data);
@@ -54,4 +59,49 @@ public class ChargingListAdapter extends BaseQuickAdapter<ChargingBean.DataBean,
             ivIcon.setImageResource(R.drawable.charging_pile_icon);
         }
     }
+
+    public int getNowSelectPosition() {
+        return nowSelectPosition;
+    }
+
+
+
+    public void setNowSelectPosition(int position) {
+        if (position >= getItemCount()) return;
+        //去除其他item选择
+        try {
+            //不相等时才去除之前选中item以及赋值，防止重复操作
+            if (this.nowSelectPosition != position) {
+                if (this.nowSelectPosition >=0 && this.nowSelectPosition < getItemCount()) {
+                    ChargingBean.DataBean itemPre = getItem(nowSelectPosition);
+                    if (itemPre==null)return;
+                    itemPre.setChecked(false);
+                }
+
+                this.nowSelectPosition = position;
+            }
+            ChargingBean.DataBean itemNow = getItem(nowSelectPosition);
+            if (itemNow==null)return;
+            //只有没被选中才刷新数据
+            if (!itemNow.isChecked()) {
+                itemNow.setChecked(true);
+                notifyDataSetChanged();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Override
+    public void replaceData(@NonNull Collection<? extends ChargingBean.DataBean> data) {
+        super.replaceData(data);
+        int nowPos = 0;
+        if (nowSelectPosition >= 0 && nowSelectPosition < data.size()){
+            nowPos = nowSelectPosition;
+        }
+        setNowSelectPosition(nowPos);
+    }
+
+
 }

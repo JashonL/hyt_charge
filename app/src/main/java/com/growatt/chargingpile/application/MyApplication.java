@@ -37,7 +37,7 @@ public class MyApplication extends Application {
         // 初始化
         x.Ext.init(this);
         // 设置是否输出debug
-        x.Ext.setDebug(false);
+        x.Ext.setDebug(true);
     }
 
 
