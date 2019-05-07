@@ -108,7 +108,7 @@ public class WanDeviceListActivity extends BaseActivity implements BaseQuickAdap
 
 
     private void initPullView() {
-        srlPull.setColorSchemeColors(ContextCompat.getColor(this, R.color.green_1));
+        srlPull.setColorSchemeColors(ContextCompat.getColor(this, R.color.maincolor_1));
         srlPull.setOnRefreshListener(this::searchDevice);
     }
 

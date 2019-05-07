@@ -308,7 +308,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_marginBottom="@dimen/xa27"
                     android:text="@string/m186每天"
-                    android:textColor="@color/blue_1"
+                    android:textColor="@color/main_text_color"
                     android:textSize="@dimen/xa24" />
 
                 <CheckBox

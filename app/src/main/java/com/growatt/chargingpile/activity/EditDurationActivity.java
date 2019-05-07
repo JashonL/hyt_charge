@@ -214,7 +214,7 @@ public class EditDurationActivity extends BaseActivity {
 
                 }
             }
-        }, R.color.blue_1);
+        }, R.color.main_text_color);
     }
 
     @OnClick({R.id.rl_start, R.id.rl_close, R.id.rl_delete_reserva})

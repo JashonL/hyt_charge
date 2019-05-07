@@ -37,7 +37,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/m7取消"
-            android:textColor="@color/green_1"
+            android:textColor="@color/maincolor_1"
             android:textSize="@dimen/xa35" />
 
         <TextView
@@ -47,7 +47,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/m9确定"
-            android:textColor="@color/green_1"
+            android:textColor="@color/maincolor_1"
             android:textSize="@dimen/xa35" />
     </LinearLayout>
 

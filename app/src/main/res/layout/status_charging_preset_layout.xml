@@ -115,7 +115,7 @@
                             android:layout_height="@dimen/xa120"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            app:textColor="@color/green_1"
+                            app:textColor="@color/maincolor_1"
                             app:roundColor="@color/gray_2"
                             app:roundWidth="@dimen/xa10"
                             app:textIsDisplayable="true"

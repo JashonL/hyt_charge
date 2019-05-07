@@ -220,7 +220,7 @@ public class WifiSetActivity extends BaseActivity {
         ivLeft.setImageResource(R.drawable.back);
         tvTitle.setText(getString(R.string.m105桩体设置));
         tvTitle.setTextColor(ContextCompat.getColor(this, R.color.title_1));
-        srlPull.setColorSchemeColors(ContextCompat.getColor(this, R.color.green_1));
+        srlPull.setColorSchemeColors(ContextCompat.getColor(this, R.color.maincolor_1));
         srlPull.setOnRefreshListener(this::refresh);
         srlPull.setEnabled(false);
     }

@@ -258,7 +258,7 @@ public class ChargingDurationActivity extends BaseActivity {
                 intent.putExtra("sn",chargingId);
                 jumpTo(intent,false);
             }
-        }, R.color.blue_1);
+        }, R.color.main_text_color);
     }
 
 

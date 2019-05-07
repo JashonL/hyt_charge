@@ -117,7 +117,7 @@ public class ChargingPresetEditActivity extends BaseActivity {
         SpannableString spannableString = new SpannableString(textType);
         int start=textType.lastIndexOf(scheme);
         int end=start+scheme.length();
-        spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.green_1)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.maincolor_1)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         tvType.setText(spannableString);
     }
 

@@ -201,7 +201,7 @@
                                 android:layout_height="match_parent"
                                 android:gravity="center"
                                 android:minWidth="@dimen/xa150"
-                                android:textColor="@color/blue_1"
+                                android:textColor="@color/main_text_color"
                                 android:textSize="@dimen/xa30" />
 
                             <ImageView
@@ -222,7 +222,7 @@
                             android:singleLine="true"
                             autofit:minTextSize="8sp"
                             android:text="@string/m117空闲"
-                            android:textColor="@color/charging_text_green"
+                            android:textColor="@color/charging_text_color_2"
                             android:textSize="@dimen/xa38" />
                     </LinearLayout>
 

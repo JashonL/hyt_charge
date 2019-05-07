@@ -82,7 +82,7 @@
             android:layout_marginRight="@dimen/xa20"
             android:layout_toLeftOf="@+id/rl_every_day"
             android:text="@string/m186每天"
-            android:textColor="@color/blue_1"
+            android:textColor="@color/main_text_color"
             android:textSize="@dimen/xa30" />
 
 

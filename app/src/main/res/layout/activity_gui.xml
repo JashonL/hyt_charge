@@ -19,7 +19,7 @@
         android:padding="@dimen/xa23"
         android:text="@string/m1立即体验"
         android:background="@null"
-        android:textColor="@color/green_1"
+        android:textColor="@color/maincolor_1"
         android:textSize="@dimen/xa35"
         android:visibility="gone" />
 

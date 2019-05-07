@@ -298,7 +298,7 @@ public class ChargingPileActivity extends BaseActivity {
     };
 
     private void initPullView() {
-        srlPull.setColorSchemeColors(ContextCompat.getColor(this, R.color.green_1));
+        srlPull.setColorSchemeColors(ContextCompat.getColor(this, R.color.maincolor_1));
         srlPull.setOnRefreshListener(() -> {
             isTimeRefresh = false;
             refreshAll();
@@ -848,7 +848,7 @@ public class ChargingPileActivity extends BaseActivity {
                     mStatusGroup.addView(availableView);
                 }
                 hideAnim();
-                setChargGunUi(R.drawable.charging_available, getString(R.string.m117空闲), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_start_charging, getString(R.string.m103充电));
+                setChargGunUi(R.drawable.charging_available, getString(R.string.m117空闲), ContextCompat.getColor(this, R.color.charging_text_color_2), R.drawable.btn_start_charging, getString(R.string.m103充电));
                 MyUtil.showAllView(llBottomGroup);
                 break;
             case GunBean.RESERVED:
@@ -860,13 +860,13 @@ public class ChargingPileActivity extends BaseActivity {
                     MyUtil.hideAllView(View.GONE, rlReserve, llReserve);
                 }
                 hideAnim();
-                setChargGunUi(R.drawable.charging_available, getString(R.string.m119准备中), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_start_charging, getString(R.string.m103充电));
+                setChargGunUi(R.drawable.charging_available, getString(R.string.m119准备中), ContextCompat.getColor(this, R.color.charging_text_color_2), R.drawable.btn_start_charging, getString(R.string.m103充电));
                 MyUtil.showAllView(llBottomGroup);
                 break;
 
             case GunBean.CHARGING:
                 transactionId = data.getTransactionId();
-                setChargGunUi(R.drawable.charging_available, getString(R.string.m118充电中), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_stop_charging, getString(R.string.m108停止充电));
+                setChargGunUi(R.drawable.charging_available, getString(R.string.m118充电中), ContextCompat.getColor(this, R.color.charging_text_color_2), R.drawable.btn_stop_charging, getString(R.string.m108停止充电));
                 MyUtil.showAllView(llBottomGroup);
                 startAnim();
                 String presetType = data.getcKey();
@@ -950,13 +950,13 @@ public class ChargingPileActivity extends BaseActivity {
                 tvFinishMoney.setText(cost);
                 stopAnim();
                 MyUtil.showAllView(llBottomGroup);
-                setChargGunUi(R.drawable.charging_available, getString(R.string.m120充电结束), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_stop_charging, getString(R.string.m108停止充电));
+                setChargGunUi(R.drawable.charging_available, getString(R.string.m120充电结束), ContextCompat.getColor(this, R.color.charging_text_color_2), R.drawable.btn_stop_charging, getString(R.string.m108停止充电));
                 break;
 
             case GunBean.EXPIRY:
                 hideAnim();
                 mStatusGroup.addView(chargeExpiryView);
-                setChargGunUi(R.drawable.charging_available, getString(R.string.m118充电中), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_start_charging, getString(R.string.m103充电));
+                setChargGunUi(R.drawable.charging_available, getString(R.string.m118充电中), ContextCompat.getColor(this, R.color.charging_text_color_2), R.drawable.btn_start_charging, getString(R.string.m103充电));
                 MyUtil.hideAllView(View.GONE, llBottomGroup);
                 break;
             case GunBean.FAULTED:
@@ -976,14 +976,14 @@ public class ChargingPileActivity extends BaseActivity {
             case GunBean.WORK:
                 hideAnim();
                 mStatusGroup.addView(chargeWorkedView);
-                setChargGunUi(R.drawable.charging_available, getString(R.string.m126已经工作过), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_start_charging, getString(R.string.m103充电));
+                setChargGunUi(R.drawable.charging_available, getString(R.string.m126已经工作过), ContextCompat.getColor(this, R.color.charging_text_color_2), R.drawable.btn_start_charging, getString(R.string.m103充电));
                 MyUtil.hideAllView(View.GONE, llBottomGroup);
                 break;
 
             case GunBean.ACCEPTED:
                 hideAnim();
                 mStatusGroup.addView(chargeAcceptedView);
-                setChargGunUi(R.drawable.charging_available, getString(R.string.m125启用中), ContextCompat.getColor(this, R.color.charging_text_green), R.drawable.btn_start_charging, getString(R.string.m103充电));
+                setChargGunUi(R.drawable.charging_available, getString(R.string.m125启用中), ContextCompat.getColor(this, R.color.charging_text_color_2), R.drawable.btn_start_charging, getString(R.string.m103充电));
                 MyUtil.hideAllView(View.GONE, llBottomGroup);
                 break;
 
@@ -2132,7 +2132,7 @@ public class ChargingPileActivity extends BaseActivity {
         } else {
             mRlSolar.setBackgroundResource(R.drawable.selector_circle_btn_white);
             mIvLimit.setImageResource(R.drawable.limit_power_on);
-            mTvSolar.setTextColor(ContextCompat.getColor(this, R.color.green_1));
+            mTvSolar.setTextColor(ContextCompat.getColor(this, R.color.maincolor_1));
         }
         mTvSolar.setText(R.string.solar);
 

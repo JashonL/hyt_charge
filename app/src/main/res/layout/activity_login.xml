@@ -180,7 +180,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="@string/m体验馆"
-            android:textColor="@color/green_1"
+            android:textColor="@color/maincolor_1"
             android:textSize="@dimen/xa35" />
 
     </LinearLayout>

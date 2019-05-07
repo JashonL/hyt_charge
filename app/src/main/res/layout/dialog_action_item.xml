@@ -21,7 +21,7 @@
             android:background="@color/headerView"
             android:gravity="left|center_vertical"
             android:text="@string/m7取消"
-            android:textColor="@color/blue_1"
+            android:textColor="@color/main_text_color"
             android:textSize="@dimen/xa25" />
 
         <TextView
@@ -34,7 +34,7 @@
             android:gravity="right|center_vertical"
             android:text="@string/m9确定"
             android:paddingRight="@dimen/xa29"
-            android:textColor="@color/blue_1"
+            android:textColor="@color/main_text_color"
             android:textSize="@dimen/xa25" />
 
     </LinearLayout>

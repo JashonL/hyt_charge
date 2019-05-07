@@ -179,7 +179,7 @@ public class NewEmailVerActivity extends BaseActivity {
     //显示正常button
     private void showBeforeButton() {
         btnSendCode.setEnabled(true);
-        btnSendCode.setBackgroundColor(getResources().getColor(R.color.green_2));
+        btnSendCode.setBackgroundColor(getResources().getColor(R.color.maincolor_2));
         TIME_COUNT = TOTAL_TIME;
         //显示文本
         btnSendCode.setText(R.string.m75发送验证码);

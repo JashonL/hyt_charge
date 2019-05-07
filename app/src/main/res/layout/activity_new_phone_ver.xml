@@ -35,7 +35,7 @@
             android:background="@color/gray" />
 
         <EditText
-            android:id="@+id/etPhone"
+            android:id="@+id/et_code"
             android:layout_width="@dimen/xa365"
             android:layout_height="match_parent"
             android:background="@null"

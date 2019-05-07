@@ -101,8 +101,10 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="15dp"
             android:text="@string/m186每天"
-            android:textColor="@color/blue_1"
-            android:textSize="@dimen/xa30" />
+            android:textColor="@color/main_text_color"
+            android:textSize="@dimen/xa30"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="15dp" />
 
         <CheckBox
             android:id="@+id/cb_everyday"

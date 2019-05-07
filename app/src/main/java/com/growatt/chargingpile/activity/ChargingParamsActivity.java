@@ -83,7 +83,7 @@ public class ChargingParamsActivity extends BaseActivity {
     }
 
     private void initPullView() {
-        srlPull.setColorSchemeColors(ContextCompat.getColor(this, R.color.green_1));
+        srlPull.setColorSchemeColors(ContextCompat.getColor(this, R.color.maincolor_1));
         srlPull.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

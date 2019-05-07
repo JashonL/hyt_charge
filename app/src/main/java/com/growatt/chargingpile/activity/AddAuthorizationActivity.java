@@ -87,7 +87,7 @@ public class AddAuthorizationActivity extends BaseActivity {
 
         int dimen = getResources().getDimensionPixelSize(R.dimen.xa23);
         tvRight.setTextSize(TypedValue.COMPLEX_UNIT_PX,dimen);
-        tvRight.setTextColor(ContextCompat.getColor(this, R.color.charging_text_green));
+        tvRight.setTextColor(ContextCompat.getColor(this, R.color.charging_text_color_2));
         tvRight.setText(getString(R.string.m164注册新用户));
         tvRight.setOnClickListener(new View.OnClickListener() {
             @Override
