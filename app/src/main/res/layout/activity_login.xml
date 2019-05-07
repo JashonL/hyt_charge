@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/headerView"
@@ -148,14 +149,14 @@
         android:id="@+id/bt_login"
         android:layout_width="match_parent"
         android:layout_height="@dimen/xa88"
-        android:layout_below="@+id/etPwd"
         android:layout_marginLeft="@dimen/xa75"
         android:layout_marginRight="@dimen/xa75"
         android:layout_marginTop="@dimen/xa49"
         android:background="@drawable/selector_circle_btn_green_gradient"
         android:stateListAnimator="@null"
         android:text="@string/m24登陆"
-        android:textColor="@color/headerView" />
+        android:textColor="@color/headerView"
+        tools:targetApi="lollipop" />
 
     <TextView
         android:id="@+id/tv_foget"

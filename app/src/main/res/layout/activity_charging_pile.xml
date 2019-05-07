@@ -11,7 +11,7 @@
         android:id="@+id/rl_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/charging_bg"
+        android:background="@color/maingray_bg"
         android:paddingTop="@dimen/status_bar_height">
 
         <RelativeLayout

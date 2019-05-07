@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--项目名称-->
-    <string name="app_name">Project EV</string>
+    <string name="app_name">ATS Charge</string>
 
     <!--ios对应-->
     <string name="m1立即体验">立即体验</string>

@@ -61,16 +61,16 @@
     <!--登录页-->
 
     <!--绿色-->
-    <color name="maincolor_1">#00e3c0</color>
-    <color name="maincolor_2">#01e672</color>
+    <color name="maincolor_1">#d30f1a</color>
+    <color name="maincolor_2">#d30f1a</color>
     <!--蓝色-->
-    <color name="main_text_color">#009cff</color>
-    <color name="forget_password_color">#00e3bf</color>
+    <color name="main_text_color">#d30f1a</color>
+    <color name="forget_password_color">#d30f1a</color>
 
     <!--充电桩首页-->
     <color name="charging_button_blue">#23496e</color>
     <color name="charging_button_blue_50">#5023496e</color>
-    <color name="charging_text_color_2">#00efad</color>
+    <color name="charging_text_color_2">#d30f1a</color>
     <color name="gray">#dddddd</color>
     <color name="gray_2">#cad0d5</color>
     <color name="maincolor_3">#00fff6</color>
@@ -79,11 +79,15 @@
     <!--方案编辑-->
     <color name="preset_edit_divider">#c7cbce</color>
     <color name="preset_edit_time_background">#e8ecef</color>
-    
+
     <!--预约编辑-->
     <color name="timing_delete">#fb2929</color>
 
+    <!--我的头像背景-->
+    <color name="maingray_bg">#485157</color>
 
-    
+    <!--充电桩不可用-->
+    <color name="charging_fault">#ff6c00</color>
+
 
 </resources>

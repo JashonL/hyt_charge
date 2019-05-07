@@ -8,7 +8,7 @@
         android:id="@+id/r2"
         android:layout_width="match_parent"
         android:layout_height="@dimen/xa405"
-        android:background="@drawable/me_header_bg"
+        android:background="@color/maingray_bg"
         android:gravity="center">
 
         <ImageView

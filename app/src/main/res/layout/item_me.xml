@@ -12,8 +12,8 @@
 
         <ImageView
             android:id="@+id/imageView1"
-            android:layout_width="@dimen/xa93"
-            android:layout_height="@dimen/xa93"
+            android:layout_width="@dimen/xa44"
+            android:layout_height="@dimen/xa44"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/xa23" />

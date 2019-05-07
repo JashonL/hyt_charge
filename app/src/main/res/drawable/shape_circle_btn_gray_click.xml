@@ -4,5 +4,5 @@
     android:useLevel="false"
     >
     <corners android:radius="360dp"/>
-    <solid android:color="@color/gray_background2"/>
+    <solid android:color="@color/white_background_click"/>
 </shape>
