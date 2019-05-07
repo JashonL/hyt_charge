@@ -968,7 +968,7 @@ public class ChargingPileActivity extends BaseActivity {
 
             case GunBean.UNAVAILABLE:
                 hideAnim();
-                mTvContent.setText(R.string.m122不可用);
+                mTvContent.setText(R.string.m216桩体状态为不可用);
                 mStatusGroup.addView(chargeUnvailableView);
                 setChargGunUi(R.drawable.charging_unavailable, getString(R.string.m122不可用), ContextCompat.getColor(this, R.color.title_3), R.drawable.btn_start_charging, getString(R.string.m103充电));
                 MyUtil.showAllView(llBottomGroup);

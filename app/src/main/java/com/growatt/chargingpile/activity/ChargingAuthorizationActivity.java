@@ -132,6 +132,7 @@ public class ChargingAuthorizationActivity extends BaseActivity {
     private void gotoGrant() {
         Intent intent = new Intent(this, AddAuthorizationActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.putExtra("sn",chargingId);
         startActivity(intent);
     }
 

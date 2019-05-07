@@ -348,11 +348,22 @@ public class AddAuthorizeRegisterActivity extends BaseActivity {
     }
 
 
+    /**
+     * 添加授权
+     */
+
     private void toAddAuthorize() {
         String userName = etUsername.getText().toString().trim();
+        if (TextUtils.isEmpty(String.valueOf(etUsername.getText()))) {
+            toast(R.string.m25请输入用户名);
+            return;
+        }
         Map<String, Object> jsonMap = new LinkedHashMap<>();
+        jsonMap.put("ownerId",Cons.userBean.getAccountName());
         jsonMap.put("sn", chargingId);
-        jsonMap.put("userName", userName);
+        jsonMap.put("userId", userName);
+        jsonMap.put("phone", "");
+        jsonMap.put("userName",userName);
         jsonMap.put("lan",getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         Mydialog.Show(this);
@@ -364,8 +375,18 @@ public class AddAuthorizeRegisterActivity extends BaseActivity {
 
             @Override
             public void success(String json) {
-                toast(getString(R.string.m139添加成功));
-                finish();
+                Mydialog.Dismiss();
+                try {
+                    JSONObject jsonObject = new JSONObject(json);
+                    int code = jsonObject.getInt("code");
+                    if (code == 0) {
+                        AddAuthorizeRegisterActivity.this.finish();
+                    }
+                    String data = jsonObject.getString("data");
+                    if (!TextUtils.isEmpty(data)) toast(R.string.m139添加成功);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override

@@ -70,7 +70,7 @@ public class AddAuthorizationActivity extends BaseActivity {
     }
 
     private void initIntent() {
-        chargingId = getIntent().getStringExtra("chargingId");
+        chargingId = getIntent().getStringExtra("sn");
     }
 
     private void initHeadView() {
@@ -134,7 +134,7 @@ public class AddAuthorizationActivity extends BaseActivity {
                         if (id.equals("null")) {
                             toast(getString(R.string.m账号未注册));
                         } else {
-                            toAddAuthorize(id);
+                            toAddAuthorize();
                         }
                     }else {
                         toast(getString(R.string.m账号未注册));
@@ -157,7 +157,7 @@ public class AddAuthorizationActivity extends BaseActivity {
      * 添加授权
      */
 
-    private void toAddAuthorize(String userId) {
+    private void toAddAuthorize() {
         String userName = etUsername.getText().toString().trim();
         if (TextUtils.isEmpty(String.valueOf(etUsername.getText()))) {
             toast(R.string.m25请输入用户名);
