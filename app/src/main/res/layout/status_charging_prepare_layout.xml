@@ -82,13 +82,11 @@
                         android:layout_marginRight="@dimen/xa11"
                         android:layout_marginTop="@dimen/xa11">
 
-                        <CheckBox
-                            android:id="@+id/cb_prepare_money_select"
+                        <ImageView
+                            android:id="@+id/iv_prepare_money_select"
                             android:layout_width="@dimen/xa36"
                             android:layout_height="@dimen/xa36"
-                            android:background="@drawable/selector_checkbox_bg_blue"
-                            android:button="@null"
-                            android:enabled="false" />
+                            />
 
                     </RelativeLayout>
 
@@ -163,13 +161,11 @@
                         android:layout_marginRight="@dimen/xa11"
                         android:layout_marginTop="@dimen/xa11">
 
-                        <CheckBox
-                            android:id="@+id/cb_prepare_ele_select"
+                        <ImageView
+                            android:id="@+id/iv_prepare_ele_select"
                             android:layout_width="@dimen/xa36"
                             android:layout_height="@dimen/xa36"
-                            android:background="@drawable/selector_checkbox_bg_blue"
-                            android:button="@null"
-                            android:enabled="false" />
+                             />
 
                     </RelativeLayout>
 
@@ -245,13 +241,10 @@
                         android:layout_marginRight="@dimen/xa11"
                         android:layout_marginTop="@dimen/xa11">
 
-                        <CheckBox
-                            android:id="@+id/cb_prepare_time_select"
+                        <ImageView
+                            android:id="@+id/iv_prepare_time_select"
                             android:layout_width="@dimen/xa36"
-                            android:layout_height="@dimen/xa36"
-                            android:background="@drawable/selector_checkbox_bg_blue"
-                            android:button="@null"
-                            android:enabled="false" />
+                            android:layout_height="@dimen/xa36" />
 
                     </RelativeLayout>
 

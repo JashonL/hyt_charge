@@ -158,11 +158,11 @@ public class ChargingPileActivity extends BaseActivity {
     //--------------准备中---------------
     private View preparingView;
     private TextView tvPpmoney;
-    private CheckBox cbPpmoney;
+    private ImageView ivPpmoney;
     private TextView tvPpEle;
-    private CheckBox cbPpEle;
+    private ImageView ivPpEle;
     private TextView tvPpTime;
-    private CheckBox cbPpTime;
+    private ImageView ivPpTime;
     private LinearLayout llReserveView;
     private TextView tvStartTime;
     private ImageView ivResever;
@@ -432,17 +432,17 @@ public class ChargingPileActivity extends BaseActivity {
         RelativeLayout rlPpmoney = preparingView.findViewById(R.id.rl_prepare_money);
         RelativeLayout rlPpmoneyEdit = preparingView.findViewById(R.id.rl_prepare_money_edit);
         tvPpmoney = preparingView.findViewById(R.id.tv_prepare_money_num);
-        cbPpmoney = preparingView.findViewById(R.id.cb_prepare_money_select);
+        ivPpmoney = preparingView.findViewById(R.id.iv_prepare_money_select);
         //电量
         RelativeLayout rlPpEle = preparingView.findViewById(R.id.rl_prepare_ele);
         RelativeLayout rlPpEleEdit = preparingView.findViewById(R.id.rl_prepare_ele_edit);
         tvPpEle = preparingView.findViewById(R.id.tv_prepare_ele_num);
-        cbPpEle = preparingView.findViewById(R.id.cb_prepare_ele_select);
+        ivPpEle = preparingView.findViewById(R.id.iv_prepare_ele_select);
         //时长
         RelativeLayout rlPpTime = preparingView.findViewById(R.id.rl_prepare_time);
         RelativeLayout rlPpTimeEdit = preparingView.findViewById(R.id.rl_prepare_time_edit);
         tvPpTime = preparingView.findViewById(R.id.tv_prepare_time_num);
-        cbPpTime = preparingView.findViewById(R.id.cb_prepare_time_select);
+        ivPpTime = preparingView.findViewById(R.id.iv_prepare_time_select);
         //开始时间
         tvTextStart = preparingView.findViewById(R.id.tv_time);
         //开启或者关闭
@@ -510,28 +510,6 @@ public class ChargingPileActivity extends BaseActivity {
             startActivityForResult(intent, REQUEST_TIME);
         });
 
-        cbPpmoney.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                cbPpEle.setChecked(false);
-                cbPpTime.setChecked(false);
-            }
-        });
-
-
-        cbPpEle.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                cbPpmoney.setChecked(false);
-                cbPpTime.setChecked(false);
-            }
-        });
-
-
-        cbPpTime.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                cbPpmoney.setChecked(false);
-                cbPpEle.setChecked(false);
-            }
-        });
 
         //预约
         llReserveView = preparingView.findViewById(R.id.ll_reserve_view);
@@ -2176,12 +2154,12 @@ public class ChargingPileActivity extends BaseActivity {
      * 初始化预设相关ui
      */
     private void initPresetUi() {
-        cbPpmoney.setChecked(false);
+        ivPpmoney.setImageResource(R.drawable.charging_prepare_not_selected);
         tvPpmoney.setText("--");
-        cbPpEle.setChecked(false);
+        ivPpEle.setImageResource(R.drawable.charging_prepare_not_selected);
         String s = "--kWh";
         tvPpEle.setText(s);
-        cbPpTime.setChecked(false);
+        ivPpTime.setImageResource(R.drawable.charging_prepare_not_selected);
         s = "-h-min";
         tvPpTime.setText(s);
 
@@ -2192,7 +2170,11 @@ public class ChargingPileActivity extends BaseActivity {
      */
 
     private void setMoneyUi(boolean isCheck, String money) {
-        cbPpmoney.setChecked(isCheck);
+        ivPpmoney.setImageResource(isCheck ? R.drawable.charging_prepare_not_selected : R.drawable.charging_prepare_not_selected);
+        if (isCheck) {
+            setEleUi(false, "--");
+            setTimeUi(false, "--");
+        }
         tvPpmoney.setText(money);
     }
 
@@ -2202,7 +2184,11 @@ public class ChargingPileActivity extends BaseActivity {
      */
 
     private void setEleUi(boolean isCheck, String ele) {
-        cbPpEle.setChecked(isCheck);
+        ivPpEle.setImageResource(isCheck ? R.drawable.charging_prepare_selected : R.drawable.charging_prepare_not_selected);
+        if (isCheck) {
+            setMoneyUi(false, "--");
+            setTimeUi(false, "--");
+        }
         tvPpEle.setText(ele);
     }
 
@@ -2212,7 +2198,11 @@ public class ChargingPileActivity extends BaseActivity {
      */
 
     private void setTimeUi(boolean isCheck, String time) {
-        cbPpTime.setChecked(isCheck);
+        ivPpTime.setImageResource(isCheck ? R.drawable.charging_prepare_selected : R.drawable.charging_prepare_not_selected);
+        if (isCheck){
+            setEleUi(false,"--");
+            setTimeUi(false,"--");
+        }
         tvPpTime.setText(time);
     }
 
