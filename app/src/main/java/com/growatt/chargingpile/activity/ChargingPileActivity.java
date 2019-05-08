@@ -430,14 +430,17 @@ public class ChargingPileActivity extends BaseActivity {
         preparingView = LayoutInflater.from(this).inflate(R.layout.status_charging_prepare_layout, mStatusGroup, false);
         //金额
         RelativeLayout rlPpmoney = preparingView.findViewById(R.id.rl_prepare_money);
+        RelativeLayout rlPpmoneyEdit = preparingView.findViewById(R.id.rl_prepare_money_edit);
         tvPpmoney = preparingView.findViewById(R.id.tv_prepare_money_num);
         cbPpmoney = preparingView.findViewById(R.id.cb_prepare_money_select);
         //电量
         RelativeLayout rlPpEle = preparingView.findViewById(R.id.rl_prepare_ele);
+        RelativeLayout rlPpEleEdit = preparingView.findViewById(R.id.rl_prepare_ele_edit);
         tvPpEle = preparingView.findViewById(R.id.tv_prepare_ele_num);
         cbPpEle = preparingView.findViewById(R.id.cb_prepare_ele_select);
         //时长
         RelativeLayout rlPpTime = preparingView.findViewById(R.id.rl_prepare_time);
+        RelativeLayout rlPpTimeEdit = preparingView.findViewById(R.id.rl_prepare_time_edit);
         tvPpTime = preparingView.findViewById(R.id.tv_prepare_time_num);
         cbPpTime = preparingView.findViewById(R.id.cb_prepare_time_select);
         //开始时间
@@ -460,6 +463,13 @@ public class ChargingPileActivity extends BaseActivity {
         });
 
 
+        rlPpmoneyEdit.setOnClickListener(v -> {
+            Intent intent = new Intent(ChargingPileActivity.this, ChargingPresetEditActivity.class);
+            intent.putExtra("type", 1);
+            startActivityForResult(intent, REQUEST_MONEY);
+        });
+
+
         rlPpEle.setOnClickListener(v -> {
             if (presetType == 2) {
                 setEleUi(false, "--");
@@ -471,6 +481,13 @@ public class ChargingPileActivity extends BaseActivity {
             }
 
         });
+
+        rlPpEleEdit.setOnClickListener(v -> {
+            Intent intent = new Intent(ChargingPileActivity.this, ChargingPresetEditActivity.class);
+            intent.putExtra("type", 2);
+            startActivityForResult(intent, REQUEST_ELE);
+        });
+
 
         rlPpTime.setOnClickListener(v -> {
             LogUtil.d("选中方案" + presetType);
@@ -485,6 +502,12 @@ public class ChargingPileActivity extends BaseActivity {
                 startActivityForResult(intent, REQUEST_TIME);
             }
 
+        });
+
+        rlPpTimeEdit.setOnClickListener(v -> {
+            Intent intent = new Intent(ChargingPileActivity.this, ChargingPresetEditActivity.class);
+            intent.putExtra("type", 3);
+            startActivityForResult(intent, REQUEST_TIME);
         });
 
         cbPpmoney.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -1923,7 +1946,6 @@ public class ChargingPileActivity extends BaseActivity {
                 startTime = yMd + "T" + time + ":00.000Z";
                 isReservation = true;
                 setReserveUi(getString(R.string.m204开始时间), getString(R.string.m183开启), R.drawable.checkbox_on, time, true, false);
-                toChargingOrStop();
             }
 
             @Override
@@ -2157,10 +2179,10 @@ public class ChargingPileActivity extends BaseActivity {
         cbPpmoney.setChecked(false);
         tvPpmoney.setText("--");
         cbPpEle.setChecked(false);
-        String s="--kWh";
+        String s = "--kWh";
         tvPpEle.setText(s);
         cbPpTime.setChecked(false);
-        s="-h-min";
+        s = "-h-min";
         tvPpTime.setText(s);
 
     }

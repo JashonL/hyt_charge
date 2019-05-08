@@ -45,11 +45,11 @@
                 android:paddingRight="@dimen/xa30">
 
                 <RelativeLayout
-                    android:id="@+id/rl_prepare_money"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/xa130"
                     android:layout_weight="1"
                     android:background="@drawable/shape_white_corner_bg">
+
 
                     <ImageView
                         android:id="@+id/iv_money"
@@ -72,40 +72,54 @@
                         android:textColor="@color/title_3"
                         android:textSize="@dimen/xa26" />
 
-                    <CheckBox
-                        android:id="@+id/cb_prepare_money_select"
-                        android:layout_width="@dimen/xa36"
-                        android:layout_height="@dimen/xa36"
+                    <RelativeLayout
+                        android:id="@+id/rl_prepare_money"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_marginEnd="@dimen/xa11"
                         android:layout_marginRight="@dimen/xa11"
-                        android:layout_marginTop="@dimen/xa11"
-                        android:background="@drawable/selector_checkbox_bg_blue"
-                        android:button="@null"
-                        android:enabled="false" />
+                        android:layout_marginTop="@dimen/xa11">
 
-                    <TextView
-                        android:id="@+id/tv_prepare_money_num"
-                        android:layout_width="wrap_content"
+                        <CheckBox
+                            android:id="@+id/cb_prepare_money_select"
+                            android:layout_width="@dimen/xa36"
+                            android:layout_height="@dimen/xa36"
+                            android:background="@drawable/selector_checkbox_bg_blue"
+                            android:button="@null"
+                            android:enabled="false" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/rl_prepare_money_edit"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="@dimen/xa24"
-                        android:textColor="@color/title_1"
-                        android:textSize="@dimen/xa30" />
+                        android:layout_marginBottom="@dimen/xa24">
 
-                    <ImageView
-                        android:id="@+id/iv_more_money"
-                        android:layout_width="@dimen/xa10"
-                        android:layout_height="@dimen/xa16"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginBottom="@dimen/xa35"
-                        android:layout_marginLeft="@dimen/xa8"
-                        android:layout_marginStart="@dimen/xa8"
-                        android:layout_toEndOf="@+id/tv_prepare_money_num"
-                        android:layout_toRightOf="@+id/tv_prepare_money_num"
-                        android:src="@drawable/charger_device_item_more" />
+                        <TextView
+                            android:id="@+id/tv_prepare_money_num"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:textColor="@color/title_1"
+                            android:textSize="@dimen/xa30" />
+
+                        <ImageView
+                            android:id="@+id/iv_more_money"
+                            android:layout_width="@dimen/xa10"
+                            android:layout_height="@dimen/xa16"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/xa8"
+                            android:layout_marginStart="@dimen/xa8"
+                            android:layout_toEndOf="@+id/tv_prepare_money_num"
+                            android:layout_toRightOf="@+id/tv_prepare_money_num"
+                            android:src="@drawable/charger_device_item_more" />
+
+                    </RelativeLayout>
+
 
                 </RelativeLayout>
 
@@ -114,7 +128,6 @@
                     android:layout_height="@dimen/xa130" />
 
                 <RelativeLayout
-                    android:id="@+id/rl_prepare_ele"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/xa130"
                     android:layout_weight="1"
@@ -140,40 +153,54 @@
                         android:textColor="@color/title_3"
                         android:textSize="@dimen/xa26" />
 
-                    <CheckBox
-                        android:id="@+id/cb_prepare_ele_select"
-                        android:layout_width="@dimen/xa36"
-                        android:layout_height="@dimen/xa36"
+                    <RelativeLayout
+                        android:id="@+id/rl_prepare_ele"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_marginEnd="@dimen/xa11"
                         android:layout_marginRight="@dimen/xa11"
-                        android:layout_marginTop="@dimen/xa11"
-                        android:background="@drawable/selector_checkbox_bg_blue"
-                        android:button="@null"
-                        android:enabled="false" />
+                        android:layout_marginTop="@dimen/xa11">
 
-                    <TextView
-                        android:id="@+id/tv_prepare_ele_num"
-                        android:layout_width="wrap_content"
+                        <CheckBox
+                            android:id="@+id/cb_prepare_ele_select"
+                            android:layout_width="@dimen/xa36"
+                            android:layout_height="@dimen/xa36"
+                            android:background="@drawable/selector_checkbox_bg_blue"
+                            android:button="@null"
+                            android:enabled="false" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/rl_prepare_ele_edit"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="@dimen/xa24"
-                        android:textColor="@color/title_1"
-                        android:textSize="@dimen/xa30" />
+                        android:layout_marginBottom="@dimen/xa24">
 
-                    <ImageView
-                        android:id="@+id/iv_more_ele"
-                        android:layout_width="@dimen/xa10"
-                        android:layout_height="@dimen/xa16"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginBottom="@dimen/xa35"
-                        android:layout_marginLeft="@dimen/xa8"
-                        android:layout_marginStart="@dimen/xa8"
-                        android:layout_toEndOf="@+id/tv_prepare_ele_num"
-                        android:layout_toRightOf="@+id/tv_prepare_ele_num"
-                        android:src="@drawable/charger_device_item_more" />
+                        <TextView
+                            android:id="@+id/tv_prepare_ele_num"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:textColor="@color/title_1"
+                            android:textSize="@dimen/xa30" />
+
+                        <ImageView
+                            android:id="@+id/iv_more_ele"
+                            android:layout_width="@dimen/xa10"
+                            android:layout_height="@dimen/xa16"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/xa8"
+                            android:layout_marginStart="@dimen/xa8"
+                            android:layout_toEndOf="@+id/tv_prepare_ele_num"
+                            android:layout_toRightOf="@+id/tv_prepare_ele_num"
+                            android:src="@drawable/charger_device_item_more" />
+
+                    </RelativeLayout>
+
 
                 </RelativeLayout>
 
@@ -182,7 +209,6 @@
                     android:layout_height="@dimen/xa130" />
 
                 <RelativeLayout
-                    android:id="@+id/rl_prepare_time"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/xa130"
                     android:layout_weight="1"
@@ -209,38 +235,53 @@
                         android:textColor="@color/title_3"
                         android:textSize="@dimen/xa26" />
 
-                    <CheckBox
-                        android:id="@+id/cb_prepare_time_select"
-                        android:layout_width="@dimen/xa36"
-                        android:layout_height="@dimen/xa36"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="@dimen/xa11"
-                        android:layout_marginTop="@dimen/xa11"
-                        android:background="@drawable/selector_checkbox_bg_blue"
-                        android:button="@null"
-                        android:enabled="false" />
-
-                    <TextView
-                        android:id="@+id/tv_prepare_time_num"
+                    <RelativeLayout
+                        android:id="@+id/rl_prepare_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="@dimen/xa24"
-                        android:textColor="@color/title_1"
-                        android:textSize="@dimen/xa30" />
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginEnd="@dimen/xa11"
+                        android:layout_marginRight="@dimen/xa11"
+                        android:layout_marginTop="@dimen/xa11">
 
-                    <ImageView
-                        android:id="@+id/iv_more_time"
-                        android:layout_width="@dimen/xa10"
-                        android:layout_height="@dimen/xa16"
+                        <CheckBox
+                            android:id="@+id/cb_prepare_time_select"
+                            android:layout_width="@dimen/xa36"
+                            android:layout_height="@dimen/xa36"
+                            android:background="@drawable/selector_checkbox_bg_blue"
+                            android:button="@null"
+                            android:enabled="false" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/rl_prepare_time_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
-                        android:layout_marginBottom="@dimen/xa35"
-                        android:layout_marginLeft="@dimen/xa8"
-                        android:layout_marginStart="@dimen/xa8"
-                        android:layout_toEndOf="@+id/tv_prepare_time_num"
-                        android:layout_toRightOf="@+id/tv_prepare_time_num"
-                        android:src="@drawable/charger_device_item_more" />
+                        android:layout_marginBottom="@dimen/xa24">
+
+                        <TextView
+                            android:id="@+id/tv_prepare_time_num"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:textColor="@color/title_1"
+                            android:textSize="@dimen/xa30" />
+
+                        <ImageView
+                            android:id="@+id/iv_more_time"
+                            android:layout_width="@dimen/xa10"
+                            android:layout_height="@dimen/xa16"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/xa8"
+                            android:layout_marginStart="@dimen/xa8"
+                            android:layout_toEndOf="@+id/tv_prepare_time_num"
+                            android:layout_toRightOf="@+id/tv_prepare_time_num"
+                            android:src="@drawable/charger_device_item_more" />
+
+                    </RelativeLayout>
 
                 </RelativeLayout>
 
@@ -349,11 +390,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/xa21"
+                        android:layout_marginStart="@dimen/xa21"
                         android:layout_toEndOf="@+id/cb_everyday"
                         android:layout_toRightOf="@+id/cb_everyday"
                         android:text="@string/m186每天"
-                        android:layout_marginLeft="@dimen/xa21"
-                        android:layout_marginStart="@dimen/xa21"
                         android:textColor="@color/main_text_color"
                         android:textSize="@dimen/xa24" />
 
