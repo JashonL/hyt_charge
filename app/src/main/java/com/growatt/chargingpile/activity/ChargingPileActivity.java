@@ -22,6 +22,7 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -450,6 +451,13 @@ public class ChargingPileActivity extends BaseActivity {
         cbEveryday = preparingView.findViewById(R.id.cb_everyday);
         tvEveryDay = preparingView.findViewById(R.id.tv_time_every_day);
 
+        cbEveryday.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                tvEveryDay.setTextColor(ContextCompat.getColor(this, R.color.main_text_color));
+            } else {
+                tvEveryDay.setTextColor(ContextCompat.getColor(this, R.color.title_2));
+            }
+        });
 
         rlPpmoney.setOnClickListener(v -> {
             if (presetType == 1) {
@@ -2199,9 +2207,9 @@ public class ChargingPileActivity extends BaseActivity {
 
     private void setTimeUi(boolean isCheck, String time) {
         ivPpTime.setImageResource(isCheck ? R.drawable.charging_prepare_selected : R.drawable.charging_prepare_not_selected);
-        if (isCheck){
-            setEleUi(false,"--");
-            setTimeUi(false,"--");
+        if (isCheck) {
+            setEleUi(false, "--");
+            setTimeUi(false, "--");
         }
         tvPpTime.setText(time);
     }
@@ -2310,7 +2318,6 @@ public class ChargingPileActivity extends BaseActivity {
      */
     private void deleteTime() {
         LogUtil.d("删除预约");
-        Mydialog.Show(this);
         if (mCurrentReservationBean == null) return;
         String json = new Gson().toJson(mCurrentReservationBean);
         JSONObject object = null;
