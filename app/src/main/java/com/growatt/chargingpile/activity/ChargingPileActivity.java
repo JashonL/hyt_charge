@@ -163,7 +163,7 @@ public class ChargingPileActivity extends BaseActivity {
     private CheckBox cbPpEle;
     private TextView tvPpTime;
     private CheckBox cbPpTime;
-    private RelativeLayout rlReserve;
+    private LinearLayout llReserveView;
     private TextView tvStartTime;
     private ImageView ivResever;
     private TextView tvTextStart;
@@ -511,7 +511,7 @@ public class ChargingPileActivity extends BaseActivity {
         });
 
         //预约
-        rlReserve = preparingView.findViewById(R.id.rl_reserve);
+        llReserveView = preparingView.findViewById(R.id.ll_reserve_view);
         tvStartTime = preparingView.findViewById(R.id.tv_start_time);
         ivResever = preparingView.findViewById(R.id.iv_resever_switch);
         llReserve = preparingView.findViewById(R.id.ll_reserve);
@@ -541,7 +541,7 @@ public class ChargingPileActivity extends BaseActivity {
         });
 
 
-        rlReserve.setOnClickListener(v -> {
+        llReserveView.setOnClickListener(v -> {
             if (isReservation) {
                 if (presetType == 3) {
                     //去预约列表操作
@@ -855,9 +855,9 @@ public class ChargingPileActivity extends BaseActivity {
             case GunBean.PREPARING:
                 mStatusGroup.addView(preparingView);
                 if (mCurrentPile.getType() == 0) {
-                    MyUtil.showAllView(rlReserve, llReserve);
+                    MyUtil.showAllView(llReserveView, llReserve);
                 } else {
-                    MyUtil.hideAllView(View.GONE, rlReserve, llReserve);
+                    MyUtil.hideAllView(View.GONE, llReserveView, llReserve);
                 }
                 hideAnim();
                 setChargGunUi(R.drawable.charging_available, getString(R.string.m119准备中), ContextCompat.getColor(this, R.color.title_1), R.drawable.btn_start_charging, getString(R.string.m103充电));
@@ -2157,9 +2157,11 @@ public class ChargingPileActivity extends BaseActivity {
         cbPpmoney.setChecked(false);
         tvPpmoney.setText("--");
         cbPpEle.setChecked(false);
-        tvPpEle.setText("--");
+        String s="--kWh";
+        tvPpEle.setText(s);
         cbPpTime.setChecked(false);
-        tvPpTime.setText("--");
+        s="-h-min";
+        tvPpTime.setText(s);
 
     }
 
