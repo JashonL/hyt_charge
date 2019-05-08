@@ -2223,6 +2223,7 @@ public class ChargingPileActivity extends BaseActivity {
         ivResever.setImageResource(R.drawable.checkbox_off);
         tvStartTime.setText("--:--");
         cbEveryday.setChecked(false);
+        tvEveryDay.setTextColor(ContextCompat.getColor(this,R.color.title_2));
         MyUtil.showAllView(tvEveryDay, cbEveryday);
     }
 

@@ -388,7 +388,7 @@
                         android:layout_toEndOf="@+id/cb_everyday"
                         android:layout_toRightOf="@+id/cb_everyday"
                         android:text="@string/m186每天"
-                        android:textColor="@color/main_text_color"
+                        android:textColor="@color/title_2"
                         android:textSize="@dimen/xa24" />
 
 
