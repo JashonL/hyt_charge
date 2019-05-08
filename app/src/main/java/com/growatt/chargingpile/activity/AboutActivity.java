@@ -2,11 +2,13 @@ package com.growatt.chargingpile.activity;
 
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
@@ -23,6 +25,8 @@ public class AboutActivity extends BaseActivity {
 
 	@BindView(R.id.headerView)
 	LinearLayout headerView;
+	@BindView(R.id.textView1)
+	TextView versionName;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +34,13 @@ public class AboutActivity extends BaseActivity {
 		setContentView(R.layout.activity_about);
 		ButterKnife.bind(this);
 		initHeaderView();
+		try {
+			String name=getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+			String s = getString(R.string.app_name) + name;
+			versionName.setText(s);
+		} catch (PackageManager.NameNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void initHeaderView() {
