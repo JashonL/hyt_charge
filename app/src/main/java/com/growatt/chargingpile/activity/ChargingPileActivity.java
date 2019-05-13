@@ -331,23 +331,13 @@ public class ChargingPileActivity extends BaseActivity {
         switch (previous) {
             case GunBean.CHARGING:
                 isTimeRefresh = true;
-                freshChargingGun(mCurrentPile.getChargeId(), gunId);
-                if (isClicked) {
-                    timeHandler.sendEmptyMessageDelayed(1, 1000);
-                } else {
-                    timeHandler.sendEmptyMessageDelayed(1, 10 * 1000);
-                }
+                timeTaskRefresh(mCurrentPile.getChargeId(), gunId);
                 break;
             case GunBean.RESERVED:
             case GunBean.AVAILABLE://在准备状态，空闲状态，只更新状态，不更新其他ui
             case GunBean.PREPARING:
                 isTimeRefresh = true;
                 timeTaskRefresh(mCurrentPile.getChargeId(), gunId);
-                if (isClicked) {
-                    timeHandler.sendEmptyMessageDelayed(1, 1000);
-                } else {
-                    timeHandler.sendEmptyMessageDelayed(1, 10 * 1000);
-                }
                 break;
             case GunBean.FINISHING:
                 freshChargingGun(mCurrentPile.getChargeId(), gunId);
@@ -741,7 +731,19 @@ public class ChargingPileActivity extends BaseActivity {
                             //状态发生改变时就已经不是刚点击过的了
                             if (!status.equals(previous)) {
                                 isClicked = false;
+                                //根据选中项刷新充电桩的充电枪,默认刷新A枪
+                                Integer gunId = gunIds.get(mCurrentPile.getChargeId());
+                                if (gunId == null) gunId = 1;
+                                freshChargingGun(mCurrentPile.getChargeId(), gunId);
                             }
+                            if (isClicked) {
+                                timeHandler.removeMessages(1);
+                                timeHandler.sendEmptyMessageDelayed(1, 1000);
+                            } else {
+                                timeHandler.removeMessages(1);
+                                timeHandler.sendEmptyMessageDelayed(1, 2*1000);
+                            }
+
                             previous = status;
                         }
                     }
