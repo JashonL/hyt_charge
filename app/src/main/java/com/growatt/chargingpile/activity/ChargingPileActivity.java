@@ -2186,7 +2186,7 @@ public class ChargingPileActivity extends BaseActivity {
      */
 
     private void setMoneyUi(boolean isCheck, String money) {
-        ivPpmoney.setImageResource(isCheck ? R.drawable.charging_prepare_not_selected : R.drawable.charging_prepare_not_selected);
+        ivPpmoney.setImageResource(isCheck ? R.drawable.charging_prepare_selected : R.drawable.charging_prepare_not_selected);
         if (isCheck) {
             setEleUi(false, "--");
             setTimeUi(false, "--");
@@ -2217,7 +2217,7 @@ public class ChargingPileActivity extends BaseActivity {
         ivPpTime.setImageResource(isCheck ? R.drawable.charging_prepare_selected : R.drawable.charging_prepare_not_selected);
         if (isCheck) {
             setEleUi(false, "--");
-            setTimeUi(false, "--");
+            setMoneyUi(false, "--");
         }
         tvPpTime.setText(time);
     }
