@@ -331,7 +331,12 @@ public class ChargingPileActivity extends BaseActivity {
         switch (previous) {
             case GunBean.CHARGING:
                 isTimeRefresh = true;
-                timeTaskRefresh(mCurrentPile.getChargeId(), gunId);
+                freshChargingGun(mCurrentPile.getChargeId(), gunId);
+                if (isClicked) {
+                    timeHandler.sendEmptyMessageDelayed(1, 1000);
+                } else {
+                    timeHandler.sendEmptyMessageDelayed(1, 10 * 1000);
+                }
                 break;
             case GunBean.RESERVED:
             case GunBean.AVAILABLE://在准备状态，空闲状态，只更新状态，不更新其他ui
@@ -730,6 +735,7 @@ public class ChargingPileActivity extends BaseActivity {
                             String status = data.getStatus();
                             //状态发生改变时就已经不是刚点击过的了
                             if (!status.equals(previous)) {
+                                Mydialog.Dismiss();
                                 isClicked = false;
                                 //根据选中项刷新充电桩的充电枪,默认刷新A枪
                                 Integer gunId = gunIds.get(mCurrentPile.getChargeId());
@@ -741,7 +747,7 @@ public class ChargingPileActivity extends BaseActivity {
                                 timeHandler.sendEmptyMessageDelayed(1, 1000);
                             } else {
                                 timeHandler.removeMessages(1);
-                                timeHandler.sendEmptyMessageDelayed(1, 2*1000);
+                                timeHandler.sendEmptyMessageDelayed(1, 10*1000);
                             }
 
                             previous = status;
@@ -1978,12 +1984,12 @@ public class ChargingPileActivity extends BaseActivity {
             public void success(String json) {
                 try {
                     JSONObject object = new JSONObject(json);
-                    int code = object.getInt("code");
-                    if (code == 0) {
+                    int type = object.optInt("type");
+                    if (type == 0) {
                         Mydialog.showDelayDismissDialog(15 * 1000, ChargingPileActivity.this);
                         isClicked = true;
                         timeHandler.removeMessages(1);
-                        timeHandler.sendEmptyMessageDelayed(1, 1000);
+                        timeHandler.sendEmptyMessageDelayed(1, 0);
                     } else {
                         Mydialog.Dismiss();
                     }
@@ -2030,12 +2036,12 @@ public class ChargingPileActivity extends BaseActivity {
             public void success(String json) {
                 try {
                     JSONObject object = new JSONObject(json);
-                    int code = object.getInt("code");
-                    if (code == 0) {
+                    int type = object.getInt("type");
+                    if (type == 0) {
                         Mydialog.showDelayDismissDialog(15 * 1000, ChargingPileActivity.this);
                         isClicked = true;
                         timeHandler.removeMessages(1);
-                        timeHandler.sendEmptyMessageDelayed(1, 1000);
+                        timeHandler.sendEmptyMessageDelayed(1, 0);
                     } else {
                         Mydialog.Dismiss();
                     }
