@@ -8,14 +8,13 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
@@ -27,7 +26,6 @@ import com.bigkoo.pickerview.view.TimePickerView;
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.adapter.WifiSetAdapter;
-import com.growatt.chargingpile.application.MyApplication;
 import com.growatt.chargingpile.bean.WiFiRequestMsgBean;
 import com.growatt.chargingpile.bean.WifiSetBean;
 import com.growatt.chargingpile.util.MyUtil;
@@ -58,6 +56,8 @@ public class WifiSetActivity extends BaseActivity {
     TextView tvTitle;
     @BindView(R.id.ivLeft)
     ImageView ivLeft;
+    @BindView(R.id.tvRight)
+    TextView tvRight;
     @BindView(R.id.headerView)
     LinearLayout headerView;
     @BindView(R.id.recyclerView)
@@ -67,10 +67,10 @@ public class WifiSetActivity extends BaseActivity {
 
     private WifiSetAdapter mAdapter;
     private List<WifiSetBean> list = new ArrayList<>();
-    private String[] keys;
     private String[] lanArray;
     private String[] rcdArray;
     private String[] modeArray;
+    private String[] enableArray;
 
     private String ip;
     private int port;
@@ -87,6 +87,7 @@ public class WifiSetActivity extends BaseActivity {
     private byte[] lanByte;
     private byte[] cardByte;
     private byte[] rcdByte;
+    private byte[] versionByte;
     //网络相关设置
     private byte[] ipByte;
     private byte[] gatewayByte;
@@ -114,6 +115,8 @@ public class WifiSetActivity extends BaseActivity {
     private byte[] tempByte;
     private byte[] powerByte;
     private byte[] timeByte;
+    private byte[] chargingEnableByte;
+    private byte[] powerdistributionByte;
 
     //加密密钥
     private byte[] oldKey;
@@ -122,6 +125,8 @@ public class WifiSetActivity extends BaseActivity {
 
     //是否已经连接
     private boolean isConnected = false;
+
+    //
 
 
     private Handler mHandler = new Handler(Looper.getMainLooper()) {
@@ -220,6 +225,7 @@ public class WifiSetActivity extends BaseActivity {
         ivLeft.setImageResource(R.drawable.back);
         tvTitle.setText(getString(R.string.m105桩体设置));
         tvTitle.setTextColor(ContextCompat.getColor(this, R.color.title_1));
+        tvRight.setText(R.string.m182保存);
         srlPull.setColorSchemeColors(ContextCompat.getColor(this, R.color.maincolor_1));
         srlPull.setOnRefreshListener(this::refresh);
         srlPull.setEnabled(false);
@@ -235,20 +241,20 @@ public class WifiSetActivity extends BaseActivity {
 
 
     private void initResource() {
-        keys = new String[]{
-                getString(R.string.m255设备信息参数设置), getString(R.string.m146充电桩ID), getString(R.string.m260语言), getString(R.string.m264读卡器秘钥), getString(R.string.m265RCD保护值),
+        String[] keys = new String[]{
+                getString(R.string.m255设备信息参数设置), getString(R.string.m146充电桩ID), getString(R.string.m260语言), getString(R.string.m264读卡器秘钥), getString(R.string.m265RCD保护值), getString(R.string.m版本号),
                 getString(R.string.m256设备以太网参数设置), getString(R.string.m156充电桩IP), getString(R.string.m157网关), getString(R.string.m158子网掩码), getString(R.string.m159网络MAC地址), getString(R.string.m161DNS地址),
                 getString(R.string.m257设备账号密码参数设置), getString(R.string.m266Wifi名称), getString(R.string.m267Wifi密码), getString(R.string.m268蓝牙名称), getString(R.string.m269蓝牙密码), getString(R.string.m2704G用户名), getString(R.string.m2714G密码), getString(R.string.m2724GAPN),
                 getString(R.string.m258设备服务器参数设置), getString(R.string.m160服务器URL), getString(R.string.m273握手登录授权秘钥), getString(R.string.m274心跳间隔时间), getString(R.string.m275PING间隔时间), getString(R.string.m276表计上传间隔时间),
-                getString(R.string.m259设备充电参数设置), getString(R.string.m154充电模式), getString(R.string.m277电桩最大输出电流), getString(R.string.m152充电费率), getString(R.string.m278保护温度), getString(R.string.m279外部监测最大输入功率), getString(R.string.m280允许充电时间)
+                getString(R.string.m259设备充电参数设置), getString(R.string.m154充电模式), getString(R.string.m277电桩最大输出电流), getString(R.string.m152充电费率), getString(R.string.m278保护温度), getString(R.string.m279外部监测最大输入功率), getString(R.string.m280允许充电时间), getString(R.string.m峰谷充电使能), getString(R.string.m功率分配使能)
         };
 
         for (int i = 0; i < keys.length; i++) {
             WifiSetBean bean = new WifiSetBean();
-            if (i == 0 || i == 5 || i == 11 || i == 19 || i == 25) {
+            if (i == 0 || i == 6 || i == 12 || i == 20 || i == 26) {
                 bean.setTitle(keys[i]);
                 bean.setType(WifiSetBean.PARAM_TITILE);
-            } else if (i == 1) {
+            } else if (i == 1 || i == 5 || i == 10) {
                 bean.setType(WifiSetBean.PARAM_ITEM_CANT_CLICK);
                 bean.setKey(keys[i]);
                 bean.setValue("");
@@ -267,6 +273,7 @@ public class WifiSetActivity extends BaseActivity {
             rcdArray[i] = String.valueOf(rcdValue) + getString(R.string.m287级);
         }
         modeArray = new String[]{getString(R.string.m217扫码刷卡), getString(R.string.m218仅刷卡充电), getString(R.string.m219插枪充电)};
+        enableArray = new String[]{getString(R.string.m使能), getString(R.string.m禁止)};
     }
 
 
@@ -295,7 +302,7 @@ public class WifiSetActivity extends BaseActivity {
 
     private void setOnclickListener() {
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
-            if (!isAllowed) return;
+//            if (!isAllowed) return;
             int itemType = mAdapter.getData().get(position).getItemType();
             if (itemType != WifiSetBean.PARAM_ITEM) return;
             WifiSetBean bean = mAdapter.getData().get(position);
@@ -312,6 +319,12 @@ public class WifiSetActivity extends BaseActivity {
                 case 31:
                     showTimePickView(false);
                     break;
+                case 32:
+                    setEnable(32);
+                    break;
+                case 33:
+                    setEnable(33);
+                    break;
                 default:
                     inputEdit(position, String.valueOf(bean.getValue()));
                     break;
@@ -326,20 +339,34 @@ public class WifiSetActivity extends BaseActivity {
      */
     private void inputEdit(final int key, final String value) {
         tips = "";
+        int inputType;
         switch (key) {
+            case 3:
+            case 14:
+            case 16:
+                inputType = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD
+                        | InputType.TYPE_TEXT_FLAG_MULTI_LINE;
+                break;
             case 22:
             case 23:
             case 24://心跳间隔时间、PING间隔时间、表记上传时间
                 tips = "5~300(s)";
+                inputType = InputType.TYPE_NULL;
                 break;
             case 27://输出最大电流
                 tips = getString(R.string.m291设定值不能小于);
+                inputType = InputType.TYPE_NULL;
                 break;
             case 29://保护温度
                 tips = "65~85(℃)";
+                inputType = InputType.TYPE_NULL;
                 break;
             case 30://外部检测最大输入功率
                 tips = getString(R.string.m291设定值不能小于);
+                inputType = InputType.TYPE_NULL;
+                break;
+            default:
+                inputType = InputType.TYPE_NULL;
                 break;
         }
         new CircleDialog.Builder()
@@ -347,6 +374,10 @@ public class WifiSetActivity extends BaseActivity {
                 .setTitle(this.getString(R.string.m27温馨提示))
                 .setInputHint(tips)
                 .setInputText(value)
+                .configInput(params -> {
+                    //密码
+                    params.inputType =inputType;
+                })
                 .setNegative(this.getString(R.string.m7取消), null)
                 .setPositiveInput(this.getString(R.string.m9确定), (text, v) -> {
                     if (TextUtils.isEmpty(text)) {
@@ -571,7 +602,6 @@ public class WifiSetActivity extends BaseActivity {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
                             }
-
                             if (Integer.parseInt(text) < 5 || Integer.parseInt(text) > 300) {
                                 T.make(getString(R.string.m290超出设置范围) + tips, WifiSetActivity.this);
                                 return;
@@ -867,7 +897,7 @@ public class WifiSetActivity extends BaseActivity {
         byte[] prayload = new byte[28];
 
 
-        if (idByte == null || lanByte == null || cardByte == null || rcdByte == null) {
+        if (idByte == null || lanByte == null || cardByte == null || rcdByte == null || versionByte == null) {
             T.make(R.string.m244设置失败, this);
             return;
         }
@@ -879,6 +909,8 @@ public class WifiSetActivity extends BaseActivity {
         System.arraycopy(cardByte, 0, prayload, idByte.length + lanByte.length, cardByte.length);
         //rcd
         System.arraycopy(rcdByte, 0, prayload, idByte.length + lanByte.length + cardByte.length, rcdByte.length);
+        //版本号
+        System.arraycopy(versionByte, 0, prayload, idByte.length + lanByte.length + cardByte.length + rcdByte.length, versionByte.length);
 
 
         byte[] encryptedData = SmartHomeUtil.decodeKey(prayload, newKey);
@@ -1084,7 +1116,8 @@ public class WifiSetActivity extends BaseActivity {
         byte[] prayload = new byte[44];
 
 
-        if (modeByte == null || maxCurrentByte == null || rateByte == null || tempByte == null || powerByte == null || timeByte == null) {
+        if (modeByte == null || maxCurrentByte == null || rateByte == null || tempByte == null
+                || powerByte == null || timeByte == null || chargingEnableByte == null || powerdistributionByte == null) {
             T.make(R.string.m244设置失败, this);
             return;
         }
@@ -1101,7 +1134,10 @@ public class WifiSetActivity extends BaseActivity {
         System.arraycopy(powerByte, 0, prayload, 11, powerByte.length);
         //允许充电时间
         System.arraycopy(timeByte, 0, prayload, 13, timeByte.length);
-
+        //峰谷充电使能
+        System.arraycopy(chargingEnableByte, 0, prayload, 24, chargingEnableByte.length);
+        //功率分配使能
+        System.arraycopy(powerdistributionByte, 0, prayload, 25, powerdistributionByte.length);
 
         byte[] encryptedData = SmartHomeUtil.decodeKey(prayload, newKey);
 
@@ -1128,8 +1164,8 @@ public class WifiSetActivity extends BaseActivity {
         int length = data.length;
         byte frame1 = data[0];
         byte frame2 = data[1];
-        byte end = data[length-1];
-        if (length > 4 && frame1 == WiFiMsgConstant.FRAME_1 && frame2 == WiFiMsgConstant.FRAME_2&&end==WiFiMsgConstant.BLT_MSG_END) {
+        byte end = data[length - 1];
+        if (length > 4 && frame1 == WiFiMsgConstant.FRAME_1 && frame2 == WiFiMsgConstant.FRAME_2 && end == WiFiMsgConstant.BLT_MSG_END) {
             byte cmd = data[4];//指令类型
             //校验位
             byte sum = data[length - 2];
@@ -1200,11 +1236,20 @@ public class WifiSetActivity extends BaseActivity {
                     rcdByte = new byte[1];
                     System.arraycopy(prayload, 27, rcdByte, 0, 1);
                     String rcd = MyUtil.ByteToString(rcdByte);
-                    int i = Integer.parseInt(rcd);
+                    int i;
+                    try {
+                        i = Integer.parseInt(rcd);
+                    } catch (NumberFormatException e) {
+                        i = 0;
+                    }
                     if (i <= 0) i = 1;
                     String s = rcdArray[i - 1];
                     mAdapter.getData().get(4).setValue(s);
 
+                    versionByte = new byte[24];
+                    System.arraycopy(prayload, 28, versionByte, 0, 24);
+                    String version = MyUtil.ByteToString(versionByte);
+                    mAdapter.getData().get(5).setValue(version);
 
                     mAdapter.notifyDataSetChanged();
 
@@ -1315,7 +1360,12 @@ public class WifiSetActivity extends BaseActivity {
                     modeByte = new byte[1];
                     System.arraycopy(prayload, 0, modeByte, 0, 1);
                     String mode = MyUtil.ByteToString(modeByte);
-                    int modeSet = Integer.parseInt(mode);
+                    int modeSet;
+                    try {
+                        modeSet = Integer.parseInt(mode);
+                    } catch (NumberFormatException e) {
+                        modeSet = 0;
+                    }
                     if (modeSet <= 0) modeSet = 1;
                     String modeValue = modeArray[modeSet - 1];
                     mAdapter.getData().get(26).setValue(modeValue);
@@ -1344,6 +1394,33 @@ public class WifiSetActivity extends BaseActivity {
                     System.arraycopy(prayload, 13, timeByte, 0, 11);
                     String time = MyUtil.ByteToString(timeByte);
                     mAdapter.getData().get(31).setValue(time);
+
+                    chargingEnableByte = new byte[1];
+                    System.arraycopy(prayload, 24, chargingEnableByte, 0, 1);
+                    String chargingEnable = MyUtil.ByteToString(chargingEnableByte);
+                    int enable1;
+                    try {
+                        enable1 = Integer.parseInt(chargingEnable);
+                    } catch (NumberFormatException e) {
+                        enable1 = 0;
+                    }
+                    if (enable1 <= 0) enable1 = 1;
+                    String enableValue1 = rcdArray[enable1 - 1];
+                    mAdapter.getData().get(32).setValue(enableValue1);
+
+
+                    powerdistributionByte = new byte[1];
+                    System.arraycopy(prayload, 25, powerdistributionByte, 0, 1);
+                    String powerdistribution = MyUtil.ByteToString(powerdistributionByte);
+                    int enable2;
+                    try {
+                        enable2 = Integer.parseInt(powerdistribution);
+                    } catch (NumberFormatException e) {
+                        enable2 = 0;
+                    }
+                    if (enable2 <= 0) enable2 = 1;
+                    String enableValue2 = rcdArray[enable2 - 1];
+                    mAdapter.getData().get(33).setValue(enableValue2);
 
                     mAdapter.notifyDataSetChanged();
                     break;
@@ -1553,4 +1630,41 @@ public class WifiSetActivity extends BaseActivity {
         pvCustomTime.show();
     }
 
+
+    /*设置使能*/
+    private void setEnable(int position) {
+        List<String> list = Arrays.asList(enableArray);
+        ;
+        OptionsPickerView<String> pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                final String tx = list.get(options1);
+                String pos = String.valueOf(options1 + 1);
+                byte[] bytes = pos.trim().getBytes();
+                if (bytes.length > 1) {
+                    T.make(getString(R.string.m286输入值超出规定长度), WifiSetActivity.this);
+                    return;
+                }
+                if (position == 32) {
+                    chargingEnableByte = new byte[1];
+                    System.arraycopy(bytes, 0, chargingEnableByte, 0, bytes.length);
+                } else {
+                    powerdistributionByte = new byte[1];
+                    System.arraycopy(bytes, 0, powerdistributionByte, 0, bytes.length);
+                }
+                setCharging();
+            }
+        })
+                .setTitleText(getString(R.string.m265RCD保护值))
+                .setTitleBgColor(0xffffffff)
+                .setTitleColor(0xff333333)
+                .setSubmitColor(0xff333333)
+                .setCancelColor(0xff999999)
+                .setBgColor(0xffffffff)
+                .setTitleSize(22)
+                .setTextColorCenter(0xff333333)
+                .build();
+        pvOptions.setPicker(list);
+        pvOptions.show();
+    }
 }

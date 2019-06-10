@@ -2,8 +2,6 @@ package com.growatt.chargingpile.util;
 
 import android.text.TextUtils;
 
-import com.growatt.chargingpile.bean.ChargingBean;
-import com.growatt.chargingpile.bean.GunBean;
 import com.growatt.chargingpile.bean.RegisterMap;
 import com.growatt.chargingpile.bean.UserBean;
 import com.growatt.chargingpile.sqlite.SqliteUtil;

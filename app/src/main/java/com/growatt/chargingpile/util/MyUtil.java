@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AppOpsManager;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -17,17 +16,13 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Environment;
-import android.provider.Settings;
-import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.connutil.PostUtil;
 import com.growatt.chargingpile.connutil.Urlsutil;
-import com.mylhyl.circledialog.CircleDialog;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -487,10 +482,10 @@ public class MyUtil {
     {
 
         StringBuilder strBuilder = new StringBuilder();
-        for (int i = 0; i <bytes.length ; i++) {
-            if (bytes[i]!=0){
-                strBuilder.append((char)bytes[i]);
-            }else {
+        for (byte aByte : bytes) {
+            if (aByte != 0) {
+                strBuilder.append((char) aByte);
+            } else {
                 break;
             }
 

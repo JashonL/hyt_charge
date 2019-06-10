@@ -15,7 +15,6 @@ import com.growatt.chargingpile.connutil.PostUtil;
 import com.growatt.chargingpile.connutil.Urlsutil;
 import com.growatt.chargingpile.util.Mydialog;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Map;

@@ -2,9 +2,6 @@ package com.growatt.chargingpile.bean;
 
 
 import com.growatt.chargingpile.util.SmartHomeUtil;
-import com.growatt.chargingpile.util.WiFiMsgConstant;
-
-import org.xutils.common.util.LogUtil;
 
 /**
  * wifi消息实体

@@ -8,7 +8,6 @@ import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.bean.UdpSearchBean;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Administrator on 2018/10/19.

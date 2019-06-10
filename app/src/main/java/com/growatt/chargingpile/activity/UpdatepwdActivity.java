@@ -14,7 +14,6 @@ import com.growatt.chargingpile.util.Constant;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SharedPreferencesUnit;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Map;

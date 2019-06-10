@@ -26,6 +26,7 @@ public class ParamsSetAdapter extends BaseMultiItemQuickAdapter<ParamsSetBean, B
         super(data);
         addItemType(ParamsSetBean.PARAM_TITILE, R.layout.item_params_set_title);
         addItemType(ParamsSetBean.PARAM_ITEM, R.layout.item_params_set_layout);
+        addItemType(ParamsSetBean.PARAM_ITEM_CANT_CLICK, R.layout.item_params_set_layout);
     }
 
     @Override
@@ -34,6 +35,14 @@ public class ParamsSetAdapter extends BaseMultiItemQuickAdapter<ParamsSetBean, B
             helper.setText(R.id.tv_title, item.getTitle());
 
         } else if (item.getItemType() == ParamsSetBean.PARAM_ITEM) {
+            helper.setText(R.id.tv_key, item.getKey());
+            if (TextUtils.isEmpty(item.getValue().toString())) {
+                helper.setText(R.id.tv_value, "");
+            } else {
+                helper.setText(R.id.tv_value, item.getValue().toString());
+            }
+        }else {
+            helper.setVisible(R.id.iv_more1,false);
             helper.setText(R.id.tv_key, item.getKey());
             if (TextUtils.isEmpty(item.getValue().toString())) {
                 helper.setText(R.id.tv_value, "");

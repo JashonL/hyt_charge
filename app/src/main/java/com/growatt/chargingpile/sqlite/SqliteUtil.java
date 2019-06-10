@@ -8,7 +8,6 @@ import android.util.Log;
 
 import com.growatt.chargingpile.application.MyApplication;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;

@@ -6,7 +6,6 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.growatt.chargingpile.R;
-import com.growatt.chargingpile.bean.ParamsSetBean;
 import com.growatt.chargingpile.bean.WifiSetBean;
 
 import java.util.List;
@@ -45,6 +44,7 @@ public class WifiSetAdapter extends BaseMultiItemQuickAdapter<WifiSetBean, BaseV
             }
         } else {
             helper.getView(R.id.iv_more1).setVisibility(View.INVISIBLE);
+            helper.setText(R.id.tv_key, item.getKey());
             if (TextUtils.isEmpty(item.getValue().toString())) {
                 helper.setText(R.id.tv_value, "");
             } else {

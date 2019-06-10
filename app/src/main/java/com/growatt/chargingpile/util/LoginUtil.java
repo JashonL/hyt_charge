@@ -1,17 +1,14 @@
 package com.growatt.chargingpile.util;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.activity.ChargingPileActivity;
 import com.growatt.chargingpile.activity.LoginActivity;
-import com.growatt.chargingpile.application.MyApplication;
 import com.growatt.chargingpile.bean.UserBean;
 import com.growatt.chargingpile.connutil.GetUtil;
 import com.growatt.chargingpile.connutil.PostUtil;
@@ -20,7 +17,6 @@ import com.growatt.chargingpile.listener.OnViewEnableListener;
 import com.growatt.chargingpile.sqlite.SqliteUtil;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Locale;

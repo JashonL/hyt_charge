@@ -10,6 +10,7 @@ public class ParamsSetBean implements MultiItemEntity {
 
     public static final int PARAM_TITILE = 0;
     public static final int PARAM_ITEM = 1;
+    public static final int PARAM_ITEM_CANT_CLICK=2;
 
 
     private String key;

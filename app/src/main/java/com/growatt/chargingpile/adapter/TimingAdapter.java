@@ -2,9 +2,6 @@ package com.growatt.chargingpile.adapter;
 
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;

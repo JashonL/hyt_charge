@@ -11,9 +11,6 @@ import android.net.DhcpInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
@@ -24,22 +21,16 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.bean.UdpSearchBean;
-import com.growatt.chargingpile.util.DeviceSearchThread;
 import com.growatt.chargingpile.util.MyUtil;
-import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.PermissionCodeUtil;
 import com.growatt.chargingpile.util.T;
-import com.mylhyl.circledialog.CircleDialog;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,28 +43,13 @@ public class ConnetWiFiActivity extends BaseActivity {
     TextView tvTitle;
     @BindView(R.id.ivLeft)
     ImageView ivLeft;
-    @BindView(R.id.tvRight)
-    TextView tvRight;
-    @BindView(R.id.relativeLayout1)
-    RelativeLayout relativeLayout1;
     @BindView(R.id.headerView)
     LinearLayout headerView;
-    @BindView(R.id.tv_wifi_prompt)
-    TextView tvWifiPrompt;
     @BindView(R.id.tv_wifi_name)
     TextView tvWifiName;
-    @BindView(R.id.linearlayout2)
-    LinearLayout linearlayout2;
-    @BindView(R.id.et_wifi_password)
-    TextView etWifiPassword;
-    @BindView(R.id.btnOk)
-    Button btnOk;
-    @BindView(R.id.ll_setwifi)
-    LinearLayout llSetwifi;
     @BindView(R.id.get_wifi)
     TextView tvGetWifi;
-    @BindView(R.id.ll_refresh)
-    LinearLayout llRefresh;
+
 
 
     public String mIP;//服务器地址
@@ -83,7 +59,6 @@ public class ConnetWiFiActivity extends BaseActivity {
     public static final int SEARCH_DEVICE_START = 1;
     public static final int SEARCH_DEVICE_FINISH = 2;
     private List<UdpSearchBean> mDeviceList;
-    private String devId;
     private Dialog dialog;
     private TextView tvProgress;
     private boolean isCancel = false;

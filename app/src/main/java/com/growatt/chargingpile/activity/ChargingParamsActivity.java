@@ -1,19 +1,15 @@
 package com.growatt.chargingpile.activity;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -31,12 +27,10 @@ import com.growatt.chargingpile.util.SmartHomeUrlUtil;
 import com.growatt.chargingpile.util.SmartHomeUtil;
 import com.mylhyl.circledialog.CircleDialog;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -456,7 +450,7 @@ public class ChargingParamsActivity extends BaseActivity {
                     bean.setValue(data.getMask());
                     break;
                 case 11:
-                    bean.setType(ParamsSetBean.PARAM_ITEM);
+                    bean.setType(ParamsSetBean.PARAM_ITEM_CANT_CLICK);
                     bean.setKey(keys[i]);
                     bean.setValue(data.getMac());
                     break;

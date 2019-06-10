@@ -295,6 +295,11 @@
     <string name="m292桩拒绝充电">SuspendedEVSE</string>
     <string name="m293车拒绝充电提示">The car refuses to charge, please switch to other charging Point</string>
     <string name="m294桩拒绝充电提示">Charging Point refused to charge, please switch to other charging Point</string>
+    <string name="m版本号">版本号</string>
+    <string name="m峰谷充电使能">峰谷充电使能</string>
+    <string name="m功率分配使能">功率分配使能</string>
+    <string name="m使能">使能</string>
+    <string name="m禁止">禁止</string>
     <!--安卓额外部分-->
 
     <!--权限问题-->
