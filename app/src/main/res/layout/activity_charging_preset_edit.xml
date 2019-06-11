@@ -31,18 +31,67 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/et_input_sn"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/xa30"
                 android:layout_marginRight="@dimen/xa30"
                 android:layout_marginTop="@dimen/xa136"
-                android:background="@null"
-                android:inputType="number"
-                android:gravity="center"
-                android:hint="@string/m211请输入电量"
-                android:textSize="@dimen/xa30" />
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/et_input_sn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:hint="@string/m211请输入电量"
+                    android:inputType="numberDecimal"
+                    android:textSize="@dimen/xa30" />
+
+
+                <RelativeLayout
+                    android:id="@+id/rl_money_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="bottom"
+                    android:gravity="center"
+                    android:paddingRight="@dimen/ya30"
+                    android:paddingLeft="@dimen/ya30">
+
+                    <View
+                        android:id="@+id/view"
+                        android:layout_width="@dimen/xa1"
+                        android:layout_height="match_parent"
+                        android:background="@color/preset_edit_divider" />
+
+                    <TextView
+                        android:id="@+id/tv_money_unit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/view"
+                        android:textStyle="bold"
+                        android:layout_marginLeft="@dimen/ya30"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/title_1"
+                        android:textSize="@dimen/ya25"
+                        android:layout_toEndOf="@+id/view"
+                        android:layout_marginStart="@dimen/ya30" />
+
+                    <ImageView
+                        android:layout_marginLeft="@dimen/ya30"
+                        android:layout_width="@dimen/ya30"
+                        android:layout_height="@dimen/ya30"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/tv_money_unit"
+                        android:src="@drawable/select_country_drop"
+                        android:layout_marginStart="@dimen/ya30"
+                        android:layout_toEndOf="@+id/tv_money_unit" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
 
             <View
                 android:layout_width="match_parent"
@@ -60,7 +109,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/xa370"
             android:background="@color/preset_edit_time_background"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="visible">
 
             <RelativeLayout
                 android:id="@+id/rl_np"

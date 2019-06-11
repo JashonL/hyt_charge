@@ -63,6 +63,7 @@ public class ConnetWiFiActivity extends BaseActivity {
     private TextView tvProgress;
     private boolean isCancel = false;
     private int second = 5;
+    private String devId;
 
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -112,8 +113,13 @@ public class ConnetWiFiActivity extends BaseActivity {
         setContentView(R.layout.activity_connet_wi_fi);
         ButterKnife.bind(this);
 //        mDeviceList = new ArrayList<>();
+        initIntent();
         initViews();
         initWifi();
+    }
+
+    private void initIntent() {
+        devId=getIntent().getStringExtra("sn");
     }
 
 
@@ -253,6 +259,10 @@ public class ConnetWiFiActivity extends BaseActivity {
         if (TextUtils.isEmpty(currentSSID)) {
             T.make(R.string.m253手机暂未连接wifi, this);
         } else {
+            if (!devId.equals(currentSSID)){
+                toast(R.string.m请连接电桩对应热点进行设置);
+                return;
+            }
             toSetWifiParams();
         }
 

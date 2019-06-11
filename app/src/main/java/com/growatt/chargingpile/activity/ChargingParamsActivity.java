@@ -1,5 +1,6 @@
 package com.growatt.chargingpile.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -167,7 +168,10 @@ public class ChargingParamsActivity extends BaseActivity {
                                 JSONObject object = new JSONObject(json);
                                 int code = object.getInt("code");
                                 if (code == 0) {
-                                    jumpTo(ConnetWiFiActivity.class, false);
+                                    Intent intent=new Intent(ChargingParamsActivity.this,ConnetWiFiActivity.class);
+                                    intent.putExtra("sn", chargingId);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                    jumpTo(intent, false);
                                 }
                                 toast(object.getString("data"));
                             } catch (Exception e) {

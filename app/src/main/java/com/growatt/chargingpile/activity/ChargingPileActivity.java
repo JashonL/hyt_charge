@@ -249,6 +249,7 @@ public class ChargingPileActivity extends BaseActivity {
     private Map<String, Integer> gunIds = new HashMap<>();
 
     private ReservationBean.DataBean mCurrentReservationBean;
+    private String moneyUnit;
 
 
     @Override
@@ -280,6 +281,7 @@ public class ChargingPileActivity extends BaseActivity {
         super.onPause();
         animation = null;
         timeHandler.removeMessages(1);
+//        timeHandler.removeCallbacksAndMessages(null);
     }
 
     /*定时刷新机制*/
@@ -745,7 +747,7 @@ public class ChargingPileActivity extends BaseActivity {
                                 timeHandler.sendEmptyMessageDelayed(1, 1000);
                             } else {
                                 timeHandler.removeMessages(1);
-                                timeHandler.sendEmptyMessageDelayed(1, 10*1000);
+                                timeHandler.sendEmptyMessageDelayed(1, 10 * 1000);
                             }
 
                             previous = status;
@@ -1331,7 +1333,10 @@ public class ChargingPileActivity extends BaseActivity {
                 setPowerLimit();
                 break;
             case R.id.ivRight:
-                jumpTo(ConnetWiFiActivity.class, false);
+                Intent intent5 = new Intent(this, ConnetWiFiActivity.class);
+                intent5.putExtra("sn", mCurrentPile.getChargeId());
+                intent5.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                jumpTo(intent5, false);
                 break;
         }
 
@@ -1846,12 +1851,14 @@ public class ChargingPileActivity extends BaseActivity {
             initPresetUi();
             if (requestCode == REQUEST_MONEY) {
                 String money = data.getStringExtra("money");
+                String unit = data.getStringExtra("unitvalue");
+                moneyUnit = data.getStringExtra("unitkey");
                 reserveMoney = Double.parseDouble(money);
                 presetType = 1;
                 isReservation = false;
 
                 //设置预设方案的ui
-                setMoneyUi(true, money);
+                setMoneyUi(true, money + unit);
                 //设置预约的ui
                 startTime = null;
                 setReserveUi(getString(R.string.m204开始时间), getString(R.string.m184关闭), R.drawable.checkbox_off, "--:--", true, false);
@@ -1965,6 +1972,9 @@ public class ChargingPileActivity extends BaseActivity {
         if (type != 0) {
             jsonMap.put("cKey", key);
             jsonMap.put("cValue", value);
+        }
+        if (type == 1) {
+            jsonMap.put("unit", moneyUnit);
         }
         if (type == 3) {
             jsonMap.put("loopType", -1);
@@ -2102,6 +2112,7 @@ public class ChargingPileActivity extends BaseActivity {
             jsonMap.put("cKey", key);
             jsonMap.put("cValue", value);
         }
+        if (type == 1) jsonMap.put("unit", moneyUnit);
         if (type == 3) {
             jsonMap.put("loopType", -1);
             jsonMap.put("loopValue", timeEvaryDay);
@@ -2229,7 +2240,7 @@ public class ChargingPileActivity extends BaseActivity {
         ivResever.setImageResource(R.drawable.checkbox_off);
         tvStartTime.setText("--:--");
         cbEveryday.setChecked(false);
-        tvEveryDay.setTextColor(ContextCompat.getColor(this,R.color.title_2));
+        tvEveryDay.setTextColor(ContextCompat.getColor(this, R.color.title_2));
         MyUtil.showAllView(tvEveryDay, cbEveryday);
     }
 

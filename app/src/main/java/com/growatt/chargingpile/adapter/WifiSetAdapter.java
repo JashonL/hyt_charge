@@ -1,7 +1,10 @@
 package com.growatt.chargingpile.adapter;
 
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -37,13 +40,21 @@ public class WifiSetAdapter extends BaseMultiItemQuickAdapter<WifiSetBean, BaseV
 
         } else if (item.getItemType() == WifiSetBean.PARAM_ITEM) {
             helper.setText(R.id.tv_key, item.getKey());
-            if (TextUtils.isEmpty(item.getValue().toString())) {
-                helper.setText(R.id.tv_value, "");
-            } else {
-                helper.setText(R.id.tv_value, item.getValue().toString());
+            TextView value = helper.getView(R.id.tv_value);
+           int position= helper.getAdapterPosition();
+            if (position==3||position==14||position==16){
+                value.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            }else {
+                value.setTransformationMethod(HideReturnsTransformationMethod.getInstance());  // 设置明文格式
             }
+            if (TextUtils.isEmpty(item.getValue().toString())) {
+                value.setText("");
+            } else {
+                value.setText(item.getValue().toString());
+            }
+
         } else {
-            helper.getView(R.id.iv_more1).setVisibility(View.INVISIBLE);
+            helper.getView(R.id.iv_more1).setVisibility(View.GONE);
             helper.setText(R.id.tv_key, item.getKey());
             if (TextUtils.isEmpty(item.getValue().toString())) {
                 helper.setText(R.id.tv_value, "");

@@ -181,4 +181,8 @@ public class SmartHomeUrlUtil {
     public static String postRequestSwitchAp() {
         return SMARTHOME_BASE_URL + "/ocpp/user/appMode";
     }
+
+    public static String postRequestMoneyUnit(){
+        return SMARTHOME_BASE_URL+"/ocpp/api/";
+    }
 }
