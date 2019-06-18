@@ -18,4 +18,6 @@ public class Constant {
     //Max控制密码常量：
     public static boolean isOss2Server = false;
 
+    public static String WIFI_GUIDE_KEY = "wifi_guide";
+
 }

@@ -43,6 +43,9 @@ public class PileSetBean {
         private String site="";
         private String G_Authentication="";
         private String G_ChargerMode="";
+        private String unit;
+        private String G_MaxCurrent;
+        private String G_ExternalLimitPower;
 
         public int getConnectors() {
             return connectors;
@@ -250,6 +253,30 @@ public class PileSetBean {
 
         public void setG_ChargerMode(String g_ChargerMode) {
             G_ChargerMode = g_ChargerMode;
+        }
+
+        public String getUnit() {
+            return unit;
+        }
+
+        public void setUnit(String unit) {
+            this.unit = unit;
+        }
+
+        public String getG_MaxCurrent() {
+            return G_MaxCurrent;
+        }
+
+        public void setG_MaxCurrent(String g_MaxCurrent) {
+            G_MaxCurrent = g_MaxCurrent;
+        }
+
+        public String getG_ExternalLimitPower() {
+            return G_ExternalLimitPower;
+        }
+
+        public void setG_ExternalLimitPower(String g_ExternalLimitPower) {
+            G_ExternalLimitPower = g_ExternalLimitPower;
         }
     }
 }

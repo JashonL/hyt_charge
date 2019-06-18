@@ -2,18 +2,19 @@ package com.growatt.chargingpile.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
@@ -26,11 +27,15 @@ import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
 import com.growatt.chargingpile.util.SmartHomeUtil;
+import com.growatt.chargingpile.util.T;
 import com.mylhyl.circledialog.CircleDialog;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +54,7 @@ public class ChargingParamsActivity extends BaseActivity {
 
     private TextView tvId;
     private TextView tvKeys;
+    private TextView tvVersion;
 
 
     private ParamsSetAdapter mAdapter;
@@ -58,6 +64,15 @@ public class ChargingParamsActivity extends BaseActivity {
     private String[] mModels;
     private boolean isModyfi = false;
     private String chargingId;
+
+    //货币单位
+    private String[] moneyTypes;
+    private String[] moneySymbols;
+    //获取货币单温集合
+    private List<String> newUnitKeys;
+    private List<String> newUnitValues;
+    private String unitKey;
+    private String unitValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +86,7 @@ public class ChargingParamsActivity extends BaseActivity {
         refreshDate();
         setOnclickListener();
         initPullView();
+        getMoneyUnit();
     }
 
     private void initIntent() {
@@ -90,56 +106,61 @@ public class ChargingParamsActivity extends BaseActivity {
 
 
     private void setOnclickListener() {
-        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (position == 0 || position == 7) return;
-                ParamsSetBean bean = mAdapter.getData().get(position);
-                switch (position) {
-                    case 1:
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            if (position == 0 || position == 9|| position==16||position==18) return;
+            ParamsSetBean bean = mAdapter.getData().get(position);
+            switch (position) {
+                case 1:
+                    inputEdit("name", (String) bean.getValue());
+                    break;
+                case 2:
+                    inputEdit("address", (String) bean.getValue());
+                    break;
+                case 3:
+                    inputEdit("site", (String) bean.getValue());
+                    break;
+                case 4:
+                    inputEdit("rate", String.valueOf(bean.getValue()));
+                    break;
+                case 5:
+                    setCapacityUnit();
+//                        inputEdit("power", String.valueOf(bean.getValue()));
+                    break;
+                case 6:
+                    inputEdit("G_MaxCurrent", (String) bean.getValue());
+                    break;
+                case 7:
+                    inputEdit("G_ExternalLimitPower", (String) bean.getValue());
+                    break;
+                case 8:
+                    setModle();
+                    break;
+                case 10:
+                    inputEdit("ip", (String) bean.getValue());
+                    break;
+                case 11:
+                    inputEdit("gateway", (String) bean.getValue());
+                    break;
+                case 12:
+                    inputEdit("mask", (String) bean.getValue());
 
-                        inputEdit("name", (String) bean.getValue());
-                        break;
-                    case 2:
-                        inputEdit("address", (String) bean.getValue());
-                        break;
-                    case 3:
-                        inputEdit("site", (String) bean.getValue());
-                        break;
-                    case 4:
-                        inputEdit("rate", String.valueOf(bean.getValue()));
-                        break;
-                    case 5:
-                        inputEdit("power", String.valueOf(bean.getValue()));
-                        break;
-                    case 6:
-//                        inputEdit("model", (String) bean.getValue());
-                        setModle();
-                        break;
-                    case 8:
-                        inputEdit("ip", (String) bean.getValue());
-                        break;
-                    case 9:
-                        inputEdit("gateway", (String) bean.getValue());
-                        break;
-                    case 10:
-                        inputEdit("mask", (String) bean.getValue());
-                        break;
-                    case 11:
-                        inputEdit("mac", (String) bean.getValue());
-                        break;
-                    case 12:
-                        inputEdit("host", (String) bean.getValue());
-                        break;
-                    case 13:
-                        inputEdit("dns", (String) bean.getValue());
-                        break;
-                    case 14:
-                        apMode();
-                        break;
-                }
+                    break;
+                case 13:
+                    inputEdit("mac", (String) bean.getValue());
 
+                    break;
+                case 14:
+                    inputEdit("host", (String) bean.getValue());
+
+                    break;
+                case 15:
+                    inputEdit("dns", (String) bean.getValue());
+                    break;
+                case 17:
+                    apMode();
+                    break;
             }
+
         });
     }
 
@@ -168,7 +189,7 @@ public class ChargingParamsActivity extends BaseActivity {
                                 JSONObject object = new JSONObject(json);
                                 int code = object.getInt("code");
                                 if (code == 0) {
-                                    Intent intent=new Intent(ChargingParamsActivity.this,ConnetWiFiActivity.class);
+                                    Intent intent = new Intent(ChargingParamsActivity.this, ConnetWiFiActivity.class);
                                     intent.putExtra("sn", chargingId);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                                     jumpTo(intent, false);
@@ -195,12 +216,15 @@ public class ChargingParamsActivity extends BaseActivity {
 
     private void initResource() {
         mModels = new String[]{getString(R.string.m217扫码刷卡), getString(R.string.m218仅刷卡充电), getString(R.string.m219插枪充电)};
-        keys = new String[]{getString(R.string.m148基础参数), getString(R.string.m149电桩名称), getString(R.string.m150国家城市), getString(R.string.m151站点), getString(R.string.m152充电费率), getString(R.string.m153功率设置), getString(R.string.m154充电模式),
-                getString(R.string.m155高级设置), getString(R.string.m156充电桩IP), getString(R.string.m157网关), getString(R.string.m158子网掩码), getString(R.string.m159网络MAC地址), getString(R.string.m160服务器URL),
-                getString(R.string.m161DNS地址), getString(R.string.m289进入AP模式)};
+        keys = new String[]{
+                getString(R.string.m148基础参数), getString(R.string.m149电桩名称), getString(R.string.m150国家城市),
+                getString(R.string.m151站点), getString(R.string.m152充电费率),getString(R.string.m315货币单位),
+                getString(R.string.m313电桩最大输出电流), getString(R.string.m314智能功率分配), getString(R.string.m154充电模式), getString(R.string.m155高级设置), getString(R.string.m156充电桩IP),
+                getString(R.string.m157网关), getString(R.string.m158子网掩码), getString(R.string.m159网络MAC地址),
+                getString(R.string.m160服务器URL), getString(R.string.m161DNS地址), "", getString(R.string.m289进入AP模式),""};
         for (int i = 0; i < keys.length; i++) {
             ParamsSetBean bean = new ParamsSetBean();
-            if (i == 0 || i == 7) {
+            if (i == 0 || i == 9||i==16||i==18) {
                 bean.setTitle(keys[i]);
                 bean.setType(ParamsSetBean.PARAM_TITILE);
             } else {
@@ -210,12 +234,18 @@ public class ChargingParamsActivity extends BaseActivity {
             }
             list.add(bean);
         }
+
+        moneyTypes = new String[]{"pound", "dollar", "euro", "baht", "rmb"};
+        moneySymbols = new String[]{"£", "$", "€", "฿", "￥"};
+        unitKey = moneyTypes[0];
+        unitValue = moneySymbols[0];
     }
 
     private void initRecyclerView() {
         View paramHeadView = LayoutInflater.from(this).inflate(R.layout.item_params_header_view, null);
         tvId = paramHeadView.findViewById(R.id.tv_id);
         tvKeys = paramHeadView.findViewById(R.id.tv_keys);
+        tvVersion = paramHeadView.findViewById(R.id.tv_version);
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mAdapter = new ParamsSetAdapter(list);
         recyclerView.setLayoutManager(mLinearLayoutManager);
@@ -240,9 +270,12 @@ public class ChargingParamsActivity extends BaseActivity {
      * item 修改项
      */
     private void inputEdit(final String key, final String value) {
+        String tips = getString(R.string.m213输入更改的设置);
+        if (key.equals("G_MaxCurrent")) tips = getString(R.string.m291设定值不能小于);
         new CircleDialog.Builder()
                 .setWidth(0.8f)
                 .setTitle(this.getString(R.string.m27温馨提示))
+                .setInputHint(tips)
                 .setInputText(value)
                 .setNegative(this.getString(R.string.m7取消), null)
                 .setPositiveInput(this.getString(R.string.m9确定), (text, v) -> {
@@ -254,6 +287,18 @@ public class ChargingParamsActivity extends BaseActivity {
                         boolean b = MyUtil.isboolIp(value);
                         if (!b) {
                             toast(R.string.m177输入格式不正确);
+                            return;
+                        }
+                    }
+                    if (key.equals("G_MaxCurrent")){
+                        boolean numeric3 = MyUtil.isNumberiZidai(text);
+                        if (!numeric3) {
+                            T.make(getString(R.string.m177输入格式不正确), this);
+                            return;
+                        }
+
+                        if (Integer.parseInt(text) < 3) {
+                            T.make(getString(R.string.m291设定值不能小于), this);
                             return;
                         }
                     }
@@ -341,7 +386,7 @@ public class ChargingParamsActivity extends BaseActivity {
     private void refreshDate() {
         if (!isModyfi) Mydialog.Show(this);
         Map<String, Object> jsonMap = new HashMap<String, Object>();
-        jsonMap.put("sn",chargingId);//测试id
+        jsonMap.put("sn", chargingId);//测试id
         jsonMap.put("userId", Cons.userBean.getAccountName());//测试id
         jsonMap.put("lan", getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
@@ -384,7 +429,8 @@ public class ChargingParamsActivity extends BaseActivity {
 
     private void setHeadView(PileSetBean.DataBean data) {
         tvId.setText(data.getChargeId());
-        tvKeys.setText(data.getCode());
+        tvKeys.setText(data.getG_Authentication());
+        tvVersion.setText(data.getVersion());
     }
 
 
@@ -394,7 +440,9 @@ public class ChargingParamsActivity extends BaseActivity {
             ParamsSetBean bean = new ParamsSetBean();
             switch (i) {
                 case 0:
-                case 7:
+                case 9:
+                case 16:
+                case 18:
                     bean.setTitle(keys[i]);
                     bean.setType(ParamsSetBean.PARAM_TITILE);
                     break;
@@ -421,9 +469,19 @@ public class ChargingParamsActivity extends BaseActivity {
                 case 5:
                     bean.setType(ParamsSetBean.PARAM_ITEM);
                     bean.setKey(keys[i]);
-                    bean.setValue(data.getPower());
+                    bean.setValue(data.getUnit());
                     break;
                 case 6:
+                    bean.setType(ParamsSetBean.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(data.getG_MaxCurrent());
+                    break;
+                case 7:
+                    bean.setType(ParamsSetBean.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(data.getG_ExternalLimitPower());
+                    break;
+                case 8:
                     bean.setType(ParamsSetBean.PARAM_ITEM);
                     bean.setKey(keys[i]);
                     String model = data.getG_ChargerMode();
@@ -437,38 +495,37 @@ public class ChargingParamsActivity extends BaseActivity {
                         bean.setValue("");
                     }
                     break;
-
-                case 8:
+                case 10:
                     bean.setType(ParamsSetBean.PARAM_ITEM);
                     bean.setKey(keys[i]);
                     bean.setValue(data.getIp());
                     break;
-                case 9:
+                case 11:
                     bean.setType(ParamsSetBean.PARAM_ITEM);
                     bean.setKey(keys[i]);
                     bean.setValue(data.getGateway());
                     break;
-                case 10:
+                case 12:
                     bean.setType(ParamsSetBean.PARAM_ITEM);
                     bean.setKey(keys[i]);
                     bean.setValue(data.getMask());
                     break;
-                case 11:
+                case 13:
                     bean.setType(ParamsSetBean.PARAM_ITEM_CANT_CLICK);
                     bean.setKey(keys[i]);
                     bean.setValue(data.getMac());
                     break;
-                case 12:
+                case 14:
                     bean.setType(ParamsSetBean.PARAM_ITEM);
                     bean.setKey(keys[i]);
                     bean.setValue(data.getHost());
                     break;
-                case 13:
+                case 15:
                     bean.setType(ParamsSetBean.PARAM_ITEM);
                     bean.setKey(keys[i]);
                     bean.setValue(data.getDns());
                     break;
-                case 14:
+                case 17:
                     bean.setType(ParamsSetBean.PARAM_ITEM);
                     bean.setKey(keys[i]);
                     bean.setValue("");
@@ -507,5 +564,98 @@ public class ChargingParamsActivity extends BaseActivity {
                 })
                 .setNegative(getString(R.string.m7取消), null)
                 .show(fragmentManager);
+    }
+
+
+    private void getMoneyUnit() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("cmd", "selectMoneyUnit");
+            jsonObject.put("lan", getLanguage());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String params = jsonObject.toString();
+        PostUtil.postJson(SmartHomeUrlUtil.postRequestMoneyUnit(), params, new PostUtil.postListener() {
+            @Override
+            public void Params(Map<String, String> params) {
+
+            }
+
+            @Override
+            public void success(String json) {
+                try {
+                    JSONObject respon = new JSONObject(json);
+                    int code = respon.optInt("code");
+                    if (code == 0) {
+                        JSONArray jsonObject1 = respon.optJSONArray("data");
+                        setUnitMap(jsonObject1);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void LoginError(String str) {
+
+            }
+        });
+    }
+
+
+
+    private void setCapacityUnit() {
+        List<String> keys;
+        List<String> values;
+        List<String> items=new ArrayList<>();
+        if (newUnitKeys == null) {
+            keys = Arrays.asList(moneyTypes);
+            values = Arrays.asList(moneySymbols);
+        } else {
+            keys = newUnitKeys;
+            values = newUnitValues;
+        }
+        for (int i = 0; i < keys.size(); i++) {
+            String s = String.format("%1$s(%2$s)", keys.get(i), values.get(i));
+            items.add(s);
+        }
+        new CircleDialog.Builder()
+                .setTitle(getString(R.string.m303选择货币))
+                .setWidth(0.7f)
+                .setMaxHeight(0.5f)
+                .setGravity(Gravity.CENTER)
+                .setItems(items, (parent, view, position, id) -> {
+                    try {
+                        unitKey = keys.get(position);
+                        unitValue = values.get(position);
+                        requestEdit("unit", unitKey);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                })
+                .setNegative(getString(R.string.m7取消), null)
+                .show(getSupportFragmentManager());
+    }
+
+    /**
+     * 货币单位列表初始化
+     *
+     * @param unitArray
+     */
+    private void setUnitMap(@NonNull JSONArray unitArray) {
+        List<String> unitKeys = new ArrayList<>();
+        List<String> unitValues = new ArrayList<>();
+        for (int i = 0; i < unitArray.length(); i++) {
+            try {
+                JSONObject jsonObject = unitArray.getJSONObject(i);
+                unitKeys.add(jsonObject.optString("unit"));
+                unitValues.add(jsonObject.optString("symbol"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        newUnitKeys = unitKeys;
+        newUnitValues = unitValues;
     }
 }

@@ -2,35 +2,20 @@ package com.growatt.chargingpile.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
-import com.growatt.chargingpile.connutil.PostUtil;
 import com.growatt.chargingpile.util.MyUtil;
-import com.growatt.chargingpile.util.SmartHomeUrlUtil;
 import com.growatt.chargingpile.view.NumberPicker;
-import com.mylhyl.circledialog.CircleDialog;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,11 +42,6 @@ public class ChargingPresetEditActivity extends BaseActivity {
     @BindView(R.id.np_minute)
     NumberPicker npMinute;
 
-    @BindView(R.id.rl_money_unit)
-    RelativeLayout rlMoneyUnit;
-
-    @BindView(R.id.tv_money_unit)
-    TextView tvMoneyUnit;
 
 
     private int type = 1;//1.金额 2.电量 3.时长
@@ -69,14 +49,7 @@ public class ChargingPresetEditActivity extends BaseActivity {
 
     private String[] hours;
     private String[] minutes;
-    //货币单位
-    private String[] moneyTypes;
-    private String[] moneySymbols;
-    //获取货币单温集合
-    private List<String> newUnitKeys;
-    private List<String> newUnitValues;
-    private String unitKey;
-    private String unitValue;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,44 +60,8 @@ public class ChargingPresetEditActivity extends BaseActivity {
         initIntent();
         initViews();
         initResource();
-        getMoneyUnit();
     }
 
-    private void getMoneyUnit() {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("cmd", "selectMoneyUnit");
-            jsonObject.put("lan", getLanguage());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        String params = jsonObject.toString();
-        PostUtil.postJson(SmartHomeUrlUtil.postRequestMoneyUnit(), params, new PostUtil.postListener() {
-            @Override
-            public void Params(Map<String, String> params) {
-
-            }
-
-            @Override
-            public void success(String json) {
-                try {
-                    JSONObject respon = new JSONObject(json);
-                    int code = respon.optInt("code");
-                    if (code == 0) {
-                        JSONArray jsonObject1 = respon.optJSONArray("data");
-                        setUnitMap(jsonObject1);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void LoginError(String str) {
-
-            }
-        });
-    }
 
     private void initResource() {
         textType = getString(R.string.m209预设);
@@ -146,11 +83,6 @@ public class ChargingPresetEditActivity extends BaseActivity {
         }
         initData(npHour, hours, "00");
         initData(npMinute, minutes, "00");
-        moneyTypes = new String[]{"pound", "dollar", "euro", "baht", "rmb"};
-        moneySymbols = new String[]{"£", "$", "€", "฿", "￥"};
-        unitKey = moneyTypes[1];
-        unitValue = moneySymbols[1];
-        tvMoneyUnit.setText(unitValue);
     }
 
     private void initHeaderView() {
@@ -175,7 +107,7 @@ public class ChargingPresetEditActivity extends BaseActivity {
             etValue.setHint(getString(R.string.m210请输入金额));
         } else if (type == 2) {
             MyUtil.showAllView(llEleMoney);
-            MyUtil.hideAllView(View.GONE, llTime, rlMoneyUnit);
+            MyUtil.hideAllView(View.GONE, llTime);
             scheme = getString(R.string.m201电量);
             etValue.setHint(getString(R.string.m211请输入电量));
         } else {
@@ -196,16 +128,12 @@ public class ChargingPresetEditActivity extends BaseActivity {
         type = getIntent().getIntExtra("type", 1);
     }
 
-    @OnClick({R.id.btConfirm, R.id.rl_money_unit})
+    @OnClick({R.id.btConfirm})
     public void onClickListener(View view) {
         switch (view.getId()) {
             case R.id.btConfirm:
                 backMainPage();
                 break;
-            case R.id.rl_money_unit:
-                setCapacityUnit();
-                break;
-
         }
 
     }
@@ -223,8 +151,6 @@ public class ChargingPresetEditActivity extends BaseActivity {
                 return;
             }
             intent.putExtra("money", value);
-            intent.putExtra("unitkey", unitKey);
-            intent.putExtra("unitvalue", unitValue);
         } else if (type == 2) {
             if (TextUtils.isEmpty(value)) {
                 toast(getString(R.string.m211请输入电量));
@@ -266,54 +192,4 @@ public class ChargingPresetEditActivity extends BaseActivity {
         numberPicker.setValue(index);
     }
 
-
-    /**
-     * 货币单位列表初始化
-     *
-     * @param unitArray
-     */
-    private void setUnitMap(@NonNull JSONArray unitArray) {
-        List<String> unitKeys = new ArrayList<>();
-        List<String> unitValues = new ArrayList<>();
-        for (int i = 0; i < unitArray.length(); i++) {
-            try {
-                JSONObject jsonObject = unitArray.getJSONObject(i);
-                unitKeys.add(jsonObject.optString("unit"));
-                unitValues.add(jsonObject.optString("symbol"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        newUnitKeys = unitKeys;
-        newUnitValues = unitValues;
-    }
-
-
-    private void setCapacityUnit() {
-        List<String> items;
-        List<String> values;
-        if (newUnitKeys == null) {
-            items = Arrays.asList(moneyTypes);
-            values = Arrays.asList(moneySymbols);
-        } else {
-            items = newUnitKeys;
-            values = newUnitValues;
-        }
-        new CircleDialog.Builder()
-                .setTitle(getString(R.string.m货币单位))
-                .setWidth(0.7f)
-                .setMaxHeight(0.5f)
-                .setGravity(Gravity.CENTER)
-                .setItems(items, (parent, view, position, id) -> {
-                    try {
-                        unitKey = items.get(position);
-                        unitValue = values.get(position);
-                        tvMoneyUnit.setText(unitValue);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                })
-                .setNegative(getString(R.string.m7取消), null)
-                .show(getSupportFragmentManager());
-    }
 }

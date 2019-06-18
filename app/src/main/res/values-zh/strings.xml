@@ -298,13 +298,30 @@
     <string name="m292桩拒绝充电">桩拒绝充电</string>
     <string name="m293车拒绝充电提示">车拒绝充电,请切换使用其他充电桩</string>
     <string name="m294桩拒绝充电提示">桩拒绝充电,请切换使用其他充电桩</string>
-    <string name="m版本号">版本号</string>
-    <string name="m峰谷充电使能">峰谷充电使能</string>
-    <string name="m功率分配使能">功率分配使能</string>
-    <string name="m使能">使能</string>
-    <string name="m禁止">禁止</string>
-    <string name="m请连接电桩对应热点进行设置">请连接电桩对应热点进行设置</string>
-    <string name="m货币单位">货币单位</string>
+    <string name="m295该电桩热点不是已选择的电桩">该电桩热点不是已选择的电桩</string>
+    <string name="m296版本号">版本号</string>
+    <string name="m297峰谷充电使能">峰谷充电使能</string>
+    <string name="m298功率分配使能">功率分配使能</string>
+    <string name="m299使能">使能</string>
+    <string name="m300禁止">禁止</string>
+    <string name="m301执行">执行</string>
+    <string name="m302请求失败">请求失败</string>
+    <string name="m303选择货币">选择货币</string>
+    <string name="m304设置未做任何更改">设置未做任何更改</string>
+    <string name="m305AP模式">AP模式</string>
+    <string name="m306当前充电桩序列号">当前充电桩序列号</string>
+    <string name="m307切换成功">切换成功</string>
+    <string name="m308切换失败">切换失败</string>
+    <string name="m309操作引导1">将充电桩设置为AP模式，作为WiFi热点。初次设置充电桩无需进行此操作。</string>
+    <string name="m310操作引导2">手机连接充电桩WiFi，WiFi名称为充电桩序列号，初始密码为12345678。若找不到充电桩WiFi，可重启电桩，电桩重启后60秒内为AP模式。</string>
+    <string name="m311操作引导3">成功连接充电桩WiFi后，点击下一步，即可修改、设置充电桩。</string>
+    <string name="m312WIFI直连操作指引">WIFI直连操作指引</string>
+    <string name="m313电桩最大输出电流">电桩最大输出电流</string>
+    <string name="m314智能功率分配">智能功率分配</string>
+    <string name="m315货币单位">货币单位</string>
+    <string name="m316退出登录">退出登录</string>
+    <string name="m317注销账户">注销账户</string>
+
     <!--安卓额外部分-->
     <!--权限问题-->
     <string name="m权限获取某权限说明">请求获取%1$s权限</string>

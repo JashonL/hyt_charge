@@ -126,7 +126,7 @@ public class WifiSetActivity extends BaseActivity {
     private boolean isConnected = false;
 
     //
-
+    private String tips;
 
     private Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -192,7 +192,6 @@ public class WifiSetActivity extends BaseActivity {
             srlPull.setRefreshing(false);
         }
     };
-    private String tips;
 
 
     @Override
@@ -242,11 +241,11 @@ public class WifiSetActivity extends BaseActivity {
 
     private void initResource() {
         String[] keys = new String[]{
-                getString(R.string.m255设备信息参数设置), getString(R.string.m146充电桩ID), getString(R.string.m260语言), getString(R.string.m264读卡器秘钥), getString(R.string.m265RCD保护值), getString(R.string.m版本号),
+                getString(R.string.m255设备信息参数设置), getString(R.string.m146充电桩ID), getString(R.string.m260语言), getString(R.string.m264读卡器秘钥), getString(R.string.m265RCD保护值), getString(R.string.m296版本号),
                 getString(R.string.m256设备以太网参数设置), getString(R.string.m156充电桩IP), getString(R.string.m157网关), getString(R.string.m158子网掩码), getString(R.string.m159网络MAC地址), getString(R.string.m161DNS地址),
                 getString(R.string.m257设备账号密码参数设置), getString(R.string.m266Wifi名称), getString(R.string.m267Wifi密码), getString(R.string.m268蓝牙名称), getString(R.string.m269蓝牙密码), getString(R.string.m2704G用户名), getString(R.string.m2714G密码), getString(R.string.m2724GAPN),
                 getString(R.string.m258设备服务器参数设置), getString(R.string.m160服务器URL), getString(R.string.m273握手登录授权秘钥), getString(R.string.m274心跳间隔时间), getString(R.string.m275PING间隔时间), getString(R.string.m276表计上传间隔时间),
-                getString(R.string.m259设备充电参数设置), getString(R.string.m154充电模式), getString(R.string.m277电桩最大输出电流), getString(R.string.m152充电费率), getString(R.string.m278保护温度), getString(R.string.m279外部监测最大输入功率), getString(R.string.m280允许充电时间), getString(R.string.m峰谷充电使能), getString(R.string.m功率分配使能)
+                getString(R.string.m259设备充电参数设置), getString(R.string.m154充电模式), getString(R.string.m277电桩最大输出电流), getString(R.string.m152充电费率), getString(R.string.m278保护温度), getString(R.string.m279外部监测最大输入功率), getString(R.string.m280允许充电时间), getString(R.string.m297峰谷充电使能), getString(R.string.m298功率分配使能)
         };
 
         for (int i = 0; i < keys.length; i++) {
@@ -273,7 +272,7 @@ public class WifiSetActivity extends BaseActivity {
             rcdArray[i] = String.valueOf(rcdValue) + getString(R.string.m287级);
         }
         modeArray = new String[]{getString(R.string.m217扫码刷卡), getString(R.string.m218仅刷卡充电), getString(R.string.m219插枪充电)};
-        enableArray = new String[]{getString(R.string.m使能), getString(R.string.m禁止)};
+        enableArray = new String[]{getString(R.string.m299使能), getString(R.string.m300禁止)};
     }
 
 
@@ -1184,8 +1183,7 @@ public class WifiSetActivity extends BaseActivity {
             byte[] prayload = new byte[len];
             System.arraycopy(data, 6, prayload, 0, prayload.length);
             if (WifiSetActivity.this.encryption == WiFiMsgConstant.CONSTANT_MSG_01) {//解密
-                if (cmd == WiFiMsgConstant.CMD_A0)
-                    prayload = SmartHomeUtil.decodeKey(prayload, oldKey);
+                if (cmd == WiFiMsgConstant.CMD_A0) prayload = SmartHomeUtil.decodeKey(prayload, oldKey);
                 else prayload = SmartHomeUtil.decodeKey(prayload, newKey);
             }
             Log.d("liaojinsha", SmartHomeUtil.bytesToHexString(prayload));
@@ -1252,9 +1250,13 @@ public class WifiSetActivity extends BaseActivity {
                     mAdapter.getData().get(4).setValue(s);
 
                     versionByte = new byte[24];
-                    System.arraycopy(prayload, 28, versionByte, 0, 24);
-                    String version = MyUtil.ByteToString(versionByte);
-                    mAdapter.getData().get(5).setValue(version);
+
+                    //兼容老版本
+                    if (len>28){
+                        System.arraycopy(prayload, 28, versionByte, 0, 24);
+                        String version = MyUtil.ByteToString(versionByte);
+                        mAdapter.getData().get(5).setValue(version);
+                    }
 
                     mAdapter.notifyDataSetChanged();
 
@@ -1401,31 +1403,37 @@ public class WifiSetActivity extends BaseActivity {
                     mAdapter.getData().get(32).setValue(time);
 
                     chargingEnableByte = new byte[1];
-                    System.arraycopy(prayload, 24, chargingEnableByte, 0, 1);
-                    String chargingEnable = MyUtil.ByteToString(chargingEnableByte);
-                    int enable1;
-                    try {
-                        enable1 = Integer.parseInt(chargingEnable);
-                    } catch (NumberFormatException e) {
-                        enable1 = 0;
+
+                    //兼容老版本
+                    if (len>24){
+                        System.arraycopy(prayload, 24, chargingEnableByte, 0, 1);
+                        String chargingEnable = MyUtil.ByteToString(chargingEnableByte);
+                        int enable1;
+                        try {
+                            enable1 = Integer.parseInt(chargingEnable);
+                        } catch (NumberFormatException e) {
+                            enable1 = 0;
+                        }
+                        if (enable1 <= 0) enable1 = 1;
+                        String enableValue1 = enableArray[enable1 - 1];
+                        mAdapter.getData().get(33).setValue(enableValue1);
                     }
-                    if (enable1 <= 0) enable1 = 1;
-                    String enableValue1 = enableArray[enable1 - 1];
-                    mAdapter.getData().get(33).setValue(enableValue1);
 
 
-                    powerdistributionByte = new byte[1];
-                    System.arraycopy(prayload, 25, powerdistributionByte, 0, 1);
-                    String powerdistribution = MyUtil.ByteToString(powerdistributionByte);
-                    int enable2;
-                    try {
-                        enable2 = Integer.parseInt(powerdistribution);
-                    } catch (NumberFormatException e) {
-                        enable2 = 0;
+                    if (len>25){
+                        powerdistributionByte = new byte[1];
+                        System.arraycopy(prayload, 25, powerdistributionByte, 0, 1);
+                        String powerdistribution = MyUtil.ByteToString(powerdistributionByte);
+                        int enable2;
+                        try {
+                            enable2 = Integer.parseInt(powerdistribution);
+                        } catch (NumberFormatException e) {
+                            enable2 = 0;
+                        }
+                        if (enable2 <= 0) enable2 = 1;
+                        String enableValue2 = enableArray[enable2 - 1];
+                        mAdapter.getData().get(34).setValue(enableValue2);
                     }
-                    if (enable2 <= 0) enable2 = 1;
-                    String enableValue2 = enableArray[enable2 - 1];
-                    mAdapter.getData().get(34).setValue(enableValue2);
 
                     mAdapter.notifyDataSetChanged();
                     break;

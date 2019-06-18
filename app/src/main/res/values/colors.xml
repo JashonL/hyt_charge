@@ -83,7 +83,7 @@
     <!--预约编辑-->
     <color name="timing_delete">#fb2929</color>
 
-
+   <color name="orange">#FFA500</color>
     
 
 </resources>

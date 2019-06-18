@@ -480,7 +480,7 @@ public class Urlsutil implements Serializable {
     public String postMixInfo = GetUrl() + "/newMixApi.do?op=getMixInfo";
 
 
-    //	获取mix日曲线图数据(功率单位：W，电流单位：A，电压单位：V)
+    //	获取mix日曲线图数据(功率单位：WifiGuideAdapter，电流单位：A，电压单位：V)
     public String postDayLineMix = GetUrl() + "/newMixApi.do?op=getDayLineMix";
     //	获取MiX月曲线图数据(单位：kWh)
     public String getMixMonthPac = GetUrl() + "/newMixApi.do?op=getMixMonthPac";

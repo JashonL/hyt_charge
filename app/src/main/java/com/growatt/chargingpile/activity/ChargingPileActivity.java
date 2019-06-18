@@ -42,9 +42,11 @@ import com.growatt.chargingpile.bean.ReservationBean;
 import com.growatt.chargingpile.connutil.PostUtil;
 import com.growatt.chargingpile.util.AlertPickDialog;
 import com.growatt.chargingpile.util.Cons;
+import com.growatt.chargingpile.util.Constant;
 import com.growatt.chargingpile.util.MathUtil;
 import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
+import com.growatt.chargingpile.util.SharedPreferencesUnit;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
 import com.growatt.chargingpile.util.SmartHomeUtil;
 import com.growatt.chargingpile.view.RoundProgressBar;
@@ -249,7 +251,6 @@ public class ChargingPileActivity extends BaseActivity {
     private Map<String, Integer> gunIds = new HashMap<>();
 
     private ReservationBean.DataBean mCurrentReservationBean;
-    private String moneyUnit;
 
 
     @Override
@@ -366,7 +367,7 @@ public class ChargingPileActivity extends BaseActivity {
      */
     private void initHeaderViews() {
         ivUserCenter.setImageResource(R.drawable.user_index);
-        ivSetting.setImageResource(R.drawable.link_wifi_set);
+        ivSetting.setImageResource(R.drawable.link_wifi_set1);
     }
 
 
@@ -1333,7 +1334,18 @@ public class ChargingPileActivity extends BaseActivity {
                 setPowerLimit();
                 break;
             case R.id.ivRight:
-                Intent intent5 = new Intent(this, ConnetWiFiActivity.class);
+                boolean isGuide = SharedPreferencesUnit.getInstance(this).getBoolean(Constant.WIFI_GUIDE_KEY);
+                Class activity;
+                if (!(mAdapter.getData().size() > 1)){
+                    toast(R.string.m212暂时还没有设备);
+                    return;
+                }
+                if (isGuide) {
+                    activity = ConnetWiFiActivity.class;
+                } else {
+                    activity = WifiSetGuideActivity.class;
+                }
+                Intent intent5 = new Intent(this, activity);
                 intent5.putExtra("sn", mCurrentPile.getChargeId());
                 intent5.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 jumpTo(intent5, false);
@@ -1851,14 +1863,12 @@ public class ChargingPileActivity extends BaseActivity {
             initPresetUi();
             if (requestCode == REQUEST_MONEY) {
                 String money = data.getStringExtra("money");
-                String unit = data.getStringExtra("unitvalue");
-                moneyUnit = data.getStringExtra("unitkey");
                 reserveMoney = Double.parseDouble(money);
                 presetType = 1;
                 isReservation = false;
 
                 //设置预设方案的ui
-                setMoneyUi(true, money + unit);
+                setMoneyUi(true, money);
                 //设置预约的ui
                 startTime = null;
                 setReserveUi(getString(R.string.m204开始时间), getString(R.string.m184关闭), R.drawable.checkbox_off, "--:--", true, false);
@@ -1972,9 +1982,6 @@ public class ChargingPileActivity extends BaseActivity {
         if (type != 0) {
             jsonMap.put("cKey", key);
             jsonMap.put("cValue", value);
-        }
-        if (type == 1) {
-            jsonMap.put("unit", moneyUnit);
         }
         if (type == 3) {
             jsonMap.put("loopType", -1);
@@ -2112,7 +2119,6 @@ public class ChargingPileActivity extends BaseActivity {
             jsonMap.put("cKey", key);
             jsonMap.put("cValue", value);
         }
-        if (type == 1) jsonMap.put("unit", moneyUnit);
         if (type == 3) {
             jsonMap.put("loopType", -1);
             jsonMap.put("loopValue", timeEvaryDay);

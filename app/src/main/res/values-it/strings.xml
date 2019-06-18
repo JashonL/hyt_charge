@@ -295,13 +295,29 @@
     <string name="m292桩拒绝充电">SuspendedEVSE</string>
     <string name="m293车拒绝充电提示">The car refuses to charge, please switch to other charging Point</string>
     <string name="m294桩拒绝充电提示">Charging Point refused to charge, please switch to other charging Point</string>
-    <string name="m版本号">版本号</string>
-    <string name="m峰谷充电使能">峰谷充电使能</string>
-    <string name="m功率分配使能">功率分配使能</string>
-    <string name="m使能">使能</string>
-    <string name="m禁止">禁止</string>
-    <string name="m请连接电桩对应热点进行设置">请连接电桩对应热点进行设置</string>
-    <string name="m货币单位">货币单位</string>
+    <string name="m295该电桩热点不是已选择的电桩">The electric pile hot spot is not the selected electric pile</string>
+    <string name="m296版本号">version number</string>
+    <string name="m297峰谷充电使能">Peak Valley Charging Enable</string>
+    <string name="m298功率分配使能">Power Allocation Enable</string>
+    <string name="m299使能">enable</string>
+    <string name="m300禁止">prohibited</string>
+    <string name="m301执行">Execute</string>
+    <string name="m302请求失败">Request failed</string>
+    <string name="m303选择货币">select currency</string>
+    <string name="m304设置未做任何更改">Settings have not been changed</string>
+    <string name="m305AP模式">AP mode</string>
+    <string name="m306当前充电桩序列号">current charging pile serial number</string>
+    <string name="m307切换成功">switching successfully</string>
+    <string name="m308切换失败">Switch failed</string>
+    <string name="m309操作引导1">Set the charging station to AP mode as a WiFi hotspot. This is not required for the initial setup of the charging post.</string>
+    <string name="m310操作引导2">Mobile phone connection charging station WiFi, WiFi name is the charging pile serial number, the initial password is 12345678. If you can not find the charging station WiFi, you can restart the electric pile, the AP mode is within 60 seconds after the electric pile is restarted. </string>
+    <string name="m311操作引导3">After successfully connecting the charging station WiFi, click Next to modify and set the charging pile.</string>
+    <string name="m312WIFI直连操作指引">WIFI Direct Connection Operation Guide</string>
+    <string name="m313电桩最大输出电流">Current Setting</string>
+    <string name="m314智能功率分配">Load management setting</string>
+    <string name="m315货币单位">Currency unit</string>
+    <string name="m316退出登录">Sign out</string>
+    <string name="m317注销账户">Logout account</string>
     <!--安卓额外部分-->
 
     <!--权限问题-->

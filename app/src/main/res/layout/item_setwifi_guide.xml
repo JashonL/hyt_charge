@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:padding="@dimen/ya30"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_number"
+        android:layout_width="@dimen/ya40"
+        android:layout_height="@dimen/ya40"
+        android:gravity="center"
+        android:textSize="@dimen/ya30"
+        android:textColor="@color/white_background"
+        android:background="@drawable/shape_circle_orange" />
+
+    <TextView
+        android:id="@+id/tv_des"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/ya30"
+        android:layout_marginLeft="@dimen/ya30"
+        android:textColor="@color/title_2"
+        android:gravity="top"
+        app:layout_constraintTop_toTopOf="@+id/tv_number"
+        app:layout_constraintLeft_toRightOf="@+id/tv_number"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginStart="@dimen/ya30" />
+
+    <ImageView
+        android:id="@+id/iv_imageview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ya30"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_des" />
+
+</android.support.constraint.ConstraintLayout>

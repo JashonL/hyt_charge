@@ -156,4 +156,17 @@
     </RelativeLayout>
 
 
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="@dimen/xa585"
+        android:layout_height="@dimen/xa89"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/xa70"
+        android:layout_marginTop="@dimen/xa70"
+        android:background="@drawable/selector_circle_btn_green"
+        android:text="@string/m317注销账户"
+        android:textColor="@color/headerView"
+        android:textSize="@dimen/xa32" />
+
+
 </LinearLayout>

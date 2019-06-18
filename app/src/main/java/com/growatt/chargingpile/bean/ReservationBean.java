@@ -28,21 +28,22 @@ public class ReservationBean {
     }
 
     public static class DataBean {
-        private String endDate;
-        private int connectorId;
-        private String msgId;
-        private String userId;
-        private int transactionId;
-        private String expiryDate;
-        private int loopType;
-        private String loopValue;
-        private String cKey;
-        private int reservationId;
-        private String chargeId;
-        private int cValue;
-        private long ctime;
-        private int cid;
-        private String status;
+        private String endDate = "";
+        private int connectorId = 0;
+        private String msgId = "";
+        private String userId = "";
+        private int transactionId = 0;
+        private String expiryDate = "";
+        private int loopType = 0;
+        private String loopValue = "";
+        private String cKey = "";
+        private int reservationId = 0;
+        private String chargeId = "";
+        private int cValue = 0;
+        private long ctime = 0;
+        private int cid = 0;
+        private String status = "";
+        private String symbol = "";
 
         public String getEndDate() {
             return endDate;
@@ -162,6 +163,30 @@ public class ReservationBean {
 
         public void setStatus(String status) {
             this.status = status;
+        }
+
+        public String getcKey() {
+            return cKey;
+        }
+
+        public void setcKey(String cKey) {
+            this.cKey = cKey;
+        }
+
+        public int getcValue() {
+            return cValue;
+        }
+
+        public void setcValue(int cValue) {
+            this.cValue = cValue;
+        }
+
+        public String getSymbol() {
+            return symbol;
+        }
+
+        public void setSymbol(String symbol) {
+            this.symbol = symbol;
         }
     }
 }

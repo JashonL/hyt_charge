@@ -16,6 +16,7 @@ import android.widget.ImageView;
 
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
+import com.growatt.chargingpile.application.MyApplication;
 import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.SharedPreferencesUnit;
 
@@ -28,14 +29,13 @@ public class GuiActivity extends BaseActivity {
     private ViewPager guideViewPager;
     private Button guideButton;
 
-    private int isFrist;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowTitleByActivity();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gui);
-        isFrist= SharedPreferencesUnit.getInstance(this).getInt("num");
-        if (isFrist==0){
+        int isFrist = SharedPreferencesUnit.getInstance(MyApplication.context).getInt("num");
+        if (isFrist ==0){
             setUpView();
             addListener();
             SharedPreferencesUnit.getInstance(this).putInt("num",1);
