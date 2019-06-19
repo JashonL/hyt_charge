@@ -205,7 +205,7 @@ public class ChargingDurationActivity extends BaseActivity {
             try {
                 Date startDate = format.parse(expiryDate);
                 long sysStartTime = startDate.getTime();
-                long sysEndTime = sysStartTime + bean.getCValue() * 60 * 1000;
+                long sysEndTime = sysStartTime + Integer.parseInt(bean.getcValue2()) * 60 * 1000;
                 Date closeDate = new Date(sysEndTime);
                 endDate = format.format(closeDate);
 
@@ -226,7 +226,7 @@ public class ChargingDurationActivity extends BaseActivity {
             int total = 0;
             for (int i = 0; i < reserveList.size(); i++) {
                 ReservationBean.DataBean dataBean = reserveList.get(i);
-                int cValue = dataBean.getCValue();
+                int cValue = Integer.parseInt(dataBean.getcValue2());
                 total += cValue;
             }
             int hour = total / 60;

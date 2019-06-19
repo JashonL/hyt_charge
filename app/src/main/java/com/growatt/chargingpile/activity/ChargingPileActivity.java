@@ -1160,7 +1160,7 @@ public class ChargingPileActivity extends BaseActivity {
                     initReserveUi();
                     String expiryDate = reserveNow.get(0).getExpiryDate();
 //                String expiryDate = "2018-10-26T19:13:25.000Z";
-                    reserveMoney = reserveNow.get(0).getCValue();
+                    reserveMoney = Double.parseDouble(reserveNow.get(0).getcValue2());
                     startTime = expiryDate;
                     setMoneyUi(true, String.valueOf(reserveMoney));
                     boolean isEveryDay;
@@ -1196,7 +1196,7 @@ public class ChargingPileActivity extends BaseActivity {
                         try {
                             if (!TextUtils.isEmpty(expiryDate)) {
                                 Date startDate = sdf.parse(expiryDate);
-                                long endDateValue = startDate.getTime() + bean.getCValue() * 60 * 1000;
+                                long endDateValue = startDate.getTime() + Integer.parseInt(bean.getcValue2()) * 60 * 1000;
                                 Date endTime = new Date(endDateValue);
                                 endDate = sdf.format(endTime);
                             }

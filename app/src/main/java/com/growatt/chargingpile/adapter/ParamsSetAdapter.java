@@ -36,7 +36,7 @@ public class ParamsSetAdapter extends BaseMultiItemQuickAdapter<ParamsSetBean, B
 
         } else if (item.getItemType() == ParamsSetBean.PARAM_ITEM) {
             helper.setText(R.id.tv_key, item.getKey());
-            if (TextUtils.isEmpty(item.getValue().toString())) {
+            if (item.getValue()==null) {
                 helper.setText(R.id.tv_value, "");
             } else {
                 helper.setText(R.id.tv_value, item.getValue().toString());

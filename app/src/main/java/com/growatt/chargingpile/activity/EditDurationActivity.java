@@ -92,7 +92,7 @@ public class EditDurationActivity extends BaseActivity {
             endDate = dataBean.getEndDate();
             reservationId = dataBean.getReservationId();
             loopType = dataBean.getLoopType();
-            duration=dataBean.getCValue();
+            duration= Long.parseLong(dataBean.getcValue2());
             //获取年月
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date date = new Date();

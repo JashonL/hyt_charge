@@ -39,11 +39,12 @@ public class ReservationBean {
         private String cKey = "";
         private int reservationId = 0;
         private String chargeId = "";
-        private int cValue = 0;
+        private double cValue = 0;
         private long ctime = 0;
         private int cid = 0;
         private String status = "";
         private String symbol = "";
+        private String cValue2="0.0";
 
         public String getEndDate() {
             return endDate;
@@ -133,7 +134,7 @@ public class ReservationBean {
             this.chargeId = chargeId;
         }
 
-        public int getCValue() {
+        public double getCValue() {
             return cValue;
         }
 
@@ -173,7 +174,7 @@ public class ReservationBean {
             this.cKey = cKey;
         }
 
-        public int getcValue() {
+        public double getcValue() {
             return cValue;
         }
 
@@ -187,6 +188,18 @@ public class ReservationBean {
 
         public void setSymbol(String symbol) {
             this.symbol = symbol;
+        }
+
+        public void setcValue(double cValue) {
+            this.cValue = cValue;
+        }
+
+        public String getcValue2() {
+            return cValue2;
+        }
+
+        public void setcValue2(String cValue2) {
+            this.cValue2 = cValue2;
         }
     }
 }
