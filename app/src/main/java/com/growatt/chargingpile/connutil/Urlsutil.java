@@ -600,4 +600,10 @@ JLINV锦浪部分：等同于逆变器，接口不同
      * http://192.168.3.214:8081/ShineServer_2016/QXRegisterAPI.do?op=getUserIdByID
      */
     public String postServerUserId = GetUrl() + "/QXRegisterAPI.do?op=getUserIdByID";
+
+    /**
+     * 注销账户
+     */
+
+    public String postLogoutUserByName=GetUrl()+"/newUserAPI.do?op=cancellationUser";
 }

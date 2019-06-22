@@ -165,6 +165,7 @@
         android:layout_marginTop="@dimen/xa70"
         android:background="@drawable/selector_circle_btn_green"
         android:text="@string/m317注销账户"
+        android:visibility="gone"
         android:textColor="@color/headerView"
         android:textSize="@dimen/xa32" />
 
