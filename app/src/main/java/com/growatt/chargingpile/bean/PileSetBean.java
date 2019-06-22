@@ -46,6 +46,7 @@ public class PileSetBean {
         private String unit;
         private String G_MaxCurrent;
         private String G_ExternalLimitPower;
+        private String symbol;
 
         public int getConnectors() {
             return connectors;
@@ -277,6 +278,14 @@ public class PileSetBean {
 
         public void setG_ExternalLimitPower(String g_ExternalLimitPower) {
             G_ExternalLimitPower = g_ExternalLimitPower;
+        }
+
+        public String getSymbol() {
+            return symbol;
+        }
+
+        public void setSymbol(String symbol) {
+            this.symbol = symbol;
         }
     }
 }

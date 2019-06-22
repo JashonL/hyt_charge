@@ -32,6 +32,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import pub.devrel.easypermissions.EasyPermissions;
 
 public class AddChargingActivity extends BaseActivity {
@@ -41,12 +42,13 @@ public class AddChargingActivity extends BaseActivity {
 
     @BindView(R.id.et_input_sn)
     EditText etSn;
+    private Unbinder bind;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_charging);
-        ButterKnife.bind(this);
+        bind = ButterKnife.bind(this);
         initHeaderView();
     }
 
@@ -181,5 +183,11 @@ public class AddChargingActivity extends BaseActivity {
                 }
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (bind != null) bind.unbind();
     }
 }

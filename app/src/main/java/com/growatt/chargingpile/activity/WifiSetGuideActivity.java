@@ -23,6 +23,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 public class WifiSetGuideActivity extends BaseActivity {
 
@@ -41,12 +42,13 @@ public class WifiSetGuideActivity extends BaseActivity {
 
     private int[] resIds;
     private String[] des;
+    private Unbinder bind;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wifi_set_gui);
-        ButterKnife.bind(this);
+        bind=ButterKnife.bind(this);
         saveRecorde();
         initResource();
         initHeaderViews();
@@ -98,5 +100,11 @@ public class WifiSetGuideActivity extends BaseActivity {
                 finish();
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (bind!=null)bind.unbind();
     }
 }

@@ -36,6 +36,7 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 ;
 
@@ -60,11 +61,13 @@ public class NewPhoneVerActivity extends BaseActivity {
     //跳转而来的信息
     private String jumpPhone;
     private int type;//跳转过来的类型:100:代表server提交问题验证；101:代表修改用户手机号验证
+    private Unbinder bind;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_phone_ver);
-        ButterKnife.bind(this);
+        bind=ButterKnife.bind(this);
         initHeaderView();
         initIntent();
         initView();
@@ -312,4 +315,10 @@ public class NewPhoneVerActivity extends BaseActivity {
             DialogUtil.circlerDialog(NewPhoneVerActivity.this,getString(R.string.m失败),msg.what,false,null);
         }
     };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (bind!=null)bind.unbind();
+    }
 }

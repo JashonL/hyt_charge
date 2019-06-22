@@ -45,6 +45,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import pub.devrel.easypermissions.EasyPermissions;
 
 public class ConnetWiFiActivity extends BaseActivity {
@@ -139,12 +140,13 @@ public class ConnetWiFiActivity extends BaseActivity {
 //    };
 
     private static final int FIRSTACT_TO_WIFI = 10000;
+    private Unbinder bind;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connet_wi_fi);
-        ButterKnife.bind(this);
+        bind=ButterKnife.bind(this);
 //        mDeviceList = new ArrayList<>();
         initIntent();
         initViews();
@@ -226,6 +228,7 @@ public class ConnetWiFiActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         unRegisterWifiReceiver();
+        if (bind!=null)bind.unbind();
         super.onDestroy();
     }
 
@@ -402,5 +405,4 @@ public class ConnetWiFiActivity extends BaseActivity {
         }
         dialog.show();
     }
-
 }

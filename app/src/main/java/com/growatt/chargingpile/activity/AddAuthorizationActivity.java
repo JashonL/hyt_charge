@@ -34,6 +34,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 public class AddAuthorizationActivity extends BaseActivity {
 
@@ -49,12 +50,13 @@ public class AddAuthorizationActivity extends BaseActivity {
 
 
     private String chargingId;
+    private Unbinder bind;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_authorization);
-        ButterKnife.bind(this);
+        bind = ButterKnife.bind(this);
         initHeadView();
         initIntent();
         setViews();
@@ -62,8 +64,8 @@ public class AddAuthorizationActivity extends BaseActivity {
 
     private void setViews() {
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.sign_user);
-        bitmap=Bitmap.createScaledBitmap(bitmap,getResources().getDimensionPixelSize(R.dimen.xa40), getResources().getDimensionPixelSize(R.dimen.xa40), true);
-        ImageSpan imageHint = new ImageSpan(this,bitmap);
+        bitmap = Bitmap.createScaledBitmap(bitmap, getResources().getDimensionPixelSize(R.dimen.xa40), getResources().getDimensionPixelSize(R.dimen.xa40), true);
+        ImageSpan imageHint = new ImageSpan(this, bitmap);
         SpannableString spannableString = new SpannableString("image" + getString(R.string.m25请输入用户名));
         spannableString.setSpan(imageHint, 0, "image".length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         etUsername.setHint(spannableString);
@@ -86,7 +88,7 @@ public class AddAuthorizationActivity extends BaseActivity {
         tvTitle.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
 
         int dimen = getResources().getDimensionPixelSize(R.dimen.xa23);
-        tvRight.setTextSize(TypedValue.COMPLEX_UNIT_PX,dimen);
+        tvRight.setTextSize(TypedValue.COMPLEX_UNIT_PX, dimen);
         tvRight.setTextColor(ContextCompat.getColor(this, R.color.charging_text_color_2));
         tvRight.setText(getString(R.string.m164注册新用户));
         tvRight.setOnClickListener(new View.OnClickListener() {
@@ -114,7 +116,7 @@ public class AddAuthorizationActivity extends BaseActivity {
     @OnClick(R.id.btAdd)
     public void toAddUser(View view) {
         final String username = etUsername.getText().toString();
-        if (TextUtils.isEmpty(username.trim())){
+        if (TextUtils.isEmpty(username.trim())) {
             toast(R.string.m25请输入用户名);
         }
         PostUtil.post(new Urlsutil().postServerUserId, new PostUtil.postListener() {
@@ -136,7 +138,7 @@ public class AddAuthorizationActivity extends BaseActivity {
                         } else {
                             toAddAuthorize();
                         }
-                    }else {
+                    } else {
                         toast(getString(R.string.m账号未注册));
                     }
 
@@ -164,12 +166,12 @@ public class AddAuthorizationActivity extends BaseActivity {
             return;
         }
         Map<String, Object> jsonMap = new LinkedHashMap<>();
-        jsonMap.put("ownerId",Cons.userBean.getAccountName());
+        jsonMap.put("ownerId", Cons.userBean.getAccountName());
         jsonMap.put("sn", chargingId);
         jsonMap.put("userId", userName);
         jsonMap.put("phone", "");
-        jsonMap.put("userName",userName);
-        jsonMap.put("lan",getLanguage());//测试id
+        jsonMap.put("userName", userName);
+        jsonMap.put("lan", getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         Mydialog.Show(this);
         PostUtil.postJson(SmartHomeUrlUtil.postAddAuthorizationUser(), json, new PostUtil.postListener() {
@@ -199,5 +201,11 @@ public class AddAuthorizationActivity extends BaseActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (bind != null) bind.unbind();
     }
 }

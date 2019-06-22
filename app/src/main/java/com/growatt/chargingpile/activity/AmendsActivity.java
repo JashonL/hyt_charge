@@ -21,6 +21,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 public class AmendsActivity extends BaseActivity {
     @BindView(R.id.headerView)
@@ -34,12 +35,13 @@ public class AmendsActivity extends BaseActivity {
     private String type;
     private String PhoneNum;
     private String email;
+    private Unbinder bind;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_amendaddress);
-        ButterKnife.bind(this);
+        bind = ButterKnife.bind(this);
         initHeaderView();
         initIntent();
         initViews();
@@ -183,5 +185,11 @@ public class AmendsActivity extends BaseActivity {
             finish();
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (bind!=null)bind.unbind();
     }
 }

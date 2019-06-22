@@ -22,6 +22,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 public class ForgotPasswordActivity extends BaseActivity {
     @BindView(R.id.headerView)
@@ -30,12 +31,13 @@ public class ForgotPasswordActivity extends BaseActivity {
     TextView tvTitle;
     @BindView(R.id.et_username)
     EditText etUserName;
+    private Unbinder bind;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
-        ButterKnife.bind(this);
+        bind=ButterKnife.bind(this);
         initHeaderView();
     }
 
@@ -154,5 +156,9 @@ public class ForgotPasswordActivity extends BaseActivity {
         });
 
     }
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (bind!=null)bind.unbind();
+    }
 }

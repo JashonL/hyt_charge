@@ -182,7 +182,7 @@ public class SmartHomeUrlUtil {
         return SMARTHOME_BASE_URL + "/ocpp/user/appMode";
     }
 
-    public static String postRequestMoneyUnit(){
+    public static String postByCmd(){
         return SMARTHOME_BASE_URL+"/ocpp/api/";
     }
 }

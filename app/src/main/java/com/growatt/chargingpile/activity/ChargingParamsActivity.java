@@ -2,6 +2,7 @@ package com.growatt.chargingpile.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -15,10 +16,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.google.gson.Gson;
 import com.growatt.chargingpile.BaseActivity;
+import com.growatt.chargingpile.EventBusMsg.SetRateMsg;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.adapter.ParamsSetAdapter;
+import com.growatt.chargingpile.bean.ChargingBean;
 import com.growatt.chargingpile.bean.ParamsSetBean;
 import com.growatt.chargingpile.bean.PileSetBean;
 import com.growatt.chargingpile.connutil.PostUtil;
@@ -30,6 +34,8 @@ import com.growatt.chargingpile.util.SmartHomeUtil;
 import com.growatt.chargingpile.util.T;
 import com.mylhyl.circledialog.CircleDialog;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,6 +48,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 
 public class ChargingParamsActivity extends BaseActivity {
@@ -58,7 +65,7 @@ public class ChargingParamsActivity extends BaseActivity {
 
 
     private ParamsSetAdapter mAdapter;
-    private List<ParamsSetBean> list = new ArrayList<>();
+    private List<MultiItemEntity> list = new ArrayList<>();
     private String[] keys;
 
     private String[] mModels;
@@ -73,12 +80,16 @@ public class ChargingParamsActivity extends BaseActivity {
     private List<String> newUnitValues;
     private String unitKey;
     private String unitValue;
+    private String unitSymbol;
+
+    private List<ChargingBean.DataBean.PriceConfBean> priceConfBeanList;
+    private Unbinder bind;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charging_params);
-        ButterKnife.bind(this);
+        bind = ButterKnife.bind(this);
         initIntent();
         initHeaderView();
         initResource();
@@ -91,6 +102,8 @@ public class ChargingParamsActivity extends BaseActivity {
 
     private void initIntent() {
         chargingId = getIntent().getStringExtra("sn");
+        priceConfBeanList = getIntent().getParcelableArrayListExtra("rate");
+        if (priceConfBeanList == null) priceConfBeanList = new ArrayList<>();
     }
 
     private void initPullView() {
@@ -107,60 +120,53 @@ public class ChargingParamsActivity extends BaseActivity {
 
     private void setOnclickListener() {
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
-            if (position == 0 || position == 9|| position==16||position==18) return;
-            ParamsSetBean bean = mAdapter.getData().get(position);
-            switch (position) {
-                case 1:
-                    inputEdit("name", (String) bean.getValue());
-                    break;
-                case 2:
-                    inputEdit("address", (String) bean.getValue());
-                    break;
-                case 3:
-                    inputEdit("site", (String) bean.getValue());
-                    break;
-                case 4:
-                    inputEdit("rate", String.valueOf(bean.getValue()));
-                    break;
-                case 5:
-                    setCapacityUnit();
-//                        inputEdit("power", String.valueOf(bean.getValue()));
-                    break;
-                case 6:
-                    inputEdit("G_MaxCurrent", (String) bean.getValue());
-                    break;
-                case 7:
-                    inputEdit("G_ExternalLimitPower", (String) bean.getValue());
-                    break;
-                case 8:
-                    setModle();
-                    break;
-                case 10:
-                    inputEdit("ip", (String) bean.getValue());
-                    break;
-                case 11:
-                    inputEdit("gateway", (String) bean.getValue());
-                    break;
-                case 12:
-                    inputEdit("mask", (String) bean.getValue());
-
-                    break;
-                case 13:
-                    inputEdit("mac", (String) bean.getValue());
-
-                    break;
-                case 14:
-                    inputEdit("host", (String) bean.getValue());
-
-                    break;
-                case 15:
-                    inputEdit("dns", (String) bean.getValue());
-                    break;
-                case 17:
-                    apMode();
-                    break;
+            MultiItemEntity multiItemEntity = mAdapter.getData().get(position);
+            if (multiItemEntity == null) return;
+            int itemType = multiItemEntity.getItemType();
+            if (itemType == ParamsSetAdapter.PARAM_TITILE || itemType == ParamsSetAdapter.PARAM_ITEM_CANT_CLICK) {
             }
-
+            else if (itemType == ParamsSetAdapter.PARAM_ITEM) {
+                String key = ((ParamsSetBean) multiItemEntity).getKey();
+                Object object = ((ParamsSetBean) multiItemEntity).getValue();
+                String value = String.valueOf(object);
+                if (key.equals(keys[1])) {
+                    inputEdit("name", value);
+                } else if (key.equals(keys[2])) {
+                    inputEdit("address", value);
+                } else if (key.equals(keys[3])) {
+                    inputEdit("site", value);
+                } else if (key.equals(keys[4])) {
+//                    inputEdit("rate", value);
+                } else if (key.equals(keys[5])) {
+                    setCapacityUnit();
+                } else if (key.equals(keys[6])) {
+                    inputEdit("G_MaxCurrent", value);
+                } else if (key.equals(keys[7])) {
+                    inputEdit("G_ExternalLimitPower", value);
+                } else if (key.equals(keys[8])) {
+                    setModle();
+                } else if (key.equals(keys[10])) {
+                    inputEdit("ip", value);
+                } else if (key.equals(keys[11])) {
+                    inputEdit("gateway", value);
+                } else if (key.equals(keys[12])) {
+                    inputEdit("mask", value);
+                } else if (key.equals(keys[13])) {
+                    inputEdit("mac", value);
+                } else if (key.equals(keys[14])) {
+                    inputEdit("host", value);
+                } else if (key.equals(keys[15])) {
+                    inputEdit("dns", value);
+                } else if (key.equals(keys[17])) {
+                    apMode();
+                }
+            } else if (itemType == ParamsSetAdapter.PARAM_ITEM_RATE) {//设置费率
+                Intent intent1 = new Intent(this, RateSetActivity.class);
+                intent1.putExtra("sn", chargingId);
+                intent1.putExtra("symbol", unitSymbol);
+                intent1.putParcelableArrayListExtra("rate", (ArrayList<? extends Parcelable>) priceConfBeanList);
+                jumpTo(intent1, false);
+            }
         });
     }
 
@@ -218,17 +224,17 @@ public class ChargingParamsActivity extends BaseActivity {
         mModels = new String[]{getString(R.string.m217扫码刷卡), getString(R.string.m218仅刷卡充电), getString(R.string.m219插枪充电)};
         keys = new String[]{
                 getString(R.string.m148基础参数), getString(R.string.m149电桩名称), getString(R.string.m150国家城市),
-                getString(R.string.m151站点), getString(R.string.m152充电费率),getString(R.string.m315货币单位),
+                getString(R.string.m151站点), getString(R.string.m152充电费率), getString(R.string.m315货币单位),
                 getString(R.string.m313电桩最大输出电流), getString(R.string.m314智能功率分配), getString(R.string.m154充电模式), getString(R.string.m155高级设置), getString(R.string.m156充电桩IP),
                 getString(R.string.m157网关), getString(R.string.m158子网掩码), getString(R.string.m159网络MAC地址),
-                getString(R.string.m160服务器URL), getString(R.string.m161DNS地址), "", getString(R.string.m289进入AP模式),""};
+                getString(R.string.m160服务器URL), getString(R.string.m161DNS地址), "", getString(R.string.m289进入AP模式), ""};
         for (int i = 0; i < keys.length; i++) {
             ParamsSetBean bean = new ParamsSetBean();
-            if (i == 0 || i == 9||i==16||i==18) {
+            if (i == 0 || i == 9 || i == 16 || i == 18) {
                 bean.setTitle(keys[i]);
-                bean.setType(ParamsSetBean.PARAM_TITILE);
+                bean.setType(ParamsSetAdapter.PARAM_TITILE);
             } else {
-                bean.setType(ParamsSetBean.PARAM_ITEM);
+                bean.setType(ParamsSetAdapter.PARAM_ITEM);
                 bean.setKey(keys[i]);
                 bean.setValue("");
             }
@@ -246,11 +252,12 @@ public class ChargingParamsActivity extends BaseActivity {
         tvId = paramHeadView.findViewById(R.id.tv_id);
         tvKeys = paramHeadView.findViewById(R.id.tv_keys);
         tvVersion = paramHeadView.findViewById(R.id.tv_version);
-        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mAdapter = new ParamsSetAdapter(list);
-        recyclerView.setLayoutManager(mLinearLayoutManager);
-        recyclerView.setAdapter(mAdapter);
         mAdapter.addHeaderView(paramHeadView);
+        recyclerView.setAdapter(mAdapter);
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(mLinearLayoutManager);
+        mAdapter.expandAll();
     }
 
 
@@ -290,7 +297,7 @@ public class ChargingParamsActivity extends BaseActivity {
                             return;
                         }
                     }
-                    if (key.equals("G_MaxCurrent")){
+                    if (key.equals("G_MaxCurrent")) {
                         boolean numeric3 = MyUtil.isNumberiZidai(text);
                         if (!numeric3) {
                             T.make(getString(R.string.m177输入格式不正确), this);
@@ -435,7 +442,7 @@ public class ChargingParamsActivity extends BaseActivity {
 
 
     private void refreshRv(PileSetBean.DataBean data) {
-        List<ParamsSetBean> newlist = new ArrayList<>();
+        List<MultiItemEntity> newlist = new ArrayList<>();
         for (int i = 0; i < keys.length; i++) {
             ParamsSetBean bean = new ParamsSetBean();
             switch (i) {
@@ -444,45 +451,51 @@ public class ChargingParamsActivity extends BaseActivity {
                 case 16:
                 case 18:
                     bean.setTitle(keys[i]);
-                    bean.setType(ParamsSetBean.PARAM_TITILE);
+                    bean.setType(ParamsSetAdapter.PARAM_TITILE);
                     break;
                 case 1:
-                    bean.setType(ParamsSetBean.PARAM_ITEM);
+                    bean.setType(ParamsSetAdapter.PARAM_ITEM);
                     bean.setKey(keys[i]);
                     bean.setValue(data.getName());
                     break;
                 case 2:
-                    bean.setType(ParamsSetBean.PARAM_ITEM);
+                    bean.setType(ParamsSetAdapter.PARAM_ITEM);
                     bean.setKey(keys[i]);
                     bean.setValue(data.getAddress());
                     break;
                 case 3:
-                    bean.setType(ParamsSetBean.PARAM_ITEM);
+                    bean.setType(ParamsSetAdapter.PARAM_ITEM);
                     bean.setKey(keys[i]);
                     bean.setValue(data.getSite());
                     break;
                 case 4:
-                    bean.setType(ParamsSetBean.PARAM_ITEM);
+                    bean.setType(ParamsSetAdapter.PARAM_ITEM);
                     bean.setKey(keys[i]);
-                    bean.setValue(data.getRate());
+                    bean.setValue("");
+                    for (int j = 0; j < priceConfBeanList.size(); j++) {
+                        ChargingBean.DataBean.PriceConfBean priceConfBean = priceConfBeanList.get(j);
+                        priceConfBean.setItemType(ParamsSetAdapter.PARAM_ITEM_RATE);
+                        bean.addSubItem(priceConfBean);
+                    }
                     break;
                 case 5:
-                    bean.setType(ParamsSetBean.PARAM_ITEM);
+                    bean.setType(ParamsSetAdapter.PARAM_ITEM);
                     bean.setKey(keys[i]);
                     bean.setValue(data.getUnit());
+                    unitSymbol = data.getSymbol();
                     break;
                 case 6:
-                    bean.setType(ParamsSetBean.PARAM_ITEM);
+                    bean.setType(ParamsSetAdapter.PARAM_ITEM);
                     bean.setKey(keys[i]);
                     bean.setValue(data.getG_MaxCurrent());
                     break;
                 case 7:
-                    bean.setType(ParamsSetBean.PARAM_ITEM);
+                    bean.setType(ParamsSetAdapter.PARAM_ITEM);
                     bean.setKey(keys[i]);
                     bean.setValue(data.getG_ExternalLimitPower());
                     break;
                 case 8:
-                    bean.setType(ParamsSetBean.PARAM_ITEM);
+                    bean.setType(ParamsSetAdapter.PARAM_ITEM);
                     bean.setKey(keys[i]);
                     String model = data.getG_ChargerMode();
                     if ("1".equals(model)) {
@@ -496,43 +509,45 @@ public class ChargingParamsActivity extends BaseActivity {
                     }
                     break;
                 case 10:
-                    bean.setType(ParamsSetBean.PARAM_ITEM);
+                    bean.setType(ParamsSetAdapter.PARAM_ITEM);
                     bean.setKey(keys[i]);
                     bean.setValue(data.getIp());
                     break;
                 case 11:
-                    bean.setType(ParamsSetBean.PARAM_ITEM);
+                    bean.setType(ParamsSetAdapter.PARAM_ITEM);
                     bean.setKey(keys[i]);
                     bean.setValue(data.getGateway());
                     break;
                 case 12:
-                    bean.setType(ParamsSetBean.PARAM_ITEM);
+                    bean.setType(ParamsSetAdapter.PARAM_ITEM);
                     bean.setKey(keys[i]);
                     bean.setValue(data.getMask());
                     break;
                 case 13:
-                    bean.setType(ParamsSetBean.PARAM_ITEM_CANT_CLICK);
+                    bean.setType(ParamsSetAdapter.PARAM_ITEM_CANT_CLICK);
                     bean.setKey(keys[i]);
                     bean.setValue(data.getMac());
                     break;
                 case 14:
-                    bean.setType(ParamsSetBean.PARAM_ITEM);
+                    bean.setType(ParamsSetAdapter.PARAM_ITEM);
                     bean.setKey(keys[i]);
                     bean.setValue(data.getHost());
                     break;
                 case 15:
-                    bean.setType(ParamsSetBean.PARAM_ITEM);
+                    bean.setType(ParamsSetAdapter.PARAM_ITEM);
                     bean.setKey(keys[i]);
                     bean.setValue(data.getDns());
                     break;
                 case 17:
-                    bean.setType(ParamsSetBean.PARAM_ITEM);
+                    bean.setType(ParamsSetAdapter.PARAM_ITEM);
                     bean.setKey(keys[i]);
                     bean.setValue("");
                     break;
             }
             newlist.add(bean);
-            mAdapter.replaceData(newlist);
+            mAdapter.setNewData(newlist);
+//            mAdapter.replaceData(newlist);
+            mAdapter.expandAll();
         }
     }
 
@@ -576,7 +591,7 @@ public class ChargingParamsActivity extends BaseActivity {
             e.printStackTrace();
         }
         String params = jsonObject.toString();
-        PostUtil.postJson(SmartHomeUrlUtil.postRequestMoneyUnit(), params, new PostUtil.postListener() {
+        PostUtil.postJson(SmartHomeUrlUtil.postByCmd(), params, new PostUtil.postListener() {
             @Override
             public void Params(Map<String, String> params) {
 
@@ -604,11 +619,10 @@ public class ChargingParamsActivity extends BaseActivity {
     }
 
 
-
     private void setCapacityUnit() {
         List<String> keys;
         List<String> values;
-        List<String> items=new ArrayList<>();
+        List<String> items = new ArrayList<>();
         if (newUnitKeys == null) {
             keys = Arrays.asList(moneyTypes);
             values = Arrays.asList(moneySymbols);
@@ -657,5 +671,22 @@ public class ChargingParamsActivity extends BaseActivity {
         }
         newUnitKeys = unitKeys;
         newUnitValues = unitValues;
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (bind != null) bind.unbind();
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void aa(SetRateMsg msg) {
+        if (msg.getPriceConfBeanList() != null) {
+            priceConfBeanList = msg.getPriceConfBeanList();
+            refreshDate();
+        }
+
     }
 }

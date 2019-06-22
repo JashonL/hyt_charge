@@ -35,6 +35,7 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 ;
 
@@ -54,12 +55,13 @@ public class NewEmailVerActivity extends BaseActivity {
     //跳转而来的信息
     private String jumpEmail;
     private int type;//跳转过来的类型:100:代表server验证
+    private Unbinder bind;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_email_ver);
-        ButterKnife.bind(this);
+        bind = ButterKnife.bind(this);
         initIntent();
         initHeaderView();
         initView();
@@ -286,5 +288,11 @@ public class NewEmailVerActivity extends BaseActivity {
             finish();
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (bind != null) bind.unbind();
     }
 }

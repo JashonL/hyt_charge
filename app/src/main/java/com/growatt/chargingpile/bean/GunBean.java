@@ -20,6 +20,7 @@ public class GunBean {
     public static final String RESERVED = "Reserved";
     public static final String SUSPENDEEV = "SuspendedEV";
     public static final String SUSPENDEDEVSE = "SuspendedEVSE";
+    public static final String RESERVENOW = "ReserveNow";
 
 
     private int code;
@@ -73,13 +74,12 @@ public class GunBean {
         private int connectorId = 1;
         private String name = "";
         private String cKey = "";
-        private double cValue = 0;
+        private String cValue = "0";
         private String symbol = "";
+        private String loopValue;
 
 
-        public void setcValue(double cValue) {
-            this.cValue = cValue;
-        }
+
 
         public String getSymbol() {
             return symbol;
@@ -97,11 +97,11 @@ public class GunBean {
             this.cKey = cKey;
         }
 
-        public double getcValue() {
+        public String getcValue() {
             return cValue;
         }
 
-        public void setcValue(int cValue) {
+        public void setcValue(String cValue) {
             this.cValue = cValue;
         }
 
@@ -203,6 +203,14 @@ public class GunBean {
 
         public void setConnectorId(int connectorId) {
             this.connectorId = connectorId;
+        }
+
+        public String getLoopValue() {
+            return loopValue;
+        }
+
+        public void setLoopValue(String loopValue) {
+            this.loopValue = loopValue;
         }
 
         public String getName() {

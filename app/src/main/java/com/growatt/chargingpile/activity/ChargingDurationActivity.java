@@ -39,6 +39,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 
 public class ChargingDurationActivity extends BaseActivity {
@@ -59,13 +60,14 @@ public class ChargingDurationActivity extends BaseActivity {
     private int totalMinute;
     private boolean isUpdate = false;
     private String chargingId;
+    private Unbinder bind;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charging_duration);
-        ButterKnife.bind(this);
+        bind = ButterKnife.bind(this);
         initIntent();
         initHeaderView();
         initRecyclerView();
@@ -281,7 +283,20 @@ public class ChargingDurationActivity extends BaseActivity {
         String json = new Gson().toJson(dataBean);
         if (!TextUtils.isEmpty(ctype)) {
             try {
-                JSONObject object = new JSONObject(json);
+                JSONObject object;
+                if ("1".equals(ctype)){
+                     object = new JSONObject(json);
+                }else {
+                    object = new JSONObject();
+                    object.put("cKey", dataBean.getcKey());
+                    object.put("cValue", dataBean.getcValue());
+                    object.put("connectorId", dataBean.getConnectorId());
+                    object.put("expiryDate", dataBean.getExpiryDate());
+                    object.put("loopValue", dataBean.getLoopValue());
+                    object.put("reservationId", dataBean.getReservationId());
+                    object.put("sn", chargingId);
+                    object.put("userId", Cons.userBean.accountName);
+                }
                 object.put("ctype", ctype);
                 object.put("lan", getLanguage());//测试id
                 json = object.toString();
@@ -289,6 +304,7 @@ public class ChargingDurationActivity extends BaseActivity {
                 e.printStackTrace();
             }
         }
+        if (TextUtils.isEmpty(json))return;
         LogUtil.i(json);
         PostUtil.postJson(SmartHomeUrlUtil.postUpdateChargingReservelist(), json, new PostUtil.postListener() {
             @Override
@@ -323,4 +339,9 @@ public class ChargingDurationActivity extends BaseActivity {
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (bind!=null)bind.unbind();
+    }
 }

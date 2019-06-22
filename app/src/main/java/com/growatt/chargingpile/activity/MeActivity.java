@@ -51,6 +51,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import pub.devrel.easypermissions.EasyPermissions;
 
 public class MeActivity extends BaseActivity {
@@ -78,12 +79,14 @@ public class MeActivity extends BaseActivity {
     private static final int CODE_RESULT_REQUEST = 0xa2;
     private ImageView ivHead;
     private String picName;
+    private Unbinder bind;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_me);
-        ButterKnife.bind(this);
+        bind=ButterKnife.bind(this);
         initHeaderView();
         initResource();
         initRecycleView();
@@ -450,5 +453,11 @@ public class MeActivity extends BaseActivity {
             return pathHead + uri.getPath();
         }
         return null;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (bind!=null)bind.unbind();
     }
 }

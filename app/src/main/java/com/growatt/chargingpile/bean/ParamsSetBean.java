@@ -1,17 +1,13 @@
 package com.growatt.chargingpile.bean;
 
+import com.chad.library.adapter.base.entity.AbstractExpandableItem;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 /**
  * Created by Administrator on 2018/10/23.
  */
 
-public class ParamsSetBean implements MultiItemEntity {
-
-    public static final int PARAM_TITILE = 0;
-    public static final int PARAM_ITEM = 1;
-    public static final int PARAM_ITEM_CANT_CLICK=2;
-
+public class ParamsSetBean extends AbstractExpandableItem<ChargingBean.DataBean.PriceConfBean> implements MultiItemEntity {
 
     private String key;
     private Object value;
@@ -53,5 +49,10 @@ public class ParamsSetBean implements MultiItemEntity {
     @Override
     public int getItemType() {
         return type;
+    }
+
+    @Override
+    public int getLevel() {
+        return 0;
     }
 }

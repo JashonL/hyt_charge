@@ -25,6 +25,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class ChargingRecoderActivity extends BaseActivity {
 
@@ -46,13 +47,14 @@ public class ChargingRecoderActivity extends BaseActivity {
     private int lastVisiblePosition = 0;
 
     private String chargingId;
+    private Unbinder bind;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charging_recoder);
-        ButterKnife.bind(this);
+        bind=ButterKnife.bind(this);
         initIntent();
         initHeaderView();
         initRecyclerView();
@@ -168,4 +170,9 @@ public class ChargingRecoderActivity extends BaseActivity {
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (bind!=null)bind.unbind();
+    }
 }

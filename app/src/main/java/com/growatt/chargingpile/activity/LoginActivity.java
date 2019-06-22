@@ -30,6 +30,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 
 /**
@@ -45,12 +46,13 @@ public class LoginActivity extends BaseActivity {
     Button btLogin;
     @BindView(R.id.ll_demo)
     LinearLayout llDemo;
+    private Unbinder bind;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        ButterKnife.bind(this);
+        bind=ButterKnife.bind(this);
         initUser();
         AutoLogin();
     }
@@ -196,5 +198,11 @@ public class LoginActivity extends BaseActivity {
             finish();
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (bind!=null)bind.unbind();
     }
 }

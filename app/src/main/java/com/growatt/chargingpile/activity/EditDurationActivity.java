@@ -37,6 +37,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 public class EditDurationActivity extends BaseActivity {
 
@@ -68,13 +69,14 @@ public class EditDurationActivity extends BaseActivity {
 
     private String loopValue;
     private String chargingId;
+    private Unbinder bind;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_duration);
-        ButterKnife.bind(this);
+        bind = ButterKnife.bind(this);
         initHeaderView();
         initResource();
         initIntent();
@@ -495,4 +497,9 @@ public class EditDurationActivity extends BaseActivity {
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (bind!=null)bind.unbind();
+    }
 }

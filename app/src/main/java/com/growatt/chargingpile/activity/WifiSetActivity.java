@@ -48,6 +48,7 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 public class WifiSetActivity extends BaseActivity {
 
@@ -125,8 +126,14 @@ public class WifiSetActivity extends BaseActivity {
     //是否已经连接
     private boolean isConnected = false;
 
-    //
     private String tips;
+
+    private boolean isEditInfo = false;
+    private boolean isEditInterNet = false;
+    private boolean isEditWifi = false;
+    private boolean isEditUrl = false;
+    private boolean isEditCharging = false;
+
 
     private Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -192,13 +199,14 @@ public class WifiSetActivity extends BaseActivity {
             srlPull.setRefreshing(false);
         }
     };
+    private Unbinder bind;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wifi_set);
-        ButterKnife.bind(this);
+        bind=ButterKnife.bind(this);
         initIntent();
         initHeaderView();
         initResource();
@@ -380,6 +388,7 @@ public class WifiSetActivity extends BaseActivity {
                             }
                             cardByte = new byte[6];
                             System.arraycopy(bytes, 0, cardByte, 0, bytes.length);
+                            isEditInfo = true;
 //                            setInfo();
                             break;
                         case 7:
@@ -394,6 +403,7 @@ public class WifiSetActivity extends BaseActivity {
                             }
                             ipByte = new byte[15];
                             System.arraycopy(bytes, 0, ipByte, 0, bytes.length);
+                            isEditInterNet = true;
 //                            setInternt();
                             break;
                         case 8:
@@ -409,6 +419,7 @@ public class WifiSetActivity extends BaseActivity {
                             gatewayByte = new byte[15];
                             System.arraycopy(bytes, 0, gatewayByte, 0, bytes.length);
 //                            setInternt();
+                            isEditInterNet = true;
                             break;
                         case 9:
                             boolean b2 = MyUtil.isboolIp(text);
@@ -422,6 +433,7 @@ public class WifiSetActivity extends BaseActivity {
                             }
                             maskByte = new byte[15];
                             System.arraycopy(bytes, 0, maskByte, 0, bytes.length);
+                            isEditInterNet = true;
 //                            setInternt();
                             break;
                         case 10:
@@ -437,6 +449,7 @@ public class WifiSetActivity extends BaseActivity {
                             macByte = new byte[17];
                             System.arraycopy(bytes, 0, macByte, 0, bytes.length);
 //                            setInternt();
+                            isEditInterNet = true;
                             break;
                         case 11:
                             boolean b3 = MyUtil.isboolIp(text);
@@ -451,6 +464,7 @@ public class WifiSetActivity extends BaseActivity {
                             dnsByte = new byte[15];
                             System.arraycopy(bytes, 0, dnsByte, 0, bytes.length);
 //                            setInternt();
+                            isEditInterNet = true;
                             break;
                         case 13:
                             boolean letterDigit1 = MyUtil.isLetterDigit2(text);
@@ -466,6 +480,7 @@ public class WifiSetActivity extends BaseActivity {
                             ssidByte = new byte[16];
                             System.arraycopy(bytes, 0, ssidByte, 0, bytes.length);
 //                            setWifi();
+                            isEditWifi = true;
                             break;
                         case 14:
                             boolean letterDigit2 = MyUtil.isLetterDigit2(text);
@@ -480,6 +495,7 @@ public class WifiSetActivity extends BaseActivity {
                             wifiKeyByte = new byte[16];
                             System.arraycopy(bytes, 0, wifiKeyByte, 0, bytes.length);
 //                            setWifi();
+                            isEditWifi = true;
                             break;
 
                         case 15:
@@ -495,6 +511,7 @@ public class WifiSetActivity extends BaseActivity {
                             bltNameByte = new byte[16];
                             System.arraycopy(bytes, 0, bltNameByte, 0, bytes.length);
 //                            setWifi();
+                            isEditWifi = true;
                             break;
                         case 16:
                             boolean letterDigit4 = MyUtil.isLetterDigit2(text);
@@ -509,6 +526,7 @@ public class WifiSetActivity extends BaseActivity {
                             bltPwdByte = new byte[16];
                             System.arraycopy(bytes, 0, bltPwdByte, 0, bytes.length);
 //                            setWifi();
+                            isEditWifi = true;
                             break;
                         case 17:
                             boolean letterDigit5 = MyUtil.isLetterDigit2(text);
@@ -523,6 +541,7 @@ public class WifiSetActivity extends BaseActivity {
                             name4GByte = new byte[16];
                             System.arraycopy(bytes, 0, name4GByte, 0, bytes.length);
 //                            setWifi();
+                            isEditWifi = true;
                             break;
                         case 18:
                             boolean letterDigit6 = MyUtil.isLetterDigit2(text);
@@ -538,6 +557,7 @@ public class WifiSetActivity extends BaseActivity {
                             pwd4GByte = new byte[16];
                             System.arraycopy(bytes, 0, pwd4GByte, 0, bytes.length);
 //                            setWifi();
+                            isEditWifi = true;
                             break;
                         case 19:
                             boolean letterDigit7 = MyUtil.isLetterDigit2(text);
@@ -553,6 +573,7 @@ public class WifiSetActivity extends BaseActivity {
                             apn4GByte = new byte[16];
                             System.arraycopy(bytes, 0, apn4GByte, 0, bytes.length);
 //                            setWifi();
+                            isEditWifi = true;
                             break;
 
                         case 21:
@@ -563,6 +584,7 @@ public class WifiSetActivity extends BaseActivity {
                             urlByte = new byte[70];
                             System.arraycopy(bytes, 0, urlByte, 0, bytes.length);
 //                            setUrl();
+                            isEditUrl = true;
                             break;
                         case 22:
                             boolean letterDigit8 = MyUtil.isLetterDigit2(text);
@@ -577,6 +599,7 @@ public class WifiSetActivity extends BaseActivity {
                             hskeyByte = new byte[20];
                             System.arraycopy(bytes, 0, hskeyByte, 0, bytes.length);
 //                            setUrl();
+                            isEditUrl = true;
                             break;
                         case 23:
                             boolean numeric = MyUtil.isNumberiZidai(text);
@@ -596,6 +619,7 @@ public class WifiSetActivity extends BaseActivity {
                             heatByte = new byte[4];
                             System.arraycopy(bytes, 0, heatByte, 0, bytes.length);
 //                            setUrl();
+                            isEditUrl = true;
                             break;
                         case 24:
                             boolean numeric1 = MyUtil.isNumberiZidai(text);
@@ -616,6 +640,7 @@ public class WifiSetActivity extends BaseActivity {
                             pingByte = new byte[4];
                             System.arraycopy(bytes, 0, pingByte, 0, bytes.length);
 //                            setUrl();
+                            isEditUrl = true;
                             break;
                         case 25:
                             boolean numeric2 = MyUtil.isNumberiZidai(text);
@@ -636,6 +661,7 @@ public class WifiSetActivity extends BaseActivity {
                             intervalByte = new byte[4];
                             System.arraycopy(bytes, 0, intervalByte, 0, bytes.length);
 //                            setUrl();
+                            isEditUrl = true;
                             break;
 
                         case 28:
@@ -657,6 +683,7 @@ public class WifiSetActivity extends BaseActivity {
                             maxCurrentByte = new byte[2];
                             System.arraycopy(bytes, 0, maxCurrentByte, 0, bytes.length);
 //                            setCharging();
+                            isEditCharging = true;
                             break;
                         case 29:
                             boolean numeric4 = MyUtil.isNumeric(text);
@@ -671,6 +698,7 @@ public class WifiSetActivity extends BaseActivity {
                             rateByte = new byte[5];
                             System.arraycopy(bytes, 0, rateByte, 0, bytes.length);
 //                            setCharging();
+                            isEditCharging = true;
                             break;
                         case 30:
                             boolean numeric5 = MyUtil.isNumberiZidai(text);
@@ -691,6 +719,7 @@ public class WifiSetActivity extends BaseActivity {
                             tempByte = new byte[3];
                             System.arraycopy(bytes, 0, tempByte, 0, bytes.length);
 //                            setCharging();
+                            isEditCharging = true;
                             break;
                         case 31:
                             boolean numeric6 = MyUtil.isNumberiZidai(text);
@@ -709,9 +738,10 @@ public class WifiSetActivity extends BaseActivity {
                             powerByte = new byte[2];
                             System.arraycopy(bytes, 0, powerByte, 0, bytes.length);
 //                            setCharging();
+                            isEditCharging = true;
                             break;
                     }
-                    setAdapter(key,text);
+                    setAdapter(key, text);
                 })
                 .show(this.getSupportFragmentManager());
     }
@@ -720,7 +750,7 @@ public class WifiSetActivity extends BaseActivity {
     /**
      * 刷新adapter
      */
-    private void setAdapter(int position,String value){
+    private void setAdapter(int position, String value) {
         mAdapter.getData().get(position).setValue(value);
         mAdapter.notifyDataSetChanged();
     }
@@ -1158,8 +1188,36 @@ public class WifiSetActivity extends BaseActivity {
      * 保存设置
      */
     private void save() {
-        setInfo();
+        if (!isEditInfo && !isEditInterNet && !isEditWifi && !isEditUrl && !isEditCharging) {//未更改
+            new CircleDialog.Builder()
+                    .setTitle(getString(R.string.m27温馨提示))
+                    .setWidth(0.8f)
+                    .setText(getString(R.string.m304设置未做任何更改))
+                    .setPositive(getString(R.string.m9确定), v -> {
+                        sendCmdExit();
+                        finish();
+                    })
+                    .setNegative(getString(R.string.m7取消),null)
+                    .show(getSupportFragmentManager());
+        }else if (isEditInfo){//修改基础信息
+            setInfo();
+        }else if (isEditInterNet){//修改联网参数
+            setInternt();
+        }else if (isEditWifi){
+            setWifi();
+        }else if (isEditUrl){
+            setUrl();
+        }else {
+            setCharging();
+        }
+
     }
+
+
+    private void sendSetting(){
+
+    }
+
 
     /**********************************解析数据************************************/
 
@@ -1183,7 +1241,8 @@ public class WifiSetActivity extends BaseActivity {
             byte[] prayload = new byte[len];
             System.arraycopy(data, 6, prayload, 0, prayload.length);
             if (WifiSetActivity.this.encryption == WiFiMsgConstant.CONSTANT_MSG_01) {//解密
-                if (cmd == WiFiMsgConstant.CMD_A0) prayload = SmartHomeUtil.decodeKey(prayload, oldKey);
+                if (cmd == WiFiMsgConstant.CMD_A0)
+                    prayload = SmartHomeUtil.decodeKey(prayload, oldKey);
                 else prayload = SmartHomeUtil.decodeKey(prayload, newKey);
             }
             Log.d("liaojinsha", SmartHomeUtil.bytesToHexString(prayload));
@@ -1252,7 +1311,7 @@ public class WifiSetActivity extends BaseActivity {
                     versionByte = new byte[24];
 
                     //兼容老版本
-                    if (len>28){
+                    if (len > 28) {
                         System.arraycopy(prayload, 28, versionByte, 0, 24);
                         String version = MyUtil.ByteToString(versionByte);
                         mAdapter.getData().get(5).setValue(version);
@@ -1405,7 +1464,7 @@ public class WifiSetActivity extends BaseActivity {
                     chargingEnableByte = new byte[1];
 
                     //兼容老版本
-                    if (len>24){
+                    if (len > 24) {
                         System.arraycopy(prayload, 24, chargingEnableByte, 0, 1);
                         String chargingEnable = MyUtil.ByteToString(chargingEnableByte);
                         int enable1;
@@ -1420,7 +1479,7 @@ public class WifiSetActivity extends BaseActivity {
                     }
 
 
-                    if (len>25){
+                    if (len > 25) {
                         powerdistributionByte = new byte[1];
                         System.arraycopy(prayload, 25, powerdistributionByte, 0, 1);
                         String powerdistribution = MyUtil.ByteToString(powerdistributionByte);
@@ -1439,16 +1498,36 @@ public class WifiSetActivity extends BaseActivity {
                     break;
                 //设置回应
                 case WiFiMsgConstant.CONSTANT_MSG_11:
-                    setInternt();
+                    if (isEditInterNet){//修改联网参数
+                        setInternt();
+                    }else if (isEditWifi){
+                        setWifi();
+                    }else if (isEditUrl){
+                        setUrl();
+                    }else if (isEditCharging){
+                        setCharging();
+                    }
                     break;
                 case WiFiMsgConstant.CONSTANT_MSG_12:
-                    setWifi();
+                    if (isEditWifi){
+                        setWifi();
+                    }else if (isEditUrl){
+                        setUrl();
+                    }else if (isEditCharging){
+                        setCharging();
+                    }
                     break;
                 case WiFiMsgConstant.CONSTANT_MSG_13:
-                    setUrl();
+                    if (isEditUrl){
+                        setUrl();
+                    }else if (isEditCharging){
+                        setCharging();
+                    }
                     break;
                 case WiFiMsgConstant.CONSTANT_MSG_14:
-                    setCharging();
+                    if (isEditCharging){
+                        setCharging();
+                    }
                     break;
                 case WiFiMsgConstant.CONSTANT_MSG_15:
                     byte result = prayload[0];
@@ -1470,7 +1549,7 @@ public class WifiSetActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.ivLeft,R.id.tvRight})
+    @OnClick({R.id.ivLeft, R.id.tvRight})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ivLeft:
@@ -1509,7 +1588,8 @@ public class WifiSetActivity extends BaseActivity {
                 lanByte = new byte[1];
                 System.arraycopy(bytes, 0, lanByte, 0, bytes.length);
 //                setInfo();
-                setAdapter(2,tx);
+                setAdapter(2, tx);
+                isEditInfo = true;
             }
         })
                 .setTitleText(getString(R.string.m260语言))
@@ -1542,7 +1622,8 @@ public class WifiSetActivity extends BaseActivity {
                 rcdByte = new byte[1];
                 System.arraycopy(bytes, 0, rcdByte, 0, bytes.length);
 //                setInfo();
-                setAdapter(4,tx);
+                setAdapter(4, tx);
+                isEditInfo = true;
             }
         })
                 .setTitleText(getString(R.string.m265RCD保护值))
@@ -1575,7 +1656,8 @@ public class WifiSetActivity extends BaseActivity {
                 modeByte = new byte[1];
                 System.arraycopy(bytes, 0, modeByte, 0, bytes.length);
 //                setCharging();
-                setAdapter(27,tx);
+                setAdapter(27, tx);
+                isEditCharging = true;
             }
         })
                 .setTitleText(getString(R.string.m154充电模式))
@@ -1627,7 +1709,8 @@ public class WifiSetActivity extends BaseActivity {
                     }
                     timeByte = new byte[11];
                     System.arraycopy(bytes, 0, timeByte, 0, bytes.length);
-                    setAdapter(31,chargingTime);
+                    setAdapter(32, chargingTime);
+                    isEditCharging = true;
 //                    setCharging();
 //                    }
                 } else {
@@ -1681,8 +1764,9 @@ public class WifiSetActivity extends BaseActivity {
                     powerdistributionByte = new byte[1];
                     System.arraycopy(bytes, 0, powerdistributionByte, 0, bytes.length);
                 }
-                setAdapter(position,tx);
+                setAdapter(position, tx);
 //                setCharging();
+                isEditCharging = true;
             }
         })
                 .setTitleText(getString(R.string.m265RCD保护值))
@@ -1696,5 +1780,11 @@ public class WifiSetActivity extends BaseActivity {
                 .build();
         pvOptions.setPicker(list);
         pvOptions.show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (bind!=null)bind.unbind();
     }
 }

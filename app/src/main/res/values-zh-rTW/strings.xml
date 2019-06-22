@@ -318,6 +318,29 @@
     <string name="m315货币单位">货币单位</string>
     <string name="m316退出登录">退出登录</string>
     <string name="m317注销账户">注销账户</string>
+    <string name="m318是否注销账户">是否注销账户</string>
+    <string name="m319注销后账户将被删除">注销后账户将被删除，无法再使用</string>
+    <string name="m320注销成功">注销成功</string>
+    <string name="m321注销失败">注销失败 </string>
+    <string name="m322系统错误">系统错误 </string>
+    <string name="m323用户不存在">用户不存在 </string>
+    <string name="m324该用户下存在浏览账户">该用户下存在浏览账户 </string>
+    <string name="m325admin账号不允许注销">admin账号不允许注销 </string>
+    <string name="m326时间段">时间段</string>
+    <string name="m327费率">费率</string>
+    <string name="m328设置不能超过6条">设置不能超过6条</string>
+    <string name="m329最少要有1条">最少要有1条</string>
+    <string name="m330有时间段或费率未输入">有时间段或费率未输入</string>
+    <string name="m331时间必须包含24小时">时间必须包含24小时</string>
+    <string name="m332时间不能相同">时间不能相同</string>
+    <string name="m333时间段不能重叠">333时间段不能重叠</string>
+    <string name="m334预约时间">预约时间</string>
+    <string name="m335预设充电">预设充电</string>
+    <string name="m336充电方案">充电方案</string>
+    <string name="m337预计">预计</string>
+    <string name="m338充满自动停止充电">充满自动停止充电</string>
+    <string name="m339预约">预约</string>
+    <string name="m340取消预约">取消预约</string>
     <!--安卓额外部分-->
 
 
@@ -366,7 +389,6 @@
     <string name="wifi_key">wifi_key</string>
     <string name="m去WLAN页面进行设置">去WLAN页面进行设置&gt;</string>
     <string name="m133车拒绝充电">车拒绝充电</string>
-
 </resources>
 
 

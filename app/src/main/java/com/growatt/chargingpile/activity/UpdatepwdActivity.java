@@ -21,6 +21,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 public class UpdatepwdActivity extends BaseActivity {
 
@@ -32,12 +33,14 @@ public class UpdatepwdActivity extends BaseActivity {
     EditText et2;
     @BindView(R.id.editText3)
     EditText et3;
+    private Unbinder bind;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_updatepwd);
-        ButterKnife.bind(this);
+        bind=ButterKnife.bind(this);
         initHeaderView();
     }
 
@@ -121,10 +124,6 @@ public class UpdatepwdActivity extends BaseActivity {
     }
 
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -133,5 +132,9 @@ public class UpdatepwdActivity extends BaseActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (bind!=null)bind.unbind();
+    }
 }

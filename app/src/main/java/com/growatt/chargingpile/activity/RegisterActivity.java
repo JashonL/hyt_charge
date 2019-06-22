@@ -38,6 +38,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 public class RegisterActivity extends BaseActivity {
 
@@ -61,12 +62,13 @@ public class RegisterActivity extends BaseActivity {
     TextView terms;
     @BindView(R.id.et_phone)
     EditText etPhone;
+    private Unbinder bind;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        ButterKnife.bind(this);
+        bind=ButterKnife.bind(this);
         initHeaderView();
         initViews();
     }
@@ -350,6 +352,11 @@ public class RegisterActivity extends BaseActivity {
 
             }
         });
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (bind!=null)bind.unbind();
     }
 
 }

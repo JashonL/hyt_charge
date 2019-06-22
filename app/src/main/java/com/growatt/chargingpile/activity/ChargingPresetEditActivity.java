@@ -20,6 +20,7 @@ import com.growatt.chargingpile.view.NumberPicker;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 public class ChargingPresetEditActivity extends BaseActivity {
 
@@ -49,13 +50,14 @@ public class ChargingPresetEditActivity extends BaseActivity {
 
     private String[] hours;
     private String[] minutes;
+    private Unbinder bind;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charging_preset_edit);
-        ButterKnife.bind(this);
+        bind=ButterKnife.bind(this);
         initHeaderView();
         initIntent();
         initViews();
@@ -191,5 +193,9 @@ public class ChargingPresetEditActivity extends BaseActivity {
         //设置当前值
         numberPicker.setValue(index);
     }
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (bind!=null)bind.unbind();
+    }
 }

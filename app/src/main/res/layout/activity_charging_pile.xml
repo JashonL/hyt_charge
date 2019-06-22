@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:autofit="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:autofit="http://schemas.android.com/apk/res-auto"
     tools:context="com.growatt.chargingpile.activity.ChargingPileActivity">
 
 
@@ -24,14 +24,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/xa70"
                 android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/ivLeft"
                 android:layout_toLeftOf="@+id/ivRight"
                 android:layout_toRightOf="@+id/ivLeft"
+                android:layout_toStartOf="@+id/ivRight"
                 android:gravity="center"
                 android:text="@string/m102充电桩"
                 android:textColor="@color/headerView"
-                android:textSize="@dimen/xa37"
-                android:layout_toStartOf="@+id/ivRight"
-                android:layout_toEndOf="@+id/ivLeft" />
+                android:textSize="@dimen/xa37" />
 
             <ImageView
                 android:id="@+id/ivLeft"
@@ -66,9 +66,9 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_charging"
-                android:layout_gravity="center_vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical">
 
             </android.support.v7.widget.RecyclerView>
 
@@ -220,10 +220,10 @@
                             android:layout_marginTop="@dimen/xa20"
                             android:gravity="center"
                             android:singleLine="true"
-                            autofit:minTextSize="8sp"
                             android:text="@string/m117空闲"
                             android:textColor="@color/charging_text_color_2"
-                            android:textSize="@dimen/xa38" />
+                            android:textSize="@dimen/xa38"
+                            autofit:minTextSize="8sp" />
                     </LinearLayout>
 
                     <ImageView
@@ -243,6 +243,7 @@
                         android:visibility="gone" />
                 </RelativeLayout>
 
+
                 <LinearLayout
                     android:id="@+id/linearlayout2"
                     android:layout_width="match_parent"
@@ -251,6 +252,7 @@
                     android:layout_below="@+id/linearlayout1"
                     android:layout_marginTop="@dimen/xa20"
                     android:orientation="vertical">
+
                     <!--空闲-->
                     <!--<include layout="@laystatus_charging_freefree"/>-->
                     <!--准备中-->
@@ -277,6 +279,7 @@
                          android:textSize="@dimen/xa30" />-->
 
                 </LinearLayout>
+
 
                 <LinearLayout
                     android:id="@+id/linearlayout3"

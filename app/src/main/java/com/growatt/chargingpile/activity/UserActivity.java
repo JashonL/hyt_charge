@@ -14,6 +14,7 @@ import com.growatt.chargingpile.util.Cons;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 
 public class UserActivity extends BaseActivity {
@@ -24,13 +25,14 @@ public class UserActivity extends BaseActivity {
     TextView textView3;
     @BindView(R.id.textView5)
     TextView textView5;
+    private Unbinder bind;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
-        ButterKnife.bind(this);
+        bind=ButterKnife.bind(this);
         initHeaderView();
         initViews();
     }
@@ -118,5 +120,11 @@ public class UserActivity extends BaseActivity {
 
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (bind!=null)bind.unbind();
     }
 }

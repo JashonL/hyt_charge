@@ -31,6 +31,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 
 public class ChargingAuthorizationActivity extends BaseActivity {
@@ -44,13 +45,14 @@ public class ChargingAuthorizationActivity extends BaseActivity {
     private List<ChargingUserBean.DataBean> mUserList = new ArrayList<>();
     private ChargingUserAdapter mChargingUserAdapter;
     private String chargingId;
+    private Unbinder bind;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charging_authorization);
-        ButterKnife.bind(this);
+        bind = ButterKnife.bind(this);
         initIntent();
         initHeaderView();
         initRecyclerView();
@@ -201,4 +203,9 @@ public class ChargingAuthorizationActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (bind!=null)bind.unbind();
+    }
 }

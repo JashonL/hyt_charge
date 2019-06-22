@@ -38,6 +38,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 
 public class AddAuthorizeRegisterActivity extends BaseActivity {
@@ -61,20 +62,21 @@ public class AddAuthorizeRegisterActivity extends BaseActivity {
     TextView terms;
 
     private String chargingId;
+    private Unbinder bind;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_authorize_register);
-        ButterKnife.bind(this);
+        bind = ButterKnife.bind(this);
         initIntent();
         initHeaderView();
         initViews();
     }
 
     private void initIntent() {
-        chargingId=getIntent().getStringExtra("sn");
+        chargingId = getIntent().getStringExtra("sn");
     }
 
 
@@ -95,7 +97,6 @@ public class AddAuthorizeRegisterActivity extends BaseActivity {
     }
 
 
-
     private void initViews() {
         terms.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
         terms.getPaint().setAntiAlias(true);//抗锯齿
@@ -105,7 +106,7 @@ public class AddAuthorizeRegisterActivity extends BaseActivity {
     public void toRegister(View view) {
         switch (view.getId()) {
             case R.id.textView4:
-                startActivity(new Intent(this,AgreementActivity.class));
+                startActivity(new Intent(this, AgreementActivity.class));
                 break;
             case R.id.btFinish:
                 try {
@@ -359,12 +360,12 @@ public class AddAuthorizeRegisterActivity extends BaseActivity {
             return;
         }
         Map<String, Object> jsonMap = new LinkedHashMap<>();
-        jsonMap.put("ownerId",Cons.userBean.getAccountName());
+        jsonMap.put("ownerId", Cons.userBean.getAccountName());
         jsonMap.put("sn", chargingId);
         jsonMap.put("userId", userName);
         jsonMap.put("phone", "");
-        jsonMap.put("userName",userName);
-        jsonMap.put("lan",getLanguage());//测试id
+        jsonMap.put("userName", userName);
+        jsonMap.put("lan", getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         Mydialog.Show(this);
         PostUtil.postJson(SmartHomeUrlUtil.postAddAuthorizationUser(), json, new PostUtil.postListener() {
@@ -394,5 +395,11 @@ public class AddAuthorizeRegisterActivity extends BaseActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (bind != null) bind.unbind();
     }
 }

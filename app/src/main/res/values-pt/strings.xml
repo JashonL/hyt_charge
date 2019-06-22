@@ -318,6 +318,29 @@
     <string name="m315货币单位">Currency unit</string>
     <string name="m316退出登录">Sign out</string>
     <string name="m317注销账户">Logout account</string>
+    <string name="m318是否注销账户">Whether to cancel the account</string>
+    <string name="m319注销后账户将被删除">The account will be deleted after cancellation and can no longer be used</string>
+    <string name="m320注销成功">Logout successful</string>
+    <string name="m321注销失败">Logout failed </string>
+    <string name="m322系统错误">system error </string>
+    <string name="m323用户不存在">User does not exist </string>
+    <string name="m324该用户下存在浏览账户">There is a browsing account under this user </string>
+    <string name="m325admin账号不允许注销">admin account is not allowed to logout </string>
+    <string name="m326时间段">period</string>
+    <string name="m327费率">rate</string>
+    <string name="m328设置不能超过6条">Settings cannot exceed six</string>
+    <string name="m329最少要有1条">There must be at least one</string>
+    <string name="m330有时间段或费率未输入">There is a time period or rate not entered</string>
+    <string name="m331时间必须包含24小时">Time must contain 24 hours</string>
+    <string name="m332时间不能相同">Time cannot be the same</string>
+    <string name="m333时间段不能重叠">Time periods cannot overlap</string>
+    <string name="m334预约时间">Appointment</string>
+    <string name="m335预设充电">Preset charging</string>
+    <string name="m336充电方案">charging scheme</string>
+    <string name="m337预计">expected</string>
+    <string name="m338充满自动停止充电">Full automatic stop charging</string>
+    <string name="m339预约">reservation</string>
+    <string name="m340取消预约">cancel appointment</string>
     <!--安卓额外部分-->
 
     <!--权限问题-->
@@ -364,6 +387,7 @@
     <string name="wifi_key">wifi_key</string>
     <string name="m去WLAN页面进行设置">Go to the WLAN page to set up&gt;</string>
     <string name="m133车拒绝充电">SuspendedEV</string>
+    <string name="m334时间必须包含24小时">时间必须包含24小时</string>
 </resources>
 
 

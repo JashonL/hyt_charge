@@ -32,7 +32,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/tv_id" />
 
-            <TextView
+            <com.growatt.chargingpile.view.AutoFitTextViewTwo
                 android:id="@+id/tv_id"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -68,7 +68,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/tv_keys" />
 
-            <TextView
+            <com.growatt.chargingpile.view.AutoFitTextViewTwo
                 android:id="@+id/tv_keys"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -104,7 +104,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/tv_version" />
 
-            <TextView
+            <com.growatt.chargingpile.view.AutoFitTextViewTwo
                 android:id="@+id/tv_version"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
