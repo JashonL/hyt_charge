@@ -1809,8 +1809,10 @@ public class WifiSetActivity extends BaseActivity {
 
     /*设置使能*/
     private void setEnable(int position) {
+        String title;
         List<String> list = Arrays.asList(enableArray);
-        ;
+        if (position==33)title=getString(R.string.m297峰谷充电使能);
+        else title=getString(R.string.m298功率分配使能);
         OptionsPickerView<String> pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
@@ -1833,7 +1835,7 @@ public class WifiSetActivity extends BaseActivity {
                 isEditCharging = true;
             }
         })
-                .setTitleText(getString(R.string.m265RCD保护值))
+                .setTitleText(title)
                 .setTitleBgColor(0xffffffff)
                 .setTitleColor(0xff333333)
                 .setSubmitColor(0xff333333)
