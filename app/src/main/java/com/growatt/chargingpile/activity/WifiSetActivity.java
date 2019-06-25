@@ -88,12 +88,14 @@ public class WifiSetActivity extends BaseActivity {
     private byte[] cardByte;
     private byte[] rcdByte;
     private byte[] versionByte;
+    private int infoLength;
     //网络相关设置
     private byte[] ipByte;
     private byte[] gatewayByte;
     private byte[] maskByte;
     private byte[] macByte;
     private byte[] dnsByte;
+    private int internetLength;
     //wifi相关设置
     private byte[] ssidByte;
     private byte[] wifiKeyByte;
@@ -102,12 +104,14 @@ public class WifiSetActivity extends BaseActivity {
     private byte[] name4GByte;
     private byte[] pwd4GByte;
     private byte[] apn4GByte;
+    private int wifiLength;
     //url相关配置
     private byte[] urlByte;
     private byte[] hskeyByte;
     private byte[] heatByte;
     private byte[] pingByte;
     private byte[] intervalByte;
+    private int urlLength;
     //充电参数
     private byte[] modeByte;
     private byte[] maxCurrentByte;
@@ -117,6 +121,7 @@ public class WifiSetActivity extends BaseActivity {
     private byte[] timeByte;
     private byte[] chargingEnableByte;
     private byte[] powerdistributionByte;
+    private int chargingLength;
 
     //加密密钥
     private byte[] oldKey;
@@ -196,7 +201,8 @@ public class WifiSetActivity extends BaseActivity {
 
                     break;
             }
-            srlPull.setRefreshing(false);
+            if (srlPull != null)
+                srlPull.setRefreshing(false);
         }
     };
     private Unbinder bind;
@@ -206,7 +212,7 @@ public class WifiSetActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wifi_set);
-        bind=ButterKnife.bind(this);
+        bind = ButterKnife.bind(this);
         initIntent();
         initHeaderView();
         initResource();
@@ -327,10 +333,14 @@ public class WifiSetActivity extends BaseActivity {
                     showTimePickView(false);
                     break;
                 case 33:
+                    if (chargingLength>24)
                     setEnable(33);
+                    else toast(R.string.m请先升级充电桩);
                     break;
                 case 34:
+                    if (chargingLength>25)
                     setEnable(34);
+                    else toast(R.string.m请先升级充电桩);
                     break;
                 default:
                     inputEdit(position, String.valueOf(bean.getValue()));
@@ -916,14 +926,21 @@ public class WifiSetActivity extends BaseActivity {
         byte cmd = WiFiMsgConstant.CONSTANT_MSG_11;
 
         /*****有效数据*****/
-        byte len = (byte) 52;
-        byte[] prayload = new byte[52];
+        byte len = (byte) infoLength;
+        byte[] prayload = new byte[infoLength];
 
-
-        if (idByte == null || lanByte == null || cardByte == null || rcdByte == null || versionByte == null) {
-            T.make(R.string.m244设置失败, this);
-            return;
+        if (infoLength>28){
+            if (idByte == null || lanByte == null || cardByte == null || rcdByte == null || versionByte == null) {
+                T.make(R.string.m244设置失败, this);
+                return;
+            }
+        }else {
+            if (idByte == null || lanByte == null || cardByte == null || rcdByte == null) {
+                T.make(R.string.m244设置失败, this);
+                return;
+            }
         }
+
         //id
         System.arraycopy(idByte, 0, prayload, 0, idByte.length);
         //语言
@@ -932,10 +949,10 @@ public class WifiSetActivity extends BaseActivity {
         System.arraycopy(cardByte, 0, prayload, idByte.length + lanByte.length, cardByte.length);
         //rcd
         System.arraycopy(rcdByte, 0, prayload, idByte.length + lanByte.length + cardByte.length, rcdByte.length);
-        //版本号
-        System.arraycopy(versionByte, 0, prayload, idByte.length + lanByte.length + cardByte.length + rcdByte.length, versionByte.length);
-
-
+        if (infoLength>28){
+            //版本号
+            System.arraycopy(versionByte, 0, prayload, idByte.length + lanByte.length + cardByte.length + rcdByte.length, versionByte.length);
+        }
         byte[] encryptedData = SmartHomeUtil.decodeKey(prayload, newKey);
 
         byte end = WiFiMsgConstant.BLT_MSG_END;
@@ -1137,14 +1154,21 @@ public class WifiSetActivity extends BaseActivity {
         byte cmd = WiFiMsgConstant.CONSTANT_MSG_15;
 
         /*****有效数据*****/
-        byte len = (byte) 46;
-        byte[] prayload = new byte[46];
+        byte len = (byte) chargingLength;
+        byte[] prayload = new byte[chargingLength];
 
-
-        if (modeByte == null || maxCurrentByte == null || rateByte == null || tempByte == null
-                || powerByte == null || timeByte == null || chargingEnableByte == null || powerdistributionByte == null) {
-            T.make(R.string.m244设置失败, this);
-            return;
+        if (chargingLength>24){
+            if (modeByte == null || maxCurrentByte == null || rateByte == null || tempByte == null
+                    || powerByte == null || timeByte == null || chargingEnableByte == null || powerdistributionByte == null) {
+                T.make(R.string.m244设置失败, this);
+                return;
+            }
+        }else {
+            if (modeByte == null || maxCurrentByte == null || rateByte == null || tempByte == null
+                    || powerByte == null || timeByte == null ) {
+                T.make(R.string.m244设置失败, this);
+                return;
+            }
         }
 
         //模式
@@ -1159,11 +1183,12 @@ public class WifiSetActivity extends BaseActivity {
         System.arraycopy(powerByte, 0, prayload, 11, powerByte.length);
         //允许充电时间
         System.arraycopy(timeByte, 0, prayload, 13, timeByte.length);
-        //峰谷充电使能
-        System.arraycopy(chargingEnableByte, 0, prayload, 24, chargingEnableByte.length);
-        //功率分配使能
-        System.arraycopy(powerdistributionByte, 0, prayload, 25, powerdistributionByte.length);
-
+        if (chargingLength>24){
+            //峰谷充电使能
+            System.arraycopy(chargingEnableByte, 0, prayload, 24, chargingEnableByte.length);
+            //功率分配使能
+            System.arraycopy(powerdistributionByte, 0, prayload, 25, powerdistributionByte.length);
+        }
         byte[] encryptedData = SmartHomeUtil.decodeKey(prayload, newKey);
 
         byte end = WiFiMsgConstant.BLT_MSG_END;
@@ -1197,24 +1222,19 @@ public class WifiSetActivity extends BaseActivity {
                         sendCmdExit();
                         finish();
                     })
-                    .setNegative(getString(R.string.m7取消),null)
+                    .setNegative(getString(R.string.m7取消), null)
                     .show(getSupportFragmentManager());
-        }else if (isEditInfo){//修改基础信息
+        } else if (isEditInfo) {//修改基础信息
             setInfo();
-        }else if (isEditInterNet){//修改联网参数
+        } else if (isEditInterNet) {//修改联网参数
             setInternt();
-        }else if (isEditWifi){
+        } else if (isEditWifi) {
             setWifi();
-        }else if (isEditUrl){
+        } else if (isEditUrl) {
             setUrl();
-        }else {
+        } else {
             setCharging();
         }
-
-    }
-
-
-    private void sendSetting(){
 
     }
 
@@ -1272,6 +1292,7 @@ public class WifiSetActivity extends BaseActivity {
                     break;
 
                 case WiFiMsgConstant.CONSTANT_MSG_01://获取信息参数
+                    infoLength = len;
                     idByte = new byte[20];
                     System.arraycopy(prayload, 0, idByte, 0, 20);
                     String devId = MyUtil.ByteToString(idByte);
@@ -1308,10 +1329,9 @@ public class WifiSetActivity extends BaseActivity {
                     String s = rcdArray[i - 1];
                     mAdapter.getData().get(4).setValue(s);
 
-                    versionByte = new byte[24];
-
                     //兼容老版本
                     if (len > 28) {
+                        versionByte = new byte[24];
                         System.arraycopy(prayload, 28, versionByte, 0, 24);
                         String version = MyUtil.ByteToString(versionByte);
                         mAdapter.getData().get(5).setValue(version);
@@ -1322,6 +1342,7 @@ public class WifiSetActivity extends BaseActivity {
                     getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_02);
                     break;
                 case WiFiMsgConstant.CONSTANT_MSG_02://获取以太网参数
+                    internetLength = len;
                     ipByte = new byte[15];
                     System.arraycopy(prayload, 0, ipByte, 0, 15);
                     String devIp = MyUtil.ByteToString(ipByte);
@@ -1353,6 +1374,7 @@ public class WifiSetActivity extends BaseActivity {
                     getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_03);
                     break;
                 case WiFiMsgConstant.CONSTANT_MSG_03://获取设备帐号密码参数
+                    wifiLength = len;
                     ssidByte = new byte[16];
                     System.arraycopy(prayload, 0, ssidByte, 0, 16);
                     String ssid = MyUtil.ByteToString(ssidByte);
@@ -1393,6 +1415,7 @@ public class WifiSetActivity extends BaseActivity {
                     getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_04);
                     break;
                 case WiFiMsgConstant.CONSTANT_MSG_04://获取服务器参数
+                    urlLength = len;
                     urlByte = new byte[70];
                     System.arraycopy(prayload, 0, urlByte, 0, 70);
                     String url = MyUtil.ByteToString(urlByte);
@@ -1423,6 +1446,7 @@ public class WifiSetActivity extends BaseActivity {
                     break;
 
                 case WiFiMsgConstant.CONSTANT_MSG_05://获取充电参数
+                    chargingLength = len;
                     modeByte = new byte[1];
                     System.arraycopy(prayload, 0, modeByte, 0, 1);
                     String mode = MyUtil.ByteToString(modeByte);
@@ -1461,10 +1485,10 @@ public class WifiSetActivity extends BaseActivity {
                     String time = MyUtil.ByteToString(timeByte);
                     mAdapter.getData().get(32).setValue(time);
 
-                    chargingEnableByte = new byte[1];
 
                     //兼容老版本
                     if (len > 24) {
+                        chargingEnableByte = new byte[1];
                         System.arraycopy(prayload, 24, chargingEnableByte, 0, 1);
                         String chargingEnable = MyUtil.ByteToString(chargingEnableByte);
                         int enable1;
@@ -1498,35 +1522,75 @@ public class WifiSetActivity extends BaseActivity {
                     break;
                 //设置回应
                 case WiFiMsgConstant.CONSTANT_MSG_11:
-                    if (isEditInterNet){//修改联网参数
+                    if (isEditInterNet) {//修改联网参数
                         setInternt();
-                    }else if (isEditWifi){
+                    } else if (isEditWifi) {
                         setWifi();
-                    }else if (isEditUrl){
+                    } else if (isEditUrl) {
                         setUrl();
-                    }else if (isEditCharging){
+                    } else if (isEditCharging) {
                         setCharging();
+                    }else {
+                        byte result = prayload[0];
+                        if ((int) result == 1) {
+//                        getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_01);
+                            T.make(getString(R.string.m243设置成功), WifiSetActivity.this);
+                        } else {
+                            T.make(getString(R.string.m244设置失败), WifiSetActivity.this);
+                        }
+                        sendCmdExit();
+                        finish();
                     }
                     break;
                 case WiFiMsgConstant.CONSTANT_MSG_12:
-                    if (isEditWifi){
+                    if (isEditWifi) {
                         setWifi();
-                    }else if (isEditUrl){
+                    } else if (isEditUrl) {
                         setUrl();
-                    }else if (isEditCharging){
+                    } else if (isEditCharging) {
                         setCharging();
+                    }else {
+                        byte result = prayload[0];
+                        if ((int) result == 1) {
+//                        getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_01);
+                            T.make(getString(R.string.m243设置成功), WifiSetActivity.this);
+                        } else {
+                            T.make(getString(R.string.m244设置失败), WifiSetActivity.this);
+                        }
+                        sendCmdExit();
+                        finish();
                     }
                     break;
                 case WiFiMsgConstant.CONSTANT_MSG_13:
-                    if (isEditUrl){
+                    if (isEditUrl) {
                         setUrl();
-                    }else if (isEditCharging){
+                    } else if (isEditCharging) {
                         setCharging();
+                    }else {
+                        byte result = prayload[0];
+                        if ((int) result == 1) {
+//                        getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_01);
+                            T.make(getString(R.string.m243设置成功), WifiSetActivity.this);
+                        } else {
+                            T.make(getString(R.string.m244设置失败), WifiSetActivity.this);
+                        }
+                        sendCmdExit();
+                        finish();
                     }
                     break;
                 case WiFiMsgConstant.CONSTANT_MSG_14:
-                    if (isEditCharging){
+                    if (isEditCharging) {
                         setCharging();
+                    }else {
+                        byte result = prayload[0];
+                        if ((int) result == 1) {
+//                        getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_01);
+                            T.make(getString(R.string.m243设置成功), WifiSetActivity.this);
+                        } else {
+                            T.make(getString(R.string.m244设置失败), WifiSetActivity.this);
+                        }
+                        sendCmdExit();
+                        finish();
                     }
                     break;
                 case WiFiMsgConstant.CONSTANT_MSG_15:
@@ -1785,6 +1849,6 @@ public class WifiSetActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (bind!=null)bind.unbind();
+        if (bind != null) bind.unbind();
     }
 }

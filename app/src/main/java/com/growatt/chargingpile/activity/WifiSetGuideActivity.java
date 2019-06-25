@@ -1,5 +1,6 @@
 package com.growatt.chargingpile.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -43,6 +44,8 @@ public class WifiSetGuideActivity extends BaseActivity {
     private int[] resIds;
     private String[] des;
     private Unbinder bind;
+    private boolean isGuide;
+    private String devId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +56,11 @@ public class WifiSetGuideActivity extends BaseActivity {
         initResource();
         initHeaderViews();
         initRecycleView();
+        devId = getIntent().getStringExtra("sn");
     }
 
     private void saveRecorde() {
-        boolean isGuide = SharedPreferencesUnit.getInstance(this).getBoolean(Constant.WIFI_GUIDE_KEY);
+        isGuide = SharedPreferencesUnit.getInstance(this).getBoolean(Constant.WIFI_GUIDE_KEY);
         if (!isGuide) {
             SharedPreferencesUnit.getInstance(this).putBoolean(Constant.WIFI_GUIDE_KEY, true);
         }
@@ -97,7 +101,14 @@ public class WifiSetGuideActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()){
             case R.id.ivLeft:
-                finish();
+                if (isGuide){
+                    finish();
+                }else {
+                    Intent intent5 = new Intent(this, ConnetWiFiActivity.class);
+                    intent5.putExtra("sn", devId);
+                    intent5.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    jumpTo(intent5, true);
+                }
                 break;
         }
     }

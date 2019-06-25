@@ -388,6 +388,7 @@
     <string name="wifi_key">wifi_key</string>
     <string name="m去WLAN页面进行设置">Go to the WLAN page to set up&gt;</string>
     <string name="m133车拒绝充电">SuspendedEV</string>
+    <string name="m请先升级充电桩">Please upgrade the pile first.</string>
 </resources>
 
 

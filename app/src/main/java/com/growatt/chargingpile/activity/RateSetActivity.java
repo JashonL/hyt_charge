@@ -347,7 +347,7 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
                 .setInputText(String.valueOf(price))
                 .setNegative(this.getString(R.string.m7取消), null)
                 .configInput(params -> {
-                    params.inputType = InputType.TYPE_CLASS_NUMBER
+                    params.inputType = InputType.TYPE_NUMBER_FLAG_DECIMAL
                             | InputType.TYPE_TEXT_FLAG_MULTI_LINE;
                 })
                 .setPositiveInput(this.getString(R.string.m9确定), (text, v) -> {
