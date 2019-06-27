@@ -286,7 +286,7 @@ public class WifiSetActivity extends BaseActivity {
             rcdArray[i] = String.valueOf(rcdValue) + getString(R.string.m287级);
         }
         modeArray = new String[]{getString(R.string.m217扫码刷卡), getString(R.string.m218仅刷卡充电), getString(R.string.m219插枪充电)};
-        enableArray = new String[]{getString(R.string.m299使能), getString(R.string.m300禁止)};
+        enableArray = new String[]{ getString(R.string.m300禁止),getString(R.string.m299使能)};
     }
 
 
@@ -1497,8 +1497,8 @@ public class WifiSetActivity extends BaseActivity {
                         } catch (NumberFormatException e) {
                             enable1 = 0;
                         }
-                        if (enable1 <= 0) enable1 = 1;
-                        String enableValue1 = enableArray[enable1 - 1];
+                        if (enable1 < 0) enable1 = 1;
+                        String enableValue1 = enableArray[enable1];
                         mAdapter.getData().get(33).setValue(enableValue1);
                     }
 
@@ -1514,7 +1514,7 @@ public class WifiSetActivity extends BaseActivity {
                             enable2 = 0;
                         }
                         if (enable2 <= 0) enable2 = 1;
-                        String enableValue2 = enableArray[enable2 - 1];
+                        String enableValue2 = enableArray[enable2];
                         mAdapter.getData().get(34).setValue(enableValue2);
                     }
 
@@ -1817,7 +1817,7 @@ public class WifiSetActivity extends BaseActivity {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
                 final String tx = list.get(options1);
-                String pos = String.valueOf(options1 + 1);
+                String pos = String.valueOf(options1);
                 byte[] bytes = pos.trim().getBytes();
                 if (bytes.length > 1) {
                     T.make(getString(R.string.m286输入值超出规定长度), WifiSetActivity.this);
