@@ -1,23 +1,18 @@
 package com.growatt.chargingpile.bean;
 
+import com.chad.library.adapter.base.entity.AbstractExpandableItem;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 /**
  * Created by Administrator on 2018/10/23.
  */
 
-public class WifiSetBean implements MultiItemEntity {
-
-    public static final int PARAM_TITILE = 0;
-    public static final int PARAM_ITEM = 1;
-    public static final int PARAM_ITEM_CANT_CLICK = 2;
-
-
-
+public class WifiSetBean  extends AbstractExpandableItem<SolarBean> implements MultiItemEntity {
     private String key;
     private Object value;
     private String title;
     private int type;
+    private int index;
 
     public String getKey() {
         return key;
@@ -51,8 +46,31 @@ public class WifiSetBean implements MultiItemEntity {
         this.title = title;
     }
 
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this==obj)return true;
+        if (!(obj instanceof WifiSetBean)){
+            throw new ClassCastException("类型错误");
+        }
+        WifiSetBean p = (WifiSetBean) obj;
+        return this.index==p.getIndex();
+    }
+
     @Override
     public int getItemType() {
         return type;
+    }
+
+    @Override
+    public int getLevel() {
+        return 0;
     }
 }

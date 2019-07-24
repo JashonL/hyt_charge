@@ -102,7 +102,7 @@
                     android:layout_marginTop="@dimen/xa28"
                     android:background="@drawable/shape_button_gradient_normal"
                     android:gravity="center"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <ImageView
                         android:id="@+id/iv_limit"

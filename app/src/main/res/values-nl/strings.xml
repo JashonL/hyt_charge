@@ -73,7 +73,6 @@
     <string name="m70验证用户邮箱">Verify the user\'s email address</string>
     <string name="m71您注册时填写的手机号是">You phone number used for registation is </string>
     <string name="m72请输入短信验证码">Enter verification code</string>
-    <string name="m73请输入短信验证码">Enter verification code</string>
     <string name="m74验证码错误">Verification code wrong</string>
     <string name="m75发送验证码">Send verification code</string>
     <string name="m76国际区号错误">The country code for international telephone call is wrong</string>
@@ -383,12 +382,14 @@
     <string name="m限制时间段">8:00am~8:00pm</string>
     <string name="m位置">Locatie</string>
     <string name="m368请重试或检查网络连接">Please try again or check network connection</string>
-    <string name="wifi">wifi</string>
-    <string name="wifi_ssid">wifi_ssid</string>
-    <string name="wifi_key">wifi_key</string>
     <string name="m去WLAN页面进行设置">Go to the WLAN page to set up&gt;</string>
     <string name="m133车拒绝充电">SuspendedEV</string>
     <string name="m请先升级充电桩">Please upgrade the pile first.</string>
+    <string name="m设置未保存">settings are not saved, whether to exit</string>
+    <string name="mCT">CT</string>
+    <string name="m电表">ammeter</string>
+    <string name="m电流限制">ECO+ Current limit</string>
+    <string name="m电表设备地址">Meter device address</string>
 </resources>
 
 

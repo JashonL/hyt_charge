@@ -96,6 +96,7 @@ public class ConnetWiFiActivity extends BaseActivity {
     private boolean isCancel = false;
     private int second = 5;
     private String devId;
+    private int online;
     public String mIP;//服务器地址
     public int mPort = 8888;//服务器端口号
 
@@ -108,37 +109,6 @@ public class ConnetWiFiActivity extends BaseActivity {
         }
     };
 
-
-//    private Handler handler = new Handler(Looper.getMainLooper()) {
-//        @Override
-//        public void handleMessage(Message msg) {
-//            super.handleMessage(msg);
-//            switch (msg.what) {
-//                case SEARCH_DEVICE_START:
-//                    mDeviceList.clear();
-//                    showProgress();
-//                    break;
-//                case SEARCH_DEVICE_FINISH:
-//                    second--;
-//                    tvProgress.setText(String.valueOf(second));
-//                    if (mDeviceList.size() == 0) {
-//                        if (!isCancel && second > 0) searchDevice();
-//                        else {
-//                            T.make(getString(R.string.m288级),ConnetWiFiActivity.this);
-//                            dialog.dismiss();
-//                        }
-//                    } else {
-//                        dialog.dismiss();
-//                        mIP = getServerIp();
-//                        devId = mDeviceList.get(0).getDevName();
-//                        toSetWifiParams();
-//                    }
-////                    toSetWifiParams();//测试
-//                    break;
-//            }
-//        }
-//    };
-
     private static final int FIRSTACT_TO_WIFI = 10000;
     private Unbinder bind;
 
@@ -150,12 +120,18 @@ public class ConnetWiFiActivity extends BaseActivity {
 //        mDeviceList = new ArrayList<>();
         initIntent();
         initViews();
-        initWifi();
     }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initWifi();
+    }
+
     private void initIntent() {
         devId = getIntent().getStringExtra("sn");
+        online=getIntent().getIntExtra("online",0);
     }
 
 
@@ -178,6 +154,11 @@ public class ConnetWiFiActivity extends BaseActivity {
             tvId.setText(devId);
         } else tvId.setText(R.string.m106选择充电桩);
 
+        if (online==1){//1是离线
+            llSwitchAp.setVisibility(View.GONE);
+        }else {
+            llSwitchAp.setVisibility(View.VISIBLE);
+        }
     }
 
 

@@ -19,7 +19,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.google.gson.Gson;
 import com.growatt.chargingpile.BaseActivity;
-import com.growatt.chargingpile.EventBusMsg.SetRateMsg;
+import com.growatt.chargingpile.EventBusMsg.RefreshAllMsg;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.adapter.ParamsSetAdapter;
 import com.growatt.chargingpile.bean.ChargingBean;
@@ -123,9 +123,7 @@ public class ChargingParamsActivity extends BaseActivity {
             MultiItemEntity multiItemEntity = mAdapter.getData().get(position);
             if (multiItemEntity == null) return;
             int itemType = multiItemEntity.getItemType();
-            if (itemType == ParamsSetAdapter.PARAM_TITILE || itemType == ParamsSetAdapter.PARAM_ITEM_CANT_CLICK) {
-            }
-            else if (itemType == ParamsSetAdapter.PARAM_ITEM) {
+            if (itemType == ParamsSetAdapter.PARAM_ITEM) {
                 String key = ((ParamsSetBean) multiItemEntity).getKey();
                 Object object = ((ParamsSetBean) multiItemEntity).getValue();
                 String value = String.valueOf(object);
@@ -135,9 +133,7 @@ public class ChargingParamsActivity extends BaseActivity {
                     inputEdit("address", value);
                 } else if (key.equals(keys[3])) {
                     inputEdit("site", value);
-                } else if (key.equals(keys[4])) {
-//                    inputEdit("rate", value);
-                } else if (key.equals(keys[5])) {
+                }  else if (key.equals(keys[5])) {
                     setCapacityUnit();
                 } else if (key.equals(keys[6])) {
                     inputEdit("G_MaxCurrent", value);
@@ -682,7 +678,7 @@ public class ChargingParamsActivity extends BaseActivity {
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void aa(SetRateMsg msg) {
+    public void aa(RefreshAllMsg msg) {
         if (msg.getPriceConfBeanList() != null) {
             priceConfBeanList = msg.getPriceConfBeanList();
             refreshDate();

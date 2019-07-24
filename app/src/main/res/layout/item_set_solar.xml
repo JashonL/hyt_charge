@@ -47,19 +47,6 @@
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/xa30" />
 
-        <ImageView
-            android:id="@+id/iv_more2"
-            android:layout_width="@dimen/xa30"
-            android:layout_height="@dimen/xa12"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:visibility="gone"
-            android:layout_marginRight="@dimen/xa30"
-            android:src="@drawable/charger_device_item_more"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/xa30" />
-
-
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/xa2"

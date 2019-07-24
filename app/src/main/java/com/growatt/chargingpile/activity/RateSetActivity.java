@@ -16,7 +16,7 @@ import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.growatt.chargingpile.BaseActivity;
-import com.growatt.chargingpile.EventBusMsg.SetRateMsg;
+import com.growatt.chargingpile.EventBusMsg.RefreshAllMsg;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.adapter.RateSetAdapter;
 import com.growatt.chargingpile.bean.ChargingBean;
@@ -261,7 +261,7 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
                     JSONObject object = new JSONObject(json);
                     int code = object.getInt("code");
                     if (code == 0) {
-                        EventBus.getDefault().post(new SetRateMsg(mAdapter.getData()));
+                        EventBus.getDefault().post(new RefreshAllMsg(mAdapter.getData()));
                         finish();
                     }
                     toast(object.getString("data"));

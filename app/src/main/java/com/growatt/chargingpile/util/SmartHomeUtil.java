@@ -36,15 +36,15 @@ public class SmartHomeUtil {
      */
 
     public static String bytesToHexString(byte[] bytes) {
-        String result = "";
-        for (int i = 0; i < bytes.length; i++) {
-            String hexString = Integer.toHexString(bytes[i] & 0xFF);
+        StringBuilder result = new StringBuilder();
+        for (byte aByte : bytes) {
+            String hexString = Integer.toHexString(aByte & 0xFF);
             if (hexString.length() == 1) {
                 hexString = '0' + hexString;
             }
-            result += hexString.toUpperCase();
+            result.append(hexString.toUpperCase());
         }
-        return result;
+        return result.toString();
     }
 
     /**

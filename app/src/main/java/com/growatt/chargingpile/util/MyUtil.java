@@ -448,6 +448,12 @@ public class MyUtil {
      */
     public static String getWIFISSID(Activity activity) {
         String ssid = null;
+        ConnectivityManager manager = (ConnectivityManager)activity.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert manager != null;
+        NetworkInfo.State wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState();
+        if (wifi != NetworkInfo.State.CONNECTED && wifi != NetworkInfo.State.CONNECTING) {
+            return null;
+        }
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O) {
             WifiManager mWifiManager = (WifiManager) activity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
             assert mWifiManager != null;

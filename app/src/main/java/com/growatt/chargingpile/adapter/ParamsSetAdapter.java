@@ -1,6 +1,7 @@
 package com.growatt.chargingpile.adapter;
 
 import android.text.TextUtils;
+import android.view.View;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -44,13 +45,18 @@ public class ParamsSetAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity,
             case PARAM_ITEM:
                 String rate=mContext.getString(R.string.m152充电费率);
                 holder.setText(R.id.tv_key, ((ParamsSetBean) item).getKey());
+                if (((ParamsSetBean) item).getKey().equals(rate)){
+                    holder.getView(R.id.iv_more1).setVisibility(View.GONE);
+                    holder.getView(R.id.iv_more2).setVisibility(View.VISIBLE);
+                    holder.setImageResource(R.id.iv_more2,R.drawable.down);
+                }else {
+                    holder.getView(R.id.iv_more2).setVisibility(View.GONE);
+                    holder.getView(R.id.iv_more1).setVisibility(View.VISIBLE);
+                }
                 if (((ParamsSetBean) item).getValue() == null) {
                     holder.setText(R.id.tv_value, "");
                 } else {
                     holder.setText(R.id.tv_value, ((ParamsSetBean) item).getValue().toString());
-                }
-                if (((ParamsSetBean) item).getKey().equals(rate)){
-                    holder.setImageResource(R.id.iv_more1,R.drawable.select_country_drop);
                 }
                 break;
             case PARAM_ITEM_CANT_CLICK:

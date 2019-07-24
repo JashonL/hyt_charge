@@ -46,6 +46,7 @@ public class WifiSetGuideActivity extends BaseActivity {
     private Unbinder bind;
     private boolean isGuide;
     private String devId;
+    private int online;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,7 @@ public class WifiSetGuideActivity extends BaseActivity {
         initHeaderViews();
         initRecycleView();
         devId = getIntent().getStringExtra("sn");
+        online=getIntent().getIntExtra("online",0);
     }
 
     private void saveRecorde() {
@@ -106,6 +108,7 @@ public class WifiSetGuideActivity extends BaseActivity {
                 }else {
                     Intent intent5 = new Intent(this, ConnetWiFiActivity.class);
                     intent5.putExtra("sn", devId);
+                    intent5.putExtra("online",online);
                     intent5.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     jumpTo(intent5, true);
                 }

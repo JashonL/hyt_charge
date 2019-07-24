@@ -73,7 +73,6 @@
     <string name="m70验证用户邮箱">验证用户邮箱</string>
     <string name="m71您注册时填写的手机号是">您注册时填写的手机号是</string>
     <string name="m72请输入短信验证码">请输入短信验证码</string>
-    <string name="m73请输入短信验证码">请输入短信验证码</string>
     <string name="m74验证码错误">验证码错误</string>
     <string name="m75发送验证码">发送验证码</string>
     <string name="m76国际区号错误">国际区号错误</string>
@@ -384,12 +383,14 @@
     <string name="m限制时间段">8:00am~8:00pm</string>
     <string name="m位置">位置</string>
     <string name="m368请重试或检查网络连接">请重试或检查网络连接</string>
-    <string name="wifi">wifi</string>
-    <string name="wifi_ssid">wifi_ssid</string>
-    <string name="wifi_key">wifi_key</string>
     <string name="m去WLAN页面进行设置">去WLAN页面进行设置&gt;</string>
     <string name="m133车拒绝充电">车拒绝充电</string>
     <string name="m请先升级充电桩">请先升级充电桩</string>
+    <string name="m设置未保存">设置未保存，是否退出</string>
+    <string name="mCT">CT</string>
+    <string name="m电表">电表</string>
+    <string name="m电流限制">ECO+ 电流限制</string>
+    <string name="m电表设备地址">电表设备地址</string>
 </resources>
 
 

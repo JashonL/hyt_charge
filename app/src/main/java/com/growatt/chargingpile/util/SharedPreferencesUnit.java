@@ -16,7 +16,7 @@ public class SharedPreferencesUnit {
     //一个私有的构造方法
     private SharedPreferencesUnit(Context context){
         //属于文件上下文
-        sharedPreferences =context.getSharedPreferences("info",context.MODE_PRIVATE );
+        sharedPreferences =context.getSharedPreferences("info", Context.MODE_PRIVATE);
         editor= sharedPreferences.edit();
     }
     //向外提供一个当前的对象

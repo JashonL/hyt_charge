@@ -32,7 +32,7 @@ import com.google.gson.Gson;
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.EventBusMsg.AddDevMsg;
 import com.growatt.chargingpile.EventBusMsg.FreshTimingMsg;
-import com.growatt.chargingpile.EventBusMsg.SetRateMsg;
+import com.growatt.chargingpile.EventBusMsg.RefreshAllMsg;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.adapter.ChargingListAdapter;
 import com.growatt.chargingpile.adapter.GunSwitchAdapter;
@@ -931,71 +931,6 @@ public class ChargingPileActivity extends BaseActivity {
                 setChargGunUi(R.drawable.charging_available, getString(R.string.m339预约), ContextCompat.getColor(this, R.color.charging_text_color_2), R.drawable.btn_stop_charging, getString(R.string.m340取消预约));
                 MyUtil.showAllView(llBottomGroup);
                 getReservaNow();
-
-             /*   String presetType1 = data.getcKey();
-                if (TextUtils.isEmpty(presetType1) || "0".equals(presetType1)) {
-                    String loopValue = data.getLoopValue();
-                    String rate = String.valueOf(data.getRate());
-                    String symbol = data.getSymbol();
-                    rate = symbol + rate + "/h";
-                    tvTimeKey.setText(loopValue);
-                    tvRateValue.setText(rate);
-                    llPresetLayout.setVisibility(View.GONE);
-                    tvTips.setVisibility(View.VISIBLE);
-                    rvTimeReserva.setVisibility(View.GONE);
-                    llTimeRate.setVisibility(View.VISIBLE);
-                    tvTips.setText(R.string.m338充满自动停止充电);
-                } else {
-                    switch (presetType1) {
-                        case "G_SetAmount":
-                            String loopValue = data.getLoopValue();
-                            String rate = String.valueOf(data.getRate());
-                            String symbol = data.getSymbol();
-                            rate = symbol + rate + "/h";
-                            String typeValue=getString(R.string.m335预设充电)+getString(R.string.m200金额);
-                            tvTimeKey.setText(loopValue);
-                            tvRateValue.setText(rate);
-                            llPresetLayout.setVisibility(View.VISIBLE);
-                            tvTips.setVisibility(View.GONE);
-                            rvTimeReserva.setVisibility(View.GONE);
-                            llTimeRate.setVisibility(View.VISIBLE);
-                            tvReserValue.setText(typeValue);
-                            tvReserType.setText(R.string.m336充电方案);
-                            String cValue = data.getcValue()+symbol;
-                            tvReserCalValue.setText(cValue);
-                            String reserType=getString(R.string.m196预设)+getString(R.string.m200金额);
-                            tvReserTypeText.setText(reserType);
-                            break;
-                        case "G_SetEnergy":
-                            String loopValue1 = data.getLoopValue();
-                            String rate1 = String.valueOf(data.getRate());
-                            String symbol1 = data.getSymbol();
-                            rate1 = symbol1 + rate1 + "/h";
-                            String typeValue1=getString(R.string.m335预设充电)+getString(R.string.m201电量);
-                            tvTimeKey.setText(loopValue1);
-                            tvRateValue.setText(rate1);
-                            llPresetLayout.setVisibility(View.VISIBLE);
-                            tvTips.setVisibility(View.GONE);
-                            rvTimeReserva.setVisibility(View.GONE);
-                            tvReserValue.setText(typeValue1);
-                            tvReserType.setText(R.string.m336充电方案);
-                            String cValue1 = data.getcValue()+symbol1;
-                            tvReserCalValue.setText(cValue1);
-                            String reserType1=getString(R.string.m196预设)+getString(R.string.m201电量);
-                            tvReserTypeText.setText(reserType1);
-
-                            break;
-
-                        default://时间段充电
-                            llPresetLayout.setVisibility(View.VISIBLE);
-                            tvTips.setVisibility(View.GONE);
-                            rvTimeReserva.setVisibility(View.VISIBLE);
-                            llTimeRate.setVisibility(View.GONE);
-                            refreshGsettime();
-                            break;
-                    }
-                }*/
-
                 break;
             case GunBean.PREPARING:
                 initPresetUi();
@@ -1017,16 +952,11 @@ public class ChargingPileActivity extends BaseActivity {
                 MyUtil.showAllView(llBottomGroup);
                 startAnim();
                 String presetType = data.getcKey();
-//                String presetType = "G_SetAmount";
-//                String presetType = "G_SetAmount";
-//                String presetType = "G_SetTime";
                 if ("0".equals(presetType) || TextUtils.isEmpty(presetType)) {
                     mStatusGroup.addView(normalChargingView);
                     setNormalCharging(data);
                 } else {
-//                    String money = String.valueOf(data.getCost());
                     String money = MathUtil.roundDouble2String(data.getCost(), 2);
-//                    String energy = String.valueOf(data.getEnergy()) + "kwh";
                     String energy = MathUtil.roundDouble2String(data.getEnergy(), 2) + "kwh";
                     int timeCharging = data.getCtime();
                     int hourCharging = timeCharging / 60;
@@ -1496,6 +1426,13 @@ public class ChargingPileActivity extends BaseActivity {
                 }
                 Intent intent5 = new Intent(this, activity);
                 intent5.putExtra("sn", mCurrentPile.getChargeId());
+                int online;
+                if (mCurrentGunBean != null && GunBean.UNAVAILABLE.equals(mCurrentGunBean.getData().getStatus())) {
+                    online =1;
+                } else {
+                    online =0;
+                }
+                intent5.putExtra("online", online);
                 intent5.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 jumpTo(intent5, false);
                 break;
@@ -1722,7 +1659,7 @@ public class ChargingPileActivity extends BaseActivity {
                 case GunBean.RESERVENOW:
                     if (reserveNow == null) return;
                     for (int i = 0; i < reserveNow.size(); i++) {
-                        deleteTime(reserveNow.get(i),reserveNow.size(),i);
+                        deleteTime(reserveNow.get(i), reserveNow.size(), i);
                     }
                     break;
                 case GunBean.PREPARING://准备中
@@ -2291,7 +2228,7 @@ public class ChargingPileActivity extends BaseActivity {
                 try {
                     JSONObject object = new JSONObject(json);
                     String data = object.getString("data");
-                    int code=object.optInt("type");
+                    int code = object.optInt("type");
                     if (code == 0) {
                         isClicked = true;
                         timeHandler.removeMessages(1);
@@ -2491,11 +2428,6 @@ public class ChargingPileActivity extends BaseActivity {
     }
 
 
-    private void setReserVaUi() {
-
-    }
-
-
     /**
      * @param keyCode
      * @param event
@@ -2519,7 +2451,7 @@ public class ChargingPileActivity extends BaseActivity {
     /**
      * 删除预约
      */
-    private void deleteTime(ReservationBean.DataBean bean,int size,int pos) {
+    private void deleteTime(ReservationBean.DataBean bean, int size, int pos) {
         LogUtil.d("取消预约");
         JSONObject object = new JSONObject();
         try {
@@ -2550,7 +2482,7 @@ public class ChargingPileActivity extends BaseActivity {
                     int code = object.getInt("code");
                     if (code == 0) {
                         timeHandler.removeMessages(1);
-                        if (size-1==pos){
+                        if (size - 1 == pos) {
                             isClicked = true;
                             timeHandler.sendEmptyMessageDelayed(1, 0);
                         }
@@ -2575,7 +2507,7 @@ public class ChargingPileActivity extends BaseActivity {
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void aa(SetRateMsg msg) {
+    public void aa(RefreshAllMsg msg) {
         if (msg.getPriceConfBeanList() != null) {
             refreshAll();
         }
