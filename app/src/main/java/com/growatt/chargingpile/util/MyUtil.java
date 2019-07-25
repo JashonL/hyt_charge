@@ -567,10 +567,7 @@ public class MyUtil {
         }
 
         Matcher isNum = pattern.matcher(bigStr); // matcher是全匹配
-        if (!isNum.matches()) {
-            return false;
-        }
-        return true;
+        return isNum.matches();
     }
 
 }

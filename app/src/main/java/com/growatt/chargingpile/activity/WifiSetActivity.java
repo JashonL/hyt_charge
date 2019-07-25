@@ -396,6 +396,42 @@ public class WifiSetActivity extends BaseActivity {
 
 
     private void setECOLimit(){
+        WifiSetBean bean = (WifiSetBean) mAdapter.getData().get(36);
+        String value = bean.getSubItem(0).getValue();
+        new CircleDialog.Builder()
+                .setWidth(0.8f)
+                .setTitle(this.getString(R.string.m27温馨提示))
+                .setInputHint(tips)
+                .setInputText(value)
+                .setNegative(this.getString(R.string.m7取消), null)
+                .setPositiveInput(this.getString(R.string.m9确定), (text, v) -> {
+                    if (TextUtils.isEmpty(text)) {
+                        toast(R.string.m140不能为空);
+                        return;
+                    }
+                    byte[] bytes = text.trim().getBytes();
+                    boolean numeric_eco = MyUtil.isNumberiZidai(text);
+                    if (!numeric_eco) {
+                        T.make(getString(R.string.m177输入格式不正确), this);
+                        return;
+                    }
+
+                    if (Integer.parseInt(text) < 0 || Integer.parseInt(text) > 8) {
+                        T.make(getString(R.string.m290超出设置范围) + tips, WifiSetActivity.this);
+                        return;
+                    }
+
+                    if (bytes.length > 1) {
+                        T.make(getString(R.string.m286输入值超出规定长度), this);
+                        return;
+                    }
+                    currentByte = new byte[1];
+                    System.arraycopy(bytes, 0, currentByte, 0, bytes.length);
+//                            setCharging();
+                    isEditCharging = true;
+                    mAdapter.notifyDataSetChanged();
+                })
+                .show(this.getSupportFragmentManager());
 
     }
 
@@ -421,6 +457,9 @@ public class WifiSetActivity extends BaseActivity {
             case 31://外部检测最大输入功率
                 tips = getString(R.string.m291设定值不能小于);
                 break;
+            case 37:
+                tips = "1~12";
+                break;
             default:
                 break;
         }
@@ -438,8 +477,8 @@ public class WifiSetActivity extends BaseActivity {
                     byte[] bytes = text.trim().getBytes();
                     switch (key) {
                         case 3:
-                            boolean letterDigit = MyUtil.isLetterDigit2(text);
-                            if (!letterDigit) {
+                            boolean letterDigit_card = MyUtil.isLetterDigit2(text);
+                            if (!letterDigit_card) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
                             }
@@ -498,8 +537,8 @@ public class WifiSetActivity extends BaseActivity {
 //                            setInternt();
                             break;
                         case 10:
-                            boolean macLetterDigit = MyUtil.isLetterDigit2(text);
-                            if (!macLetterDigit) {
+                            boolean letterDigit_mac = MyUtil.isLetterDigit2(text);
+                            if (!letterDigit_mac) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
                             }
@@ -528,8 +567,8 @@ public class WifiSetActivity extends BaseActivity {
                             isEditInterNet = true;
                             break;
                         case 13:
-                            boolean letterDigit1 = MyUtil.isLetterDigit2(text);
-                            if (!letterDigit1) {
+                            boolean letterDigit_ssid = MyUtil.isLetterDigit2(text);
+                            if (!letterDigit_ssid) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
                             }
@@ -544,8 +583,8 @@ public class WifiSetActivity extends BaseActivity {
                             isEditWifi = true;
                             break;
                         case 14:
-                            boolean letterDigit2 = MyUtil.isLetterDigit2(text);
-                            if (!letterDigit2) {
+                            boolean letterDigit_key = MyUtil.isLetterDigit2(text);
+                            if (!letterDigit_key) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
                             }
@@ -560,8 +599,8 @@ public class WifiSetActivity extends BaseActivity {
                             break;
 
                         case 15:
-                            boolean letterDigit3 = MyUtil.isLetterDigit2(text);
-                            if (!letterDigit3) {
+                            boolean letterDigit_bltname = MyUtil.isLetterDigit2(text);
+                            if (!letterDigit_bltname) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
                             }
@@ -575,8 +614,8 @@ public class WifiSetActivity extends BaseActivity {
                             isEditWifi = true;
                             break;
                         case 16:
-                            boolean letterDigit4 = MyUtil.isLetterDigit2(text);
-                            if (!letterDigit4) {
+                            boolean letterDigit_bltpwd = MyUtil.isLetterDigit2(text);
+                            if (!letterDigit_bltpwd) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
                             }
@@ -590,8 +629,8 @@ public class WifiSetActivity extends BaseActivity {
                             isEditWifi = true;
                             break;
                         case 17:
-                            boolean letterDigit5 = MyUtil.isLetterDigit2(text);
-                            if (!letterDigit5) {
+                            boolean letterDigit_4gname = MyUtil.isLetterDigit2(text);
+                            if (!letterDigit_4gname) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
                             }
@@ -605,8 +644,8 @@ public class WifiSetActivity extends BaseActivity {
                             isEditWifi = true;
                             break;
                         case 18:
-                            boolean letterDigit6 = MyUtil.isLetterDigit2(text);
-                            if (!letterDigit6) {
+                            boolean letterDigit_4gpwd = MyUtil.isLetterDigit2(text);
+                            if (!letterDigit_4gpwd) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
                             }
@@ -621,8 +660,8 @@ public class WifiSetActivity extends BaseActivity {
                             isEditWifi = true;
                             break;
                         case 19:
-                            boolean letterDigit7 = MyUtil.isLetterDigit2(text);
-                            if (!letterDigit7) {
+                            boolean letterDigit_4gapn = MyUtil.isLetterDigit2(text);
+                            if (!letterDigit_4gapn) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
                             }
@@ -648,8 +687,8 @@ public class WifiSetActivity extends BaseActivity {
                             isEditUrl = true;
                             break;
                         case 22:
-                            boolean letterDigit8 = MyUtil.isLetterDigit2(text);
-                            if (!letterDigit8) {
+                            boolean letterDigit_hskey = MyUtil.isLetterDigit2(text);
+                            if (!letterDigit_hskey) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
                             }
@@ -663,8 +702,8 @@ public class WifiSetActivity extends BaseActivity {
                             isEditUrl = true;
                             break;
                         case 23:
-                            boolean numeric = MyUtil.isNumberiZidai(text);
-                            if (!numeric) {
+                            boolean numeric_heat = MyUtil.isNumberiZidai(text);
+                            if (!numeric_heat) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
                             }
@@ -683,8 +722,8 @@ public class WifiSetActivity extends BaseActivity {
                             isEditUrl = true;
                             break;
                         case 24:
-                            boolean numeric1 = MyUtil.isNumberiZidai(text);
-                            if (!numeric1) {
+                            boolean numeric_ping = MyUtil.isNumberiZidai(text);
+                            if (!numeric_ping) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
                             }
@@ -704,8 +743,8 @@ public class WifiSetActivity extends BaseActivity {
                             isEditUrl = true;
                             break;
                         case 25:
-                            boolean numeric2 = MyUtil.isNumberiZidai(text);
-                            if (!numeric2) {
+                            boolean numeric_interval = MyUtil.isNumberiZidai(text);
+                            if (!numeric_interval) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
                             }
@@ -726,8 +765,8 @@ public class WifiSetActivity extends BaseActivity {
                             break;
 
                         case 28:
-                            boolean numeric3 = MyUtil.isNumberiZidai(text);
-                            if (!numeric3) {
+                            boolean numeric_maxcurrent = MyUtil.isNumberiZidai(text);
+                            if (!numeric_maxcurrent) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
                             }
@@ -747,8 +786,8 @@ public class WifiSetActivity extends BaseActivity {
                             isEditCharging = true;
                             break;
                         case 29:
-                            boolean numeric4 = MyUtil.isNumeric(text);
-                            if (!numeric4) {
+                            boolean numeric_rate = MyUtil.isNumeric(text);
+                            if (!numeric_rate) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
                             }
@@ -762,8 +801,8 @@ public class WifiSetActivity extends BaseActivity {
                             isEditCharging = true;
                             break;
                         case 30:
-                            boolean numeric5 = MyUtil.isNumberiZidai(text);
-                            if (!numeric5) {
+                            boolean numeric_temp = MyUtil.isNumberiZidai(text);
+                            if (!numeric_temp) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
                             }
@@ -783,8 +822,8 @@ public class WifiSetActivity extends BaseActivity {
                             isEditCharging = true;
                             break;
                         case 31:
-                            boolean numeric6 = MyUtil.isNumberiZidai(text);
-                            if (!numeric6) {
+                            boolean numeric_power = MyUtil.isNumberiZidai(text);
+                            if (!numeric_power) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
                             }
@@ -798,6 +837,21 @@ public class WifiSetActivity extends BaseActivity {
                             }
                             powerByte = new byte[2];
                             System.arraycopy(bytes, 0, powerByte, 0, bytes.length);
+//                            setCharging();
+                            isEditCharging = true;
+                            break;
+                        case 37:
+                            boolean numeric_ammeter = MyUtil.isNumberiZidai(text);
+                            if (!numeric_ammeter) {
+                                T.make(getString(R.string.m177输入格式不正确), this);
+                                return;
+                            }
+                            if (bytes.length > 12) {
+                                T.make(getString(R.string.m286输入值超出规定长度), this);
+                                return;
+                            }
+                            ammeterByte = new byte[12];
+                            System.arraycopy(bytes, 0, ammeterByte, 0, bytes.length);
 //                            setCharging();
                             isEditCharging = true;
                             break;
@@ -1213,15 +1267,53 @@ public class WifiSetActivity extends BaseActivity {
         byte len = (byte) chargingLength;
         byte[] prayload = new byte[chargingLength];
 
-        if (chargingLength > 24) {
-            if (modeByte == null || maxCurrentByte == null || rateByte == null || tempByte == null
-                    || powerByte == null || timeByte == null || chargingEnableByte == null || powerdistributionByte == null) {
+        if (modeByte == null || maxCurrentByte == null || rateByte == null || tempByte == null
+                || powerByte == null || timeByte == null) {
+            T.make(R.string.m244设置失败, this);
+            return;
+        }
+
+        if (chargingLength > 24) {//新增使能
+            if (chargingEnableByte == null || powerdistributionByte == null) {
                 T.make(R.string.m244设置失败, this);
                 return;
             }
-        } else {
-            if (modeByte == null || maxCurrentByte == null || rateByte == null || tempByte == null
-                    || powerByte == null || timeByte == null) {
+        }
+        if (chargingLength > 26) {//外部电流接线方式
+            if (wiringByte == null) {
+                T.make(R.string.m244设置失败, this);
+                return;
+            }
+        }
+        if (chargingLength > 27) {//solar
+            if (solarByte == null) {
+                T.make(R.string.m244设置失败, this);
+                return;
+            }
+        }
+
+        if (chargingLength>29){
+            String solarMode = MyUtil.ByteToString(solarByte);
+            int modeIndext;
+            try {
+                modeIndext = Integer.parseInt(solarMode);
+            } catch (NumberFormatException e) {
+                modeIndext = 0;
+            }
+            if (modeIndext < 0) modeIndext = 1;
+            if (modeIndext==2){
+                if (currentByte ==null) {
+                    T.make(R.string.m244设置失败, this);
+                }
+            }else {
+                if (solarCurrentByte ==null) {
+                    T.make(R.string.m244设置失败, this);
+                }
+            }
+        }
+
+        if (chargingLength > 30) {//外部电流接线方式
+            if (ammeterByte == null) {
                 T.make(R.string.m244设置失败, this);
                 return;
             }
@@ -1244,6 +1336,36 @@ public class WifiSetActivity extends BaseActivity {
             System.arraycopy(chargingEnableByte, 0, prayload, 24, chargingEnableByte.length);
             //功率分配使能
             System.arraycopy(powerdistributionByte, 0, prayload, 25, powerdistributionByte.length);
+        }
+
+        if (chargingLength>26){
+            //外部电流采样接线方式（0:CT,1:电表）
+            System.arraycopy(wiringByte, 0, prayload, 26, wiringByte.length);
+        }
+        if (chargingLength > 27) {//solar
+            System.arraycopy(solarByte, 0, prayload, 27, solarByte.length);
+        }
+
+        if (chargingLength>29){
+            String solarMode = MyUtil.ByteToString(solarByte);
+            int modeIndext;
+            try {
+                modeIndext = Integer.parseInt(solarMode);
+            } catch (NumberFormatException e) {
+                modeIndext = 0;
+            }
+            if (modeIndext < 0) modeIndext = 1;
+            if (modeIndext==2){
+                byte[]bytes=new byte[2];
+                System.arraycopy(solarByte, 0, bytes, 0, solarByte.length);
+                System.arraycopy(currentByte, 0, bytes, 1, currentByte.length);
+                System.arraycopy(bytes, 0, prayload, 27, bytes.length);
+            }else {
+                System.arraycopy(solarCurrentByte, 0, prayload, 27, solarCurrentByte.length);
+            }
+        }
+        if (chargingLength > 30) {//solar
+            System.arraycopy(ammeterByte, 0, prayload, 27, ammeterByte.length);
         }
         byte[] encryptedData = SmartHomeUtil.decodeKey(prayload, newKey);
 
@@ -1643,7 +1765,7 @@ public class WifiSetActivity extends BaseActivity {
                         String solarModeValue = solarArrray[modeIndext];
                         setAdapter(36,solarModeValue);
                         WifiSetBean bean = (WifiSetBean) mAdapter.getData().get(36);
-                        if (len > 28) {
+                        if (len > 29) {
                             solarCurrentByte = new byte[2];
                             System.arraycopy(prayload, 28, solarCurrentByte, 0, 2);
                             if (modeIndext == 2) {//ECO+
@@ -1661,8 +1783,6 @@ public class WifiSetActivity extends BaseActivity {
                         ammeterByte = new byte[12];
                         System.arraycopy(prayload, 30, ammeterByte, 0, 12);
                         String ammeterAdd = MyUtil.ByteToString(wiringByte);
-                        int count = mAdapter.getData().size();
-//                        mAdapter.getData().get(count - 1).setValue(ammeterAdd);
                         setAdapter(37,ammeterAdd);
                     }
                     mAdapter.notifyDataSetChanged();
@@ -2045,7 +2165,7 @@ public class WifiSetActivity extends BaseActivity {
     }
 
 
-    /*接线方式*/
+    /*solar模式*/
     private void setSolarMode() {
         List<String> list = Arrays.asList(solarArrray);
         OptionsPickerView<String> pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
