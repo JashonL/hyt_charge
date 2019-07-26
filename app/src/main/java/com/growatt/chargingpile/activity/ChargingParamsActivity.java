@@ -16,6 +16,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
+import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.google.gson.Gson;
 import com.growatt.chargingpile.BaseActivity;
@@ -25,6 +28,7 @@ import com.growatt.chargingpile.adapter.ParamsSetAdapter;
 import com.growatt.chargingpile.bean.ChargingBean;
 import com.growatt.chargingpile.bean.ParamsSetBean;
 import com.growatt.chargingpile.bean.PileSetBean;
+import com.growatt.chargingpile.bean.SolarBean;
 import com.growatt.chargingpile.connutil.PostUtil;
 import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.MyUtil;
@@ -85,6 +89,11 @@ public class ChargingParamsActivity extends BaseActivity {
     private List<ChargingBean.DataBean.PriceConfBean> priceConfBeanList;
     private Unbinder bind;
 
+    public String[] enableArray;
+    public String[] wiringArray;
+    public String[] solarArrray;
+    private float solarLimitPower;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,37 +130,68 @@ public class ChargingParamsActivity extends BaseActivity {
             if (multiItemEntity == null) return;
             int itemType = multiItemEntity.getItemType();
             if (itemType == ParamsSetAdapter.PARAM_ITEM) {
-                String key = ((ParamsSetBean) multiItemEntity).getKey();
+                ParamsSetBean bean = (ParamsSetBean) mAdapter.getData().get(position);
+                int index = bean.getIndex();
                 Object object = ((ParamsSetBean) multiItemEntity).getValue();
                 String value = String.valueOf(object);
-                if (key.equals(keys[1])) {
-                    inputEdit("name", value);
-                } else if (key.equals(keys[2])) {
-                    inputEdit("address", value);
-                } else if (key.equals(keys[3])) {
-                    inputEdit("site", value);
-                }  else if (key.equals(keys[5])) {
-                    setCapacityUnit();
-                } else if (key.equals(keys[6])) {
-                    inputEdit("G_MaxCurrent", value);
-                } else if (key.equals(keys[7])) {
-                    inputEdit("G_ExternalLimitPower", value);
-                } else if (key.equals(keys[8])) {
-                    setModle();
-                } else if (key.equals(keys[10])) {
-                    inputEdit("ip", value);
-                } else if (key.equals(keys[11])) {
-                    inputEdit("gateway", value);
-                } else if (key.equals(keys[12])) {
-                    inputEdit("mask", value);
-                } else if (key.equals(keys[13])) {
-                    inputEdit("mac", value);
-                } else if (key.equals(keys[14])) {
-                    inputEdit("host", value);
-                } else if (key.equals(keys[15])) {
-                    inputEdit("dns", value);
-                } else if (key.equals(keys[17])) {
-                    apMode();
+                switch (index) {
+                    case 1:
+                        inputEdit("name", value);
+                        break;
+                    case 2:
+                        inputEdit("address", value);
+                        break;
+                    case 3:
+                        inputEdit("site", value);
+                        break;
+                    case 5:
+                        setCapacityUnit();
+                        break;
+                    case 6:
+                        inputEdit("G_MaxCurrent", value);
+                        break;
+                    case 7:
+                        inputEdit("G_ExternalLimitPower", value);
+                        break;
+                    case 8:
+                        setModle();
+                        break;
+                    case 10:
+                        inputEdit("ip", value);
+                        break;
+                    case 11:
+                        inputEdit("gateway", value);
+                        break;
+                    case 12:
+                        inputEdit("mask", value);
+                        break;
+                    case 13:
+                        inputEdit("mac", value);
+                        break;
+                    case 14:
+                        inputEdit("host", value);
+                        break;
+                    case 15:
+                        inputEdit("dns", value);
+                        break;
+                    case 17:
+                        setEnable(17);
+                        break;
+                    case 18:
+                        setWiring();
+                        break;
+                    case 19:
+                        setSolarMode();
+                        break;
+                    case 20:
+                        setEnable(20);
+                        break;
+                    case 21:
+                        break;
+                    case 23:
+                        apMode();
+                        break;
+
                 }
             } else if (itemType == ParamsSetAdapter.PARAM_ITEM_RATE) {//设置费率
                 Intent intent1 = new Intent(this, RateSetActivity.class);
@@ -218,12 +258,15 @@ public class ChargingParamsActivity extends BaseActivity {
         keys = new String[]{
                 getString(R.string.m148基础参数), getString(R.string.m149电桩名称), getString(R.string.m150国家城市),
                 getString(R.string.m151站点), getString(R.string.m152充电费率), getString(R.string.m315货币单位),
-                getString(R.string.m313电桩最大输出电流), getString(R.string.m314智能功率分配), getString(R.string.m154充电模式), getString(R.string.m155高级设置), getString(R.string.m156充电桩IP),
-                getString(R.string.m157网关), getString(R.string.m158子网掩码), getString(R.string.m159网络MAC地址),
-                getString(R.string.m160服务器URL), getString(R.string.m161DNS地址), "", getString(R.string.m289进入AP模式), ""};
+                getString(R.string.m313电桩最大输出电流), getString(R.string.m314智能功率分配), getString(R.string.m154充电模式),
+                getString(R.string.m155高级设置), getString(R.string.m156充电桩IP), getString(R.string.m157网关), getString(R.string.m158子网掩码),
+                getString(R.string.m159网络MAC地址), getString(R.string.m160服务器URL), getString(R.string.m161DNS地址), "",
+                getString(R.string.m298功率分配使能), getString(R.string.m外部电流采样接线方式), getString(R.string.mSolar模式), getString(R.string.m297峰谷充电使能), getString(R.string.m280允许充电时间),
+                "", getString(R.string.m289进入AP模式), ""};
         for (int i = 0; i < keys.length; i++) {
             ParamsSetBean bean = new ParamsSetBean();
-            if (i == 0 || i == 9 || i == 16 || i == 18) {
+            bean.setIndex(i);
+            if (i == 0 || i == 9 || i == 16 || i == 22 || i == 24) {
                 bean.setTitle(keys[i]);
                 bean.setType(ParamsSetAdapter.PARAM_TITILE);
             } else {
@@ -236,6 +279,9 @@ public class ChargingParamsActivity extends BaseActivity {
 
         moneyTypes = new String[]{"pound", "dollar", "euro", "baht", "rmb"};
         moneySymbols = new String[]{"£", "$", "€", "฿", "￥"};
+        enableArray = new String[]{getString(R.string.m300禁止), getString(R.string.m299使能)};
+        wiringArray = new String[]{getString(R.string.mCT), getString(R.string.m电表)};
+        solarArrray = new String[]{"FAST", "ECO", "ECO+"};
         unitKey = moneyTypes[0];
         unitValue = moneySymbols[0];
     }
@@ -438,11 +484,13 @@ public class ChargingParamsActivity extends BaseActivity {
         List<MultiItemEntity> newlist = new ArrayList<>();
         for (int i = 0; i < keys.length; i++) {
             ParamsSetBean bean = new ParamsSetBean();
+            bean.setIndex(i);
             switch (i) {
                 case 0:
                 case 9:
                 case 16:
-                case 18:
+                case 22:
+                case 24:
                     bean.setTitle(keys[i]);
                     bean.setType(ParamsSetAdapter.PARAM_TITILE);
                     break;
@@ -532,6 +580,60 @@ public class ChargingParamsActivity extends BaseActivity {
                     bean.setValue(data.getDns());
                     break;
                 case 17:
+                    bean.setType(ParamsSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    int powerenable = data.getG_ExternalLimitPowerEnable();
+                    if (powerenable == 0) {//0禁止
+                        bean.setValue(enableArray[0]);
+                    } else {
+                        bean.setValue(enableArray[1]);
+                    }
+                    break;
+                case 18:
+                    bean.setType(ParamsSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    int wiring = data.getG_ExternalSamplingCurWring();
+                    if (wiring == 0) {//0禁止
+                        bean.setValue(wiringArray[0]);
+                    } else {
+                        bean.setValue(wiringArray[1]);
+                    }
+                    break;
+                case 19:
+                    bean.setType(ParamsSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    int solar = data.getG_SolarMode();
+                    if (solar == 0) {
+                        bean.setValue(solarArrray[0]);
+                    } else if (solar == 1) {
+                        bean.setValue(solarArrray[1]);
+                    } else {
+                        solarLimitPower=data.getG_SolarLimitPower();
+                        bean.setValue(solarArrray[2]);
+                        SolarBean solarBean = new SolarBean();
+                        solarBean.setType(ParamsSetAdapter.PARAM_ITEM_SOLAR);
+                        solarBean.setKey(getString(R.string.m电流限制));
+                        solarBean.setValue(String.valueOf(solarLimitPower));
+                        bean.addSubItem(solarBean);
+                    }
+                    break;
+
+                case 20:
+                    bean.setType(ParamsSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    int peakValleyEnable = data.getG_PeakValleyEnable();
+                    if (peakValleyEnable == 0) {//0禁止
+                        bean.setValue(enableArray[0]);
+                    } else {
+                        bean.setValue(enableArray[1]);
+                    }
+                    break;
+                case 21:
+                    bean.setType(ParamsSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(data.getG_AutoChargeTime());
+                    break;
+                case 23:
                     bean.setType(ParamsSetAdapter.PARAM_ITEM);
                     bean.setKey(keys[i]);
                     bean.setValue("");
@@ -664,6 +766,103 @@ public class ChargingParamsActivity extends BaseActivity {
         }
         newUnitKeys = unitKeys;
         newUnitValues = unitValues;
+    }
+
+
+
+    /*设置使能*/
+    private void setEnable(int index) {
+        String title;
+        List<String> list = Arrays.asList(enableArray);
+        if (index == 20) title = getString(R.string.m297峰谷充电使能);
+        else title = getString(R.string.m298功率分配使能);
+        OptionsPickerView<String> pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                if (index == 17) {
+                    requestEdit("G_ExternalLimitPowerEnable",options1);
+                } else {
+                    requestEdit("G_PeakValleyEnable",options1);
+                }
+                mAdapter.notifyDataSetChanged();
+            }
+        })
+                .setTitleText(title)
+                .setSubmitText(getString(R.string.m9确定))
+                .setCancelText(getString(R.string.m7取消))
+                .setTitleBgColor(0xffffffff)
+                .setTitleColor(0xff333333)
+                .setSubmitColor(0xff333333)
+                .setCancelColor(0xff999999)
+                .setBgColor(0xffffffff)
+                .setTitleSize(17)
+                .setTextColorCenter(0xff333333)
+                .build();
+        pvOptions.setPicker(list);
+        pvOptions.show();
+    }
+
+
+
+
+    /*接线方式*/
+    private void setWiring() {
+        List<String> list = Arrays.asList(wiringArray);
+        OptionsPickerView<String> pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                requestEdit("G_ExternalSamplingCurWring",options1);
+            }
+        })
+                .setTitleText(getString(R.string.m外部电流采样接线方式))
+                .setSubmitText(getString(R.string.m9确定))
+                .setCancelText(getString(R.string.m7取消))
+                .setTitleBgColor(0xffffffff)
+                .setTitleColor(0xff333333)
+                .setSubmitColor(0xff333333)
+                .setCancelColor(0xff999999)
+                .setBgColor(0xffffffff)
+                .setTitleSize(18)
+                .setTextColorCenter(0xff333333)
+                .build();
+        pvOptions.setPicker(list);
+        pvOptions.show();
+    }
+
+
+    /*solar模式*/
+    private void setSolarMode() {
+        List<String> list = Arrays.asList(solarArrray);
+        OptionsPickerView<String> pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                ParamsSetBean bean = (ParamsSetBean) mAdapter.getData().get(19);
+                if (options1 == 2) {//ECO+
+                    if (!bean.isExpanded()) {
+                        mAdapter.expand(19, false);
+                        ((SolarBean)bean.getSubItem(0)).setValue(String.valueOf(solarLimitPower));
+                    }
+                }else {
+                    if (bean.isExpanded()) {
+                        mAdapter.collapse(19, false);
+                    }
+                }
+                requestEdit("G_SolarLimitPower", solarLimitPower);
+            }
+        })
+                .setTitleText(getString(R.string.mSolar模式))
+                .setSubmitText(getString(R.string.m9确定))
+                .setCancelText(getString(R.string.m7取消))
+                .setTitleBgColor(0xffffffff)
+                .setTitleColor(0xff333333)
+                .setSubmitColor(0xff333333)
+                .setCancelColor(0xff999999)
+                .setBgColor(0xffffffff)
+                .setTitleSize(18)
+                .setTextColorCenter(0xff333333)
+                .build();
+        pvOptions.setPicker(list);
+        pvOptions.show();
     }
 
 

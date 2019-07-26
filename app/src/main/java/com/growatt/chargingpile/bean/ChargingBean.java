@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
-import com.chad.library.adapter.base.entity.AbstractExpandableItem;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.google.gson.annotations.SerializedName;
 
@@ -388,7 +387,7 @@ public class ChargingBean {
             this.priceConf = priceConf;
         }
 
-        public static class PriceConfBean extends AbstractExpandableItem<Object> implements MultiItemEntity ,Parcelable{
+        public static class PriceConfBean extends ParamsBeanLeveItem1 implements MultiItemEntity ,Parcelable{
             private double price;
             @SerializedName("name")
             private String nameX;
@@ -462,10 +461,6 @@ public class ChargingBean {
                 return itemType;
             }
 
-            @Override
-            public int getLevel() {
-                return 1;
-            }
 
             @Override
             public int describeContents() {

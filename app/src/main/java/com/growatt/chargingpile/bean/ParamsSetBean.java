@@ -7,12 +7,13 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
  * Created by Administrator on 2018/10/23.
  */
 
-public class ParamsSetBean extends AbstractExpandableItem<ChargingBean.DataBean.PriceConfBean> implements MultiItemEntity {
+public class ParamsSetBean extends AbstractExpandableItem<ParamsBeanLeveItem1> implements MultiItemEntity {
 
     private String key;
     private Object value;
     private String title;
     private int type;
+    private int index;
 
     public String getKey() {
         return key;
@@ -44,6 +45,14 @@ public class ParamsSetBean extends AbstractExpandableItem<ChargingBean.DataBean.
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     @Override

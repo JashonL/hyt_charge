@@ -396,6 +396,7 @@ public class WifiSetActivity extends BaseActivity {
 
 
     private void setECOLimit(){
+        tips="0~8(A)";
         WifiSetBean bean = (WifiSetBean) mAdapter.getData().get(36);
         String value = bean.getSubItem(0).getValue();
         new CircleDialog.Builder()

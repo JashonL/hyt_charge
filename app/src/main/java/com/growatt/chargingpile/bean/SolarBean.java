@@ -6,7 +6,7 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
  * Created by Administrator on 2019/7/24.
  */
 
-public class SolarBean implements MultiItemEntity {
+public class SolarBean extends ParamsBeanLeveItem1 implements MultiItemEntity {
     private int mode;
     private int current;
     private int type;

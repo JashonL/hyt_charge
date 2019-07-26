@@ -9,6 +9,7 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.bean.ChargingBean;
 import com.growatt.chargingpile.bean.ParamsSetBean;
+import com.growatt.chargingpile.bean.SolarBean;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class ParamsSetAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity,
     public static final int PARAM_ITEM = 1;
     public static final int PARAM_ITEM_CANT_CLICK = 2;
     public static final int PARAM_ITEM_RATE = 3;
+    public static final int PARAM_ITEM_SOLAR = 4;
 
     /**
      * Same as QuickAdapter#QuickAdapter(Context,int) but with
@@ -34,6 +36,7 @@ public class ParamsSetAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity,
         addItemType(PARAM_ITEM, R.layout.item_params_set_layout);
         addItemType(PARAM_ITEM_CANT_CLICK, R.layout.item_params_set_layout);
         addItemType(PARAM_ITEM_RATE, R.layout.item_params_rate_layout);
+        addItemType(PARAM_ITEM_SOLAR, R.layout.item_set_solar);
     }
 
     @Override
@@ -43,13 +46,13 @@ public class ParamsSetAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity,
                 holder.setText(R.id.tv_title, ((ParamsSetBean) item).getTitle());
                 break;
             case PARAM_ITEM:
-                String rate=mContext.getString(R.string.m152充电费率);
+                String rate = mContext.getString(R.string.m152充电费率);
                 holder.setText(R.id.tv_key, ((ParamsSetBean) item).getKey());
-                if (((ParamsSetBean) item).getKey().equals(rate)){
+                if (((ParamsSetBean) item).getKey().equals(rate)) {
                     holder.getView(R.id.iv_more1).setVisibility(View.GONE);
                     holder.getView(R.id.iv_more2).setVisibility(View.VISIBLE);
-                    holder.setImageResource(R.id.iv_more2,R.drawable.down);
-                }else {
+                    holder.setImageResource(R.id.iv_more2, R.drawable.down);
+                } else {
                     holder.getView(R.id.iv_more2).setVisibility(View.GONE);
                     holder.getView(R.id.iv_more1).setVisibility(View.VISIBLE);
                 }
@@ -70,12 +73,19 @@ public class ParamsSetAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity,
                 break;
             case PARAM_ITEM_RATE:
 
-                String key = mContext.getString(R.string.m326时间段) + ((ChargingBean.DataBean.PriceConfBean)item).getTimeX();
+                String key = mContext.getString(R.string.m326时间段) + ((ChargingBean.DataBean.PriceConfBean) item).getTimeX();
                 holder.setText(R.id.tv_time_key, key);
-                String value = mContext.getString(R.string.m327费率) + ((ChargingBean.DataBean.PriceConfBean)item).getPrice();
+                String value = mContext.getString(R.string.m327费率) + ((ChargingBean.DataBean.PriceConfBean) item).getPrice();
                 holder.setText(R.id.tv_time_value, value);
                 break;
+            case PARAM_ITEM_SOLAR:
+                SolarBean bean = (SolarBean) item;
+                String key1 = bean.getKey();
+                holder.setText(R.id.tv_key, key1);
+                String value1 = bean.getValue();
+                holder.setText(R.id.tv_value, value1);
+                break;
         }
-
     }
+
 }
