@@ -225,20 +225,20 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
 
     private void requestEdit() {
         Mydialog.Show(this);
-        JSONObject jsonObject=new JSONObject();
+        JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("cmd","addPrice");
-            jsonObject.put("userId",Cons.userBean.getAccountName());
-            jsonObject.put("chargeId",chargingId);
+            jsonObject.put("cmd", "addPrice");
+            jsonObject.put("userId", Cons.userBean.getAccountName());
+            jsonObject.put("chargeId", chargingId);
             jsonObject.put("lan", getLanguage());
             JSONArray jsonArray = new JSONArray();
             List<ChargingBean.DataBean.PriceConfBean> data = mAdapter.getData();
             if (!data.isEmpty()) {
                 for (ChargingBean.DataBean.PriceConfBean bean : data) {
                     JSONObject rateJson = new JSONObject();
-                    rateJson.put("time",bean.getTimeX());
-                    rateJson.put("price",bean.getPrice());
-                    rateJson.put("name","");
+                    rateJson.put("time", bean.getTimeX());
+                    rateJson.put("price", bean.getPrice());
+                    rateJson.put("name", "");
                     jsonArray.put(rateJson);
                 }
 
@@ -319,6 +319,7 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
                 timeLong += end - start;
             }
         }
+        if (data.size() == 1) return timeLong == oneday - 1;
         return timeLong == oneday;
     }
 
@@ -351,7 +352,7 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
                             | InputType.TYPE_TEXT_FLAG_MULTI_LINE;
                 })
                 .setPositiveInput(this.getString(R.string.m9确定), (text, v) -> {
-                    if (!TextUtils.isEmpty(text)){
+                    if (!TextUtils.isEmpty(text)) {
                         mAdapter.getData().get(pos).setPrice(Double.parseDouble(text));
                         mAdapter.notifyItemChanged(pos);
                     }

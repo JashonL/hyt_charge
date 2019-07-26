@@ -274,7 +274,7 @@ public class ChargingPileActivity extends BaseActivity {
     private Unbinder bind;
     private ReservaCharingAdapter reservaAdapter;
     private List<ReservationBean.DataBean> reserveNow;
-
+    public String[] solarArrray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -1428,9 +1428,9 @@ public class ChargingPileActivity extends BaseActivity {
                 intent5.putExtra("sn", mCurrentPile.getChargeId());
                 int online;
                 if (mCurrentGunBean != null && GunBean.UNAVAILABLE.equals(mCurrentGunBean.getData().getStatus())) {
-                    online =1;
+                    online = 1;
                 } else {
-                    online =0;
+                    online = 0;
                 }
                 intent5.putExtra("online", online);
                 intent5.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -1447,9 +1447,21 @@ public class ChargingPileActivity extends BaseActivity {
         //弹出时停止刷新
         timeHandler.removeMessages(1);
         View view = LayoutInflater.from(ChargingPileActivity.this).inflate(R.layout.popuwindow_power_limit, null);
+        TextView tvSolarMode = view.findViewById(R.id.tv_text1);
+        TextView tvLimitPower = view.findViewById(R.id.tv_text2);
         TextView tvConfirm = view.findViewById(R.id.tv_confirm);
         TextView tvCancel = view.findViewById(R.id.tv_cancel);
         int solar = mCurrentPile.getSolar();
+        int solarMode = mCurrentPile.getG_SolarMode();
+        if (solarMode>2||solarMode<0)solarMode=0;
+        String mSolarMode = getString(R.string.mSolar模式) + ":" + solarArrray[solarMode];
+        tvSolarMode.setText(mSolarMode);
+        if (solarMode==2){
+            tvLimitPower.setVisibility(View.VISIBLE);
+            float solarLimitPower = mCurrentPile.getG_SolarLimitPower();
+            String mSolarLimitPower=getString(R.string.m光伏充电限制)+":"+solarLimitPower+"kW";
+            tvLimitPower.setText(mSolarLimitPower);
+        }else  tvLimitPower.setVisibility(View.GONE);
         if (solar == 1) {
             tvConfirm.setText(R.string.m184关闭);
         } else {
@@ -2027,7 +2039,7 @@ public class ChargingPileActivity extends BaseActivity {
             }
 
         }
-
+        solarArrray = new String[]{"FAST", "ECO", "ECO+"};
     }
 
     /**

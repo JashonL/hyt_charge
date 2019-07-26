@@ -69,6 +69,8 @@ public class ChargingBean {
         private String gateway;
         private String status_3;
         private List<PriceConfBean> priceConf;
+        private int G_SolarMode;
+        private float G_SolarLimitPower;
 
 
         public int getConnectors() {
@@ -176,6 +178,22 @@ public class ChargingBean {
 
         public void setSolar(int solar) {
             this.solar = solar;
+        }
+
+        public int getG_SolarMode() {
+            return G_SolarMode;
+        }
+
+        public void setG_SolarMode(int g_SolarMode) {
+            G_SolarMode = g_SolarMode;
+        }
+
+        public float getG_SolarLimitPower() {
+            return G_SolarLimitPower;
+        }
+
+        public void setG_SolarLimitPower(float g_SolarLimitPower) {
+            G_SolarLimitPower = g_SolarLimitPower;
         }
 
         public int getG_ExternalLimitPower() {

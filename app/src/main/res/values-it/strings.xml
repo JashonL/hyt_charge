@@ -389,6 +389,7 @@
     <string name="m电表">ammeter</string>
     <string name="m电流限制">ECO+ Current limit</string>
     <string name="m电表设备地址">Meter device address</string>
+    <string name="m光伏充电限制">光伏充电限制</string>
 </resources>
 
 

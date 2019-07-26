@@ -391,6 +391,7 @@
     <string name="m电表">电表</string>
     <string name="m电流限制">ECO+ 电流限制</string>
     <string name="m电表设备地址">电表设备地址</string>
+    <string name="m光伏充电限制">光伏充电限制</string>
 </resources>
 
 
