@@ -8,9 +8,9 @@ import java.util.List;
  * Created by Administrator on 2019/6/21.
  */
 
-public class RefreshAllMsg {
+public class RefreshRateMsg {
     private List<ChargingBean.DataBean.PriceConfBean> priceConfBeanList;
-    public RefreshAllMsg(List<ChargingBean.DataBean.PriceConfBean> priceConfBeanList) {
+    public RefreshRateMsg(List<ChargingBean.DataBean.PriceConfBean> priceConfBeanList) {
         this.priceConfBeanList = priceConfBeanList;
     }
 

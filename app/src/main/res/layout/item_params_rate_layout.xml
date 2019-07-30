@@ -21,7 +21,7 @@
             android:layout_marginRight="@dimen/ya30"
             android:layout_weight="2"
             android:gravity="center_vertical|end"
-            android:textColor="@color/title_3"
+            android:textColor="@color/title_bg_white"
             android:textSize="@dimen/xa30"
             android:layout_marginEnd="@dimen/ya30" />
 
@@ -33,7 +33,7 @@
             android:layout_marginEnd="@dimen/xa21"
             android:layout_marginRight="@dimen/xa21"
             android:gravity="center_vertical|start"
-            android:textColor="@color/title_3"
+            android:textColor="@color/title_bg_white"
             android:textSize="@dimen/xa30" />
 
         <ImageView

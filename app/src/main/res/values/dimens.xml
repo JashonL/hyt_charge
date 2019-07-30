@@ -4,4 +4,15 @@
     <dimen name="status_bar_height">0dp</dimen>
     <dimen name="header_height">@dimen/xa112</dimen>
 
+    <dimen name="text_size_big">@dimen/xa48</dimen> <!--头标题字体-->
+    <dimen name="text_size_title">@dimen/xa36</dimen> <!--头标题字体-->
+    <dimen name="text_size_title_s">@dimen/xa33</dimen> <!--头标题字体-->
+    <dimen name="text_size_content_title">@dimen/xa30</dimen> <!--内容标题字体-->
+    <dimen name="text_size_content_title_s">@dimen/xa28</dimen> <!--内容标题字体-->
+    <dimen name="text_size_content">@dimen/xa26</dimen> <!--内容字体-->
+    <dimen name="text_size_content_s">@dimen/xa24</dimen> <!--内容字体-->
+    <dimen name="text_size_note">@dimen/xa20</dimen> <!--注释或说明字体-->
+    <dimen name="text_size_note_s">@dimen/xa18</dimen> <!--曲线刻度或底部导航字体-->
+
+
 </resources>

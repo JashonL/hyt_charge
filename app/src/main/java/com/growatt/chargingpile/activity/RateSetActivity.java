@@ -16,7 +16,7 @@ import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.growatt.chargingpile.BaseActivity;
-import com.growatt.chargingpile.EventBusMsg.RefreshAllMsg;
+import com.growatt.chargingpile.EventBusMsg.RefreshRateMsg;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.adapter.RateSetAdapter;
 import com.growatt.chargingpile.bean.ChargingBean;
@@ -82,7 +82,21 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
         priceConfBeanList = getIntent().getParcelableArrayListExtra("rate");
         if (priceConfBeanList == null) priceConfBeanList = new ArrayList<>();
         for (int i = 0; i < priceConfBeanList.size(); i++) {
-            priceConfBeanList.get(i).setSymbol(symbol);
+            ChargingBean.DataBean.PriceConfBean bean = priceConfBeanList.get(i);
+            bean.setSymbol(symbol);
+            String timeX = bean.getTimeX();
+            if (!TextUtils.isEmpty(timeX)){
+                if (timeX.contains("-")){
+                    String[] split = timeX.split("-");
+                    if (split.length >= 2) {
+                     /*   startTime = split[0];
+                        endTime = split[1];*/
+                        bean.setStartTime(split[0]);
+                        bean.setEndTime(split[1]);
+                    }
+                }
+            }
+
         }
     }
 
@@ -117,10 +131,27 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
                 break;
             case R.id.tvRight:
                 if (isItemAllSetting()) {
-                    if (isTimeCoveredOneDay())
-                        requestEdit();
-                    else
+                    for (int i = 0; i < mAdapter.getData().size(); i++) {
+                        String startTime = mAdapter.getData().get(i).getStartTime();
+                        String endTime = mAdapter.getData().get(i).getEndTime();
+                        String[] start = startTime.split(":");
+                        String[] end = endTime.split(":");
+                        int statValue = Integer.parseInt(start[0]) * 60 + Integer.parseInt(start[1]);
+                        int endValue = Integer.parseInt(end[0]) * 60 + Integer.parseInt(end[1]);
+                        if (isTimeCoincide(statValue,endValue,i)) {
+                            toast(R.string.m333时间段不能重叠);
+                            return;
+                        }
+                        if (statValue==endValue){
+                            toast(R.string.m332时间不能相同);
+                            return;
+                        }
+                    }
+                    if (!isTimeCoveredOneDay()){
                         toast(R.string.m331时间必须包含24小时);
+                        return;
+                    }
+                    requestEdit();
                 } else {
                     toast(R.string.m330有时间段或费率未输入);
                 }
@@ -145,8 +176,11 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
             case R.id.fl_delete:
                 mAdapter.remove(position);
                 break;
-            case R.id.tv_select_time:
+            case R.id.start:
                 showTimePickView(false, position);
+                break;
+            case R.id.end:
+                showTimePickView(true, position);
                 break;
             case R.id.tv_rate_value:
                 inputEdit(position);
@@ -165,8 +199,9 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
         if (isEnd) {
             tittleText = getString(R.string.m282结束时间);
         } else {
-            tittleText = getString(R.string.m283选择时间);
+            tittleText = getString(R.string.m204开始时间);
         }
+        ChargingBean.DataBean.PriceConfBean bean = mAdapter.getData().get(pos);
         TimePickerView pvCustomTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {//选中事件回调
@@ -174,7 +209,7 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
                 String time = sdf.format(date);
                 if (isEnd) {
                     endTime = time;
-                    String[] start = startTime.split(":");
+                 /*   String[] start = startTime.split(":");
                     String[] end = endTime.split(":");
                     int statValue = Integer.parseInt(start[0]) * 60 + Integer.parseInt(start[1]);
                     int endValue = Integer.parseInt(end[0]) * 60 + Integer.parseInt(end[1]);
@@ -186,12 +221,21 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
                         toast(R.string.m332时间不能相同);
                         return;
                     }
-                    String rateTime = startTime + "-" + endTime;
-                    mAdapter.getData().get(pos).setTimeX(rateTime);
+                    String rateTime = startTime + "-" + endTime;*/
+                    if (!TextUtils.isEmpty(bean.getStartTime())){
+                        String rateTime = startTime + "-" + endTime;
+                        mAdapter.getData().get(pos).setTimeX(rateTime);
+                    }
+                    bean.setEndTime(time);
                     mAdapter.notifyItemChanged(pos);
                 } else {
                     startTime = time;
-                    showTimePickView(true, pos);
+                    if (!TextUtils.isEmpty(bean.getEndTime())){
+                        String rateTime = startTime + "-" + endTime;
+                        mAdapter.getData().get(pos).setTimeX(rateTime);
+                    }
+                    mAdapter.getData().get(pos).setStartTime(time);
+                    mAdapter.notifyItemChanged(pos);
                 }
             }
         })
@@ -211,7 +255,7 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
                 .setTextColorCenter(0xff333333)
                 .setDate(selectedDate)// 如果不设置的话，默认是系统时间*/
                 .setRangDate(startDate, endDate)//起始终止年月日设定
-                .setLabel("", "", "", "时", "分", "")//默认设置为年月日时分秒
+                .setLabel("", "", "", getString(R.string.m207时), getString(R.string.m208分), "")//默认设置为年月日时分秒
                 .isCenterLabel(false) //是否只显示中间选中项的label文字，false则每项item全部都带有label。
                 .isDialog(false)//是否显示为对话框样式
                 .build();
@@ -261,7 +305,7 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
                     JSONObject object = new JSONObject(json);
                     int code = object.getInt("code");
                     if (code == 0) {
-                        EventBus.getDefault().post(new RefreshAllMsg(mAdapter.getData()));
+                        EventBus.getDefault().post(new RefreshRateMsg(mAdapter.getData()));
                         finish();
                     }
                     toast(object.getString("data"));

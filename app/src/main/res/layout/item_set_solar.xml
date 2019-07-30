@@ -29,7 +29,7 @@
             android:layout_toLeftOf="@+id/iv_more1"
             android:layout_toRightOf="@+id/tv_key"
             android:gravity="center_vertical|end"
-            android:textColor="@color/title_3"
+            android:textColor="@color/title_bg_white"
             android:textSize="@dimen/xa30"
             android:layout_marginEnd="@dimen/xa21"
             android:layout_marginStart="@dimen/xa21"

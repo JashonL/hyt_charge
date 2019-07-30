@@ -15,7 +15,7 @@ import java.util.List;
  * Created by Administrator on 2019/6/21.
  */
 
-public class RateSetAdapter extends BaseQuickAdapter<ChargingBean.DataBean.PriceConfBean,BaseViewHolder> {
+public class RateSetAdapter extends BaseQuickAdapter<ChargingBean.DataBean.PriceConfBean, BaseViewHolder> {
     public RateSetAdapter(int layoutResId, @Nullable List<ChargingBean.DataBean.PriceConfBean> data) {
         super(layoutResId, data);
     }
@@ -23,18 +23,34 @@ public class RateSetAdapter extends BaseQuickAdapter<ChargingBean.DataBean.Price
 
     @Override
     protected void convert(BaseViewHolder helper, ChargingBean.DataBean.PriceConfBean item) {
-        TextView timeValue = helper.getView(R.id.tv_select_time);
+        TextView start = helper.getView(R.id.start);
+        TextView end = helper.getView(R.id.end);
         TextView rateValue = helper.getView(R.id.tv_rate_value);
-        if (!TextUtils.isEmpty(item.getTimeX())){
-            timeValue.setText(item.getTimeX());
+        String startTime = item.getStartTime();
+        String endTime=item.getEndTime();
+        if (!TextUtils.isEmpty(startTime)){
+            start.setText(startTime);
+        }else {
+            start.setText("");
+        }
+
+        if (!TextUtils.isEmpty(endTime)){
+            end.setText(endTime);
+        }else {
+            end.setText("");
+        }
+
+        String s = String.valueOf(item.getPrice());
+        if (!TextUtils.isEmpty(s)){
             rateValue.setText(String.valueOf(item.getPrice()));
         }else {
-            timeValue.setText("");
             rateValue.setText("");
         }
-        helper.setText(R.id.tv_unit,item.getSymbol());
+
+        helper.setText(R.id.tv_unit, item.getSymbol());
         helper.addOnClickListener(R.id.fl_delete);
-        helper.addOnClickListener(R.id.tv_select_time);
+        helper.addOnClickListener(R.id.start);
+        helper.addOnClickListener(R.id.end);
         helper.addOnClickListener(R.id.tv_rate_value);
 
     }

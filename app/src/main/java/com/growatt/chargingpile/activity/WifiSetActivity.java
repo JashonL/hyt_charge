@@ -1,5 +1,6 @@
 package com.growatt.chargingpile.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -355,7 +356,11 @@ public class WifiSetActivity extends BaseActivity {
                         setMode();
                         break;
                     case 32:
-                        showTimePickView(false);
+//                        showTimePickView(false);
+                        Intent intent = new Intent(this, TimeSelectActivity.class);
+                        intent.putExtra("start",startTime);
+                        intent.putExtra("end",endTime);
+                        startActivityForResult(intent, 100);
                         break;
                     case 33:
                         if (chargingLength > 24)
@@ -396,7 +401,7 @@ public class WifiSetActivity extends BaseActivity {
 
 
     private void setECOLimit(){
-        tips="0~8(A)";
+        tips="1~8(A)";
         WifiSetBean bean = (WifiSetBean) mAdapter.getData().get(36);
         String value = bean.getSubItem(0).getValue();
         new CircleDialog.Builder()
@@ -417,7 +422,7 @@ public class WifiSetActivity extends BaseActivity {
                         return;
                     }
 
-                    if (Integer.parseInt(text) < 0 || Integer.parseInt(text) > 8) {
+                    if (Integer.parseInt(text) < 1 || Integer.parseInt(text) > 8) {
                         T.make(getString(R.string.m290超出设置范围) + tips, WifiSetActivity.this);
                         return;
                     }
@@ -872,6 +877,7 @@ public class WifiSetActivity extends BaseActivity {
         bean.setIndex(index);
         List<MultiItemEntity> data = mAdapter.getData();
         int position = data.indexOf(bean);
+        if (position==-1)return;
         ((WifiSetBean)mAdapter.getData().get(position)).setValue(value);
 //        mAdapter.notifyDataSetChanged();
     }
@@ -1700,6 +1706,13 @@ public class WifiSetActivity extends BaseActivity {
                     System.arraycopy(prayload, 13, timeByte, 0, 11);
                     String time = MyUtil.ByteToString(timeByte);
 //                    mAdapter.getData().get(32).setValue(time);
+                    if (time.contains("-")){
+                        String[] split = time.split("-");
+                        if (split.length>=2){
+                            startTime = split[0];
+                            endTime = split[1];
+                        }
+                    }
                     setAdapter(32,time);
 
 
@@ -2075,7 +2088,7 @@ public class WifiSetActivity extends BaseActivity {
                 .setTextColorCenter(0xff333333)
                 .setDate(selectedDate)// 如果不设置的话，默认是系统时间*/
                 .setRangDate(startDate, endDate)//起始终止年月日设定
-                .setLabel("", "", "", "时", "分", "")//默认设置为年月日时分秒
+                .setLabel("", "", "", getString(R.string.m207时), getString(R.string.m208分), "")//默认设置为年月日时分秒
                 .isCenterLabel(false) //是否只显示中间选中项的label文字，false则每项item全部都带有label。
                 .isDialog(false)//是否显示为对话框样式
                 .build();
@@ -2218,6 +2231,39 @@ public class WifiSetActivity extends BaseActivity {
         pvOptions.show();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case 100:
+                    String starttime = data.getStringExtra("start");
+                    String endtime = data.getStringExtra("end");
+                    if (TextUtils.isEmpty(starttime)) {
+                        toast(R.string.m130未设置开始时间);
+                        return;
+                    }
+                    if (TextUtils.isEmpty(endtime)) {
+                        toast(R.string.m284未设置结束时间);
+                        return;
+                    }
+                    startTime = starttime;
+                    endTime = endtime;
+                    String  chargingTime = starttime + "-" + endtime;
+                    byte[] bytes = chargingTime.trim().getBytes();
+                    if (bytes.length > 11) {
+                        T.make(getString(R.string.m286输入值超出规定长度), WifiSetActivity.this);
+                        return;
+                    }
+                    timeByte = new byte[11];
+                    System.arraycopy(bytes, 0, timeByte, 0, bytes.length);
+                    setAdapter(32, chargingTime);
+                    mAdapter.notifyDataSetChanged();
+                    isEditCharging = true;
+                    break;
+            }
+        }
+    }
 
     @Override
     protected void onDestroy() {

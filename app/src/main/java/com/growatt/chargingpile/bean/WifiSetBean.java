@@ -58,7 +58,8 @@ public class WifiSetBean  extends AbstractExpandableItem<SolarBean> implements M
     public boolean equals(Object obj) {
         if (this==obj)return true;
         if (!(obj instanceof WifiSetBean)){
-            throw new ClassCastException("类型错误");
+//            throw new ClassCastException("类型错误");
+            return false;
         }
         WifiSetBean p = (WifiSetBean) obj;
         return this.index==p.getIndex();

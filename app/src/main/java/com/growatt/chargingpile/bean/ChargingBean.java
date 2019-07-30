@@ -396,6 +396,8 @@ public class ChargingBean {
 
             private int itemType;
             private String symbol;
+            private String startTime;
+            private String endTime;
 
             public PriceConfBean() {
             }
@@ -406,6 +408,8 @@ public class ChargingBean {
                 timeX = in.readString();
                 itemType = in.readInt();
                 symbol=in.readString();
+                startTime=in.readString();
+                endTime=in.readString();
             }
 
             public static final Creator<PriceConfBean> CREATOR = new Creator<PriceConfBean>() {
@@ -456,6 +460,22 @@ public class ChargingBean {
                 this.symbol = symbol;
             }
 
+            public String getStartTime() {
+                return startTime;
+            }
+
+            public void setStartTime(String startTime) {
+                this.startTime = startTime;
+            }
+
+            public String getEndTime() {
+                return endTime;
+            }
+
+            public void setEndTime(String endTime) {
+                this.endTime = endTime;
+            }
+
             @Override
             public int getItemType() {
                 return itemType;
@@ -474,6 +494,8 @@ public class ChargingBean {
                 dest.writeString(timeX);
                 dest.writeInt(itemType);
                 dest.writeString(symbol);
+                dest.writeString(startTime);
+                dest.writeString(endTime);
             }
         }
     }

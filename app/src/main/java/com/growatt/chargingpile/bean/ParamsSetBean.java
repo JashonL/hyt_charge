@@ -64,4 +64,15 @@ public class ParamsSetBean extends AbstractExpandableItem<ParamsBeanLeveItem1> i
     public int getLevel() {
         return 0;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this==obj)return true;
+        if (!(obj instanceof ParamsSetBean)){
+//            throw new ClassCastException("类型错误");
+            return false;
+        }
+        ParamsSetBean p = (ParamsSetBean) obj;
+        return this.index==p.getIndex();
+    }
 }

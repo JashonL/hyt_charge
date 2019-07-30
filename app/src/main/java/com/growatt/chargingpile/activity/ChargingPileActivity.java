@@ -31,8 +31,9 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.EventBusMsg.AddDevMsg;
+import com.growatt.chargingpile.EventBusMsg.FreshListMsg;
 import com.growatt.chargingpile.EventBusMsg.FreshTimingMsg;
-import com.growatt.chargingpile.EventBusMsg.RefreshAllMsg;
+import com.growatt.chargingpile.EventBusMsg.RefreshRateMsg;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.adapter.ChargingListAdapter;
 import com.growatt.chargingpile.adapter.GunSwitchAdapter;
@@ -1453,15 +1454,15 @@ public class ChargingPileActivity extends BaseActivity {
         TextView tvCancel = view.findViewById(R.id.tv_cancel);
         int solar = mCurrentPile.getSolar();
         int solarMode = mCurrentPile.getG_SolarMode();
-        if (solarMode>2||solarMode<0)solarMode=0;
+        if (solarMode > 2 || solarMode < 0) solarMode = 0;
         String mSolarMode = getString(R.string.mSolar模式) + ":" + solarArrray[solarMode];
         tvSolarMode.setText(mSolarMode);
-        if (solarMode==2){
+        if (solarMode == 2) {
             tvLimitPower.setVisibility(View.VISIBLE);
             float solarLimitPower = mCurrentPile.getG_SolarLimitPower();
-            String mSolarLimitPower=getString(R.string.m光伏充电限制)+":"+solarLimitPower+"kW";
+            String mSolarLimitPower = getString(R.string.m光伏充电限制) + ":" + solarLimitPower + "kW";
             tvLimitPower.setText(mSolarLimitPower);
-        }else  tvLimitPower.setVisibility(View.GONE);
+        } else tvLimitPower.setVisibility(View.GONE);
         if (solar == 1) {
             tvConfirm.setText(R.string.m184关闭);
         } else {
@@ -2519,10 +2520,14 @@ public class ChargingPileActivity extends BaseActivity {
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void aa(RefreshAllMsg msg) {
+    public void freshRate(RefreshRateMsg msg) {
         if (msg.getPriceConfBeanList() != null) {
             refreshAll();
         }
+    }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void freshAll(FreshListMsg msg) {
+        refreshAll();
     }
 }
