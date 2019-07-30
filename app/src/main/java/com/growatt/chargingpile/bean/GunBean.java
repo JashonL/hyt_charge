@@ -213,14 +213,6 @@ public class GunBean {
             this.loopValue = loopValue;
         }
 
-        public String getName() {
-            if (connectorId == 1) {
-                setName("A枪");
-            } else {
-                setName("B枪");
-            }
-            return name;
-        }
     }
 
     public static class ReserveNowBean {

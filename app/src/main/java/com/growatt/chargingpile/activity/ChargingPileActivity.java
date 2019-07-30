@@ -739,7 +739,7 @@ public class ChargingPileActivity extends BaseActivity {
         mCurrentPile = mAdapter.getData().get(nowSelectPosition);
         //电桩信息
         String Modle = mCurrentPile.getModel();
-        if ("ACChargingPoint".equals(Modle)) {
+        if (Modle.toLowerCase().contains("ac")) {
             tvModel.setText(getString(R.string.m112交流));
         } else {
             tvModel.setText(getString(R.string.m113直流));
@@ -854,6 +854,7 @@ public class ChargingPileActivity extends BaseActivity {
                     if (object.getInt("code") == 0) {
                         GunBean gunBean = new Gson().fromJson(json, GunBean.class);
                         if (gunBean != null) {
+                            gunBean.getData().setConnectorId(connectorId);
                             mCurrentGunBean = gunBean;
                             refreshBygun(gunBean);
                         }
@@ -894,11 +895,11 @@ public class ChargingPileActivity extends BaseActivity {
             MyUtil.showAllView(llBottomGroup);
             return;
         }
-        String name = getString(R.string.m110A枪);
+        String name;
         if (data.getConnectorId() == 1) {
             name = getString(R.string.m110A枪);
         } else {
-            getString(R.string.m111B枪);
+            name = getString(R.string.m111B枪);
         }
         tvSwitchGun.setText(name);
         /*//初始化充电枪准备中的显示
@@ -1943,7 +1944,10 @@ public class ChargingPileActivity extends BaseActivity {
             } else {
                 name = getString(R.string.m111B枪);
             }
-            tvSwitchGun.setText(name);
+            popupGun.dismiss();
+//            tvSwitchGun.setText(name);
+            timeHandler.removeMessages(1);
+            timeHandler.sendEmptyMessageDelayed(1, 1000);
             //刷新充电枪
             freshChargingGun(mCurrentPile.getChargeId(), id);
         });
