@@ -178,7 +178,7 @@
     <string name="m143基本参数">基本参数</string>
     <string name="m144重要数据">重要数据</string>
     <string name="m145其他数据">其他数据</string>
-    <string name="m请输入设置内容">请输入设置内容</string>
+    <string name="m213输入更改的设置">输入更改的设置</string>
 
     <string name="m146充电桩ID">充电桩ID</string>
     <string name="m147授权认证秘钥">授权认证秘钥</string>
@@ -256,9 +256,9 @@
 
 
     <string name="m195充电结束提示拔枪">充电结束，请拔下充电枪，并将充电枪归位</string>
-
-
-
+    <string name="m214请连接充电枪到车辆">请连接充电枪到车辆</string>
+    <string name="m215电桩故障">电桩故障，请切换使用其他充电桩</string>
+    <string name="m216桩体状态为不可用">桩体通讯异常，请切换使用其他充电桩</string>
     <string name="m196预设">预设</string>
     <string name="m197当前">当前</string>
     <string name="m198预设充电方案">预设充电方案</string>
@@ -271,10 +271,10 @@
     <string name="m205已开启">已开启</string>
     <string name="m206已关闭">已关闭</string>
 
-    <string name="m213输入更改的设置">输入更改的设置</string>
-    <string name="m214请连接充电枪到车辆">请连接充电枪到车辆</string>
-    <string name="m215电桩故障">电桩故障，请切换使用其他充电桩</string>
-    <string name="m216桩体状态为不可用">桩体通讯异常，请切换使用其他充电桩</string>
+
+
+
+
 
     <string name="m243设置成功">设置成功</string>
     <string name="m244设置失败">设置失败</string>

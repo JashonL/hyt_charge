@@ -504,7 +504,7 @@ public class ChargingParamsActivity extends BaseActivity {
                 data.setG_ExternalLimitPower((String) value);
                 break;
             case "G_ChargerMode":
-                data.setG_ChargerMode((String) value);
+                data.setG_ChargerMode(String.valueOf(value));
                 break;
             case "ip":
                 data.setIp((String) value);

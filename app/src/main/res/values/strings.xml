@@ -167,7 +167,7 @@
     <string name="m143基本参数">Basic parameter</string>
     <string name="m144重要数据">Important data</string>
     <string name="m145其他数据">Other data</string>
-    <string name="m请输入设置内容">Input new settings</string>
+    <string name="m213输入更改的设置">Input new settings</string>
 
     <string name="m146充电桩ID">Charger ID</string>
     <string name="m147授权认证秘钥">Authorization key</string>
@@ -237,8 +237,9 @@
 
 
     <string name="m195充电结束提示拔枪">After charging, please unplug the charging gun and put it back in position</string>
-
-
+    <string name="m214请连接充电枪到车辆">Please connect the charging gun to the vehicle.</string>
+    <string name="m215电桩故障">charging Point failure, please switch to other charging Point.</string>
+    <string name="m216桩体状态为不可用">charging Point unavailable, please switch to other charging Point.</string>
     <string name="m196预设">Preset</string>
     <string name="m197当前">At present</string>
     <string name="m198预设充电方案">Preset charge</string>
@@ -251,10 +252,10 @@
     <string name="m205已开启">ON</string>
     <string name="m206已关闭">OFF</string>
 
-    <string name="m213输入更改的设置">Login failure</string>
-    <string name="m214请连接充电枪到车辆">Browse account validation</string>
-    <string name="m215电桩故障">Validation failed</string>
-    <string name="m216桩体状态为不可用">Validation succeeded</string>
+
+
+
+
 
     <string name="m243设置成功">Setting succeeded</string>
     <string name="m244设置失败">Setting failed</string>

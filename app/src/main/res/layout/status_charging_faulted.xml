@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/xa59"
             android:gravity="center"
-            android:text="@string/m216桩体状态为不可用"
+            android:text="@string/m215电桩故障"
             android:textColor="@color/title_3"
             android:textSize="@dimen/xa30" />
 

@@ -145,6 +145,7 @@
     <string name="m143基本参数">Basic parameter </string>
     <string name="m144重要数据">Important data</string>
     <string name="m145其他数据">Other data</string>
+    <string name="m213输入更改的设置">Input new settings</string>
     <string name="m146充电桩ID">Charger ID</string>
     <string name="m147授权认证秘钥">Authorization key</string>
     <string name="m148基础参数">Basic parameters</string>
@@ -212,7 +213,6 @@
     <string name="m210请输入金额">Please input amount of money</string>
     <string name="m211请输入电量">Please input electricity quantity(kWh)</string>
     <string name="m212暂时还没有设备">No device</string>
-    <string name="m213输入更改的设置">Input change settings</string>
     <string name="m214请连接充电枪到车辆">Please connect the vehicle to the charging gun.</string>
     <string name="m215电桩故障">Charging Point failure, please switch to other Charging Point.</string>
     <string name="m216桩体状态为不可用">Charging Point unavailable, please switch to other Charging Point.</string>

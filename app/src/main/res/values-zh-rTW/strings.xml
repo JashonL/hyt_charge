@@ -145,6 +145,7 @@
     <string name="m143基本参数">基本参数</string>
     <string name="m144重要数据">重要数据</string>
     <string name="m145其他数据">其他数据</string>
+    <string name="m213输入更改的设置">Input new settings</string>
     <string name="m146充电桩ID">充电桩ID</string>
     <string name="m147授权认证秘钥">授权认证秘钥</string>
     <string name="m148基础参数">基础参数</string>
@@ -212,7 +213,6 @@
     <string name="m210请输入金额">请输入金额</string>
     <string name="m211请输入电量">请输入电量(kWh)</string>
     <string name="m212暂时还没有设备">您暂时还没有设备呢</string>
-    <string name="m213输入更改的设置">输入更改的设置</string>
     <string name="m214请连接充电枪到车辆">请连接充电枪到车辆</string>
     <string name="m215电桩故障">电桩故障，请切换使用其他充电桩</string>
     <string name="m216桩体状态为不可用">桩体通讯异常，请切换使用其他充电桩</string>

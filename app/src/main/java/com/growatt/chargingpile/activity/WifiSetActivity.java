@@ -129,7 +129,7 @@ public class WifiSetActivity extends BaseActivity {
     private byte[] wiringByte;
     private byte[] solarByte;
     private byte[] solarCurrentByte;
-    private byte[] currentByte;
+//    private byte[] currentByte;
     private byte[] ammeterByte;
     private int chargingLength;
 
@@ -403,7 +403,8 @@ public class WifiSetActivity extends BaseActivity {
     private void setECOLimit(){
         tips="1~8(A)";
         WifiSetBean bean = (WifiSetBean) mAdapter.getData().get(36);
-        String value = bean.getSubItem(0).getValue();
+        SolarBean subItem = bean.getSubItem(0);
+        String value = subItem.getValue();
         new CircleDialog.Builder()
                 .setWidth(0.8f)
                 .setTitle(this.getString(R.string.m27温馨提示))
@@ -431,10 +432,9 @@ public class WifiSetActivity extends BaseActivity {
                         T.make(getString(R.string.m286输入值超出规定长度), this);
                         return;
                     }
-                    currentByte = new byte[1];
-                    System.arraycopy(bytes, 0, currentByte, 0, bytes.length);
-//                            setCharging();
+                    System.arraycopy(bytes, 0, solarCurrentByte, 0, bytes.length);
                     isEditCharging = true;
+                    subItem.setValue(text);
                     mAdapter.notifyDataSetChanged();
                 })
                 .show(this.getSupportFragmentManager());
@@ -1309,10 +1309,6 @@ public class WifiSetActivity extends BaseActivity {
             }
             if (modeIndext < 0) modeIndext = 1;
             if (modeIndext==2){
-                if (currentByte ==null) {
-                    T.make(R.string.m244设置失败, this);
-                }
-            }else {
                 if (solarCurrentByte ==null) {
                     T.make(R.string.m244设置失败, this);
                 }
@@ -1363,16 +1359,11 @@ public class WifiSetActivity extends BaseActivity {
             }
             if (modeIndext < 0) modeIndext = 1;
             if (modeIndext==2){
-                byte[]bytes=new byte[2];
-                System.arraycopy(solarByte, 0, bytes, 0, solarByte.length);
-                System.arraycopy(currentByte, 0, bytes, 1, currentByte.length);
-                System.arraycopy(bytes, 0, prayload, 27, bytes.length);
-            }else {
-                System.arraycopy(solarCurrentByte, 0, prayload, 27, solarCurrentByte.length);
+                System.arraycopy(solarCurrentByte, 0, prayload, 28, solarCurrentByte.length);
             }
         }
-        if (chargingLength > 30) {//solar
-            System.arraycopy(ammeterByte, 0, prayload, 27, ammeterByte.length);
+        if (chargingLength > 30) {
+            System.arraycopy(ammeterByte, 0, prayload, 30, ammeterByte.length);
         }
         byte[] encryptedData = SmartHomeUtil.decodeKey(prayload, newKey);
 
@@ -1783,9 +1774,7 @@ public class WifiSetActivity extends BaseActivity {
                             solarCurrentByte = new byte[2];
                             System.arraycopy(prayload, 28, solarCurrentByte, 0, 2);
                             if (modeIndext == 2) {//ECO+
-                                currentByte = new byte[1];
-                                currentByte[0] = solarCurrentByte[1];//限制电流最大8A
-                                String current = MyUtil.ByteToString(currentByte);
+                                String current = MyUtil.ByteToString(solarCurrentByte);//限制电流最大8A
                                 if (!bean.isExpanded()) {
                                     mAdapter.expand(36, false);
                                     bean.getSubItem(0).setValue(current);
@@ -1796,7 +1785,7 @@ public class WifiSetActivity extends BaseActivity {
                     if (len > 30) {
                         ammeterByte = new byte[12];
                         System.arraycopy(prayload, 30, ammeterByte, 0, 12);
-                        String ammeterAdd = MyUtil.ByteToString(wiringByte);
+                        String ammeterAdd = MyUtil.ByteToString(ammeterByte);
                         setAdapter(37,ammeterAdd);
                     }
                     mAdapter.notifyDataSetChanged();
@@ -2198,11 +2187,7 @@ public class WifiSetActivity extends BaseActivity {
                 setAdapter(36, tx);
                 WifiSetBean bean = (WifiSetBean) mAdapter.getData().get(36);
                 if (options1 == 2) {//ECO+
-                    currentByte = new byte[1];
-                    if (solarCurrentByte!=null){
-                        currentByte[0] = solarCurrentByte[1];//限制电流最大8A
-                    }
-                    String current = MyUtil.ByteToString(currentByte);
+                    String current = MyUtil.ByteToString(solarCurrentByte);
                     if (!bean.isExpanded()) {
                         mAdapter.expand(36, false);
                         bean.getSubItem(0).setValue(current);
