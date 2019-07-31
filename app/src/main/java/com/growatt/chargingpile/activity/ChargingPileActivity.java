@@ -1461,7 +1461,7 @@ public class ChargingPileActivity extends BaseActivity {
         if (solarMode == 2) {
             tvLimitPower.setVisibility(View.VISIBLE);
             float solarLimitPower = mCurrentPile.getG_SolarLimitPower();
-            String mSolarLimitPower = getString(R.string.m光伏充电限制) + ":" + solarLimitPower + "kW";
+            String mSolarLimitPower = getString(R.string.m电流限制) + ":" + solarLimitPower + "A";
             tvLimitPower.setText(mSolarLimitPower);
         } else tvLimitPower.setVisibility(View.GONE);
         if (solar == 1) {

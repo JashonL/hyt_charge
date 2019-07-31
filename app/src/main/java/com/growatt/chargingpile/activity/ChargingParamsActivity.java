@@ -106,6 +106,7 @@ public class ChargingParamsActivity extends BaseActivity {
     private PileSetBean pileSetBean;
     private String endTime;
     private String startTime;
+    private boolean isEditInfo = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,6 +157,9 @@ public class ChargingParamsActivity extends BaseActivity {
                         break;
                     case 3:
                         inputEdit("site", value);
+                        break;
+                    case 4:
+                        setRate();
                         break;
                     case 5:
                         setCapacityUnit();
@@ -211,15 +215,19 @@ public class ChargingParamsActivity extends BaseActivity {
 
                 }
             } else if (itemType == ParamsSetAdapter.PARAM_ITEM_RATE) {//设置费率
-                Intent intent1 = new Intent(this, RateSetActivity.class);
-                intent1.putExtra("sn", chargingId);
-                intent1.putExtra("symbol", unitSymbol);
-                intent1.putParcelableArrayListExtra("rate", (ArrayList<? extends Parcelable>) priceConfBeanList);
-                jumpTo(intent1, false);
+                setRate();
             } else if (itemType == ParamsSetAdapter.PARAM_ITEM_SOLAR) {
                 setECOLimit();
             }
         });
+    }
+
+    private void setRate() {
+        Intent intent1 = new Intent(this, RateSetActivity.class);
+        intent1.putExtra("sn", chargingId);
+        intent1.putExtra("symbol", unitSymbol);
+        intent1.putParcelableArrayListExtra("rate", (ArrayList<? extends Parcelable>) priceConfBeanList);
+        jumpTo(intent1, false);
     }
 
 
@@ -417,6 +425,26 @@ public class ChargingParamsActivity extends BaseActivity {
 
 
     /**
+     * 保存设置
+     */
+    private void save() {
+        if (!isEditInfo) {//未更改
+            new CircleDialog.Builder()
+                    .setTitle(getString(R.string.m27温馨提示))
+                    .setWidth(0.8f)
+                    .setText(getString(R.string.m304设置未做任何更改))
+                    .setPositive(getString(R.string.m9确定), v -> {
+
+                    })
+                    .setNegative(getString(R.string.m7取消), null)
+                    .show(getSupportFragmentManager());
+        }  else {
+            requestEdit();
+        }
+
+    }
+
+    /**
      * 请求修改参数
      */
     private void requestEdit() {
@@ -431,6 +459,7 @@ public class ChargingParamsActivity extends BaseActivity {
         jsonMap.put("address", data.getAddress());
         jsonMap.put("site", data.getSite());
         jsonMap.put("unit", data.getUnit());
+        jsonMap.put("symbol", data.getSymbol());
         jsonMap.put("G_MaxCurrent", data.getG_MaxCurrent());
         jsonMap.put("G_ExternalLimitPower", data.getG_ExternalLimitPower());
         jsonMap.put("G_ChargerMode", data.getG_ChargerMode());
@@ -460,6 +489,7 @@ public class ChargingParamsActivity extends BaseActivity {
                     int code = object.getInt("code");
                     if (code == 0) {
                         isModyfi = true;
+                        isEditInfo=false;
                     }
                     toast(object.getString("data"));
                 } catch (Exception e) {
@@ -484,6 +514,7 @@ public class ChargingParamsActivity extends BaseActivity {
         } else {
             data = pileSetBean.getData();
         }
+        isEditInfo=true;
         switch (key) {
             case "name":
                 data.setName((String) value);
@@ -496,6 +527,7 @@ public class ChargingParamsActivity extends BaseActivity {
                 break;
             case "unit":
                 data.setUnit((String) value);
+                data.setSymbol(unitSymbol);
                 break;
             case "G_MaxCurrent":
                 data.setG_MaxCurrent((String) value);
@@ -732,7 +764,7 @@ public class ChargingParamsActivity extends BaseActivity {
                         float solarLimitPower = data.getG_SolarLimitPower();
                         SolarBean solarBean = new SolarBean();
                         solarBean.setType(ParamsSetAdapter.PARAM_ITEM_SOLAR);
-                        solarBean.setKey(getString(R.string.m光伏充电限制));
+                        solarBean.setKey(getString(R.string.m电流限制));
                         solarBean.setValue(String.valueOf(solarLimitPower));
                         bean.addSubItem(solarBean);
                     }
@@ -866,6 +898,7 @@ public class ChargingParamsActivity extends BaseActivity {
                     try {
                         unitKey = keys.get(position);
                         unitValue = values.get(position);
+                        unitSymbol=unitValue;
                         setBean("unit", unitKey);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -1044,11 +1077,28 @@ public class ChargingParamsActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ivLeft:
-                finish();
+                back();
                 break;
             case R.id.tvRight:
-                requestEdit();
+                save();
                 break;
         }
     }
+
+    private void back() {
+        if (isEditInfo) {//未更改
+            new CircleDialog.Builder()
+                    .setTitle(getString(R.string.m27温馨提示))
+                    .setWidth(0.8f)
+                    .setText(getString(R.string.m设置未保存))
+                    .setPositive(getString(R.string.m9确定), v -> {
+                        finish();
+                    })
+                    .setNegative(getString(R.string.m7取消), null)
+                    .show(getSupportFragmentManager());
+        }else {
+            finish();
+        }
+    }
+
 }

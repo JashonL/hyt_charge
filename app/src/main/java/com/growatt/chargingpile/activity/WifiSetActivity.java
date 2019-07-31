@@ -1390,7 +1390,7 @@ public class WifiSetActivity extends BaseActivity {
             new CircleDialog.Builder()
                     .setTitle(getString(R.string.m27温馨提示))
                     .setWidth(0.8f)
-                    .setText(getString(R.string.m304设置未做任何更改))
+                    .setText(getString(R.string.m设置未保存))
                     .setPositive(getString(R.string.m9确定), v -> {
                         sendCmdExit();
                         finish();
