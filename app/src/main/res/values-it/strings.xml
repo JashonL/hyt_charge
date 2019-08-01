@@ -361,6 +361,12 @@
     <string name="m338充满自动停止充电">Carica fino a batteria carica</string>
     <string name="m339预约">Prenotazione</string>
     <string name="m340取消预约">Cancella prenotazione</string>
+    <string name="m电表">metro</string>
+    <string name="m外部电流采样接线方式">Metodo di cablaggio di campionamento corrente esterno</string>
+    <string name="mSolar模式">Modalità solare</string>
+    <string name="m电流限制">ECO + Limite di corrente</string>
+    <string name="m电表设备地址">Indirizzo del dispositivo misuratore</string>
+    <string name="m设置未保存">Ci sono ancora modifiche non salvate, se scartarle e uscire</string>
     <!--安卓额外部分-->
 
     <!--权限问题-->
@@ -400,14 +406,7 @@
     <string name="m去WLAN页面进行设置">Go to the WLAN page to set up&gt;</string>
     <string name="m133车拒绝充电">SuspendedEV</string>
     <string name="m请先升级充电桩">Please upgrade the pile first.</string>
-    <string name="m设置未保存">settings are not saved, whether to exit</string>
-    <string name="m外部电流采样接线方式">外部电流采样接线方式</string>
     <string name="mCT">CT</string>
-    <string name="m电表">ammeter</string>
-    <string name="mSolar模式">Solar模式</string>
-    <string name="m电流限制">ECO+ Current limit</string>
-    <string name="m电表设备地址">Meter device address</string>
-    <string name="m光伏充电限制">光伏充电限制</string>
 </resources>
 
 

@@ -37,8 +37,26 @@
         android:textColor="@color/title_1"
         android:textSize="@dimen/xa24"
         android:gravity="center"
-        app:layout_constraintBottom_toTopOf="@+id/tv_cancel"
+        app:layout_constraintBottom_toTopOf="@+id/tv_switch"
         app:layout_constraintTop_toBottomOf="@+id/tv_text1" />
+
+
+    <TextView
+        android:id="@+id/tv_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_text1"
+        android:layout_marginTop="@dimen/xa5"
+        android:paddingEnd="@dimen/xa1"
+        android:paddingLeft="@dimen/xa20"
+        android:paddingRight="@dimen/xa1"
+        android:paddingStart="@dimen/xa20"
+        android:text="@string/m132切换"
+        android:textColor="@color/maincolor_1"
+        android:textSize="@dimen/xa30"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/tv_cancel"
+        app:layout_constraintTop_toBottomOf="@+id/tv_text2" />
 
     <TextView
         android:id="@+id/tv_cancel"
@@ -52,6 +70,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/tv_confirm" />
+
+
 
     <TextView
         android:id="@+id/tv_confirm"

@@ -364,11 +364,17 @@
     <string name="m338充满自动停止充电">Charge until battery full</string>
     <string name="m339预约">reservation</string>
     <string name="m340取消预约">cancel reservation</string>
+    <string name="m电表">Meter</string>
+    <string name="m外部电流采样接线方式">External current sampling wiring method</string>
+    <string name="mSolar模式">Solar mode</string>
+    <string name="m电流限制">ECO+ Current limit</string>
+    <string name="m电表设备地址">Meter device address</string>
+    <string name="m设置未保存">There are still changes not saved, whether to discard the changes and exit</string>
     <!--安卓额外部分-->
 
     <!--权限问题-->
     <string name="m权限获取某权限说明">Requested %1$s Permission</string>
-    <string name="m权限请求">Requested Permission</string>
+    <string name="m权限请求">Permission required</string>
     <string name="m权限请求步骤">%1$s permission are not turned on, do you manually set:\n\n1.Click to enter the settings interface;\n2.Click on permissions;\n3.Open %2$s permissions.</string>
 
     <!--    //相机和存储-->
@@ -403,14 +409,7 @@
     <string name="m去WLAN页面进行设置">Go to the WLAN page to set up&gt;</string>
     <string name="m133车拒绝充电">SuspendedEV</string>
     <string name="m请先升级充电桩">Please upgrade the pile first.</string>
-    <string name="m设置未保存">settings are not saved, whether to exit</string>
-    <string name="m外部电流采样接线方式">外部电流采样接线方式</string>
     <string name="mCT">CT</string>
-    <string name="m电表">ammeter</string>
-    <string name="mSolar模式">Solar模式</string>
-    <string name="m电流限制">ECO+ Current limit</string>
-    <string name="m电表设备地址">Meter device address</string>
-    <string name="m光伏充电限制">光伏充电限制</string>
 </resources>
 
 

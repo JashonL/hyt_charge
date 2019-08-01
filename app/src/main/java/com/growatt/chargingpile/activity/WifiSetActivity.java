@@ -464,7 +464,7 @@ public class WifiSetActivity extends BaseActivity {
                 tips = getString(R.string.m291设定值不能小于);
                 break;
             case 37:
-                tips = "1~12";
+//                tips = "1~12";
                 break;
             default:
                 break;
@@ -1315,7 +1315,7 @@ public class WifiSetActivity extends BaseActivity {
             }
         }
 
-        if (chargingLength > 30) {//外部电流接线方式
+        if (chargingLength > 30) {//电表地址
             if (ammeterByte == null) {
                 T.make(R.string.m244设置失败, this);
                 return;

@@ -41,6 +41,7 @@ import com.growatt.chargingpile.adapter.ReservaCharingAdapter;
 import com.growatt.chargingpile.application.MyApplication;
 import com.growatt.chargingpile.bean.ChargingBean;
 import com.growatt.chargingpile.bean.GunBean;
+import com.growatt.chargingpile.bean.PileSetBean;
 import com.growatt.chargingpile.bean.ReservationBean;
 import com.growatt.chargingpile.connutil.PostUtil;
 import com.growatt.chargingpile.util.AlertPickDialog;
@@ -750,7 +751,8 @@ public class ChargingPileActivity extends BaseActivity {
             tvGun.setText(getString(R.string.m115双枪));
         }
         //是否限制了功率
-        int solar = mCurrentPile.getSolar();
+//        int solar = mCurrentPile.getSolar();
+        int solar = mCurrentPile.getG_SolarMode();
         initSolarUi(solar);
         //根据选中项刷新充电桩的充电枪,默认刷新A枪
         Integer gunId = gunIds.get(mCurrentPile.getChargeId());
@@ -1443,7 +1445,7 @@ public class ChargingPileActivity extends BaseActivity {
     }
 
     /**
-     * 设置限制功率弹框
+     * 快捷设置Solar模式  0 FAST 1 ECO 2 ECO+
      */
     private void setPowerLimit() {
         //弹出时停止刷新
@@ -1451,29 +1453,53 @@ public class ChargingPileActivity extends BaseActivity {
         View view = LayoutInflater.from(ChargingPileActivity.this).inflate(R.layout.popuwindow_power_limit, null);
         TextView tvSolarMode = view.findViewById(R.id.tv_text1);
         TextView tvLimitPower = view.findViewById(R.id.tv_text2);
+        TextView tvSwitch = view.findViewById(R.id.tv_switch);
         TextView tvConfirm = view.findViewById(R.id.tv_confirm);
         TextView tvCancel = view.findViewById(R.id.tv_cancel);
-        int solar = mCurrentPile.getSolar();
         int solarMode = mCurrentPile.getG_SolarMode();
-        if (solarMode > 2 || solarMode < 0) solarMode = 0;
+//        if (solarMode > 2 || solarMode < 0) solarMode = 0;
         String mSolarMode = getString(R.string.mSolar模式) + ":" + solarArrray[solarMode];
         tvSolarMode.setText(mSolarMode);
-        if (solarMode == 2) {
-            tvLimitPower.setVisibility(View.VISIBLE);
-            float solarLimitPower = mCurrentPile.getG_SolarLimitPower();
-            String mSolarLimitPower = getString(R.string.m电流限制) + ":" + solarLimitPower + "A";
-            tvLimitPower.setText(mSolarLimitPower);
-        } else tvLimitPower.setVisibility(View.GONE);
-        if (solar == 1) {
+        String switchText = "";
+        if (solarMode == 0) {
+            switchText = "";
+            tvLimitPower.setVisibility(View.GONE);
+            tvConfirm.setText(R.string.m183开启);
+        } else if (solarMode == 1) {
+            switchText = getString(R.string.m132切换) + ":" + solarArrray[2];
+            tvLimitPower.setVisibility(View.GONE);
             tvConfirm.setText(R.string.m184关闭);
         } else {
-            tvConfirm.setText(R.string.m183开启);
+            switchText = getString(R.string.m132切换) + ":" + solarArrray[1];
+            tvLimitPower.setVisibility(View.VISIBLE);
+            float solarLimitPower = mCurrentPile.getG_SolarLimitPower();
+            String mSolarLimitPower = getString(R.string.m电流限制) + ":" + solarLimitPower + "kWh";
+            tvLimitPower.setText(mSolarLimitPower);
+            tvConfirm.setText(R.string.m184关闭);
         }
+        tvSwitch.setText(switchText);
         int width = getResources().getDimensionPixelSize(R.dimen.xa450);
         int height = getResources().getDimensionPixelSize(R.dimen.xa230);
         PopupWindow pwPowerTips = new PopupWindow(view, width, height, true);
         tvConfirm.setOnClickListener(v -> {
-            requestLimit();
+            PileSetBean pileSetBean = new PileSetBean();
+            PileSetBean.DataBean dataBean = new PileSetBean.DataBean();
+            if (solarMode == 0) {
+                dataBean.setG_SolarMode(1);
+            } else {
+                dataBean.setG_SolarMode(0);
+            }
+            pileSetBean.setData(dataBean);
+            requestLimit(pileSetBean);
+            pwPowerTips.dismiss();
+        });
+
+        tvSwitch.setOnClickListener(v -> {
+            PileSetBean pileSetBean = new PileSetBean();
+            PileSetBean.DataBean dataBean = new PileSetBean.DataBean();
+            dataBean.setG_SolarMode(2);
+            pileSetBean.setData(dataBean);
+            requestLimit(pileSetBean);
             pwPowerTips.dismiss();
         });
         tvCancel.setOnClickListener(v -> pwPowerTips.dismiss());
@@ -1498,22 +1524,18 @@ public class ChargingPileActivity extends BaseActivity {
     /**
      * 向后台请求限制充电功率
      */
-    private void requestLimit() {
+
+    private void requestLimit(PileSetBean pileSetBean) {
         Mydialog.Show(this);
-        Map<String, Object> jsonMap = new HashMap<String, Object>();
-        jsonMap.put("chargeId", mCurrentPile.getChargeId());
-        jsonMap.put("userId", Cons.userBean.getAccountName());
-        int solar = mCurrentPile.getSolar();
-        int salarValue;
-        if (solar == 1) {
-            salarValue = 0;
-        } else {
-            salarValue = 1;
-        }
-        jsonMap.put("solar", salarValue);
-        jsonMap.put("lan", getLanguage());
+        if (pileSetBean == null) return;
+        PileSetBean.DataBean data = pileSetBean.getData();
+        Map<String, Object> jsonMap = new HashMap<>();
+        jsonMap.put("chargeId", mCurrentPile.getChargeId());//测试id
+        jsonMap.put("userId", Cons.userBean.getAccountName());//测试id
+        jsonMap.put("lan", getLanguage());//测试id
+        jsonMap.put("G_SolarMode", data.getG_SolarMode());
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
-        PostUtil.postJson(SmartHomeUrlUtil.postRequestSetSolar(), json, new PostUtil.postListener() {
+        PostUtil.postJson(SmartHomeUrlUtil.postSetChargingParams(), json, new PostUtil.postListener() {
             @Override
             public void Params(Map<String, String> params) {
 
@@ -1525,8 +1547,8 @@ public class ChargingPileActivity extends BaseActivity {
                     JSONObject object = new JSONObject(json);
                     int code = object.getInt("code");
                     if (code == 0) {
-                        initSolarUi(salarValue);
-                        mCurrentPile.setSolar(salarValue);
+                        isTimeRefresh = false;
+                        refreshAll();
                     }
                     String data = object.getString("data");
                     toast(data);
@@ -1535,6 +1557,7 @@ public class ChargingPileActivity extends BaseActivity {
                 }
                 timeHandler.removeMessages(1);
                 timeHandler.sendEmptyMessageDelayed(1, 1000);
+
             }
 
             @Override
@@ -1543,6 +1566,7 @@ public class ChargingPileActivity extends BaseActivity {
             }
         });
     }
+
 
     private void addChargingPile() {
         if (SmartHomeUtil.isFlagUser()) {//浏览账户
@@ -2270,14 +2294,14 @@ public class ChargingPileActivity extends BaseActivity {
      * 设置限制功率ui
      */
     private void initSolarUi(int solar) {
-        if (solar == 1) {
-            mRlSolar.setBackgroundResource(R.drawable.selector_circle_btn_green_gradient);
-            mIvLimit.setImageResource(R.drawable.limit_power_off);
-            mTvSolar.setTextColor(ContextCompat.getColor(this, R.color.headerView));
-        } else {
+        if (solar == 0) {
             mRlSolar.setBackgroundResource(R.drawable.selector_circle_btn_white);
             mIvLimit.setImageResource(R.drawable.limit_power_on);
             mTvSolar.setTextColor(ContextCompat.getColor(this, R.color.maincolor_1));
+        } else {
+            mRlSolar.setBackgroundResource(R.drawable.selector_circle_btn_green_gradient);
+            mIvLimit.setImageResource(R.drawable.limit_power_off);
+            mTvSolar.setTextColor(ContextCompat.getColor(this, R.color.headerView));
         }
         mTvSolar.setText(R.string.solar);
 
