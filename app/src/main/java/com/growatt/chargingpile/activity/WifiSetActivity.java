@@ -852,7 +852,7 @@ public class WifiSetActivity extends BaseActivity {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
                             }
-                            if (bytes.length > 12) {
+                            if (bytes.length > 3) {
                                 T.make(getString(R.string.m286输入值超出规定长度), this);
                                 return;
                             }

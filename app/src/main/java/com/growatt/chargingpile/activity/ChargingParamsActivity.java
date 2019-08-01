@@ -153,7 +153,7 @@ public class ChargingParamsActivity extends BaseActivity {
                         inputEdit("name", value);
                         break;
                     case 2:
-                        inputEdit("address", value);
+                        inputEdit("country", value);
                         break;
                     case 3:
                         inputEdit("site", value);
@@ -456,7 +456,7 @@ public class ChargingParamsActivity extends BaseActivity {
         jsonMap.put("userId", Cons.userBean.getAccountName());//测试id
         jsonMap.put("lan", getLanguage());//测试id
         jsonMap.put("name", data.getName());
-        jsonMap.put("address", data.getAddress());
+        jsonMap.put("country", data.getCountry());
         jsonMap.put("site", data.getSite());
         jsonMap.put("unit", data.getUnit());
         jsonMap.put("symbol", data.getSymbol());
@@ -519,8 +519,8 @@ public class ChargingParamsActivity extends BaseActivity {
             case "name":
                 data.setName((String) value);
                 break;
-            case "address":
-                data.setAddress((String) value);
+            case "country":
+                data.setCountry((String) value);
                 break;
             case "site":
                 data.setSite((String) value);
@@ -654,7 +654,7 @@ public class ChargingParamsActivity extends BaseActivity {
                 case 2:
                     bean.setType(ParamsSetAdapter.PARAM_ITEM);
                     bean.setKey(keys[i]);
-                    bean.setValue(data.getAddress());
+                    bean.setValue(data.getCountry());
                     break;
                 case 3:
                     bean.setType(ParamsSetAdapter.PARAM_ITEM);
