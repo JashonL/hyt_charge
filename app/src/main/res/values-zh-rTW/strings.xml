@@ -389,6 +389,7 @@
     <string name="m电流限制">ECO+ 电流限制</string>
     <string name="m电表设备地址">电表设备地址</string>
     <string name="m设置未保存">设置未保存，是否退出</string>
+    <string name="m输入字符长度不能超出">输入字符数量不能超过</string>
     <!--安卓额外部分-->
     <!--权限问题-->
     <string name="m权限获取某权限说明">请求获取%1$s权限</string>

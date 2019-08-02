@@ -2012,7 +2012,7 @@ public class ChargingPileActivity extends BaseActivity {
                 presetType = 2;
                 isReservation = false;
 
-                setEleUi(true, electric + "kwh");
+                setEleUi(true, electric + "kWh");
                 startTime = null;
                 //初始化预约充电相关控件
                 setReserveUi(getString(R.string.m204开始时间), getString(R.string.m184关闭), R.drawable.checkbox_off, "--:--", true, false);

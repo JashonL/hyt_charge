@@ -370,6 +370,7 @@
     <string name="m电流限制">ECO+ Current limit</string>
     <string name="m电表设备地址">Meter device address</string>
     <string name="m设置未保存">There are still changes not saved, whether to discard the changes and exit</string>
+    <string name="m输入字符长度不能超出">The number of input characters cannot exceed </string>
     <!--安卓额外部分-->
 
     <!--权限问题-->

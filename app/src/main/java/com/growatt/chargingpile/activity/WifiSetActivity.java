@@ -464,7 +464,7 @@ public class WifiSetActivity extends BaseActivity {
                 tips = getString(R.string.m291设定值不能小于);
                 break;
             case 37:
-//                tips = "1~12";
+                tips=getString(R.string.m输入字符长度不能超出)+ " "+3;
                 break;
             default:
                 break;
@@ -853,7 +853,7 @@ public class WifiSetActivity extends BaseActivity {
                                 return;
                             }
                             if (bytes.length > 3) {
-                                T.make(getString(R.string.m286输入值超出规定长度), this);
+                                T.make(getString(R.string.m286输入值超出规定长度)+" "+3, this);
                                 return;
                             }
                             ammeterByte = new byte[12];

@@ -63,8 +63,6 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
     private String chargingId;
     private Unbinder bind;
     private String symbol;
-    private String endTime;
-    private String startTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -208,7 +206,6 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
                 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", getResources().getConfiguration().locale);
                 String time = sdf.format(date);
                 if (isEnd) {
-                    endTime = time;
                  /*   String[] start = startTime.split(":");
                     String[] end = endTime.split(":");
                     int statValue = Integer.parseInt(start[0]) * 60 + Integer.parseInt(start[1]);
@@ -223,15 +220,14 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
                     }
                     String rateTime = startTime + "-" + endTime;*/
                     if (!TextUtils.isEmpty(bean.getStartTime())){
-                        String rateTime = startTime + "-" + endTime;
+                        String rateTime = bean.getStartTime() + "-" + time;
                         mAdapter.getData().get(pos).setTimeX(rateTime);
                     }
                     bean.setEndTime(time);
                     mAdapter.notifyItemChanged(pos);
                 } else {
-                    startTime = time;
                     if (!TextUtils.isEmpty(bean.getEndTime())){
-                        String rateTime = startTime + "-" + endTime;
+                        String rateTime = time + "-" + bean.getEndTime();
                         mAdapter.getData().get(pos).setTimeX(rateTime);
                     }
                     mAdapter.getData().get(pos).setStartTime(time);

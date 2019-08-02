@@ -367,6 +367,7 @@
     <string name="m电流限制">ECO + Limite di corrente</string>
     <string name="m电表设备地址">Indirizzo del dispositivo misuratore</string>
     <string name="m设置未保存">Ci sono ancora modifiche non salvate, se scartarle e uscire</string>
+    <string name="m输入字符长度不能超出">Il numero di caratteri immessi non può superare</string>
     <!--安卓额外部分-->
 
     <!--权限问题-->
