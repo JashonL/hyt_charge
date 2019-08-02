@@ -83,8 +83,8 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
             ChargingBean.DataBean.PriceConfBean bean = priceConfBeanList.get(i);
             bean.setSymbol(symbol);
             String timeX = bean.getTimeX();
-            if (!TextUtils.isEmpty(timeX)){
-                if (timeX.contains("-")){
+            if (!TextUtils.isEmpty(timeX)) {
+                if (timeX.contains("-")) {
                     String[] split = timeX.split("-");
                     if (split.length >= 2) {
                      /*   startTime = split[0];
@@ -136,16 +136,16 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
                         String[] end = endTime.split(":");
                         int statValue = Integer.parseInt(start[0]) * 60 + Integer.parseInt(start[1]);
                         int endValue = Integer.parseInt(end[0]) * 60 + Integer.parseInt(end[1]);
-                        if (isTimeCoincide(statValue,endValue,i)) {
+                        if (isTimeCoincide(statValue, endValue, i)) {
                             toast(R.string.m333时间段不能重叠);
                             return;
                         }
-                        if (statValue==endValue){
+                        if (statValue == endValue) {
                             toast(R.string.m332时间不能相同);
                             return;
                         }
                     }
-                    if (!isTimeCoveredOneDay()){
+                    if (!isTimeCoveredOneDay()) {
                         toast(R.string.m331时间必须包含24小时);
                         return;
                     }
@@ -172,6 +172,10 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
         switch (view.getId()) {
             case R.id.fl_delete:
+                if (mAdapter.getData().size() <= 1) {
+                    toast(R.string.m329最少要有1条);
+                    return;
+                }
                 mAdapter.remove(position);
                 break;
             case R.id.start:
@@ -219,14 +223,14 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
                         return;
                     }
                     String rateTime = startTime + "-" + endTime;*/
-                    if (!TextUtils.isEmpty(bean.getStartTime())){
+                    if (!TextUtils.isEmpty(bean.getStartTime())) {
                         String rateTime = bean.getStartTime() + "-" + time;
                         mAdapter.getData().get(pos).setTimeX(rateTime);
                     }
                     bean.setEndTime(time);
                     mAdapter.notifyItemChanged(pos);
                 } else {
-                    if (!TextUtils.isEmpty(bean.getEndTime())){
+                    if (!TextUtils.isEmpty(bean.getEndTime())) {
                         String rateTime = time + "-" + bean.getEndTime();
                         mAdapter.getData().get(pos).setTimeX(rateTime);
                     }

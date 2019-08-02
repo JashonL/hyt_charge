@@ -961,7 +961,7 @@ public class ChargingPileActivity extends BaseActivity {
                     setNormalCharging(data);
                 } else {
                     String money = MathUtil.roundDouble2String(data.getCost(), 2);
-                    String energy = MathUtil.roundDouble2String(data.getEnergy(), 2) + "kwh";
+                    String energy = MathUtil.roundDouble2String(data.getEnergy(), 2) + "kWh";
                     int timeCharging = data.getCtime();
                     int hourCharging = timeCharging / 60;
                     int minCharging = timeCharging % 60;
@@ -1317,8 +1317,6 @@ public class ChargingPileActivity extends BaseActivity {
             }
 
         } else {
-            isReservation = false;
-            presetType = 0;
             initReserVaUi();
         }
     }
@@ -2331,7 +2329,7 @@ public class ChargingPileActivity extends BaseActivity {
         ivPpTime.setImageResource(R.drawable.charging_prepare_not_selected);
         s = "-h-min";
         tvPpTime.setText(s);
-
+        presetType=0;
     }
 
     /**
@@ -2386,6 +2384,7 @@ public class ChargingPileActivity extends BaseActivity {
         cbEveryday.setChecked(false);
         tvEveryDay.setTextColor(ContextCompat.getColor(this, R.color.title_2));
         MyUtil.showAllView(tvEveryDay, cbEveryday);
+        isReservation=false;
     }
 
 
@@ -2394,6 +2393,8 @@ public class ChargingPileActivity extends BaseActivity {
      */
 
     private void initReserVaUi() {
+        isReservation = false;
+        presetType = 0;
         llPresetLayout.setVisibility(View.GONE);
         tvTips.setVisibility(View.VISIBLE);
         rvTimeReserva.setVisibility(View.GONE);
