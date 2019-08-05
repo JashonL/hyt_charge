@@ -1283,7 +1283,7 @@ public class ChargingPileActivity extends BaseActivity {
                         String typeValue2 = getString(R.string.m335预设充电) + getString(R.string.m202时长);
                         tvReserValue.setText(typeValue2);
                         tvReserType.setText(R.string.m336充电方案);
-                        String reserType2 = getString(R.string.m196预设) + getString(R.string.m202时长);
+                        String reserType2 = getString(R.string.m337预计) + getString(R.string.m200金额);
                         tvReserTypeText.setText(reserType2);
                         ivReserChargedType.setImageResource(R.drawable.charging_money);
                         reservaAdapter.replaceData(reserveNow);
