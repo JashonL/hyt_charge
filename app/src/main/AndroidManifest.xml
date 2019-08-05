@@ -56,6 +56,7 @@
         tools:replace="android:supportsRtl">
         <activity
             android:name=".activity.ChargingPileActivity"
+            android:launchMode="singleTask"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
         <activity

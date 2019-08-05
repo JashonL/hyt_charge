@@ -210,19 +210,12 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
                 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", getResources().getConfiguration().locale);
                 String time = sdf.format(date);
                 if (isEnd) {
-                 /*   String[] start = startTime.split(":");
-                    String[] end = endTime.split(":");
-                    int statValue = Integer.parseInt(start[0]) * 60 + Integer.parseInt(start[1]);
-                    int endValue = Integer.parseInt(end[0]) * 60 + Integer.parseInt(end[1]);
-                    if (isTimeCoincide(statValue, endValue, pos)) {
-                        toast(R.string.m333时间段不能重叠);
-                        return;
+                    if (!TextUtils.isEmpty(bean.getStartTime())) {
+                        if (isStartMore(bean.getStartTime(), time)) {
+                            toast(R.string.m285开始时间不能大于结束时间);
+                            return;
+                        }
                     }
-                    if (statValue == endValue) {
-                        toast(R.string.m332时间不能相同);
-                        return;
-                    }
-                    String rateTime = startTime + "-" + endTime;*/
                     if (!TextUtils.isEmpty(bean.getStartTime())) {
                         String rateTime = bean.getStartTime() + "-" + time;
                         mAdapter.getData().get(pos).setTimeX(rateTime);
@@ -230,6 +223,10 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
                     bean.setEndTime(time);
                     mAdapter.notifyItemChanged(pos);
                 } else {
+                    if (!TextUtils.isEmpty(bean.getEndTime())) {
+                        if (isStartMore(time, bean.getEndTime())) toast(R.string.m285开始时间不能大于结束时间);
+                        return;
+                    }
                     if (!TextUtils.isEmpty(bean.getEndTime())) {
                         String rateTime = time + "-" + bean.getEndTime();
                         mAdapter.getData().get(pos).setTimeX(rateTime);
@@ -403,4 +400,13 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
                 })
                 .show(this.getSupportFragmentManager());
     }
+
+    private boolean isStartMore(String startTime, String endTime) {
+        String[] start = startTime.split(":");
+        String[] end = endTime.split(":");
+        int statValue = Integer.parseInt(start[0]) * 60 + Integer.parseInt(start[1]);
+        int endValue = Integer.parseInt(end[0]) * 60 + Integer.parseInt(end[1]);
+        return statValue > endValue;
+    }
+
 }
