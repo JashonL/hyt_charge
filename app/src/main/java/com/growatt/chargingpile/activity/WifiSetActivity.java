@@ -2170,7 +2170,7 @@ public class WifiSetActivity extends BaseActivity {
 
     /*solar模式*/
     private void setSolarMode() {
-        List<String> list = Arrays.asList(solarArrray);
+        List<String> list = Arrays.asList("FAST", "ECO");
         OptionsPickerView<String> pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
@@ -2186,7 +2186,7 @@ public class WifiSetActivity extends BaseActivity {
 //                setInfo();
                 setAdapter(36, tx);
                 WifiSetBean bean = (WifiSetBean) mAdapter.getData().get(36);
-                if (options1 == 2) {//ECO+
+               /* if (options1 == 2) {//ECO+
                     String current = MyUtil.ByteToString(solarCurrentByte);
                     if (!bean.isExpanded()) {
                         mAdapter.expand(36, false);
@@ -2196,6 +2196,9 @@ public class WifiSetActivity extends BaseActivity {
                     if (bean.isExpanded()) {
                         mAdapter.collapse(36, false);
                     }
+                }*/
+                if (bean.isExpanded()) {
+                    mAdapter.collapse(36, false);
                 }
                 mAdapter.notifyDataSetChanged();
                 isEditCharging = true;

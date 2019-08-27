@@ -990,7 +990,7 @@ public class ChargingParamsActivity extends BaseActivity {
 
     /*solar模式*/
     private void setSolarMode() {
-        List<String> list = Arrays.asList(solarArrray);
+        List<String> list = Arrays.asList("FAST", "ECO");
         OptionsPickerView<String> pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {

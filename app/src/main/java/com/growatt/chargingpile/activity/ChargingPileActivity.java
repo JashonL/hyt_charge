@@ -1461,15 +1461,18 @@ public class ChargingPileActivity extends BaseActivity {
         String switchText = "";
         if (solarMode == 0) {
             switchText = "";
+            tvSwitch.setVisibility(View.GONE);
             tvLimitPower.setVisibility(View.GONE);
             tvConfirm.setText(R.string.m183开启);
         } else if (solarMode == 1) {
             switchText = getString(R.string.m132切换) + ":" + solarArrray[2];
             tvLimitPower.setVisibility(View.GONE);
+            tvSwitch.setVisibility(View.GONE);
             tvConfirm.setText(R.string.m184关闭);
         } else {
             switchText = getString(R.string.m132切换) + ":" + solarArrray[1];
             tvLimitPower.setVisibility(View.VISIBLE);
+            tvSwitch.setVisibility(View.VISIBLE);
             float solarLimitPower = mCurrentPile.getG_SolarLimitPower();
             String mSolarLimitPower = getString(R.string.m电流限制) + ":" + solarLimitPower + "kWh";
             tvLimitPower.setText(mSolarLimitPower);
@@ -1495,7 +1498,11 @@ public class ChargingPileActivity extends BaseActivity {
         tvSwitch.setOnClickListener(v -> {
             PileSetBean pileSetBean = new PileSetBean();
             PileSetBean.DataBean dataBean = new PileSetBean.DataBean();
-            dataBean.setG_SolarMode(2);
+            if (solarMode == 2) {
+                dataBean.setG_SolarMode(1);
+            } else {
+                dataBean.setG_SolarMode(0);
+            }
             pileSetBean.setData(dataBean);
             requestLimit(pileSetBean);
             pwPowerTips.dismiss();
