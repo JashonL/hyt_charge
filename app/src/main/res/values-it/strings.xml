@@ -371,42 +371,42 @@
     <!--安卓额外部分-->
 
     <!--权限问题-->
-    <string name="m权限获取某权限说明">Requested %1$s Permission</string>
-    <string name="m权限请求">Requested Permission</string>
-    <string name="m权限请求步骤">%1$s permission are not turned on, do you manually set:\n\n1.Click to enter the settings interface;\n2.Click on permissions;\n3.Open %2$s permissions.</string>
+    <string name="m权限获取某权限说明">Autorizzazione %1$s richiesto</string>
+    <string name="m权限请求">Autorizzazione richiesta</string>
+    <string name="m权限请求步骤">%1$s le autorizzazioni non sono attivate, impostate manualmente:\n\n1.Fare clic per accedere all\'interfaccia delle impostazioni;\n2.Click on permissions;\n3.Apri %2$s autorizzazioni.</string>
 
     <!--    //相机和存储-->
-    <string name="m相机">Camera or storage</string>
-    <string name="m存储">Storage</string>
-    <string name="m相机单">Camera</string>
-    <string name="m位置权限">Location related</string>
+    <string name="m相机">Fotocamera o archiviazione</string>
+    <string name="m存储">Conservazione</string>
+    <string name="m相机单">telecamera</string>
+    <string name="m位置权限">Localizzazione</string>
     <string name="m修改成功">Changed successfully</string>
-    <string name="m修改失败">Modification fails</string>
-    <string name="m确认退出">Click to signout</string>
-    <string name="m请选择">Please select</string>
-    <string name="m没有SD卡">No SDCard!</string>
-    <string name="m国家区号">Country code</string>
-    <string name="m成功">Success</string>
-    <string name="m失败">Failed</string>
+    <string name="m修改失败">Modificato con successo</string>
+    <string name="m确认退出">Fai clic per confermare</string>
+    <string name="m请选择">Per favore selezionare</string>
+    <string name="m没有SD卡">Nessuna SDCard!</string>
+    <string name="m国家区号">Prefisso internazionale</string>
+    <string name="m成功">Successo</string>
+    <string name="m失败">mancato</string>
     <string name="m秒">s</string>
-    <string name="m网络错误">Network error</string>
-    <string name="m网络超时">Networking Timeout</string>
-    <string name="m服务器连接失败">Failed to connect to server</string>
-    <string name="m请开启网络">Please open your network</string>
-    <string name="m账号未注册">Account not registered</string>
-    <string name="m预约时间段">Appointment period</string>
-    <string name="m请选择正确的时间段">Please select the correct time period</string>
-    <string name="m输入金额不正确">The amount you entered is incorrect</string>
-    <string name="m输入电量不正确">The battery you entered is incorrect</string>
-    <string name="m开始时间错误">Wrong appointment time</string>
-    <string name="m体验馆">demo</string>
+    <string name="m网络错误">Errore di rete</string>
+    <string name="m网络超时">Timeout di rete</string>
+    <string name="m服务器连接失败">impossibile connettersi al server</string>
+    <string name="m请开启网络">Si prega di aprire la rete</string>
+    <string name="m账号未注册">Account non registrato</string>
+    <string name="m预约时间段">Periodo dell\'appuntamento</string>
+    <string name="m请选择正确的时间段">Seleziona il periodo di tempo corretto</string>
+    <string name="m输入金额不正确">L\'importo inserito non è corretto</string>
+    <string name="m输入电量不正确">La batteria inserita non è corretta</string>
+    <string name="m开始时间错误">Orario dell\'appuntamento sbagliato</string>
+    <string name="m体验馆">dimostrazione</string>
     <string name="solar">Solar</string>
     <string name="m限制时间段">8:00am~8:00pm</string>
     <string name="m位置">Location</string>
-    <string name="m368请重试或检查网络连接">Please try again or check network connection</string>
-    <string name="m去WLAN页面进行设置">Go to the WLAN page to set up&gt;</string>
+    <string name="m368请重试或检查网络连接">Riprova o controlla la connessione di rete</string>
+    <string name="m去WLAN页面进行设置">Vai alla pagina WLAN per configurare&gt;</string>
     <string name="m133车拒绝充电">SuspendedEV</string>
-    <string name="m请先升级充电桩">Please upgrade the pile first.</string>
+    <string name="m请先升级充电桩">Si prega di aggiornare la pila prima.</string>
     <string name="mCT">CT</string>
 </resources>
 
