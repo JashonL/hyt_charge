@@ -103,7 +103,8 @@ public class ChargingParamsActivity extends BaseActivity {
     public String[] wiringArray;
     public String[] solarArrray;
 
-    private PileSetBean pileSetBean;
+    private PileSetBean initPileSetBean;
+    private Map<String,Object> setPileParamMap;
     private String endTime;
     private String startTime;
     private boolean isEditInfo = false;
@@ -233,15 +234,8 @@ public class ChargingParamsActivity extends BaseActivity {
 
     private void setECOLimit() {
         String tips = "";
-        PileSetBean.DataBean data;
-        if (pileSetBean == null) {
-            pileSetBean = new PileSetBean();
-            data = new PileSetBean.DataBean();
-            pileSetBean.setData(data);
-        } else {
-            data = pileSetBean.getData();
-        }
-        float solarLimitPower = data.getG_SolarLimitPower();
+        PileSetBean.DataBean initData = initPileSetBean.getData();
+        float solarLimitPower = initData.getG_SolarLimitPower();
         new CircleDialog.Builder()
                 .setWidth(0.8f)
                 .setTitle(this.getString(R.string.m27温馨提示))
@@ -356,6 +350,7 @@ public class ChargingParamsActivity extends BaseActivity {
         solarArrray = new String[]{"FAST", "ECO", "ECO+"};
         unitKey = moneyTypes[0];
         unitValue = moneySymbols[0];
+        setPileParamMap =new HashMap<>();
     }
 
     private void initRecyclerView() {
@@ -439,7 +434,15 @@ public class ChargingParamsActivity extends BaseActivity {
                     .setNegative(getString(R.string.m7取消), null)
                     .show(getSupportFragmentManager());
         } else {
-            requestEdit();
+            new  CircleDialog.Builder()
+                    .setTitle(getString(R.string.m27温馨提示))
+                    .setWidth(0.8f)
+                    .setText(getString(R.string.m304设置未做任何更改))
+                    .setPositive(getString(R.string.m9确定), v -> {
+                        requestEdit();
+                    })
+                    .setNegative(getString(R.string.m7取消), null)
+                    .show(getSupportFragmentManager());
         }
 
     }
@@ -449,9 +452,11 @@ public class ChargingParamsActivity extends BaseActivity {
      */
     private void requestEdit() {
         Mydialog.Show(this);
-        if (pileSetBean == null) return;
-        PileSetBean.DataBean data = pileSetBean.getData();
-        Map<String, Object> jsonMap = new HashMap<>();
+        if (setPileParamMap == null) return;
+        setPileParamMap.put("chargeId", chargingId);//测试id
+        setPileParamMap.put("userId", Cons.userBean.getAccountName());//测试id
+        setPileParamMap.put("lan", getLanguage());//测试id
+    /*    Map<String, Object> jsonMap = new HashMap<>();
         jsonMap.put("chargeId", chargingId);//测试id
         jsonMap.put("userId", Cons.userBean.getAccountName());//测试id
         jsonMap.put("lan", getLanguage());//测试id
@@ -474,8 +479,8 @@ public class ChargingParamsActivity extends BaseActivity {
         jsonMap.put("G_SolarLimitPower", data.getG_SolarLimitPower());
         jsonMap.put("G_SolarMode", data.getG_SolarMode());
         jsonMap.put("G_PeakValleyEnable", data.getG_PeakValleyEnable());
-        jsonMap.put("G_AutoChargeTime", data.getG_AutoChargeTime());
-        String json = SmartHomeUtil.mapToJsonString(jsonMap);
+        jsonMap.put("G_AutoChargeTime", data.getG_AutoChargeTime());*/
+        String json = SmartHomeUtil.mapToJsonString(setPileParamMap);
         PostUtil.postJson(SmartHomeUrlUtil.postSetChargingParams(), json, new PostUtil.postListener() {
             @Override
             public void Params(Map<String, String> params) {
@@ -507,78 +512,73 @@ public class ChargingParamsActivity extends BaseActivity {
     }
 
     private void setBean(String key, Object value) {
-        PileSetBean.DataBean data;
-        if (pileSetBean == null) {
-            pileSetBean = new PileSetBean();
-            data = new PileSetBean.DataBean();
-            pileSetBean.setData(data);
-        } else {
-            data = pileSetBean.getData();
-        }
+        PileSetBean.DataBean initData = initPileSetBean.getData();
         isEditInfo = true;
+        setPileParamMap.put(key, value);
         switch (key) {
             case "name":
-                data.setName((String) value);
+                initData.setName((String) value);
                 break;
             case "country":
-                data.setCountry((String) value);
+                initData.setCountry((String) value);
                 break;
             case "site":
-                data.setSite((String) value);
+                initData.setSite((String) value);
                 break;
             case "unit":
-                data.setUnit((String) value);
-                data.setSymbol(unitSymbol);
+                setPileParamMap.put("symbol", unitSymbol);
+                initData.setUnit((String) value);
+                initData.setSymbol(unitSymbol);
                 break;
             case "G_MaxCurrent":
-                data.setG_MaxCurrent((String) value);
+                initData.setG_MaxCurrent((String) value);
                 break;
             case "G_ExternalLimitPower":
-                data.setG_ExternalLimitPower((String) value);
+                initData.setG_ExternalLimitPower((String) value);
                 break;
             case "G_ChargerMode":
-                data.setG_ChargerMode(String.valueOf(value));
+                initData.setG_ChargerMode(String.valueOf(value));
                 break;
             case "ip":
-                data.setIp((String) value);
+                initData.setIp((String) value);
                 break;
             case "gateway":
-                data.setGateway((String) value);
+                initData.setGateway((String) value);
                 break;
             case "mask":
-                data.setMask((String) value);
+                initData.setMask((String) value);
                 break;
             case "mac":
-                data.setMac((String) value);
+                initData.setMac((String) value);
                 break;
             case "host":
-                data.setHost((String) value);
+                initData.setHost((String) value);
                 break;
             case "dns":
-                data.setDns((String) value);
+                initData.setDns((String) value);
                 break;
             case "G_ExternalLimitPowerEnable":
-                data.setG_ExternalLimitPowerEnable((int) value);
+                initData.setG_ExternalLimitPowerEnable((int) value);
                 break;
             case "G_ExternalSamplingCurWring":
-                data.setG_ExternalSamplingCurWring((int) value);
+                initData.setG_ExternalSamplingCurWring((int) value);
                 break;
             case "G_SolarMode":
-                data.setG_SolarMode((int) value);
+                initData.setG_SolarMode((int) value);
                 EventBus.getDefault().post(new FreshListMsg());
                 break;
             case "G_SolarLimitPower":
-                data.setG_SolarLimitPower((float) value);
+                initData.setG_SolarLimitPower((float) value);
                 EventBus.getDefault().post(new FreshListMsg());
                 break;
             case "G_PeakValleyEnable":
-                data.setG_PeakValleyEnable((int) value);
+                initData.setG_PeakValleyEnable((int) value);
                 break;
             case "G_AutoChargeTime":
-                data.setG_AutoChargeTime((String) value);
+                initData.setG_AutoChargeTime((String) value);
                 break;
         }
-        refreshRv(data);
+        refreshRv(initData);
     }
 
 
@@ -603,11 +603,15 @@ public class ChargingParamsActivity extends BaseActivity {
                     JSONObject jsonObject = new JSONObject(json);
                     int code = jsonObject.getInt("code");
                     if (code == 0) {
-                        pileSetBean = new Gson().fromJson(json, PileSetBean.class);
-                        if (pileSetBean != null) {
-                            PileSetBean.DataBean data = pileSetBean.getData();
+                        initPileSetBean = new Gson().fromJson(json, PileSetBean.class);
+                        if (initPileSetBean != null) {
+                            PileSetBean.DataBean data = initPileSetBean.getData();
                             setHeadView(data);
                             refreshRv(data);
+                        } else {
+                            initPileSetBean = new PileSetBean();
+                            PileSetBean.DataBean data = new PileSetBean.DataBean();
+                            initPileSetBean.setData(data);
                         }
 
                     }
@@ -1069,14 +1073,8 @@ public class ChargingParamsActivity extends BaseActivity {
     public void aa(RefreshRateMsg msg) {
         if (msg.getPriceConfBeanList() != null) {
             priceConfBeanList = msg.getPriceConfBeanList();
-            PileSetBean.DataBean data;
-            if (pileSetBean == null) {
-                pileSetBean = new PileSetBean();
-                data = new PileSetBean.DataBean();
-                pileSetBean.setData(data);
-            } else {
-                data = pileSetBean.getData();
-            }
+            PileSetBean.DataBean data = initPileSetBean.getData();
+            ;
             refreshRv(data);
 //            refreshDate();
         }

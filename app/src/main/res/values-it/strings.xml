@@ -195,7 +195,7 @@
     <string name="m164注册新用户">Registrati</string>
     <string name="m165填写资料注册新用户">Inserisci le informazioni</string>
     <string name="m166请输入用户名车牌电话邮箱">Inserisci il Nome Utente</string>
-    <string name="m167现在正处于时段预约状态">Se è necessario iniziare immediatamente la ricarica, annullare l\'impostazione di prenotazione corrente e reimpostare l'ora!</string>
+    <string name="m167现在正处于时段预约状态">Se è necessario iniziare immediatamente la ricarica, annullare l\'impostazione di prenotazione corrente e reimpostare l\'ora!</string>
 
 
     <string name="m168搜索">Ricerca</string>
@@ -368,6 +368,11 @@
     <string name="m电表设备地址">Indirizzo del dispositivo misuratore</string>
     <string name="m设置未保存">Ci sono ancora modifiche non salvate, se scartarle e uscire</string>
     <string name="m输入字符长度不能超出">Il numero di caratteri immessi non può superare</string>
+    <string name="m电桩电子锁">电桩电子锁</string>
+    <string name="m是否解除该枪电子锁">是否解除该枪电子锁</string>
+    <string name="m已锁住">已锁住</string>
+    <string name="m已解锁">已解锁</string>
+    <string name="m解锁">解锁</string>
     <!--安卓额外部分-->
 
     <!--权限问题-->

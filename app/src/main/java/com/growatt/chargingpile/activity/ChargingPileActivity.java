@@ -135,6 +135,12 @@ public class ChargingPileActivity extends BaseActivity {
 
     TextView mTvContent;
 
+    @BindView(R.id.rl_lock)
+    RelativeLayout mRlLock;
+
+    @BindView(R.id.tv_lock)
+    TextView mTvLock;
+
 
     //选择充电桩popuwindow
     private PopupWindow popupGun;
@@ -1350,7 +1356,7 @@ public class ChargingPileActivity extends BaseActivity {
         ivChargedOther2.setImageResource(resOhter2);
         tvOtherValue2.setText(otherValue2);
         tvOtherText2.setText(otherText2);
-        if (presetValue_value > 0) {
+        if ((int)presetValue_value > 0) {
             roundProgressBar.setMax((int) presetValue_value);
         }
         roundProgressBar.setProgress(chargedValue_value);
@@ -1363,7 +1369,7 @@ public class ChargingPileActivity extends BaseActivity {
 
 
     @OnClick({R.id.ivLeft, R.id.ll_Authorization, R.id.ll_record, R.id.ll_charging,
-            R.id.rl_switch_gun, R.id.to_add_device, R.id.rl_solar, R.id.ivRight})
+            R.id.rl_switch_gun, R.id.to_add_device, R.id.rl_solar, R.id.ivRight,R.id.rl_lock})
     public void onClickListener(View view) {
         switch (view.getId()) {
             case R.id.ivLeft:
@@ -1413,6 +1419,9 @@ public class ChargingPileActivity extends BaseActivity {
                 break;
             case R.id.rl_solar:
                 setPowerLimit();
+                break;
+            case  R.id.rl_lock:
+                setLock();
                 break;
             case R.id.ivRight:
                 boolean isGuide = SharedPreferencesUnit.getInstance(this).getBoolean(Constant.WIFI_GUIDE_KEY);
@@ -1526,6 +1535,23 @@ public class ChargingPileActivity extends BaseActivity {
     }
 
 
+
+    private void setLock(){
+        timeHandler.removeMessages(1);
+        new CircleDialog.Builder().setTitle(getString(R.string.m27温馨提示))
+                .setText(getString(R.string.m是否解除该枪电子锁))
+                .setWidth(0.75f)
+                .setPositive(getString(R.string.m9确定), view -> {
+                    requestUnlock();
+                })
+                .setNegative(getString(R.string.m7取消), view -> {
+                    timeHandler.removeMessages(1);
+                    timeHandler.sendEmptyMessageDelayed(1, 1000);
+                })
+                .show(getSupportFragmentManager());
+    }
+
+
     /**
      * 向后台请求限制充电功率
      */
@@ -1555,6 +1581,49 @@ public class ChargingPileActivity extends BaseActivity {
                         isTimeRefresh = false;
                         refreshAll();
                     }
+                    String data = object.getString("data");
+                    toast(data);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                timeHandler.removeMessages(1);
+                timeHandler.sendEmptyMessageDelayed(1, 1000);
+
+            }
+
+            @Override
+            public void LoginError(String str) {
+
+            }
+        });
+    }
+
+
+
+
+    /**
+     * 向后台请求解锁
+     */
+
+    private void requestUnlock() {
+        Mydialog.Show(this);
+        Map<String, Object> jsonMap = new HashMap<>();
+        jsonMap.put("cmd", "unlock");//测试id
+        jsonMap.put("chargeId", mCurrentPile.getChargeId());//测试id
+        jsonMap.put("lan", getLanguage());//测试id
+        jsonMap.put("connectorId", mCurrentGunBean.getData().getConnectorId());
+        String json = SmartHomeUtil.mapToJsonString(jsonMap);
+        PostUtil.postJson(SmartHomeUrlUtil.postByCmd(), json, new PostUtil.postListener() {
+            @Override
+            public void Params(Map<String, String> params) {
+
+            }
+
+            @Override
+            public void success(String json) {
+                try {
+                    JSONObject object = new JSONObject(json);
+                    isTimeRefresh = false;
                     String data = object.getString("data");
                     toast(data);
                 } catch (Exception e) {

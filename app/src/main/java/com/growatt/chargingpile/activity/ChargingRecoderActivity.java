@@ -135,7 +135,7 @@ public class ChargingRecoderActivity extends BaseActivity {
                         if (recordList.size() < pageSize) {
                             isLastPage = true;
                         }
-                        if (recordBean == null || recordList.size() == 0) {
+                        if (recordList.size() == 0) {
                             isLastPage = true;
                             if (currentPage > 1) {
                                 currentPage--;
