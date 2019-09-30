@@ -7,7 +7,7 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
  * Created by Administrator on 2018/10/23.
  */
 
-public class WifiSetBean  extends AbstractExpandableItem<SolarBean> implements MultiItemEntity {
+public class WifiSetBean  extends AbstractExpandableItem<ParamsBeanLeveItem1> implements MultiItemEntity {
     private String key;
     private Object value;
     private String title;

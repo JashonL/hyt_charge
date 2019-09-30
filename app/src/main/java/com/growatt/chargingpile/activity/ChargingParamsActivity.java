@@ -437,7 +437,7 @@ public class ChargingParamsActivity extends BaseActivity {
             new  CircleDialog.Builder()
                     .setTitle(getString(R.string.m27温馨提示))
                     .setWidth(0.8f)
-                    .setText(getString(R.string.m304设置未做任何更改))
+                    .setText(getString(R.string.m确认修改))
                     .setPositive(getString(R.string.m9确定), v -> {
                         requestEdit();
                     })
@@ -496,6 +496,9 @@ public class ChargingParamsActivity extends BaseActivity {
                     if (code == 0) {
                         isModyfi = true;
                         isEditInfo = false;
+                        if (setPileParamMap.containsKey("name")){
+                            EventBus.getDefault().post(new FreshListMsg());
+                        }
                     }
                     toast(object.getString("data"));
                 } catch (Exception e) {
@@ -806,7 +809,6 @@ public class ChargingParamsActivity extends BaseActivity {
             }
             newlist.add(bean);
             mAdapter.setNewData(newlist);
-//            mAdapter.replaceData(newlist);
             mAdapter.expandAll();
         }
     }

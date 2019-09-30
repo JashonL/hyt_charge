@@ -178,11 +178,8 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
                 }
                 mAdapter.remove(position);
                 break;
-            case R.id.start:
+            case R.id.ll_select_time:
                 showTimePickView(false, position);
-                break;
-            case R.id.end:
-                showTimePickView(true, position);
                 break;
             case R.id.tv_rate_value:
                 inputEdit(position);
@@ -224,15 +221,11 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
                     mAdapter.notifyItemChanged(pos);
                 } else {
                     if (!TextUtils.isEmpty(bean.getEndTime())) {
-                        if (isStartMore(time, bean.getEndTime())) toast(R.string.m285开始时间不能大于结束时间);
-                        return;
-                    }
-                    if (!TextUtils.isEmpty(bean.getEndTime())) {
                         String rateTime = time + "-" + bean.getEndTime();
                         mAdapter.getData().get(pos).setTimeX(rateTime);
                     }
-                    mAdapter.getData().get(pos).setStartTime(time);
-                    mAdapter.notifyItemChanged(pos);
+                    bean.setStartTime(time);
+                    showTimePickView(true,pos);
                 }
             }
         })
@@ -360,8 +353,8 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
                 timeLong += end - start;
             }
         }
-        if (data.size() == 1) return timeLong == oneday - 1;
-        return timeLong == oneday;
+//        if (data.size() == 1) return timeLong == oneday - 1;
+        return timeLong == oneday - 1||timeLong==oneday;
     }
 
     /*判断是否有item未设置时间*/

@@ -127,7 +127,7 @@
 
     <string name="m110A枪">Outlet A</string>
     <string name="m111B枪">Outlet B</string>
-
+    <string name="m112C枪">Outlet C</string>
     <string name="m112交流">AC</string>
     <string name="m113直流">DC</string>
     <string name="m114单枪">Single outlet</string>
@@ -371,11 +371,12 @@
     <string name="m电表设备地址">Meter device address</string>
     <string name="m设置未保存">There are still changes not saved, whether to discard the changes and exit</string>
     <string name="m输入字符长度不能超出">The number of input characters cannot exceed</string>
-    <string name="m电桩电子锁">电桩电子锁</string>
-    <string name="m是否解除该枪电子锁">是否解除该枪电子锁</string>
-    <string name="m已锁住">已锁住</string>
-    <string name="m已解锁">已解锁</string>
-    <string name="m解锁">解锁</string>
+    <string name="m电桩电子锁">Electric pile electronic lock</string>
+    <string name="m是否解除该枪电子锁">Whether to release the gun electronic lock</string>
+    <string name="m已锁住">Locked</string>
+    <string name="m已解锁">Unlocked</string>
+    <string name="m解锁">Unlock</string>
+    <string name="m电桩不支持该设置或指令发送出现异常">The electric pile does not support this setting or the command is sent abnormally</string>
     <!--安卓额外部分-->
 
     <!--权限问题-->
@@ -416,6 +417,7 @@
     <string name="m133车拒绝充电">SuspendedEV</string>
     <string name="m请先升级充电桩">Please upgrade the pile first.</string>
     <string name="mCT">CT</string>
+    <string name="m确认修改">Confirm the changes?</string>
 </resources>
 
 

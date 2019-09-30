@@ -10,6 +10,7 @@ import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.growatt.chargingpile.R;
+import com.growatt.chargingpile.bean.LockBean;
 import com.growatt.chargingpile.bean.SolarBean;
 import com.growatt.chargingpile.bean.WifiSetBean;
 
@@ -24,6 +25,7 @@ public class WifiSetAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, B
     public static final int PARAM_ITEM = 1;
     public static final int PARAM_ITEM_CANT_CLICK = 2;
     public static final int PARAM_ITEM_SOLAR = 3;
+    public static final int PARAM_ITEM_LOCK=4;
 
     /**
      * Same as QuickAdapter#QuickAdapter(Context,int) but with
@@ -37,6 +39,7 @@ public class WifiSetAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, B
         addItemType(PARAM_ITEM, R.layout.item_params_set_layout);
         addItemType(PARAM_ITEM_CANT_CLICK, R.layout.item_params_set_layout);
         addItemType(PARAM_ITEM_SOLAR, R.layout.item_set_solar);
+        addItemType(PARAM_ITEM_LOCK, R.layout.item_set_solar);
     }
 
     @Override
@@ -68,6 +71,13 @@ public class WifiSetAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, B
             String value = bean.getValue();
             helper.setText(R.id.tv_value, value);
 
+        }
+        else if (item.getItemType() == PARAM_ITEM_LOCK){
+            LockBean bean=(LockBean)item;
+            String key = bean.getKey();
+            helper.setText(R.id.tv_key, key);
+            String value = bean.getValue();
+            helper.setText(R.id.tv_value, value);
         } else {
             WifiSetBean bean=(WifiSetBean)item;
             helper.getView(R.id.iv_more1).setVisibility(View.GONE);

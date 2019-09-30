@@ -138,7 +138,7 @@
 
     <string name="m110A枪">A枪</string>
     <string name="m111B枪">B枪</string>
-
+    <string name="m112C枪">C枪</string>
     <string name="m112交流">交流</string>
     <string name="m113直流">直流</string>
     <string name="m114单枪">单枪</string>
@@ -395,6 +395,7 @@
     <string name="m已锁住">已锁住</string>
     <string name="m已解锁">已解锁</string>
     <string name="m解锁">解锁</string>
+    <string name="m电桩不支持该设置或指令发送出现异常">电桩不支持该设置或指令发送出现异常</string>
     <!--安卓额外部分-->
     <!--权限问题-->
     <string name="m权限获取某权限说明">请求获取%1$s权限</string>
@@ -433,6 +434,7 @@
     <string name="m133车拒绝充电">车拒绝充电</string>
     <string name="m请先升级充电桩">请先升级充电桩</string>
     <string name="mCT">CT</string>
+    <string name="m确认修改">确认修改?</string>
 </resources>
 
 

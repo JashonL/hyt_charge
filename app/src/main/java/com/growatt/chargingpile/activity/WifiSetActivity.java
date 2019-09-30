@@ -26,9 +26,12 @@ import com.bigkoo.pickerview.view.TimePickerView;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
+import com.growatt.chargingpile.adapter.ParamsSetAdapter;
 import com.growatt.chargingpile.adapter.WifiSetAdapter;
+import com.growatt.chargingpile.bean.LockBean;
 import com.growatt.chargingpile.bean.SolarBean;
 import com.growatt.chargingpile.bean.WiFiRequestMsgBean;
+import com.growatt.chargingpile.bean.WifiParseBean;
 import com.growatt.chargingpile.bean.WifiSetBean;
 import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
@@ -76,6 +79,8 @@ public class WifiSetActivity extends BaseActivity {
     public String[] enableArray;
     public String[] wiringArray;
     public String[] solarArrray;
+    public String[] gunArrray;
+    public String[] lockArrray;
 
     private String ip;
     private int port;
@@ -129,9 +134,12 @@ public class WifiSetActivity extends BaseActivity {
     private byte[] wiringByte;
     private byte[] solarByte;
     private byte[] solarCurrentByte;
-//    private byte[] currentByte;
+    //    private byte[] currentByte;
     private byte[] ammeterByte;
     private int chargingLength;
+    //获取电子锁命令
+    private byte[] lockByte;
+    private int lockLength;
 
     //加密密钥
     private byte[] oldKey;
@@ -148,6 +156,12 @@ public class WifiSetActivity extends BaseActivity {
     private boolean isEditWifi = false;
     private boolean isEditUrl = false;
     private boolean isEditCharging = false;
+
+
+    private WifiParseBean initPileSetBean;
+
+    private List<SolarBean> solarBeans;
+    private List<LockBean> lockBeans;
 
 
     private Handler mHandler = new Handler(Looper.getMainLooper()) {
@@ -216,6 +230,8 @@ public class WifiSetActivity extends BaseActivity {
         }
     };
     private Unbinder bind;
+    private String[] keys;
+    private int gunId;
 
 
     @Override
@@ -260,39 +276,31 @@ public class WifiSetActivity extends BaseActivity {
         mAdapter = new WifiSetAdapter(list);
         recyclerView.setLayoutManager(mLinearLayoutManager);
         recyclerView.setAdapter(mAdapter);
-//        mAdapter.expandAll();
     }
 
 
     private void initResource() {
-        String[] keys = new String[]{
+        keys = new String[]{
                 getString(R.string.m255设备信息参数设置), getString(R.string.m146充电桩ID), getString(R.string.m260语言), getString(R.string.m264读卡器秘钥), getString(R.string.m265RCD保护值), getString(R.string.m296版本号),
                 getString(R.string.m256设备以太网参数设置), getString(R.string.m156充电桩IP), getString(R.string.m157网关), getString(R.string.m158子网掩码), getString(R.string.m159网络MAC地址), getString(R.string.m161DNS地址),
                 getString(R.string.m257设备账号密码参数设置), getString(R.string.m266Wifi名称), getString(R.string.m267Wifi密码), getString(R.string.m268蓝牙名称), getString(R.string.m269蓝牙密码), getString(R.string.m2704G用户名), getString(R.string.m2714G密码), getString(R.string.m2724GAPN),
                 getString(R.string.m258设备服务器参数设置), getString(R.string.m160服务器URL), getString(R.string.m273握手登录授权秘钥), getString(R.string.m274心跳间隔时间), getString(R.string.m275PING间隔时间), getString(R.string.m276表计上传间隔时间),
                 getString(R.string.m259设备充电参数设置), getString(R.string.m154充电模式), getString(R.string.m277电桩最大输出电流), getString(R.string.m152充电费率), getString(R.string.m278保护温度), getString(R.string.m279外部监测最大输入功率),
-                getString(R.string.m280允许充电时间), getString(R.string.m297峰谷充电使能), getString(R.string.m298功率分配使能), getString(R.string.m外部电流采样接线方式), getString(R.string.mSolar模式), getString(R.string.m电表设备地址)
+                getString(R.string.m280允许充电时间), getString(R.string.m297峰谷充电使能), getString(R.string.m298功率分配使能), getString(R.string.m外部电流采样接线方式), getString(R.string.mSolar模式), getString(R.string.m电表设备地址),
+                getString(R.string.m电桩电子锁)
         };
-
+        //初始化所有设置项
+        initPileSetBean = new WifiParseBean();
         for (int i = 0; i < keys.length; i++) {
             WifiSetBean bean = new WifiSetBean();
             bean.setIndex(i);
-            if (i == 0 || i == 6 || i == 12 || i == 20 || i == 26) {
+            if (i == 0 || i == 6 || i == 12 || i == 20 || i == 26 || i == 38) {
                 bean.setTitle(keys[i]);
                 bean.setType(WifiSetAdapter.PARAM_TITILE);
             } else if (i == 1 || i == 5 || i == 10) {
                 bean.setType(WifiSetAdapter.PARAM_ITEM_CANT_CLICK);
                 bean.setKey(keys[i]);
                 bean.setValue("");
-            } else if (i == 36) {
-                bean.setType(WifiSetAdapter.PARAM_ITEM);
-                bean.setKey(keys[i]);
-                bean.setValue("");
-                SolarBean solarBean = new SolarBean();
-                solarBean.setType(WifiSetAdapter.PARAM_ITEM_SOLAR);
-                solarBean.setKey(getString(R.string.m电流限制));
-                solarBean.setValue("");
-                bean.addSubItem(solarBean);
             } else {
                 bean.setType(WifiSetAdapter.PARAM_ITEM);
                 bean.setKey(keys[i]);
@@ -310,6 +318,10 @@ public class WifiSetActivity extends BaseActivity {
         enableArray = new String[]{getString(R.string.m300禁止), getString(R.string.m299使能)};
         wiringArray = new String[]{getString(R.string.mCT), getString(R.string.m电表)};
         solarArrray = new String[]{"FAST", "ECO", "ECO+"};
+        gunArrray = new String[]{getString(R.string.m110A枪), getString(R.string.m111B枪), getString(R.string.m112C枪)};
+        lockArrray = new String[]{getString(R.string.m已解锁), getString(R.string.m已锁住)};
+        solarBeans = new ArrayList<>();
+        lockBeans = new ArrayList<>();
     }
 
 
@@ -342,11 +354,11 @@ public class WifiSetActivity extends BaseActivity {
             MultiItemEntity multiItemEntity = mAdapter.getData().get(position);
             if (multiItemEntity == null) return;
             int itemType = multiItemEntity.getItemType();
-            if (itemType == WifiSetAdapter.PARAM_ITEM){
+            if (itemType == WifiSetAdapter.PARAM_ITEM) {
                 WifiSetBean bean = (WifiSetBean) mAdapter.getData().get(position);
-                int index=bean.getIndex();
+                int index = bean.getIndex();
                 switch (index) {
-                    case 2:
+                    case 2://设置语言
                         setLanguage();
                         break;
                     case 4:
@@ -356,10 +368,9 @@ public class WifiSetActivity extends BaseActivity {
                         setMode();
                         break;
                     case 32:
-//                        showTimePickView(false);
                         Intent intent = new Intent(this, TimeSelectActivity.class);
-                        intent.putExtra("start",startTime);
-                        intent.putExtra("end",endTime);
+                        intent.putExtra("start", startTime);
+                        intent.putExtra("end", endTime);
                         startActivityForResult(intent, 100);
                         break;
                     case 33:
@@ -374,15 +385,15 @@ public class WifiSetActivity extends BaseActivity {
                         break;
                     case 35:
                         if (chargingLength > 26)
-                        setWiring();
+                            setWiring();
                         else toast(R.string.m请先升级充电桩);
                         break;
                     case 36:
                         if (chargingLength > 27)
-                        setSolarMode();
+                            setSolarMode();
                         else toast(R.string.m请先升级充电桩);
                         break;
-                    case 37:
+                    case 37://
                         if (chargingLength > 30)
                             inputEdit(index, String.valueOf(bean.getValue()));
                         else toast(R.string.m请先升级充电桩);
@@ -391,19 +402,24 @@ public class WifiSetActivity extends BaseActivity {
                         inputEdit(index, String.valueOf(bean.getValue()));
                         break;
                 }
-            }else if (itemType == WifiSetAdapter.PARAM_ITEM_SOLAR) {//设置solar限制
+            } else if (itemType == WifiSetAdapter.PARAM_ITEM_SOLAR) {//设置solar限制
                 setECOLimit();
+            } else if (itemType == WifiSetAdapter.PARAM_ITEM_LOCK) {
+                if (lockLength > 0) {
+                    LockBean bean = (LockBean) mAdapter.getData().get(38);
+                    gunId = bean.getGunId();
+                    setLock(gunId);
+                } else toast(R.string.m请先升级充电桩);
             }
 
         });
     }
 
 
-
-    private void setECOLimit(){
-        tips="1~8(A)";
+    private void setECOLimit() {
+        tips = "1~8(A)";
         WifiSetBean bean = (WifiSetBean) mAdapter.getData().get(36);
-        SolarBean subItem = bean.getSubItem(0);
+        SolarBean subItem = (SolarBean) bean.getSubItem(0);
         String value = subItem.getValue();
         new CircleDialog.Builder()
                 .setWidth(0.8f)
@@ -464,7 +480,7 @@ public class WifiSetActivity extends BaseActivity {
                 tips = getString(R.string.m291设定值不能小于);
                 break;
             case 37:
-                tips=getString(R.string.m输入字符长度不能超出)+ " "+3;
+                tips = getString(R.string.m输入字符长度不能超出) + " " + 3;
                 break;
             default:
                 break;
@@ -495,7 +511,6 @@ public class WifiSetActivity extends BaseActivity {
                             cardByte = new byte[6];
                             System.arraycopy(bytes, 0, cardByte, 0, bytes.length);
                             isEditInfo = true;
-//                            setInfo();
                             break;
                         case 7:
                             boolean b = MyUtil.isboolIp(text);
@@ -510,7 +525,6 @@ public class WifiSetActivity extends BaseActivity {
                             ipByte = new byte[15];
                             System.arraycopy(bytes, 0, ipByte, 0, bytes.length);
                             isEditInterNet = true;
-//                            setInternt();
                             break;
                         case 8:
                             boolean b1 = MyUtil.isboolIp(text);
@@ -524,7 +538,6 @@ public class WifiSetActivity extends BaseActivity {
                             }
                             gatewayByte = new byte[15];
                             System.arraycopy(bytes, 0, gatewayByte, 0, bytes.length);
-//                            setInternt();
                             isEditInterNet = true;
                             break;
                         case 9:
@@ -540,7 +553,6 @@ public class WifiSetActivity extends BaseActivity {
                             maskByte = new byte[15];
                             System.arraycopy(bytes, 0, maskByte, 0, bytes.length);
                             isEditInterNet = true;
-//                            setInternt();
                             break;
                         case 10:
                             boolean letterDigit_mac = MyUtil.isLetterDigit2(text);
@@ -554,7 +566,6 @@ public class WifiSetActivity extends BaseActivity {
                             }
                             macByte = new byte[17];
                             System.arraycopy(bytes, 0, macByte, 0, bytes.length);
-//                            setInternt();
                             isEditInterNet = true;
                             break;
                         case 11:
@@ -569,7 +580,6 @@ public class WifiSetActivity extends BaseActivity {
                             }
                             dnsByte = new byte[15];
                             System.arraycopy(bytes, 0, dnsByte, 0, bytes.length);
-//                            setInternt();
                             isEditInterNet = true;
                             break;
                         case 13:
@@ -585,7 +595,6 @@ public class WifiSetActivity extends BaseActivity {
                             }
                             ssidByte = new byte[16];
                             System.arraycopy(bytes, 0, ssidByte, 0, bytes.length);
-//                            setWifi();
                             isEditWifi = true;
                             break;
                         case 14:
@@ -600,7 +609,6 @@ public class WifiSetActivity extends BaseActivity {
                             }
                             wifiKeyByte = new byte[16];
                             System.arraycopy(bytes, 0, wifiKeyByte, 0, bytes.length);
-//                            setWifi();
                             isEditWifi = true;
                             break;
 
@@ -616,7 +624,6 @@ public class WifiSetActivity extends BaseActivity {
                             }
                             bltNameByte = new byte[16];
                             System.arraycopy(bytes, 0, bltNameByte, 0, bytes.length);
-//                            setWifi();
                             isEditWifi = true;
                             break;
                         case 16:
@@ -631,7 +638,6 @@ public class WifiSetActivity extends BaseActivity {
                             }
                             bltPwdByte = new byte[16];
                             System.arraycopy(bytes, 0, bltPwdByte, 0, bytes.length);
-//                            setWifi();
                             isEditWifi = true;
                             break;
                         case 17:
@@ -646,7 +652,6 @@ public class WifiSetActivity extends BaseActivity {
                             }
                             name4GByte = new byte[16];
                             System.arraycopy(bytes, 0, name4GByte, 0, bytes.length);
-//                            setWifi();
                             isEditWifi = true;
                             break;
                         case 18:
@@ -662,7 +667,6 @@ public class WifiSetActivity extends BaseActivity {
                             }
                             pwd4GByte = new byte[16];
                             System.arraycopy(bytes, 0, pwd4GByte, 0, bytes.length);
-//                            setWifi();
                             isEditWifi = true;
                             break;
                         case 19:
@@ -678,7 +682,6 @@ public class WifiSetActivity extends BaseActivity {
                             }
                             apn4GByte = new byte[16];
                             System.arraycopy(bytes, 0, apn4GByte, 0, bytes.length);
-//                            setWifi();
                             isEditWifi = true;
                             break;
 
@@ -689,7 +692,6 @@ public class WifiSetActivity extends BaseActivity {
                             }
                             urlByte = new byte[70];
                             System.arraycopy(bytes, 0, urlByte, 0, bytes.length);
-//                            setUrl();
                             isEditUrl = true;
                             break;
                         case 22:
@@ -704,7 +706,6 @@ public class WifiSetActivity extends BaseActivity {
                             }
                             hskeyByte = new byte[20];
                             System.arraycopy(bytes, 0, hskeyByte, 0, bytes.length);
-//                            setUrl();
                             isEditUrl = true;
                             break;
                         case 23:
@@ -724,7 +725,6 @@ public class WifiSetActivity extends BaseActivity {
                             }
                             heatByte = new byte[4];
                             System.arraycopy(bytes, 0, heatByte, 0, bytes.length);
-//                            setUrl();
                             isEditUrl = true;
                             break;
                         case 24:
@@ -745,7 +745,6 @@ public class WifiSetActivity extends BaseActivity {
                             }
                             pingByte = new byte[4];
                             System.arraycopy(bytes, 0, pingByte, 0, bytes.length);
-//                            setUrl();
                             isEditUrl = true;
                             break;
                         case 25:
@@ -788,7 +787,6 @@ public class WifiSetActivity extends BaseActivity {
                             }
                             maxCurrentByte = new byte[2];
                             System.arraycopy(bytes, 0, maxCurrentByte, 0, bytes.length);
-//                            setCharging();
                             isEditCharging = true;
                             break;
                         case 29:
@@ -803,7 +801,6 @@ public class WifiSetActivity extends BaseActivity {
                             }
                             rateByte = new byte[5];
                             System.arraycopy(bytes, 0, rateByte, 0, bytes.length);
-//                            setCharging();
                             isEditCharging = true;
                             break;
                         case 30:
@@ -824,7 +821,6 @@ public class WifiSetActivity extends BaseActivity {
                             }
                             tempByte = new byte[3];
                             System.arraycopy(bytes, 0, tempByte, 0, bytes.length);
-//                            setCharging();
                             isEditCharging = true;
                             break;
                         case 31:
@@ -843,7 +839,6 @@ public class WifiSetActivity extends BaseActivity {
                             }
                             powerByte = new byte[2];
                             System.arraycopy(bytes, 0, powerByte, 0, bytes.length);
-//                            setCharging();
                             isEditCharging = true;
                             break;
                         case 37:
@@ -853,33 +848,338 @@ public class WifiSetActivity extends BaseActivity {
                                 return;
                             }
                             if (bytes.length > 3) {
-                                T.make(getString(R.string.m286输入值超出规定长度)+" "+3, this);
+                                T.make(getString(R.string.m286输入值超出规定长度) + " " + 3, this);
                                 return;
                             }
                             ammeterByte = new byte[12];
                             System.arraycopy(bytes, 0, ammeterByte, 0, bytes.length);
-//                            setCharging();
                             isEditCharging = true;
                             break;
                     }
-                    setAdapter(key, text);
+                    setBean(key, text);
                     mAdapter.notifyDataSetChanged();
                 })
                 .show(this.getSupportFragmentManager());
     }
 
 
-    /**
-     * 刷新adapter
-     */
-    private void setAdapter(int index, String value) {
-        WifiSetBean bean=new WifiSetBean();
-        bean.setIndex(index);
-        List<MultiItemEntity> data = mAdapter.getData();
-        int position = data.indexOf(bean);
-        if (position==-1)return;
-        ((WifiSetBean)mAdapter.getData().get(position)).setValue(value);
-//        mAdapter.notifyDataSetChanged();
+    private void setBean(int index, String value) {
+        switch (index) {
+            case 1:
+                initPileSetBean.setDevId(value);
+                break;
+            case 2:
+                initPileSetBean.setLan(value);
+                break;
+            case 3:
+                initPileSetBean.setCard(value);
+                break;
+            case 4:
+                initPileSetBean.setRcd(value);
+                break;
+            case 5:
+                initPileSetBean.setVersion(value);
+                break;
+            case 7:
+                initPileSetBean.setIp(String.valueOf(value));
+                break;
+            case 8:
+                initPileSetBean.setGateway(value);
+                break;
+            case 9:
+                initPileSetBean.setMask(value);
+                break;
+            case 10:
+                initPileSetBean.setMac(value);
+                break;
+            case 11:
+                initPileSetBean.setDns(value);
+                break;
+            case 13:
+                initPileSetBean.setSsid(value);
+                break;
+            case 14:
+                initPileSetBean.setWifiKey(value);
+                break;
+            case 15:
+                initPileSetBean.setBltName(value);
+                break;
+            case 16:
+                initPileSetBean.setBltPwd(value);
+                break;
+            case 17:
+                initPileSetBean.setName4G(value);
+                break;
+            case 18:
+                initPileSetBean.setPwd4G(value);
+                break;
+            case 19:
+                initPileSetBean.setApn4G(value);
+                break;
+            case 21:
+                initPileSetBean.setUrl(value);
+                break;
+            case 22:
+                initPileSetBean.setHskey(value);
+                break;
+            case 23:
+                initPileSetBean.setHeat(value);
+                break;
+            case 24:
+                initPileSetBean.setPing(value);
+                break;
+            case 25:
+                initPileSetBean.setInterval(value);
+                break;
+            case 27:
+                initPileSetBean.setMode(value);
+                break;
+            case 28:
+                initPileSetBean.setMaxCurrent(value);
+                break;
+            case 29:
+                initPileSetBean.setRate(value);
+                break;
+            case 30:
+                initPileSetBean.setTemp(value);
+                break;
+            case 31:
+                initPileSetBean.setPower(value);
+                break;
+            case 32:
+                initPileSetBean.setTime(value);
+                break;
+            case 33:
+                initPileSetBean.setChargingEnable(value);
+                break;
+            case 34:
+                initPileSetBean.setPowerdistribution(value);
+                break;
+            case 35:
+                initPileSetBean.setWiring(value);
+                break;
+            case 36:
+                initPileSetBean.setSolar(value);
+                break;
+            case 37:
+                initPileSetBean.setAmmeter(value);
+                break;
+            default:
+                break;
+        }
+        refreshRv();
+
+    }
+
+    private void refreshRv() {
+        List<MultiItemEntity> newlist = new ArrayList<>();
+        for (int i = 0; i < keys.length; i++) {
+            WifiSetBean bean = new WifiSetBean();
+            bean.setIndex(i);
+            switch (i) {
+                case 0:
+                case 6:
+                case 12:
+                case 20:
+                case 26:
+                    bean.setTitle(keys[i]);
+                    bean.setType(WifiSetAdapter.PARAM_TITILE);
+                    break;
+                case 38:
+                    bean.setTitle(keys[i]);
+                    bean.setType(WifiSetAdapter.PARAM_TITILE);
+                    if (lockBeans.size() == 0) {
+                        LockBean lockBean = new LockBean();
+                        lockBean.setValue("");
+                        lockBean.setGunId(1);
+                        lockBean.setType(WifiSetAdapter.PARAM_ITEM_LOCK);
+                        lockBean.setKey(gunArrray[0]);
+                        lockBeans.add(lockBean);
+                    }
+                    for (int j = 0; j < lockBeans.size(); j++) {
+                        LockBean lockBean = lockBeans.get(j);
+                        bean.addSubItem(lockBean);
+                    }
+                    break;
+                case 1:
+                    bean.setType(WifiSetAdapter.PARAM_ITEM_CANT_CLICK);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getDevId());
+                    break;
+                case 2:
+                    bean.setType(WifiSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getLan());
+                    break;
+
+                case 3:
+                    bean.setType(WifiSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getCard());
+                    break;
+                case 4:
+                    bean.setType(WifiSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getRcd());
+                    break;
+                case 5:
+                    bean.setType(WifiSetAdapter.PARAM_ITEM_CANT_CLICK);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getVersion());
+                    break;
+
+                case 7:
+                    bean.setType(WifiSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getIp());
+                    break;
+                case 8:
+                    bean.setType(WifiSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getGateway());
+                    break;
+                case 9:
+                    bean.setType(WifiSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getMask());
+                    break;
+                case 10:
+                    bean.setType(WifiSetAdapter.PARAM_ITEM_CANT_CLICK);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getMac());
+                    break;
+                case 11:
+                    bean.setType(WifiSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getDns());
+                    break;
+
+                case 13:
+                    bean.setType(WifiSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getSsid());
+                    break;
+                case 14:
+                    bean.setType(WifiSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getWifiKey());
+                    break;
+                case 15:
+                    bean.setType(WifiSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getBltName());
+                    break;
+                case 16:
+                    bean.setType(WifiSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getBltPwd());
+                    break;
+                case 17:
+                    bean.setType(WifiSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getName4G());
+                    break;
+                case 18:
+                    bean.setType(WifiSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getPwd4G());
+                    break;
+                case 19:
+                    bean.setType(WifiSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getApn4G());
+                    break;
+
+                case 21:
+                    bean.setType(WifiSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getUrl());
+                    break;
+                case 22:
+                    bean.setType(WifiSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getHskey());
+                    break;
+                case 23:
+                    bean.setType(WifiSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getHeat());
+                    break;
+                case 24:
+                    bean.setType(WifiSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getPing());
+                    break;
+                case 25:
+                    bean.setType(WifiSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getInterval());
+                    break;
+                case 27:
+                    bean.setType(WifiSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getMode());
+                    break;
+                case 28:
+                    bean.setType(WifiSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getMaxCurrent());
+                    break;
+                case 29:
+                    bean.setType(WifiSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getRate());
+                    break;
+                case 30:
+                    bean.setType(WifiSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getTemp());
+                    break;
+                case 31:
+                    bean.setType(WifiSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getPower());
+                    break;
+                case 32:
+                    bean.setType(WifiSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getTime());
+                    break;
+                case 33:
+                    bean.setType(WifiSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getChargingEnable());
+                    break;
+                case 34:
+                    bean.setType(WifiSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getPowerdistribution());
+                    break;
+                case 35:
+                    bean.setType(WifiSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getWiring());
+                    break;
+                case 36:
+                    bean.setType(WifiSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getSolar());
+                    for (int j = 0; j < solarBeans.size(); j++) {
+                        SolarBean solarBean = solarBeans.get(j);
+                        solarBean.setType(ParamsSetAdapter.PARAM_ITEM_SOLAR);
+                        bean.addSubItem(solarBean);
+                    }
+                    break;
+                case 37:
+                    bean.setType(WifiSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getAmmeter());
+                    break;
+            }
+            newlist.add(bean);
+            mAdapter.setNewData(newlist);
+            mAdapter.expandAll();
+        }
     }
 
 
@@ -1299,7 +1599,7 @@ public class WifiSetActivity extends BaseActivity {
             }
         }
 
-        if (chargingLength>29){
+        if (chargingLength > 29) {
             String solarMode = MyUtil.ByteToString(solarByte);
             int modeIndext;
             try {
@@ -1308,8 +1608,8 @@ public class WifiSetActivity extends BaseActivity {
                 modeIndext = 0;
             }
             if (modeIndext < 0) modeIndext = 1;
-            if (modeIndext==2){
-                if (solarCurrentByte ==null) {
+            if (modeIndext == 2) {
+                if (solarCurrentByte == null) {
                     T.make(R.string.m244设置失败, this);
                 }
             }
@@ -1341,7 +1641,7 @@ public class WifiSetActivity extends BaseActivity {
             System.arraycopy(powerdistributionByte, 0, prayload, 25, powerdistributionByte.length);
         }
 
-        if (chargingLength>26){
+        if (chargingLength > 26) {
             //外部电流采样接线方式（0:CT,1:电表）
             System.arraycopy(wiringByte, 0, prayload, 26, wiringByte.length);
         }
@@ -1349,7 +1649,7 @@ public class WifiSetActivity extends BaseActivity {
             System.arraycopy(solarByte, 0, prayload, 27, solarByte.length);
         }
 
-        if (chargingLength>29){
+        if (chargingLength > 29) {
             String solarMode = MyUtil.ByteToString(solarByte);
             int modeIndext;
             try {
@@ -1358,7 +1658,7 @@ public class WifiSetActivity extends BaseActivity {
                 modeIndext = 0;
             }
             if (modeIndext < 0) modeIndext = 1;
-            if (modeIndext==2){
+            if (modeIndext == 2) {
                 System.arraycopy(solarCurrentByte, 0, prayload, 28, solarCurrentByte.length);
             }
         }
@@ -1385,8 +1685,51 @@ public class WifiSetActivity extends BaseActivity {
     }
 
 
+    //解锁
+    private void setUnLoack() {
+        //头1
+        byte frame1 = WiFiMsgConstant.FRAME_1;
+        //头2
+        byte frame2 = WiFiMsgConstant.FRAME_2;
+        //交流直流
+        byte devType = this.devType;
+        //加密方式
+        byte encryption = this.encryption;
+        //指令
+        byte cmd = WiFiMsgConstant.CONSTANT_MSG_16;
+
+        /*****有效数据*****/
+        byte len = (byte) 1;
+        byte[] prayload = new byte[1];
+        if (lockByte == null) {
+            T.make(R.string.m失败, this);
+            return;
+        }
+
+        System.arraycopy(lockByte, 0, prayload, 0, lockByte.length);
+
+        byte[] encryptedData = SmartHomeUtil.decodeKey(prayload, newKey);
+
+        byte end = WiFiMsgConstant.BLT_MSG_END;
+
+        byte[] setUrl = WiFiRequestMsgBean.Builder.newInstance()
+                .setFrame_1(frame1)
+                .setFrame_2(frame2)
+                .setDevType(devType)
+                .setEncryption(encryption)
+                .setCmd(cmd)
+                .setDataLen(len)
+                .setPrayload(encryptedData)
+                .setMsgEnd(end)
+                .create();
+
+        mClientUtil.sendMsg(setUrl);
+        LogUtil.i("解锁：" + SmartHomeUtil.bytesToHexString(setUrl));
+    }
+
+
     private void back() {
-        if (isEditInfo || isEditInterNet || isEditWifi || isEditUrl || isEditCharging) {//未更改
+        if (isEditInfo || isEditInterNet || isEditWifi || isEditUrl || isEditCharging) {//未保存
             new CircleDialog.Builder()
                     .setTitle(getString(R.string.m27温馨提示))
                     .setWidth(0.8f)
@@ -1419,18 +1762,27 @@ public class WifiSetActivity extends BaseActivity {
                     })
                     .setNegative(getString(R.string.m7取消), null)
                     .show(getSupportFragmentManager());
-        } else if (isEditInfo) {//修改基础信息
-            setInfo();
-        } else if (isEditInterNet) {//修改联网参数
-            setInternt();
-        } else if (isEditWifi) {
-            setWifi();
-        } else if (isEditUrl) {
-            setUrl();
         } else {
-            setCharging();
+            new CircleDialog.Builder()
+                    .setTitle(getString(R.string.m27温馨提示))
+                    .setWidth(0.8f)
+                    .setText(getString(R.string.m确认修改))
+                    .setPositive(getString(R.string.m9确定), v -> {
+                        if (isEditInfo) {//修改基础信息
+                            setInfo();
+                        } else if (isEditInterNet) {//修改联网参数
+                            setInternt();
+                        } else if (isEditWifi) {
+                            setWifi();
+                        } else if (isEditUrl) {
+                            setUrl();
+                        } else {
+                            setCharging();
+                        }
+                    })
+                    .setNegative(getString(R.string.m7取消), null)
+                    .show(getSupportFragmentManager());
         }
-
     }
 
 
@@ -1491,8 +1843,7 @@ public class WifiSetActivity extends BaseActivity {
                     idByte = new byte[20];
                     System.arraycopy(prayload, 0, idByte, 0, 20);
                     String devId = MyUtil.ByteToString(idByte);
-//                    mAdapter.getData().get(1).setValue(devId);
-                    setAdapter(1,devId);
+                    setBean(1, devId);
                     lanByte = new byte[1];
                     System.arraycopy(prayload, 20, lanByte, 0, 1);
                     String lan = MyUtil.ByteToString(lanByte);
@@ -1503,14 +1854,11 @@ public class WifiSetActivity extends BaseActivity {
                     } else {
                         lan = lanArray[2];
                     }
-//                    mAdapter.getData().get(2).setValue(lan);
-                    setAdapter(2,lan);
+                    setBean(2, lan);
                     cardByte = new byte[6];
                     System.arraycopy(prayload, 21, cardByte, 0, 6);
                     String card = MyUtil.ByteToString(cardByte);
-//                    mAdapter.getData().get(3).setValue(card);
-                    setAdapter(3,card);
-
+                    setBean(3, card);
                     rcdByte = new byte[1];
                     System.arraycopy(prayload, 27, rcdByte, 0, 1);
                     String rcd = MyUtil.ByteToString(rcdByte);
@@ -1522,15 +1870,13 @@ public class WifiSetActivity extends BaseActivity {
                     }
                     if (i <= 0) i = 1;
                     String s = rcdArray[i - 1];
-//                    mAdapter.getData().get(4).setValue(s);
-                    setAdapter(4,s);
+                    setBean(4, s);
                     //兼容老版本
                     if (len > 28) {
                         versionByte = new byte[24];
                         System.arraycopy(prayload, 28, versionByte, 0, 24);
                         String version = MyUtil.ByteToString(versionByte);
-//                        mAdapter.getData().get(5).setValue(version);
-                        setAdapter(5,version);
+                        setBean(5, version);
                     }
 
                     mAdapter.notifyDataSetChanged();
@@ -1542,31 +1888,23 @@ public class WifiSetActivity extends BaseActivity {
                     ipByte = new byte[15];
                     System.arraycopy(prayload, 0, ipByte, 0, 15);
                     String devIp = MyUtil.ByteToString(ipByte);
-//                    mAdapter.getData().get(7).setValue(devIp);
-                    setAdapter(7,devIp);
-
+                    setBean(7, devIp);
                     gatewayByte = new byte[15];
                     System.arraycopy(prayload, 15, gatewayByte, 0, 15);
                     String gateway = MyUtil.ByteToString(gatewayByte);
-//                    mAdapter.getData().get(8).setValue(gateway);
-                    setAdapter(8,gateway);
-
+                    setBean(8, gateway);
                     maskByte = new byte[15];
                     System.arraycopy(prayload, 30, maskByte, 0, 15);
                     String mask = MyUtil.ByteToString(maskByte);
-//                    mAdapter.getData().get(9).setValue(mask);
-                    setAdapter(9,mask);
-
+                    setBean(9, mask);
                     macByte = new byte[17];
                     System.arraycopy(prayload, 45, macByte, 0, 17);
                     String mac = MyUtil.ByteToString(macByte);
-//                    mAdapter.getData().get(10).setValue(mac);
-                    setAdapter(10,mac);
+                    setBean(10, mac);
                     dnsByte = new byte[15];
                     System.arraycopy(prayload, 62, dnsByte, 0, 15);
                     String dns = MyUtil.ByteToString(dnsByte);
-//                    mAdapter.getData().get(11).setValue(dns);
-                    setAdapter(11,dns);
+                    setBean(11, dns);
                     mAdapter.notifyDataSetChanged();
                     getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_03);
                     break;
@@ -1575,45 +1913,31 @@ public class WifiSetActivity extends BaseActivity {
                     ssidByte = new byte[16];
                     System.arraycopy(prayload, 0, ssidByte, 0, 16);
                     String ssid = MyUtil.ByteToString(ssidByte);
-//                    mAdapter.getData().get(13).setValue(ssid);
-                    setAdapter(13,ssid);
-
+                    setBean(13, ssid);
                     wifiKeyByte = new byte[16];
                     System.arraycopy(prayload, 16, wifiKeyByte, 0, 16);
                     String wifikey = MyUtil.ByteToString(wifiKeyByte);
-//                    mAdapter.getData().get(14).setValue(wifikey);
-                    setAdapter(14,wifikey);
-
+                    setBean(14, wifikey);
                     bltNameByte = new byte[16];
                     System.arraycopy(prayload, 32, bltNameByte, 0, 16);
                     String bltName = MyUtil.ByteToString(bltNameByte);
-//                    mAdapter.getData().get(15).setValue(bltName);
-                    setAdapter(15,bltName);
-
+                    setBean(15, bltName);
                     bltPwdByte = new byte[16];
                     System.arraycopy(prayload, 48, bltPwdByte, 0, 16);
                     String bltPwd = MyUtil.ByteToString(bltPwdByte);
-//                    mAdapter.getData().get(16).setValue(bltPwd);
-                    setAdapter(16,bltPwd);
-
+                    setBean(16, bltPwd);
                     name4GByte = new byte[16];
                     System.arraycopy(prayload, 64, name4GByte, 0, 16);
                     String name4G = MyUtil.ByteToString(name4GByte);
-//                    mAdapter.getData().get(17).setValue(name4G);
-                    setAdapter(17,name4G);
-
+                    setBean(17, name4G);
                     pwd4GByte = new byte[16];
                     System.arraycopy(prayload, 80, pwd4GByte, 0, 16);
                     String pwd4G = MyUtil.ByteToString(pwd4GByte);
-//                    mAdapter.getData().get(18).setValue(pwd4G);
-                    setAdapter(18,pwd4G);
-
+                    setBean(18, pwd4G);
                     apn4GByte = new byte[16];
                     System.arraycopy(prayload, 96, apn4GByte, 0, 16);
                     String apn4G = MyUtil.ByteToString(apn4GByte);
-//                    mAdapter.getData().get(19).setValue(apn4G);
-                    setAdapter(19,apn4G);
-
+                    setBean(19, apn4G);
                     mAdapter.notifyDataSetChanged();
                     getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_04);
                     break;
@@ -1622,32 +1946,27 @@ public class WifiSetActivity extends BaseActivity {
                     urlByte = new byte[70];
                     System.arraycopy(prayload, 0, urlByte, 0, 70);
                     String url = MyUtil.ByteToString(urlByte);
-//                    mAdapter.getData().get(21).setValue(url);
-                    setAdapter(21,url);
+                    setBean(21, url);
 
                     hskeyByte = new byte[20];
                     System.arraycopy(prayload, 70, hskeyByte, 0, 20);
                     String hskey = MyUtil.ByteToString(hskeyByte);
-//                    mAdapter.getData().get(22).setValue(hskey);
-                    setAdapter(22,hskey);
+                    setBean(22, hskey);
 
                     heatByte = new byte[4];
                     System.arraycopy(prayload, 90, heatByte, 0, 4);
                     String heat = MyUtil.ByteToString(heatByte);
-//                    mAdapter.getData().get(23).setValue(heat);
-                    setAdapter(23,heat);
+                    setBean(23, heat);
 
                     pingByte = new byte[4];
                     System.arraycopy(prayload, 94, pingByte, 0, 4);
                     String ping = MyUtil.ByteToString(pingByte);
-//                    mAdapter.getData().get(24).setValue(ping);
-                    setAdapter(24,ping);
+                    setBean(24, ping);
 
                     intervalByte = new byte[4];
                     System.arraycopy(prayload, 98, intervalByte, 0, 4);
                     String interval = MyUtil.ByteToString(intervalByte);
-//                    mAdapter.getData().get(25).setValue(interval);
-                    setAdapter(25,interval);
+                    setBean(25, interval);
 
                     mAdapter.notifyDataSetChanged();
                     getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_05);
@@ -1666,45 +1985,39 @@ public class WifiSetActivity extends BaseActivity {
                     }
                     if (modeSet <= 0) modeSet = 1;
                     String modeValue = modeArray[modeSet - 1];
-//                    mAdapter.getData().get(27).setValue(modeValue);
-                    setAdapter(27,modeValue);
+                    setBean(27, modeValue);
 
                     maxCurrentByte = new byte[2];
                     System.arraycopy(prayload, 1, maxCurrentByte, 0, 2);
                     String maxCurrent = MyUtil.ByteToString(maxCurrentByte);
-//                    mAdapter.getData().get(28).setValue(maxCurrent);
-                    setAdapter(28,maxCurrent);
+                    setBean(28, maxCurrent);
 
                     rateByte = new byte[5];
                     System.arraycopy(prayload, 3, rateByte, 0, 5);
                     String rate = MyUtil.ByteToString(rateByte);
-//                    mAdapter.getData().get(29).setValue(rate);
-                    setAdapter(29,rate);
+                    setBean(29, rate);
 
                     tempByte = new byte[3];
                     System.arraycopy(prayload, 8, tempByte, 0, 3);
                     String temp = MyUtil.ByteToString(tempByte);
-//                    mAdapter.getData().get(30).setValue(temp);
-                    setAdapter(30,temp);
+                    setBean(30, temp);
 
                     powerByte = new byte[2];
                     System.arraycopy(prayload, 11, powerByte, 0, 2);
                     String power = MyUtil.ByteToString(powerByte);
-//                    mAdapter.getData().get(31).setValue(power);
-                    setAdapter(31,power);
+                    setBean(31, power);
 
                     timeByte = new byte[11];
                     System.arraycopy(prayload, 13, timeByte, 0, 11);
                     String time = MyUtil.ByteToString(timeByte);
-//                    mAdapter.getData().get(32).setValue(time);
-                    if (time.contains("-")){
+                    if (time.contains("-")) {
                         String[] split = time.split("-");
-                        if (split.length>=2){
+                        if (split.length >= 2) {
                             startTime = split[0];
                             endTime = split[1];
                         }
                     }
-                    setAdapter(32,time);
+                    setBean(32, time);
 
 
                     //兼容老版本
@@ -1720,8 +2033,7 @@ public class WifiSetActivity extends BaseActivity {
                         }
                         if (enable1 < 0) enable1 = 1;
                         String enableValue1 = enableArray[enable1];
-//                        mAdapter.getData().get(33).setValue(enableValue1);
-                        setAdapter(33,enableValue1);
+                        setBean(33, enableValue1);
                     }
 
 
@@ -1737,8 +2049,7 @@ public class WifiSetActivity extends BaseActivity {
                         }
                         if (enable2 < 0) enable2 = 1;
                         String enableValue2 = enableArray[enable2];
-//                        mAdapter.getData().get(34).setValue(enableValue2);
-                        setAdapter(34,enableValue2);
+                        setBean(34, enableValue2);
                     }
 
                     if (len > 26) {
@@ -1753,8 +2064,7 @@ public class WifiSetActivity extends BaseActivity {
                         }
                         if (wiring < 0) wiring = 1;
                         String wiringValue = wiringArray[wiring];
-//                        mAdapter.getData().get(35).setValue(wiringValue);
-                        setAdapter(35,wiringValue);
+                        setBean(35, wiringValue);
                     }
                     if (len > 27) {
                         solarByte = new byte[1];
@@ -1768,17 +2078,22 @@ public class WifiSetActivity extends BaseActivity {
                         }
                         if (modeIndext < 0) modeIndext = 1;
                         String solarModeValue = solarArrray[modeIndext];
-                        setAdapter(36,solarModeValue);
+                        setBean(36, solarModeValue);
                         WifiSetBean bean = (WifiSetBean) mAdapter.getData().get(36);
                         if (len > 29) {
                             solarCurrentByte = new byte[2];
                             System.arraycopy(prayload, 28, solarCurrentByte, 0, 2);
                             if (modeIndext == 2) {//ECO+
                                 String current = MyUtil.ByteToString(solarCurrentByte);//限制电流最大8A
-                                if (!bean.isExpanded()) {
+                                SolarBean solarBean = new SolarBean();
+                                solarBean.setValue(current);
+                                solarBean.setType(WifiSetAdapter.PARAM_ITEM_SOLAR);
+                                solarBean.setKey(getString(R.string.m电流限制));
+                                solarBeans.add(solarBean);
+                             /*   if (!bean.isExpanded()) {
                                     mAdapter.expand(36, false);
-                                    bean.getSubItem(0).setValue(current);
-                                }
+                                    ((SolarBean) bean.getSubItem(0)).setValue(current);
+                                }*/
                             }
                         }
                     }
@@ -1786,9 +2101,38 @@ public class WifiSetActivity extends BaseActivity {
                         ammeterByte = new byte[12];
                         System.arraycopy(prayload, 30, ammeterByte, 0, 12);
                         String ammeterAdd = MyUtil.ByteToString(ammeterByte);
-                        setAdapter(37,ammeterAdd);
+                        setBean(37, ammeterAdd);
                     }
                     mAdapter.notifyDataSetChanged();
+                    getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_06);
+                    break;
+                case WiFiMsgConstant.CONSTANT_MSG_06:
+                    lockLength = len;
+                    lockByte = new byte[len];
+                    System.arraycopy(prayload, 0, lockByte, 0, len);
+                    String lockStatus = MyUtil.ByteToString(lockByte);
+                    if (!TextUtils.isEmpty(lockStatus)) {
+                        char[] chars = lockStatus.toCharArray();
+                        for (int k = 0; k < chars.length; k++) {
+                            LockBean lockBean = new LockBean();
+                            if (String.valueOf(chars[k]).equals("1")) {
+                                lockBean.setValue(lockArrray[1]);
+                            } else {
+                                lockBean.setValue(lockArrray[0]);
+                            }
+                            lockBean.setType(WifiSetAdapter.PARAM_ITEM_LOCK);
+                            lockBean.setKey(gunArrray[k]);
+                            lockBean.setGunId(k + 1);
+                            lockBeans.add(lockBean);
+                        }
+                    } else {
+                        LockBean lockBean = new LockBean();
+                        lockBean.setValue("");
+                        lockBean.setGunId(1);
+                        lockBean.setType(WifiSetAdapter.PARAM_ITEM_LOCK);
+                        lockBean.setKey(gunArrray[0]);
+                        lockBeans.add(lockBean);
+                    }
                     break;
                 //设置回应
                 case WiFiMsgConstant.CONSTANT_MSG_11:
@@ -1873,6 +2217,15 @@ public class WifiSetActivity extends BaseActivity {
                     sendCmdExit();
                     finish();
                     break;
+                case WiFiMsgConstant.CONSTANT_MSG_16://解锁
+                    byte unlock = prayload[0];
+                    if ((int) unlock == 1) {
+                        lockBeans.get(gunId).setValue(lockArrray[0]);
+                        refreshRv();
+                    } else {
+                        T.make(getString(R.string.m失败), WifiSetActivity.this);
+                    }
+                    break;
                 default:
                     break;
             }
@@ -1920,7 +2273,7 @@ public class WifiSetActivity extends BaseActivity {
                 lanByte = new byte[1];
                 System.arraycopy(bytes, 0, lanByte, 0, bytes.length);
 //                setInfo();
-                setAdapter(2, tx);
+                setBean(2, tx);
                 mAdapter.notifyDataSetChanged();
                 isEditInfo = true;
             }
@@ -1957,7 +2310,7 @@ public class WifiSetActivity extends BaseActivity {
                 rcdByte = new byte[1];
                 System.arraycopy(bytes, 0, rcdByte, 0, bytes.length);
 //                setInfo();
-                setAdapter(4, tx);
+                setBean(4, tx);
                 mAdapter.notifyDataSetChanged();
                 isEditInfo = true;
             }
@@ -1994,7 +2347,7 @@ public class WifiSetActivity extends BaseActivity {
                 modeByte = new byte[1];
                 System.arraycopy(bytes, 0, modeByte, 0, bytes.length);
 //                setCharging();
-                setAdapter(27, tx);
+                setBean(27, tx);
                 mAdapter.notifyDataSetChanged();
                 isEditCharging = true;
             }
@@ -2050,7 +2403,7 @@ public class WifiSetActivity extends BaseActivity {
                     }
                     timeByte = new byte[11];
                     System.arraycopy(bytes, 0, timeByte, 0, bytes.length);
-                    setAdapter(32, chargingTime);
+                    setBean(32, chargingTime);
                     mAdapter.notifyDataSetChanged();
                     isEditCharging = true;
 //                    setCharging();
@@ -2108,7 +2461,7 @@ public class WifiSetActivity extends BaseActivity {
                     powerdistributionByte = new byte[1];
                     System.arraycopy(bytes, 0, powerdistributionByte, 0, bytes.length);
                 }
-                setAdapter(position, tx);
+                setBean(position, tx);
                 mAdapter.notifyDataSetChanged();
 //                setCharging();
                 isEditCharging = true;
@@ -2130,7 +2483,6 @@ public class WifiSetActivity extends BaseActivity {
     }
 
 
-
     /*接线方式*/
     private void setWiring() {
         List<String> list = Arrays.asList(wiringArray);
@@ -2147,7 +2499,7 @@ public class WifiSetActivity extends BaseActivity {
                 wiringByte = new byte[1];
                 System.arraycopy(bytes, 0, wiringByte, 0, bytes.length);
 //                setInfo();
-                setAdapter(35, tx);
+                setBean(35, tx);
                 mAdapter.notifyDataSetChanged();
                 isEditCharging = true;
             }
@@ -2184,7 +2536,7 @@ public class WifiSetActivity extends BaseActivity {
                 solarByte = new byte[1];
                 System.arraycopy(bytes, 0, solarByte, 0, bytes.length);
 //                setInfo();
-                setAdapter(36, tx);
+                setBean(36, tx);
                 WifiSetBean bean = (WifiSetBean) mAdapter.getData().get(36);
                /* if (options1 == 2) {//ECO+
                     String current = MyUtil.ByteToString(solarCurrentByte);
@@ -2219,6 +2571,30 @@ public class WifiSetActivity extends BaseActivity {
         pvOptions.show();
     }
 
+
+    private void setLock(int gunId) {
+        new CircleDialog.Builder().setTitle(getString(R.string.m27温馨提示))
+                .setText(getString(R.string.m是否解除该枪电子锁))
+                .setWidth(0.75f)
+                .setPositive(getString(R.string.m9确定), view -> {
+                    final String tx = gunArrray[gunId];
+                    String pos = String.valueOf(gunId);
+                    byte[] bytes = pos.trim().getBytes();
+                    if (bytes.length > 1) {
+                        T.make(getString(R.string.m286输入值超出规定长度), WifiSetActivity.this);
+                        return;
+                    }
+                    lockByte = new byte[1];
+                    System.arraycopy(bytes, 0, lockByte, 0, bytes.length);
+                    setUnLoack();
+                })
+                .setNegative(getString(R.string.m7取消), view -> {
+
+                })
+                .show(getSupportFragmentManager());
+    }
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -2237,7 +2613,7 @@ public class WifiSetActivity extends BaseActivity {
                     }
                     startTime = starttime;
                     endTime = endtime;
-                    String  chargingTime = starttime + "-" + endtime;
+                    String chargingTime = starttime + "-" + endtime;
                     byte[] bytes = chargingTime.trim().getBytes();
                     if (bytes.length > 11) {
                         T.make(getString(R.string.m286输入值超出规定长度), WifiSetActivity.this);
@@ -2245,7 +2621,7 @@ public class WifiSetActivity extends BaseActivity {
                     }
                     timeByte = new byte[11];
                     System.arraycopy(bytes, 0, timeByte, 0, bytes.length);
-                    setAdapter(32, chargingTime);
+                    setBean(32, chargingTime);
                     mAdapter.notifyDataSetChanged();
                     isEditCharging = true;
                     break;

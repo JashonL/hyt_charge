@@ -30,6 +30,7 @@ public class WiFiMsgConstant {
     public static final byte CONSTANT_MSG_13 = (byte) 0x13;
     public static final byte CONSTANT_MSG_14 = (byte) 0x14;
     public static final byte CONSTANT_MSG_15 = (byte) 0x15;
+    public static final byte CONSTANT_MSG_16 = (byte) 0x16;
 
     public static final byte CONSTANT_MSG_50 = (byte) 0x50;
     public static final byte CONSTANT_MSG_51 = (byte) 0x51;

@@ -49,8 +49,7 @@ public class RateSetAdapter extends BaseQuickAdapter<ChargingBean.DataBean.Price
 
         helper.setText(R.id.tv_unit, item.getSymbol());
         helper.addOnClickListener(R.id.fl_delete);
-        helper.addOnClickListener(R.id.start);
-        helper.addOnClickListener(R.id.end);
+        helper.addOnClickListener(R.id.ll_select_time);
         helper.addOnClickListener(R.id.tv_rate_value);
 
     }

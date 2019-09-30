@@ -312,8 +312,8 @@ public class ChargingPileActivity extends BaseActivity {
     protected void onPause() {
         super.onPause();
         animation = null;
-        timeHandler.removeMessages(1);
-//        timeHandler.removeCallbacksAndMessages(null);
+//        timeHandler.removeMessages(1);
+        timeHandler.removeCallbacksAndMessages(null);
     }
 
     /*定时刷新机制*/
