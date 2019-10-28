@@ -29,6 +29,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.adapter.Myadapter;
+import com.growatt.chargingpile.application.MyApplication;
+import com.growatt.chargingpile.util.AppUtils;
 import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.LoadLocalImageUtil;
 import com.growatt.chargingpile.util.LoginUtil;
@@ -185,7 +187,8 @@ public class MeActivity extends BaseActivity {
         if (MyUtil.hasSdcard()) {
             imageUri = Uri.fromFile(fileUri);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) { //7.0 以上版本
-                imageUri = FileProvider.getUriForFile(MeActivity.this, "com.growatt.chargingpile", fileUri);
+                String authority=AppUtils.getPackageName(MyApplication.context) + ".fileProvider";
+                imageUri = FileProvider.getUriForFile(MeActivity.this, authority, fileUri);
                 intentFromCapture.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
                 // 授予目录临时共享权限
                 intentFromCapture.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);

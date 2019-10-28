@@ -554,6 +554,55 @@ public class MyUtil {
 
 
     /**
+     * wifi输入限制
+     *
+     */
+ public  static boolean isWiFiLetter(String s){
+     boolean isChinese= isContainChinese(s);
+     if (isChinese)return false;
+     boolean isValidate=validateLegalString(s);
+     return !isValidate;
+ }
+
+
+    /**
+     * 判断字符串中是否包含中文
+     * @param str
+     * 待校验字符串
+     * @return 是否为中文
+     * @warn 不能校验是否为中文标点符号
+     */
+    public static boolean isContainChinese(String str) {
+        Pattern p = Pattern.compile("[\u4e00-\u9fa5]");
+        Matcher m = p.matcher(str);
+        return m.find();
+    }
+
+
+    /**
+     * 验证字符串内容是否包含下列非法字符<br>
+     * `~!#%^&*=+\\|{};:'\",<>/?○●★☆☉♀♂※¤╬の〆
+     *
+     * @param content
+     *  字符串内容
+     * @return 't'代表不包含非法字符，otherwise代表包含非法字符。
+     */
+    public static boolean validateLegalString(String content) {
+        String illegal = "\\'\",/";
+        boolean isLegalChar =false;
+         for (int i = 0; i < content.length(); i++) {
+            for (int j = 0; j < illegal.length(); j++) {
+                if (content.charAt(i) == illegal.charAt(j)) {
+                    isLegalChar = true;
+                    break ;
+                }
+            }
+        }
+        return isLegalChar;
+    }
+
+
+    /**
      * 匹配是否为数字
      */
     public static boolean isNumeric(String str) {

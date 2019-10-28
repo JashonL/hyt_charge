@@ -583,7 +583,7 @@ public class WifiSetActivity extends BaseActivity {
                             isEditInterNet = true;
                             break;
                         case 13:
-                            boolean letterDigit_ssid = MyUtil.isLetterDigit2(text);
+                            boolean letterDigit_ssid = MyUtil.isWiFiLetter(text);
                             if (!letterDigit_ssid) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
@@ -598,7 +598,7 @@ public class WifiSetActivity extends BaseActivity {
                             isEditWifi = true;
                             break;
                         case 14:
-                            boolean letterDigit_key = MyUtil.isLetterDigit2(text);
+                            boolean letterDigit_key = MyUtil.isWiFiLetter(text);
                             if (!letterDigit_key) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
@@ -613,7 +613,7 @@ public class WifiSetActivity extends BaseActivity {
                             break;
 
                         case 15:
-                            boolean letterDigit_bltname = MyUtil.isLetterDigit2(text);
+                            boolean letterDigit_bltname = MyUtil.isWiFiLetter(text);
                             if (!letterDigit_bltname) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
@@ -627,7 +627,7 @@ public class WifiSetActivity extends BaseActivity {
                             isEditWifi = true;
                             break;
                         case 16:
-                            boolean letterDigit_bltpwd = MyUtil.isLetterDigit2(text);
+                            boolean letterDigit_bltpwd = MyUtil.isWiFiLetter(text);
                             if (!letterDigit_bltpwd) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
@@ -641,7 +641,7 @@ public class WifiSetActivity extends BaseActivity {
                             isEditWifi = true;
                             break;
                         case 17:
-                            boolean letterDigit_4gname = MyUtil.isLetterDigit2(text);
+                            boolean letterDigit_4gname = MyUtil.isWiFiLetter(text);
                             if (!letterDigit_4gname) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
@@ -655,7 +655,7 @@ public class WifiSetActivity extends BaseActivity {
                             isEditWifi = true;
                             break;
                         case 18:
-                            boolean letterDigit_4gpwd = MyUtil.isLetterDigit2(text);
+                            boolean letterDigit_4gpwd = MyUtil.isWiFiLetter(text);
                             if (!letterDigit_4gpwd) {
                                 T.make(getString(R.string.m177输入格式不正确), this);
                                 return;
