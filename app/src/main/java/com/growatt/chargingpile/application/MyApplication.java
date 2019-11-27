@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 
+import com.growatt.chargingpile.crashhandler.CrashHandler;
 import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.res.values.CircleDimen;
 
@@ -37,6 +38,7 @@ public class MyApplication extends Application {
         super.onCreate();
         instance = this;
         context = getApplicationContext();
+        CrashHandler.getInstance().init(this);
         // 初始化
         x.Ext.init(this);
         // 设置是否输出debug

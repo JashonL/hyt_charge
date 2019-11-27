@@ -11,6 +11,7 @@ import com.growatt.chargingpile.util.MathUtil;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
 /**
@@ -36,7 +37,7 @@ public class ChargingRecordAdapter extends BaseQuickAdapter<ChargingRecordBean.D
         long cTime = item.getCtime() * 60 * 1000;
         long sysStartTime = item.getSysStartTime();
         long sysEndTime = sysStartTime + cTime;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINESE);
         Date startDate = new Date(sysStartTime);
         Date endDate = new Date(sysEndTime);
         String startTime = sdf.format(startDate);

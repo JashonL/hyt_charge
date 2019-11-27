@@ -208,12 +208,7 @@ public class WifiSetActivity extends BaseActivity {
                     break;
                 case SocketClientUtil.SOCKET_SEND:
                     Log.d("liaojinsha", "socket已连接发送消息");
-                    this.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            sendCmdConnect();
-                        }
-                    }, 3500);
+                    this.postDelayed(() -> sendCmdConnect(), 3500);
                     break;
                 case 100://恢复按钮点击
 
@@ -231,7 +226,7 @@ public class WifiSetActivity extends BaseActivity {
     };
     private Unbinder bind;
     private String[] keys;
-    private int gunId;
+    private int gunPos;
 
 
     @Override
@@ -239,13 +234,13 @@ public class WifiSetActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wifi_set);
         bind = ButterKnife.bind(this);
+        createNewKey();
         initIntent();
         initHeaderView();
         initResource();
         initRecyclerView();
         connectSendMsg();
         setOnclickListener();
-        createNewKey();
     }
 
     private void createNewKey() {
@@ -406,9 +401,9 @@ public class WifiSetActivity extends BaseActivity {
                 setECOLimit();
             } else if (itemType == WifiSetAdapter.PARAM_ITEM_LOCK) {
                 if (lockLength > 0) {
-                    LockBean bean = (LockBean) mAdapter.getData().get(38);
-                    gunId = bean.getGunId();
-                    setLock(gunId);
+                    LockBean bean = (LockBean) mAdapter.getData().get(position);
+                    gunPos=bean.getIndex();
+                    setLock(bean.getGunId());
                 } else toast(R.string.m请先升级充电桩);
             }
 
@@ -992,6 +987,7 @@ public class WifiSetActivity extends BaseActivity {
                         LockBean lockBean = new LockBean();
                         lockBean.setValue("");
                         lockBean.setGunId(1);
+                        lockBean.setIndex(0);
                         lockBean.setType(WifiSetAdapter.PARAM_ITEM_LOCK);
                         lockBean.setKey(gunArrray[0]);
                         lockBeans.add(lockBean);
@@ -2111,6 +2107,7 @@ public class WifiSetActivity extends BaseActivity {
                     lockByte = new byte[len];
                     System.arraycopy(prayload, 0, lockByte, 0, len);
                     String lockStatus = MyUtil.ByteToString(lockByte);
+                    lockBeans.clear();
                     if (!TextUtils.isEmpty(lockStatus)) {
                         char[] chars = lockStatus.toCharArray();
                         for (int k = 0; k < chars.length; k++) {
@@ -2123,6 +2120,7 @@ public class WifiSetActivity extends BaseActivity {
                             lockBean.setType(WifiSetAdapter.PARAM_ITEM_LOCK);
                             lockBean.setKey(gunArrray[k]);
                             lockBean.setGunId(k + 1);
+                            lockBean.setIndex(k);
                             lockBeans.add(lockBean);
                         }
                     } else {
@@ -2133,6 +2131,7 @@ public class WifiSetActivity extends BaseActivity {
                         lockBean.setKey(gunArrray[0]);
                         lockBeans.add(lockBean);
                     }
+                    refreshRv();
                     break;
                 //设置回应
                 case WiFiMsgConstant.CONSTANT_MSG_11:
@@ -2220,7 +2219,7 @@ public class WifiSetActivity extends BaseActivity {
                 case WiFiMsgConstant.CONSTANT_MSG_16://解锁
                     byte unlock = prayload[0];
                     if ((int) unlock == 1) {
-                        lockBeans.get(gunId).setValue(lockArrray[0]);
+                        lockBeans.get(gunPos).setValue(lockArrray[0]);
                         refreshRv();
                     } else {
                         T.make(getString(R.string.m失败), WifiSetActivity.this);
@@ -2577,7 +2576,6 @@ public class WifiSetActivity extends BaseActivity {
                 .setText(getString(R.string.m是否解除该枪电子锁))
                 .setWidth(0.75f)
                 .setPositive(getString(R.string.m9确定), view -> {
-                    final String tx = gunArrray[gunId];
                     String pos = String.valueOf(gunId);
                     byte[] bytes = pos.trim().getBytes();
                     if (bytes.length > 1) {

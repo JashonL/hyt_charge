@@ -13,6 +13,7 @@ public class LockBean extends ParamsBeanLeveItem1 implements MultiItemEntity {
     private int type;
     private String key;
     private String value;
+    private int index;
 
     public int getGunId() {
         return gunId;
@@ -52,6 +53,14 @@ public class LockBean extends ParamsBeanLeveItem1 implements MultiItemEntity {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     @Override

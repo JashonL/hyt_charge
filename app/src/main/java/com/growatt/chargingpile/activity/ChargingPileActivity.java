@@ -1,6 +1,7 @@
 package com.growatt.chargingpile.activity;
 
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -75,6 +76,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import pub.devrel.easypermissions.EasyPermissions;
 
 public class ChargingPileActivity extends BaseActivity {
 
@@ -289,6 +291,7 @@ public class ChargingPileActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charging_pile);
         bind = ButterKnife.bind(this);
+        initPermission();
         initHeaderViews();
         initCharging();
         initListeners();
@@ -296,6 +299,12 @@ public class ChargingPileActivity extends BaseActivity {
         initStatusView();
         initResource();
         refreshAll();
+    }
+
+    private void initPermission() {
+       if (!EasyPermissions.hasPermissions(this, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+           EasyPermissions.requestPermissions(this,"",11001,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE);
+       }
     }
 
     @Override
