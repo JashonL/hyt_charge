@@ -418,6 +418,17 @@
     <string name="m请先升级充电桩">Please upgrade the pile first.</string>
     <string name="mCT">CT</string>
     <string name="m确认修改">Confirm the changes?</string>
+
+
+    <!--新增，未翻译-->
+    <string name="m姓名">姓名</string>
+    <string name="m邮政编码">邮政编码</string>
+    <string name="m安装者">安装者</string>
+    <string name="m请输入您的姓名">请输入您的姓名</string>
+    <string name="m请输入您的邮政编码">请输入您的邮政编码</string>
+    <string name="m请输入安装者">请输入安装者</string>
+
+
 </resources>
 
 

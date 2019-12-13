@@ -50,9 +50,9 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
-        android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/MyAppCompat"
         tools:replace="android:supportsRtl"
         tools:targetApi="n">
@@ -193,10 +193,11 @@
             android:name=".activity.RateSetActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.TimeSelectActivity"
+        <activity
+            android:name=".activity.TimeSelectActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.SearchDeviceActivity"></activity>
     </application>
 
 </manifest>

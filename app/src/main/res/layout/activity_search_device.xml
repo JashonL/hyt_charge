@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.growatt.chargingpile.activity.SearchDeviceActivity">
+
+    <include
+        android:id="@+id/headerView"
+        layout="@layout/header_view" />
+
+    <LinearLayout
+        android:id="@+id/ll_search"
+        app:layout_constraintTop_toBottomOf="@+id/headerView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa70"
+        android:orientation="horizontal">
+
+
+        <EditText
+            android:id="@+id/etSearch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/xa12"
+            android:layout_marginLeft="@dimen/xa20"
+            android:layout_marginRight="@dimen/xa20"
+            android:layout_marginTop="@dimen/xa12"
+            android:background="@drawable/edittext_solid_white"
+            android:hint="请输入关键词"
+            android:paddingLeft="@dimen/xa20"
+            android:textSize="@dimen/text_size_content"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/llSearch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/xa20"
+            android:layout_marginRight="@dimen/xa20"
+            android:paddingLeft="@dimen/xa20"
+            android:paddingRight="@dimen/xa1"
+            android:background="@drawable/edittext_solid_white"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/oss_search" />
+
+            <TextView
+                android:id="@+id/tvSearch"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/xa10"
+                android:gravity="center_vertical"
+                android:hint="@string/m168搜索"
+                android:textColorHint="@color/hint_bg_white"
+                android:textColor="@color/content_bg_white"
+                android:textSize="@dimen/xa26"
+                android:layout_marginStart="@dimen/xa10" />
+
+            <ImageView
+                android:id="@+id/ivDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:padding="@dimen/xa20"
+                android:src="@drawable/selector_close" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_search"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_search" />
+
+</android.support.constraint.ConstraintLayout>
