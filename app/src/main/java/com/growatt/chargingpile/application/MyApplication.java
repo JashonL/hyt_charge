@@ -60,6 +60,9 @@ public class MyApplication extends Application {
         mList.add(softReference);
     }
 
+    public List<SoftReference<Activity>> getmList() {
+        return mList;
+    }
 
     //遍历所有Activity并finish
     public void exit() {

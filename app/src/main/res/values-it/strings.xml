@@ -187,8 +187,8 @@
     <string name="m160服务器URL">URL del Server</string>
     <string name="m161DNS地址">DNS</string>
 
-    <string name="m217扫码刷卡">APP/RFID</string>
-    <string name="m218仅刷卡充电">Solo RFID</string>
+    <string name="m217扫码刷卡">APP</string>
+    <string name="m218仅刷卡充电">RFID</string>
     <string name="m219插枪充电">Plug&amp;Charge</string>
     <string name="m162添加授权">Aggiungi autorizzato</string>
     <string name="m163输入用户名添加授权用户">Inserisci un nome utente per aggiungere un utente autorizzato</string>

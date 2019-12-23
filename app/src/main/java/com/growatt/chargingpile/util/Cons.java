@@ -26,8 +26,8 @@ public class Cons {
         return "";
     }
 
-    public static String hour;//ѡ��Сʱ
-    public static String min;//ѡ�����
+    public static String hour;
+    public static String min;
     public static String userId = "";
     public static String plant;
     public static String url = "";
@@ -35,13 +35,13 @@ public class Cons {
     public static ArrayList<Map<String, Object>> plants = new ArrayList<Map<String, Object>>();
     public static RegisterMap regMap = new RegisterMap();
     public static UserBean userBean;
-    public static boolean addQuestion = false;//���ʿ���
-    public static boolean isFirst = false;//�Ƿ��һ�ν���ҳ��
-    public static boolean isExit = false;//�Ƿ��˳�Ӧ��
-    public static int num = 0;//kill����
-    //��Ƶ����
+    public static boolean addQuestion = false;
+    public static boolean isFirst = false;
+    public static boolean isExit = false;
+    public static int num = 0;
+
     public static List<Map<String, String>> videoList = new ArrayList<Map<String, String>>();
-    public static boolean isCodeUpdate;//app�汾���Ƿ���£�����б仯�򵯴�
+    public static boolean isCodeUpdate;
     public static String server = "http://server.growatt.com";
 
 

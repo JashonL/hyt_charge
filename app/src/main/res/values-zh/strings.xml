@@ -197,9 +197,9 @@
     <string name="m160服务器URL">服务器URL</string>
     <string name="m161DNS地址">DNS地址</string>
 
-    <string name="m217扫码刷卡">扫码/刷卡</string>
-    <string name="m218仅刷卡充电">仅刷卡充电</string>
-    <string name="m219插枪充电">插枪充电</string>
+    <string name="m217扫码刷卡">APP</string>
+    <string name="m218仅刷卡充电">RFID</string>
+    <string name="m219插枪充电">Plug&amp;Charge</string>
     <string name="m162添加授权">添加授权</string>
     <string name="m163输入用户名添加授权用户">输入用户名添加授权用户</string>
     <string name="m164注册新用户">注册新用户</string>

@@ -232,22 +232,14 @@ public class MeActivity extends BaseActivity {
         recyclerView.setLayoutManager(mLinearLayoutManager);
         recyclerView.setAdapter(adapter);
         View footerView = getLayoutInflater().inflate(R.layout.footer_me_activity, recyclerView, false);
-        Button btnLogout = (Button) footerView.findViewById(R.id.logout);
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fragmentManager = MeActivity.this.getSupportFragmentManager();
-                new CircleDialog.Builder().setTitle(getString(R.string.m27温馨提示))
-                        .setText(getString(R.string.m19是否退出当前账户))
-                        .setPositive(getString(R.string.m9确定), new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                LoginUtil.logout(MeActivity.this);
-                            }
-                        })
-                        .setNegative(getString(R.string.m7取消), null)
-                        .show(fragmentManager);
-            }
+        Button btnLogout = footerView.findViewById(R.id.logout);
+        btnLogout.setOnClickListener(v -> {
+            FragmentManager fragmentManager = MeActivity.this.getSupportFragmentManager();
+            new CircleDialog.Builder().setTitle(getString(R.string.m27温馨提示))
+                    .setText(getString(R.string.m19是否退出当前账户))
+                    .setPositive(getString(R.string.m9确定), v1 -> LoginUtil.logout(MeActivity.this))
+                    .setNegative(getString(R.string.m7取消), null)
+                    .show(fragmentManager);
         });
 
         adapter.addFooterView(footerView);

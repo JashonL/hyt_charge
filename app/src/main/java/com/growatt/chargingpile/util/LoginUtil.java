@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.activity.ChargingPileActivity;
 import com.growatt.chargingpile.activity.LoginActivity;
+import com.growatt.chargingpile.application.MyApplication;
 import com.growatt.chargingpile.bean.UserBean;
 import com.growatt.chargingpile.connutil.GetUtil;
 import com.growatt.chargingpile.connutil.PostUtil;
@@ -19,6 +20,8 @@ import com.growatt.chargingpile.sqlite.SqliteUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.lang.ref.SoftReference;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -37,7 +40,6 @@ public class LoginUtil {
         ossErrAutoLogin(context, userName, password, new OnViewEnableListener() {
         });
     }
-
 
     /**
      * server登录超时，重新登录
@@ -156,16 +158,8 @@ public class LoginUtil {
                 } else {
                     userBean.setAuth(0);
                 }
-                if (userBean.getIsValiEmail() == 1) {
-                    Cons.isValiEmail = true;
-                } else {
-                    Cons.isValiEmail = false;
-                }
-                if (userBean.getIsValiPhone() == 1) {
-                    Cons.isValiPhone = true;
-                } else {
-                    Cons.isValiPhone = false;
-                }
+                Cons.isValiEmail = userBean.getIsValiEmail() == 1;
+                Cons.isValiPhone = userBean.getIsValiPhone() == 1;
                 Cons.userBean = userBean;
                 if (loginType != 2) {
                     SqliteUtil.login(userName, password);
@@ -308,6 +302,18 @@ public class LoginUtil {
         SharedPreferencesUnit.getInstance(act).putInt(Constant.AUTO_LOGIN, 0);
         SharedPreferencesUnit.getInstance(act).putInt(Constant.AUTO_LOGIN_TYPE, 0);
         act.startActivity(new Intent(act, LoginActivity.class));
+        act.finish();
+        List<SoftReference<Activity>> activityStack = MyApplication.getInstance().getmList();
+        for (SoftReference<Activity> activity : activityStack) {
+            if (activity != null && activity.get() != null) {
+                Activity activity1=activity.get();
+//                if (activity1 instanceof MainActivity)continue;
+                if ((activity1.getClass().equals(act.getClass())))continue;//这里要忽略掉，要不然会闪屏
+                activity1.finish();
+            }
+        }
+        activityStack.clear();
+        act.startActivity(new Intent(act,LoginActivity.class));
         act.finish();
     }
 

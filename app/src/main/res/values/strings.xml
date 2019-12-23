@@ -186,8 +186,8 @@
     <string name="m160服务器URL">Server URL</string>
     <string name="m161DNS地址">DNS</string>
 
-    <string name="m217扫码刷卡">APP/RFID</string>
-    <string name="m218仅刷卡充电">Only RFID</string>
+    <string name="m217扫码刷卡">APP</string>
+    <string name="m218仅刷卡充电">RFID</string>
     <string name="m219插枪充电">Plug&amp;Charge</string>
     <string name="m162添加授权">Add authorized</string>
     <string name="m163输入用户名添加授权用户">Enter a user name to add an authorized user</string>
@@ -320,7 +320,7 @@
 
     <string name="m295该电桩热点不是已选择的电桩">This chargepoint\'s hot spot is not the selected chargepoint</string>
     <string name="m296版本号">version number</string>
-    <string name="m297峰谷充电使能">Peak Valley Charging Enable</string>
+    <string name="m297峰谷充电使能">Peak &amp; Off Peak Charging Enable</string>
     <string name="m298功率分配使能">Power Allocation Enable</string>
     <string name="m299使能">enable</string>
     <string name="m300禁止">prohibited</string>

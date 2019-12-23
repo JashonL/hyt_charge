@@ -370,7 +370,8 @@ public class SqliteUtil {
 		base.close();
 		return service;
 	}
-	//��ȡapp_code���º�
+
+
 	public static int getApp_Code(){
 		int app_code=-1;
 		DateSqlite dataSQiLte=new DateSqlite(MyApplication.context);

@@ -39,7 +39,6 @@ import org.xutils.x;
 
 import java.lang.ref.SoftReference;
 import java.math.BigDecimal;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -149,15 +148,6 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         return super.onKeyDown(keyCode, event);
     }
 
-    /**
-     * ��ȡ��ǰ���
-     *
-     * @return
-     */
-    public static int getCurrentYear() {
-
-        return Calendar.getInstance().get(Calendar.YEAR);
-    }
 
     /**
      * @return
