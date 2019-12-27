@@ -35,6 +35,7 @@ import com.growatt.chargingpile.EventBusMsg.AddDevMsg;
 import com.growatt.chargingpile.EventBusMsg.FreshListMsg;
 import com.growatt.chargingpile.EventBusMsg.FreshTimingMsg;
 import com.growatt.chargingpile.EventBusMsg.RefreshRateMsg;
+import com.growatt.chargingpile.EventBusMsg.SearchDevMsg;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.adapter.ChargingListAdapter;
 import com.growatt.chargingpile.adapter.GunSwitchAdapter;
@@ -42,6 +43,7 @@ import com.growatt.chargingpile.adapter.ReservaCharingAdapter;
 import com.growatt.chargingpile.application.MyApplication;
 import com.growatt.chargingpile.bean.ChargingBean;
 import com.growatt.chargingpile.bean.GunBean;
+import com.growatt.chargingpile.bean.NoConfigBean;
 import com.growatt.chargingpile.bean.PileSetBean;
 import com.growatt.chargingpile.bean.ReservationBean;
 import com.growatt.chargingpile.connutil.PostUtil;
@@ -142,6 +144,9 @@ public class ChargingPileActivity extends BaseActivity {
 
     @BindView(R.id.tv_lock)
     TextView mTvLock;
+
+    @BindView(R.id.rl_switch_gun)
+    RelativeLayout rlSwitchGun;
 
 
     //选择充电桩popuwindow
@@ -285,6 +290,7 @@ public class ChargingPileActivity extends BaseActivity {
     private ReservaCharingAdapter reservaAdapter;
     private List<ReservationBean.DataBean> reserveNow;
     public String[] solarArrray;
+    private String searchId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -298,7 +304,7 @@ public class ChargingPileActivity extends BaseActivity {
         initPullView();
         initStatusView();
         initResource();
-        refreshAll();
+        freshData();
     }
 
     private void initPermission() {
@@ -343,17 +349,9 @@ public class ChargingPileActivity extends BaseActivity {
         srlPull.setColorSchemeColors(ContextCompat.getColor(this, R.color.maincolor_1));
         srlPull.setOnRefreshListener(() -> {
             isTimeRefresh = false;
-            refreshAll();
+            freshData();
         });
     }
-
-    /**
-     * 刷新充电桩+枪数据
-     */
-    private void refreshAll() {
-        freshData();
-    }
-
 
     /**
      * 定时刷新任务
@@ -689,7 +687,8 @@ public class ChargingPileActivity extends BaseActivity {
             Mydialog.Show(this);
         }
         Map<String, Object> jsonMap = new HashMap<>();
-        jsonMap.put("userId", Cons.userBean.getAccountName());//测试id
+        jsonMap.put("userId", SmartHomeUtil.getUserName());//测试id
+        if (!TextUtils.isEmpty(searchId))jsonMap.put("chargeId",searchId);
         jsonMap.put("lan", getLanguage());
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         LogUtil.i(json);
@@ -708,12 +707,17 @@ public class ChargingPileActivity extends BaseActivity {
                     JSONObject object = new JSONObject(json);
                     if (object.getInt("code") == 0) {
                         ChargingBean chargingListBean = new Gson().fromJson(json, ChargingBean.class);
-                        charginglist = chargingListBean.getData();
-                        for (int i = 0; i < charginglist.size(); i++) {
-                            ChargingBean.DataBean bean = charginglist.get(i);
-                            bean.setDevType(ChargingBean.CHARGING_PILE);
-                            bean.setName(bean.getName());
+                        if (chargingListBean!=null){
+                            charginglist = chargingListBean.getData();
+                            if (charginglist==null)charginglist=new ArrayList<>();
+                                for (int i = 0; i < charginglist.size(); i++) {
+                                    ChargingBean.DataBean bean = charginglist.get(i);
+                                    bean.setDevType(ChargingBean.CHARGING_PILE);
+                                    bean.setName(bean.getName());
+                                }
+
                         }
+
                     }
                     //默认选中第一项
                     if (charginglist.size() > 0) {
@@ -761,8 +765,10 @@ public class ChargingPileActivity extends BaseActivity {
             tvModel.setText(getString(R.string.m113直流));
         }
         if (mCurrentPile.getConnectors() == 1) {
+            rlSwitchGun.setVisibility(View.GONE);
             tvGun.setText(getString(R.string.m114单枪));
         } else {
+            rlSwitchGun.setVisibility(View.VISIBLE);
             tvGun.setText(getString(R.string.m115双枪));
         }
         //是否限制了功率
@@ -785,7 +791,7 @@ public class ChargingPileActivity extends BaseActivity {
         Map<String, Object> jsonMap = new HashMap<>();
         jsonMap.put("sn", chargingId);//测试id
         jsonMap.put("connectorId", connectorId);//测试id
-        jsonMap.put("userId", Cons.userBean.getAccountName());//测试id
+        jsonMap.put("userId", SmartHomeUtil.getUserName());//测试id
         jsonMap.put("lan", getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         LogUtil.i(json);
@@ -853,7 +859,7 @@ public class ChargingPileActivity extends BaseActivity {
         Map<String, Object> jsonMap = new HashMap<>();
         jsonMap.put("sn", chargingId);//测试id
         jsonMap.put("connectorId", connectorId);//测试id
-        jsonMap.put("userId", Cons.userBean.getAccountName());//测试id
+        jsonMap.put("userId", SmartHomeUtil.getUserName());//测试id
         jsonMap.put("lan", getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         LogUtil.i(json);
@@ -1142,7 +1148,7 @@ public class ChargingPileActivity extends BaseActivity {
         Integer gunId = gunIds.get(mCurrentPile.getChargeId());
         if (gunId == null) gunId = 1;
         jsonMap.put("connectorId", gunId);
-        jsonMap.put("userId", Cons.userBean.getAccountName());
+        jsonMap.put("userId", SmartHomeUtil.getUserName());
         jsonMap.put("lan", getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         PostUtil.postJson(SmartHomeUrlUtil.postRequestLastAction(), json, new PostUtil.postListener() {
@@ -1433,31 +1439,90 @@ public class ChargingPileActivity extends BaseActivity {
                 setLock();
                 break;
             case R.id.ivRight:
-                boolean isGuide = SharedPreferencesUnit.getInstance(this).getBoolean(Constant.WIFI_GUIDE_KEY);
-                Class activity;
-                if (!(mAdapter.getData().size() > 1)) {
-                    toast(R.string.m212暂时还没有设备);
-                    return;
+                if (Cons.getNoConfigBean()==null){
+                    getNoConfigParams();
+                }else {
+                    toConfig();
                 }
-                if (isGuide) {
-                    activity = ConnetWiFiActivity.class;
-                } else {
-                    activity = WifiSetGuideActivity.class;
-                }
-                Intent intent5 = new Intent(this, activity);
-                intent5.putExtra("sn", mCurrentPile.getChargeId());
-                int online;
-                if (mCurrentGunBean != null && GunBean.UNAVAILABLE.equals(mCurrentGunBean.getData().getStatus())) {
-                    online = 1;
-                } else {
-                    online = 0;
-                }
-                intent5.putExtra("online", online);
-                intent5.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                jumpTo(intent5, false);
                 break;
         }
 
+    }
+
+
+    /**
+     * 获取需要密码的设置项
+     */
+    private void getNoConfigParams() {
+        Map<String, Object> jsonMap = new HashMap<>();
+        jsonMap.put("userId", SmartHomeUtil.getUserName());//测试id
+        jsonMap.put("cmd", "noConfig");
+        jsonMap.put("lan", getLanguage());
+        String json = SmartHomeUtil.mapToJsonString(jsonMap);
+        LogUtil.i(json);
+        Mydialog.Show(this);
+        PostUtil.postJson(SmartHomeUrlUtil.postByCmd(), json, new PostUtil.postListener() {
+            @Override
+            public void Params(Map<String, String> params) {
+
+            }
+
+            @Override
+            public void success(String json) {
+                Mydialog.Dismiss();
+                NoConfigBean bean=null;
+                try {
+                    JSONObject object = new JSONObject(json);
+                    if (object.getInt("code") == 0) {
+                        JSONObject jsonObject = object.optJSONObject("data");
+                        bean = new Gson().fromJson(jsonObject.toString(), NoConfigBean.class);
+                    }
+                    Cons.setNoConfigBean(bean);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                toConfig();
+            }
+
+            @Override
+            public void LoginError(String str) {
+                Mydialog.Dismiss();
+                toConfig();
+            }
+        });
+
+    }
+
+
+
+
+
+    /**
+     * 进入WiFi直连设置
+     */
+    private void toConfig() {
+        boolean isGuide = SharedPreferencesUnit.getInstance(this).getBoolean(Constant.WIFI_GUIDE_KEY);
+        Class activity;
+        if (!(mAdapter.getData().size() > 1)) {
+            toast(R.string.m212暂时还没有设备);
+            return;
+        }
+        if (isGuide) {
+            activity = ConnetWiFiActivity.class;
+        } else {
+            activity = WifiSetGuideActivity.class;
+        }
+        Intent intent5 = new Intent(this, activity);
+        intent5.putExtra("sn", mCurrentPile.getChargeId());
+        int online;
+        if (mCurrentGunBean != null && GunBean.UNAVAILABLE.equals(mCurrentGunBean.getData().getStatus())) {
+            online = 1;
+        } else {
+            online = 0;
+        }
+        intent5.putExtra("online", online);
+        intent5.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        jumpTo(intent5, false);
     }
 
     /**
@@ -1571,7 +1636,7 @@ public class ChargingPileActivity extends BaseActivity {
         PileSetBean.DataBean data = pileSetBean.getData();
         Map<String, Object> jsonMap = new HashMap<>();
         jsonMap.put("chargeId", mCurrentPile.getChargeId());//测试id
-        jsonMap.put("userId", Cons.userBean.getAccountName());//测试id
+        jsonMap.put("userId",SmartHomeUtil.getUserName());//测试id
         jsonMap.put("lan", getLanguage());//测试id
         jsonMap.put("G_SolarMode", data.getG_SolarMode());
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
@@ -1588,7 +1653,7 @@ public class ChargingPileActivity extends BaseActivity {
                     int code = object.getInt("code");
                     if (code == 0) {
                         isTimeRefresh = false;
-                        refreshAll();
+                        freshData();
                     }
                     String data = object.getString("data");
                     toast(data);
@@ -1669,7 +1734,7 @@ public class ChargingPileActivity extends BaseActivity {
                     .setPositiveInput(getString(R.string.m9确定), (text, v) -> {
                         Map<String, Object> params = new HashMap<>();
                         params.put("code", text);
-                        params.put("userId", Cons.userBean.accountName);
+                        params.put("userId", SmartHomeUtil.getUserName());
                         params.put("lan", getLanguage());
                         String json = SmartHomeUtil.mapToJsonString(params);
                         PostUtil.postJson(SmartHomeUrlUtil.postGetDemoCode(), json, new PostUtil.postListener() {
@@ -2125,7 +2190,7 @@ public class ChargingPileActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void addDev(AddDevMsg msg) {
-        refreshAll();
+        freshData();
     }
 
 
@@ -2191,7 +2256,7 @@ public class ChargingPileActivity extends BaseActivity {
         Integer gunId = gunIds.get(mCurrentPile.getChargeId());
         if (gunId == null) gunId = 1;
         jsonMap.put("connectorId", gunId);
-        jsonMap.put("userId", Cons.userBean.getAccountName());
+        jsonMap.put("userId", SmartHomeUtil.getUserName());
         jsonMap.put("chargeId", mCurrentPile.getChargeId());
         jsonMap.put("lan", getLanguage());
         if (type != 0) {
@@ -2250,7 +2315,7 @@ public class ChargingPileActivity extends BaseActivity {
         Integer gunId = gunIds.get(mCurrentPile.getChargeId());
         if (gunId == null) gunId = 1;
         jsonMap.put("connectorId", gunId);
-        jsonMap.put("userId", Cons.userBean.getAccountName());
+        jsonMap.put("userId", SmartHomeUtil.getUserName());
         jsonMap.put("chargeId", mCurrentPile.getChargeId());
         jsonMap.put("transactionId", transactionId);
         jsonMap.put("lan", getLanguage());
@@ -2323,7 +2388,7 @@ public class ChargingPileActivity extends BaseActivity {
         if (gunId == null) gunId = 1;
         jsonMap.put("connectorId", gunId);
         jsonMap.put("chargeId", mCurrentPile.getChargeId());
-        jsonMap.put("userId", Cons.userBean.getAccountName());
+        jsonMap.put("userId",SmartHomeUtil.getUserName());
         jsonMap.put("loopType", loopType);
         jsonMap.put("lan", getLanguage());
         if (loopType == 0) {
@@ -2589,7 +2654,7 @@ public class ChargingPileActivity extends BaseActivity {
             object.put("loopValue", bean.getLoopValue());
             object.put("reservationId", bean.getReservationId());
             object.put("sn", mCurrentPile.getChargeId());
-            object.put("userId", Cons.userBean.accountName);
+            object.put("userId", SmartHomeUtil.getUserName());
             object.put("ctype", "2");
             object.put("lan", getLanguage());
         } catch (Exception e) {
@@ -2629,6 +2694,7 @@ public class ChargingPileActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        searchId=null;
         if (bind != null) bind.unbind();
     }
 
@@ -2636,12 +2702,18 @@ public class ChargingPileActivity extends BaseActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void freshRate(RefreshRateMsg msg) {
         if (msg.getPriceConfBeanList() != null) {
-            refreshAll();
+            freshData();
         }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void freshAll(FreshListMsg msg) {
-        refreshAll();
+        freshData();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void searchFresh(SearchDevMsg msg) {
+        searchId = msg.getDevSn();
+        freshData();
     }
 }

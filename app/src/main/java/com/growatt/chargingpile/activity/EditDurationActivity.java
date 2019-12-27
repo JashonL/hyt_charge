@@ -17,7 +17,6 @@ import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.bean.ReservationBean;
 import com.growatt.chargingpile.connutil.PostUtil;
 import com.growatt.chargingpile.util.AlertPickDialog;
-import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
@@ -403,7 +402,7 @@ public class EditDurationActivity extends BaseActivity {
         Mydialog.Show(EditDurationActivity.this);
         Map<String, Object> jsonMap = new LinkedHashMap<String, Object>();
         jsonMap.put("sn", chargingId);
-        jsonMap.put("userId", Cons.userBean.getAccountName());
+        jsonMap.put("userId", SmartHomeUtil.getUserName());
         jsonMap.put("ctype", ctype);
         jsonMap.put("connectorId", dataBean.getConnectorId());
         jsonMap.put("cKey", dataBean.getCKey());
@@ -457,7 +456,7 @@ public class EditDurationActivity extends BaseActivity {
         jsonMap.put("connectorId", 1);
         jsonMap.put("expiryDate", expiryDate);
         jsonMap.put("chargeId",chargingId);
-        jsonMap.put("userId",Cons.userBean.getAccountName());
+        jsonMap.put("userId",SmartHomeUtil.getUserName());
         jsonMap.put("cKey", "G_SetTime");
         jsonMap.put("cValue", cValue);
         jsonMap.put("loopType", loopType);

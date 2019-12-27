@@ -11,11 +11,11 @@ import android.widget.TextView;
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.connutil.PostUtil;
-import com.growatt.chargingpile.connutil.Urlsutil;
 import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.LoginUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
+import com.growatt.chargingpile.util.SmartHomeUtil;
 import com.mylhyl.circledialog.CircleDialog;
 
 import org.json.JSONObject;
@@ -49,7 +49,7 @@ public class UserActivity extends BaseActivity {
     }
 
     private void initViews() {
-        textView3.setText(Cons.userBean.getPhoneNum());
+        textView3.setText(Cons.userBean.getPhone());
         textView5.setText(Cons.userBean.getEmail());
     }
 
@@ -93,54 +93,7 @@ public class UserActivity extends BaseActivity {
                 .setGravity(Gravity.CENTER).setPositive(getString(R.string.m9确定), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PostUtil.post(new Urlsutil().postLogoutUserByName, new PostUtil.postListener() {
-                    @Override
-                    public void Params(Map<String, String> params) {
-                        params.put("accountName", Cons.userBean.getAccountName());
-                    }
-
-                    @Override
-                    public void success(String json) {
-                        Mydialog.Dismiss();
-                        try {
-                            JSONObject jsonObject = new JSONObject(json);
-                            String msg = jsonObject.optString("msg");
-                            if (jsonObject.opt("success").toString().equals("true")) {
-                                if (msg.equals("200")) {
-                                    toast(R.string.m320注销成功);
-                                    deleteUser();
-                                }
-                            } else {
-                                if (msg.equals("500")) {
-                                    toast(R.string.m321注销失败);
-                                }
-                                if (msg.equals("501")) {
-                                    toast(R.string.m322系统错误);
-                                }
-                                if (msg.equals("502")) {
-                                    toast(R.string.m323用户不存在);
-                                }
-                                if (msg.equals("503")) {
-                                    toast(R.string.m324该用户下存在浏览账户);
-                                }
-                                if (msg.equals("504")) {
-                                    toast(R.string.m325admin账号不允许注销);
-                                }
-                                if (msg.equals("701")) {
-                                    toast(R.string.m321注销失败);
-                                }
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void LoginError(String str) {
-
-                    }
-                });
-
+                deleteUser();
             }
         })
                 .setNegative(getString(R.string.m7取消), null)
@@ -153,7 +106,7 @@ public class UserActivity extends BaseActivity {
         JSONObject object = new JSONObject();
         try {
             object.put("cmd", "deleteUser");
-            object.put("userId", Cons.userBean.getAccountName());
+            object.put("userId", SmartHomeUtil.getUserName());
             object.put("lan", getLanguage());
         } catch (Exception e) {
             e.printStackTrace();
@@ -194,7 +147,7 @@ public class UserActivity extends BaseActivity {
         } else if (type == 2) {
             bundle.putString("type", "2");
         }
-        bundle.putString("PhoneNum", Cons.userBean.getPhoneNum());
+        bundle.putString("PhoneNum", Cons.userBean.getPhone());
         bundle.putString("email", Cons.userBean.getEmail());
         intent.putExtras(bundle);
         startActivityForResult(intent, 103);

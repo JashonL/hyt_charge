@@ -18,7 +18,6 @@ import com.growatt.chargingpile.sqlite.SqliteUtil;
 import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.Constant;
 import com.growatt.chargingpile.util.LoginUtil;
-import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SharedPreferencesUnit;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
 
@@ -81,11 +80,17 @@ public class LoginActivity extends BaseActivity {
         if (autoLoginNum == 0 || map.size() == 0) {
             return;
         }
-        SqliteUtil.time((System.currentTimeMillis() + 500000) + "");
-        Mydialog.Show(LoginActivity.this, "");
         //oss登录
-        int autoLoginType = SharedPreferencesUnit.getInstance(this).getInt(Constant.AUTO_LOGIN_TYPE);
-        switch (autoLoginType) {
+        LoginUtil.login(mContext, etUsername.getText().toString().trim(), etPassword.getText().toString().trim(), new OnViewEnableListener() {
+            @Override
+            public void onViewEnable() {
+
+            }
+        });
+
+     /*
+     int autoLoginType = SharedPreferencesUnit.getInstance(this).getInt(Constant.AUTO_LOGIN_TYPE);
+     switch (autoLoginType) {
             case 0://oss登录
                 break;
             case 1://server登录
@@ -97,7 +102,7 @@ public class LoginActivity extends BaseActivity {
                     });
                 }
                 break;
-        }
+        }*/
     }
 
     @OnClick({R.id.tvRight, R.id.bt_login, R.id.tv_foget, R.id.ll_demo})
@@ -177,8 +182,16 @@ public class LoginActivity extends BaseActivity {
             return;
         }
         btLogin.setEnabled(false);
-        //正式登录
+     /*   //正式登录
         LoginUtil.ossErrAutoLogin(mContext, etUsername.getText().toString().trim(), etPassword.getText().toString().trim(), new OnViewEnableListener() {
+            @Override
+            public void onViewEnable() {
+                if (!btLogin.isEnabled()) {
+                    btLogin.setEnabled(true);
+                }
+            }
+        });*/
+        LoginUtil.login(mContext, etUsername.getText().toString().trim(), etPassword.getText().toString().trim(), new OnViewEnableListener() {
             @Override
             public void onViewEnable() {
                 if (!btLogin.isEnabled()) {
@@ -193,7 +206,6 @@ public class LoginActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            Cons.isExit = true;
             MyApplication.getInstance().exit();
             finish();
         }

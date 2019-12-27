@@ -14,6 +14,9 @@ public class WifiSetBean  extends AbstractExpandableItem<ParamsBeanLeveItem1> im
     private int type;
     private int index;
 
+    private String sfield;
+    private boolean isAuthority;
+
     public String getKey() {
         return key;
     }
@@ -52,6 +55,22 @@ public class WifiSetBean  extends AbstractExpandableItem<ParamsBeanLeveItem1> im
 
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public String getSfield() {
+        return sfield;
+    }
+
+    public void setSfield(String sfield) {
+        this.sfield = sfield;
+    }
+
+    public boolean isAuthority() {
+        return isAuthority;
+    }
+
+    public void setAuthority(boolean authority) {
+        isAuthority = authority;
     }
 
     @Override

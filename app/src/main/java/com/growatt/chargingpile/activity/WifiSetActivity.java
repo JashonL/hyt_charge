@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -29,10 +30,12 @@ import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.adapter.ParamsSetAdapter;
 import com.growatt.chargingpile.adapter.WifiSetAdapter;
 import com.growatt.chargingpile.bean.LockBean;
+import com.growatt.chargingpile.bean.ParamsSetBean;
 import com.growatt.chargingpile.bean.SolarBean;
 import com.growatt.chargingpile.bean.WiFiRequestMsgBean;
 import com.growatt.chargingpile.bean.WifiParseBean;
 import com.growatt.chargingpile.bean.WifiSetBean;
+import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUtil;
@@ -183,7 +186,6 @@ public class WifiSetActivity extends BaseActivity {
                     text = "连接成功";
                     isConnected = true;
                     Log.d("liaojinsha", text);
-                    srlPull.setEnabled(true);
                     break;
                 case SocketClientUtil.SOCKET_SEND_MSG:
                     text = "发送消息";
@@ -226,6 +228,11 @@ public class WifiSetActivity extends BaseActivity {
     };
     private Unbinder bind;
     private String[] keys;
+    private String[] keySfields;
+    private List<String> noConfigKeys;
+    private boolean isVerified = false;//是否已验证密码
+    private String password;
+
     private int gunPos;
 
 
@@ -262,7 +269,6 @@ public class WifiSetActivity extends BaseActivity {
         tvRight.setTextColor(ContextCompat.getColor(this, R.color.title_1));
         srlPull.setColorSchemeColors(ContextCompat.getColor(this, R.color.maincolor_1));
         srlPull.setOnRefreshListener(this::refresh);
-        srlPull.setEnabled(false);
     }
 
 
@@ -295,6 +301,18 @@ public class WifiSetActivity extends BaseActivity {
                 getString(R.string.m电桩电子锁)
         };
 
+        keySfields = new String[]{ "", "chargeId", "G_ChargerLanguage","G_CardPin", "G_RCDProtection", "G_Version",
+                "", "ip", "gateway","mask",  "mac", "dns",
+                "", "G_WifiSSID","G_WifiPassword","G_4GUserName", "G_4GPassword", "G_4GAPN",
+                "",  "host", "G_Authentication", "G_HearbeatInterval", "G_WebSocketPingInterval", "G_MeterValueInterval",
+               "", "G_ChargerMode",  "G_MaxCurrent", "rate","G_MaxTemperature", "G_ExternalLimitPower",
+                "G_AutoChargeTime","G_PeakValleyEnable",  "G_ExternalLimitPowerEnable", "G_ExternalSamplingCurWring", "G_SolarMode", "G_PowerMeterAddr",
+             ""};
+        if (Cons.getNoConfigBean() != null) {
+            noConfigKeys = Cons.getNoConfigBean().getSfield();
+            password=Cons.getNoConfigBean().getPassword();
+        }
+        if (noConfigKeys == null) noConfigKeys = new ArrayList<>();
         //初始化所有设置项
         initPileSetBean = new WifiParseBean();
         for (int i = 0; i < keys.length; i++) {
@@ -311,6 +329,12 @@ public class WifiSetActivity extends BaseActivity {
                 bean.setType(WifiSetAdapter.PARAM_ITEM);
                 bean.setKey(keys[i]);
                 bean.setValue("");
+            }
+            bean.setSfield(keySfields[i]);
+            if (noConfigKeys.contains(bean.getSfield())) {
+                bean.setAuthority(false);
+            } else {
+                bean.setAuthority(true);
             }
             list.add(bean);
         }
@@ -362,54 +386,63 @@ public class WifiSetActivity extends BaseActivity {
             int itemType = multiItemEntity.getItemType();
             if (itemType == WifiSetAdapter.PARAM_ITEM) {
                 WifiSetBean bean = (WifiSetBean) mAdapter.getData().get(position);
-                int index = bean.getIndex();
-                switch (index) {
-                    case 2://设置语言
-                        setLanguage();
-                        break;
-                    case 4:
-                        setRcd();
-                        break;
-                    case 25:
-                        setMode();
-                        break;
-                    case 30:
-                        Intent intent = new Intent(this, TimeSelectActivity.class);
-                        intent.putExtra("start", startTime);
-                        intent.putExtra("end", endTime);
-                        startActivityForResult(intent, 100);
-                        break;
-                    case 31:
-                        if (chargingLength > 24)
-                            setEnable(33);
-                        else toast(R.string.m请先升级充电桩);
-                        break;
-                    case 32:
-                        if (chargingLength > 25)
-                            setEnable(34);
-                        else toast(R.string.m请先升级充电桩);
-                        break;
-                    case 33:
-                        if (chargingLength > 26)
-                            setWiring();
-                        else toast(R.string.m请先升级充电桩);
-                        break;
-                    case 34:
-                        if (chargingLength > 27)
-                            setSolarMode();
-                        else toast(R.string.m请先升级充电桩);
-                        break;
-                    case 35://
-                        if (chargingLength > 30)
+                if (!bean.isAuthority()&&!isVerified){//如果是不允许设置，又没有验证密码
+                    showInputPassword();
+                }else {
+                    int index = bean.getIndex();
+                    switch (index) {
+                        case 2://设置语言
+                            setLanguage();
+                            break;
+                        case 4:
+                            setRcd();
+                            break;
+                        case 25:
+                            setMode();
+                            break;
+                        case 30:
+                            Intent intent = new Intent(this, TimeSelectActivity.class);
+                            intent.putExtra("start", startTime);
+                            intent.putExtra("end", endTime);
+                            startActivityForResult(intent, 100);
+                            break;
+                        case 31:
+                            if (chargingLength > 24)
+                                setEnable(31);
+                            else toast(R.string.m请先升级充电桩);
+                            break;
+                        case 32:
+                            if (chargingLength > 25)
+                                setEnable(32);
+                            else toast(R.string.m请先升级充电桩);
+                            break;
+                        case 33:
+                            if (chargingLength > 26)
+                                setWiring();
+                            else toast(R.string.m请先升级充电桩);
+                            break;
+                        case 34:
+                            if (chargingLength > 27)
+                                setSolarMode();
+                            else toast(R.string.m请先升级充电桩);
+                            break;
+                        case 35://
+                            if (chargingLength > 30)
+                                inputEdit(index, String.valueOf(bean.getValue()));
+                            else toast(R.string.m请先升级充电桩);
+                            break;
+                        default:
                             inputEdit(index, String.valueOf(bean.getValue()));
-                        else toast(R.string.m请先升级充电桩);
-                        break;
-                    default:
-                        inputEdit(index, String.valueOf(bean.getValue()));
-                        break;
+                            break;
+                    }
                 }
             } else if (itemType == WifiSetAdapter.PARAM_ITEM_SOLAR) {//设置solar限制
-                setECOLimit();
+                ParamsSetBean bean = (ParamsSetBean) mAdapter.getData().get(34);
+                if (!bean.isAuthority()&&!isVerified){//如果是不允许设置，又没有验证密码
+                    showInputPassword();
+                }else {
+                    setECOLimit();
+                }
             } else if (itemType == WifiSetAdapter.PARAM_ITEM_LOCK) {
                 if (lockLength > 0) {
                     LockBean bean = (LockBean) mAdapter.getData().get(position);
@@ -1174,6 +1207,12 @@ public class WifiSetActivity extends BaseActivity {
                     for (int j = 0; j < solarBeans.size(); j++) {
                         SolarBean solarBean = solarBeans.get(j);
                         solarBean.setType(ParamsSetAdapter.PARAM_ITEM_SOLAR);
+                        solarBean.setSfield(keySfields[i]);
+                        if (noConfigKeys.contains(solarBean.getSfield())) {
+                            solarBean.setAuthority(false);
+                        } else {
+                            solarBean.setAuthority(true);
+                        }
                         bean.addSubItem(solarBean);
                     }
                     break;
@@ -1182,6 +1221,12 @@ public class WifiSetActivity extends BaseActivity {
                     bean.setKey(keys[i]);
                     bean.setValue(initPileSetBean.getAmmeter());
                     break;
+            }
+            bean.setSfield(keySfields[i]);
+            if (noConfigKeys.contains(bean.getSfield())) {
+                bean.setAuthority(false);
+            } else {
+                bean.setAuthority(true);
             }
             newlist.add(bean);
             mAdapter.setNewData(newlist);
@@ -2636,6 +2681,37 @@ public class WifiSetActivity extends BaseActivity {
                     break;
             }
         }
+    }
+
+
+
+
+    private void showInputPassword(){
+        new CircleDialog.Builder()
+                .setTitle(getString(R.string.m27温馨提示))
+                //添加标题，参考普通对话框
+                .setInputHint(getString(R.string.m26请输入密码))//提示
+                .setInputHeight(100)//输入框高度
+                .autoInputShowKeyboard()//自动弹出键盘
+                .configInput(params -> {
+                    params.gravity = Gravity.CENTER;
+                    params.textSize = 45;
+//                            params.backgroundColor=ContextCompat.getColor(ChargingPileActivity.this, R.color.preset_edit_time_background);
+                    params.strokeColor = ContextCompat.getColor(this, R.color.preset_edit_time_background);
+                })
+                .setPositiveInput(getString(R.string.m9确定), (text, v) -> {
+                    if (password.equals(text)){
+                        isVerified=true;
+                        toast(R.string.m验证成功);
+                    }else {
+                        toast(R.string.m验证失败);
+                    }
+                })
+                //添加取消按钮，参考普通对话框
+                .setNegative(getString(R.string.m7取消), v -> {
+
+                })
+                .show(getSupportFragmentManager());
     }
 
     @Override

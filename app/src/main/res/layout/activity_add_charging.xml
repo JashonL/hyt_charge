@@ -44,7 +44,6 @@
         android:id="@+id/btConfirm"
         android:layout_width="match_parent"
         android:layout_height="@dimen/xa88"
-        android:layout_below="@+id/etPwd"
         android:layout_marginLeft="@dimen/xa75"
         android:layout_marginRight="@dimen/xa75"
         android:layout_marginTop="@dimen/xa96"
@@ -82,7 +81,8 @@
                 android:gravity="center"
                 android:text="@string/m137扫码添加"
                 android:textColor="@color/charging_text_color_2"
-                android:textSize="@dimen/xa36" />
+                android:textSize="@dimen/xa36"
+                android:layout_marginStart="@dimen/xa35" />
         </LinearLayout>
 
     </RelativeLayout>

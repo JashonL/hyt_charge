@@ -19,8 +19,6 @@ import android.widget.TextView;
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.connutil.PostUtil;
-import com.growatt.chargingpile.connutil.Urlsutil;
-import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
 import com.growatt.chargingpile.util.SmartHomeUtil;
@@ -91,12 +89,7 @@ public class AddAuthorizationActivity extends BaseActivity {
         tvRight.setTextSize(TypedValue.COMPLEX_UNIT_PX, dimen);
         tvRight.setTextColor(ContextCompat.getColor(this, R.color.charging_text_color_2));
         tvRight.setText(getString(R.string.m164注册新用户));
-        tvRight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                gotoRegister();
-            }
-        });
+        tvRight.setOnClickListener(v -> gotoRegister());
 
     }
 
@@ -119,6 +112,9 @@ public class AddAuthorizationActivity extends BaseActivity {
         if (TextUtils.isEmpty(username.trim())) {
             toast(R.string.m25请输入用户名);
         }
+        toAddAuthorize();
+
+     /*
         PostUtil.post(new Urlsutil().postServerUserId, new PostUtil.postListener() {
             @Override
             public void Params(Map<String, String> params) {
@@ -151,7 +147,7 @@ public class AddAuthorizationActivity extends BaseActivity {
             public void LoginError(String str) {
 
             }
-        });
+        });*/
     }
 
 
@@ -166,7 +162,7 @@ public class AddAuthorizationActivity extends BaseActivity {
             return;
         }
         Map<String, Object> jsonMap = new LinkedHashMap<>();
-        jsonMap.put("ownerId", Cons.userBean.getAccountName());
+        jsonMap.put("ownerId", SmartHomeUtil.getUserName());
         jsonMap.put("sn", chargingId);
         jsonMap.put("userId", userName);
         jsonMap.put("phone", "");

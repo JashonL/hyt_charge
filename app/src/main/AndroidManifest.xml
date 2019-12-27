@@ -44,6 +44,7 @@
     <uses-permission android:name="android.permission.ACCESS_GPS" />
     <!-- apn设置权限 -->
     <uses-permission android:name="Android.permission.WRITE_APN_SETTINGS" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
 
     <application
         android:name=".application.MyApplication"

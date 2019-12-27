@@ -24,6 +24,7 @@ import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.DialogUtil;
 import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
+import com.growatt.chargingpile.util.SmartHomeUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -260,7 +261,7 @@ public class NewPhoneVerActivity extends BaseActivity {
             @Override
             public void Params(Map<String, String> params) {
                 params.put("type","1");
-                params.put("userName", Cons.userBean != null ? Cons.userBean.getAccountName():"");
+                params.put("userName", Cons.userBean != null ? SmartHomeUtil.getUserName():"");
                 if ("86".equals(areaCode)){
                     params.put("content",phone);
                 }else {
@@ -273,7 +274,6 @@ public class NewPhoneVerActivity extends BaseActivity {
                     JSONObject jsonObject = new JSONObject(json);
                     int result = jsonObject.getInt("result");
                     if (result == 1){
-                        Cons.isValiPhone = true;
                         Cons.userBean.setPhoneNum(phone);
                         DialogUtil.circlerDialog(NewPhoneVerActivity.this, getString(R.string.m成功), result,false, new OnCirclerDialogListener() {
                             @Override

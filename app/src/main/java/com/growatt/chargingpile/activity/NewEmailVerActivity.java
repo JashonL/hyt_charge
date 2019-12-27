@@ -24,6 +24,7 @@ import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.DialogUtil;
 import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
+import com.growatt.chargingpile.util.SmartHomeUtil;
 
 import org.json.JSONObject;
 import org.xutils.common.util.LogUtil;
@@ -237,7 +238,7 @@ public class NewEmailVerActivity extends BaseActivity {
             @Override
             public void Params(Map<String, String> params) {
                 params.put("type", "0");
-                params.put("userName", Cons.userBean != null ? Cons.userBean.getAccountName() : "");
+                params.put("userName", Cons.userBean != null ? SmartHomeUtil.getUserName() : "");
                 params.put("content", email);
             }
 
@@ -247,7 +248,6 @@ public class NewEmailVerActivity extends BaseActivity {
                     JSONObject jsonObject = new JSONObject(json);
                     int result = jsonObject.getInt("result");
                     if (result == 1) {
-                        Cons.isValiEmail = true;
                         Cons.userBean.setEmail(email);
                         DialogUtil.circlerDialog(NewEmailVerActivity.this, getString(R.string.m成功), result, false, new OnCirclerDialogListener() {
                             @Override

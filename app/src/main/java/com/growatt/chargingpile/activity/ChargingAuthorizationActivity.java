@@ -15,7 +15,6 @@ import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.adapter.ChargingUserAdapter;
 import com.growatt.chargingpile.bean.ChargingUserBean;
 import com.growatt.chargingpile.connutil.PostUtil;
-import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
 import com.growatt.chargingpile.util.SmartHomeUtil;
@@ -73,7 +72,7 @@ public class ChargingAuthorizationActivity extends BaseActivity {
         Mydialog.Show(this);
         Map<String, Object> jsonMap = new LinkedHashMap<String, Object>();
         jsonMap.put("sn", chargingId);
-        jsonMap.put("userId", Cons.userBean.getAccountName());
+        jsonMap.put("userId",SmartHomeUtil.getUserName());
         jsonMap.put("page", 1);
         jsonMap.put("psize", 30);
         jsonMap.put("lan", getLanguage());//测试id

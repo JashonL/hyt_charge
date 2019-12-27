@@ -50,12 +50,10 @@
         android:id="@+id/btAdd"
         android:layout_width="match_parent"
         android:layout_height="@dimen/xa88"
-        android:layout_below="@+id/etPwd"
         android:layout_marginLeft="@dimen/xa75"
         android:layout_marginRight="@dimen/xa75"
         android:layout_marginTop="@dimen/xa80"
         android:background="@drawable/selector_circle_btn_green"
-        android:stateListAnimator="@null"
         android:text="@string/m3完成"
         android:textColor="@color/headerView" />
 

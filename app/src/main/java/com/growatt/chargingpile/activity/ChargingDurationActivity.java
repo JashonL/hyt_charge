@@ -19,7 +19,6 @@ import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.adapter.TimingAdapter;
 import com.growatt.chargingpile.bean.ReservationBean;
 import com.growatt.chargingpile.connutil.PostUtil;
-import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
@@ -153,7 +152,7 @@ public class ChargingDurationActivity extends BaseActivity {
     private void refresh() {
         if (!isUpdate) Mydialog.Show(this);
         Map<String, Object> jsonMap = new LinkedHashMap<String, Object>();
-        jsonMap.put("userId",Cons.userBean.getAccountName());
+        jsonMap.put("userId",SmartHomeUtil.getUserName());
         jsonMap.put("sn",chargingId);
         jsonMap.put("connectorId", 1);
         jsonMap.put("cKey", "G_SetTime");
@@ -295,7 +294,7 @@ public class ChargingDurationActivity extends BaseActivity {
                     object.put("loopValue", dataBean.getLoopValue());
                     object.put("reservationId", dataBean.getReservationId());
                     object.put("sn", chargingId);
-                    object.put("userId", Cons.userBean.accountName);
+                    object.put("userId", SmartHomeUtil.getUserName());
                 }
                 object.put("ctype", ctype);
                 object.put("lan", getLanguage());//测试id

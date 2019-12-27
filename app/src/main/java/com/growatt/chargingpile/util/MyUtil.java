@@ -181,7 +181,7 @@ public class MyUtil {
                 ";AppVersion:" + getAppVersion(context) +
                 ";" + "SystemVersion:" + android.os.Build.VERSION.RELEASE +
                 ";" + "PhoneModel:" + android.os.Build.MODEL +
-                ";" + "UserName:" + (Cons.userBean != null ? Cons.userBean.getAccountName() : "") +
+                ";" + "UserName:" + (Cons.userBean != null ? SmartHomeUtil.getUserName() : "") +
                 ";" + "msg:" + errMsg;
         Log.i("TAG", msg);
         PostUtil.post(new Urlsutil().postSaveAppErrorMsg, new PostUtil.postListener() {
@@ -451,7 +451,7 @@ public class MyUtil {
         ConnectivityManager manager = (ConnectivityManager)activity.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         assert manager != null;
         NetworkInfo.State wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState();
-        if (wifi != NetworkInfo.State.CONNECTED && wifi != NetworkInfo.State.CONNECTING) {
+        if (wifi == null) {
             return null;
         }
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O) {

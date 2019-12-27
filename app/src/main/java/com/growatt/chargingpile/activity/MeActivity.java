@@ -31,7 +31,6 @@ import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.adapter.Myadapter;
 import com.growatt.chargingpile.application.MyApplication;
 import com.growatt.chargingpile.util.AppUtils;
-import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.LoadLocalImageUtil;
 import com.growatt.chargingpile.util.LoginUtil;
 import com.growatt.chargingpile.util.MyUtil;
@@ -135,7 +134,7 @@ public class MeActivity extends BaseActivity {
         if (SmartHomeUtil.isFlagUser()) {
             name.setText(getText(R.string.m浏览账户));
         } else {
-            name.setText(Cons.userBean.getAccountName());
+            name.setText(SmartHomeUtil.getUserName());
         }
         TextPaint tp = name.getPaint();
         tp.setFakeBoldText(true);

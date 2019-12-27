@@ -11,7 +11,6 @@ import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.adapter.ChargingRecordAdapter;
 import com.growatt.chargingpile.bean.ChargingRecordBean;
 import com.growatt.chargingpile.connutil.PostUtil;
-import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
 import com.growatt.chargingpile.util.SmartHomeUtil;
@@ -111,7 +110,7 @@ public class ChargingRecoderActivity extends BaseActivity {
     private void refresh(int page, int psize) {
         Mydialog.Show(this);
         Map<String, Object> jsonMap = new LinkedHashMap<String, Object>();
-        jsonMap.put("userId", Cons.userBean.getAccountName());
+        jsonMap.put("userId", SmartHomeUtil.getUserName());
         jsonMap.put("sn",chargingId);
         jsonMap.put("page", page);
         jsonMap.put("psize", psize);

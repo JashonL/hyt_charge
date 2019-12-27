@@ -16,6 +16,14 @@ public class SmartHomeUrlUtil {
 
 //    public static final String SMARTHOME_BASE_URL = "http://192.168.3.228";
 
+
+
+    public static String getServer(){
+       return "charge.growatt.com";
+    }
+
+
+
     //获取用户所有家庭能源设备数据总接口
     public static final String USER_TOTAL_AllLIST = SMARTHOME_BASE_URL + "/eic_web/tuya/totalList";
 
@@ -185,4 +193,5 @@ public class SmartHomeUrlUtil {
     public static String postByCmd(){
         return SMARTHOME_BASE_URL+"/ocpp/api/";
     }
+
 }

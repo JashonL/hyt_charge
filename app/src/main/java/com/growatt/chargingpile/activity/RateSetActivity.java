@@ -21,9 +21,9 @@ import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.adapter.RateSetAdapter;
 import com.growatt.chargingpile.bean.ChargingBean;
 import com.growatt.chargingpile.connutil.PostUtil;
-import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
+import com.growatt.chargingpile.util.SmartHomeUtil;
 import com.mylhyl.circledialog.CircleDialog;
 
 import org.greenrobot.eventbus.EventBus;
@@ -262,7 +262,7 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("cmd", "addPrice");
-            jsonObject.put("userId", Cons.userBean.getAccountName());
+            jsonObject.put("userId", SmartHomeUtil.getUserName());
             jsonObject.put("chargeId", chargingId);
             jsonObject.put("lan", getLanguage());
             JSONArray jsonArray = new JSONArray();

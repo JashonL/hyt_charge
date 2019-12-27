@@ -1,6 +1,5 @@
 package com.growatt.chargingpile.activity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.Typeface;
@@ -15,24 +14,18 @@ import android.widget.TextView;
 
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
-import com.growatt.chargingpile.connutil.GetUtil;
 import com.growatt.chargingpile.connutil.PostUtil;
-import com.growatt.chargingpile.connutil.Urlsutil;
 import com.growatt.chargingpile.listener.OnViewEnableListener;
 import com.growatt.chargingpile.sqlite.SqliteUtil;
 import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.LoginUtil;
 import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
+import com.growatt.chargingpile.util.SmartHomeUrlUtil;
+import com.growatt.chargingpile.util.SmartHomeUtil;
 
 import org.json.JSONObject;
-import org.xutils.common.util.LogUtil;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -62,6 +55,11 @@ public class RegisterActivity extends BaseActivity {
     TextView terms;
     @BindView(R.id.et_phone)
     EditText etPhone;
+    @BindView(R.id.et_postcode)
+    EditText etPostCode;
+    @BindView(R.id.et_installer)
+    EditText etInstanller;
+
     private Unbinder bind;
 
     @Override
@@ -77,12 +75,7 @@ public class RegisterActivity extends BaseActivity {
         tvTitle.setText(getString(R.string.m23注册));
         //设置字体加粗
         tvTitle.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-        setHeaderImage(headerView, R.drawable.back, Position.LEFT, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        setHeaderImage(headerView, R.drawable.back, Position.LEFT, v -> finish());
     }
 
 
@@ -99,7 +92,8 @@ public class RegisterActivity extends BaseActivity {
                 break;
             case R.id.btRegister:
                 try {
-                    registerNext();
+//                    registerNext();
+                    register();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -108,8 +102,7 @@ public class RegisterActivity extends BaseActivity {
 
     }
 
-
-    private void registerNext() throws UnsupportedEncodingException {
+/*    private void registerNext() throws UnsupportedEncodingException {
         if (!checkBox.isChecked()) {
             toast(R.string.m34选择用户协议);
             return;
@@ -178,7 +171,7 @@ public class RegisterActivity extends BaseActivity {
         Cons.regMap.setRegPassword(etPassword.getText().toString().trim());
         Cons.regMap.setRegPhoneNumber(etPhone.getText().toString().trim());
         Cons.regMap.setRegUserName(etUsername.getText().toString().trim());
-
+        Cons.regMap.setRegPostCode(etPostCode.getText().toString().trim());
     }
 
 
@@ -195,13 +188,18 @@ public class RegisterActivity extends BaseActivity {
                         if (msg.equals("200")) {
                            LogUtil.d("注册成功"); //调用登录
                             toast(R.string.m42注册成功);
-                            LoginUtil.ossErrAutoLogin(mContext, etUsername.getText().toString().trim(), etPassword.getText().toString().trim(), new OnViewEnableListener() {
+                    *//*        LoginUtil.ossErrAutoLogin(mContext, etUsername.getText().toString().trim(), etPassword.getText().toString().trim(), new OnViewEnableListener() {
+                                @Override
+                                public void onViewEnable() {
+
+                                }
+                            });*//*
+                            LoginUtil.login(mContext, etUsername.getText().toString().trim(), etPassword.getText().toString().trim(), new OnViewEnableListener() {
                                 @Override
                                 public void onViewEnable() {
 
                                 }
                             });
-                            return;
                         }
                     } else {
                         if (msg.equals("501")) {
@@ -352,7 +350,127 @@ public class RegisterActivity extends BaseActivity {
 
             }
         });
+    }*/
+
+
+    private void register(){
+        String username = etUsername.getText().toString().trim();
+        String password = etPassword.getText().toString().trim();
+        String email = etEmail.getText().toString().trim();
+        String postCode=etPostCode.getText().toString().trim();
+        String phone=etPhone.getText().toString().trim();
+        String installer=etInstanller.getText().toString().trim();
+        final String country = MyUtil.getCountryAndPhoneCodeByCountryCode(this, 1);
+        if (TextUtils.isEmpty(username)) {
+            toast(R.string.m21用户名密码为空);
+            return;
+        }
+        if (username.length() < 3) {
+            toast(R.string.m99用户名必须大于3位);
+            return;
+        }
+        if (TextUtils.isEmpty(password)) {
+            toast(R.string.m21用户名密码为空);
+            return;
+        }
+        if (TextUtils.isEmpty(String.valueOf(etConfirm.getText()))) {
+            toast(R.string.m21用户名密码为空);
+            return;
+        }
+
+        if (!etPassword.getText().toString().trim().equals(etConfirm.getText().toString().trim())) {
+            toast(R.string.m98请输入相同的密码);
+            return;
+        }
+
+        if (TextUtils.isEmpty(email)) {
+            toast(R.string.m35请输入正确邮箱格式);
+            return;
+        }
+
+        //校验邮箱
+        if (!MyUtil.regexCheckEmail(email)) {
+            toast(R.string.m35请输入正确邮箱格式);
+            return;
+        }
+
+        //邮政编码
+        if (TextUtils.isEmpty(postCode)){
+            toast(R.string.m邮政编码不能为空);
+            return;
+        }
+
+
+        if (!checkBox.isChecked()) {
+            toast(R.string.m34选择用户协议);
+            return;
+        }
+
+        Mydialog.Show(this);
+        JSONObject object = new JSONObject();
+        try {
+            object.put("cmd", "register");//cmd  注册
+            object.put("userId", SmartHomeUtil.getUserName());//用户名
+            object.put("roleId", "endUser");//角色
+            object.put("phone",phone);
+            object.put("password", password);//密码
+            object.put("installer", installer);//安装者
+            object.put("company", installer);//公司
+            object.put("email", email);//邮箱
+            object.put("installerInfo", installer);//安装商信息
+            object.put("zipCode", postCode);//邮编
+            object.put("country", country);//国家
+            object.put("lan", getLanguage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        PostUtil.postJson(SmartHomeUrlUtil.postByCmd(), object.toString(), new PostUtil.postListener() {
+            @Override
+            public void Params(Map<String, String> params) {
+
+            }
+
+            @Override
+            public void success(String json) {
+                Mydialog.Dismiss();
+                try {
+                    JSONObject object = new JSONObject(json);
+                    int code = object.getInt("code");
+                    if (code == 0) {
+                        toast(R.string.m42注册成功);
+                        SqliteUtil.url(SmartHomeUrlUtil.getServer());
+                        LoginUtil.login(mContext, etUsername.getText().toString().trim(), etPassword.getText().toString().trim(), new OnViewEnableListener() {
+                            @Override
+                            public void onViewEnable() {
+
+                            }
+                        });
+                    }else {
+                        String errorMsg = object.optString("data");
+                        toast(errorMsg);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void LoginError(String str) {
+
+            }
+        });
+
+        Cons.regMap.setRegEmail(email);
+        Cons.regMap.setRegPassword(password);
+        Cons.regMap.setRegPhoneNumber(phone);
+        Cons.regMap.setRegUserName(username);
+        Cons.regMap.setRegPostCode(postCode);
+        Cons.regMap.setRegInstaller(installer);
     }
+
+
+
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

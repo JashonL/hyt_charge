@@ -17,7 +17,6 @@ import com.growatt.chargingpile.connutil.Urlsutil;
 import com.growatt.chargingpile.listener.OnViewEnableListener;
 import com.growatt.chargingpile.sqlite.SqliteUtil;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.lang.ref.SoftReference;
@@ -48,7 +47,13 @@ public class LoginUtil {
         Map<String, Object> map = SqliteUtil.inquirylogin();
         String url = SqliteUtil.inquiryurl();
         if (map != null && map.size() > 0 && (!TextUtils.isEmpty(url))) {
-            serverLogin(1, context, url, map.get("name").toString().trim(), map.get("pwd").toString().trim(), new OnViewEnableListener() {
+          /*  serverLogin(1, context, url, map.get("name").toString().trim(), map.get("pwd").toString().trim(), new OnViewEnableListener() {
+            });*/
+            LoginUtil.login(context, map.get("name").toString().trim(), map.get("pwd").toString().trim(), new OnViewEnableListener() {
+                @Override
+                public void onViewEnable() {
+
+                }
             });
         } else {
             SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN, 0);
@@ -79,7 +84,6 @@ public class LoginUtil {
      * @param loginType :代表登录类型：0：代表正常登录；1：代表server登录超时重新登录;
      */
     public static void serverLogin(final int loginType, final Context context, String userServerUrl, final String userName, final String password, final OnViewEnableListener enableListener) {
-        Cons.account_url = userServerUrl;
         SqliteUtil.url(userServerUrl);
         Urlsutil.setUrl_Full(userServerUrl);
         if (loginType != 1) {
@@ -136,30 +140,16 @@ public class LoginUtil {
             JSONObject jsonObject10 = new JSONObject(json);
             JSONObject jsonObject = jsonObject10.getJSONObject("back");
             if (jsonObject.opt("success").toString().equals("true")) {
-                if ("1".equals(jsonObject.opt("service").toString())) {
-                    Cons.addQuestion = true;
-                } else {
-                    Cons.addQuestion = false;
-                }
                 int app_code = jsonObject.optInt("app_code", 0);
-                if (app_code > SqliteUtil.getApp_Code() || SqliteUtil.getApp_Code() == -1) {
-                    Cons.isCodeUpdate = true;
-                } else {
-                    Cons.isCodeUpdate = false;
-                }
                 SqliteUtil.setService("", app_code);
-                JSONArray jsonArray = jsonObject.getJSONArray("data");
                 JSONObject jsonObject2 = jsonObject.getJSONObject("user");
                 UserBean userBean = new Gson().fromJson(jsonObject2.toString(), UserBean.class);
-                Cons.userId = userBean.getId();
                 //设置帐号是否是浏览帐号
-                if (Cons.isflagId.equals(userBean.getAccountName())) {
-                    userBean.setAuth(1);
+                if (Cons.isflagId.equals(SmartHomeUtil.getUserName())) {
+                    userBean.setAuthnum(1);
                 } else {
-                    userBean.setAuth(0);
+                    userBean.setAuthnum(0);
                 }
-                Cons.isValiEmail = userBean.getIsValiEmail() == 1;
-                Cons.isValiPhone = userBean.getIsValiPhone() == 1;
                 Cons.userBean = userBean;
                 if (loginType != 2) {
                     SqliteUtil.login(userName, password);
@@ -185,7 +175,6 @@ public class LoginUtil {
                 enableListener.onViewEnable();
                 T.make(R.string.m20用户名密码错误, context);
 //                jumpLoginActivity(context);
-                Constant.isOss2Server = false;
                 //设置不自动登录
                 SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN, 0);
                 SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN_TYPE, 0);
@@ -298,6 +287,7 @@ public class LoginUtil {
         SqliteUtil.url("");
         SqliteUtil.plant("");
         Urlsutil.setUrl_Full("");
+        Cons.setNoConfigBean(null);
         //设置不自动登录
         SharedPreferencesUnit.getInstance(act).putInt(Constant.AUTO_LOGIN, 0);
         SharedPreferencesUnit.getInstance(act).putInt(Constant.AUTO_LOGIN_TYPE, 0);
@@ -323,10 +313,90 @@ public class LoginUtil {
      */
 
     public static void demoLogin(Context context, String userName, String password) {
-        ossErrAutoLogin(context, userName, password, new OnViewEnableListener() {
+ /*       ossErrAutoLogin(context, userName, password, new OnViewEnableListener() {
             @Override
             public void onViewEnable() {
                 super.onViewEnable();
+            }
+        });*/
+        LoginUtil.login(context, userName, password, new OnViewEnableListener() {
+            @Override
+            public void onViewEnable() {
+
+            }
+        });
+    }
+
+
+    /**
+     * 正常终端用户登录
+     */
+    public static void login(final Context context,final String userName, final String password, final OnViewEnableListener enableListener){
+        SqliteUtil.url(SmartHomeUrlUtil.getServer());
+        Mydialog.Show(context);
+        JSONObject object = new JSONObject();
+        try {
+            object.put("cmd", "login");//cmd  注册
+            object.put("userId",userName);//用户名
+            object.put("password", password);//密码
+            object.put("lan", getLanguage(context));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        PostUtil.postJson(SmartHomeUrlUtil.postByCmd(), object.toString(), new PostUtil.postListener() {
+            @Override
+            public void Params(Map<String, String> params) {
+
+            }
+
+            @Override
+            public void success(String json) {
+                Mydialog.Dismiss();
+                try {
+                    JSONObject object = new JSONObject(json);
+                    int code = object.getInt("code");
+                    if (code == 0) {
+                        T.make(R.string.m登录成功, context);
+                        JSONObject jsonObject = object.optJSONObject("data");
+                        UserBean userBean = new Gson().fromJson(jsonObject.toString(), UserBean.class);
+                        //设置帐号是否是浏览帐号
+                        if (Cons.isflagId.equals(SmartHomeUtil.getUserName())) {
+                            userBean.setAuthnum(1);
+                        } else {
+                            userBean.setAuthnum(0);
+                        }
+                        Cons.userBean = userBean;
+                        SqliteUtil.login(userName, password);
+                        int autoLogin;
+                        int autoLoginType;
+                        if (SmartHomeUtil.isFlagUser()) {
+                            autoLogin=0;
+                            autoLoginType=0;
+                        } else {
+                            autoLogin=1;
+                            autoLoginType=1;
+                        }
+                        SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN, autoLogin);
+                        SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN_TYPE, autoLoginType);
+                        enableListener.onViewEnable();
+                        jumpActivity(context, ChargingPileActivity.class);
+                    }else {
+                        String errorMsg = object.optString("data");
+                        enableListener.onViewEnable();
+                        T.make(errorMsg, context);
+                        //设置不自动登录
+                        SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN, 0);
+                        SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN_TYPE, 0);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void LoginError(String str) {
+                Mydialog.Dismiss();
+                enableListener.onViewEnable();
             }
         });
     }

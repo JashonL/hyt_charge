@@ -435,6 +435,14 @@
     <string name="m请先升级充电桩">请先升级充电桩</string>
     <string name="mCT">CT</string>
     <string name="m确认修改">确认修改?</string>
+    <string name="m请输入您的邮政编码">请输入您的邮政编码</string>
+    <string name="m邮政编码不能为空">邮政编码不能为空</string>
+    <string name="m请输入安装商">请输入安装商</string>
+    <string name="m搜索电桩">搜索电桩</string>
+    <string name="m搜索结果为空">搜索结果为空</string>
+    <string name="m登录成功">登录成功</string>
+    <string name="m验证失败">验证失败</string>
+    <string name="m验证成功">验证成功</string>
 </resources>
 
 

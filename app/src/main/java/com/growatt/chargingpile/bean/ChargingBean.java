@@ -398,18 +398,24 @@ public class ChargingBean {
             private String symbol;
             private String startTime;
             private String endTime;
+            private String sfield;
+            private boolean isAuthority;
+
 
             public PriceConfBean() {
             }
+
 
             protected PriceConfBean(Parcel in) {
                 price = in.readDouble();
                 nameX = in.readString();
                 timeX = in.readString();
                 itemType = in.readInt();
-                symbol=in.readString();
-                startTime=in.readString();
-                endTime=in.readString();
+                symbol = in.readString();
+                startTime = in.readString();
+                endTime = in.readString();
+                sfield = in.readString();
+                isAuthority = in.readByte() != 0;
             }
 
             public static final Creator<PriceConfBean> CREATOR = new Creator<PriceConfBean>() {
@@ -476,6 +482,22 @@ public class ChargingBean {
                 this.endTime = endTime;
             }
 
+            public String getSfield() {
+                return sfield;
+            }
+
+            public void setSfield(String sfield) {
+                this.sfield = sfield;
+            }
+
+            public boolean isAuthority() {
+                return isAuthority;
+            }
+
+            public void setAuthority(boolean authority) {
+                isAuthority = authority;
+            }
+
             @Override
             public int getItemType() {
                 return itemType;
@@ -488,15 +510,20 @@ public class ChargingBean {
             }
 
             @Override
-            public void writeToParcel(Parcel dest, int flags) {
-                dest.writeDouble(price);
-                dest.writeString(nameX);
-                dest.writeString(timeX);
-                dest.writeInt(itemType);
-                dest.writeString(symbol);
-                dest.writeString(startTime);
-                dest.writeString(endTime);
+            public void writeToParcel(Parcel parcel, int i) {
+
+                parcel.writeDouble(price);
+                parcel.writeString(nameX);
+                parcel.writeString(timeX);
+                parcel.writeInt(itemType);
+                parcel.writeString(symbol);
+                parcel.writeString(startTime);
+                parcel.writeString(endTime);
+                parcel.writeString(sfield);
+                parcel.writeByte((byte) (isAuthority ? 1 : 0));
             }
+
+
         }
     }
 }

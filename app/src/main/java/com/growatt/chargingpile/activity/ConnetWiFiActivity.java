@@ -28,7 +28,6 @@ import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.bean.UdpSearchBean;
 import com.growatt.chargingpile.connutil.PostUtil;
-import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.PermissionCodeUtil;
@@ -265,7 +264,7 @@ public class ConnetWiFiActivity extends BaseActivity {
         Mydialog.Show(this);
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         jsonMap.put("chargeId", devId);//测试id
-        jsonMap.put("userId", Cons.userBean.getAccountName());//测试id
+        jsonMap.put("userId", SmartHomeUtil.getUserName());//测试id
         jsonMap.put("lan", getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         PostUtil.postJson(SmartHomeUrlUtil.postRequestSwitchAp(), json, new PostUtil.postListener() {

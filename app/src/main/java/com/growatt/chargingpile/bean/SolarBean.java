@@ -12,6 +12,8 @@ public class SolarBean extends ParamsBeanLeveItem1 implements MultiItemEntity {
     private int type;
     private String key;
     private String value;
+    private String sfield;
+    private boolean isAuthority;
 
     public int getMode() {
         return mode;
@@ -51,6 +53,22 @@ public class SolarBean extends ParamsBeanLeveItem1 implements MultiItemEntity {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public String getSfield() {
+        return sfield;
+    }
+
+    public void setSfield(String sfield) {
+        this.sfield = sfield;
+    }
+
+    public boolean isAuthority() {
+        return isAuthority;
+    }
+
+    public void setAuthority(boolean authority) {
+        isAuthority = authority;
     }
 
     @Override

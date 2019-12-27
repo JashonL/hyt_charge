@@ -13,7 +13,6 @@ import com.growatt.chargingpile.EventBusMsg.AddDevMsg;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.connutil.PostUtil;
 import com.growatt.chargingpile.scan.activity.MyCaptureActivity;
-import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.PermissionCodeUtil;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
@@ -105,14 +104,13 @@ public class AddChargingActivity extends BaseActivity {
 
 
     private void addCharging(final String sn) {
-        String userId = Cons.userId;
         if (TextUtils.isEmpty(sn)) {
             toast(getString(R.string.m136请输入充电桩ID));
             return;
         }
         Mydialog.Show(this);
         Map<String, Object> jsonMap = new LinkedHashMap<String, Object>();
-        jsonMap.put("userId", Cons.userBean.getAccountName());
+        jsonMap.put("userId", SmartHomeUtil.getUserName());
         jsonMap.put("sn", sn);
         jsonMap.put("lan", getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);

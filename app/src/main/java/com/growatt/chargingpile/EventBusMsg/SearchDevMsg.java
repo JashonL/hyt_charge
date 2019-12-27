@@ -1,16 +1,16 @@
 package com.growatt.chargingpile.EventBusMsg;
 
 /**
- * Created by Administrator on 2019/7/29.
+ * Created by Administrator on 2019/12/26.
  */
 
-public class FreshListMsg {
+public class SearchDevMsg {
     private String devSn;
 
-    public FreshListMsg() {
+    public SearchDevMsg() {
     }
 
-    public FreshListMsg(String devSn) {
+    public SearchDevMsg(String devSn) {
         this.devSn = devSn;
     }
 

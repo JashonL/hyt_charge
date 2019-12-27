@@ -23,7 +23,8 @@
             android:layout_height="@dimen/xa40"
             android:layout_centerVertical="true"
             android:src="@drawable/setting_charging_params"
-            android:layout_marginLeft="@dimen/xa50" />
+            android:layout_marginLeft="@dimen/xa50"
+            android:layout_marginStart="@dimen/xa50" />
 
 
         <TextView
@@ -35,7 +36,9 @@
             android:layout_toRightOf="@+id/imageView1"
             android:text="@string/m141参数设置"
             android:textColor="@color/title_1"
-            android:textSize="@dimen/xa30" />
+            android:textSize="@dimen/xa30"
+            android:layout_marginStart="@dimen/xa25"
+            android:layout_toEndOf="@+id/imageView1" />
 
         <ImageView
             android:id="@+id/imageView2"
@@ -44,7 +47,9 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/xa30"
-            android:src="@drawable/charging_params_setting" />
+            android:src="@drawable/charging_params_setting"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/xa30" />
 
     </RelativeLayout>
 
@@ -69,7 +74,9 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:src="@drawable/setting_charging_grant"
-            android:layout_marginLeft="@dimen/xa50" />
+            android:layout_marginLeft="@dimen/xa50"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="@dimen/xa50" />
 
 
         <TextView
@@ -81,7 +88,9 @@
             android:layout_toRightOf="@+id/imageView3"
             android:text="@string/m142授权管理"
             android:textColor="@color/title_1"
-            android:textSize="@dimen/xa30" />
+            android:textSize="@dimen/xa30"
+            android:layout_marginStart="@dimen/xa25"
+            android:layout_toEndOf="@+id/imageView3" />
 
         <ImageView
             android:id="@+id/imageView4"
@@ -90,9 +99,63 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/xa30"
-            android:src="@drawable/charging_params_setting" />
+            android:src="@drawable/charging_params_setting"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/xa30" />
 
     </RelativeLayout>
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0.5dip"
+        android:background="#dedede"
+        android:orientation="vertical"/>
+
+
+    <RelativeLayout
+        android:background="@color/headerView"
+        android:id="@+id/rl_charging_search"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/ya90">
+
+
+        <ImageView
+            android:id="@+id/iv_search_icon"
+            android:layout_width="@dimen/xa40"
+            android:layout_height="@dimen/xa40"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/oss_search"
+            android:layout_marginLeft="@dimen/xa50"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="@dimen/xa50" />
+
+
+        <TextView
+            android:id="@+id/tv_search_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/xa25"
+            android:layout_toRightOf="@+id/iv_search_icon"
+            android:text="@string/m搜索电桩"
+            android:textColor="@color/title_1"
+            android:textSize="@dimen/xa30"
+            android:layout_marginStart="@dimen/xa25"
+            android:layout_toEndOf="@+id/iv_search_icon" />
+
+        <ImageView
+            android:id="@+id/iv_search_more"
+            android:layout_width="@dimen/xa12"
+            android:layout_height="@dimen/xa30"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/xa30"
+            android:src="@drawable/charging_params_setting"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/xa30" />
+
+    </RelativeLayout>
 
 </LinearLayout>

@@ -13,6 +13,7 @@ import com.growatt.chargingpile.connutil.PostUtil;
 import com.growatt.chargingpile.connutil.Urlsutil;
 import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.Mydialog;
+import com.growatt.chargingpile.util.SmartHomeUtil;
 
 import org.json.JSONObject;
 
@@ -114,7 +115,7 @@ public class AmendsActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == 1001) {//验证手机通过
-            save(Cons.userBean.getPhoneNum());
+            save(Cons.userBean.getPhone());
         }
         if (resultCode == RESULT_OK && requestCode == 1002) {//验证邮箱通过
             save(Cons.userBean.getEmail());
@@ -160,7 +161,7 @@ public class AmendsActivity extends BaseActivity {
 
             @Override
             public void Params(Map<String, String> params) {
-                params.put("accountName", Cons.userBean.accountName);
+                params.put("accountName", SmartHomeUtil.getUserName());
                 if (type.equals("1")) {
                     params.put("phoneNum", valStr);
                     params.put("email", email);

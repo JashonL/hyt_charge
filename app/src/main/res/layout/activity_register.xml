@@ -42,8 +42,6 @@
                     android:id="@+id/imageView1"
                     android:layout_width="@dimen/xa20"
                     android:layout_height="@dimen/xa24"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
                     android:src="@drawable/sign_user" />
 
 
@@ -55,7 +53,8 @@
                     android:background="@null"
                     android:hint="@string/m25请输入用户名"
                     android:textColor="@color/title_2"
-                    android:textSize="@dimen/xa24" />
+                    android:textSize="@dimen/xa24"
+                    android:layout_marginStart="@dimen/xa12" />
             </LinearLayout>
 
             <LinearLayout
@@ -90,8 +89,6 @@
                     android:id="@+id/imageView2"
                     android:layout_width="@dimen/xa20"
                     android:layout_height="@dimen/xa24"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
                     android:src="@drawable/sign_password" />
 
                 <EditText
@@ -103,7 +100,8 @@
                     android:hint="@string/m26请输入密码"
                     android:inputType="textPassword"
                     android:textColor="@color/title_2"
-                    android:textSize="@dimen/xa24" />
+                    android:textSize="@dimen/xa24"
+                    android:layout_marginStart="@dimen/xa12" />
             </LinearLayout>
 
 
@@ -138,8 +136,6 @@
                     android:id="@+id/imageView3"
                     android:layout_width="@dimen/xa20"
                     android:layout_height="@dimen/xa24"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
                     android:src="@drawable/sign_password" />
 
                 <EditText
@@ -185,8 +181,6 @@
                     android:id="@+id/imageView4"
                     android:layout_width="@dimen/xa20"
                     android:layout_height="@dimen/xa24"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
                     android:src="@drawable/sign_mail" />
 
                 <EditText
@@ -195,9 +189,11 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/xa12"
                     android:background="@null"
+                    android:inputType="textEmailAddress"
                     android:hint="@string/m61输入邮箱地址"
                     android:textColor="@color/title_2"
-                    android:textSize="@dimen/xa24" />
+                    android:textSize="@dimen/xa24"
+                    android:layout_marginStart="@dimen/xa12" />
             </LinearLayout>
 
 
@@ -232,9 +228,7 @@
                     android:id="@+id/imageView7"
                     android:layout_width="@dimen/xa20"
                     android:layout_height="@dimen/xa24"
-                    android:layout_alignParentLeft="true"
-                    android:src="@drawable/sign_phone"
-                    android:layout_alignParentStart="true" />
+                    android:src="@drawable/sign_postcode" />
 
                 <EditText
                     android:id="@+id/et_postcode"
@@ -279,8 +273,6 @@
                     android:id="@+id/imageView5"
                     android:layout_width="@dimen/xa20"
                     android:layout_height="@dimen/xa24"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
                     android:src="@drawable/sign_phone" />
 
                 <EditText
@@ -289,9 +281,11 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/xa12"
                     android:background="@null"
+                    android:inputType="phone"
                     android:hint="@string/m60填入不带国家代码的手机号"
                     android:textColor="@color/title_2"
-                    android:textSize="@dimen/xa24" />
+                    android:textSize="@dimen/xa24"
+                    android:layout_marginStart="@dimen/xa12" />
             </LinearLayout>
 
 
@@ -326,9 +320,7 @@
                     android:id="@+id/imageView8"
                     android:layout_width="@dimen/xa20"
                     android:layout_height="@dimen/xa24"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/sign_phone" />
+                    android:src="@drawable/sign_installter" />
 
                 <EditText
                     android:id="@+id/et_installer"
@@ -336,9 +328,10 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/xa12"
                     android:background="@null"
-                    android:hint="@string/m请输入安装者"
+                    android:hint="@string/m请输入安装商"
                     android:textColor="@color/title_2"
-                    android:textSize="@dimen/xa24" />
+                    android:textSize="@dimen/xa24"
+                    android:layout_marginStart="@dimen/xa12" />
             </LinearLayout>
 
             <LinearLayout
@@ -376,7 +369,8 @@
                     android:scaleX="0.8"
                     android:scaleY="0.8"
                     android:textColor="@color/headerView"
-                    android:textSize="@dimen/xa28" />
+                    android:textSize="@dimen/xa28"
+                    android:layout_toStartOf="@+id/textView4" />
             </RelativeLayout>
 
 
@@ -384,12 +378,10 @@
                 android:id="@+id/btRegister"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/xa88"
-                android:layout_below="@+id/etPwd"
                 android:layout_marginLeft="@dimen/xa75"
                 android:layout_marginRight="@dimen/xa75"
                 android:layout_marginTop="@dimen/xa80"
                 android:background="@drawable/selector_circle_btn_green"
-                android:stateListAnimator="@null"
                 android:text="@string/m23注册"
                 android:textColor="@color/headerView" />
         </LinearLayout>
