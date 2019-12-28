@@ -3,7 +3,6 @@ package com.growatt.chargingpile.util;
 
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.view.View;
 
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.listener.OnCirclerDialogListener;
@@ -22,17 +21,14 @@ public class DialogUtil {
             new CircleDialog.Builder()
                     .setCancelable(false)
                     .setWidth(0.7f)
-                    .setTitle(act.getString(R.string.m27温馨提示) +(result == -1 ? "" : ("(" + result + ")")))
+                    .setTitle(act.getString(R.string.m27温馨提示))
                     .setText(text)
-                    .setPositive(act.getString(R.string.m9确定), new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (isFinish){
-                                act.finish();
-                            }else {
-                                if (circlerDialogListener != null){
-                                    circlerDialogListener.onCirclerPositive();
-                                }
+                    .setPositive(act.getString(R.string.m9确定), v -> {
+                        if (isFinish){
+                            act.finish();
+                        }else {
+                            if (circlerDialogListener != null){
+                                circlerDialogListener.onCirclerPositive();
                             }
                         }
                     })

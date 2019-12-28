@@ -115,7 +115,6 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (bind != null) bind.unbind();
     }
 
     @OnClick({R.id.btnAdd, R.id.ivLeft, R.id.tvRight})

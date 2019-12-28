@@ -202,6 +202,5 @@ public class AddAuthorizationActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (bind != null) bind.unbind();
     }
 }

@@ -76,6 +76,5 @@ public class AboutActivity extends BaseActivity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		if (bind != null) bind.unbind();
 	}
 }

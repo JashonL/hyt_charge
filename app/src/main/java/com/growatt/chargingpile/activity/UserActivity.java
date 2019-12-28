@@ -3,6 +3,7 @@ package com.growatt.chargingpile.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -49,8 +50,14 @@ public class UserActivity extends BaseActivity {
     }
 
     private void initViews() {
-        textView3.setText(Cons.userBean.getPhone());
-        textView5.setText(Cons.userBean.getEmail());
+        String phone = Cons.userBean.getPhone();
+        if (!TextUtils.isEmpty(phone)) {
+            textView3.setText(phone);
+        }
+        String email = Cons.userBean.getEmail();
+        if (!TextUtils.isEmpty(email)) {
+            textView5.setText(email);
+        }
     }
 
 
@@ -165,36 +172,30 @@ public class UserActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case 103:
+                    String type = data.getStringExtra("type");
+                    String result = data.getStringExtra("result");
+                    if (!TextUtils.isEmpty(result)){
+                        if ("1".equals(type)){
+                            Cons.userBean.setPhone(result);
+                            textView3.setText(result);
+                        }else {
+                            Cons.userBean.setEmail(result);
+                            textView5.setText(result);
+                        }
+                    }
+                    break;
 
-        switch (requestCode) {
-            case 103:
-//                Map<String, Object> map = list.get(positions);
-                switch (resultCode) {
-                    case 1:
-                        toast(R.string.m成功);
-                        String PhoneNum = data.getStringExtra("PhoneNum");
-//                        map.put("str", PhoneNum);
-//                        adapter.notifyDataSetChanged();
-                        break;
-                    case 2:
-                        toast(R.string.m成功);
-                        String email = data.getStringExtra("email");
-//                        map.put("str", email);
-//                        adapter.notifyDataSetChanged();
-                        break;
-
-                    default:
-                        break;
-                }
-                break;
-
+            }
         }
+
         super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (bind != null) bind.unbind();
     }
 }

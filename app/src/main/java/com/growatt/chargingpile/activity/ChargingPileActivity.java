@@ -525,6 +525,10 @@ public class ChargingPileActivity extends BaseActivity {
         });
 
         rlPpmoney.setOnClickListener(v -> {
+            if (SmartHomeUtil.isFlagUser()) {
+                toast(getString(R.string.m66你的账号没有操作权限));
+                return;
+            }
             if (presetType == 1) {
                 setMoneyUi(false, "--");
                 presetType = 0;
@@ -537,6 +541,10 @@ public class ChargingPileActivity extends BaseActivity {
 
 
         rlPpmoneyEdit.setOnClickListener(v -> {
+            if (SmartHomeUtil.isFlagUser()) {
+                toast(getString(R.string.m66你的账号没有操作权限));
+                return;
+            }
             Intent intent = new Intent(ChargingPileActivity.this, ChargingPresetEditActivity.class);
             intent.putExtra("type", 1);
             startActivityForResult(intent, REQUEST_MONEY);
@@ -544,6 +552,10 @@ public class ChargingPileActivity extends BaseActivity {
 
 
         rlPpEle.setOnClickListener(v -> {
+            if (SmartHomeUtil.isFlagUser()) {
+                toast(getString(R.string.m66你的账号没有操作权限));
+                return;
+            }
             if (presetType == 2) {
                 setEleUi(false, "--kWh");
                 presetType = 0;
@@ -556,6 +568,10 @@ public class ChargingPileActivity extends BaseActivity {
         });
 
         rlPpEleEdit.setOnClickListener(v -> {
+            if (SmartHomeUtil.isFlagUser()) {
+                toast(getString(R.string.m66你的账号没有操作权限));
+                return;
+            }
             Intent intent = new Intent(ChargingPileActivity.this, ChargingPresetEditActivity.class);
             intent.putExtra("type", 2);
             startActivityForResult(intent, REQUEST_ELE);
@@ -563,6 +579,10 @@ public class ChargingPileActivity extends BaseActivity {
 
 
         rlPpTime.setOnClickListener(v -> {
+            if (SmartHomeUtil.isFlagUser()) {
+                toast(getString(R.string.m66你的账号没有操作权限));
+                return;
+            }
             LogUtil.d("选中方案" + presetType);
             if (presetType == 3) {
                 setTimeUi(false, "-h-min");
@@ -578,6 +598,10 @@ public class ChargingPileActivity extends BaseActivity {
         });
 
         rlPpTimeEdit.setOnClickListener(v -> {
+            if (SmartHomeUtil.isFlagUser()) {
+                toast(getString(R.string.m66你的账号没有操作权限));
+                return;
+            }
             Intent intent = new Intent(ChargingPileActivity.this, ChargingPresetEditActivity.class);
             intent.putExtra("type", 3);
             startActivityForResult(intent, REQUEST_TIME);
@@ -590,6 +614,10 @@ public class ChargingPileActivity extends BaseActivity {
         ivResever = preparingView.findViewById(R.id.iv_resever_switch);
         llReserve = preparingView.findViewById(R.id.ll_reserve);
         ivResever.setOnClickListener(v -> {
+            if (SmartHomeUtil.isFlagUser()) {
+                toast(getString(R.string.m66你的账号没有操作权限));
+                return;
+            }
             if (presetType == 3) {
                 if (!isReservation) {
                     //去预约列表操作
@@ -615,6 +643,10 @@ public class ChargingPileActivity extends BaseActivity {
 
 
         llReserveView.setOnClickListener(v -> {
+            if (SmartHomeUtil.isFlagUser()) {
+                toast(getString(R.string.m66你的账号没有操作权限));
+                return;
+            }
             if (isReservation) {
                 if (presetType == 3) {
                     //去预约列表操作
@@ -1386,6 +1418,10 @@ public class ChargingPileActivity extends BaseActivity {
     @OnClick({R.id.ivLeft, R.id.ll_Authorization, R.id.ll_record, R.id.ll_charging,
             R.id.rl_switch_gun, R.id.to_add_device, R.id.rl_solar, R.id.ivRight,R.id.rl_lock})
     public void onClickListener(View view) {
+        if (SmartHomeUtil.isFlagUser()) {
+            toast(getString(R.string.m66你的账号没有操作权限));
+            return;
+        }
         switch (view.getId()) {
             case R.id.ivLeft:
                 Intent intent = new Intent(this, MeActivity.class);
@@ -1393,10 +1429,6 @@ public class ChargingPileActivity extends BaseActivity {
                 jumpTo(intent, false);
                 break;
             case R.id.ll_Authorization:
-                if (SmartHomeUtil.isFlagUser()) {
-                    toast(getString(R.string.m66你的账号没有操作权限));
-                    return;
-                }
                 if (mCurrentPile.getType() == 1) {
                     toast(getString(R.string.m66你的账号没有操作权限));
                     return;
@@ -2695,7 +2727,6 @@ public class ChargingPileActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         searchId=null;
-        if (bind != null) bind.unbind();
     }
 
 

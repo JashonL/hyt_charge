@@ -29,6 +29,29 @@
             android:textSize="@dimen/xa35"/>
 
 
+    <TextView
+        android:id="@+id/tvPassword"
+        android:layout_width="@dimen/xa468"
+        android:layout_height="@dimen/ya69"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/title_1"
+        android:text="@string/m26请输入密码"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/ya83"
+        android:textSize="@dimen/xa35"
+        />
+    <EditText
+        android:id="@+id/etTextPassword"
+        android:layout_width="@dimen/xa468"
+        android:layout_height="@dimen/ya69"
+        android:background="@drawable/shape_edittext_bg_gray"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/title_3"
+        android:gravity="center"
+        android:inputType="textPassword"
+        android:textSize="@dimen/xa35"/>
+
+
     <Button
         android:id="@+id/bt_finish"
         android:layout_width="match_parent"

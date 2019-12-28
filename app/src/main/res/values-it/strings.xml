@@ -113,7 +113,7 @@
     <string name="m99用户名必须大于3位">Nome Utente deve essere minimo 3 caratteri</string>
     <string name="m100密码必须大于6位">Password deve essere minimo 6 caratteri</string>
 
-
+    <string name="m104输入电话号码">Inserisci numero di telefono</string>
     <string name="m101添加设备">Aggiungi dispositivo</string>
     <string name="m102充电桩">Stazione di Ricarica</string>
     <string name="m103充电">Acceso</string>

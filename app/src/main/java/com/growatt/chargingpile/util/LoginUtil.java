@@ -291,8 +291,6 @@ public class LoginUtil {
         //设置不自动登录
         SharedPreferencesUnit.getInstance(act).putInt(Constant.AUTO_LOGIN, 0);
         SharedPreferencesUnit.getInstance(act).putInt(Constant.AUTO_LOGIN_TYPE, 0);
-        act.startActivity(new Intent(act, LoginActivity.class));
-        act.finish();
         List<SoftReference<Activity>> activityStack = MyApplication.getInstance().getmList();
         for (SoftReference<Activity> activity : activityStack) {
             if (activity != null && activity.get() != null) {
@@ -360,7 +358,7 @@ public class LoginUtil {
                         JSONObject jsonObject = object.optJSONObject("data");
                         UserBean userBean = new Gson().fromJson(jsonObject.toString(), UserBean.class);
                         //设置帐号是否是浏览帐号
-                        if (Cons.isflagId.equals(SmartHomeUtil.getUserName())) {
+                        if (Cons.isflagId.equals(userBean.getName())) {
                             userBean.setAuthnum(1);
                         } else {
                             userBean.setAuthnum(0);

@@ -12,8 +12,9 @@ import android.widget.TextView;
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.connutil.PostUtil;
-import com.growatt.chargingpile.connutil.Urlsutil;
 import com.growatt.chargingpile.util.Mydialog;
+import com.growatt.chargingpile.util.SmartHomeUrlUtil;
+import com.growatt.chargingpile.util.SmartHomeUtil;
 
 import org.json.JSONObject;
 
@@ -31,6 +32,11 @@ public class ForgotPasswordActivity extends BaseActivity {
     TextView tvTitle;
     @BindView(R.id.et_username)
     EditText etUserName;
+    @BindView(R.id.et_email)
+    EditText etEmail;
+    @BindView(R.id.et_phone)
+    EditText etPhone;
+
     private Unbinder bind;
 
     @Override
@@ -46,12 +52,7 @@ public class ForgotPasswordActivity extends BaseActivity {
         tvTitle.setText(getString(R.string.m22忘记密码));
         //设置字体加粗
         tvTitle.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-        setHeaderImage(headerView, R.drawable.back, Position.LEFT, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        setHeaderImage(headerView, R.drawable.back, Position.LEFT, v -> finish());
     }
 
     @OnClick(R.id.btFinish)
@@ -64,6 +65,77 @@ public class ForgotPasswordActivity extends BaseActivity {
 
     }
 
+
+
+
+    /**
+     * 重置密码
+     */
+    public void repeatPassword() {
+        String username = etUserName.getText().toString().trim();
+        String email = etEmail.getText().toString().trim();
+        String phone = etPhone.getText().toString().trim();
+        if (TextUtils.isEmpty(username)){
+            toast(R.string.m25请输入用户名);
+            return;
+        }
+        if (TextUtils.isEmpty(email)){
+            toast(R.string.m35请输入正确邮箱格式);
+            return;
+        }
+        if (TextUtils.isEmpty(phone)){
+            toast(R.string.m60填入不带国家代码的手机号);
+            return;
+        }
+        Mydialog.Show(this);
+        JSONObject object = new JSONObject();
+        try {
+            object.put("cmd", "invalidPassword");//cmd  注册
+            object.put("userId", SmartHomeUtil.getUserName());//用户名
+            object.put("phone", phone);//密码
+            object.put("email", email);//密码
+            object.put("lan", getLanguage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        PostUtil.postJson(SmartHomeUrlUtil.postByCmd(), object.toString(), new PostUtil.postListener() {
+            @Override
+            public void Params(Map<String, String> params) {
+
+            }
+
+            @Override
+            public void success(String json) {
+                Mydialog.Dismiss();
+                try {
+                    JSONObject object = new JSONObject(json);
+                    int code = object.getInt("code");
+                    if (code == 0) {
+                        String a = getResources().getString(R.string.m29发送到邮箱)+email;
+                        toast(a);
+                    }
+                    String errorMsg = object.optString("data");
+                    if (!TextUtils.isEmpty(errorMsg))
+                        toast(errorMsg);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void LoginError(String str) {
+
+            }
+        });
+    }
+
+
+
+
+
+
+
+/*
     private void repeatPassword() {
         final String s = etUserName.getText().toString();
         if (TextUtils.isEmpty(s)) {
@@ -155,10 +227,9 @@ public class ForgotPasswordActivity extends BaseActivity {
             }
         });
 
-    }
+    }*/
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (bind!=null)bind.unbind();
     }
 }

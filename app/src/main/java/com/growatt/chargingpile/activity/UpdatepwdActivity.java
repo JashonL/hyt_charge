@@ -1,6 +1,7 @@
 package com.growatt.chargingpile.activity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -8,11 +9,13 @@ import android.widget.EditText;
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.connutil.PostUtil;
-import com.growatt.chargingpile.connutil.Urlsutil;
-import com.growatt.chargingpile.sqlite.SqliteUtil;
 import com.growatt.chargingpile.util.Constant;
+import com.growatt.chargingpile.util.DialogUtil;
+import com.growatt.chargingpile.util.LoginUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SharedPreferencesUnit;
+import com.growatt.chargingpile.util.SmartHomeUrlUtil;
+import com.growatt.chargingpile.util.SmartHomeUtil;
 
 import org.json.JSONObject;
 
@@ -27,12 +30,12 @@ public class UpdatepwdActivity extends BaseActivity {
 
     @BindView(R.id.headerView)
     View headerView;
-    @BindView(R.id.editText1)
-    EditText et1;
-    @BindView(R.id.editText2)
-    EditText et2;
-    @BindView(R.id.editText3)
-    EditText et3;
+    @BindView(R.id.et_old_password)
+    EditText etOldPassword;
+    @BindView(R.id.et_new_password)
+    EditText etNewPassword;
+    @BindView(R.id.et_repeat_password)
+    EditText etRepeatPassword;
     private Unbinder bind;
 
 
@@ -40,7 +43,7 @@ public class UpdatepwdActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_updatepwd);
-        bind=ButterKnife.bind(this);
+        bind = ButterKnife.bind(this);
         initHeaderView();
     }
 
@@ -53,30 +56,91 @@ public class UpdatepwdActivity extends BaseActivity {
             }
         });
 
-        setHeaderTitle(headerView,getString(R.string.m57修改密码),R.color.title_1,false);
+        setHeaderTitle(headerView, getString(R.string.m57修改密码), R.color.title_1, false);
 
     }
 
     @OnClick({R.id.bt_finish})
-    public void onClicklistener(View view){
-        switch (view.getId()){
+    public void onClicklistener(View view) {
+        switch (view.getId()) {
             case R.id.bt_finish:
-                tvOK();
+//                tvOK();
+                updatePassword();
                 break;
         }
 
     }
 
 
-    public void tvOK() {
-        String s1 = et1.getText().toString();
-        String s2 = et2.getText().toString();
-        String s3 = et3.getText().toString();
-        if (s1.equals("") || s2.equals("") || s3.equals("")) {
+    public void updatePassword() {
+        String oldPwd = etOldPassword.getText().toString();
+        String newPwd = etNewPassword.getText().toString();
+        String repeatPwd = etRepeatPassword.getText().toString();
+        if (oldPwd.equals("") || newPwd.equals("") || repeatPwd.equals("")) {
             toast(R.string.m21用户名密码为空);
             return;
         }
-        if (!s2.equals(s3)) {
+        if (!newPwd.equals(repeatPwd)) {
+            toast(R.string.m98请输入相同的密码);
+            return;
+        }
+
+        Mydialog.Show(this);
+        JSONObject object = new JSONObject();
+        try {
+            object.put("cmd", "updateUser");//cmd  注册
+            object.put("userId", SmartHomeUtil.getUserName());//用户名
+            object.put("password", oldPwd);//密码
+            object.put("newPassword", newPwd);//密码
+            object.put("lan", getLanguage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        PostUtil.postJson(SmartHomeUrlUtil.postByCmd(), object.toString(), new PostUtil.postListener() {
+            @Override
+            public void Params(Map<String, String> params) {
+
+            }
+
+            @Override
+            public void success(String json) {
+                Mydialog.Dismiss();
+                try {
+                    JSONObject object = new JSONObject(json);
+                    int code = object.getInt("code");
+                    String data=object.optString("data");
+                    if (code == 0) {
+                        DialogUtil.circlerDialog(UpdatepwdActivity.this, data, code,false, () -> {
+                            SharedPreferencesUnit.getInstance(UpdatepwdActivity.this).putInt(Constant.AUTO_LOGIN, 0);
+                            SharedPreferencesUnit.getInstance(UpdatepwdActivity.this).putInt(Constant.AUTO_LOGIN_TYPE, 0);
+                            LoginUtil.logout(UpdatepwdActivity.this);
+                        });
+                    }
+                    String errorMsg = object.optString("data");
+                    if (!TextUtils.isEmpty(errorMsg))
+                    toast(errorMsg);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void LoginError(String str) {
+
+            }
+        });
+    }
+
+
+  /*  public void tvOK() {
+        String oldPwd = etOldPassword.getText().toString();
+        String newPwd = etNewPassword.getText().toString();
+        String repeatPwd = etRepeatPassword.getText().toString();
+        if (oldPwd.equals("") || newPwd.equals("") || repeatPwd.equals("")) {
+            toast(R.string.m21用户名密码为空);
+            return;
+        }
+        if (!newPwd.equals(repeatPwd)) {
             toast(R.string.m98请输入相同的密码);
             return;
         }
@@ -121,8 +185,7 @@ public class UpdatepwdActivity extends BaseActivity {
 
             }
         });
-    }
-
+    }*/
 
 
     @Override
@@ -132,9 +195,9 @@ public class UpdatepwdActivity extends BaseActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (bind!=null)bind.unbind();
     }
 }

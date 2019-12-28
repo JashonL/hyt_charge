@@ -61,12 +61,12 @@ public class LoginActivity extends BaseActivity {
         if (inquirylogin.size() > 0) {
             String name = inquirylogin.get("name").toString();
             String pwd = inquirylogin.get("pwd").toString();
-            if (!Cons.isflagId.equals(name)) {
+//            if (!Cons.isflagId.equals(name)) {
                 etUsername.setText(name);
                 etPassword.setText(pwd);
                 etUsername.setSelection(name.length());
                 etPassword.setSelection(pwd.length());
-            }
+//            }
         }
     }
 

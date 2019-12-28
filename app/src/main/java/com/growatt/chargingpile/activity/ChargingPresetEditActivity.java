@@ -196,6 +196,5 @@ public class ChargingPresetEditActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (bind!=null)bind.unbind();
     }
 }

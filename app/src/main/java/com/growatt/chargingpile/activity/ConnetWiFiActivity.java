@@ -208,7 +208,6 @@ public class ConnetWiFiActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         unRegisterWifiReceiver();
-        if (bind!=null)bind.unbind();
         super.onDestroy();
     }
 
