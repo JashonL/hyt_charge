@@ -54,7 +54,7 @@ public class FileUtils {
      */
     public static String fileOut(InputStream is, File filePath) {
         try {
-            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(filePath));
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(filePath,true));
             BufferedInputStream bis = new BufferedInputStream(is);
             byte[] bytes = new byte[1024];
             int len;

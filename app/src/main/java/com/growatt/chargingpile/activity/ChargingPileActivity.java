@@ -1418,10 +1418,6 @@ public class ChargingPileActivity extends BaseActivity {
     @OnClick({R.id.ivLeft, R.id.ll_Authorization, R.id.ll_record, R.id.ll_charging,
             R.id.rl_switch_gun, R.id.to_add_device, R.id.rl_solar, R.id.ivRight,R.id.rl_lock})
     public void onClickListener(View view) {
-        if (SmartHomeUtil.isFlagUser()) {
-            toast(getString(R.string.m66你的账号没有操作权限));
-            return;
-        }
         switch (view.getId()) {
             case R.id.ivLeft:
                 Intent intent = new Intent(this, MeActivity.class);
@@ -1429,6 +1425,10 @@ public class ChargingPileActivity extends BaseActivity {
                 jumpTo(intent, false);
                 break;
             case R.id.ll_Authorization:
+                if (SmartHomeUtil.isFlagUser()) {
+                    toast(getString(R.string.m66你的账号没有操作权限));
+                    return;
+                }
                 if (mCurrentPile.getType() == 1) {
                     toast(getString(R.string.m66你的账号没有操作权限));
                     return;
@@ -1443,6 +1443,10 @@ public class ChargingPileActivity extends BaseActivity {
                 jumpTo(intent2, false);
                 break;
             case R.id.ll_charging:
+                if (SmartHomeUtil.isFlagUser()) {
+                    toast(getString(R.string.m66你的账号没有操作权限));
+                    return;
+                }
                 toChargingOrStop();
                 break;
             case R.id.rl_switch_gun:
@@ -1455,22 +1459,30 @@ public class ChargingPileActivity extends BaseActivity {
                 addChargingPile();
                 break;
             case R.id.ll_record:
-                if (SmartHomeUtil.isFlagUser()) {
-                    toast(getString(R.string.m66你的账号没有操作权限));
-                    return;
-                }
                 Intent intent4 = new Intent(this, ChargingRecoderActivity.class);
                 intent4.putExtra("sn", mCurrentPile.getChargeId());
                 intent4.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 jumpTo(intent4, false);
                 break;
             case R.id.rl_solar:
+                if (SmartHomeUtil.isFlagUser()) {
+                    toast(getString(R.string.m66你的账号没有操作权限));
+                    return;
+                }
                 setPowerLimit();
                 break;
             case  R.id.rl_lock:
+                if (SmartHomeUtil.isFlagUser()) {
+                    toast(getString(R.string.m66你的账号没有操作权限));
+                    return;
+                }
                 setLock();
                 break;
             case R.id.ivRight:
+                if (SmartHomeUtil.isFlagUser()) {
+                    toast(getString(R.string.m66你的账号没有操作权限));
+                    return;
+                }
                 if (Cons.getNoConfigBean()==null){
                     getNoConfigParams();
                 }else {
