@@ -179,8 +179,8 @@
     <string name="m153功率设置">Power Setting</string>
     <string name="m154充电模式">Charging model</string>
     <string name="m155高级设置">Advance settings</string>
-    <string name="m156充电桩IP">Charger IP</string>
-    <string name="m157网关">Default gateway</string>
+    <string name="m156充电桩IP">IP address</string>
+    <string name="m157网关">Gateway Address</string>
     <string name="m158子网掩码">Subnet mask</string>
     <string name="m159网络MAC地址">MAC</string>
     <string name="m160服务器URL">Server URL</string>
@@ -282,7 +282,7 @@
     <string name="m262泰文">Thai</string>
     <string name="m263英文">English</string>
     <string name="m264读卡器秘钥">RFID card PIN</string>
-    <string name="m265RCD保护值">Protection level</string>
+    <string name="m265RCD保护值">RCD Protection Level</string>
 
     <string name="m266Wifi名称">Wifi name</string>
     <string name="m267Wifi密码">Wifi password</string>
@@ -292,7 +292,7 @@
     <string name="m2714G密码">4G password</string>
     <string name="m2724GAPN">4G APN</string>
 
-    <string name="m273握手登录授权秘钥">Handshake login authorization key</string>
+    <string name="m273握手登录授权秘钥">WEBSOCKET Authorization Key</string>
     <string name="m274心跳间隔时间">Heartbeat interval (s)</string>
     <string name="m275PING间隔时间">PING interval (s)</string>
     <string name="m276表计上传间隔时间">Meter upload interval (s)</string>
@@ -300,7 +300,7 @@
     <string name="m277电桩最大输出电流">Charger maximum output current (A)</string>
     <string name="m278保护温度">Protection temperature (°C)</string>
     <string name="m279外部监测最大输入功率">Externally monitored max input power(kW)</string>
-    <string name="m280允许充电时间">Allow charging time</string>
+    <string name="m280允许充电时间">Allow Charging Time（plug&amp;charge</string>
 
     <string name="m281电桩断开">Charger disconnection</string>
     <string name="m282结束时间">End Time</string>
@@ -321,9 +321,9 @@
     <string name="m295该电桩热点不是已选择的电桩">This chargepoint\'s hot spot is not the selected chargepoint</string>
     <string name="m296版本号">version number</string>
     <string name="m297峰谷充电使能">Peak &amp; Off Peak Charging Enable</string>
-    <string name="m298功率分配使能">Power Allocation Enable</string>
-    <string name="m299使能">enable</string>
-    <string name="m300禁止">prohibited</string>
+    <string name="m298功率分配使能">Enable Power Allocation Charge</string>
+    <string name="m299使能">Enable</string>
+    <string name="m300禁止">Disable</string>
     <string name="m301执行">Execute</string>
     <string name="m302请求失败">Request failed</string>
     <string name="m303选择货币">select currency</string>

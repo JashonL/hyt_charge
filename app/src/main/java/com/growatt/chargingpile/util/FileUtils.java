@@ -1,8 +1,13 @@
 package com.growatt.chargingpile.util;
 
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class FileUtils {
 
@@ -39,6 +44,30 @@ public class FileUtils {
             }
         }
         return filename;
+    }
+
+
+    /**
+     * @param is       需要输出的流
+     * @param filePath 保存文件路径
+     * @return
+     */
+    public static String fileOut(InputStream is, File filePath) {
+        try {
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(filePath));
+            BufferedInputStream bis = new BufferedInputStream(is);
+            byte[] bytes = new byte[1024];
+            int len;
+            while ((len = bis.read(bytes)) != -1) {
+                bos.write(bytes,0,len);
+            }
+            is.close();
+            bis.close();
+            bos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return filePath.getAbsolutePath();
     }
 
 

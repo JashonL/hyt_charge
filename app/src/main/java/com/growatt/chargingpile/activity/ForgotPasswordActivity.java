@@ -113,10 +113,11 @@ public class ForgotPasswordActivity extends BaseActivity {
                     if (code == 0) {
                         String a = getResources().getString(R.string.m29发送到邮箱)+email;
                         toast(a);
+                    }else {
+                        String errorMsg = object.optString("data");
+                        if (!TextUtils.isEmpty(errorMsg))
+                            toast(errorMsg);
                     }
-                    String errorMsg = object.optString("data");
-                    if (!TextUtils.isEmpty(errorMsg))
-                        toast(errorMsg);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
