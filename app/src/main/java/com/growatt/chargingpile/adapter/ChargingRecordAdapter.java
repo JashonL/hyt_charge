@@ -50,7 +50,7 @@ public class ChargingRecordAdapter extends BaseQuickAdapter<ChargingRecordBean.D
         Date sysEndTime=null;
         if (!TextUtils.isEmpty(startTime)){
             helper.setText(R.id.tv_calendar, startTime.substring(0, 11));
-            helper.setText(R.id.tv_start, startTime.substring(11,startTime.length()));
+            helper.setText(R.id.tv_start, startTime);
             try {
                 sysStartTime = sdf.parse(startTime);
             } catch (ParseException e) {
@@ -59,7 +59,7 @@ public class ChargingRecordAdapter extends BaseQuickAdapter<ChargingRecordBean.D
         }
         String endTime=item.getEndtime();
         if (!TextUtils.isEmpty(endTime)){
-            helper.setText(R.id.tv_end, endTime.substring(11,startTime.length()));
+            helper.setText(R.id.tv_end, endTime);
             try {
                 sysEndTime = sdf.parse(endTime);
             } catch (ParseException e) {
