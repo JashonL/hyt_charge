@@ -1483,6 +1483,10 @@ public class ChargingPileActivity extends BaseActivity {
                     toast(getString(R.string.m66你的账号没有操作权限));
                     return;
                 }
+                if (mCurrentPile.getType() == 1) {
+                    toast(getString(R.string.m66你的账号没有操作权限));
+                    return;
+                }
                 if (Cons.getNoConfigBean()==null){
                     getNoConfigParams();
                 }else {
