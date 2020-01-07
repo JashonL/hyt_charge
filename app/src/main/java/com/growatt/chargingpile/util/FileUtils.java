@@ -1,6 +1,8 @@
 package com.growatt.chargingpile.util;
 
 
+import android.util.Log;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -8,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 public class FileUtils {
 
@@ -69,6 +72,35 @@ public class FileUtils {
         }
         return filePath.getAbsolutePath();
     }
+
+
+    public static int copyStream(InputStream input, OutputStream output) throws Exception {
+        byte[] buffer = new byte[1024*2];
+
+        BufferedInputStream in = new BufferedInputStream(input, 1024*2);
+        BufferedOutputStream out = new BufferedOutputStream(output, 1024*2);
+        int count = 0, n = 0;
+        try {
+            while ((n = in.read(buffer, 0, 1024*2)) != -1) {
+                out.write(buffer, 0, n);
+                count += n;
+            }
+            out.flush();
+        } finally {
+            try {
+                out.close();
+            } catch (IOException e) {
+                Log.e(e.getMessage(), e.toString());
+            }
+            try {
+                in.close();
+            } catch (IOException e) {
+                Log.e(e.getMessage(), e.toString());
+            }
+        }
+        return count;
+    }
+
 
 
 }

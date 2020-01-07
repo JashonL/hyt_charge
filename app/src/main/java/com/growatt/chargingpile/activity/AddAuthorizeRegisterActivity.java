@@ -425,6 +425,11 @@ public class AddAuthorizeRegisterActivity extends BaseActivity {
             return;
         }
 
+        if (password.length() < 6) {
+            toast(R.string.m100密码必须大于6位);
+            return;
+        }
+
         if (!etPassword.getText().toString().trim().equals(etConfirm.getText().toString().trim())) {
             toast(R.string.m98请输入相同的密码);
             return;
@@ -457,7 +462,7 @@ public class AddAuthorizeRegisterActivity extends BaseActivity {
         JSONObject object = new JSONObject();
         try {
             object.put("cmd", "register");//cmd  注册
-            object.put("userId", SmartHomeUtil.getUserName());//用户名
+            object.put("userId",username);//用户名
             object.put("roleId", "endUser");//角色
             object.put("phone",phone);
             object.put("password", password);//密码

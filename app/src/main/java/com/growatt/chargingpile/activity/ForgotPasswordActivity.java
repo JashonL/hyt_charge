@@ -2,8 +2,10 @@ package com.growatt.chargingpile.activity;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -14,7 +16,7 @@ import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.connutil.PostUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
-import com.growatt.chargingpile.util.SmartHomeUtil;
+import com.mylhyl.circledialog.CircleDialog;
 
 import org.json.JSONObject;
 
@@ -91,7 +93,7 @@ public class ForgotPasswordActivity extends BaseActivity {
         JSONObject object = new JSONObject();
         try {
             object.put("cmd", "invalidPassword");//cmd  注册
-            object.put("userId", SmartHomeUtil.getUserName());//用户名
+            object.put("userId", username);//用户名
             object.put("phone", phone);//密码
             object.put("email", email);//密码
             object.put("lan", getLanguage());
@@ -111,8 +113,19 @@ public class ForgotPasswordActivity extends BaseActivity {
                     JSONObject object = new JSONObject(json);
                     int code = object.getInt("code");
                     if (code == 0) {
-                        String a = getResources().getString(R.string.m29发送到邮箱)+email;
-                        toast(a);
+                        String a = object.optString("data");
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        new CircleDialog.Builder()
+                                .setWidth(0.75f)
+                                .setTitle(getString(R.string.m27温馨提示))
+                                .setText(getString(R.string.m密码已初始化)+":"+a)
+                                .setGravity(Gravity.CENTER).setPositive(getString(R.string.m9确定), v -> {
+                                    finish();
+
+                        })
+                                .setNegative(getString(R.string.m7取消), null)
+                                .show(fragmentManager);
+
                     }else {
                         String errorMsg = object.optString("data");
                         if (!TextUtils.isEmpty(errorMsg))

@@ -11,9 +11,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextPaint;
@@ -23,28 +23,25 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.adapter.Myadapter;
-import com.growatt.chargingpile.application.MyApplication;
-import com.growatt.chargingpile.util.AppUtils;
-import com.growatt.chargingpile.util.LoadLocalImageUtil;
+import com.growatt.chargingpile.util.Constant;
+import com.growatt.chargingpile.util.GlideUtils;
+import com.growatt.chargingpile.util.ImagePathUtil;
 import com.growatt.chargingpile.util.LoginUtil;
 import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.PermissionCodeUtil;
+import com.growatt.chargingpile.util.PhotoUtil;
 import com.growatt.chargingpile.util.SmartHomeUtil;
-import com.growatt.chargingpile.view.CircleImageView;
 import com.mylhyl.circledialog.CircleDialog;
+import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,7 +49,6 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import pub.devrel.easypermissions.EasyPermissions;
 
 public class MeActivity extends BaseActivity {
@@ -70,28 +66,33 @@ public class MeActivity extends BaseActivity {
 
 
     //拍照相关变量
-    private File fileUri;
-    private File fileCropUri;
     private Uri imageUri;
-    private Uri cropImageUri;
 
     private static final int CODE_GALLERY_REQUEST = 0xa0;
     private static final int CODE_CAMERA_REQUEST = 0xa1;
     private static final int CODE_RESULT_REQUEST = 0xa2;
     private ImageView ivHead;
-    private String picName;
-    private Unbinder bind;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_me);
-        bind=ButterKnife.bind(this);
+        ButterKnife.bind(this);
         initHeaderView();
         initResource();
         initRecycleView();
         initListners();
+    }
+
+    private void initViews() {
+        try {
+            File file  = new File(Constant.IMAGE_FILE_LOCATION);
+            if (file.exists()){
+                GlideUtils.getInstance().showImageActNoCache(this, R.drawable.default_head, R.drawable.default_head, Constant.IMAGE_FILE_LOCATION, ivHead);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void initListners() {
@@ -130,7 +131,7 @@ public class MeActivity extends BaseActivity {
             list.add(map);
         }
         mRvHeaderView = LayoutInflater.from(this).inflate(R.layout.header_me_recyclerview_header, null);
-        TextView name = (TextView) mRvHeaderView.findViewById(R.id.textView_name);
+        TextView name = mRvHeaderView.findViewById(R.id.textView_name);
         if (SmartHomeUtil.isFlagUser()) {
             name.setText(getText(R.string.m浏览账户));
         } else {
@@ -138,39 +139,36 @@ public class MeActivity extends BaseActivity {
         }
         TextPaint tp = name.getPaint();
         tp.setFakeBoldText(true);
-        ivHead = (ImageView) mRvHeaderView.findViewById(R.id.imageView2);
+        ivHead = mRvHeaderView.findViewById(R.id.imageView2);
         ivHead.setImageResource(R.drawable.default_head);
-        ivHead.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                new CircleDialog.Builder()
-                        .setTitle(getString(R.string.m请选择))
-                        .setItems(new String[]{getString(R.string.m5拍照), getString(R.string.m6从相册选取)}, new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                switch (position) {
-                                    case 0:
-                                        //请求拍照权限
-                                        if (EasyPermissions.hasPermissions(MeActivity.this, PermissionCodeUtil.PERMISSION_CAMERA)) {
-                                            choseHeadImageFromCameraCapture();
-                                        } else {
-                                            EasyPermissions.requestPermissions(MeActivity.this, String.format(getString(R.string.m权限获取某权限说明), getString(R.string.m相机)), PermissionCodeUtil.PERMISSION_CAMERA_CODE, PermissionCodeUtil.PERMISSION_CAMERA);
-                                        }
-                                        break;
-                                    case 1:
-                                        if (EasyPermissions.hasPermissions(MeActivity.this, PermissionCodeUtil.PERMISSION_EXTERNAL_STORAGE)) {
-                                            choseHeadImageFromGallery();
-                                        } else {
-                                            EasyPermissions.requestPermissions(MeActivity.this, String.format(getString(R.string.m权限获取某权限说明), getString(R.string.m存储)), PermissionCodeUtil.PERMISSION_EXTERNAL_STORAGE_CODE, PermissionCodeUtil.PERMISSION_EXTERNAL_STORAGE);
-                                        }
-                                        break;
-                                }
+        ivHead.setOnClickListener(v -> {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            new CircleDialog.Builder()
+                    .setTitle(getString(R.string.m请选择))
+                    .setItems(new String[]{getString(R.string.m5拍照), getString(R.string.m6从相册选取)}, new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            switch (position) {
+                                case 0:
+                                    //请求拍照权限
+                                    if (EasyPermissions.hasPermissions(MeActivity.this, PermissionCodeUtil.PERMISSION_CAMERA)) {
+                                        choseHeadImageFromCameraCapture();
+                                    } else {
+                                        EasyPermissions.requestPermissions(MeActivity.this, String.format(getString(R.string.m权限获取某权限说明), getString(R.string.m相机)), PermissionCodeUtil.PERMISSION_CAMERA_CODE, PermissionCodeUtil.PERMISSION_CAMERA);
+                                    }
+                                    break;
+                                case 1:
+                                    if (EasyPermissions.hasPermissions(MeActivity.this, PermissionCodeUtil.PERMISSION_EXTERNAL_STORAGE)) {
+                                        choseHeadImageFromGallery();
+                                    } else {
+                                        EasyPermissions.requestPermissions(MeActivity.this, String.format(getString(R.string.m权限获取某权限说明), getString(R.string.m存储)), PermissionCodeUtil.PERMISSION_EXTERNAL_STORAGE_CODE, PermissionCodeUtil.PERMISSION_EXTERNAL_STORAGE);
+                                    }
+                                    break;
                             }
-                        })
-                        .setNegative(getString(R.string.m7取消), null)
-                        .show(fragmentManager);
-            }
+                        }
+                    })
+                    .setNegative(getString(R.string.m7取消), null)
+                    .show(fragmentManager);
         });
     }
 
@@ -179,36 +177,15 @@ public class MeActivity extends BaseActivity {
      * 拍照
      */
     private void choseHeadImageFromCameraCapture() {
-        picName = System.currentTimeMillis() + ".png";
-        fileUri = new File(Environment.getExternalStorageDirectory().getPath(), picName);
-        fileCropUri = new File(Environment.getExternalStorageDirectory().getPath(), "crop_photo.jpg");
-        Intent intentFromCapture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (MyUtil.hasSdcard()) {
-            imageUri = Uri.fromFile(fileUri);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) { //7.0 以上版本
-                String authority=AppUtils.getPackageName(MyApplication.context) + ".fileProvider";
-                imageUri = FileProvider.getUriForFile(MeActivity.this, authority, fileUri);
-                intentFromCapture.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-                // 授予目录临时共享权限
-                intentFromCapture.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-            } else {
-                intentFromCapture.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-            }
-        }
-        startActivityForResult(intentFromCapture, CODE_CAMERA_REQUEST);
+        imageUri = PhotoUtil.getImageUri(this, PhotoUtil.getFile());
+        PhotoUtil.takePicture(this, imageUri, CODE_CAMERA_REQUEST);
     }
 
     /**
      * 相册
      */
     private void choseHeadImageFromGallery() {
-        picName = System.currentTimeMillis() + ".png";
-        fileUri = new File(Environment.getExternalStorageDirectory().getPath(), picName);
-        fileCropUri = new File(Environment.getExternalStorageDirectory().getPath(), "crop_photo.jpg");
-        Intent intentFromGallery = new Intent("android.intent.action.PICK");
-        // �����ļ�����
-        intentFromGallery.setType("image/*");
-        startActivityForResult(intentFromGallery, CODE_GALLERY_REQUEST);
+        PhotoUtil.openPic(this, CODE_GALLERY_REQUEST);
     }
 
 
@@ -216,7 +193,7 @@ public class MeActivity extends BaseActivity {
         setHeaderImage(headerView, R.drawable.back, Position.LEFT, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               finish();
+                finish();
             }
         });
         tvTitle.setTextColor(ContextCompat.getColor(this, R.color.title_1));
@@ -240,7 +217,7 @@ public class MeActivity extends BaseActivity {
                     .setNegative(getString(R.string.m7取消), null)
                     .show(fragmentManager);
         });
-
+        initViews();
         adapter.addFooterView(footerView);
     }
 
@@ -279,83 +256,66 @@ public class MeActivity extends BaseActivity {
     public void onActivityResult(int requestCode, int resultCode,
                                  Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-        if (resultCode == MeActivity.this.RESULT_CANCELED) {
-            Toast.makeText(MeActivity.this, getString(R.string.m7取消), Toast.LENGTH_LONG).show();
-            return;
-        }
-
         switch (requestCode) {
             case CODE_GALLERY_REQUEST:
-                if (MyUtil.hasSdcard()) {
-                    cropImageUri = Uri.fromFile(fileCropUri);
-                    Uri newUri = Uri.parse(getPath(MeActivity.this, intent.getData()));
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        newUri = FileProvider.getUriForFile(MeActivity.this, "com.growatt.chargingpile", new File(newUri.getPath()));
+                Uri cropImageUri;
+                if (resultCode == RESULT_OK) {
+                    if (intent != null) {
+                        PhotoUtil.startCropImageAct(this, intent.getData());
                     }
-                    cropRawPhoto(newUri, cropImageUri);
-                } else {
-                    Toast.makeText(MeActivity.this, MeActivity.this.getString(R.string.m没有SD卡), Toast.LENGTH_LONG)
-                            .show();
                 }
                 break;
-
-            case CODE_CAMERA_REQUEST://相机返回
-                cropImageUri = Uri.fromFile(fileCropUri);
-                cropRawPhoto(imageUri, cropImageUri);
+            case CODE_CAMERA_REQUEST:
+                if (resultCode == RESULT_OK) {
+                    cropImageUri = Uri.fromFile(PhotoUtil.getFile());
+                    PhotoUtil.startCrop(this, imageUri, cropImageUri);
+                }
                 break;
-
-            case CODE_RESULT_REQUEST:
-                if (intent != null) {
-                    setImageToHeadView(cropImageUri);
+            case UCrop.REQUEST_CROP:
+                if (resultCode == RESULT_OK) {
+                    handleCropResult(intent);
                 }
                 break;
         }
     }
+
+
+    private void handleCropResult(@NonNull Intent result) {
+        final Uri resultUri = UCrop.getOutput(result);
+        if (resultUri != null) {
+            setImageToHeadView(resultUri);
+        } else {
+            toast(R.string.m失败);
+        }
+    }
+
 
     private void setImageToHeadView(Uri uri) {
         try {
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
-            saveBitmap(bitmap);
-            bitmap = compressBitmap(ivHead);
-            ivHead.setImageBitmap(CircleImageView.toRoundBitmap(bitmap));
+            String plantPath = ImagePathUtil.getRealPathFromUri(this, uri);
+            GlideUtils.getInstance().showImageAct(this, R.drawable.default_head, R.drawable.default_head, plantPath, ivHead);
+            saveBitmap(plantPath);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
 
-    public void saveBitmap(Bitmap avatar) {
-        File f = new File(
-                Environment.getExternalStorageDirectory(),
-                picName);
-        if (f.exists()) {
-            f.delete();
+    public void saveBitmap(String path) throws IOException {
+        Bitmap bitmap = ImagePathUtil.decodeBitmapFromResource(path, ivHead.getWidth(), ivHead.getHeight());
+        File f = new File(Environment.getExternalStorageDirectory()+"/Project EV/");
+        File file = new File(Constant.IMAGE_FILE_LOCATION);
+        if (!f.exists()) {
+            boolean mkdirs = f.mkdirs();
+            if (!file.exists()) {
+                file.createNewFile();
+            }
         }
-        try {
-            FileOutputStream out = new FileOutputStream(f);
-            avatar.compress(Bitmap.CompressFormat.PNG, 100, out);
-            out.flush();
-            out.close();
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        FileOutputStream out = new FileOutputStream(file);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+        out.flush();
+        out.close();
 
-    }
-
-    private Bitmap compressBitmap(ImageView iv) {
-        Bitmap addbmp = null;
-        try {
-            InputStream in = new FileInputStream(Environment.getExternalStorageDirectory() + "/" + picName);
-            addbmp = LoadLocalImageUtil.compress(in, this, iv);
-            in.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return addbmp;
     }
 
 

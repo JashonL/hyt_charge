@@ -22,7 +22,6 @@ import com.growatt.chargingpile.util.LoginUtil;
 import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
-import com.growatt.chargingpile.util.SmartHomeUtil;
 
 import org.json.JSONObject;
 
@@ -373,6 +372,12 @@ public class RegisterActivity extends BaseActivity {
             toast(R.string.m21用户名密码为空);
             return;
         }
+
+        if (password.length() < 6) {
+            toast(R.string.m100密码必须大于6位);
+            return;
+        }
+
         if (TextUtils.isEmpty(String.valueOf(etConfirm.getText()))) {
             toast(R.string.m21用户名密码为空);
             return;
@@ -410,7 +415,7 @@ public class RegisterActivity extends BaseActivity {
         JSONObject object = new JSONObject();
         try {
             object.put("cmd", "register");//cmd  注册
-            object.put("userId", SmartHomeUtil.getUserName());//用户名
+            object.put("userId", username);//用户名
             object.put("roleId", "endUser");//角色
             object.put("phone",phone);
             object.put("password", password);//密码

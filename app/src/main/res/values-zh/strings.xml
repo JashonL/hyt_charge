@@ -443,6 +443,7 @@
     <string name="m登录成功">登录成功</string>
     <string name="m验证失败">验证失败</string>
     <string name="m验证成功">验证成功</string>
+    <string name="m密码已初始化">密码已初始化</string>
 </resources>
 
 

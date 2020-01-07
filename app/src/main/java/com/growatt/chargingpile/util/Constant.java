@@ -1,6 +1,7 @@
 package com.growatt.chargingpile.util;
 
 import android.content.Context;
+import android.os.Environment;
 
 
 public class Constant {
@@ -12,5 +13,9 @@ public class Constant {
         return "chargingpile.db";
     }
     public static String WIFI_GUIDE_KEY = "wifi_guide";
+    //头像文件路径
+    public static  String IMAGE_FILE_LOCATION = Environment.getExternalStorageDirectory()+"/Project EV/"+"projectEv_headPic.jpg";;
+
+
 
 }

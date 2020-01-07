@@ -80,6 +80,12 @@ public class UpdatepwdActivity extends BaseActivity {
             toast(R.string.m21用户名密码为空);
             return;
         }
+
+        if (newPwd.length() < 6) {
+            toast(R.string.m100密码必须大于6位);
+            return;
+        }
+
         if (!newPwd.equals(repeatPwd)) {
             toast(R.string.m98请输入相同的密码);
             return;

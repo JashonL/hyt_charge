@@ -3,6 +3,7 @@ package com.growatt.chargingpile.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -11,6 +12,7 @@ import android.view.View;
 
 import com.google.gson.Gson;
 import com.growatt.chargingpile.BaseActivity;
+import com.growatt.chargingpile.EventBusMsg.FreshAuthMsg;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.adapter.ChargingUserAdapter;
 import com.growatt.chargingpile.bean.ChargingUserBean;
@@ -20,6 +22,8 @@ import com.growatt.chargingpile.util.SmartHomeUrlUtil;
 import com.growatt.chargingpile.util.SmartHomeUtil;
 import com.mylhyl.circledialog.CircleDialog;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 import org.xutils.common.util.LogUtil;
 
@@ -41,6 +45,8 @@ public class ChargingAuthorizationActivity extends BaseActivity {
     /*授权列表*/
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
+    @BindView(R.id.swipe_refresh)
+    SwipeRefreshLayout mSwipeRefresh;
     private List<ChargingUserBean.DataBean> mUserList = new ArrayList<>();
     private ChargingUserAdapter mChargingUserAdapter;
     private String chargingId;
@@ -55,6 +61,20 @@ public class ChargingAuthorizationActivity extends BaseActivity {
         initIntent();
         initHeaderView();
         initRecyclerView();
+        initListeners();
+        refresh();
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void aa(FreshAuthMsg msg) {
+        refresh();
+    }
+
+
+    private void initListeners() {
+        mSwipeRefresh.setColorSchemeResources(R.color.maincolor_1);
+        mSwipeRefresh.setOnRefreshListener(this::refresh);
     }
 
     private void initIntent() {
@@ -65,7 +85,6 @@ public class ChargingAuthorizationActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        refresh();
     }
 
     private void refresh() {
@@ -87,6 +106,7 @@ public class ChargingAuthorizationActivity extends BaseActivity {
             @Override
             public void success(String json) {
                 Mydialog.Dismiss();
+                mSwipeRefresh.setRefreshing(false);
                 try {
                     JSONObject jsonObject = new JSONObject(json);
                     if (jsonObject.getInt("code") == 0) {
@@ -104,7 +124,7 @@ public class ChargingAuthorizationActivity extends BaseActivity {
 
             @Override
             public void LoginError(String str) {
-
+                mSwipeRefresh.setRefreshing(false);
             }
         });
     }

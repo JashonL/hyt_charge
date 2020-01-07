@@ -5,6 +5,7 @@ import android.content.Context;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.growatt.chargingpile.R;
 
 
@@ -41,6 +42,11 @@ public class GlideUtils {
     }
     public  void showImageContext(Context con, int placeholderRes, int errorRes, int resId , ImageView iv){
         Glide.with(con).load(resId).placeholder(placeholderRes).error(errorRes).dontAnimate().into(iv);
+    }
+
+
+    public  void showImageActNoCache(Activity act,int placeholderRes,int errorRes,String path ,ImageView iv){
+        Glide.with(act).load(path).diskCacheStrategy(DiskCacheStrategy.NONE).placeholder(placeholderRes).error(errorRes).dontAnimate().into(iv);
     }
 
     /**

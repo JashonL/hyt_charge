@@ -110,6 +110,9 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             // 保存日志文件
             saveCrashInfoFile(ex);
             SystemClock.sleep(3000);
+            // 退出程序
+            android.os.Process.killProcess(android.os.Process.myPid());
+            System.exit(1);
         } catch (Exception e) {
             e.printStackTrace();
         }

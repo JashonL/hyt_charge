@@ -186,7 +186,7 @@ public class AddAuthorizationActivity extends BaseActivity {
                         AddAuthorizationActivity.this.finish();
                     }
                     String data = jsonObject.getString("data");
-                    if (!TextUtils.isEmpty(data)) toast(R.string.m139添加成功);
+                    toast(data);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

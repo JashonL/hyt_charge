@@ -424,6 +424,7 @@
     <string name="m登录成功">Accesso eseguito correttamente</string>
     <string name="m验证失败">Validazione fallita</string>
     <string name="m验证成功">Validazione riuscita</string>
+    <string name="m密码已初始化">Password inizializzata</string>
 </resources>
 
 

@@ -2,6 +2,7 @@ package com.growatt.chargingpile.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -30,11 +31,10 @@ public class AmendsActivity extends BaseActivity {
     View headerView;
     @BindView(R.id.tvTip)
     TextView tvTip;
-    @BindView(R.id.etText)
-    EditText etText;
-
-    @BindView(R.id.etTextPassword)
-    EditText etTextPassword;
+    @BindView(R.id.et_content)
+    EditText etContent;
+    @BindView(R.id.et_user_pwd)
+    EditText etUserPwd;
 
 
     private String type;
@@ -59,10 +59,10 @@ public class AmendsActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.bt_finish})
+    @OnClick({R.id.btnOk})
     public void onClicklistener(View view){
         switch (view.getId()){
-            case R.id.bt_finish:
+            case R.id.btnOk:
                 valPhoneOrEmail();
                 break;
         }
@@ -82,14 +82,17 @@ public class AmendsActivity extends BaseActivity {
         if(type.equals("1")){
             tvTip.setText(R.string.m58修改手机号);
             setHeaderTitle(headerView,getString(R.string.m58修改手机号));
+            etContent.setHint(R.string.m104输入电话号码);
+            etContent.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_CLASS_PHONE);
             if (!TextUtils.isEmpty(PhoneNum)){
-                etText.setText(PhoneNum);
+                etContent.setText(PhoneNum);
             }
         }else{
             tvTip.setText(R.string.m59修改邮箱);
             setHeaderTitle(headerView, getString(R.string.m59修改邮箱));
+            etContent.setHint(R.string.m61输入邮箱地址);
             if (!TextUtils.isEmpty(email)) {
-                etText.setText(email);
+                etContent.setText(email);
             }
         }
     }
@@ -98,8 +101,8 @@ public class AmendsActivity extends BaseActivity {
      * 修改手机号或者邮箱
      */
     public void valPhoneOrEmail() {
-        String upContent = etText.getText().toString().trim();
-        String password = etTextPassword.getText().toString().trim();
+        String upContent = etContent.getText().toString().trim();
+        String password = etUserPwd.getText().toString().trim();
         if (TextUtils.isEmpty(upContent)){
             toast(R.string.m140不能为空);
             return;

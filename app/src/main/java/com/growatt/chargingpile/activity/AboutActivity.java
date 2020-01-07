@@ -39,7 +39,7 @@ public class AboutActivity extends BaseActivity {
 		initHeaderView();
 		try {
 			String name=getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
-			String s = getString(R.string.app_name) + name;
+			String s = getString(R.string.m89当前版本)+":" + name;
 			versionName.setText(s);
 		} catch (PackageManager.NameNotFoundException e) {
 			e.printStackTrace();
