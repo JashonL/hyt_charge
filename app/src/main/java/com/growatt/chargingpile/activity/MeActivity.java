@@ -1,5 +1,6 @@
 package com.growatt.chargingpile.activity;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Context;
@@ -154,14 +155,14 @@ public class MeActivity extends BaseActivity {
                                     if (EasyPermissions.hasPermissions(MeActivity.this, PermissionCodeUtil.PERMISSION_CAMERA)) {
                                         choseHeadImageFromCameraCapture();
                                     } else {
-                                        EasyPermissions.requestPermissions(MeActivity.this, String.format(getString(R.string.m权限获取某权限说明), getString(R.string.m相机)), PermissionCodeUtil.PERMISSION_CAMERA_CODE, PermissionCodeUtil.PERMISSION_CAMERA);
+                                        EasyPermissions.requestPermissions(MeActivity.this,String.format("%s:%s",getString(R.string.m权限获取某权限说明),getString(R.string.m相机)),PermissionCodeUtil.PERMISSION_CAMERA_CODE, PermissionCodeUtil.PERMISSION_CAMERA);
                                     }
                                     break;
                                 case 1:
                                     if (EasyPermissions.hasPermissions(MeActivity.this, PermissionCodeUtil.PERMISSION_EXTERNAL_STORAGE)) {
                                         choseHeadImageFromGallery();
                                     } else {
-                                        EasyPermissions.requestPermissions(MeActivity.this, String.format(getString(R.string.m权限获取某权限说明), getString(R.string.m存储)), PermissionCodeUtil.PERMISSION_EXTERNAL_STORAGE_CODE, PermissionCodeUtil.PERMISSION_EXTERNAL_STORAGE);
+                                        EasyPermissions.requestPermissions(MeActivity.this,String.format("%s:%s",getString(R.string.m权限获取某权限说明),getString(R.string.m存储)),PermissionCodeUtil.PERMISSION_EXTERNAL_STORAGE_CODE, PermissionCodeUtil.PERMISSION_EXTERNAL_STORAGE);
                                     }
                                     break;
                             }

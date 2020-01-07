@@ -1843,447 +1843,450 @@ public class WifiSetActivity extends BaseActivity {
     private void parseReceivData(byte[] data) {
         if (data == null) return;
         int length = data.length;
-        byte frame1 = data[0];
-        byte frame2 = data[1];
-        byte end = data[length - 1];
-        if (length > 4 && frame1 == WiFiMsgConstant.FRAME_1 && frame2 == WiFiMsgConstant.FRAME_2 && end == WiFiMsgConstant.BLT_MSG_END) {
-            byte cmd = data[4];//指令类型
-            //校验位
-            byte sum = data[length - 2];
-            byte checkSum = SmartHomeUtil.getCheckSum(data);
-            if (checkSum != sum) {
-                LogUtil.d("数据校验失败-->" + "返回校验数据：" + sum + "真实数据校验:" + checkSum);
-                return;
-            }
-            int len = (int) data[5];
-            //有效数据
-            byte[] prayload = new byte[len];
-            System.arraycopy(data, 6, prayload, 0, prayload.length);
-            if (WifiSetActivity.this.encryption == WiFiMsgConstant.CONSTANT_MSG_01) {//解密
-                if (cmd == WiFiMsgConstant.CMD_A0)
-                    prayload = SmartHomeUtil.decodeKey(prayload, oldKey);
-                else prayload = SmartHomeUtil.decodeKey(prayload, newKey);
-            }
-            Log.d("liaojinsha", SmartHomeUtil.bytesToHexString(prayload));
-            switch (cmd) {
-                case WiFiMsgConstant.CMD_A0://连接命令
-                    //电桩类型，直流或者交流
-                    devType = data[2];
-                    //是否允许进入
-                    byte allow = prayload[0];
-                    Mydialog.Dismiss();
-                    if ((int) allow == 0) {
-                        isAllowed = false;
-                        T.make(getString(R.string.m254连接失败), WifiSetActivity.this);
-                    } else {
-                        isAllowed = true;
-                        T.make(getString(R.string.m169连接成功), WifiSetActivity.this);
-                        getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_01);
-                    }
-                    break;
+        if (length > 4) {
+            byte frame1 = data[0];
+            byte frame2 = data[1];
+            byte end = data[length - 1];
+            if (frame1 == WiFiMsgConstant.FRAME_1 && frame2 == WiFiMsgConstant.FRAME_2 && end == WiFiMsgConstant.BLT_MSG_END){
+                byte cmd = data[4];//指令类型
+                //校验位
+                byte sum = data[length - 2];
+                byte checkSum = SmartHomeUtil.getCheckSum(data);
+                if (checkSum != sum) {
+                    LogUtil.d("数据校验失败-->" + "返回校验数据：" + sum + "真实数据校验:" + checkSum);
+                    return;
+                }
+                int len = (int) data[5];
+                //有效数据
+                byte[] prayload = new byte[len];
+                System.arraycopy(data, 6, prayload, 0, prayload.length);
+                if (WifiSetActivity.this.encryption == WiFiMsgConstant.CONSTANT_MSG_01) {//解密
+                    if (cmd == WiFiMsgConstant.CMD_A0)
+                        prayload = SmartHomeUtil.decodeKey(prayload, oldKey);
+                    else prayload = SmartHomeUtil.decodeKey(prayload, newKey);
+                }
+                Log.d("liaojinsha", SmartHomeUtil.bytesToHexString(prayload));
+                switch (cmd) {
+                    case WiFiMsgConstant.CMD_A0://连接命令
+                        //电桩类型，直流或者交流
+                        devType = data[2];
+                        //是否允许进入
+                        byte allow = prayload[0];
+                        Mydialog.Dismiss();
+                        if ((int) allow == 0) {
+                            isAllowed = false;
+                            T.make(getString(R.string.m254连接失败), WifiSetActivity.this);
+                        } else {
+                            isAllowed = true;
+                            T.make(getString(R.string.m169连接成功), WifiSetActivity.this);
+                            getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_01);
+                        }
+                        break;
 
-                case WiFiMsgConstant.CMD_A1:
-                    byte exit = prayload[0];
+                    case WiFiMsgConstant.CMD_A1:
+                        byte exit = prayload[0];
                   /*  if ((int) exit == 1) {
                         T.make(getString(R.string.m281电桩断开), WifiSetActivity.this);
                     }*/
-                    SocketClientUtil.close(mClientUtil);
-                    break;
+                        SocketClientUtil.close(mClientUtil);
+                        break;
 
-                case WiFiMsgConstant.CONSTANT_MSG_01://获取信息参数
-                    infoLength = len;
-                    idByte = new byte[20];
-                    System.arraycopy(prayload, 0, idByte, 0, 20);
-                    String devId = MyUtil.ByteToString(idByte);
-                    setBean(1, devId);
-                    lanByte = new byte[1];
-                    System.arraycopy(prayload, 20, lanByte, 0, 1);
-                    String lan = MyUtil.ByteToString(lanByte);
-                    if ("1".equals(lan)) {
-                        lan = lanArray[0];
-                    } else if ("2".equals(lan)) {
-                        lan = lanArray[1];
-                    } else {
-                        lan = lanArray[2];
-                    }
-                    setBean(2, lan);
-                    cardByte = new byte[6];
-                    System.arraycopy(prayload, 21, cardByte, 0, 6);
-                    String card = MyUtil.ByteToString(cardByte);
-                    setBean(3, card);
-                    rcdByte = new byte[1];
-                    System.arraycopy(prayload, 27, rcdByte, 0, 1);
-                    String rcd = MyUtil.ByteToString(rcdByte);
-                    int i;
-                    try {
-                        i = Integer.parseInt(rcd);
-                    } catch (NumberFormatException e) {
-                        i = 0;
-                    }
-                    if (i <= 0) i = 1;
-                    String s = rcdArray[i - 1];
-                    setBean(4, s);
-                    //兼容老版本
-                    if (len > 28) {
-                        versionByte = new byte[24];
-                        System.arraycopy(prayload, 28, versionByte, 0, 24);
-                        String version = MyUtil.ByteToString(versionByte);
-                        setBean(5, version);
-                    }
+                    case WiFiMsgConstant.CONSTANT_MSG_01://获取信息参数
+                        infoLength = len;
+                        idByte = new byte[20];
+                        System.arraycopy(prayload, 0, idByte, 0, 20);
+                        String devId = MyUtil.ByteToString(idByte);
+                        setBean(1, devId);
+                        lanByte = new byte[1];
+                        System.arraycopy(prayload, 20, lanByte, 0, 1);
+                        String lan = MyUtil.ByteToString(lanByte);
+                        if ("1".equals(lan)) {
+                            lan = lanArray[0];
+                        } else if ("2".equals(lan)) {
+                            lan = lanArray[1];
+                        } else {
+                            lan = lanArray[2];
+                        }
+                        setBean(2, lan);
+                        cardByte = new byte[6];
+                        System.arraycopy(prayload, 21, cardByte, 0, 6);
+                        String card = MyUtil.ByteToString(cardByte);
+                        setBean(3, card);
+                        rcdByte = new byte[1];
+                        System.arraycopy(prayload, 27, rcdByte, 0, 1);
+                        String rcd = MyUtil.ByteToString(rcdByte);
+                        int i;
+                        try {
+                            i = Integer.parseInt(rcd);
+                        } catch (NumberFormatException e) {
+                            i = 0;
+                        }
+                        if (i <= 0) i = 1;
+                        String s = rcdArray[i - 1];
+                        setBean(4, s);
+                        //兼容老版本
+                        if (len > 28) {
+                            versionByte = new byte[24];
+                            System.arraycopy(prayload, 28, versionByte, 0, 24);
+                            String version = MyUtil.ByteToString(versionByte);
+                            setBean(5, version);
+                        }
 
-                    mAdapter.notifyDataSetChanged();
+                        mAdapter.notifyDataSetChanged();
 
-                    getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_02);
-                    break;
-                case WiFiMsgConstant.CONSTANT_MSG_02://获取以太网参数
-                    internetLength = len;
-                    ipByte = new byte[15];
-                    System.arraycopy(prayload, 0, ipByte, 0, 15);
-                    String devIp = MyUtil.ByteToString(ipByte);
-                    setBean(7, devIp);
-                    gatewayByte = new byte[15];
-                    System.arraycopy(prayload, 15, gatewayByte, 0, 15);
-                    String gateway = MyUtil.ByteToString(gatewayByte);
-                    setBean(8, gateway);
-                    maskByte = new byte[15];
-                    System.arraycopy(prayload, 30, maskByte, 0, 15);
-                    String mask = MyUtil.ByteToString(maskByte);
-                    setBean(9, mask);
-                    macByte = new byte[17];
-                    System.arraycopy(prayload, 45, macByte, 0, 17);
-                    String mac = MyUtil.ByteToString(macByte);
-                    setBean(10, mac);
-                    dnsByte = new byte[15];
-                    System.arraycopy(prayload, 62, dnsByte, 0, 15);
-                    String dns = MyUtil.ByteToString(dnsByte);
-                    setBean(11, dns);
-                    mAdapter.notifyDataSetChanged();
-                    getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_03);
-                    break;
-                case WiFiMsgConstant.CONSTANT_MSG_03://获取设备帐号密码参数
-                    wifiLength = len;
-                    ssidByte = new byte[16];
-                    System.arraycopy(prayload, 0, ssidByte, 0, 16);
-                    String ssid = MyUtil.ByteToString(ssidByte);
-                    setBean(13, ssid);
-                    wifiKeyByte = new byte[16];
-                    System.arraycopy(prayload, 16, wifiKeyByte, 0, 16);
-                    String wifikey = MyUtil.ByteToString(wifiKeyByte);
-                    setBean(14, wifikey);
-                    bltNameByte = new byte[16];
-                    System.arraycopy(prayload, 32, bltNameByte, 0, 16);
-                    String bltName = MyUtil.ByteToString(bltNameByte);
+                        getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_02);
+                        break;
+                    case WiFiMsgConstant.CONSTANT_MSG_02://获取以太网参数
+                        internetLength = len;
+                        ipByte = new byte[15];
+                        System.arraycopy(prayload, 0, ipByte, 0, 15);
+                        String devIp = MyUtil.ByteToString(ipByte);
+                        setBean(7, devIp);
+                        gatewayByte = new byte[15];
+                        System.arraycopy(prayload, 15, gatewayByte, 0, 15);
+                        String gateway = MyUtil.ByteToString(gatewayByte);
+                        setBean(8, gateway);
+                        maskByte = new byte[15];
+                        System.arraycopy(prayload, 30, maskByte, 0, 15);
+                        String mask = MyUtil.ByteToString(maskByte);
+                        setBean(9, mask);
+                        macByte = new byte[17];
+                        System.arraycopy(prayload, 45, macByte, 0, 17);
+                        String mac = MyUtil.ByteToString(macByte);
+                        setBean(10, mac);
+                        dnsByte = new byte[15];
+                        System.arraycopy(prayload, 62, dnsByte, 0, 15);
+                        String dns = MyUtil.ByteToString(dnsByte);
+                        setBean(11, dns);
+                        mAdapter.notifyDataSetChanged();
+                        getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_03);
+                        break;
+                    case WiFiMsgConstant.CONSTANT_MSG_03://获取设备帐号密码参数
+                        wifiLength = len;
+                        ssidByte = new byte[16];
+                        System.arraycopy(prayload, 0, ssidByte, 0, 16);
+                        String ssid = MyUtil.ByteToString(ssidByte);
+                        setBean(13, ssid);
+                        wifiKeyByte = new byte[16];
+                        System.arraycopy(prayload, 16, wifiKeyByte, 0, 16);
+                        String wifikey = MyUtil.ByteToString(wifiKeyByte);
+                        setBean(14, wifikey);
+                        bltNameByte = new byte[16];
+                        System.arraycopy(prayload, 32, bltNameByte, 0, 16);
+                        String bltName = MyUtil.ByteToString(bltNameByte);
 //                    setBean(15, bltName);
-                    bltPwdByte = new byte[16];
-                    System.arraycopy(prayload, 48, bltPwdByte, 0, 16);
-                    String bltPwd = MyUtil.ByteToString(bltPwdByte);
+                        bltPwdByte = new byte[16];
+                        System.arraycopy(prayload, 48, bltPwdByte, 0, 16);
+                        String bltPwd = MyUtil.ByteToString(bltPwdByte);
 //                    setBean(16, bltPwd);
-                    name4GByte = new byte[16];
-                    System.arraycopy(prayload, 64, name4GByte, 0, 16);
-                    String name4G = MyUtil.ByteToString(name4GByte);
-                    setBean(15, name4G);
-                    pwd4GByte = new byte[16];
-                    System.arraycopy(prayload, 80, pwd4GByte, 0, 16);
-                    String pwd4G = MyUtil.ByteToString(pwd4GByte);
-                    setBean(16, pwd4G);
-                    apn4GByte = new byte[16];
-                    System.arraycopy(prayload, 96, apn4GByte, 0, 16);
-                    String apn4G = MyUtil.ByteToString(apn4GByte);
-                    setBean(17, apn4G);
-                    mAdapter.notifyDataSetChanged();
-                    getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_04);
-                    break;
-                case WiFiMsgConstant.CONSTANT_MSG_04://获取服务器参数
-                    urlLength = len;
-                    urlByte = new byte[70];
-                    System.arraycopy(prayload, 0, urlByte, 0, 70);
-                    String url = MyUtil.ByteToString(urlByte);
-                    setBean(19, url);
+                        name4GByte = new byte[16];
+                        System.arraycopy(prayload, 64, name4GByte, 0, 16);
+                        String name4G = MyUtil.ByteToString(name4GByte);
+                        setBean(15, name4G);
+                        pwd4GByte = new byte[16];
+                        System.arraycopy(prayload, 80, pwd4GByte, 0, 16);
+                        String pwd4G = MyUtil.ByteToString(pwd4GByte);
+                        setBean(16, pwd4G);
+                        apn4GByte = new byte[16];
+                        System.arraycopy(prayload, 96, apn4GByte, 0, 16);
+                        String apn4G = MyUtil.ByteToString(apn4GByte);
+                        setBean(17, apn4G);
+                        mAdapter.notifyDataSetChanged();
+                        getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_04);
+                        break;
+                    case WiFiMsgConstant.CONSTANT_MSG_04://获取服务器参数
+                        urlLength = len;
+                        urlByte = new byte[70];
+                        System.arraycopy(prayload, 0, urlByte, 0, 70);
+                        String url = MyUtil.ByteToString(urlByte);
+                        setBean(19, url);
 
-                    hskeyByte = new byte[20];
-                    System.arraycopy(prayload, 70, hskeyByte, 0, 20);
-                    String hskey = MyUtil.ByteToString(hskeyByte);
-                    setBean(20, hskey);
+                        hskeyByte = new byte[20];
+                        System.arraycopy(prayload, 70, hskeyByte, 0, 20);
+                        String hskey = MyUtil.ByteToString(hskeyByte);
+                        setBean(20, hskey);
 
-                    heatByte = new byte[4];
-                    System.arraycopy(prayload, 90, heatByte, 0, 4);
-                    String heat = MyUtil.ByteToString(heatByte);
-                    setBean(21, heat);
+                        heatByte = new byte[4];
+                        System.arraycopy(prayload, 90, heatByte, 0, 4);
+                        String heat = MyUtil.ByteToString(heatByte);
+                        setBean(21, heat);
 
-                    pingByte = new byte[4];
-                    System.arraycopy(prayload, 94, pingByte, 0, 4);
-                    String ping = MyUtil.ByteToString(pingByte);
-                    setBean(22, ping);
+                        pingByte = new byte[4];
+                        System.arraycopy(prayload, 94, pingByte, 0, 4);
+                        String ping = MyUtil.ByteToString(pingByte);
+                        setBean(22, ping);
 
-                    intervalByte = new byte[4];
-                    System.arraycopy(prayload, 98, intervalByte, 0, 4);
-                    String interval = MyUtil.ByteToString(intervalByte);
-                    setBean(23, interval);
+                        intervalByte = new byte[4];
+                        System.arraycopy(prayload, 98, intervalByte, 0, 4);
+                        String interval = MyUtil.ByteToString(intervalByte);
+                        setBean(23, interval);
 
-                    mAdapter.notifyDataSetChanged();
-                    getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_05);
-                    break;
+                        mAdapter.notifyDataSetChanged();
+                        getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_05);
+                        break;
 
-                case WiFiMsgConstant.CONSTANT_MSG_05://获取充电参数
-                    chargingLength = len;
-                    modeByte = new byte[1];
-                    System.arraycopy(prayload, 0, modeByte, 0, 1);
-                    String mode = MyUtil.ByteToString(modeByte);
-                    int modeSet;
-                    try {
-                        modeSet = Integer.parseInt(mode);
-                    } catch (NumberFormatException e) {
-                        modeSet = 0;
-                    }
-                    if (modeSet <= 0) modeSet = 1;
-                    String modeValue = modeArray[modeSet - 1];
-                    setBean(25, modeValue);
-
-                    maxCurrentByte = new byte[2];
-                    System.arraycopy(prayload, 1, maxCurrentByte, 0, 2);
-                    String maxCurrent = MyUtil.ByteToString(maxCurrentByte);
-                    setBean(26, maxCurrent);
-
-                    rateByte = new byte[5];
-                    System.arraycopy(prayload, 3, rateByte, 0, 5);
-                    String rate = MyUtil.ByteToString(rateByte);
-                    setBean(27, rate);
-
-                    tempByte = new byte[3];
-                    System.arraycopy(prayload, 8, tempByte, 0, 3);
-                    String temp = MyUtil.ByteToString(tempByte);
-                    setBean(28, temp);
-
-                    powerByte = new byte[2];
-                    System.arraycopy(prayload, 11, powerByte, 0, 2);
-                    String power = MyUtil.ByteToString(powerByte);
-                    setBean(29, power);
-
-                    timeByte = new byte[11];
-                    System.arraycopy(prayload, 13, timeByte, 0, 11);
-                    String time = MyUtil.ByteToString(timeByte);
-                    if (time.contains("-")) {
-                        String[] split = time.split("-");
-                        if (split.length >= 2) {
-                            startTime = split[0];
-                            endTime = split[1];
-                        }
-                    }
-                    setBean(30, time);
-
-
-                    //兼容老版本
-                    if (len > 24) {
-                        chargingEnableByte = new byte[1];
-                        System.arraycopy(prayload, 24, chargingEnableByte, 0, 1);
-                        String chargingEnable = MyUtil.ByteToString(chargingEnableByte);
-                        int enable1;
+                    case WiFiMsgConstant.CONSTANT_MSG_05://获取充电参数
+                        chargingLength = len;
+                        modeByte = new byte[1];
+                        System.arraycopy(prayload, 0, modeByte, 0, 1);
+                        String mode = MyUtil.ByteToString(modeByte);
+                        int modeSet;
                         try {
-                            enable1 = Integer.parseInt(chargingEnable);
+                            modeSet = Integer.parseInt(mode);
                         } catch (NumberFormatException e) {
-                            enable1 = 0;
+                            modeSet = 0;
                         }
-                        if (enable1 < 0) enable1 = 1;
-                        String enableValue1 = enableArray[enable1];
-                        setBean(31, enableValue1);
-                    }
+                        if (modeSet <= 0) modeSet = 1;
+                        String modeValue = modeArray[modeSet - 1];
+                        setBean(25, modeValue);
+
+                        maxCurrentByte = new byte[2];
+                        System.arraycopy(prayload, 1, maxCurrentByte, 0, 2);
+                        String maxCurrent = MyUtil.ByteToString(maxCurrentByte);
+                        setBean(26, maxCurrent);
+
+                        rateByte = new byte[5];
+                        System.arraycopy(prayload, 3, rateByte, 0, 5);
+                        String rate = MyUtil.ByteToString(rateByte);
+                        setBean(27, rate);
+
+                        tempByte = new byte[3];
+                        System.arraycopy(prayload, 8, tempByte, 0, 3);
+                        String temp = MyUtil.ByteToString(tempByte);
+                        setBean(28, temp);
+
+                        powerByte = new byte[2];
+                        System.arraycopy(prayload, 11, powerByte, 0, 2);
+                        String power = MyUtil.ByteToString(powerByte);
+                        setBean(29, power);
+
+                        timeByte = new byte[11];
+                        System.arraycopy(prayload, 13, timeByte, 0, 11);
+                        String time = MyUtil.ByteToString(timeByte);
+                        if (time.contains("-")) {
+                            String[] split = time.split("-");
+                            if (split.length >= 2) {
+                                startTime = split[0];
+                                endTime = split[1];
+                            }
+                        }
+                        setBean(30, time);
 
 
-                    if (len > 25) {
-                        powerdistributionByte = new byte[1];
-                        System.arraycopy(prayload, 25, powerdistributionByte, 0, 1);
-                        String powerdistribution = MyUtil.ByteToString(powerdistributionByte);
-                        int enable2;
-                        try {
-                            enable2 = Integer.parseInt(powerdistribution);
-                        } catch (NumberFormatException e) {
-                            enable2 = 0;
+                        //兼容老版本
+                        if (len > 24) {
+                            chargingEnableByte = new byte[1];
+                            System.arraycopy(prayload, 24, chargingEnableByte, 0, 1);
+                            String chargingEnable = MyUtil.ByteToString(chargingEnableByte);
+                            int enable1;
+                            try {
+                                enable1 = Integer.parseInt(chargingEnable);
+                            } catch (NumberFormatException e) {
+                                enable1 = 0;
+                            }
+                            if (enable1 < 0) enable1 = 1;
+                            String enableValue1 = enableArray[enable1];
+                            setBean(31, enableValue1);
                         }
-                        if (enable2 < 0) enable2 = 1;
-                        String enableValue2 = enableArray[enable2];
-                        setBean(32, enableValue2);
-                    }
 
-                    if (len > 26) {
-                        wiringByte = new byte[1];
-                        System.arraycopy(prayload, 26, wiringByte, 0, 1);
-                        String wiringType = MyUtil.ByteToString(wiringByte);
-                        int wiring;
-                        try {
-                            wiring = Integer.parseInt(wiringType);
-                        } catch (NumberFormatException e) {
-                            wiring = 0;
+
+                        if (len > 25) {
+                            powerdistributionByte = new byte[1];
+                            System.arraycopy(prayload, 25, powerdistributionByte, 0, 1);
+                            String powerdistribution = MyUtil.ByteToString(powerdistributionByte);
+                            int enable2;
+                            try {
+                                enable2 = Integer.parseInt(powerdistribution);
+                            } catch (NumberFormatException e) {
+                                enable2 = 0;
+                            }
+                            if (enable2 < 0) enable2 = 1;
+                            String enableValue2 = enableArray[enable2];
+                            setBean(32, enableValue2);
                         }
-                        if (wiring < 0) wiring = 1;
-                        String wiringValue = wiringArray[wiring];
-                        setBean(33, wiringValue);
-                    }
-                    if (len > 27) {
-                        solarByte = new byte[1];
-                        System.arraycopy(prayload, 27, solarByte, 0, 1);
-                        String solarMode = MyUtil.ByteToString(solarByte);
-                        int modeIndext;
-                        try {
-                            modeIndext = Integer.parseInt(solarMode);
-                        } catch (NumberFormatException e) {
-                            modeIndext = 0;
+
+                        if (len > 26) {
+                            wiringByte = new byte[1];
+                            System.arraycopy(prayload, 26, wiringByte, 0, 1);
+                            String wiringType = MyUtil.ByteToString(wiringByte);
+                            int wiring;
+                            try {
+                                wiring = Integer.parseInt(wiringType);
+                            } catch (NumberFormatException e) {
+                                wiring = 0;
+                            }
+                            if (wiring < 0) wiring = 1;
+                            String wiringValue = wiringArray[wiring];
+                            setBean(33, wiringValue);
                         }
-                        if (modeIndext < 0) modeIndext = 1;
-                        String solarModeValue = solarArrray[modeIndext];
-                        setBean(34, solarModeValue);
-                        WifiSetBean bean = (WifiSetBean) mAdapter.getData().get(36);
-                        if (len > 29) {
-                            solarCurrentByte = new byte[2];
-                            System.arraycopy(prayload, 28, solarCurrentByte, 0, 2);
-                            if (modeIndext == 2) {//ECO+
-                                String current = MyUtil.ByteToString(solarCurrentByte);//限制电流最大8A
-                                SolarBean solarBean = new SolarBean();
-                                solarBean.setValue(current);
-                                solarBean.setType(WifiSetAdapter.PARAM_ITEM_SOLAR);
-                                solarBean.setKey(getString(R.string.m电流限制));
-                                solarBeans.add(solarBean);
+                        if (len > 27) {
+                            solarByte = new byte[1];
+                            System.arraycopy(prayload, 27, solarByte, 0, 1);
+                            String solarMode = MyUtil.ByteToString(solarByte);
+                            int modeIndext;
+                            try {
+                                modeIndext = Integer.parseInt(solarMode);
+                            } catch (NumberFormatException e) {
+                                modeIndext = 0;
+                            }
+                            if (modeIndext < 0) modeIndext = 1;
+                            String solarModeValue = solarArrray[modeIndext];
+                            setBean(34, solarModeValue);
+                            WifiSetBean bean = (WifiSetBean) mAdapter.getData().get(36);
+                            if (len > 29) {
+                                solarCurrentByte = new byte[2];
+                                System.arraycopy(prayload, 28, solarCurrentByte, 0, 2);
+                                if (modeIndext == 2) {//ECO+
+                                    String current = MyUtil.ByteToString(solarCurrentByte);//限制电流最大8A
+                                    SolarBean solarBean = new SolarBean();
+                                    solarBean.setValue(current);
+                                    solarBean.setType(WifiSetAdapter.PARAM_ITEM_SOLAR);
+                                    solarBean.setKey(getString(R.string.m电流限制));
+                                    solarBeans.add(solarBean);
                              /*   if (!bean.isExpanded()) {
                                     mAdapter.expand(36, false);
                                     ((SolarBean) bean.getSubItem(0)).setValue(current);
                                 }*/
+                                }
                             }
                         }
-                    }
-                    if (len > 30) {
-                        ammeterByte = new byte[12];
-                        System.arraycopy(prayload, 30, ammeterByte, 0, 12);
-                        String ammeterAdd = MyUtil.ByteToString(ammeterByte);
-                        setBean(35, ammeterAdd);
-                    }
-                    mAdapter.notifyDataSetChanged();
-                    getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_06);
-                    break;
-                case WiFiMsgConstant.CONSTANT_MSG_06:
-                    lockLength = len;
-                    lockByte = new byte[len];
-                    System.arraycopy(prayload, 0, lockByte, 0, len);
-                    String lockStatus = MyUtil.ByteToString(lockByte);
-                    lockBeans.clear();
-                    if (!TextUtils.isEmpty(lockStatus)) {
-                        char[] chars = lockStatus.toCharArray();
-                        for (int k = 0; k < chars.length; k++) {
-                            LockBean lockBean = new LockBean();
-                            if (String.valueOf(chars[k]).equals("1")) {
-                                lockBean.setValue(lockArrray[1]);
-                            } else {
-                                lockBean.setValue(lockArrray[0]);
+                        if (len > 30) {
+                            ammeterByte = new byte[12];
+                            System.arraycopy(prayload, 30, ammeterByte, 0, 12);
+                            String ammeterAdd = MyUtil.ByteToString(ammeterByte);
+                            setBean(35, ammeterAdd);
+                        }
+                        mAdapter.notifyDataSetChanged();
+                        getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_06);
+                        break;
+                    case WiFiMsgConstant.CONSTANT_MSG_06:
+                        lockLength = len;
+                        lockByte = new byte[len];
+                        System.arraycopy(prayload, 0, lockByte, 0, len);
+                        String lockStatus = MyUtil.ByteToString(lockByte);
+                        lockBeans.clear();
+                        if (!TextUtils.isEmpty(lockStatus)) {
+                            char[] chars = lockStatus.toCharArray();
+                            for (int k = 0; k < chars.length; k++) {
+                                LockBean lockBean = new LockBean();
+                                if (String.valueOf(chars[k]).equals("1")) {
+                                    lockBean.setValue(lockArrray[1]);
+                                } else {
+                                    lockBean.setValue(lockArrray[0]);
+                                }
+                                lockBean.setType(WifiSetAdapter.PARAM_ITEM_LOCK);
+                                lockBean.setKey(gunArrray[k]);
+                                lockBean.setGunId(k + 1);
+                                lockBean.setIndex(k);
+                                lockBeans.add(lockBean);
                             }
+                        } else {
+                            LockBean lockBean = new LockBean();
+                            lockBean.setValue("");
+                            lockBean.setGunId(1);
                             lockBean.setType(WifiSetAdapter.PARAM_ITEM_LOCK);
-                            lockBean.setKey(gunArrray[k]);
-                            lockBean.setGunId(k + 1);
-                            lockBean.setIndex(k);
+                            lockBean.setKey(gunArrray[0]);
                             lockBeans.add(lockBean);
                         }
-                    } else {
-                        LockBean lockBean = new LockBean();
-                        lockBean.setValue("");
-                        lockBean.setGunId(1);
-                        lockBean.setType(WifiSetAdapter.PARAM_ITEM_LOCK);
-                        lockBean.setKey(gunArrray[0]);
-                        lockBeans.add(lockBean);
-                    }
-                    refreshRv();
-                    break;
-                //设置回应
-                case WiFiMsgConstant.CONSTANT_MSG_11:
-                    if (isEditInterNet) {//修改联网参数
-                        setInternt();
-                    } else if (isEditWifi) {
-                        setWifi();
-                    } else if (isEditUrl) {
-                        setUrl();
-                    } else if (isEditCharging) {
-                        setCharging();
-                    } else {
-                        byte result = prayload[0];
-                        if ((int) result == 1) {
-                            T.make(getString(R.string.m243设置成功), WifiSetActivity.this);
-                        } else {
-                            T.make(getString(R.string.m244设置失败), WifiSetActivity.this);
-                        }
-                        sendCmdExit();
-                        finish();
-                    }
-                    break;
-                case WiFiMsgConstant.CONSTANT_MSG_12:
-                    if (isEditWifi) {
-                        setWifi();
-                    } else if (isEditUrl) {
-                        setUrl();
-                    } else if (isEditCharging) {
-                        setCharging();
-                    } else {
-                        byte result = prayload[0];
-                        if ((int) result == 1) {
-//                        getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_01);
-                            T.make(getString(R.string.m243设置成功), WifiSetActivity.this);
-                        } else {
-                            T.make(getString(R.string.m244设置失败), WifiSetActivity.this);
-                        }
-                        sendCmdExit();
-                        finish();
-                    }
-                    break;
-                case WiFiMsgConstant.CONSTANT_MSG_13:
-                    if (isEditUrl) {
-                        setUrl();
-                    } else if (isEditCharging) {
-                        setCharging();
-                    } else {
-                        byte result = prayload[0];
-                        if ((int) result == 1) {
-//                        getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_01);
-                            T.make(getString(R.string.m243设置成功), WifiSetActivity.this);
-                        } else {
-                            T.make(getString(R.string.m244设置失败), WifiSetActivity.this);
-                        }
-                        sendCmdExit();
-                        finish();
-                    }
-                    break;
-                case WiFiMsgConstant.CONSTANT_MSG_14:
-                    if (isEditCharging) {
-                        setCharging();
-                    } else {
-                        byte result = prayload[0];
-                        if ((int) result == 1) {
-//                        getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_01);
-                            T.make(getString(R.string.m243设置成功), WifiSetActivity.this);
-                        } else {
-                            T.make(getString(R.string.m244设置失败), WifiSetActivity.this);
-                        }
-                        sendCmdExit();
-                        finish();
-                    }
-                    break;
-                case WiFiMsgConstant.CONSTANT_MSG_15:
-                    byte result = prayload[0];
-                    if ((int) result == 1) {
-//                        getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_01);
-                        T.make(getString(R.string.m243设置成功), WifiSetActivity.this);
-                    } else {
-                        T.make(getString(R.string.m244设置失败), WifiSetActivity.this);
-                    }
-                    sendCmdExit();
-                    finish();
-                    break;
-                case WiFiMsgConstant.CONSTANT_MSG_16://解锁
-                    byte unlock = prayload[0];
-                    if ((int) unlock == 1) {
-                        lockBeans.get(gunPos).setValue(lockArrray[0]);
                         refreshRv();
-                    } else {
-                        T.make(getString(R.string.m失败), WifiSetActivity.this);
-                    }
-                    break;
-                default:
-                    break;
+                        break;
+                    //设置回应
+                    case WiFiMsgConstant.CONSTANT_MSG_11:
+                        if (isEditInterNet) {//修改联网参数
+                            setInternt();
+                        } else if (isEditWifi) {
+                            setWifi();
+                        } else if (isEditUrl) {
+                            setUrl();
+                        } else if (isEditCharging) {
+                            setCharging();
+                        } else {
+                            byte result = prayload[0];
+                            if ((int) result == 1) {
+                                T.make(getString(R.string.m243设置成功), WifiSetActivity.this);
+                            } else {
+                                T.make(getString(R.string.m244设置失败), WifiSetActivity.this);
+                            }
+                            sendCmdExit();
+                            finish();
+                        }
+                        break;
+                    case WiFiMsgConstant.CONSTANT_MSG_12:
+                        if (isEditWifi) {
+                            setWifi();
+                        } else if (isEditUrl) {
+                            setUrl();
+                        } else if (isEditCharging) {
+                            setCharging();
+                        } else {
+                            byte result = prayload[0];
+                            if ((int) result == 1) {
+//                        getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_01);
+                                T.make(getString(R.string.m243设置成功), WifiSetActivity.this);
+                            } else {
+                                T.make(getString(R.string.m244设置失败), WifiSetActivity.this);
+                            }
+                            sendCmdExit();
+                            finish();
+                        }
+                        break;
+                    case WiFiMsgConstant.CONSTANT_MSG_13:
+                        if (isEditUrl) {
+                            setUrl();
+                        } else if (isEditCharging) {
+                            setCharging();
+                        } else {
+                            byte result = prayload[0];
+                            if ((int) result == 1) {
+//                        getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_01);
+                                T.make(getString(R.string.m243设置成功), WifiSetActivity.this);
+                            } else {
+                                T.make(getString(R.string.m244设置失败), WifiSetActivity.this);
+                            }
+                            sendCmdExit();
+                            finish();
+                        }
+                        break;
+                    case WiFiMsgConstant.CONSTANT_MSG_14:
+                        if (isEditCharging) {
+                            setCharging();
+                        } else {
+                            byte result = prayload[0];
+                            if ((int) result == 1) {
+//                        getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_01);
+                                T.make(getString(R.string.m243设置成功), WifiSetActivity.this);
+                            } else {
+                                T.make(getString(R.string.m244设置失败), WifiSetActivity.this);
+                            }
+                            sendCmdExit();
+                            finish();
+                        }
+                        break;
+                    case WiFiMsgConstant.CONSTANT_MSG_15:
+                        byte result = prayload[0];
+                        if ((int) result == 1) {
+//                        getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_01);
+                            T.make(getString(R.string.m243设置成功), WifiSetActivity.this);
+                        } else {
+                            T.make(getString(R.string.m244设置失败), WifiSetActivity.this);
+                        }
+                        sendCmdExit();
+                        finish();
+                        break;
+                    case WiFiMsgConstant.CONSTANT_MSG_16://解锁
+                        byte unlock = prayload[0];
+                        if ((int) unlock == 1) {
+                            lockBeans.get(gunPos).setValue(lockArrray[0]);
+                            refreshRv();
+                        } else {
+                            T.make(getString(R.string.m失败), WifiSetActivity.this);
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
+
         }
 
 
@@ -2315,23 +2318,20 @@ public class WifiSetActivity extends BaseActivity {
     /*设置语言*/
     private void setLanguage() {
         List<String> list = Arrays.asList(lanArray);
-        OptionsPickerView<String> pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
-            @Override
-            public void onOptionsSelect(int options1, int options2, int options3, View v) {
-                final String tx = list.get(options1);
-                String pos = String.valueOf(options1 + 1);
-                byte[] bytes = pos.trim().getBytes();
-                if (bytes.length > 1) {
-                    T.make(getString(R.string.m286输入值超出规定长度), WifiSetActivity.this);
-                    return;
-                }
-                lanByte = new byte[1];
-                System.arraycopy(bytes, 0, lanByte, 0, bytes.length);
-//                setInfo();
-                setBean(2, tx);
-                mAdapter.notifyDataSetChanged();
-                isEditInfo = true;
+        OptionsPickerView<String> pvOptions = new OptionsPickerBuilder(this, (options1, options2, options3, v) -> {
+            final String tx = list.get(options1);
+            String pos = String.valueOf(options1 + 1);
+            byte[] bytes = pos.trim().getBytes();
+            if (bytes.length > 1) {
+                T.make(getString(R.string.m286输入值超出规定长度), WifiSetActivity.this);
+                return;
             }
+            lanByte = new byte[1];
+            System.arraycopy(bytes, 0, lanByte, 0, bytes.length);
+//                setInfo();
+            setBean(2, tx);
+            mAdapter.notifyDataSetChanged();
+            isEditInfo = true;
         })
                 .setTitleText(getString(R.string.m260语言))
                 .setSubmitText(getString(R.string.m9确定))

@@ -309,7 +309,7 @@ public class ChargingPileActivity extends BaseActivity {
 
     private void initPermission() {
        if (!EasyPermissions.hasPermissions(this, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE)){
-           EasyPermissions.requestPermissions(this,"",11001,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE);
+           EasyPermissions.requestPermissions(this,String.format("%s:%s",getString(R.string.m权限获取某权限说明),getString(R.string.m存储)),11001,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE);
        }
     }
 

@@ -72,7 +72,7 @@ public class AddChargingActivity extends BaseActivity {
                 if (EasyPermissions.hasPermissions(this, PermissionCodeUtil.PERMISSION_CAMERA)) {
                     addByScan();
                 } else {
-                    EasyPermissions.requestPermissions(this, String.format(getString(R.string.m权限获取某权限说明), getString(R.string.m相机)), PermissionCodeUtil.PERMISSION_CAMERA_CODE, PermissionCodeUtil.PERMISSION_CAMERA);
+                    EasyPermissions.requestPermissions(this,String.format("%s:%s",getString(R.string.m权限获取某权限说明),getString(R.string.m相机)), PermissionCodeUtil.PERMISSION_CAMERA_CODE, PermissionCodeUtil.PERMISSION_CAMERA);
                 }
 
                 break;

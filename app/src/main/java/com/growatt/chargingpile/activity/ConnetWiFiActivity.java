@@ -167,7 +167,7 @@ public class ConnetWiFiActivity extends BaseActivity {
                 if (EasyPermissions.hasPermissions(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
                     currentSSID = MyUtil.getWIFISSID(this);
                 } else {
-                    EasyPermissions.requestPermissions(this, String.format(getString(R.string.m权限获取某权限说明), getString(R.string.m位置)), PermissionCodeUtil.PERMISSION_LOCATION_CODE, Manifest.permission.ACCESS_FINE_LOCATION);
+                    EasyPermissions.requestPermissions(this,String.format("%s:%s",getString(R.string.m权限获取某权限说明),getString(R.string.m位置)), PermissionCodeUtil.PERMISSION_LOCATION_CODE, Manifest.permission.ACCESS_FINE_LOCATION);
                 }
             } else {
                 currentSSID = MyUtil.getWIFISSID(this);
