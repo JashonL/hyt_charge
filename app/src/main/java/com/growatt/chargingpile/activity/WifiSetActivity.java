@@ -30,7 +30,6 @@ import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.adapter.ParamsSetAdapter;
 import com.growatt.chargingpile.adapter.WifiSetAdapter;
 import com.growatt.chargingpile.bean.LockBean;
-import com.growatt.chargingpile.bean.ParamsSetBean;
 import com.growatt.chargingpile.bean.SolarBean;
 import com.growatt.chargingpile.bean.WiFiRequestMsgBean;
 import com.growatt.chargingpile.bean.WifiParseBean;
@@ -387,59 +386,14 @@ public class WifiSetActivity extends BaseActivity {
             if (itemType == WifiSetAdapter.PARAM_ITEM) {
                 WifiSetBean bean = (WifiSetBean) mAdapter.getData().get(position);
                 if (!bean.isAuthority()&&!isVerified){//如果是不允许设置，又没有验证密码
-                    showInputPassword();
+                    showInputPassword(WifiSetAdapter.PARAM_ITEM,bean);
                 }else {
-                    int index = bean.getIndex();
-                    switch (index) {
-                        case 2://设置语言
-                            setLanguage();
-                            break;
-                        case 4:
-                            setRcd();
-                            break;
-                        case 25:
-                            setMode();
-                            break;
-                        case 30:
-                            Intent intent = new Intent(this, TimeSelectActivity.class);
-                            intent.putExtra("start", startTime);
-                            intent.putExtra("end", endTime);
-                            startActivityForResult(intent, 100);
-                            break;
-                        case 31:
-                            if (chargingLength > 24)
-                                setEnable(31);
-                            else toast(R.string.m请先升级充电桩);
-                            break;
-                        case 32:
-                            if (chargingLength > 25)
-                                setEnable(32);
-                            else toast(R.string.m请先升级充电桩);
-                            break;
-                        case 33:
-                            if (chargingLength > 26)
-                                setWiring();
-                            else toast(R.string.m请先升级充电桩);
-                            break;
-                        case 34:
-                            if (chargingLength > 27)
-                                setSolarMode();
-                            else toast(R.string.m请先升级充电桩);
-                            break;
-                        case 35://
-                            if (chargingLength > 30)
-                                inputEdit(index, String.valueOf(bean.getValue()));
-                            else toast(R.string.m请先升级充电桩);
-                            break;
-                        default:
-                            inputEdit(index, String.valueOf(bean.getValue()));
-                            break;
-                    }
+                    setCommonParams(bean);
                 }
             } else if (itemType == WifiSetAdapter.PARAM_ITEM_SOLAR) {//设置solar限制
-                ParamsSetBean bean = (ParamsSetBean) mAdapter.getData().get(34);
+                WifiSetBean bean = (WifiSetBean) mAdapter.getData().get(34);
                 if (!bean.isAuthority()&&!isVerified){//如果是不允许设置，又没有验证密码
-                    showInputPassword();
+                    showInputPassword(WifiSetAdapter.PARAM_ITEM_SOLAR,bean);
                 }else {
                     setECOLimit();
                 }
@@ -452,6 +406,55 @@ public class WifiSetActivity extends BaseActivity {
             }
 
         });
+    }
+
+    private void setCommonParams(WifiSetBean bean) {
+        int index = bean.getIndex();
+        switch (index) {
+            case 2://设置语言
+                setLanguage();
+                break;
+            case 4:
+                setRcd();
+                break;
+            case 25:
+                setMode();
+                break;
+            case 30:
+                Intent intent = new Intent(this, TimeSelectActivity.class);
+                intent.putExtra("start", startTime);
+                intent.putExtra("end", endTime);
+                startActivityForResult(intent, 100);
+                break;
+            case 31:
+                if (chargingLength > 24)
+                    setEnable(31);
+                else toast(R.string.m请先升级充电桩);
+                break;
+            case 32:
+                if (chargingLength > 25)
+                    setEnable(32);
+                else toast(R.string.m请先升级充电桩);
+                break;
+            case 33:
+                if (chargingLength > 26)
+                    setWiring();
+                else toast(R.string.m请先升级充电桩);
+                break;
+            case 34:
+                if (chargingLength > 27)
+                    setSolarMode();
+                else toast(R.string.m请先升级充电桩);
+                break;
+            case 35://
+                if (chargingLength > 30)
+                    inputEdit(index, String.valueOf(bean.getValue()));
+                else toast(R.string.m请先升级充电桩);
+                break;
+            default:
+                inputEdit(index, String.valueOf(bean.getValue()));
+                break;
+        }
     }
 
 
@@ -2686,7 +2689,7 @@ public class WifiSetActivity extends BaseActivity {
 
 
 
-    private void showInputPassword(){
+    private void showInputPassword(int type,WifiSetBean bean){
         new CircleDialog.Builder()
                 .setTitle(getString(R.string.m27温馨提示))
                 //添加标题，参考普通对话框
@@ -2702,7 +2705,14 @@ public class WifiSetActivity extends BaseActivity {
                 .setPositiveInput(getString(R.string.m9确定), (text, v) -> {
                     if (password.equals(text)){
                         isVerified=true;
-                        toast(R.string.m验证成功);
+                        switch (type){
+                            case WifiSetAdapter.PARAM_ITEM:
+                                setCommonParams(bean);
+                                break;
+                            case WifiSetAdapter.PARAM_ITEM_SOLAR:
+                                setECOLimit();
+                                break;
+                        }
                     }else {
                         toast(R.string.m验证失败);
                     }

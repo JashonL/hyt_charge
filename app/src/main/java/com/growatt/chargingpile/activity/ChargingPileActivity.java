@@ -588,7 +588,7 @@ public class ChargingPileActivity extends BaseActivity {
                 setTimeUi(false, "-h-min");
                 presetType = 0;
                 isReservation = false;
-                setReserveUi(getString(R.string.m204开始时间), getString(R.string.m184关闭), R.drawable.checkbox_off, "--:--", true, false);
+                setReserveUi(getString(R.string.m204开始时间), getString(R.string.m206已关闭), R.drawable.checkbox_off, "--:--", true, false);
             } else {
                 Intent intent = new Intent(ChargingPileActivity.this, ChargingPresetEditActivity.class);
                 intent.putExtra("type", 3);
@@ -2199,7 +2199,7 @@ public class ChargingPileActivity extends BaseActivity {
                 setMoneyUi(true, money);
                 //设置预约的ui
                 startTime = null;
-                setReserveUi(getString(R.string.m204开始时间), getString(R.string.m184关闭), R.drawable.checkbox_off, "--:--", true, false);
+                setReserveUi(getString(R.string.m204开始时间), getString(R.string.m206已关闭), R.drawable.checkbox_off, "--:--", true, false);
 
             }
             if (requestCode == REQUEST_ELE) {
@@ -2211,7 +2211,7 @@ public class ChargingPileActivity extends BaseActivity {
                 setEleUi(true, electric + "kWh");
                 startTime = null;
                 //初始化预约充电相关控件
-                setReserveUi(getString(R.string.m204开始时间), getString(R.string.m184关闭), R.drawable.checkbox_off, "--:--", true, false);
+                setReserveUi(getString(R.string.m204开始时间), getString(R.string.m206已关闭), R.drawable.checkbox_off, "--:--", true, false);
             }
             if (requestCode == REQUEST_TIME) {
                 String hour = data.getStringExtra("hour");
@@ -2223,7 +2223,7 @@ public class ChargingPileActivity extends BaseActivity {
                 setTimeUi(true, time);
                 //初始化预约充电相关控件
                 isReservation = false;
-                setReserveUi(getString(R.string.m预约时间段), getString(R.string.m184关闭), R.drawable.checkbox_off, "--:--", false, false);
+                setReserveUi(getString(R.string.m预约时间段), getString(R.string.m206已关闭), R.drawable.checkbox_off, "--:--", false, false);
             }
         }
 
@@ -2282,7 +2282,7 @@ public class ChargingPileActivity extends BaseActivity {
                 String yMd = sdf.format(date);
                 startTime = yMd + "T" + time + ":00.000Z";
                 isReservation = true;
-                setReserveUi(getString(R.string.m204开始时间), getString(R.string.m183开启), R.drawable.checkbox_on, time, true, false);
+                setReserveUi(getString(R.string.m204开始时间), getString(R.string.m205已开启), R.drawable.checkbox_on, time, true, false);
             }
 
             @Override
@@ -2576,7 +2576,7 @@ public class ChargingPileActivity extends BaseActivity {
      */
     private void initReserveUi() {
         tvTextStart.setText(getString(R.string.m204开始时间));
-        tvTextOpenClose.setText(getString(R.string.m184关闭));
+        tvTextOpenClose.setText(getString(R.string.m206已关闭));
         ivResever.setImageResource(R.drawable.checkbox_off);
         tvStartTime.setText("--:--");
         cbEveryday.setChecked(false);

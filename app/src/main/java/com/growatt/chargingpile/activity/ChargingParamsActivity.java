@@ -149,95 +149,99 @@ public class ChargingParamsActivity extends BaseActivity {
             int itemType = multiItemEntity.getItemType();
             if (itemType == ParamsSetAdapter.PARAM_ITEM) {
                 ParamsSetBean bean = (ParamsSetBean) mAdapter.getData().get(position);
-                if (!bean.isAuthority()&&!isVerified){//如果是不允许设置，又没有验证密码
-                    showInputPassword();
-                }else {
-                    int index = bean.getIndex();
-                    Object object = ((ParamsSetBean) multiItemEntity).getValue();
-                    String value = String.valueOf(object);
-                    switch (index) {
-                        case 1:
-                            inputEdit("name", value);
-                            break;
-                        case 2:
-                            inputEdit("country", value);
-                            break;
-                        case 3:
-                            inputEdit("site", value);
-                            break;
-                        case 4:
-                            setRate();
-                            break;
-                        case 5:
-                            setCapacityUnit();
-                            break;
-                        case 6:
-                            inputEdit("G_MaxCurrent", value);
-                            break;
-                        case 7:
-                            inputEdit("G_ExternalLimitPower", value);
-                            break;
-                        case 8:
-                            setModle();
-                            break;
-                        case 10:
-                            inputEdit("ip", value);
-                            break;
-                        case 11:
-                            inputEdit("gateway", value);
-                            break;
-                        case 12:
-                            inputEdit("mask", value);
-                            break;
-                        case 13:
-                            inputEdit("mac", value);
-                            break;
-                        case 14:
-                            inputEdit("host", value);
-                            break;
-                        case 15:
-                            inputEdit("dns", value);
-                            break;
-                        case 17:
-                            setEnable(17);
-                            break;
-                        case 18:
-                            setWiring();
-                            break;
-                        case 19:
-                            setSolarMode();
-                            break;
-                        case 20:
-                            setEnable(20);
-                            break;
-                        case 21:
-                            Intent intent = new Intent(this, TimeSelectActivity.class);
-                            intent.putExtra("start", startTime);
-                            intent.putExtra("end", endTime);
-                            startActivityForResult(intent, 100);
-                            break;
-                        case 23:
-                            apMode();
-                            break;
-                    }
+                if (!bean.isAuthority() && !isVerified) {//如果是不允许设置，又没有验证密码
+                    showInputPassword(ParamsSetAdapter.PARAM_ITEM, bean);
+                } else {
+                    setCommonParams(bean);
                 }
 
             } else if (itemType == ParamsSetAdapter.PARAM_ITEM_RATE) {//设置费率
                 ParamsSetBean bean = (ParamsSetBean) mAdapter.getData().get(4);
-                if (!bean.isAuthority()&&!isVerified){//如果是不允许设置，又没有验证密码
-                    showInputPassword();
-                }else {
+                if (!bean.isAuthority() && !isVerified) {//如果是不允许设置，又没有验证密码
+                    showInputPassword(ParamsSetAdapter.PARAM_ITEM_RATE, bean);
+                } else {
                     setRate();
                 }
             } else if (itemType == ParamsSetAdapter.PARAM_ITEM_SOLAR) {
                 ParamsSetBean bean = (ParamsSetBean) mAdapter.getData().get(19);
-                if (!bean.isAuthority()&&!isVerified){//如果是不允许设置，又没有验证密码
-                    showInputPassword();
-                }else {
+                if (!bean.isAuthority() && !isVerified) {//如果是不允许设置，又没有验证密码
+                    showInputPassword(ParamsSetAdapter.PARAM_ITEM_SOLAR,bean);
+                } else {
                     setECOLimit();
                 }
             }
         });
+    }
+
+    private void setCommonParams(ParamsSetBean bean) {
+        int index = bean.getIndex();
+        Object object = bean.getValue();
+        String value = String.valueOf(object);
+        switch (index) {
+            case 1:
+                inputEdit("name", value);
+                break;
+            case 2:
+                inputEdit("country", value);
+                break;
+            case 3:
+                inputEdit("site", value);
+                break;
+            case 4:
+                setRate();
+                break;
+            case 5:
+                setCapacityUnit();
+                break;
+            case 6:
+                inputEdit("G_MaxCurrent", value);
+                break;
+            case 7:
+                inputEdit("G_ExternalLimitPower", value);
+                break;
+            case 8:
+                setModle();
+                break;
+            case 10:
+                inputEdit("ip", value);
+                break;
+            case 11:
+                inputEdit("gateway", value);
+                break;
+            case 12:
+                inputEdit("mask", value);
+                break;
+            case 13:
+                inputEdit("mac", value);
+                break;
+            case 14:
+                inputEdit("host", value);
+                break;
+            case 15:
+                inputEdit("dns", value);
+                break;
+            case 17:
+                setEnable(17);
+                break;
+            case 18:
+                setWiring();
+                break;
+            case 19:
+                setSolarMode();
+                break;
+            case 20:
+                setEnable(20);
+                break;
+            case 21:
+                Intent intent = new Intent(this, TimeSelectActivity.class);
+                intent.putExtra("start", startTime);
+                intent.putExtra("end", endTime);
+                startActivityForResult(intent, 100);
+                break;
+            case 23:
+                apMode();
+                break;
+        }
     }
 
     private void setRate() {
@@ -347,7 +351,7 @@ public class ChargingParamsActivity extends BaseActivity {
                 getString(R.string.m298功率分配使能), getString(R.string.m外部电流采样接线方式), getString(R.string.mSolar模式), getString(R.string.m297峰谷充电使能), getString(R.string.m280允许充电时间),
                 "", getString(R.string.m289进入AP模式), ""};
         keySfields = new String[]{"", "name", "country",
-                "site", "rate","unit",
+                "site", "rate", "unit",
                 "G_MaxCurrent", "G_ExternalLimitPower", "G_ChargerMode",
                 "", "ip", "gateway", "mask",
                 "mac", "host", "dns", "",
@@ -355,7 +359,7 @@ public class ChargingParamsActivity extends BaseActivity {
                 "", "", ""};
         if (Cons.getNoConfigBean() != null) {
             noConfigKeys = Cons.getNoConfigBean().getSfield();
-            password=Cons.getNoConfigBean().getPassword();
+            password = Cons.getNoConfigBean().getPassword();
         }
         if (noConfigKeys == null) noConfigKeys = new ArrayList<>();
         for (int i = 0; i < keys.length; i++) {
@@ -1161,8 +1165,7 @@ public class ChargingParamsActivity extends BaseActivity {
     }
 
 
-
-    private void showInputPassword(){
+    private void showInputPassword(int type,ParamsSetBean bean) {
         new CircleDialog.Builder()
                 .setTitle(getString(R.string.m27温馨提示))
                 //添加标题，参考普通对话框
@@ -1176,10 +1179,20 @@ public class ChargingParamsActivity extends BaseActivity {
                     params.strokeColor = ContextCompat.getColor(this, R.color.preset_edit_time_background);
                 })
                 .setPositiveInput(getString(R.string.m9确定), (text, v) -> {
-                    if (password.equals(text)){
-                        isVerified=true;
-                        toast(R.string.m验证成功);
-                    }else {
+                    if (password.equals(text)) {
+                        isVerified = true;
+                        switch (type) {
+                            case ParamsSetAdapter.PARAM_ITEM:
+                                setCommonParams(bean);
+                                break;
+                            case ParamsSetAdapter.PARAM_ITEM_RATE:
+                                setRate();
+                                break;
+                            case ParamsSetAdapter.PARAM_ITEM_SOLAR:
+                                setECOLimit();
+                                break;
+                        }
+                    } else {
                         toast(R.string.m验证失败);
                     }
                 })

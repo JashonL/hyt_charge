@@ -344,7 +344,7 @@
                         android:layout_marginRight="@dimen/xa13"
                         android:layout_toLeftOf="@+id/iv_resever_switch"
                         android:layout_toStartOf="@+id/iv_resever_switch"
-                        android:text="@string/m183开启"
+                        android:text="@string/m205已开启"
                         android:textColor="@color/title_3"
                         android:textSize="@dimen/xa24" />
 

@@ -186,7 +186,7 @@
                                 android:layout_below="@+id/iv_charging_icon"
                                 android:layout_marginTop="@dimen/xa12">
 
-                                <TextView
+                                <com.growatt.chargingpile.view.AutofitTextView
                                     android:id="@+id/tv_AC_DC"
                                     android:layout_centerInParent="true"
                                     android:layout_width="@dimen/xa135"
@@ -194,6 +194,7 @@
                                     android:layout_marginRight="@dimen/xa5"
                                     android:layout_toLeftOf="@+id/vDivider"
                                     android:gravity="end"
+                                    android:singleLine="true"
                                     android:textColor="@color/title_3"
                                     android:textSize="@dimen/xa28"
                                     android:layout_marginEnd="@dimen/xa5"
@@ -206,7 +207,7 @@
                                     android:layout_centerInParent="true"
                                     android:background="@color/title_3" />
 
-                                <TextView
+                                <com.growatt.chargingpile.view.AutofitTextView
                                     android:id="@+id/tv_Gun"
                                     android:layout_width="@dimen/xa135"
                                     android:layout_height="wrap_content"
@@ -215,6 +216,7 @@
                                     android:layout_toRightOf="@+id/vDivider"
                                     android:textColor="@color/title_3"
                                     android:textSize="@dimen/xa28"
+                                    android:singleLine="true"
                                     android:layout_marginStart="@dimen/xa5"
                                     android:layout_toEndOf="@+id/vDivider" />
                             </RelativeLayout>
