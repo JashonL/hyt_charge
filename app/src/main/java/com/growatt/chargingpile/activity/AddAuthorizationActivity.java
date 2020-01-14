@@ -17,12 +17,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.growatt.chargingpile.BaseActivity;
+import com.growatt.chargingpile.EventBusMsg.FreshAuthMsg;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.connutil.PostUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
 import com.growatt.chargingpile.util.SmartHomeUtil;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -183,6 +185,7 @@ public class AddAuthorizationActivity extends BaseActivity {
                     JSONObject jsonObject = new JSONObject(json);
                     int code = jsonObject.getInt("code");
                     if (code == 0) {
+                        EventBus.getDefault().post(new FreshAuthMsg());
                         AddAuthorizationActivity.this.finish();
                     }
                     String data = jsonObject.getString("data");

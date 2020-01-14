@@ -13,6 +13,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Administrator on 2018/10/22.
@@ -28,13 +29,12 @@ public class TimingAdapter extends BaseQuickAdapter<ReservationBean.DataBean, Ba
         String expiryDate = item.getExpiryDate();//开始时间
         int cValue = Integer.parseInt(item.getcValue2());
         String endDate = null;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
         try {
             Date startDate = sdf.parse(expiryDate);
             long endDateValue = startDate.getTime() + cValue * 60 * 1000;
             Date endTime = new Date(endDateValue);
             endDate = sdf.format(endTime);
-            item.setLoopValue(expiryDate.substring(11, 16));
         } catch (ParseException e) {
             e.printStackTrace();
         }

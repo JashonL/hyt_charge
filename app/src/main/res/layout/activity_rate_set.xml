@@ -48,9 +48,9 @@
                 android:layout_marginLeft="@dimen/xa20"
                 android:layout_marginRight="@dimen/xa20"
                 android:layout_marginTop="@dimen/ya100"
-                android:background="@null"
+                android:background="@drawable/selector_circle_btn_green"
                 android:text="@string/m133添加"
-                android:textColor="@color/maincolor_1"
+                android:textColor="@color/white_background"
                 android:textSize="@dimen/ya30" />
         </LinearLayout>
 

@@ -206,12 +206,12 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
                 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", getResources().getConfiguration().locale);
                 String time = sdf.format(date);
                 if (isEnd) {
-                    if (!TextUtils.isEmpty(bean.getStartTime())) {
+                /*    if (!TextUtils.isEmpty(bean.getStartTime())) {
                         if (isStartMore(bean.getStartTime(), time)) {
                             toast(R.string.m285开始时间不能大于结束时间);
                             return;
                         }
-                    }
+                    }*/
                     if (!TextUtils.isEmpty(bean.getStartTime())) {
                         String rateTime = bean.getStartTime() + "-" + time;
                         mAdapter.getData().get(pos).setTimeX(rateTime);

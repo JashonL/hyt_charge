@@ -973,8 +973,10 @@ public class ChargingPileActivity extends BaseActivity {
                     initPresetUi();
                     initReserveUi();
                     mStatusGroup.addView(preparingView);
+                    MyUtil.showAllView(llReserveView, llReserve);
                 } else {//普通用户
                     mStatusGroup.addView(availableView);
+                    MyUtil.hideAllView(View.GONE, llReserveView, llReserve);
                 }
                 hideAnim();
                 setChargGunUi(R.drawable.charging_available, getString(R.string.m117空闲), ContextCompat.getColor(this, R.color.charging_text_color_2), R.drawable.btn_start_charging, getString(R.string.m103充电));
@@ -1312,6 +1314,8 @@ public class ChargingPileActivity extends BaseActivity {
                         String loopValue1 = mCurrentReservationBean.getExpiryDate();
                         loopValue1 = loopValue1.substring(11, 16);
                         String rate1 = String.valueOf(mCurrentReservationBean.getRate());
+                        String symbol1 = mCurrentReservationBean.getSymbol();
+                        rate1 = symbol1 + rate1 + "/h";
                         String typeValue1 = getString(R.string.m335预设充电) + getString(R.string.m201电量);
                         tvTimeKey.setText(loopValue1);
                         tvRateValue.setText(rate1);
