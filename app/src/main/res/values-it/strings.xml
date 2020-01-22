@@ -295,7 +295,7 @@
     <string name="m276表计上传间隔时间">Intervallo di upload del misuratore (s)</string>
 
     <string name="m277电桩最大输出电流">Corrente Massima di uscita della Stazione di Ricarica (A)</string>
-    <string name="m278保护温度">Temperatura di protezione (° C)</string>
+    <string name="m278保护温度">Temperatura di protezione (°C)</string>
     <string name="m279外部监测最大输入功率">Potenza di ingresso massima monitorata esternamente (kW)</string>
     <string name="m280允许充电时间">Consenti tempo di ricarica</string>
 

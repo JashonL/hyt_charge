@@ -4,12 +4,13 @@
     android:layout_height="@dimen/ya70"
     android:gravity="center_vertical"
     android:orientation="vertical">
-    <TextView
+    <com.growatt.chargingpile.view.AutofitTextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/xa30"
         android:text="@string/m148基础参数"
+        android:singleLine="true"
         android:textColor="@color/title_3"
         android:textSize="@dimen/xa24" />
 </LinearLayout>
