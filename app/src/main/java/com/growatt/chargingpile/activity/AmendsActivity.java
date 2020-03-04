@@ -2,6 +2,8 @@ package com.growatt.chargingpile.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -10,11 +12,11 @@ import android.widget.TextView;
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.connutil.PostUtil;
-import com.growatt.chargingpile.connutil.Urlsutil;
-import com.growatt.chargingpile.util.Cons;
+import com.growatt.chargingpile.util.DialogUtil;
 import com.growatt.chargingpile.util.Mydialog;
+import com.growatt.chargingpile.util.SmartHomeUrlUtil;
+import com.growatt.chargingpile.util.SmartHomeUtil;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Map;
@@ -22,49 +24,45 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 public class AmendsActivity extends BaseActivity {
     @BindView(R.id.headerView)
     View headerView;
     @BindView(R.id.tvTip)
     TextView tvTip;
-    @BindView(R.id.etText)
-    EditText etText;
+    @BindView(R.id.et_content)
+    EditText etContent;
+    @BindView(R.id.et_user_pwd)
+    EditText etUserPwd;
 
 
     private String type;
     private String PhoneNum;
     private String email;
+    private Unbinder bind;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_amendaddress);
-        ButterKnife.bind(this);
+        bind = ButterKnife.bind(this);
         initHeaderView();
         initIntent();
         initViews();
     }
 
 
-
-
     private void initHeaderView() {
-        setHeaderImage(headerView, R.drawable.back, Position.LEFT, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
+        setHeaderImage(headerView, R.drawable.back, Position.LEFT, v -> finish());
         setHeaderTitle(headerView,getString(R.string.m57修改密码),R.color.title_1,false);
     }
 
 
-    @OnClick({R.id.bt_finish})
+    @OnClick({R.id.btnOk})
     public void onClicklistener(View view){
         switch (view.getId()){
-            case R.id.bt_finish:
+            case R.id.btnOk:
                 valPhoneOrEmail();
                 break;
         }
@@ -73,6 +71,7 @@ public class AmendsActivity extends BaseActivity {
 
     private void initIntent() {
         Bundle bundle=getIntent().getExtras();
+        assert bundle != null;
         PhoneNum=bundle.getString("PhoneNum");
         email=bundle.getString("email");
         type=bundle.getString("type");
@@ -81,21 +80,88 @@ public class AmendsActivity extends BaseActivity {
 
     private void initViews() {
         if(type.equals("1")){
-            etText.setText(PhoneNum);
             tvTip.setText(R.string.m58修改手机号);
             setHeaderTitle(headerView,getString(R.string.m58修改手机号));
+            etContent.setHint(R.string.m104输入电话号码);
+            etContent.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_CLASS_PHONE);
+            if (!TextUtils.isEmpty(PhoneNum)){
+                etContent.setText(PhoneNum);
+            }
         }else{
-            etText.setText(email);
             tvTip.setText(R.string.m59修改邮箱);
-            setHeaderTitle(headerView,getString(R.string.m59修改邮箱));
+            setHeaderTitle(headerView, getString(R.string.m59修改邮箱));
+            etContent.setHint(R.string.m61输入邮箱地址);
+            if (!TextUtils.isEmpty(email)) {
+                etContent.setText(email);
+            }
         }
     }
 
     /**
-     * 验证手机号或者邮箱
+     * 修改手机号或者邮箱
      */
     public void valPhoneOrEmail() {
-        if (type.equals("1")) {
+        String upContent = etContent.getText().toString().trim();
+        String password = etUserPwd.getText().toString().trim();
+        if (TextUtils.isEmpty(upContent)){
+            toast(R.string.m140不能为空);
+            return;
+        }
+        if (TextUtils.isEmpty(password)){
+            toast(R.string.m26请输入密码);
+            return;
+        }
+        Mydialog.Show(this);
+        JSONObject object = new JSONObject();
+        try {
+            object.put("cmd", "updateUser");//cmd  注册
+            object.put("userId", SmartHomeUtil.getUserName());//用户名
+            object.put("password", password);//密码
+            if ("1".equals(type)){
+                object.put("phone", upContent);//密码
+            }else {
+                object.put("email", upContent);//密码
+            }
+            object.put("lan", getLanguage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        PostUtil.postJson(SmartHomeUrlUtil.postByCmd(), object.toString(), new PostUtil.postListener() {
+            @Override
+            public void Params(Map<String, String> params) {
+
+            }
+
+            @Override
+            public void success(String json) {
+                Mydialog.Dismiss();
+                try {
+                    JSONObject object = new JSONObject(json);
+                    int code = object.getInt("code");
+                    String data=object.optString("data");
+                    if (code == 0) {
+                        DialogUtil.circlerDialog(AmendsActivity.this, data, code,false, () -> {
+                            Intent intent=new Intent();
+                            intent.putExtra("type",type);
+                            intent.putExtra("result", upContent);
+                            setResult(RESULT_OK,intent);
+                            finish();
+                        });
+                    }
+                    String errorMsg = object.optString("data");
+                    if (!TextUtils.isEmpty(errorMsg))
+                        toast(errorMsg);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void LoginError(String str) {
+
+            }
+        });
+  /*      if (type.equals("1")) {
             String phone = etText.getText().toString().trim();
             Intent intent = new Intent(this, NewPhoneVerActivity.class);
             intent.putExtra("phone", phone);
@@ -107,13 +173,16 @@ public class AmendsActivity extends BaseActivity {
             intent.putExtra("email", email);
             intent.putExtra("type", 101);
             startActivityForResult(intent, 1002);
-        }
+        }*/
     }
 
-    @Override
+
+
+
+/*    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == 1001) {//验证手机通过
-            save(Cons.userBean.getPhoneNum());
+            save(Cons.userBean.getPhone());
         }
         if (resultCode == RESULT_OK && requestCode == 1002) {//验证邮箱通过
             save(Cons.userBean.getEmail());
@@ -159,7 +228,7 @@ public class AmendsActivity extends BaseActivity {
 
             @Override
             public void Params(Map<String, String> params) {
-                params.put("accountName", Cons.userBean.accountName);
+                params.put("accountName", SmartHomeUtil.getUserName());
                 if (type.equals("1")) {
                     params.put("phoneNum", valStr);
                     params.put("email", email);
@@ -174,7 +243,7 @@ public class AmendsActivity extends BaseActivity {
             }
         });
 
-    }
+    }*/
 
 
 
@@ -184,5 +253,10 @@ public class AmendsActivity extends BaseActivity {
             finish();
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

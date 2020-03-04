@@ -1,41 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.growatt.chargingpile.activity.ChargingDurationActivity">
 
-    <include layout="@layout/header_view_title"/>
+    <include layout="@layout/header_view_title" />
 
-    <LinearLayout
-        android:id="@+id/ll_duration"
-        android:paddingLeft="@dimen/xa35"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/xa128">
-        <ImageView
-            android:layout_width="@dimen/xa24"
-            android:layout_height="@dimen/xa24"
-            android:src="@drawable/icon_clock"
-            />
-        <TextView
-            android:id="@+id/tv_total_time"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_marginLeft="@dimen/xa15"
-            android:gravity="center_vertical"
-            android:textSize="@dimen/xa30"
-            android:textColor="@color/title_3"
-            android:text="@string/m102充电桩"
-            android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+
+            <LinearLayout
+                android:id="@+id/ll_duration"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/xa128"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/xa35">
+
+                <ImageView
+                    android:layout_width="@dimen/xa24"
+                    android:layout_height="@dimen/xa24"
+                    android:src="@drawable/icon_clock" />
+
+                <TextView
+                    android:id="@+id/tv_total_time"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/xa15"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/m102充电桩"
+                    android:textColor="@color/title_3"
+                    android:textSize="@dimen/xa30" />
+
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

@@ -11,9 +11,6 @@ import android.net.DhcpInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
@@ -30,20 +27,24 @@ import android.widget.TextView;
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.bean.UdpSearchBean;
-import com.growatt.chargingpile.util.DeviceSearchThread;
+import com.growatt.chargingpile.connutil.PostUtil;
 import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.PermissionCodeUtil;
+import com.growatt.chargingpile.util.SmartHomeUrlUtil;
+import com.growatt.chargingpile.util.SmartHomeUtil;
 import com.growatt.chargingpile.util.T;
-import com.mylhyl.circledialog.CircleDialog;
 
-import java.util.ArrayList;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import pub.devrel.easypermissions.EasyPermissions;
 
 public class ConnetWiFiActivity extends BaseActivity {
@@ -52,42 +53,51 @@ public class ConnetWiFiActivity extends BaseActivity {
     TextView tvTitle;
     @BindView(R.id.ivLeft)
     ImageView ivLeft;
-    @BindView(R.id.tvRight)
-    TextView tvRight;
-    @BindView(R.id.relativeLayout1)
-    RelativeLayout relativeLayout1;
     @BindView(R.id.headerView)
     LinearLayout headerView;
-    @BindView(R.id.tv_wifi_prompt)
-    TextView tvWifiPrompt;
     @BindView(R.id.tv_wifi_name)
     TextView tvWifiName;
+    @BindView(R.id.get_wifi)
+    TextView tvGetWifi;
+    @BindView(R.id.ivRight)
+    ImageView ivRight;
+    @BindView(R.id.relativeLayout1)
+    RelativeLayout relativeLayout1;
+    @BindView(R.id.tv_id)
+    TextView tvId;
+    @BindView(R.id.tv_current_charging)
+    TextView tvCurrentCharging;
+    @BindView(R.id.ll_switch_ap)
+    LinearLayout llSwitchAp;
+    @BindView(R.id.tv_wifi_prompt)
+    TextView tvWifiPrompt;
+    @BindView(R.id.ll_refresh)
+    LinearLayout llRefresh;
     @BindView(R.id.linearlayout2)
     LinearLayout linearlayout2;
     @BindView(R.id.et_wifi_password)
     TextView etWifiPassword;
-    @BindView(R.id.btnOk)
-    Button btnOk;
     @BindView(R.id.ll_setwifi)
     LinearLayout llSetwifi;
-    @BindView(R.id.get_wifi)
-    TextView tvGetWifi;
-    @BindView(R.id.ll_refresh)
-    LinearLayout llRefresh;
-
-
-    public String mIP;//服务器地址
-    public int mPort = 8888;//服务器端口号
+    @BindView(R.id.btnOk)
+    Button btnOk;
+    @BindView(R.id.iv_apicon)
+    ImageView ivApicon;
+    @BindView(R.id.tv_aptext)
+    TextView tvAptext;
     //wifi名称
     private String currentSSID;
     public static final int SEARCH_DEVICE_START = 1;
     public static final int SEARCH_DEVICE_FINISH = 2;
     private List<UdpSearchBean> mDeviceList;
-    private String devId;
     private Dialog dialog;
     private TextView tvProgress;
     private boolean isCancel = false;
     private int second = 5;
+    private String devId;
+    private int online;
+    public String mIP;//服务器地址
+    public int mPort = 8888;//服务器端口号
 
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -98,47 +108,29 @@ public class ConnetWiFiActivity extends BaseActivity {
         }
     };
 
-
-//    private Handler handler = new Handler(Looper.getMainLooper()) {
-//        @Override
-//        public void handleMessage(Message msg) {
-//            super.handleMessage(msg);
-//            switch (msg.what) {
-//                case SEARCH_DEVICE_START:
-//                    mDeviceList.clear();
-//                    showProgress();
-//                    break;
-//                case SEARCH_DEVICE_FINISH:
-//                    second--;
-//                    tvProgress.setText(String.valueOf(second));
-//                    if (mDeviceList.size() == 0) {
-//                        if (!isCancel && second > 0) searchDevice();
-//                        else {
-//                            T.make(getString(R.string.m288级),ConnetWiFiActivity.this);
-//                            dialog.dismiss();
-//                        }
-//                    } else {
-//                        dialog.dismiss();
-//                        mIP = getServerIp();
-//                        devId = mDeviceList.get(0).getDevName();
-//                        toSetWifiParams();
-//                    }
-////                    toSetWifiParams();//测试
-//                    break;
-//            }
-//        }
-//    };
-
     private static final int FIRSTACT_TO_WIFI = 10000;
+    private Unbinder bind;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connet_wi_fi);
-        ButterKnife.bind(this);
+        bind=ButterKnife.bind(this);
 //        mDeviceList = new ArrayList<>();
+        initIntent();
         initViews();
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         initWifi();
+    }
+
+    private void initIntent() {
+        devId = getIntent().getStringExtra("sn");
+        online=getIntent().getIntExtra("online",0);
     }
 
 
@@ -154,8 +146,18 @@ public class ConnetWiFiActivity extends BaseActivity {
         ivLeft.setImageResource(R.drawable.back);
         tvTitle.setText(R.string.m247热点连接);
         tvTitle.setTextColor(ContextCompat.getColor(this, R.color.title_1));
+        ivRight.setImageResource(R.drawable.info);
         tvGetWifi.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
         tvGetWifi.getPaint().setAntiAlias(true);//抗锯齿
+        if (!TextUtils.isEmpty(devId)) {
+            tvId.setText(devId);
+        } else tvId.setText(R.string.m106选择充电桩);
+
+        if (online==1){//1是离线
+            llSwitchAp.setVisibility(View.GONE);
+        }else {
+            llSwitchAp.setVisibility(View.VISIBLE);
+        }
     }
 
 
@@ -165,7 +167,7 @@ public class ConnetWiFiActivity extends BaseActivity {
                 if (EasyPermissions.hasPermissions(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
                     currentSSID = MyUtil.getWIFISSID(this);
                 } else {
-                    EasyPermissions.requestPermissions(this, String.format(getString(R.string.m权限获取某权限说明), getString(R.string.m位置)), PermissionCodeUtil.PERMISSION_LOCATION_CODE, Manifest.permission.ACCESS_FINE_LOCATION);
+                    EasyPermissions.requestPermissions(this,String.format("%s:%s",getString(R.string.m权限获取某权限说明),getString(R.string.m位置)), PermissionCodeUtil.PERMISSION_LOCATION_CODE, Manifest.permission.ACCESS_FINE_LOCATION);
                 }
             } else {
                 currentSSID = MyUtil.getWIFISSID(this);
@@ -198,8 +200,8 @@ public class ConnetWiFiActivity extends BaseActivity {
 
     private void setWiFiName() {
         if (TextUtils.isEmpty(currentSSID))
-        tvWifiName.setText(R.string.m288未连接);
-        else  tvWifiName.setText(currentSSID);
+            tvWifiName.setText(R.string.m288未连接);
+        else tvWifiName.setText(currentSSID);
     }
 
 
@@ -229,7 +231,7 @@ public class ConnetWiFiActivity extends BaseActivity {
         startActivity(intent);
     }
 
-    @OnClick({R.id.ll_setwifi, R.id.ivLeft, R.id.btnOk, R.id.ll_refresh})
+    @OnClick({R.id.ll_setwifi, R.id.ivLeft, R.id.btnOk, R.id.ll_refresh, R.id.ivRight, R.id.ll_switch_ap})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_setwifi:
@@ -246,7 +248,59 @@ public class ConnetWiFiActivity extends BaseActivity {
             case R.id.ll_refresh:
                 checkWifiNetworkStatus();
                 break;
+            case R.id.ivRight:
+                Intent intent = new Intent(this, WifiSetGuideActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                jumpTo(intent, false);
+                break;
+            case R.id.ll_switch_ap:
+                apMode();
+                break;
         }
+    }
+
+    private void apMode() {
+        Mydialog.Show(this);
+        Map<String, Object> jsonMap = new HashMap<String, Object>();
+        jsonMap.put("chargeId", devId);//测试id
+        jsonMap.put("userId", SmartHomeUtil.getUserName());//测试id
+        jsonMap.put("lan", getLanguage());//测试id
+        String json = SmartHomeUtil.mapToJsonString(jsonMap);
+        PostUtil.postJson(SmartHomeUrlUtil.postRequestSwitchAp(), json, new PostUtil.postListener() {
+            @Override
+            public void Params(Map<String, String> params) {
+
+            }
+
+            @Override
+            public void success(String json) {
+                Mydialog.Dismiss();
+                try {
+                    JSONObject object = new JSONObject(json);
+                    int code = object.getInt("code");
+                    if (code == 0) {
+                        llSwitchAp.setBackgroundResource(R.drawable.selector_circle_btn_green_gradient);
+                        ivApicon.setImageResource(R.drawable.ap_off);
+                        tvAptext.setTextColor(ContextCompat.getColor(ConnetWiFiActivity.this,R.color.white_background));
+                        toast(R.string.m307切换成功);
+                    } else {
+                        llSwitchAp.setBackgroundResource(R.drawable.shape_solid_white_stroke_green);
+                        ivApicon.setImageResource(R.drawable.ap_on);
+                        tvAptext.setTextColor(ContextCompat.getColor(ConnetWiFiActivity.this,R.color.maincolor_1));
+                        toast(R.string.m308切换失败);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void LoginError(String str) {
+
+            }
+        });
     }
 
 
@@ -278,6 +332,10 @@ public class ConnetWiFiActivity extends BaseActivity {
         if (TextUtils.isEmpty(currentSSID)) {
             T.make(R.string.m253手机暂未连接wifi, this);
         } else {
+            if (!devId.equals(currentSSID)) {
+                toast(R.string.m295该电桩热点不是已选择的电桩);
+                return;
+            }
             toSetWifiParams();
         }
 
@@ -326,5 +384,4 @@ public class ConnetWiFiActivity extends BaseActivity {
         }
         dialog.show();
     }
-
 }

@@ -1,10 +1,8 @@
 package com.growatt.chargingpile.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
 import android.view.View;
 
 import com.google.gson.Gson;
@@ -13,12 +11,10 @@ import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.adapter.ChargingRecordAdapter;
 import com.growatt.chargingpile.bean.ChargingRecordBean;
 import com.growatt.chargingpile.connutil.PostUtil;
-import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
 import com.growatt.chargingpile.util.SmartHomeUtil;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -28,6 +24,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class ChargingRecoderActivity extends BaseActivity {
 
@@ -49,13 +46,14 @@ public class ChargingRecoderActivity extends BaseActivity {
     private int lastVisiblePosition = 0;
 
     private String chargingId;
+    private Unbinder bind;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charging_recoder);
-        ButterKnife.bind(this);
+        bind=ButterKnife.bind(this);
         initIntent();
         initHeaderView();
         initRecyclerView();
@@ -112,7 +110,7 @@ public class ChargingRecoderActivity extends BaseActivity {
     private void refresh(int page, int psize) {
         Mydialog.Show(this);
         Map<String, Object> jsonMap = new LinkedHashMap<String, Object>();
-        jsonMap.put("userId", Cons.userBean.getAccountName());
+        jsonMap.put("userId", SmartHomeUtil.getUserName());
         jsonMap.put("sn",chargingId);
         jsonMap.put("page", page);
         jsonMap.put("psize", psize);
@@ -136,7 +134,7 @@ public class ChargingRecoderActivity extends BaseActivity {
                         if (recordList.size() < pageSize) {
                             isLastPage = true;
                         }
-                        if (recordBean == null || recordList.size() == 0) {
+                        if (recordList.size() == 0) {
                             isLastPage = true;
                             if (currentPage > 1) {
                                 currentPage--;
@@ -171,4 +169,8 @@ public class ChargingRecoderActivity extends BaseActivity {
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

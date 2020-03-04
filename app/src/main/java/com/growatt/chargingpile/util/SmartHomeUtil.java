@@ -1,5 +1,7 @@
 package com.growatt.chargingpile.util;
 
+import android.text.TextUtils;
+
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
@@ -36,15 +38,15 @@ public class SmartHomeUtil {
      */
 
     public static String bytesToHexString(byte[] bytes) {
-        String result = "";
-        for (int i = 0; i < bytes.length; i++) {
-            String hexString = Integer.toHexString(bytes[i] & 0xFF);
+        StringBuilder result = new StringBuilder();
+        for (byte aByte : bytes) {
+            String hexString = Integer.toHexString(aByte & 0xFF);
             if (hexString.length() == 1) {
                 hexString = '0' + hexString;
             }
-            result += hexString.toUpperCase();
+            result.append(hexString.toUpperCase());
         }
-        return result;
+        return result.toString();
     }
 
     /**
@@ -121,11 +123,54 @@ public class SmartHomeUtil {
      */
 
     public static boolean isFlagUser(){
-        int auth = Cons.userBean.getAuth();
+        int auth = Cons.userBean.getAuthnum();
         boolean isflag=false;
         if (auth==1){
             isflag=true;
         }
         return isflag;
+    }
+
+
+
+    /**
+     * 获取用户名
+     *
+     * @return
+     */
+    public static String getUserId() {
+//        return "user02";
+//        return Cons.userBean.getId();
+        if (Cons.userBean==null)return "";
+        if (TextUtils.isEmpty(Cons.userBean.getName()))return "";
+        return Cons.userBean.getName();
+    }
+
+
+    /**
+     * 获取用户名
+     *
+     * @return
+     */
+    public static String getUserName() {
+//        return "user02";
+//        return Cons.userBean.getId();
+        if (Cons.userBean==null)return "";
+        if (TextUtils.isEmpty(Cons.userBean.getName()))return "";
+        return Cons.userBean.getName();
+    }
+
+
+    /**
+     * 获取权限
+     *
+     * @return
+     */
+    public static String getUserAuthority() {
+//        return "user02";
+//        return Cons.userBean.getId();
+        if (Cons.userBean==null)return "endUser";
+        if (TextUtils.isEmpty(Cons.userBean.getRoleId()))return "endUser";
+        return Cons.userBean.getRoleId();
     }
 }

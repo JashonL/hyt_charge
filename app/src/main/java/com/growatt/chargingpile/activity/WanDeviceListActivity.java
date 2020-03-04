@@ -6,7 +6,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -31,6 +30,7 @@ import java.util.Set;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 public class WanDeviceListActivity extends BaseActivity implements BaseQuickAdapter.OnItemClickListener {
 
@@ -72,13 +72,14 @@ public class WanDeviceListActivity extends BaseActivity implements BaseQuickAdap
             }
         }
     };
+    private Unbinder bind;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wan_device_list);
-        ButterKnife.bind(this);
+        bind=ButterKnife.bind(this);
         mDeviceList = new ArrayList<>();
         initViews();
         initPullView();
@@ -138,5 +139,10 @@ public class WanDeviceListActivity extends BaseActivity implements BaseQuickAdap
     @OnClick(R.id.ivLeft)
     public void onViewClicked() {
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

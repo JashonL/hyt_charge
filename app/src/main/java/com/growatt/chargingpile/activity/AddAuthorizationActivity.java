@@ -17,14 +17,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.growatt.chargingpile.BaseActivity;
+import com.growatt.chargingpile.EventBusMsg.FreshAuthMsg;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.connutil.PostUtil;
-import com.growatt.chargingpile.connutil.Urlsutil;
-import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
 import com.growatt.chargingpile.util.SmartHomeUtil;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,6 +34,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 public class AddAuthorizationActivity extends BaseActivity {
 
@@ -49,12 +50,13 @@ public class AddAuthorizationActivity extends BaseActivity {
 
 
     private String chargingId;
+    private Unbinder bind;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_authorization);
-        ButterKnife.bind(this);
+        bind = ButterKnife.bind(this);
         initHeadView();
         initIntent();
         setViews();
@@ -62,8 +64,8 @@ public class AddAuthorizationActivity extends BaseActivity {
 
     private void setViews() {
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.sign_user);
-        bitmap=Bitmap.createScaledBitmap(bitmap,getResources().getDimensionPixelSize(R.dimen.xa40), getResources().getDimensionPixelSize(R.dimen.xa40), true);
-        ImageSpan imageHint = new ImageSpan(this,bitmap);
+        bitmap = Bitmap.createScaledBitmap(bitmap, getResources().getDimensionPixelSize(R.dimen.xa40), getResources().getDimensionPixelSize(R.dimen.xa40), true);
+        ImageSpan imageHint = new ImageSpan(this, bitmap);
         SpannableString spannableString = new SpannableString("image" + getString(R.string.m25请输入用户名));
         spannableString.setSpan(imageHint, 0, "image".length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         etUsername.setHint(spannableString);
@@ -86,15 +88,10 @@ public class AddAuthorizationActivity extends BaseActivity {
         tvTitle.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
 
         int dimen = getResources().getDimensionPixelSize(R.dimen.xa23);
-        tvRight.setTextSize(TypedValue.COMPLEX_UNIT_PX,dimen);
+        tvRight.setTextSize(TypedValue.COMPLEX_UNIT_PX, dimen);
         tvRight.setTextColor(ContextCompat.getColor(this, R.color.charging_text_color_2));
         tvRight.setText(getString(R.string.m164注册新用户));
-        tvRight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                gotoRegister();
-            }
-        });
+        tvRight.setOnClickListener(v -> gotoRegister());
 
     }
 
@@ -114,9 +111,12 @@ public class AddAuthorizationActivity extends BaseActivity {
     @OnClick(R.id.btAdd)
     public void toAddUser(View view) {
         final String username = etUsername.getText().toString();
-        if (TextUtils.isEmpty(username.trim())){
+        if (TextUtils.isEmpty(username.trim())) {
             toast(R.string.m25请输入用户名);
         }
+        toAddAuthorize();
+
+     /*
         PostUtil.post(new Urlsutil().postServerUserId, new PostUtil.postListener() {
             @Override
             public void Params(Map<String, String> params) {
@@ -136,7 +136,7 @@ public class AddAuthorizationActivity extends BaseActivity {
                         } else {
                             toAddAuthorize();
                         }
-                    }else {
+                    } else {
                         toast(getString(R.string.m账号未注册));
                     }
 
@@ -149,7 +149,7 @@ public class AddAuthorizationActivity extends BaseActivity {
             public void LoginError(String str) {
 
             }
-        });
+        });*/
     }
 
 
@@ -164,12 +164,12 @@ public class AddAuthorizationActivity extends BaseActivity {
             return;
         }
         Map<String, Object> jsonMap = new LinkedHashMap<>();
-        jsonMap.put("ownerId",Cons.userBean.getAccountName());
+        jsonMap.put("ownerId", SmartHomeUtil.getUserName());
         jsonMap.put("sn", chargingId);
         jsonMap.put("userId", userName);
         jsonMap.put("phone", "");
-        jsonMap.put("userName",userName);
-        jsonMap.put("lan",getLanguage());//测试id
+        jsonMap.put("userName", userName);
+        jsonMap.put("lan", getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         Mydialog.Show(this);
         PostUtil.postJson(SmartHomeUrlUtil.postAddAuthorizationUser(), json, new PostUtil.postListener() {
@@ -185,10 +185,11 @@ public class AddAuthorizationActivity extends BaseActivity {
                     JSONObject jsonObject = new JSONObject(json);
                     int code = jsonObject.getInt("code");
                     if (code == 0) {
+                        EventBus.getDefault().post(new FreshAuthMsg());
                         AddAuthorizationActivity.this.finish();
                     }
                     String data = jsonObject.getString("data");
-                    if (!TextUtils.isEmpty(data)) toast(R.string.m139添加成功);
+                    toast(data);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -199,5 +200,10 @@ public class AddAuthorizationActivity extends BaseActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

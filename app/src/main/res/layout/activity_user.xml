@@ -23,7 +23,8 @@
             android:layout_marginLeft="@dimen/xa14"
             android:text="@string/m57修改密码"
             android:textColor="#333333"
-            android:textSize="@dimen/xa30" />
+            android:textSize="@dimen/xa30"
+            android:layout_marginStart="@dimen/xa14" />
 
         <ImageView
             android:id="@+id/imageView1"
@@ -32,7 +33,9 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/xa25"
-            android:src="@drawable/charger_device_item_more" />
+            android:src="@drawable/charger_device_item_more"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/xa25" />
 
         <View
             android:layout_width="match_parent"
@@ -65,7 +68,8 @@
                 android:gravity="center"
                 android:text="@string/m58修改手机号"
                 android:textColor="#333333"
-                android:textSize="@dimen/xa30" />
+                android:textSize="@dimen/xa30"
+                android:layout_marginStart="@dimen/xa14" />
 
             <TextView
                 android:id="@+id/textView3"
@@ -75,7 +79,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textColor="#333333"
-                android:textSize="@dimen/xa30" />
+                android:textSize="@dimen/xa30"
+                android:layout_marginStart="@dimen/xa14" />
 
         </LinearLayout>
 
@@ -87,7 +92,9 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/xa25"
-            android:src="@drawable/charger_device_item_more" />
+            android:src="@drawable/charger_device_item_more"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/xa25" />
 
 
         <View
@@ -121,7 +128,8 @@
                 android:gravity="center"
                 android:text="@string/m59修改邮箱"
                 android:textColor="#333333"
-                android:textSize="@dimen/xa30" />
+                android:textSize="@dimen/xa30"
+                android:layout_marginStart="@dimen/xa14" />
 
             <TextView
                 android:id="@+id/textView5"
@@ -131,7 +139,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textColor="#333333"
-                android:textSize="@dimen/xa30" />
+                android:textSize="@dimen/xa30"
+                android:layout_marginStart="@dimen/xa14" />
 
         </LinearLayout>
 
@@ -143,7 +152,9 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/xa25"
-            android:src="@drawable/charger_device_item_more" />
+            android:src="@drawable/charger_device_item_more"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/xa25" />
 
 
         <View
@@ -154,6 +165,19 @@
             android:orientation="vertical" />
 
     </RelativeLayout>
+
+
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="@dimen/xa585"
+        android:layout_height="@dimen/xa89"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/xa70"
+        android:layout_marginTop="@dimen/xa70"
+        android:background="@drawable/selector_circle_btn_green"
+        android:text="@string/m317注销账户"
+        android:textColor="@color/headerView"
+        android:textSize="@dimen/xa32" />
 
 
 </LinearLayout>

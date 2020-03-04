@@ -1,6 +1,11 @@
 package com.growatt.chargingpile.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.text.TextUtils;
+
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
@@ -34,11 +39,37 @@ public class ChargingBean {
         private String userId;
         private List<String> status;
         private int solar;
-
         //是否被选中
         private boolean isChecked;
         //设备类型
         private int devType;
+
+        private int G_ExternalLimitPower;
+        private String code;
+        private int G_HearbeatInterval;
+        private String G_CardPin;
+        private int G_MeterValueInterval;
+        private String mac;
+        private int G_MaxTemperature;
+        private int G_MaxCurrent;
+        private String vendor;
+        private String host;
+        private String mask;
+        private String G_Authentication;
+        private int G_WebSocketPingInterval;
+        private String ip;
+        private String G_ChargerMode;
+        private String dns;
+        private String site;
+        private String G_ChargerLanguage;
+        private int online;
+        private String status_2;
+        private String status_4;
+        private String gateway;
+        private String status_3;
+        private List<PriceConfBean> priceConf;
+        private int G_SolarMode;
+        private float G_SolarLimitPower;
 
 
         public int getConnectors() {
@@ -146,6 +177,353 @@ public class ChargingBean {
 
         public void setSolar(int solar) {
             this.solar = solar;
+        }
+
+        public int getG_SolarMode() {
+            return G_SolarMode;
+        }
+
+        public void setG_SolarMode(int g_SolarMode) {
+            G_SolarMode = g_SolarMode;
+        }
+
+        public float getG_SolarLimitPower() {
+            return G_SolarLimitPower;
+        }
+
+        public void setG_SolarLimitPower(float g_SolarLimitPower) {
+            G_SolarLimitPower = g_SolarLimitPower;
+        }
+
+        public int getG_ExternalLimitPower() {
+            return G_ExternalLimitPower;
+        }
+
+        public void setG_ExternalLimitPower(int G_ExternalLimitPower) {
+            this.G_ExternalLimitPower = G_ExternalLimitPower;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public void setCode(String code) {
+            this.code = code;
+        }
+
+        public int getG_HearbeatInterval() {
+            return G_HearbeatInterval;
+        }
+
+        public void setG_HearbeatInterval(int G_HearbeatInterval) {
+            this.G_HearbeatInterval = G_HearbeatInterval;
+        }
+
+        public String getG_CardPin() {
+            return G_CardPin;
+        }
+
+        public void setG_CardPin(String G_CardPin) {
+            this.G_CardPin = G_CardPin;
+        }
+
+        public int getG_MeterValueInterval() {
+            return G_MeterValueInterval;
+        }
+
+        public void setG_MeterValueInterval(int G_MeterValueInterval) {
+            this.G_MeterValueInterval = G_MeterValueInterval;
+        }
+
+        public String getMac() {
+            return mac;
+        }
+
+        public void setMac(String mac) {
+            this.mac = mac;
+        }
+
+        public int getG_MaxTemperature() {
+            return G_MaxTemperature;
+        }
+
+        public void setG_MaxTemperature(int G_MaxTemperature) {
+            this.G_MaxTemperature = G_MaxTemperature;
+        }
+
+        public int getG_MaxCurrent() {
+            return G_MaxCurrent;
+        }
+
+        public void setG_MaxCurrent(int G_MaxCurrent) {
+            this.G_MaxCurrent = G_MaxCurrent;
+        }
+
+        public String getVendor() {
+            return vendor;
+        }
+
+        public void setVendor(String vendor) {
+            this.vendor = vendor;
+        }
+
+        public String getHost() {
+            return host;
+        }
+
+        public void setHost(String host) {
+            this.host = host;
+        }
+
+        public String getMask() {
+            return mask;
+        }
+
+        public void setMask(String mask) {
+            this.mask = mask;
+        }
+
+        public String getG_Authentication() {
+            return G_Authentication;
+        }
+
+        public void setG_Authentication(String G_Authentication) {
+            this.G_Authentication = G_Authentication;
+        }
+
+        public int getG_WebSocketPingInterval() {
+            return G_WebSocketPingInterval;
+        }
+
+        public void setG_WebSocketPingInterval(int G_WebSocketPingInterval) {
+            this.G_WebSocketPingInterval = G_WebSocketPingInterval;
+        }
+
+        public String getIp() {
+            return ip;
+        }
+
+        public void setIp(String ip) {
+            this.ip = ip;
+        }
+
+        public String getG_ChargerMode() {
+            return G_ChargerMode;
+        }
+
+        public void setG_ChargerMode(String G_ChargerMode) {
+            this.G_ChargerMode = G_ChargerMode;
+        }
+
+        public String getDns() {
+            return dns;
+        }
+
+        public void setDns(String dns) {
+            this.dns = dns;
+        }
+
+        public String getSite() {
+            return site;
+        }
+
+        public void setSite(String site) {
+            this.site = site;
+        }
+
+        public String getG_ChargerLanguage() {
+            return G_ChargerLanguage;
+        }
+
+        public void setG_ChargerLanguage(String G_ChargerLanguage) {
+            this.G_ChargerLanguage = G_ChargerLanguage;
+        }
+
+        public int getOnline() {
+            return online;
+        }
+
+        public void setOnline(int online) {
+            this.online = online;
+        }
+
+        public String getStatus_2() {
+            return status_2;
+        }
+
+        public void setStatus_2(String status_2) {
+            this.status_2 = status_2;
+        }
+
+        public String getStatus_4() {
+            return status_4;
+        }
+
+        public void setStatus_4(String status_4) {
+            this.status_4 = status_4;
+        }
+
+        public String getGateway() {
+            return gateway;
+        }
+
+        public void setGateway(String gateway) {
+            this.gateway = gateway;
+        }
+
+        public String getStatus_3() {
+            return status_3;
+        }
+
+        public void setStatus_3(String status_3) {
+            this.status_3 = status_3;
+        }
+
+        public List<PriceConfBean> getPriceConf() {
+            return priceConf;
+        }
+
+        public void setPriceConf(List<PriceConfBean> priceConf) {
+            this.priceConf = priceConf;
+        }
+
+        public static class PriceConfBean extends ParamsBeanLeveItem1 implements MultiItemEntity ,Parcelable{
+            private double price;
+            @SerializedName("name")
+            private String nameX;
+            @SerializedName("time")
+            private String timeX;
+
+            private int itemType;
+            private String symbol;
+            private String startTime;
+            private String endTime;
+            private String sfield;
+            private boolean isAuthority;
+
+
+            public PriceConfBean() {
+            }
+
+
+            protected PriceConfBean(Parcel in) {
+                price = in.readDouble();
+                nameX = in.readString();
+                timeX = in.readString();
+                itemType = in.readInt();
+                symbol = in.readString();
+                startTime = in.readString();
+                endTime = in.readString();
+                sfield = in.readString();
+                isAuthority = in.readByte() != 0;
+            }
+
+            public static final Creator<PriceConfBean> CREATOR = new Creator<PriceConfBean>() {
+                @Override
+                public PriceConfBean createFromParcel(Parcel in) {
+                    return new PriceConfBean(in);
+                }
+
+                @Override
+                public PriceConfBean[] newArray(int size) {
+                    return new PriceConfBean[size];
+                }
+            };
+
+            public void setItemType(int itemType) {
+                this.itemType = itemType;
+            }
+
+            public double getPrice() {
+                return price;
+            }
+
+            public void setPrice(double price) {
+                this.price = price;
+            }
+
+            public String getNameX() {
+                return nameX;
+            }
+
+            public void setNameX(String nameX) {
+                this.nameX = nameX;
+            }
+
+            public String getTimeX() {
+                return timeX;
+            }
+
+            public void setTimeX(String timeX) {
+                this.timeX = timeX;
+            }
+
+            public String getSymbol() {
+                return symbol;
+            }
+
+            public void setSymbol(String symbol) {
+                this.symbol = symbol;
+            }
+
+            public String getStartTime() {
+                return startTime;
+            }
+
+            public void setStartTime(String startTime) {
+                this.startTime = startTime;
+            }
+
+            public String getEndTime() {
+                return endTime;
+            }
+
+            public void setEndTime(String endTime) {
+                this.endTime = endTime;
+            }
+
+            public String getSfield() {
+                return sfield;
+            }
+
+            public void setSfield(String sfield) {
+                this.sfield = sfield;
+            }
+
+            public boolean isAuthority() {
+                return isAuthority;
+            }
+
+            public void setAuthority(boolean authority) {
+                isAuthority = authority;
+            }
+
+            @Override
+            public int getItemType() {
+                return itemType;
+            }
+
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel parcel, int i) {
+
+                parcel.writeDouble(price);
+                parcel.writeString(nameX);
+                parcel.writeString(timeX);
+                parcel.writeInt(itemType);
+                parcel.writeString(symbol);
+                parcel.writeString(startTime);
+                parcel.writeString(endTime);
+                parcel.writeString(sfield);
+                parcel.writeByte((byte) (isAuthority ? 1 : 0));
+            }
+
+
         }
     }
 }

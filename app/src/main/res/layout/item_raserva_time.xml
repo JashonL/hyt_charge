@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_marginTop="@dimen/ya20"
+    android:layout_height="wrap_content">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ya40"
+        android:background="@drawable/shape_white_corner_bg"
+        >
+
+        <LinearLayout
+            android:id="@+id/ll_select_time"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/view_address"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/xa11"
+                android:layout_marginStart="@dimen/xa11"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:hint="@string/m283选择时间"
+                android:textColor="@color/title_3"
+                android:textColorHint="@color/title_3"
+                android:textSize="@dimen/ya24" />
+
+
+        </LinearLayout>
+
+
+        <View
+            android:id="@+id/view_address"
+            android:layout_width="@dimen/ya1"
+            android:layout_height="@dimen/ya70"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/ll_select_time"
+            app:layout_constraintRight_toLeftOf="@+id/ll_rate_value"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <LinearLayout
+            android:id="@+id/ll_rate_value"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/view_address"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_rate_value"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/xa11"
+                android:layout_marginStart="@dimen/xa11"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:hint="@string/m152充电费率"
+                android:textColor="@color/title_3"
+                android:textColorHint="@color/title_3"
+                android:textSize="@dimen/ya24" />
+        </LinearLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>

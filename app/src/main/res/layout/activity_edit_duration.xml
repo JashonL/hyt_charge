@@ -134,7 +134,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="@string/m202时长"
             android:textColor="@color/title_1"
             android:textSize="@dimen/xa30" />
 

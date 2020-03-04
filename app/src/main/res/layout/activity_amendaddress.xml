@@ -7,38 +7,82 @@
     tools:context=".activity.AmendsActivity" >
     <include layout="@layout/header_view_title" android:id="@+id/headerView"/>
 
-        <TextView
-            android:id="@+id/tvTip"
-            android:layout_width="@dimen/xa468"
-            android:layout_height="@dimen/ya69"
-            android:layout_gravity="center_horizontal"
-            android:textColor="@color/title_1"
-            android:text="@string/m58修改手机号"
-            android:gravity="center"
-            android:layout_marginTop="@dimen/ya83"
-            android:textSize="@dimen/xa35"
-            />
-        <EditText
-            android:id="@+id/etText"
-            android:layout_width="@dimen/xa468"
-            android:layout_height="@dimen/ya69"
-            android:background="@drawable/shape_edittext_bg_gray"
-            android:layout_gravity="center_horizontal"
-            android:textColor="@color/title_3"
-            android:gravity="center"
-            android:textSize="@dimen/xa35"/>
 
+    <TextView
+        android:id="@+id/tvTip"
+        android:layout_width="@dimen/xa468"
+        android:layout_height="@dimen/ya69"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/title_1"
+        android:text="@string/m58修改手机号"
+        android:gravity="center"
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/ya83"
+        android:textSize="@dimen/xa35"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa70"
+        android:layout_marginLeft="@dimen/xa46"
+        android:layout_marginRight="@dimen/xa46"
+        android:layout_marginTop="@dimen/ya50"
+        android:orientation="horizontal">
+
+
+        <EditText
+            android:id="@+id/et_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:drawableBottom="@drawable/shape_edittext_bg_gray"
+            android:gravity="center"
+            android:hint="@string/m60填入不带国家代码的手机号"
+            android:paddingLeft="@dimen/xa23"
+            android:paddingRight="@dimen/xa23"
+            android:textColor="@color/title_1"
+            android:textSize="@dimen/xa30" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa1"
+        android:layout_marginLeft="@dimen/xa46"
+        android:layout_marginRight="@dimen/xa46"
+        android:background="@color/gray" />
+
+    <EditText
+        android:id="@+id/et_user_pwd"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa58"
+        android:layout_marginLeft="@dimen/xa185"
+        android:layout_marginRight="@dimen/xa185"
+        android:layout_marginTop="@dimen/xa35"
+        android:background="@null"
+        android:gravity="center"
+        android:hint="@string/m26请输入密码"
+        android:paddingLeft="@dimen/xa23"
+        android:paddingRight="@dimen/xa23"
+        android:textColor="@color/title_1"
+        android:textSize="@dimen/xa30" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa1"
+        android:layout_marginLeft="@dimen/xa185"
+        android:layout_marginRight="@dimen/xa185"
+        android:background="@color/gray" />
 
     <Button
-        android:id="@+id/bt_finish"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/xa88"
-        android:layout_marginLeft="@dimen/xa75"
-        android:layout_marginRight="@dimen/xa75"
-        android:layout_marginTop="@dimen/xa49"
+        android:id="@+id/btnOk"
+        android:layout_width="@dimen/xa468"
+        android:layout_height="@dimen/xa93"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/xa140"
         android:background="@drawable/selector_circle_btn_green"
-        android:stateListAnimator="@null"
-        android:text="@string/m9确定"
-        android:textColor="@color/headerView" />
+        android:text="@string/m3完成"
+        android:textColor="@color/headerView"
+        android:textSize="@dimen/xa35" />
 
 </LinearLayout>

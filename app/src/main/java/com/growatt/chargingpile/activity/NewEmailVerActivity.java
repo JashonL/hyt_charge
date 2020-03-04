@@ -24,8 +24,8 @@ import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.DialogUtil;
 import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
+import com.growatt.chargingpile.util.SmartHomeUtil;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.common.util.LogUtil;
 
@@ -36,6 +36,7 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 ;
 
@@ -55,12 +56,13 @@ public class NewEmailVerActivity extends BaseActivity {
     //跳转而来的信息
     private String jumpEmail;
     private int type;//跳转过来的类型:100:代表server验证
+    private Unbinder bind;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_email_ver);
-        ButterKnife.bind(this);
+        bind = ButterKnife.bind(this);
         initIntent();
         initHeaderView();
         initView();
@@ -236,7 +238,7 @@ public class NewEmailVerActivity extends BaseActivity {
             @Override
             public void Params(Map<String, String> params) {
                 params.put("type", "0");
-                params.put("userName", Cons.userBean != null ? Cons.userBean.getAccountName() : "");
+                params.put("userName", Cons.userBean != null ? SmartHomeUtil.getUserName() : "");
                 params.put("content", email);
             }
 
@@ -246,7 +248,6 @@ public class NewEmailVerActivity extends BaseActivity {
                     JSONObject jsonObject = new JSONObject(json);
                     int result = jsonObject.getInt("result");
                     if (result == 1) {
-                        Cons.isValiEmail = true;
                         Cons.userBean.setEmail(email);
                         DialogUtil.circlerDialog(NewEmailVerActivity.this, getString(R.string.m成功), result, false, new OnCirclerDialogListener() {
                             @Override
@@ -287,5 +288,10 @@ public class NewEmailVerActivity extends BaseActivity {
             finish();
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

@@ -19,6 +19,7 @@ public class PileSetBean {
     public static class DataBean {
         private int connectors;
         private String address = "";
+        private String country = "";
         private String code = "";
         private String ip = "";
         private String dns = "";
@@ -43,6 +44,17 @@ public class PileSetBean {
         private String site="";
         private String G_Authentication="";
         private String G_ChargerMode="";
+        private String unit;
+        private String G_MaxCurrent;
+        private String G_ExternalLimitPower;
+        private String symbol;
+        private int G_ExternalLimitPowerEnable;
+        private int G_ExternalSamplingCurWring;
+        private int G_SolarMode;
+        private float G_SolarLimitPower;
+        private int G_PeakValleyEnable;
+        private String G_AutoChargeTime="";
+        private String G_RCDProtection="";
 
         public int getConnectors() {
             return connectors;
@@ -58,6 +70,14 @@ public class PileSetBean {
 
         public void setAddress(String address) {
             this.address = address;
+        }
+
+        public String getCountry() {
+            return country;
+        }
+
+        public void setCountry(String country) {
+            this.country = country;
         }
 
         public String getCode() {
@@ -250,6 +270,94 @@ public class PileSetBean {
 
         public void setG_ChargerMode(String g_ChargerMode) {
             G_ChargerMode = g_ChargerMode;
+        }
+
+        public String getUnit() {
+            return unit;
+        }
+
+        public void setUnit(String unit) {
+            this.unit = unit;
+        }
+
+        public String getG_MaxCurrent() {
+            return G_MaxCurrent;
+        }
+
+        public void setG_MaxCurrent(String g_MaxCurrent) {
+            G_MaxCurrent = g_MaxCurrent;
+        }
+
+        public String getG_ExternalLimitPower() {
+            return G_ExternalLimitPower;
+        }
+
+        public void setG_ExternalLimitPower(String g_ExternalLimitPower) {
+            G_ExternalLimitPower = g_ExternalLimitPower;
+        }
+
+        public String getSymbol() {
+            return symbol;
+        }
+
+        public void setSymbol(String symbol) {
+            this.symbol = symbol;
+        }
+
+        public int getG_ExternalLimitPowerEnable() {
+            return G_ExternalLimitPowerEnable;
+        }
+
+        public void setG_ExternalLimitPowerEnable(int g_ExternalLimitPowerEnable) {
+            G_ExternalLimitPowerEnable = g_ExternalLimitPowerEnable;
+        }
+
+        public int getG_ExternalSamplingCurWring() {
+            return G_ExternalSamplingCurWring;
+        }
+
+        public void setG_ExternalSamplingCurWring(int g_ExternalSamplingCurWring) {
+            G_ExternalSamplingCurWring = g_ExternalSamplingCurWring;
+        }
+
+        public int getG_SolarMode() {
+            return G_SolarMode;
+        }
+
+        public void setG_SolarMode(int g_SolarMode) {
+            G_SolarMode = g_SolarMode;
+        }
+
+        public float getG_SolarLimitPower() {
+            return G_SolarLimitPower;
+        }
+
+        public void setG_SolarLimitPower(float g_SolarLimitPower) {
+            G_SolarLimitPower = g_SolarLimitPower;
+        }
+
+        public int getG_PeakValleyEnable() {
+            return G_PeakValleyEnable;
+        }
+
+        public void setG_PeakValleyEnable(int g_PeakValleyEnable) {
+            G_PeakValleyEnable = g_PeakValleyEnable;
+        }
+
+        public String getG_AutoChargeTime() {
+            return G_AutoChargeTime;
+        }
+
+        public void setG_AutoChargeTime(String g_AutoChargeTime) {
+            G_AutoChargeTime = g_AutoChargeTime;
+        }
+
+        public String getG_RCDProtection() {
+            return G_RCDProtection;
+        }
+
+        public void setG_RCDProtection(String g_RCDProtection) {
+            G_RCDProtection = g_RCDProtection;
         }
     }
 }

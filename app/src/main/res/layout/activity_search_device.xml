@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.growatt.chargingpile.activity.SearchDeviceActivity">
+
+    <include
+        android:id="@+id/headerView"
+        layout="@layout/header_view" />
+
+    <View
+        android:id="@+id/v_diver_1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ya90"
+        app:layout_constraintTop_toBottomOf="@+id/headerView"/>
+
+    <LinearLayout
+        android:id="@+id/ll_search"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa70"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/v_diver_1">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/xa20"
+            android:layout_marginRight="@dimen/xa20"
+            android:background="@drawable/edittext_solid_white"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/xa20"
+            android:paddingRight="@dimen/xa1"
+            android:paddingStart="@dimen/xa20"
+            android:paddingEnd="@dimen/xa1">
+
+
+            <EditText
+                android:id="@+id/etSearch"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/xa10"
+                android:layout_marginStart="@dimen/xa10"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:hint="@string/m136请输入充电桩ID"
+                android:background="@null"
+                android:textColor="@color/content_bg_white"
+                android:textColorHint="@color/hint_bg_white"
+                android:textSize="@dimen/xa26" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/v_diver_2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ya90"
+        app:layout_constraintTop_toBottomOf="@+id/ll_search"/>
+
+
+    <Button
+        android:id="@+id/btConfirm"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa88"
+        android:layout_marginLeft="@dimen/xa75"
+        android:layout_marginRight="@dimen/xa75"
+        android:background="@drawable/selector_circle_btn_green"
+        android:text="@string/m9确定"
+        android:textColor="@color/headerView"
+        app:layout_constraintTop_toBottomOf="@+id/v_diver_2" />
+
+
+</android.support.constraint.ConstraintLayout>

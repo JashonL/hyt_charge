@@ -18,7 +18,6 @@ package com.growatt.chargingpile.scan;
 
 import com.google.zxing.ResultPoint;
 import com.google.zxing.ResultPointCallback;
-import com.yzq.zxinglibrary.view.ViewfinderView;
 
 public final class MyViewfinderResultPointCallback implements ResultPointCallback {
 

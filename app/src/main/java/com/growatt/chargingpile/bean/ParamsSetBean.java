@@ -1,21 +1,21 @@
 package com.growatt.chargingpile.bean;
 
+import com.chad.library.adapter.base.entity.AbstractExpandableItem;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 /**
  * Created by Administrator on 2018/10/23.
  */
 
-public class ParamsSetBean implements MultiItemEntity {
-
-    public static final int PARAM_TITILE = 0;
-    public static final int PARAM_ITEM = 1;
-
+public class ParamsSetBean extends AbstractExpandableItem<ParamsBeanLeveItem1> implements MultiItemEntity {
 
     private String key;
     private Object value;
     private String title;
     private int type;
+    private int index;
+    private String sfield;
+    private boolean isAuthority;
 
     public String getKey() {
         return key;
@@ -49,8 +49,48 @@ public class ParamsSetBean implements MultiItemEntity {
         this.title = title;
     }
 
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    public boolean isAuthority() {
+        return isAuthority;
+    }
+
+    public void setAuthority(boolean authority) {
+        isAuthority = authority;
+    }
+
+    public String getSfield() {
+        return sfield;
+    }
+
+    public void setSfield(String sfield) {
+        this.sfield = sfield;
+    }
+
     @Override
     public int getItemType() {
         return type;
+    }
+
+    @Override
+    public int getLevel() {
+        return 0;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this==obj)return true;
+        if (!(obj instanceof ParamsSetBean)){
+//            throw new ClassCastException("类型错误");
+            return false;
+        }
+        ParamsSetBean p = (ParamsSetBean) obj;
+        return this.index==p.getIndex();
     }
 }

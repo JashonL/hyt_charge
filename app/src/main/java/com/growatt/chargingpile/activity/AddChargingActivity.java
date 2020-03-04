@@ -13,20 +13,16 @@ import com.growatt.chargingpile.EventBusMsg.AddDevMsg;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.connutil.PostUtil;
 import com.growatt.chargingpile.scan.activity.MyCaptureActivity;
-import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.PermissionCodeUtil;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
 import com.growatt.chargingpile.util.SmartHomeUtil;
-import com.yzq.zxinglibrary.android.CaptureActivity;
 import com.yzq.zxinglibrary.bean.ZxingConfig;
 import com.yzq.zxinglibrary.common.Constant;
 
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.common.util.LogUtil;
-import org.xutils.view.annotation.Event;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -35,6 +31,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import pub.devrel.easypermissions.EasyPermissions;
 
 public class AddChargingActivity extends BaseActivity {
@@ -44,12 +41,13 @@ public class AddChargingActivity extends BaseActivity {
 
     @BindView(R.id.et_input_sn)
     EditText etSn;
+    private Unbinder bind;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_charging);
-        ButterKnife.bind(this);
+        bind = ButterKnife.bind(this);
         initHeaderView();
     }
 
@@ -74,7 +72,7 @@ public class AddChargingActivity extends BaseActivity {
                 if (EasyPermissions.hasPermissions(this, PermissionCodeUtil.PERMISSION_CAMERA)) {
                     addByScan();
                 } else {
-                    EasyPermissions.requestPermissions(this, String.format(getString(R.string.m权限获取某权限说明), getString(R.string.m相机)), PermissionCodeUtil.PERMISSION_CAMERA_CODE, PermissionCodeUtil.PERMISSION_CAMERA);
+                    EasyPermissions.requestPermissions(this,String.format("%s:%s",getString(R.string.m权限获取某权限说明),getString(R.string.m相机)), PermissionCodeUtil.PERMISSION_CAMERA_CODE, PermissionCodeUtil.PERMISSION_CAMERA);
                 }
 
                 break;
@@ -106,14 +104,13 @@ public class AddChargingActivity extends BaseActivity {
 
 
     private void addCharging(final String sn) {
-        String userId = Cons.userId;
         if (TextUtils.isEmpty(sn)) {
             toast(getString(R.string.m136请输入充电桩ID));
             return;
         }
         Mydialog.Show(this);
         Map<String, Object> jsonMap = new LinkedHashMap<String, Object>();
-        jsonMap.put("userId", Cons.userBean.getAccountName());
+        jsonMap.put("userId", SmartHomeUtil.getUserName());
         jsonMap.put("sn", sn);
         jsonMap.put("lan", getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
@@ -184,5 +181,10 @@ public class AddChargingActivity extends BaseActivity {
                 }
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

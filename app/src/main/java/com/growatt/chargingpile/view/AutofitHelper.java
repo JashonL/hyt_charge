@@ -18,7 +18,6 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 
-
 import com.growatt.chargingpile.R;
 
 import java.util.ArrayList;

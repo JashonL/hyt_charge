@@ -16,11 +16,13 @@ public class RegisterMap implements Serializable{
 	private String agentCode;
 	private String regLng;
 	private String regLat;
+	private String regPostCode;
+	private String regInstaller;
 	public RegisterMap(String regUserName, String regPassword, String regEmail,
                        String regDataLoggerNo, String regValidateCode,
                        String regPhoneNumber, String regTimeZone, String regLanguage,
                        String regCountry, String regCity, String agentCode, String regLng,
-                       String regLat) {
+                       String regLat,String regPostCode,String regInstaller) {
 		super();
 		this.regUserName = regUserName;
 		this.regPassword = regPassword;
@@ -35,6 +37,8 @@ public class RegisterMap implements Serializable{
 		this.agentCode = agentCode;
 		this.regLng = regLng;
 		this.regLat = regLat;
+		this.regPostCode=regPostCode;
+		this.regInstaller=regInstaller;
 	}
 	public RegisterMap() {
 		super();
@@ -117,6 +121,23 @@ public class RegisterMap implements Serializable{
 	public void setRegLat(String regLat) {
 		this.regLat = regLat;
 	}
+
+	public String getRegPostCode() {
+		return regPostCode;
+	}
+
+	public String getRegInstaller() {
+		return regInstaller;
+	}
+
+	public void setRegInstaller(String regInstaller) {
+		this.regInstaller = regInstaller;
+	}
+
+	public void setRegPostCode(String regPostCode) {
+		this.regPostCode = regPostCode;
+	}
+
 	@Override
 	public String toString() {
 		return "RegisterMap [regUserName=" + regUserName + ", regPassword="
@@ -126,7 +147,7 @@ public class RegisterMap implements Serializable{
 				+ regTimeZone + ", regLanguage=" + regLanguage
 				+ ", regCountry=" + regCountry + ", regCity=" + regCity
 				+ ", agentCode=" + agentCode + ", regLng=" + regLng
-				+ ", regLat=" + regLat + "]";
+				+ ", regLat=" + regLat + "]"+",regPostCode="+regPostCode;
 	}
 	
 	

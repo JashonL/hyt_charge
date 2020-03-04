@@ -11,7 +11,7 @@
         android:background="@color/maingray_bg"
         android:gravity="center">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageView2"
             android:layout_width="@dimen/xa187"
             android:layout_height="@dimen/xa187"

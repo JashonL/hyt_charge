@@ -1,55 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="@dimen/xa450"
     android:layout_height="@dimen/xa230"
     android:background="@drawable/shape_white_corner_bg"
-    android:gravity="center"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_text1"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_marginTop="@dimen/xa18"
+        android:paddingEnd="@dimen/xa1"
+        android:paddingLeft="@dimen/xa20"
+        android:paddingRight="@dimen/xa1"
+        android:paddingStart="@dimen/xa20"
         android:text="@string/m限制功率1kw"
         android:textColor="@color/title_1"
-        android:textSize="@dimen/xa26" />
+        android:textSize="@dimen/xa26"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/tv_text2"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_text2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/xa5"
-        android:text="@string/m限制时间段"
-        android:textColor="@color/title_1"
-        android:textSize="@dimen/xa24" />
-
-    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/xa60"
-        android:layout_marginTop="@dimen/xa60"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tv_cancel"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/xa60"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/m7取消"
-            android:textColor="@color/maincolor_1"
-            android:textSize="@dimen/xa35" />
-
-        <TextView
-            android:id="@+id/tv_confirm"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/xa60"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/m9确定"
-            android:textColor="@color/maincolor_1"
-            android:textSize="@dimen/xa35" />
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_text1"
+        android:layout_marginTop="@dimen/xa5"
+        android:paddingEnd="@dimen/xa1"
+        android:paddingLeft="@dimen/xa20"
+        android:paddingRight="@dimen/xa1"
+        android:paddingStart="@dimen/xa20"
+        android:text="@string/m限制功率1kw"
+        android:textColor="@color/title_1"
+        android:textSize="@dimen/xa24"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/tv_switch"
+        app:layout_constraintTop_toBottomOf="@+id/tv_text1" />
 
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/tv_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_text1"
+        android:layout_marginTop="@dimen/xa5"
+        android:paddingEnd="@dimen/xa1"
+        android:paddingLeft="@dimen/xa20"
+        android:paddingRight="@dimen/xa1"
+        android:paddingStart="@dimen/xa20"
+        android:text="@string/m132切换"
+        android:textColor="@color/maincolor_1"
+        android:textSize="@dimen/xa30"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/tv_cancel"
+        app:layout_constraintTop_toBottomOf="@+id/tv_text2" />
+
+    <TextView
+        android:id="@+id/tv_cancel"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/ya60"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/m7取消"
+        android:textColor="@color/maincolor_1"
+        android:textSize="@dimen/xa35"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/tv_confirm" />
+
+
+
+    <TextView
+        android:id="@+id/tv_confirm"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/ya60"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/m9确定"
+        android:textColor="@color/maincolor_1"
+        android:textSize="@dimen/xa35"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/tv_cancel"
+        app:layout_constraintRight_toRightOf="parent" />
+
+
+</android.support.constraint.ConstraintLayout>

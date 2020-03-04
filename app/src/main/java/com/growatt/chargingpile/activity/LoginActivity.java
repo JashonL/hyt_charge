@@ -3,7 +3,6 @@ package com.growatt.chargingpile.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -19,20 +18,18 @@ import com.growatt.chargingpile.sqlite.SqliteUtil;
 import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.Constant;
 import com.growatt.chargingpile.util.LoginUtil;
-import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SharedPreferencesUnit;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
-import com.growatt.chargingpile.util.SmartHomeUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 
 /**
@@ -48,12 +45,13 @@ public class LoginActivity extends BaseActivity {
     Button btLogin;
     @BindView(R.id.ll_demo)
     LinearLayout llDemo;
+    private Unbinder bind;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        ButterKnife.bind(this);
+        bind=ButterKnife.bind(this);
         initUser();
         AutoLogin();
     }
@@ -63,12 +61,12 @@ public class LoginActivity extends BaseActivity {
         if (inquirylogin.size() > 0) {
             String name = inquirylogin.get("name").toString();
             String pwd = inquirylogin.get("pwd").toString();
-            if (!Cons.isflagId.equals(name)) {
+//            if (!Cons.isflagId.equals(name)) {
                 etUsername.setText(name);
                 etPassword.setText(pwd);
                 etUsername.setSelection(name.length());
                 etPassword.setSelection(pwd.length());
-            }
+//            }
         }
     }
 
@@ -82,11 +80,17 @@ public class LoginActivity extends BaseActivity {
         if (autoLoginNum == 0 || map.size() == 0) {
             return;
         }
-        SqliteUtil.time((System.currentTimeMillis() + 500000) + "");
-        Mydialog.Show(LoginActivity.this, "");
         //oss登录
-        int autoLoginType = SharedPreferencesUnit.getInstance(this).getInt(Constant.AUTO_LOGIN_TYPE);
-        switch (autoLoginType) {
+        LoginUtil.login(mContext, etUsername.getText().toString().trim(), etPassword.getText().toString().trim(), new OnViewEnableListener() {
+            @Override
+            public void onViewEnable() {
+
+            }
+        });
+
+     /*
+     int autoLoginType = SharedPreferencesUnit.getInstance(this).getInt(Constant.AUTO_LOGIN_TYPE);
+     switch (autoLoginType) {
             case 0://oss登录
                 break;
             case 1://server登录
@@ -98,7 +102,7 @@ public class LoginActivity extends BaseActivity {
                     });
                 }
                 break;
-        }
+        }*/
     }
 
     @OnClick({R.id.tvRight, R.id.bt_login, R.id.tv_foget, R.id.ll_demo})
@@ -178,8 +182,16 @@ public class LoginActivity extends BaseActivity {
             return;
         }
         btLogin.setEnabled(false);
-        //正式登录
+     /*   //正式登录
         LoginUtil.ossErrAutoLogin(mContext, etUsername.getText().toString().trim(), etPassword.getText().toString().trim(), new OnViewEnableListener() {
+            @Override
+            public void onViewEnable() {
+                if (!btLogin.isEnabled()) {
+                    btLogin.setEnabled(true);
+                }
+            }
+        });*/
+        LoginUtil.login(mContext, etUsername.getText().toString().trim(), etPassword.getText().toString().trim(), new OnViewEnableListener() {
             @Override
             public void onViewEnable() {
                 if (!btLogin.isEnabled()) {
@@ -194,10 +206,15 @@ public class LoginActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            Cons.isExit = true;
             MyApplication.getInstance().exit();
             finish();
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (bind!=null)bind.unbind();
     }
 }

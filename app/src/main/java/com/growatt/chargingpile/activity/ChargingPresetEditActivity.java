@@ -20,6 +20,7 @@ import com.growatt.chargingpile.view.NumberPicker;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 public class ChargingPresetEditActivity extends BaseActivity {
 
@@ -42,24 +43,27 @@ public class ChargingPresetEditActivity extends BaseActivity {
     @BindView(R.id.np_minute)
     NumberPicker npMinute;
 
+
+
     private int type = 1;//1.金额 2.电量 3.时长
     private String textType;
 
     private String[] hours;
     private String[] minutes;
+    private Unbinder bind;
 
 
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charging_preset_edit);
-        ButterKnife.bind(this);
+        bind=ButterKnife.bind(this);
         initHeaderView();
         initIntent();
         initViews();
         initResource();
     }
+
 
     private void initResource() {
         textType = getString(R.string.m209预设);
@@ -115,17 +119,18 @@ public class ChargingPresetEditActivity extends BaseActivity {
         }
         textType = String.format(getString(R.string.m198预设充电方案) + "-%s", scheme);
         SpannableString spannableString = new SpannableString(textType);
-        int start=textType.lastIndexOf(scheme);
-        int end=start+scheme.length();
+        int start = textType.lastIndexOf(scheme);
+        int end = start + scheme.length();
         spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.maincolor_1)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         tvType.setText(spannableString);
     }
+
 
     private void initIntent() {
         type = getIntent().getIntExtra("type", 1);
     }
 
-    @OnClick(R.id.btConfirm)
+    @OnClick({R.id.btConfirm})
     public void onClickListener(View view) {
         switch (view.getId()) {
             case R.id.btConfirm:
@@ -188,5 +193,8 @@ public class ChargingPresetEditActivity extends BaseActivity {
         //设置当前值
         numberPicker.setValue(index);
     }
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

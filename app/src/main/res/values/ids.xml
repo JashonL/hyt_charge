@@ -34,11 +34,11 @@
   <item type="id" name="gridview" />
   <item type="id" name="webview" />
   
-  <item type="id" name="about_version_code">false</item>
-  <item type="id" name="split">false</item>
+  <item type="id" name="about_version_code"/>
+  <item type="id" name="split"/>
 
   <item name="np__increment" type="id"/>
   <item name="np__decrement" type="id"/>
-  <item name="schemaId" type="id">10210</item>
-  <item name="schemaView" type="id">102023</item>
+  <item name="schemaId" type="id"/>
+  <item name="schemaView" type="id"/>
 </resources>

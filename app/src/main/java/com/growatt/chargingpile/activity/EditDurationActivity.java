@@ -17,7 +17,6 @@ import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.bean.ReservationBean;
 import com.growatt.chargingpile.connutil.PostUtil;
 import com.growatt.chargingpile.util.AlertPickDialog;
-import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
@@ -25,7 +24,6 @@ import com.growatt.chargingpile.util.SmartHomeUtil;
 import com.mylhyl.circledialog.CircleDialog;
 
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.common.util.LogUtil;
 
@@ -33,11 +31,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 public class EditDurationActivity extends BaseActivity {
 
@@ -69,13 +69,14 @@ public class EditDurationActivity extends BaseActivity {
 
     private String loopValue;
     private String chargingId;
+    private Unbinder bind;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_duration);
-        ButterKnife.bind(this);
+        bind = ButterKnife.bind(this);
         initHeaderView();
         initResource();
         initIntent();
@@ -93,14 +94,7 @@ public class EditDurationActivity extends BaseActivity {
             endDate = dataBean.getEndDate();
             reservationId = dataBean.getReservationId();
             loopType = dataBean.getLoopType();
-            duration=dataBean.getCValue();
-            //获取年月
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Date date = new Date();
-            String yMd = sdf.format(date);
-            //把时间改成今天的
-            expiryDate = yMd + "T" + expiryDate.substring(11, 16) + ":00.000Z";
-            endDate = yMd + "T" + endDate.substring(11, 16) + ":00.000Z";
+            duration= Long.parseLong(dataBean.getcValue2());
         } else {
             type = 2;
         }
@@ -113,17 +107,16 @@ public class EditDurationActivity extends BaseActivity {
             MyUtil.hideAllView(View.GONE, rlDelete);
         } else {
             cbEveryday.setChecked(loopType != -1);
+            if (!TextUtils.isEmpty(expiryDate))
             tvOpen.setText(expiryDate.substring(11, 16));
+            if (!TextUtils.isEmpty(endDate))
             tvClose.setText(endDate.substring(11, 16));
             MyUtil.showAllView(rlDelete);
-            String time = calculationTime(expiryDate, endDate);
+            long hour = duration / 60;
+            long min = duration % 60;
+            String time = hour + "h" + min + "min";
             tvDuration.setText(time);
         }
-      /*  if (reservationId == -1) {
-            MyUtil.hideAllView(View.GONE, rlDelete);
-        } else {
-            MyUtil.showAllView(rlDelete);
-        }*/
     }
 
     private void initResource() {
@@ -146,73 +139,16 @@ public class EditDurationActivity extends BaseActivity {
     }
 
     private void initHeaderView() {
-        setHeaderImage(headerView, R.drawable.back, Position.LEFT, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        setHeaderImage(headerView, R.drawable.back, Position.LEFT, v -> finish());
         setHeaderTitle(headerView, getString(R.string.m181设置定时), R.color.title_1, true);
-        setHeaderTvRight(headerView, getString(R.string.m182保存), new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (type == 1) {
-                    if (duration > 0) {
-                        if (cbEveryday.isChecked()) {
-                            dataBean.setLoopType(0);
-                        } else {
-                            Date todayDate = new Date();
-                            long daytime = todayDate.getTime();
-                            long onTime = 0;
-                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-                            //开始的日期
-                            try {
-                                Date start = format.parse(expiryDate);
-                                onTime = start.getTime();
-                                LogUtil.d("开启时间:" + expiryDate + "关闭时间：" + start);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            if (daytime > onTime) {
-                                toast(getString(R.string.m请选择正确的时间段));
-                                return;
-                            }
-                            dataBean.setLoopType(-1);
-                        }
-                        editTime("1", expiryDate, dataBean.getLoopType());
-                    } else {
-                        toast(getString(R.string.m请选择正确的时间段));
-                    }
-                } else {
-                    if (duration <= 0) {
-                        toast(getString(R.string.m请选择正确的时间段));
-                        return;
-                    }
-                    int loopType;
-                    if (cbEveryday.isChecked()) {
-                        loopType = 0;
-                    } else {
-                        Date todayDate = new Date();
-                        long daytime = todayDate.getTime();
-                        long onTime = 0;
-                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-                        //开始的日期
-                        try {
-                            Date start = format.parse(expiryDate);
-                            onTime = start.getTime();
-                            LogUtil.d("开启时间:" + expiryDate + "关闭时间：" + start);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        if (daytime > onTime) {
-                            toast(getString(R.string.m请选择正确的时间段));
-                            return;
-                        }
-                        loopType = -1;
-                    }
-                    addReserve(loopType, duration, loopValue);
+        setHeaderTvRight(headerView, getString(R.string.m182保存), v -> {
+            if (type == 1) {
+                dataBean.setLoopType(cbEveryday.isChecked()?0:-1);
+                editTime( expiryDate, dataBean.getLoopType());
+            } else {
+                int loopType = cbEveryday.isChecked()?0:-1;
+                addReserve(loopType, duration, loopValue);
 
-                }
             }
         }, R.color.main_text_color);
     }
@@ -227,7 +163,7 @@ public class EditDurationActivity extends BaseActivity {
                 selectTime(2);
                 break;
             case R.id.rl_delete_reserva:
-                delete("3");
+                delete();
                 break;
         }
     }
@@ -240,7 +176,7 @@ public class EditDurationActivity extends BaseActivity {
             public void confirm(String hour, String minute) {
                 String time = hour + ":" + minute;
                 //获取年月
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd",Locale.getDefault());
                 Date date = new Date();
                 String yMd = sdf.format(date);
                 if (openOrclose == 1) {
@@ -255,7 +191,7 @@ public class EditDurationActivity extends BaseActivity {
                     return;
                 }
                 //国际标准格式
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",Locale.getDefault());
                 try {
                     //开始的日期
                     Date start = format.parse(expiryDate);
@@ -264,8 +200,12 @@ public class EditDurationActivity extends BaseActivity {
                     //计算时长
                     long startTime = start.getTime();
                     long endTime = end.getTime();
-                    long diffTime = endTime - startTime;
-
+                    long diffTime =0;
+                    if (startTime>endTime){
+                        diffTime=endTime+24*60*60*1000-startTime;
+                    }else {
+                        diffTime = endTime - startTime;
+                    }
                     //毫秒转成分
                     long nd = 1000 * 24 * 60 * 60;
                     long nh = 1000 * 60 * 60;
@@ -292,7 +232,7 @@ public class EditDurationActivity extends BaseActivity {
     }
 
 
-    private void delete(final String ctype) {
+    private void delete() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         new CircleDialog.Builder()
                 .setWidth(0.75f)
@@ -301,7 +241,7 @@ public class EditDurationActivity extends BaseActivity {
                 .setGravity(Gravity.CENTER).setPositive(getString(R.string.m9确定), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteTime(ctype);
+                deleteTime();
             }
         })
                 .setNegative(getString(R.string.m7取消), null)
@@ -310,50 +250,21 @@ public class EditDurationActivity extends BaseActivity {
     }
 
 
-    private String calculationTime(String start, String end) {
-        //国际标准格式
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        try {
-            //开始的日期
-            Date startDate = format.parse(start);
-            //结束的日期
-            Date endDate = format.parse(end);
-            //计算时长
-            long startTime = startDate.getTime();
-            long endTime = endDate.getTime();
-            long diffTime = endTime - startTime;
-
-            //毫秒转成分
-            long nd = 1000 * 24 * 60 * 60;
-            long nh = 1000 * 60 * 60;
-            long nm = 1000 * 60;
-            // 计算差多少小时
-            long diffHour = diffTime % nd / nh;
-            // 计算差多少分钟
-            long diffMin = diffTime % nd % nh / nm;
-            String sDiffTime = diffHour + "h" + diffMin + "min";
-            return sDiffTime;
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return "0h0min";
-    }
 
 
     /**
      * 删除预约
      *
-     * @param ctype
      */
 
-    private void deleteTime(String ctype) {
+    private void deleteTime() {
         LogUtil.d("删除预约");
         Mydialog.Show(EditDurationActivity.this);
         String json = new Gson().toJson(dataBean);
         JSONObject object = null;
         try {
             object = new JSONObject(json);
-            object.put("ctype", ctype);
+            object.put("ctype", "3");
             object.put("lan", getLanguage());
         } catch (Exception e) {
             e.printStackTrace();
@@ -392,18 +303,15 @@ public class EditDurationActivity extends BaseActivity {
     /**
      * 修改预约
      *
-     * @param ctype
-     * @param expiryDate
-     * @param loopType
      */
 
-    private void editTime(String ctype, String expiryDate, int loopType) {
+    private void editTime(String expiryDate, int loopType) {
         LogUtil.d("修改预约时间段");
         Mydialog.Show(EditDurationActivity.this);
         Map<String, Object> jsonMap = new LinkedHashMap<String, Object>();
         jsonMap.put("sn", chargingId);
-        jsonMap.put("userId", Cons.userBean.getAccountName());
-        jsonMap.put("ctype", ctype);
+        jsonMap.put("userId", SmartHomeUtil.getUserName());
+        jsonMap.put("ctype", "1");
         jsonMap.put("connectorId", dataBean.getConnectorId());
         jsonMap.put("cKey", dataBean.getCKey());
         jsonMap.put("cValue", duration);
@@ -456,14 +364,12 @@ public class EditDurationActivity extends BaseActivity {
         jsonMap.put("connectorId", 1);
         jsonMap.put("expiryDate", expiryDate);
         jsonMap.put("chargeId",chargingId);
-        jsonMap.put("userId",Cons.userBean.getAccountName());
+        jsonMap.put("userId",SmartHomeUtil.getUserName());
         jsonMap.put("cKey", "G_SetTime");
         jsonMap.put("cValue", cValue);
         jsonMap.put("loopType", loopType);
         jsonMap.put("lan", getLanguage());
-        if (loopType==0) {
-            jsonMap.put("loopValue", loopValue);
-        }
+        jsonMap.put("loopValue", loopValue);
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         LogUtil.i(json);
         PostUtil.postJson(SmartHomeUrlUtil.postRequestReseerveCharging(), json, new PostUtil.postListener() {
@@ -496,4 +402,8 @@ public class EditDurationActivity extends BaseActivity {
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

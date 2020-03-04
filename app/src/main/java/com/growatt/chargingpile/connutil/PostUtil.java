@@ -9,10 +9,9 @@ import android.text.TextUtils;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.activity.LoginActivity;
 import com.growatt.chargingpile.application.MyApplication;
-import com.growatt.chargingpile.util.Constant;
+import com.growatt.chargingpile.listener.PostJsonListener;
 import com.growatt.chargingpile.util.LoginUtil;
 import com.growatt.chargingpile.util.Mydialog;
-import com.growatt.chargingpile.util.SharedPreferencesUnit;
 import com.growatt.chargingpile.util.T;
 
 import org.xutils.common.Callback.Cancelable;
@@ -32,23 +31,21 @@ public class PostUtil {
         LogUtil.i("post_utl:" + url);
         httpListener.Params(params);
         LogUtil.i("params:" + params.toString());
-        final Handler handler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                String a = (String) msg.obj;
-                switch (msg.what) {
-                    case 0:
-                        httpListener.success(a);
-                        break;
-                    case 1:
-                        httpListener.LoginError(a);
-                        break;
-                    case 2:    //超时重新登录
-                        LoginUtil.serverTimeOutLogin();
-                }
+        final  Handler handler = new Handler(msg -> {
+            String a = (String) msg.obj;
+            Mydialog.Dismiss();
+            switch (msg.what) {
+                case 0:
+                    httpListener.success(a);
+                    break;
+                case 1:
+                    httpListener.LoginError(a);
+                    break;
+                case 2:    //超时重新登录
+                    LoginUtil.serverTimeOutLogin();
             }
-        };
+            return false;
+        });
         try {
             Cancelable cancle = XUtil.Post(url, params, new CommonCallback<String>() {
                 @Override
@@ -108,29 +105,26 @@ public class PostUtil {
             handler.sendMessage(msg);
         }
     }
-
-    public static void post(final String url, final boolean isLogErr, final postListener httpListener) {
+    public static void post(final String url, boolean isLogErr,final postListener httpListener) {
         final Map<String, String> params = new HashMap<String, String>();
         LogUtil.i("post_utl:" + url);
         httpListener.Params(params);
         LogUtil.i("params:" + params.toString());
-        final Handler handler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                String a = (String) msg.obj;
-                switch (msg.what) {
-                    case 0:
-                        httpListener.success(a);
-                        break;
-                    case 1:
-                        httpListener.LoginError(a);
-                        break;
-                    case 2:    //超时重新登录
-                        LoginUtil.serverTimeOutLogin();
-                }
+        final Handler handler = new Handler(msg -> {
+            String a = (String) msg.obj;
+            Mydialog.Dismiss();
+            switch (msg.what) {
+                case 0:
+                    httpListener.success(a);
+                    break;
+                case 1:
+                    httpListener.LoginError(a);
+                    break;
+                case 2:    //超时重新登录
+                    LoginUtil.serverTimeOutLogin();
             }
-        };
+            return false;
+        });
         try {
             Cancelable cancle = XUtil.Post(url, params, new CommonCallback<String>() {
                 @Override
@@ -191,28 +185,24 @@ public class PostUtil {
             handler.sendMessage(msg);
         }
     }
-
     public static void postJson(final String url, final String json, final postListener httpListener) {
-        LogUtil.i("postJson_url:" + url);
-        final Handler handler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                String a = (String) msg.obj;
-                switch (msg.what) {
-                    case 0:
-                        httpListener.success(a);
-                        break;
-                    case 1:
-                        httpListener.LoginError(a);
-                        break;
-                    case 2:    //超时重新登录
-                        LoginUtil.serverTimeOutLogin();
-                }
+        LogUtil.i("post_url:" + url + "\njson:" + json);
+        final Handler handler = new Handler(msg -> {
+            String a = (String) msg.obj;
+            Mydialog.Dismiss();
+            switch (msg.what) {
+                case 0:
+                    httpListener.success(a);
+                    break;
+                case 1:
+                    httpListener.LoginError(a);
+                    break;
+                case 2:    //超时重新登录
+                    LoginUtil.serverTimeOutLogin();
             }
-        };
+            return false;
+        });
         try {
-            LogUtil.i("postJson_params:" + json);
             Cancelable cancle = XUtil.postJson(url, json, new CommonCallback<String>() {
                 @Override
                 public void onSuccess(String result) {
@@ -234,7 +224,84 @@ public class PostUtil {
 
                 @Override
                 public void onError(Throwable ex, boolean isOnCallback) {
-                    Mydialog.Dismiss();
+//					 Toast.makeText(x.app(), ShineApplication.context.getString(R.string.Xutil_network_err)+":2"+ex.getMessage(), Toast.LENGTH_LONG).show();
+                    if (ex instanceof HttpException) {
+                        T.make(R.string.m网络错误, MyApplication.context);
+                    } else if (ex instanceof SocketTimeoutException) {
+                        T.make(R.string.m网络超时, MyApplication.context);
+                    } else if (ex instanceof UnknownHostException) {
+                        T.make(R.string.m服务器连接失败, MyApplication.context);
+                    } else {
+                        T.make(R.string.m服务器连接失败, MyApplication.context);
+                    }
+
+                    Message.obtain(handler, 1, ex.getMessage()).sendToTarget();
+                }
+
+                @Override
+                public void onCancelled(CancelledException cex) {
+
+                }
+
+                @Override
+                public void onFinished() {
+
+                }
+
+
+            });
+            if (cancle == null) {
+                Message.obtain(handler, 1, url).sendToTarget();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Message msg = new Message();
+            msg.what = 2;
+            msg.obj = e.toString();
+            handler.sendMessage(msg);
+        }
+    }
+    /*参数为json的请求*/
+    public static void postJsonNoParam(final String url, final String json, final PostJsonListener listener) {
+        LogUtil.i("post_url:" + url);
+        LogUtil.i("post_json:" + json);
+        final Handler handler = new Handler(msg -> {
+            String a = (String) msg.obj;
+            Mydialog.Dismiss();
+            switch (msg.what) {
+                case 0:
+                    listener.success(a);
+                    break;
+                case 1:
+                    listener.error(a);
+                    break;
+                case 2:    //超时重新登录
+                    LoginUtil.serverTimeOutLogin();
+            }
+            return false;
+        });
+        try {
+            Cancelable cancle = XUtil.postJson(url, json, new CommonCallback<String>() {
+                @Override
+                public void onSuccess(String result) {
+                    LogUtil.i("post_result_load:" + result);
+                    if (TextUtils.isEmpty(result)) {
+                        Message msg = new Message();
+                        msg.what = 1;
+                        handler.sendMessage(msg);
+                    } else if (result.contains("<!DOCTYPE")) {
+                        //重新做登陆操作
+                        Message.obtain(handler, 2, url).sendToTarget();
+                    } else {
+                        Message msg = new Message();
+                        msg.what = 0;
+                        msg.obj = result;
+                        handler.sendMessage(msg);
+                    }
+                }
+
+                @Override
+                public void onError(Throwable ex, boolean isOnCallback) {
 //					 Toast.makeText(x.app(), ShineApplication.context.getString(R.string.Xutil_network_err)+":2"+ex.getMessage(), Toast.LENGTH_LONG).show();
                     if (ex instanceof HttpException) {
                         T.make(R.string.m网络错误, MyApplication.context);
@@ -273,8 +340,6 @@ public class PostUtil {
         }
     }
 
-
-
     /**
      * oss登录接口设置超时时间：
      */
@@ -283,34 +348,23 @@ public class PostUtil {
         LogUtil.i("post_utl:" + url);
         httpListener.Params(params);
         LogUtil.i("params:" + params.toString());
-        final Handler handler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                String a = (String) msg.obj;
-                switch (msg.what) {
-                    case 0:
-                        httpListener.success(a);
-                        break;
-                    case 1:
-                        httpListener.LoginError(a);
-                        break;
-                    case 2:
-                        //登陆超时
-//					SqliteUtil.url("");
-//					SqliteUtil.plant("");
-//					Cons.guestyrl="";
-//					Cons.isflag=false;
-//					Cons.plants.clear();
-//					SqliteUtil.time("0");
-                        SharedPreferencesUnit.getInstance(MyApplication.context).putInt(Constant.AUTO_LOGIN, 0);
-                        SharedPreferencesUnit.getInstance(MyApplication.context).putInt(Constant.AUTO_LOGIN_TYPE, 0);
-                        Intent intent = new Intent(MyApplication.context, LoginActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        MyApplication.context.startActivity(intent);
-                }
+        final Handler handler = new Handler(msg -> {
+            String a = (String) msg.obj;
+            Mydialog.Dismiss();
+            switch (msg.what) {
+                case 0:
+                    httpListener.success(a);
+                    break;
+                case 1:
+                    httpListener.LoginError(a);
+                    break;
+                case 2:    //超时重新登录
+                    Intent intent = new Intent(MyApplication.context, LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    MyApplication.context.startActivity(intent);
             }
-        };
+            return false;
+        });
         try {
             Cancelable cancle = XUtil.postOssLoginTimeOut(url, params, new CommonCallback<String>() {
                 @Override
@@ -379,34 +433,23 @@ public class PostUtil {
         LogUtil.i("post_utl:" + url);
         httpListener.Params(params);
         LogUtil.i("params:" + params.toString());
-        final Handler handler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                String a = (String) msg.obj;
-                switch (msg.what) {
-                    case 0:
-                        httpListener.success(a);
-                        break;
-                    case 1:
-                        httpListener.LoginError(a);
-                        break;
-                    case 2:
-                        //登陆超时
-//					SqliteUtil.url("");
-//					SqliteUtil.plant("");
-//					Cons.guestyrl="";
-//					Cons.isflag=false;
-//					Cons.plants.clear();
-//					SqliteUtil.time("0");
-                        SharedPreferencesUnit.getInstance(MyApplication.context).putInt(Constant.AUTO_LOGIN, 0);
-                        SharedPreferencesUnit.getInstance(MyApplication.context).putInt(Constant.AUTO_LOGIN_TYPE, 0);
-                        Intent intent = new Intent(MyApplication.context, LoginActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        MyApplication.context.startActivity(intent);
-                }
+        final Handler handler = new Handler(msg -> {
+            String a = (String) msg.obj;
+            Mydialog.Dismiss();
+            switch (msg.what) {
+                case 0:
+                    httpListener.success(a);
+                    break;
+                case 1:
+                    httpListener.LoginError(a);
+                    break;
+                case 2:    //超时重新登录
+                    Intent intent = new Intent(MyApplication.context, LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    MyApplication.context.startActivity(intent);
             }
-        };
+            return false;
+        });
         try {
             Cancelable cancle = XUtil.postTimeOut(url, params, time, new CommonCallback<String>() {
                 @Override
@@ -478,29 +521,26 @@ public class PostUtil {
         void LoginError(String str);
     }
 
-
     public static void postObj(final String url, final PostListenerObj httpListener) {
         final Map<String, Object> params = new HashMap<String, Object>();
         LogUtil.i("post_utl:" + url);
         httpListener.Params(params);
         LogUtil.i("params:" + params.toString());
-        final Handler handler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                String a = (String) msg.obj;
-                switch (msg.what) {
-                    case 0:
-                        httpListener.success(a);
-                        break;
-                    case 1:
-                        httpListener.LoginError(a);
-                        break;
-                    case 2:    //超时重新登录
-                        LoginUtil.serverTimeOutLogin();
-                }
+        final Handler handler = new Handler(msg -> {
+            String a = (String) msg.obj;
+            Mydialog.Dismiss();
+            switch (msg.what) {
+                case 0:
+                    httpListener.success(a);
+                    break;
+                case 1:
+                    httpListener.LoginError(a);
+                    break;
+                case 2:    //超时重新登录
+                    LoginUtil.serverTimeOutLogin();
             }
-        };
+            return false;
+        });
         try {
             Cancelable cancle = XUtil.PostObj(url, params, new CommonCallback<String>() {
                 @Override

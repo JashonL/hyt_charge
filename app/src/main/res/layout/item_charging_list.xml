@@ -5,7 +5,8 @@
     android:layout_marginBottom="@dimen/xa30"
     android:layout_marginLeft="@dimen/xa30"
     android:layout_marginTop="@dimen/xa10"
-    android:gravity="center">
+    android:gravity="center"
+    android:layout_marginStart="@dimen/xa30">
 
     <LinearLayout
         android:id="@+id/rl_item_container"

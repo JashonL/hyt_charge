@@ -34,6 +34,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:text="2018-05-21"
+                android:visibility="gone"
                 android:textColor="@color/title_1"
                 android:textSize="@dimen/xa30" />
 
@@ -82,11 +83,10 @@
 
                 <LinearLayout
                     android:id="@+id/ll_start_time"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/xa52"
-                    android:gravity="center"
+                    android:gravity="right|center_vertical"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -95,25 +95,25 @@
                         android:layout_marginLeft="@dimen/xa28"
                         android:src="@drawable/record_start" />
 
-                    <TextView
+                    <com.growatt.chargingpile.view.AutofitTextView
                         android:id="@+id/tv_start"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/xa10"
                         android:text="12:00"
+                        android:singleLine="true"
                         android:textColor="@color/title_1"
                         android:textSize="@dimen/xa24" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/ll_stop_time"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@+id/ll_start_time"
-                    android:layout_marginRight="@dimen/xa52"
                     android:layout_marginTop="@dimen/xa20"
-                    android:gravity="center"
+                    android:gravity="center_vertical|right"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -122,8 +122,9 @@
                         android:layout_marginLeft="@dimen/xa28"
                         android:src="@drawable/record_finish" />
 
-                    <TextView
+                    <com.growatt.chargingpile.view.AutofitTextView
                         android:id="@+id/tv_end"
+                        android:singleLine="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/xa10"
@@ -168,13 +169,14 @@
                     android:paddingEnd="@dimen/xa1"
                     android:paddingStart="@dimen/xa17">
 
-                    <TextView
+                    <com.growatt.chargingpile.view.AutofitTextView
                         android:id="@+id/tv_duration"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_above="@+id/tv_charging_time"
                         android:gravity="center_vertical"
-                        android:text="4h30min"
+                        android:text="4h30min20s"
+                        android:singleLine="true"
                         android:textColor="@color/title_1"
                         android:textSize="@dimen/xa26" />
 
@@ -193,7 +195,7 @@
 
 
             <View
-                android:layout_width="@dimen/xa30"
+                android:layout_width="@dimen/xa1"
                 android:layout_height="match_parent"/>
 
 
@@ -220,13 +222,14 @@
                     android:gravity="center">
 
 
-                    <TextView
+                    <com.growatt.chargingpile.view.AutofitTextView
                         android:id="@+id/tv_ele"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_above="@+id/tv_charging_ele"
                         android:gravity="center_vertical"
                         android:text="4h30min"
+                        android:singleLine="true"
                         android:textColor="@color/title_1"
                         android:textSize="@dimen/xa26" />
 
@@ -243,7 +246,7 @@
             </LinearLayout>
 
             <View
-                android:layout_width="@dimen/xa30"
+                android:layout_width="@dimen/xa1"
                 android:layout_height="match_parent"/>
 
             <LinearLayout
@@ -269,13 +272,14 @@
                     android:gravity="center">
 
 
-                    <TextView
+                    <com.growatt.chargingpile.view.AutofitTextView
                         android:id="@+id/tv_money"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_above="@+id/tv_charging_money"
                         android:gravity="center_vertical"
                         android:text="4h30min"
+                        android:singleLine="true"
                         android:textColor="@color/title_1"
                         android:textSize="@dimen/xa26" />
 

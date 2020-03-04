@@ -4,6 +4,15 @@
         <external-path
             name="camera_photos"
             path="" />
+        <files-path
+            name="photos"
+            path="" />
+        <external-files-path
+            name="images"
+            path="" />
+        <root-path
+            name="root_path"
+            path="." />
     </paths>
     <external-files-path
         name="my_images"

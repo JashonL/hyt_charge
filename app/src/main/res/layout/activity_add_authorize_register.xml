@@ -53,8 +53,6 @@
                     android:id="@+id/imageView1"
                     android:layout_width="@dimen/xa20"
                     android:layout_height="@dimen/xa24"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
                     android:src="@drawable/sign_user" />
 
 
@@ -83,7 +81,6 @@
                 android:layout_height="@dimen/xa90"
                 android:layout_marginLeft="@dimen/xa30"
                 android:layout_marginRight="@dimen/xa30"
-                android:layout_marginTop="@dimen/xa30"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/xa24"
@@ -111,6 +108,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/xa12"
                     android:background="@null"
+                    android:inputType="textPassword"
                     android:hint="@string/m26请输入密码"
                     android:textColor="@color/title_2"
                     android:textSize="@dimen/xa24" />
@@ -130,7 +128,6 @@
                 android:layout_height="@dimen/xa90"
                 android:layout_marginLeft="@dimen/xa30"
                 android:layout_marginRight="@dimen/xa30"
-                android:layout_marginTop="@dimen/xa30"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/xa24"
@@ -148,8 +145,6 @@
                     android:id="@+id/imageView3"
                     android:layout_width="@dimen/xa20"
                     android:layout_height="@dimen/xa24"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
                     android:src="@drawable/sign_password" />
 
                 <EditText
@@ -158,6 +153,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/xa12"
                     android:background="@null"
+                    android:inputType="textPassword"
                     android:hint="@string/m93重复输入密码"
                     android:textColor="@color/title_2"
                     android:textSize="@dimen/xa24" />
@@ -176,7 +172,6 @@
                 android:layout_height="@dimen/xa90"
                 android:layout_marginLeft="@dimen/xa30"
                 android:layout_marginRight="@dimen/xa30"
-                android:layout_marginTop="@dimen/xa30"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/xa24"
@@ -218,12 +213,66 @@
                 android:background="#dedede"
                 android:orientation="vertical" />
 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.5dip"
+                android:layout_marginLeft="@dimen/xa30"
+                android:layout_marginRight="@dimen/xa30"
+                android:background="#dedede"
+                android:orientation="vertical" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/xa90"
                 android:layout_marginLeft="@dimen/xa30"
                 android:layout_marginRight="@dimen/xa30"
-                android:layout_marginTop="@dimen/xa30"
+                android:layout_marginTop="@dimen/xa10"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/xa24"
+                android:paddingRight="@dimen/xa24">
+
+                <TextView
+                    android:layout_width="@dimen/xa20"
+                    android:layout_height="@dimen/xa20"
+                    android:gravity="center"
+                    android:text="*"
+                    android:textColor="@color/red_color"
+                    android:textSize="@dimen/xa15" />
+
+                <ImageView
+                    android:id="@+id/imageView7"
+                    android:layout_width="@dimen/xa20"
+                    android:layout_height="@dimen/xa24"
+                    android:src="@drawable/sign_postcode" />
+
+                <EditText
+                    android:id="@+id/et_postcode"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/xa12"
+                    android:background="@null"
+                    android:hint="@string/m请输入您的邮政编码"
+                    android:textColor="@color/title_2"
+                    android:textSize="@dimen/xa24"
+                    android:layout_marginStart="@dimen/xa12" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.5dip"
+                android:layout_marginLeft="@dimen/xa30"
+                android:layout_marginRight="@dimen/xa30"
+                android:background="#dedede"
+                android:orientation="vertical" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/xa90"
+                android:layout_marginLeft="@dimen/xa30"
+                android:layout_marginRight="@dimen/xa30"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/xa24"
@@ -240,8 +289,6 @@
                     android:id="@+id/imageView5"
                     android:layout_width="@dimen/xa20"
                     android:layout_height="@dimen/xa24"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
                     android:src="@drawable/sign_phone" />
 
                 <EditText
@@ -250,9 +297,11 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/xa12"
                     android:background="@null"
+                    android:inputType="phone"
                     android:hint="@string/m60填入不带国家代码的手机号"
                     android:textColor="@color/title_2"
-                    android:textSize="@dimen/xa24" />
+                    android:textSize="@dimen/xa24"
+                    android:layout_marginStart="@dimen/xa12" />
             </LinearLayout>
 
             <LinearLayout
@@ -263,6 +312,52 @@
                 android:background="#dedede"
                 android:orientation="vertical" />
 
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/xa90"
+                android:layout_marginLeft="@dimen/xa30"
+                android:layout_marginRight="@dimen/xa30"
+                android:layout_marginTop="@dimen/xa10"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/xa24"
+                android:paddingRight="@dimen/xa24">
+
+                <TextView
+                    android:layout_width="@dimen/xa20"
+                    android:layout_height="@dimen/xa20"
+                    android:gravity="center"
+                    android:textColor="@color/red_color"
+                    android:textSize="@dimen/xa15" />
+
+                <ImageView
+                    android:id="@+id/imageView8"
+                    android:layout_width="@dimen/xa20"
+                    android:layout_height="@dimen/xa24"
+                    android:src="@drawable/sign_installter" />
+
+                <EditText
+                    android:id="@+id/et_installer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/xa12"
+                    android:background="@null"
+                    android:hint="@string/m请输入安装商"
+                    android:textColor="@color/title_2"
+                    android:textSize="@dimen/xa24"
+                    android:layout_marginStart="@dimen/xa12" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.5dip"
+                android:layout_marginLeft="@dimen/xa30"
+                android:layout_marginRight="@dimen/xa30"
+                android:background="#dedede"
+                android:orientation="vertical" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

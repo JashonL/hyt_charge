@@ -16,6 +16,7 @@ import com.growatt.chargingpile.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 
 public class AboutActivity extends BaseActivity {
@@ -28,15 +29,17 @@ public class AboutActivity extends BaseActivity {
 	@BindView(R.id.textView1)
 	TextView versionName;
 
+	private Unbinder bind;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_about);
-		ButterKnife.bind(this);
+		bind=ButterKnife.bind(this);
 		initHeaderView();
 		try {
 			String name=getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
-			String s = getString(R.string.app_name) + name;
+			String s = getString(R.string.m89当前版本)+":" + name;
 			versionName.setText(s);
 		} catch (PackageManager.NameNotFoundException e) {
 			e.printStackTrace();
@@ -70,5 +73,8 @@ public class AboutActivity extends BaseActivity {
 		}
 		return super.onKeyDown(keyCode, event);
 	}
-
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+	}
 }

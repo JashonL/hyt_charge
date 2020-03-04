@@ -7,12 +7,8 @@ import android.os.Message;
 
 import com.google.zxing.Result;
 import com.growatt.chargingpile.scan.activity.MyCaptureActivity;
-import com.yzq.zxinglibrary.android.CaptureActivity;
 import com.yzq.zxinglibrary.android.CaptureActivityHandler;
-import com.yzq.zxinglibrary.camera.CameraManager;
 import com.yzq.zxinglibrary.common.Constant;
-import com.yzq.zxinglibrary.decode.DecodeThread;
-import com.yzq.zxinglibrary.view.ViewfinderResultPointCallback;
 
 /**
  * Created by Administrator on 2018/11/2.

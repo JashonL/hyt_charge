@@ -28,21 +28,42 @@ public class ReservationBean {
     }
 
     public static class DataBean {
-        private String endDate;
-        private int connectorId;
-        private String msgId;
-        private String userId;
-        private int transactionId;
-        private String expiryDate;
-        private int loopType;
-        private String loopValue;
-        private String cKey;
-        private int reservationId;
-        private String chargeId;
-        private int cValue;
-        private long ctime;
-        private int cid;
-        private String status;
+        private String endDate = "";
+        private int connectorId = 0;
+        private String msgId = "";
+        private String userId = "";
+        private int transactionId = 0;
+        private String expiryDate = "";
+        private int loopType = 0;
+        private String loopValue = "";
+        private String cKey = "";
+        private int reservationId = 0;
+        private String chargeId = "";
+        private String cValue = "";
+        private long ctime = 0;
+        private int cid = 0;
+        private String status = "";
+        private String symbol = "";
+        private String cValue2="0.0";
+        private double rate=0;
+        private double cost=0;
+
+
+        public double getCost() {
+            return cost;
+        }
+
+        public void setCost(double cost) {
+            this.cost = cost;
+        }
+
+        public double getRate() {
+            return rate;
+        }
+
+        public void setRate(double rate) {
+            this.rate = rate;
+        }
 
         public String getEndDate() {
             return endDate;
@@ -132,11 +153,11 @@ public class ReservationBean {
             this.chargeId = chargeId;
         }
 
-        public int getCValue() {
+        public String getCValue() {
             return cValue;
         }
 
-        public void setCValue(int cValue) {
+        public void setCValue(String cValue) {
             this.cValue = cValue;
         }
 
@@ -162,6 +183,39 @@ public class ReservationBean {
 
         public void setStatus(String status) {
             this.status = status;
+        }
+
+        public String getcKey() {
+            return cKey;
+        }
+
+        public void setcKey(String cKey) {
+            this.cKey = cKey;
+        }
+
+        public String getcValue() {
+            return cValue;
+        }
+
+
+        public String getSymbol() {
+            return symbol;
+        }
+
+        public void setSymbol(String symbol) {
+            this.symbol = symbol;
+        }
+
+        public void setcValue(String cValue) {
+            this.cValue = cValue;
+        }
+
+        public String getcValue2() {
+            return cValue2;
+        }
+
+        public void setcValue2(String cValue2) {
+            this.cValue2 = cValue2;
         }
     }
 }

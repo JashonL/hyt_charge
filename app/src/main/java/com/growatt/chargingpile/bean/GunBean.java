@@ -18,8 +18,9 @@ public class GunBean {
     public static final String ACCEPTED = "Accepted";
     public static final String WORK = "work";
     public static final String RESERVED = "Reserved";
-    public static final String SUSPENDEEV="SuspendedEV";
-    public static final String SUSPENDEDEVSE="SuspendedEVSE";
+    public static final String SUSPENDEEV = "SuspendedEV";
+    public static final String SUSPENDEDEVSE = "SuspendedEVSE";
+    public static final String RESERVENOW = "ReserveNow";
 
 
     private int code;
@@ -60,21 +61,33 @@ public class GunBean {
     }
 
     public static class DataBean {
-        private String order_status;
-        private double current;
-        private double cost;
-        private int ctype;
-        private double rate;
-        private int ctime;
-        private int transactionId;
-        private String status;
-        private double energy;
-        private double voltage;
+        private String order_status = "";
+        private double current = 0;
+        private double cost = 0;
+        private int ctype = 0;
+        private double rate = 0;
+        private int ctime = 0;
+        private int transactionId = 0;
+        private String status = "";
+        private double energy = 0;
+        private double voltage = 0;
         private int connectorId = 1;
-        private String name;
-        private String cKey;
-        private double cValue;
+        private String name = "";
+        private String cKey = "";
+        private String cValue = "0";
+        private String symbol = "";
+        private String loopValue;
 
+
+
+
+        public String getSymbol() {
+            return symbol;
+        }
+
+        public void setSymbol(String symbol) {
+            this.symbol = symbol;
+        }
 
         public String getcKey() {
             return cKey;
@@ -84,11 +97,11 @@ public class GunBean {
             this.cKey = cKey;
         }
 
-        public double getcValue() {
+        public String getcValue() {
             return cValue;
         }
 
-        public void setcValue(int cValue) {
+        public void setcValue(String cValue) {
             this.cValue = cValue;
         }
 
@@ -192,14 +205,14 @@ public class GunBean {
             this.connectorId = connectorId;
         }
 
-        public String getName() {
-            if (connectorId == 1) {
-                setName("A枪");
-            } else {
-                setName("B枪");
-            }
-            return name;
+        public String getLoopValue() {
+            return loopValue;
         }
+
+        public void setLoopValue(String loopValue) {
+            this.loopValue = loopValue;
+        }
+
     }
 
     public static class ReserveNowBean {
@@ -309,6 +322,8 @@ public class GunBean {
         public void setLoopValue(String loopValue) {
             this.loopValue = loopValue;
         }
+
+
     }
 
     public static class LastActionBean {
@@ -421,6 +436,8 @@ public class GunBean {
         public void setLan(int lan) {
             this.lan = lan;
         }
+
+
     }
 
 }

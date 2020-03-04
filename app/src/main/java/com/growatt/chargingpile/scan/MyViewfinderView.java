@@ -18,7 +18,6 @@ import android.view.animation.DecelerateInterpolator;
 import com.google.zxing.ResultPoint;
 import com.growatt.chargingpile.R;
 import com.yzq.zxinglibrary.bean.ZxingConfig;
-import com.yzq.zxinglibrary.camera.CameraManager;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 
+import com.growatt.chargingpile.crashhandler.CrashHandler;
+import com.mylhyl.circledialog.res.values.CircleColor;
+import com.mylhyl.circledialog.res.values.CircleDimen;
+
 import org.xutils.x;
 
 import java.lang.ref.SoftReference;
@@ -34,10 +38,12 @@ public class MyApplication extends Application {
         super.onCreate();
         instance = this;
         context = getApplicationContext();
+        CrashHandler.getInstance().init(this);
         // 初始化
         x.Ext.init(this);
         // 设置是否输出debug
         x.Ext.setDebug(false);
+        initCirclerDialog();
     }
 
 
@@ -54,13 +60,16 @@ public class MyApplication extends Application {
         mList.add(softReference);
     }
 
+    public List<SoftReference<Activity>> getmList() {
+        return mList;
+    }
 
     //遍历所有Activity并finish
-    public void exit(){
+    public void exit() {
         try {
-            for(int i=0;i<mList.size();i++){
+            for (int i = 0; i < mList.size(); i++) {
                 Activity activity = mList.get(i).get();
-                if(activity != null){
+                if (activity != null) {
                     activity.finish();
                 }
             }
@@ -72,5 +81,20 @@ public class MyApplication extends Application {
 
     }
 
+
+    /**
+     * 设置弹框按钮颜色等
+     */
+    private void initCirclerDialog() {
+        CircleDimen.TITLE_HEIGHT = 130;
+        CircleDimen.TITLE_TEXT_SIZE = 50;
+        CircleDimen.FOOTER_BUTTON_TEXT_SIZE = 45;
+        CircleDimen.INPUT_TEXT_SIZE = 40;
+        CircleDimen.ITEM_CONTENT_TEXT_SIZE = 40;
+        CircleDimen.CONTENT_TEXT_SIZE = 40;
+        CircleDimen.INPUT_HEIGHT = 220;
+        CircleDimen.DIALOG_RADIUS = 50;
+        CircleColor.CONTENT= 0xFF999999;
+    }
 
 }

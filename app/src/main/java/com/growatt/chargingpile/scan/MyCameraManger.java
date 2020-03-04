@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.google.zxing.PlanarYUVLuminanceSource;
-import com.yzq.zxinglibrary.android.CaptureActivityHandler;
 import com.yzq.zxinglibrary.bean.ZxingConfig;
 import com.yzq.zxinglibrary.camera.CameraManager;
 import com.yzq.zxinglibrary.camera.OpenCameraInterface;
