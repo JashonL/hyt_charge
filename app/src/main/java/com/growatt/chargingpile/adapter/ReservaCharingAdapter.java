@@ -30,6 +30,7 @@ public class ReservaCharingAdapter extends BaseQuickAdapter<ReservationBean.Data
         TextView timeValue = helper.getView(R.id.tv_time);
         TextView rateValue = helper.getView(R.id.tv_rate_value);
         String status = item.getStatus();
+
         if (status.equals("Accepted")) {
             String expiryDate = item.getExpiryDate();//开始时间
             int cValue = Integer.parseInt(item.getcValue2());
