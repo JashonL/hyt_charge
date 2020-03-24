@@ -32,6 +32,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="16:00"
+                android:paddingLeft="@dimen/xa20"
+                android:paddingRight="@dimen/xa20"
                 android:textColor="@color/title_1"
                 android:textSize="@dimen/xa30"
                 android:textStyle="bold" />
@@ -60,6 +62,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="16:00"
+                android:paddingLeft="@dimen/xa20"
+                android:paddingRight="@dimen/xa20"
                 android:textColor="@color/title_1"
                 android:textSize="@dimen/xa30"
                 android:textStyle="bold" />

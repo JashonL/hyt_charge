@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -7,9 +8,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <RelativeLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
+
 
             <LinearLayout
                 android:id="@+id/ll_tittle"
@@ -50,7 +52,8 @@
                 android:layout_below="@+id/ll_tittle"
                 android:layout_marginLeft="@dimen/xa27"
                 android:layout_marginRight="@dimen/xa27"
-                android:background="@drawable/shape_white_corner_bg">
+                android:background="@drawable/shape_white_corner_bg"
+                app:layout_constraintTop_toBottomOf="@+id/ll_tittle">
 
                 <LinearLayout
                     android:id="@+id/ll_time_rate"
@@ -64,7 +67,6 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="@string/m152充电费率"
                         android:textColor="@color/title_1"
                         android:textSize="@dimen/xa36" />
 
@@ -89,128 +91,136 @@
             </FrameLayout>
 
 
-            <FrameLayout
+            <View
+                android:id="@+id/view_preset_background"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/xa130"
+                android:layout_marginLeft="@dimen/xa27"
+                android:layout_marginTop="@dimen/xa10"
+                android:background="@drawable/shape_white_corner_bg"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/view_center_line"
+                app:layout_constraintTop_toBottomOf="@+id/fl_time_rate" />
+
+            <com.growatt.chargingpile.view.AutofitTextView
+                android:id="@+id/tv_preset_value"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:paddingLeft="@dimen/xa20"
+                android:singleLine="true"
+                android:text="@string/m178定时"
+                android:textColor="@color/title_1"
+                android:textSize="@dimen/xa36"
+                android:gravity="center_vertical"
+                app:layout_constraintBottom_toTopOf="@+id/tv_preset_type"
+                app:layout_constraintLeft_toLeftOf="@+id/view_preset_background"
+                app:layout_constraintRight_toRightOf="@+id/view_preset_background"
+                app:layout_constraintTop_toTopOf="@+id/view_preset_background"
+                app:layout_constraintVertical_chainStyle="spread_inside" />
+
+            <com.growatt.chargingpile.view.AutofitTextView
+                android:id="@+id/tv_preset_type"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_below="@+id/tv_preset_value"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/xa20"
+                android:text="@string/m178定时"
+                android:textColor="@color/title_1"
+                android:textSize="@dimen/xa28"
+                android:singleLine="true"
+                app:layout_constraintBottom_toBottomOf="@+id/view_preset_background"
+                app:layout_constraintLeft_toLeftOf="@+id/view_preset_background"
+                app:layout_constraintRight_toRightOf="@+id/view_preset_background"
+                app:layout_constraintTop_toBottomOf="@+id/tv_preset_value" />
+
+
+            <View
+                android:id="@+id/view_center_line"
+                android:layout_width="@dimen/xa20"
+                android:layout_height="@dimen/xa130"
+                app:layout_constraintBottom_toBottomOf="@+id/view_preset_background"
+                app:layout_constraintLeft_toRightOf="@+id/view_preset_background"
+                app:layout_constraintRight_toLeftOf="@+id/view_cost_background"
+                app:layout_constraintTop_toTopOf="@+id/view_preset_background" />
+
+
+            <View
+                android:id="@+id/view_cost_background"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/xa130"
+                android:layout_marginRight="@dimen/xa27"
+                android:background="@drawable/shape_white_corner_bg"
+                app:layout_constraintBottom_toBottomOf="@+id/view_preset_background"
+                app:layout_constraintLeft_toRightOf="@+id/view_center_line"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/view_preset_background" />
+
+
+            <ImageView
+                android:id="@+id/icon_charged_type"
+                android:layout_width="@dimen/xa36"
+                android:layout_height="@dimen/xa36"
+                android:layout_marginLeft="@dimen/xa30"
+                android:layout_marginStart="@dimen/xa30"
+                android:src="@drawable/charging_voltage"
+                app:layout_constraintBottom_toBottomOf="@+id/view_cost_background"
+                app:layout_constraintLeft_toLeftOf="@+id/view_cost_background"
+                app:layout_constraintTop_toTopOf="@+id/view_cost_background" />
+
+
+            <com.growatt.chargingpile.view.AutofitTextView
+                android:id="@+id/tv_preset_value_cal"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginLeft="@dimen/xa30"
+                android:layout_marginStart="@dimen/xa30"
+                android:text="30"
+                android:singleLine="true"
+                android:textColor="@color/title_1"
+                android:textSize="@dimen/xa36"
+                android:gravity="center_vertical"
+                app:layout_constraintBottom_toTopOf="@+id/tv_type_text"
+                app:layout_constraintLeft_toRightOf="@+id/icon_charged_type"
+                app:layout_constraintRight_toRightOf="@+id/view_cost_background"
+                app:layout_constraintTop_toTopOf="@+id/view_cost_background" />
+
+            <com.growatt.chargingpile.view.AutofitTextView
+                android:id="@+id/tv_type_text"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center_vertical"
+                android:text="@string/m194当前电压"
+                android:textColor="@color/title_1"
+                android:textSize="@dimen/xa28"
+                android:singleLine="true"
+                app:layout_constraintBottom_toBottomOf="@+id/view_cost_background"
+                app:layout_constraintLeft_toLeftOf="@+id/tv_preset_value_cal"
+                app:layout_constraintRight_toRightOf="@+id/view_cost_background"
+                app:layout_constraintTop_toBottomOf="@+id/tv_preset_value_cal" />
+
+
+            <android.support.constraint.Group
+                android:id="@+id/gp_preset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="tv_type_text,tv_preset_value_cal,icon_charged_type,
+                view_cost_background,view_center_line,tv_preset_type,tv_preset_value,view_preset_background,view_preset_background" />
+
+
+            <TextView
+                android:id="@+id/tv_tips"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/xa130"
-                android:layout_below="@+id/fl_time_rate"
-                android:layout_marginLeft="@dimen/xa27"
-                android:layout_marginRight="@dimen/xa27"
-                android:layout_marginTop="@dimen/ya10">
-
-                <LinearLayout
-                    android:id="@+id/ll_preset_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:baselineAligned="false"
-                    android:orientation="horizontal"
-                    android:visibility="visible">
-
-                    <RelativeLayout
-                        android:id="@+id/rl_preset_money"
-                        android:layout_width="0dp"
-                        android:background="@drawable/shape_white_corner_bg"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical">
+                android:layout_marginTop="@dimen/xa10"
+                android:gravity="center"
+                android:textColor="@color/title_1"
+                android:textSize="@dimen/xa35"
+                app:layout_constraintTop_toBottomOf="@+id/fl_time_rate" />
 
 
-                        <com.growatt.chargingpile.view.AutoFitTextViewTwo
-                            android:id="@+id/tv_preset_value"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingEnd="@dimen/xa2"
-                            android:paddingLeft="@dimen/xa30"
-                            android:paddingRight="@dimen/xa2"
-                            android:paddingStart="@dimen/xa30"
-                            android:textColor="@color/title_1"
-                            android:textSize="@dimen/xa36" />
+        </android.support.constraint.ConstraintLayout>
 
-                        <com.growatt.chargingpile.view.AutoFitTextViewTwo
-                            android:id="@+id/tv_preset_type"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignLeft="@+id/tv_preset_value"
-                            android:layout_alignStart="@+id/tv_preset_value"
-                            android:layout_below="@+id/tv_preset_value"
-                            android:layout_marginTop="@dimen/xa10"
-                            android:gravity="center_vertical"
-                            android:paddingEnd="@dimen/ya2"
-                            android:paddingLeft="@dimen/xa30"
-                            android:paddingRight="@dimen/ya2"
-                            android:paddingStart="@dimen/xa30"
-                            android:textColor="@color/title_1"
-                            android:textSize="@dimen/xa28" />
-                    </RelativeLayout>
-
-                    <View
-                        android:layout_width="@dimen/ya20"
-                        android:layout_height="match_parent"/>
-
-
-                    <RelativeLayout
-                        android:id="@+id/ll_charged_voltage"
-                        android:layout_width="0dp"
-                        android:background="@drawable/shape_white_corner_bg"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
-
-                        <ImageView
-                            android:id="@+id/icon_charged_type"
-                            android:layout_width="@dimen/xa36"
-                            android:layout_height="@dimen/xa36"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="@dimen/xa30"
-                            android:src="@drawable/charging_voltage"
-                            android:layout_marginStart="@dimen/xa30" />
-
-                        <View
-                            android:id="@+id/view_diver"
-                            android:layout_centerInParent="true"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/ya1"/>
-
-                        <com.growatt.chargingpile.view.AutoFitTextViewTwo
-                            android:id="@+id/tv_preset_value_cal"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="@dimen/xa30"
-                            android:layout_marginStart="@dimen/xa30"
-                            android:layout_toEndOf="@+id/icon_charged_type"
-                            android:layout_toRightOf="@+id/icon_charged_type"
-                            android:text="30"
-                            android:layout_above="@+id/view_diver"
-                            android:textColor="@color/title_1"
-                            android:textSize="@dimen/xa36" />
-
-                        <com.growatt.chargingpile.view.AutoFitTextViewTwo
-                            android:id="@+id/tv_type_text"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_alignLeft="@+id/tv_preset_value_cal"
-                            android:layout_alignStart="@+id/tv_preset_value_cal"
-                            android:layout_below="@+id/view_diver"
-                            android:gravity="center_vertical"
-                            android:text="@string/m194当前电压"
-                            android:layout_centerVertical="true"
-                            android:textColor="@color/title_1"
-                            android:textSize="@dimen/xa28" />
-                    </RelativeLayout>
-
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tv_tips"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="@string/m152充电费率"
-                    android:textColor="@color/title_1"
-                    android:textSize="@dimen/ya35" />
-
-            </FrameLayout>
-
-        </RelativeLayout>
 
     </android.support.v4.widget.NestedScrollView>
 

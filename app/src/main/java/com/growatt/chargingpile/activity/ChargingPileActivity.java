@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.support.constraint.Group;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -254,13 +255,13 @@ public class ChargingPileActivity extends BaseActivity {
     private TextView tvReservationRate;
     private LinearLayout llTimeRate;
     private RecyclerView rvTimeReserva;
-    private LinearLayout llPresetLayout;
     private TextView tvTips;
     private TextView tvReserValue;
     private TextView tvReserType;
     private TextView tvReserCalValue;
     private TextView tvReserTypeText;
     private ImageView ivReserChargedType;
+    private Group gpPreset;
 
 
     //充电桩的上一个状态
@@ -444,7 +445,7 @@ public class ChargingPileActivity extends BaseActivity {
         tvReservationRate = reservationView.findViewById(R.id.tv_rate);
         llTimeRate = reservationView.findViewById(R.id.ll_time_rate);
         rvTimeReserva = reservationView.findViewById(R.id.rv_time_reserva);
-        llPresetLayout = reservationView.findViewById(R.id.ll_preset_layout);
+        gpPreset=reservationView.findViewById(R.id.gp_preset);
         tvTips = reservationView.findViewById(R.id.tv_tips);
         tvReserValue = reservationView.findViewById(R.id.tv_preset_value);
         tvReserType = reservationView.findViewById(R.id.tv_preset_type);
@@ -1015,7 +1016,8 @@ public class ChargingPileActivity extends BaseActivity {
                     mStatusGroup.addView(normalChargingView);
                     setNormalCharging(data);
                 } else {
-                    String money = MathUtil.roundDouble2String(data.getCost(), 2);
+                    String symbol = data.getSymbol();
+                    String money = MathUtil.roundDouble2String(data.getCost(), 2)+symbol;
                     String energy = MathUtil.roundDouble2String(data.getEnergy(), 2) + "kWh";
                     int timeCharging = data.getCtime();
                     int hourCharging = timeCharging / 60;
@@ -1034,7 +1036,7 @@ public class ChargingPileActivity extends BaseActivity {
                         case "G_SetEnergy":
                             mStatusGroup.addView(presetChargingView);
                             String scheme1 = String.format(getString(R.string.m198预设充电方案) + "-%s", getString(R.string.m201电量));
-                            setPresetChargingUi(scheme1, String.valueOf(data.getcValue()) + "kwh", energy, getString(R.string.m189已充电量),
+                            setPresetChargingUi(scheme1, String.valueOf(data.getcValue()) + "kWh", energy, getString(R.string.m189已充电量),
                                     R.drawable.charging_money, money, getString(R.string.m192消费金额), R.drawable.charging_time, sTimeCharging, getString(R.string.m191已充时长),
                                     Double.parseDouble(data.getcValue()), (int) data.getEnergy(),
                                     String.valueOf(data.getRate()), String.valueOf(data.getCurrent()) + "A", String.valueOf(data.getVoltage()) + "V");
@@ -1126,6 +1128,7 @@ public class ChargingPileActivity extends BaseActivity {
     }
 
     private void setNormalCharging(GunBean.DataBean data) {
+        String symbol = data.getSymbol();
         int timeCharging = data.getCtime();
         int hourCharging = timeCharging / 60;
         int minCharging = timeCharging % 60;
@@ -1136,7 +1139,7 @@ public class ChargingPileActivity extends BaseActivity {
         String s = String.valueOf(data.getCurrent()) + "A";
         tvChargingCurrent.setText(s);
         tvChargingDuration.setText(sTimeCharging);
-        String money = MathUtil.roundDouble2String(data.getCost(), 2);
+        String money = MathUtil.roundDouble2String(data.getCost(), 2)+symbol;
         tvChargingMoney.setText(money);
         s = String.valueOf(data.getVoltage()) + "V";
         tvChargingVoltage.setText(s);
@@ -1276,10 +1279,10 @@ public class ChargingPileActivity extends BaseActivity {
                 loopValue = loopValue.substring(11, 16);
                 String rate = String.valueOf(mCurrentReservationBean.getRate());
                 String symbol = mCurrentReservationBean.getSymbol();
-                rate = symbol + rate + "/h";
+                rate = symbol + rate + "/kWh";
                 tvTimeKey.setText(loopValue);
                 tvRateValue.setText(rate);
-                llPresetLayout.setVisibility(View.GONE);
+                gpPreset.setVisibility(View.GONE);
                 tvTips.setVisibility(View.VISIBLE);
                 rvTimeReserva.setVisibility(View.GONE);
                 llTimeRate.setVisibility(View.VISIBLE);
@@ -1292,11 +1295,11 @@ public class ChargingPileActivity extends BaseActivity {
                         loopValue = loopValue.substring(11, 16);
                         String rate = String.valueOf(mCurrentReservationBean.getRate());
                         String symbol = mCurrentReservationBean.getSymbol();
-                        rate = symbol + rate + "/h";
+                        rate = symbol + rate + "/kWh";
                         String typeValue = getString(R.string.m335预设充电) + getString(R.string.m200金额);
                         tvTimeKey.setText(loopValue);
                         tvRateValue.setText(rate);
-                        llPresetLayout.setVisibility(View.VISIBLE);
+                        gpPreset.setVisibility(View.VISIBLE);
                         tvTips.setVisibility(View.GONE);
                         rvTimeReserva.setVisibility(View.GONE);
                         llTimeRate.setVisibility(View.VISIBLE);
@@ -1315,11 +1318,11 @@ public class ChargingPileActivity extends BaseActivity {
                         loopValue1 = loopValue1.substring(11, 16);
                         String rate1 = String.valueOf(mCurrentReservationBean.getRate());
                         String symbol1 = mCurrentReservationBean.getSymbol();
-                        rate1 = symbol1 + rate1 + "/h";
+                        rate1 = symbol1 + rate1 + "/kWh";
                         String typeValue1 = getString(R.string.m335预设充电) + getString(R.string.m201电量);
                         tvTimeKey.setText(loopValue1);
                         tvRateValue.setText(rate1);
-                        llPresetLayout.setVisibility(View.VISIBLE);
+                        gpPreset.setVisibility(View.VISIBLE);
                         tvTips.setVisibility(View.GONE);
                         rvTimeReserva.setVisibility(View.GONE);
                         tvReserValue.setText(typeValue1);
@@ -1333,7 +1336,7 @@ public class ChargingPileActivity extends BaseActivity {
 
                     case "G_SetTime": //时间段预约
                         presetType = 3;
-                        llPresetLayout.setVisibility(View.VISIBLE);
+                        gpPreset.setVisibility(View.VISIBLE);
                         tvTips.setVisibility(View.GONE);
                         rvTimeReserva.setVisibility(View.VISIBLE);
                         llTimeRate.setVisibility(View.GONE);
@@ -1359,10 +1362,10 @@ public class ChargingPileActivity extends BaseActivity {
                         loopValue3 = loopValue3.substring(11, 16);
                         String rate3 = String.valueOf(mCurrentReservationBean.getRate());
                         String symbol3 = mCurrentReservationBean.getSymbol();
-                        rate = symbol3 + rate3 + "/h";
+                        rate = symbol3 + rate3 + "/kWh";
                         tvTimeKey.setText(loopValue3);
                         tvRateValue.setText(rate);
-                        llPresetLayout.setVisibility(View.GONE);
+                        gpPreset.setVisibility(View.GONE);
                         tvTips.setVisibility(View.VISIBLE);
                         rvTimeReserva.setVisibility(View.GONE);
                         llTimeRate.setVisibility(View.VISIBLE);
@@ -2415,7 +2418,7 @@ public class ChargingPileActivity extends BaseActivity {
     private void requestReserve(int type, String expiryDate, String key, Object value, int loopType) {
         LogUtil.d("预约充电，指令发送");
 
-        Date todayDate = new Date();
+     /*   Date todayDate = new Date();
         long daytime = todayDate.getTime();
         long onTime = 0;
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
@@ -2425,13 +2428,13 @@ public class ChargingPileActivity extends BaseActivity {
             onTime = start.getTime();
         } catch (ParseException e) {
             e.printStackTrace();
-        }
-        if (loopType != 0) {
+        }*/
+     /*   if (loopType != 0) {
             if (daytime > onTime) {
                 toast(getString(R.string.m开始时间错误));
                 return;
             }
-        }
+        }*/
         Mydialog.Show(this);
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         jsonMap.put("action", "ReserveNow");
@@ -2597,7 +2600,7 @@ public class ChargingPileActivity extends BaseActivity {
     private void initReserVaUi() {
         isReservation = false;
         presetType = 0;
-        llPresetLayout.setVisibility(View.GONE);
+        gpPreset.setVisibility(View.GONE);
         tvTips.setVisibility(View.VISIBLE);
         rvTimeReserva.setVisibility(View.GONE);
         llTimeRate.setVisibility(View.VISIBLE);

@@ -7,7 +7,7 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/ya40"
+        android:layout_height="@dimen/xa40"
         android:background="@drawable/shape_white_corner_bg"
         >
 
@@ -32,9 +32,9 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:hint="@string/m283选择时间"
-                android:textColor="@color/title_3"
+                android:textColor="@color/title_bg_white"
                 android:textColorHint="@color/title_3"
-                android:textSize="@dimen/ya24" />
+                android:textSize="@dimen/text_size_content" />
 
 
         </LinearLayout>
@@ -70,9 +70,9 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:hint="@string/m152充电费率"
-                android:textColor="@color/title_3"
+                android:textColor="@color/title_bg_white"
                 android:textColorHint="@color/title_3"
-                android:textSize="@dimen/ya24" />
+                android:textSize="@dimen/text_size_content" />
         </LinearLayout>
 
     </android.support.constraint.ConstraintLayout>
