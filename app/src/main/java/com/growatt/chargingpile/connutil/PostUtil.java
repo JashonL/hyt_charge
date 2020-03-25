@@ -3,6 +3,7 @@ package com.growatt.chargingpile.connutil;
 
 import android.content.Intent;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
 
@@ -31,7 +32,7 @@ public class PostUtil {
         LogUtil.i("post_utl:" + url);
         httpListener.Params(params);
         LogUtil.i("params:" + params.toString());
-        final  Handler handler = new Handler(msg -> {
+        final  Handler handler = new Handler(Looper.getMainLooper(),msg -> {
             String a = (String) msg.obj;
             Mydialog.Dismiss();
             switch (msg.what) {
@@ -110,7 +111,7 @@ public class PostUtil {
         LogUtil.i("post_utl:" + url);
         httpListener.Params(params);
         LogUtil.i("params:" + params.toString());
-        final Handler handler = new Handler(msg -> {
+        final Handler handler = new Handler(Looper.getMainLooper(),msg -> {
             String a = (String) msg.obj;
             Mydialog.Dismiss();
             switch (msg.what) {
@@ -187,7 +188,7 @@ public class PostUtil {
     }
     public static void postJson(final String url, final String json, final postListener httpListener) {
         LogUtil.i("post_url:" + url + "\njson:" + json);
-        final Handler handler = new Handler(msg -> {
+        final Handler handler = new Handler(Looper.getMainLooper(),msg -> {
             String a = (String) msg.obj;
             Mydialog.Dismiss();
             switch (msg.what) {
@@ -265,7 +266,7 @@ public class PostUtil {
     public static void postJsonNoParam(final String url, final String json, final PostJsonListener listener) {
         LogUtil.i("post_url:" + url);
         LogUtil.i("post_json:" + json);
-        final Handler handler = new Handler(msg -> {
+        final Handler handler = new Handler(Looper.getMainLooper(),msg -> {
             String a = (String) msg.obj;
             Mydialog.Dismiss();
             switch (msg.what) {
@@ -348,7 +349,7 @@ public class PostUtil {
         LogUtil.i("post_utl:" + url);
         httpListener.Params(params);
         LogUtil.i("params:" + params.toString());
-        final Handler handler = new Handler(msg -> {
+        final Handler handler = new Handler(Looper.getMainLooper(),msg -> {
             String a = (String) msg.obj;
             Mydialog.Dismiss();
             switch (msg.what) {
@@ -433,7 +434,7 @@ public class PostUtil {
         LogUtil.i("post_utl:" + url);
         httpListener.Params(params);
         LogUtil.i("params:" + params.toString());
-        final Handler handler = new Handler(msg -> {
+        final Handler handler = new Handler(Looper.getMainLooper(),msg -> {
             String a = (String) msg.obj;
             Mydialog.Dismiss();
             switch (msg.what) {
@@ -526,7 +527,7 @@ public class PostUtil {
         LogUtil.i("post_utl:" + url);
         httpListener.Params(params);
         LogUtil.i("params:" + params.toString());
-        final Handler handler = new Handler(msg -> {
+        final Handler handler = new Handler(Looper.getMainLooper(),msg -> {
             String a = (String) msg.obj;
             Mydialog.Dismiss();
             switch (msg.what) {
