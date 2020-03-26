@@ -772,12 +772,15 @@ public class ChargingPileActivity extends BaseActivity {
         } else {
             tvModel.setText(getString(R.string.m113直流));
         }
+
+        String gun=mCurrentPile.getConnectors()+getString(R.string.枪);
+
         if (mCurrentPile.getConnectors() == 1) {
             rlSwitchGun.setVisibility(View.GONE);
-            tvGun.setText(getString(R.string.m114单枪));
+            tvGun.setText(gun);
         } else {
             rlSwitchGun.setVisibility(View.VISIBLE);
-            tvGun.setText(getString(R.string.m115双枪));
+            tvGun.setText(gun);
         }
         //是否限制了功率
 //        int solar = mCurrentPile.getSolar();
@@ -1806,7 +1809,7 @@ public class ChargingPileActivity extends BaseActivity {
         //判断桩主或者普通用户
         if (mCurrentPile.getType() == 0) {//桩主
             switch (status) {
-                case GunBean.AVAILABLE://空闲状态，桩主：只能预约
+             /*   case GunBean.AVAILABLE://空闲状态，桩主：只能预约
                     if (!isReservation) {
                         toast(getString(R.string.m131空闲状态无法直接开始充电));
                         return;
@@ -1851,7 +1854,7 @@ public class ChargingPileActivity extends BaseActivity {
                         }
                     }
 
-                    break;
+                    break;*/
                 case GunBean.ACCEPTED:
                 case GunBean.RESERVED:
                 case GunBean.RESERVENOW:
@@ -1860,6 +1863,8 @@ public class ChargingPileActivity extends BaseActivity {
                         deleteTime(reserveNow.get(i), reserveNow.size(), i);
                     }
                     break;
+
+                case GunBean.AVAILABLE://空闲状态，桩主：只能预约
                 case GunBean.PREPARING://准备中
                     //没有预约
                     if (!isReservation) {
@@ -1940,14 +1945,12 @@ public class ChargingPileActivity extends BaseActivity {
 
         } else {//普通用户
             switch (status) {
-                case GunBean.AVAILABLE://空闲状态，桩主：只能预约
-                    toast(getString(R.string.m131空闲状态无法直接开始充电));
-                    break;
                 case GunBean.ACCEPTED:
                 case GunBean.RESERVENOW:
                 case GunBean.RESERVED:
                     toast(getString(R.string.m66你的账号没有操作权限));
                     break;
+                case GunBean.AVAILABLE://空闲状态，桩主：只能预约
                 case GunBean.PREPARING://准备中
                     if (presetType == 0) {//没有选择充电方案
                         requestNarmal(0, "", "");
@@ -2117,14 +2120,7 @@ public class ChargingPileActivity extends BaseActivity {
             int id = popGunAdapter.getData().get(position).getConnectorId();
             animation = null;
             gunIds.put(mCurrentPile.getChargeId(), id);
-            String name;
-            if (id == 1) {
-                name = getString(R.string.m110A枪);
-            } else {
-                name = getString(R.string.m111B枪);
-            }
             popupGun.dismiss();
-//            tvSwitchGun.setText(name);
              stopTimer();
              startTimer();
             //刷新充电枪

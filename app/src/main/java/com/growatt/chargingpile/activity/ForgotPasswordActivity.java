@@ -85,10 +85,6 @@ public class ForgotPasswordActivity extends BaseActivity {
             toast(R.string.m35请输入正确邮箱格式);
             return;
         }
-        if (TextUtils.isEmpty(phone)){
-            toast(R.string.m60填入不带国家代码的手机号);
-            return;
-        }
         Mydialog.Show(this);
         JSONObject object = new JSONObject();
         try {

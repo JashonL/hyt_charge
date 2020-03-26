@@ -377,6 +377,15 @@
     <string name="m已解锁">Unlocked</string>
     <string name="m解锁">Unlock</string>
     <string name="m电桩不支持该设置或指令发送出现异常">The electric pile does not support this setting or the command is sent abnormally</string>
+
+    <string name="m邮政编码不能为空">Postal code cannot be empty</string>
+    <string name="m请输入您的邮政编码">Please enter your zip code</string>
+    <string name="m请输入安装商">Please enter the installer</string>
+    <string name="m搜索电桩">Search charging pile</string>
+    <string name="m搜索结果为空">Search results are empty</string>
+    <string name="m密码已初始化">Password initialized</string>
+
+    <string name="枪">Gun</string>
     <!--安卓额外部分-->
 
     <!--权限问题-->
@@ -417,15 +426,10 @@
     <string name="m请先升级充电桩">Please upgrade the pile first.</string>
     <string name="mCT">CT</string>
     <string name="m确认修改">Confirm the changes?</string>
-    <string name="m请输入您的邮政编码">Please enter your zip code</string>
-    <string name="m邮政编码不能为空">Postal code cannot be empty</string>
-    <string name="m请输入安装商">Please enter the installer</string>
-    <string name="m搜索电桩">Search charging pile</string>
-    <string name="m搜索结果为空">Search results are empty</string>
     <string name="m登录成功">login successful</string>
     <string name="m验证失败">Validazione fallita</string>
     <string name="m验证成功">Validazione riuscita</string>
-    <string name="m密码已初始化">Password initialized</string>
+
 </resources>
 
 

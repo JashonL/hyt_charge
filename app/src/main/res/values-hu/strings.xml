@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Project EV</string>
+
     <string name="m1立即体验">Próbálja most</string>
     <string name="m2下一步">Következő</string>
     <string name="m3完成">Kész</string>
@@ -307,9 +309,9 @@
     <string name="m2714G密码">4G jelszó</string>
     <string name="m2724GAPN">4G APN</string>
 
-    <string name="m273握手登录授权秘钥">Kézfogás alapú belépési engedélyeztetési kulcs</string>
-    <string name="m274心跳间隔时间">Szívverés időközei ( : </string>
-    <string name="m275PING间隔时间">PING időköz(-ök)</string>
+    <string name="m273握手登录授权秘钥">Azonosító kulcs</string>
+    <string name="m274心跳间隔时间">Pulzus intervallum(s)</string>
+    <string name="m275PING间隔时间">PING időköz(s)</string>
     <string name="m276表计上传间隔时间">Mérő feltöltési időszak</string>
 
     <string name="m277电桩最大输出电流">Töltő legnagyobb kimeneti árama (A)</string>
@@ -329,7 +331,7 @@
     <string name="m290超出设置范围">Beállítási tartományon kívül esik</string>
     <string name="m291设定值不能小于">Az érték nem lehet kevesebb mint</string>
 
-    <string name="m292桩拒绝充电">Fefüggesztett EVSE</string>
+    <string name="m292桩拒绝充电">A jármű nem hajlandó feltölteni</string>
     <string name="m293车拒绝充电提示">A jármű elutasítja a töltést, vagy feltöltött állapotban van, vagy szabad</string>
     <string name="m294桩拒绝充电提示">A töltőpont elutasítja a töltést, kérjük váltson másik töltőpontra </string>
 
@@ -393,6 +395,14 @@
     <string name="m解锁">Unlock</string>
     <string name="m电桩不支持该设置或指令发送出现异常">A halom nem támogatja ezt a beállítást, vagy a parancs küldése rendellenes.</string>
 
+    <string name="m邮政编码不能为空">Az irányítószám nem lehet üres</string>
+    <string name="m请输入您的邮政编码">Kérjük, adja meg irányítószámát</string>
+    <string name="m请输入安装商">Kérjük, adja meg a telepítőt</string>
+    <string name="m搜索电桩">Keressen az Elektromos Postán</string>
+    <string name="m搜索结果为空">A keresési eredmények üresek</string>
+    <string name="m密码已初始化">A jelszó inicializálva</string>
+    <string name = "枪">pisztoly</string>
+
 
     <string name="m权限获取某权限说明">Kérjen xxx engedélyt</string>
     <string name="m权限请求">Kérjen engedélyt</string>
@@ -431,13 +441,8 @@
     <string name="m请先升级充电桩">Kérjük frissítse a töltőpontot</string>
     <string name="mCT">CT</string>
     <string name="m确认修改">Megerősíti a módosítást?</string>
-    <string name="m请输入您的邮政编码">Kérjük, adja meg irányítószámát</string>
-    <string name="m邮政编码不能为空">Az irányítószám nem lehet üres</string>
-    <string name="m请输入安装商">Kérjük, adja meg a telepítőt</string>
-    <string name="m搜索电桩">Keressen az Elektromos Postán</string>
-    <string name="m搜索结果为空">A keresési eredmények üresek</string>
     <string name="m登录成功">A bejelentkezés sikeres</string>
     <string name="m验证失败">Az ellenőrzés sikertelen</string>
     <string name="m验证成功">Az ellenőrzés sikeres volt</string>
-    <string name="m密码已初始化">A jelszó inicializálva</string>
+
 </resources>

@@ -374,6 +374,16 @@
     <string name="m已解锁">sbloccato</string>
     <string name="m解锁">sbloccare</string>
     <string name="m电桩不支持该设置或指令发送出现异常">La pila elettrica non supporta questa impostazione o il comando viene inviato in modo anomalo</string>
+
+    <string name="m邮政编码不能为空">Il codice postale non può essere vuoto</string>
+    <string name="m请输入您的邮政编码">Per favore inserisci il tuo codice postale</string>
+    <string name="m请输入安装商">Inserisci il programma di installazione</string>
+    <string name="m搜索电桩">Cerca pila di ricarica</string>
+    <string name="m搜索结果为空">I risultati della ricerca sono vuoti</string>
+    <string name="m密码已初始化">Password inizializzata</string>
+
+    <string name="枪">pistola</string>
+
     <!--安卓额外部分-->
 
     <!--权限问题-->
@@ -415,16 +425,10 @@
     <string name="m请先升级充电桩">Si prega di aggiornare la pila prima.</string>
     <string name="mCT">CT</string>
     <string name="m确认修改">Conferma la modifica?</string>
-
-    <string name="m请输入您的邮政编码">Per favore inserisci il tuo codice postale</string>
-    <string name="m邮政编码不能为空">Il codice postale non può essere vuoto</string>
-    <string name="m请输入安装商">Inserisci il programma di installazione</string>
-    <string name="m搜索电桩">Cerca pila di ricarica</string>
-    <string name="m搜索结果为空">I risultati della ricerca sono vuoti</string>
     <string name="m登录成功">Accesso eseguito correttamente</string>
     <string name="m验证失败">Validazione fallita</string>
     <string name="m验证成功">Validazione riuscita</string>
-    <string name="m密码已初始化">Password inizializzata</string>
+
 </resources>
 
 
