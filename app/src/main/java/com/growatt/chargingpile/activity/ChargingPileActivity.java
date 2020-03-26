@@ -236,8 +236,6 @@ public class ChargingPileActivity extends BaseActivity {
     private View chargeWorkedView;
 
 
-
-
     /*预约状态*/
     private View reservationView;
     private TextView tvTimeKey;
@@ -279,7 +277,7 @@ public class ChargingPileActivity extends BaseActivity {
 
     private Timer mTimer;//涂鸦设备操作定时器
     private TimerTask timerTask;//涂鸦设备定时任务
-    private long period=1000;//刷新任务的间隔时间
+    private long period = 1000;//刷新任务的间隔时间
 
 
     @Override
@@ -301,16 +299,16 @@ public class ChargingPileActivity extends BaseActivity {
     /**
      * 定时刷新开始
      */
-    private void startTimer(){
-        if (mTimer==null)mTimer=new Timer();
-        if (timerTask!=null)timerTask.cancel();
+    private void startTimer() {
+        if (mTimer == null) mTimer = new Timer();
+        if (timerTask != null) timerTask.cancel();
         initTask();
         mTimer.schedule(timerTask, 0, period);
     }
 
 
     private void initTask() {
-        timerTask=new TimerTask() {
+        timerTask = new TimerTask() {
             @Override
             public void run() {
                 if (TextUtils.isEmpty(currenStatus)) {
@@ -344,7 +342,6 @@ public class ChargingPileActivity extends BaseActivity {
     }
 
 
-
     /**
      * 停止定时器
      */
@@ -358,12 +355,10 @@ public class ChargingPileActivity extends BaseActivity {
     }
 
 
-
-
     private void initPermission() {
-       if (!EasyPermissions.hasPermissions(this, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE)){
-           EasyPermissions.requestPermissions(this,String.format("%s:%s",getString(R.string.m权限获取某权限说明),getString(R.string.m存储)),11001,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE);
-       }
+        if (!EasyPermissions.hasPermissions(this, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            EasyPermissions.requestPermissions(this, String.format("%s:%s", getString(R.string.m权限获取某权限说明), getString(R.string.m存储)), 11001, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
     }
 
     @Override
@@ -383,13 +378,10 @@ public class ChargingPileActivity extends BaseActivity {
     }
 
 
-
     private void initPullView() {
         srlPull.setColorSchemeColors(ContextCompat.getColor(this, R.color.maincolor_1));
         srlPull.setOnRefreshListener(this::freshData);
     }
-
-
 
 
     /**
@@ -425,7 +417,7 @@ public class ChargingPileActivity extends BaseActivity {
         tvReservationRate = reservationView.findViewById(R.id.tv_rate);
         llTimeRate = reservationView.findViewById(R.id.ll_time_rate);
         rvTimeReserva = reservationView.findViewById(R.id.rv_time_reserva);
-        gpPreset=reservationView.findViewById(R.id.gp_preset);
+        gpPreset = reservationView.findViewById(R.id.gp_preset);
         tvTips = reservationView.findViewById(R.id.tv_tips);
         tvReserValue = reservationView.findViewById(R.id.tv_preset_value);
         tvReserType = reservationView.findViewById(R.id.tv_preset_type);
@@ -441,7 +433,6 @@ public class ChargingPileActivity extends BaseActivity {
         chargeSuspendeevView = LayoutInflater.from(this).inflate(R.layout.status_charging_suspendeev_layout, mStatusGroup, false);
         mTvContent = chargeSuspendeevView.findViewById(R.id.tv_content);
     }
-
 
 
     private void initWorkedView() {
@@ -697,7 +688,7 @@ public class ChargingPileActivity extends BaseActivity {
         Mydialog.Show(this);
         Map<String, Object> jsonMap = new HashMap<>();
         jsonMap.put("userId", SmartHomeUtil.getUserName());//测试id
-        if (!TextUtils.isEmpty(searchId))jsonMap.put("chargeId",searchId);
+        if (!TextUtils.isEmpty(searchId)) jsonMap.put("chargeId", searchId);
         jsonMap.put("lan", getLanguage());
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         LogUtil.i(json);
@@ -715,14 +706,14 @@ public class ChargingPileActivity extends BaseActivity {
                     JSONObject object = new JSONObject(json);
                     if (object.getInt("code") == 0) {
                         ChargingBean chargingListBean = new Gson().fromJson(json, ChargingBean.class);
-                        if (chargingListBean!=null){
+                        if (chargingListBean != null) {
                             charginglist = chargingListBean.getData();
-                            if (charginglist==null)charginglist=new ArrayList<>();
-                                for (int i = 0; i < charginglist.size(); i++) {
-                                    ChargingBean.DataBean bean = charginglist.get(i);
-                                    bean.setDevType(ChargingBean.CHARGING_PILE);
-                                    bean.setName(bean.getName());
-                                }
+                            if (charginglist == null) charginglist = new ArrayList<>();
+                            for (int i = 0; i < charginglist.size(); i++) {
+                                ChargingBean.DataBean bean = charginglist.get(i);
+                                bean.setDevType(ChargingBean.CHARGING_PILE);
+                                bean.setName(bean.getName());
+                            }
 
                         }
 
@@ -773,7 +764,7 @@ public class ChargingPileActivity extends BaseActivity {
             tvModel.setText(getString(R.string.m113直流));
         }
 
-        String gun=mCurrentPile.getConnectors()+getString(R.string.枪);
+        String gun = mCurrentPile.getConnectors() + getString(R.string.枪);
 
         if (mCurrentPile.getConnectors() == 1) {
             rlSwitchGun.setVisibility(View.GONE);
@@ -825,7 +816,7 @@ public class ChargingPileActivity extends BaseActivity {
                             //状态改变,改变自动刷新的时间
                             if (!status.equals(currenStatus)) {
                                 currenStatus = status;
-                                period=10*1000;
+                                period = 10 * 1000;
                                 stopTimer();
                                 startTimer();
                             }
@@ -918,12 +909,7 @@ public class ChargingPileActivity extends BaseActivity {
             MyUtil.showAllView(llBottomGroup);
             return;
         }
-        String name;
-        if (data.getConnectorId() == 1) {
-            name = getString(R.string.m110A枪);
-        } else {
-            name = getString(R.string.m111B枪);
-        }
+        String name=SmartHomeUtil.getLetter().get(data.getConnectorId()-1)+getString(R.string.枪);
         tvSwitchGun.setText(name);
         /*//初始化充电枪准备中的显示
         getLastAction();*/
@@ -978,7 +964,7 @@ public class ChargingPileActivity extends BaseActivity {
                     setNormalCharging(data);
                 } else {
                     String symbol = data.getSymbol();
-                    String money = MathUtil.roundDouble2String(data.getCost(), 2)+symbol;
+                    String money = MathUtil.roundDouble2String(data.getCost(), 2) + symbol;
                     String energy = MathUtil.roundDouble2String(data.getEnergy(), 2) + "kWh";
                     int timeCharging = data.getCtime();
                     int hourCharging = timeCharging / 60;
@@ -1088,13 +1074,12 @@ public class ChargingPileActivity extends BaseActivity {
         }
         //状态改变  就更新刷新的时间
         if (!status.equals(currenStatus)) {
-            period=10*1000;
+            period = 10 * 1000;
             currenStatus = status;
             stopTimer();
             startTimer();
         }
     }
-
 
 
     private void setNormalCharging(GunBean.DataBean data) {
@@ -1109,7 +1094,7 @@ public class ChargingPileActivity extends BaseActivity {
         String s = String.valueOf(data.getCurrent()) + "A";
         tvChargingCurrent.setText(s);
         tvChargingDuration.setText(sTimeCharging);
-        String money = MathUtil.roundDouble2String(data.getCost(), 2)+symbol;
+        String money = MathUtil.roundDouble2String(data.getCost(), 2) + symbol;
         tvChargingMoney.setText(money);
         s = String.valueOf(data.getVoltage()) + "V";
         tvChargingVoltage.setText(s);
@@ -1380,7 +1365,7 @@ public class ChargingPileActivity extends BaseActivity {
         ivChargedOther2.setImageResource(resOhter2);
         tvOtherValue2.setText(otherValue2);
         tvOtherText2.setText(otherText2);
-        if ((int)presetValue_value > 0) {
+        if ((int) presetValue_value > 0) {
             roundProgressBar.setMax((int) presetValue_value);
         }
         roundProgressBar.setProgress(chargedValue_value);
@@ -1393,7 +1378,7 @@ public class ChargingPileActivity extends BaseActivity {
 
 
     @OnClick({R.id.ivLeft, R.id.ll_Authorization, R.id.ll_record, R.id.ll_charging,
-            R.id.rl_switch_gun, R.id.to_add_device, R.id.rl_solar, R.id.ivRight,R.id.rl_lock})
+            R.id.rl_switch_gun, R.id.to_add_device, R.id.rl_solar, R.id.ivRight, R.id.rl_lock})
     public void onClickListener(View view) {
         switch (view.getId()) {
             case R.id.ivLeft:
@@ -1448,7 +1433,7 @@ public class ChargingPileActivity extends BaseActivity {
                 }
                 setPowerLimit();
                 break;
-            case  R.id.rl_lock:
+            case R.id.rl_lock:
                 if (SmartHomeUtil.isFlagUser()) {
                     toast(getString(R.string.m66你的账号没有操作权限));
                     return;
@@ -1464,9 +1449,9 @@ public class ChargingPileActivity extends BaseActivity {
                     toast(getString(R.string.m66你的账号没有操作权限));
                     return;
                 }
-                if (Cons.getNoConfigBean()==null){
+                if (Cons.getNoConfigBean() == null) {
                     getNoConfigParams();
-                }else {
+                } else {
                     toConfig();
                 }
                 break;
@@ -1495,7 +1480,7 @@ public class ChargingPileActivity extends BaseActivity {
             @Override
             public void success(String json) {
                 Mydialog.Dismiss();
-                NoConfigBean bean=null;
+                NoConfigBean bean = null;
                 try {
                     JSONObject object = new JSONObject(json);
                     if (object.getInt("code") == 0) {
@@ -1517,9 +1502,6 @@ public class ChargingPileActivity extends BaseActivity {
         });
 
     }
-
-
-
 
 
     /**
@@ -1628,8 +1610,7 @@ public class ChargingPileActivity extends BaseActivity {
     }
 
 
-
-    private void setLock(){
+    private void setLock() {
         stopTimer();
         new CircleDialog.Builder().setTitle(getString(R.string.m27温馨提示))
                 .setText(getString(R.string.m是否解除该枪电子锁))
@@ -1657,7 +1638,7 @@ public class ChargingPileActivity extends BaseActivity {
         PileSetBean.DataBean data = pileSetBean.getData();
         Map<String, Object> jsonMap = new HashMap<>();
         jsonMap.put("chargeId", mCurrentPile.getChargeId());//测试id
-        jsonMap.put("userId",SmartHomeUtil.getUserName());//测试id
+        jsonMap.put("userId", SmartHomeUtil.getUserName());//测试id
         jsonMap.put("lan", getLanguage());//测试id
         jsonMap.put("G_SolarMode", data.getG_SolarMode());
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
@@ -1689,8 +1670,6 @@ public class ChargingPileActivity extends BaseActivity {
             }
         });
     }
-
-
 
 
     /**
@@ -2098,9 +2077,12 @@ public class ChargingPileActivity extends BaseActivity {
      */
     public void showStorageList(View v) {
         List<GunBean.DataBean> gunlist = new ArrayList<>();
+        List<String> letters = SmartHomeUtil.getLetter();
+        String unit=getString(R.string.枪);
         for (int i = 0; i < mCurrentPile.getConnectors(); i++) {
             GunBean.DataBean data = new GunBean.DataBean();
             data.setConnectorId(i + 1);
+            data.setName(letters.get(i)+unit);
             gunlist.add(data);
         }
 
@@ -2121,8 +2103,8 @@ public class ChargingPileActivity extends BaseActivity {
             animation = null;
             gunIds.put(mCurrentPile.getChargeId(), id);
             popupGun.dismiss();
-             stopTimer();
-             startTimer();
+            stopTimer();
+            startTimer();
             //刷新充电枪
             freshChargingGun(mCurrentPile.getChargeId(), id);
         });
@@ -2285,7 +2267,7 @@ public class ChargingPileActivity extends BaseActivity {
                     int type = object.optInt("type");
                     if (type == 0) {
                         Mydialog.showDelayDismissDialog(15 * 1000, ChargingPileActivity.this);
-                        period=1500;
+                        period = 1500;
                         stopTimer();
                         startTimer();
                     } else {
@@ -2337,7 +2319,7 @@ public class ChargingPileActivity extends BaseActivity {
                     int type = object.optInt("type");
                     if (type == 0) {
                         Mydialog.showDelayDismissDialog(15 * 1000, ChargingPileActivity.this);
-                        period=1500;
+                        period = 1500;
                         stopTimer();
                         startTimer();
                     } else {
@@ -2391,7 +2373,7 @@ public class ChargingPileActivity extends BaseActivity {
         if (gunId == null) gunId = 1;
         jsonMap.put("connectorId", gunId);
         jsonMap.put("chargeId", mCurrentPile.getChargeId());
-        jsonMap.put("userId",SmartHomeUtil.getUserName());
+        jsonMap.put("userId", SmartHomeUtil.getUserName());
         jsonMap.put("loopType", loopType);
         jsonMap.put("lan", getLanguage());
         if (loopType == 0) {
@@ -2422,7 +2404,7 @@ public class ChargingPileActivity extends BaseActivity {
                     String data = object.getString("data");
                     int code = object.optInt("type");
                     if (code == 0) {
-                        period=1500;
+                        period = 1500;
                         stopTimer();
                         startTimer();
                     }
@@ -2482,7 +2464,7 @@ public class ChargingPileActivity extends BaseActivity {
         ivPpTime.setImageResource(R.drawable.charging_prepare_not_selected);
         s = "-h-min";
         tvPpTime.setText(s);
-        presetType=0;
+        presetType = 0;
     }
 
     /**
@@ -2537,7 +2519,7 @@ public class ChargingPileActivity extends BaseActivity {
         cbEveryday.setChecked(false);
         tvEveryDay.setTextColor(ContextCompat.getColor(this, R.color.title_2));
         MyUtil.showAllView(tvEveryDay, cbEveryday);
-        isReservation=false;
+        isReservation = false;
     }
 
 
@@ -2677,7 +2659,7 @@ public class ChargingPileActivity extends BaseActivity {
                     int code = object.getInt("code");
                     if (code == 0) {
                         if (size - 1 == pos) {
-                            period=1500;
+                            period = 1500;
                             stopTimer();
                             startTimer();
                         }
@@ -2697,7 +2679,7 @@ public class ChargingPileActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        searchId=null;
+        searchId = null;
     }
 
 

@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -172,5 +174,19 @@ public class SmartHomeUtil {
         if (Cons.userBean==null)return "endUser";
         if (TextUtils.isEmpty(Cons.userBean.getRoleId()))return "endUser";
         return Cons.userBean.getRoleId();
+    }
+
+
+    /**
+     * 获取字母列表
+     */
+
+    public static List<String> getLetter(){
+        List<String>letters=new ArrayList<>();
+        for (int i=0;i<26;i++){
+            char letter= (char) ('A'+i);
+            letters.add(String.valueOf(letter));
+        }
+        return letters;
     }
 }
