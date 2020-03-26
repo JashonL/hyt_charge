@@ -377,9 +377,9 @@
     <!--安卓额外部分-->
 
     <!--权限问题-->
-    <string name="m权限获取某权限说明">Autorizzazione %1$s richiesto</string>
+    <string name="m权限获取某权限说明">Richiesta di ottenere il permesso</string>
     <string name="m权限请求">Autorizzazione richiesta</string>
-    <string name="m权限请求步骤">%1$s le autorizzazioni non sono attivate, impostate manualmente:\n\n1.Fare clic per accedere all\'interfaccia delle impostazioni;\n2.Click on permissions;\n3.Apri %2$s autorizzazioni.</string>
+    <string name="m权限请求步骤">l\'autorizzazione non è abilitata, indipendentemente dal fatto che sia impostata manualmente: 1. Fare clic su OK per accedere all\'interfaccia delle impostazioni; 2. Autorizzazioni clic; 3. Apri le autorizzazioni.</string>
 
     <!--    //相机和存储-->
     <string name="m相机">Fotocamera o archiviazione</string>

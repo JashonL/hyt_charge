@@ -402,7 +402,7 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
                 new AppSettingsDialog
                         .Builder(this)
                         .setTitle(R.string.m权限请求)
-                        .setRationale(String.format(getString(R.string.m权限请求步骤), permission, permission))
+                        .setRationale(String.format("%s:%s", permission,getString(R.string.m权限请求步骤)))
                         .setPositiveButton(R.string.m9确定)
                         .setRequestCode(requestCode)
                         .setNegativeButton(R.string.m7取消)

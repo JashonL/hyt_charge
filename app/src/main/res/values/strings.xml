@@ -380,10 +380,9 @@
     <!--安卓额外部分-->
 
     <!--权限问题-->
-    <string name="m权限获取某权限说明">Requested %1$s Permission</string>
+    <string name="m权限获取某权限说明">Request to get permission</string>
     <string name="m权限请求">Permission required</string>
-    <string name="m权限请求步骤">%1$s permission are not turned on, do you manually set:\n\n1.Click to enter the settings interface;\n2.Click on permissions;\n3.Open %2$s permissions.</string>
-
+    <string name="m权限请求步骤">az engedély nem engedélyezett, függetlenül attól, hogy manuálisan van-e beállítva: 1. Kattintson az OK gombra a beállítások felületének belépéséhez; 2. Kattintási engedélyek; 3. Nyissa meg az engedélyeket.</string>
     <!--    //相机和存储-->
     <string name="m相机">Camera or storage</string>
     <string name="m存储">Storage</string>
