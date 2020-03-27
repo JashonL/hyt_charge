@@ -27,6 +27,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.EventBusMsg.AddDevMsg;
@@ -79,7 +80,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class ChargingPileActivity extends BaseActivity {
+public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapter.OnItemClickListener {
 
     @BindView(R.id.ivRight)
     ImageView ivSetting;
@@ -427,6 +428,7 @@ public class ChargingPileActivity extends BaseActivity {
         rvTimeReserva.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         reservaAdapter = new ReservaCharingAdapter(R.layout.item_raserva_time, new ArrayList<>());
         rvTimeReserva.setAdapter(reservaAdapter);
+        reservaAdapter.setOnItemClickListener(this);
     }
 
     private void initSuspendeevView() {
@@ -629,6 +631,11 @@ public class ChargingPileActivity extends BaseActivity {
             } else {
                 if (presetType != 3) {
                     selectTime();
+                } else {
+                    //去预约列表操作
+                    Intent intent = new Intent(ChargingPileActivity.this, ChargingDurationActivity.class);
+                    intent.putExtra("sn", mCurrentPile.getChargeId());
+                    jumpTo(intent, false);
                 }
             }
         });
@@ -909,7 +916,7 @@ public class ChargingPileActivity extends BaseActivity {
             MyUtil.showAllView(llBottomGroup);
             return;
         }
-        String name=SmartHomeUtil.getLetter().get(data.getConnectorId()-1)+getString(R.string.枪);
+        String name = SmartHomeUtil.getLetter().get(data.getConnectorId() - 1) + getString(R.string.枪);
         tvSwitchGun.setText(name);
         /*//初始化充电枪准备中的显示
         getLastAction();*/
@@ -2078,11 +2085,11 @@ public class ChargingPileActivity extends BaseActivity {
     public void showStorageList(View v) {
         List<GunBean.DataBean> gunlist = new ArrayList<>();
         List<String> letters = SmartHomeUtil.getLetter();
-        String unit=getString(R.string.枪);
+        String unit = getString(R.string.枪);
         for (int i = 0; i < mCurrentPile.getConnectors(); i++) {
             GunBean.DataBean data = new GunBean.DataBean();
             data.setConnectorId(i + 1);
-            data.setName(letters.get(i)+unit);
+            data.setName(letters.get(i) + " " + unit);
             gunlist.add(data);
         }
 
@@ -2699,5 +2706,14 @@ public class ChargingPileActivity extends BaseActivity {
     public void searchFresh(SearchDevMsg msg) {
         searchId = msg.getDevSn();
         freshData();
+    }
+
+    @Override
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        if (adapter == reservaAdapter) {
+            Intent intent = new Intent(ChargingPileActivity.this, ChargingDurationActivity.class);
+            intent.putExtra("sn", mCurrentPile.getChargeId());
+            jumpTo(intent, false);
+        }
     }
 }

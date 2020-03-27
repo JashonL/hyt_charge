@@ -293,23 +293,23 @@ public class WifiSetActivity extends BaseActivity {
         keys = new String[]{
                 getString(R.string.m255设备信息参数设置), getString(R.string.m146充电桩ID), getString(R.string.m260语言), getString(R.string.m264读卡器秘钥), getString(R.string.m265RCD保护值), getString(R.string.m296版本号),
                 getString(R.string.m256设备以太网参数设置), getString(R.string.m156充电桩IP), getString(R.string.m157网关), getString(R.string.m158子网掩码), getString(R.string.m159网络MAC地址), getString(R.string.m161DNS地址),
-                getString(R.string.m257设备账号密码参数设置), getString(R.string.m266Wifi名称), getString(R.string.m267Wifi密码),getString(R.string.m2704G用户名), getString(R.string.m2714G密码), getString(R.string.m2724GAPN),
+                getString(R.string.m257设备账号密码参数设置), getString(R.string.m266Wifi名称), getString(R.string.m267Wifi密码), getString(R.string.m2704G用户名), getString(R.string.m2714G密码), getString(R.string.m2724GAPN),
                 getString(R.string.m258设备服务器参数设置), getString(R.string.m160服务器URL), getString(R.string.m273握手登录授权秘钥), getString(R.string.m274心跳间隔时间), getString(R.string.m275PING间隔时间), getString(R.string.m276表计上传间隔时间),
                 getString(R.string.m259设备充电参数设置), getString(R.string.m154充电模式), getString(R.string.m277电桩最大输出电流), getString(R.string.m152充电费率), getString(R.string.m278保护温度), getString(R.string.m279外部监测最大输入功率),
                 getString(R.string.m280允许充电时间), getString(R.string.m297峰谷充电使能), getString(R.string.m298功率分配使能), getString(R.string.m外部电流采样接线方式), getString(R.string.mSolar模式), getString(R.string.m电表设备地址),
                 getString(R.string.m电桩电子锁)
         };
 
-        keySfields = new String[]{ "", "chargeId", "G_ChargerLanguage","G_CardPin", "G_RCDProtection", "G_Version",
-                "", "ip", "gateway","mask",  "mac", "dns",
-                "", "G_WifiSSID","G_WifiPassword","G_4GUserName", "G_4GPassword", "G_4GAPN",
-                "",  "host", "G_Authentication", "G_HearbeatInterval", "G_WebSocketPingInterval", "G_MeterValueInterval",
-               "", "G_ChargerMode",  "G_MaxCurrent", "rate","G_MaxTemperature", "G_ExternalLimitPower",
-                "G_AutoChargeTime","G_PeakValleyEnable",  "G_ExternalLimitPowerEnable", "G_ExternalSamplingCurWring", "G_SolarMode", "G_PowerMeterAddr",
-             ""};
+        keySfields = new String[]{"", "chargeId", "G_ChargerLanguage", "G_CardPin", "G_RCDProtection", "G_Version",
+                "", "ip", "gateway", "mask", "mac", "dns",
+                "", "G_WifiSSID", "G_WifiPassword", "G_4GUserName", "G_4GPassword", "G_4GAPN",
+                "", "host", "G_Authentication", "G_HearbeatInterval", "G_WebSocketPingInterval", "G_MeterValueInterval",
+                "", "G_ChargerMode", "G_MaxCurrent", "rate", "G_MaxTemperature", "G_ExternalLimitPower",
+                "G_AutoChargeTime", "G_PeakValleyEnable", "G_ExternalLimitPowerEnable", "G_ExternalSamplingCurWring", "G_SolarMode", "G_PowerMeterAddr",
+                ""};
         if (Cons.getNoConfigBean() != null) {
             noConfigKeys = Cons.getNoConfigBean().getSfield();
-            password=Cons.getNoConfigBean().getPassword();
+            password = Cons.getNoConfigBean().getPassword();
         }
         if (noConfigKeys == null) noConfigKeys = new ArrayList<>();
         //初始化所有设置项
@@ -385,22 +385,22 @@ public class WifiSetActivity extends BaseActivity {
             int itemType = multiItemEntity.getItemType();
             if (itemType == WifiSetAdapter.PARAM_ITEM) {
                 WifiSetBean bean = (WifiSetBean) mAdapter.getData().get(position);
-                if (!bean.isAuthority()&&!isVerified){//如果是不允许设置，又没有验证密码
-                    showInputPassword(WifiSetAdapter.PARAM_ITEM,bean);
-                }else {
+                if (!bean.isAuthority() && !isVerified) {//如果是不允许设置，又没有验证密码
+                    showInputPassword(WifiSetAdapter.PARAM_ITEM, bean);
+                } else {
                     setCommonParams(bean);
                 }
             } else if (itemType == WifiSetAdapter.PARAM_ITEM_SOLAR) {//设置solar限制
                 WifiSetBean bean = (WifiSetBean) mAdapter.getData().get(34);
-                if (!bean.isAuthority()&&!isVerified){//如果是不允许设置，又没有验证密码
-                    showInputPassword(WifiSetAdapter.PARAM_ITEM_SOLAR,bean);
-                }else {
+                if (!bean.isAuthority() && !isVerified) {//如果是不允许设置，又没有验证密码
+                    showInputPassword(WifiSetAdapter.PARAM_ITEM_SOLAR, bean);
+                } else {
                     setECOLimit();
                 }
             } else if (itemType == WifiSetAdapter.PARAM_ITEM_LOCK) {
                 if (lockLength > 0) {
                     LockBean bean = (LockBean) mAdapter.getData().get(position);
-                    gunPos=bean.getIndex();
+                    gunPos = bean.getIndex();
                     setLock(bean.getGunId());
                 } else toast(R.string.m请先升级充电桩);
             }
@@ -1036,7 +1036,9 @@ public class WifiSetActivity extends BaseActivity {
                         lockBean.setGunId(1);
                         lockBean.setIndex(0);
                         lockBean.setType(WifiSetAdapter.PARAM_ITEM_LOCK);
-                        lockBean.setKey(gunArrray[0]);
+                        List<String> letter = SmartHomeUtil.getLetter();
+                        String name = letter.get(0) + getString(R.string.枪);
+                        lockBean.setKey(name);
                         lockBeans.add(lockBean);
                     }
                     for (int j = 0; j < lockBeans.size(); j++) {
@@ -1850,7 +1852,7 @@ public class WifiSetActivity extends BaseActivity {
             byte frame1 = data[0];
             byte frame2 = data[1];
             byte end = data[length - 1];
-            if (frame1 == WiFiMsgConstant.FRAME_1 && frame2 == WiFiMsgConstant.FRAME_2 && end == WiFiMsgConstant.BLT_MSG_END){
+            if (frame1 == WiFiMsgConstant.FRAME_1 && frame2 == WiFiMsgConstant.FRAME_2 && end == WiFiMsgConstant.BLT_MSG_END) {
                 byte cmd = data[4];//指令类型
                 //校验位
                 byte sum = data[length - 2];
@@ -2178,7 +2180,9 @@ public class WifiSetActivity extends BaseActivity {
                                     lockBean.setValue(lockArrray[0]);
                                 }
                                 lockBean.setType(WifiSetAdapter.PARAM_ITEM_LOCK);
-                                lockBean.setKey(gunArrray[k]);
+                                List<String> letter = SmartHomeUtil.getLetter();
+                                String name = letter.get(k) + getString(R.string.枪);
+                                lockBean.setKey(name);
                                 lockBean.setGunId(k + 1);
                                 lockBean.setIndex(k);
                                 lockBeans.add(lockBean);
@@ -2188,7 +2192,9 @@ public class WifiSetActivity extends BaseActivity {
                             lockBean.setValue("");
                             lockBean.setGunId(1);
                             lockBean.setType(WifiSetAdapter.PARAM_ITEM_LOCK);
-                            lockBean.setKey(gunArrray[0]);
+                            List<String> letter = SmartHomeUtil.getLetter();
+                            String name = letter.get(0) + getString(R.string.枪);
+                            lockBean.setKey(name);
                             lockBeans.add(lockBean);
                         }
                         refreshRv();
@@ -2687,9 +2693,7 @@ public class WifiSetActivity extends BaseActivity {
     }
 
 
-
-
-    private void showInputPassword(int type,WifiSetBean bean){
+    private void showInputPassword(int type, WifiSetBean bean) {
         new CircleDialog.Builder()
                 .setTitle(getString(R.string.m27温馨提示))
                 //添加标题，参考普通对话框
@@ -2703,9 +2707,9 @@ public class WifiSetActivity extends BaseActivity {
                     params.strokeColor = ContextCompat.getColor(this, R.color.preset_edit_time_background);
                 })
                 .setPositiveInput(getString(R.string.m9确定), (text, v) -> {
-                    if (password.equals(text)){
-                        isVerified=true;
-                        switch (type){
+                    if (password.equals(text)) {
+                        isVerified = true;
+                        switch (type) {
                             case WifiSetAdapter.PARAM_ITEM:
                                 setCommonParams(bean);
                                 break;
@@ -2713,7 +2717,7 @@ public class WifiSetActivity extends BaseActivity {
                                 setECOLimit();
                                 break;
                         }
-                    }else {
+                    } else {
                         toast(R.string.m验证失败);
                     }
                 })
