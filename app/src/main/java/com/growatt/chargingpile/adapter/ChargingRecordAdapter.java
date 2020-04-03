@@ -8,6 +8,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.bean.ChargingRecordBean;
 import com.growatt.chargingpile.util.MathUtil;
+import com.growatt.chargingpile.util.SmartHomeUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,14 +28,12 @@ public class ChargingRecordAdapter extends BaseQuickAdapter<ChargingRecordBean.D
     }
     @Override
     protected void convert(BaseViewHolder helper, ChargingRecordBean.DataBean item) {
-        helper.setText(R.id.tv_name, item.getName());
+        String name = item.getName();
+        if (TextUtils.isEmpty(name))name=item.getChargeId();
+        helper.setText(R.id.tv_name, name);
         helper.setText(R.id.tv_chargingId, item.getChargeId());
-        String gunName;
-        if (item.getConnectorId() == 1) {
-            gunName = mContext.getString(R.string.m110A枪);
-        } else {
-            gunName = mContext.getString(R.string.m111B枪);
-        }
+        int connectorId = item.getConnectorId();
+        String gunName= SmartHomeUtil.getLetter().get(connectorId-1)+mContext.getString(R.string.枪);
         helper.setText(R.id.tv_model, gunName);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
   /*      long cTime = item.getCtime() * 60 * 1000;

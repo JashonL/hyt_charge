@@ -73,6 +73,7 @@ public class ChargingDurationActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charging_duration);
         bind = ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
         initIntent();
         initHeaderView();
         initRecyclerView();
@@ -334,6 +335,7 @@ public class ChargingDurationActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 }
