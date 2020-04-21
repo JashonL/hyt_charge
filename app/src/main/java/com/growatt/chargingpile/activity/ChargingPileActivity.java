@@ -77,7 +77,6 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import pub.devrel.easypermissions.EasyPermissions;
 
 public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapter.OnItemClickListener {
@@ -241,8 +240,6 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
     private View reservationView;
     private TextView tvTimeKey;
     private TextView tvRateValue;
-    private TextView tvPreset;
-    private TextView tvReservationRate;
     private LinearLayout llTimeRate;
     private RecyclerView rvTimeReserva;
     private TextView tvTips;
@@ -279,7 +276,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
     private Timer mTimer;//涂鸦设备操作定时器
     private TimerTask timerTask;//涂鸦设备定时任务
     private long period = 1000;//刷新任务的间隔时间
-
+    private String moneyUnit = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -414,8 +411,6 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
         reservationView = LayoutInflater.from(this).inflate(R.layout.status_charging_reservation_layout, mStatusGroup, false);
         tvTimeKey = reservationView.findViewById(R.id.tv_time_key);
         tvRateValue = reservationView.findViewById(R.id.tv_rate_value);
-        tvPreset = reservationView.findViewById(R.id.tv_preset);
-        tvReservationRate = reservationView.findViewById(R.id.tv_rate);
         llTimeRate = reservationView.findViewById(R.id.ll_time_rate);
         rvTimeReserva = reservationView.findViewById(R.id.rv_time_reserva);
         gpPreset = reservationView.findViewById(R.id.gp_preset);
@@ -507,6 +502,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             } else {
                 Intent intent = new Intent(ChargingPileActivity.this, ChargingPresetEditActivity.class);
                 intent.putExtra("type", 1);
+                intent.putExtra("symbol", mCurrentPile.getSymbol());
                 startActivityForResult(intent, REQUEST_MONEY);
             }
         });
@@ -519,6 +515,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             }
             Intent intent = new Intent(ChargingPileActivity.this, ChargingPresetEditActivity.class);
             intent.putExtra("type", 1);
+            intent.putExtra("symbol", mCurrentPile.getSymbol());
             startActivityForResult(intent, REQUEST_MONEY);
         });
 
@@ -763,6 +760,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
     private void refreshChargingUI() {
         int nowSelectPosition = mAdapter.getNowSelectPosition();
         mCurrentPile = mAdapter.getData().get(nowSelectPosition);
+        if (!TextUtils.isEmpty(mCurrentPile.getSymbol())) moneyUnit = mCurrentPile.getSymbol();
         //电桩信息
         String Modle = mCurrentPile.getModel();
         if (Modle.toLowerCase().contains("ac")) {
@@ -1039,6 +1037,9 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                 tvFinishRate.setText(String.valueOf(data.getRate()));
                 tvFinishTime.setText(sTimeFinishing);
                 String cost = MathUtil.roundDouble2String(data.getCost(), 2);
+                if (!TextUtils.isEmpty(mCurrentPile.getSymbol())){
+                    cost+=mCurrentPile.getSymbol();
+                }
                 tvFinishMoney.setText(cost);
                 stopAnim();
                 MyUtil.showAllView(llBottomGroup);
@@ -1101,84 +1102,13 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
         String s = String.valueOf(data.getCurrent()) + "A";
         tvChargingCurrent.setText(s);
         tvChargingDuration.setText(sTimeCharging);
-        String money = MathUtil.roundDouble2String(data.getCost(), 2) + symbol;
+        String money = MathUtil.roundDouble2String(data.getCost(), 2);
+        if (!TextUtils.isEmpty(mCurrentPile.getSymbol())) {
+            money += mCurrentPile.getSymbol();
+        }
         tvChargingMoney.setText(money);
         s = String.valueOf(data.getVoltage()) + "V";
         tvChargingVoltage.setText(s);
-    }
-
-
-    private void gunPrepareInfoByLastAction(GunBean.LastActionBean actionBean) {
-        if (mCurrentPile.getType() == 0) {//桩主
-            if (actionBean == null) {  //没有操作过
-                isReservation = false;
-                presetType = 0;
-                initPresetUi();
-                initReserveUi();
-            } else {
-                String lastAction = actionBean.getAction();
-                if (TextUtils.isEmpty(lastAction)) lastAction = "remoteStartTransaction";
-                //直接开始充电
-                if (lastAction.equals("remoteStartTransaction") || lastAction.equals("remoteStopTransaction")) {
-                    isReservation = false;
-                    presetType = 0;
-                    initPresetUi();
-                    initReserveUi();
-                } else {//预约充电
-                    getReservaNow();
-                }
-            }
-        } else {//非桩主
-            isReservation = false;
-            initPresetUi();
-            initReserveUi();
-        }
-    }
-
-    /**
-     * 获取最后一次操作信息
-     *
-     * @return
-     */
-    private void getLastAction() {
-        Map<String, Object> jsonMap = new HashMap<>();
-        jsonMap.put("chargeId", mCurrentPile.getChargeId());
-        //根据选中项刷新充电桩的充电枪,默认刷新A枪
-        Integer gunId = gunIds.get(mCurrentPile.getChargeId());
-        if (gunId == null) gunId = 1;
-        jsonMap.put("connectorId", gunId);
-        jsonMap.put("userId", SmartHomeUtil.getUserName());
-        jsonMap.put("lan", getLanguage());//测试id
-        String json = SmartHomeUtil.mapToJsonString(jsonMap);
-        PostUtil.postJson(SmartHomeUrlUtil.postRequestLastAction(), json, new PostUtil.postListener() {
-            @Override
-            public void Params(Map<String, String> params) {
-
-            }
-
-            @Override
-            public void success(String json) {
-                try {
-                    JSONObject jsonObject = new JSONObject(json);
-                    int code = jsonObject.getInt("code");
-                    if (code == 0) {
-                        JSONObject object = jsonObject.getJSONObject("data");
-                        GunBean.LastActionBean actionBean = new Gson().fromJson(object.toString(), GunBean.LastActionBean.class);
-                        gunPrepareInfoByLastAction(actionBean);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-            @Override
-            public void LoginError(String str) {
-
-            }
-        });
-
-
     }
 
 
@@ -1225,8 +1155,6 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
 
     /**
      * 根据预约信息刷新ui
-     *
-     * @param gunBean
      */
     private void setReserveNowUi(ReservationBean gunBean) {
         reserveNow = gunBean.getData();
@@ -1346,15 +1274,6 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
 
     /**
      * 设置预设充电时，充电中的ui
-     *
-     * @param scheme
-     * @param type
-     * @param resOther
-     * @param otherValue
-     * @param otherText
-     * @param resOhter2
-     * @param otherValue2
-     * @param otherText2
      */
     private void setPresetChargingUi(String scheme, String presetValue, String chargedVaule, String type,
                                      int resOther, String otherValue, String otherText, int resOhter2,
@@ -1430,6 +1349,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             case R.id.ll_record:
                 Intent intent4 = new Intent(this, ChargingRecoderActivity.class);
                 intent4.putExtra("sn", mCurrentPile.getChargeId());
+                intent4.putExtra("symbol",mCurrentPile.getSymbol());
                 intent4.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 jumpTo(intent4, false);
                 break;
@@ -2354,24 +2274,6 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
      */
     private void requestReserve(int type, String expiryDate, String key, Object value, int loopType) {
         LogUtil.d("预约充电，指令发送");
-
-     /*   Date todayDate = new Date();
-        long daytime = todayDate.getTime();
-        long onTime = 0;
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        //开始的日期
-        try {
-            Date start = format.parse(expiryDate);
-            onTime = start.getTime();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }*/
-     /*   if (loopType != 0) {
-            if (daytime > onTime) {
-                toast(getString(R.string.m开始时间错误));
-                return;
-            }
-        }*/
         Mydialog.Show(this);
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         jsonMap.put("action", "ReserveNow");
@@ -2447,26 +2349,16 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
 
     }
 
-    /**
-     * 隐藏/显示限制功率
-     */
-    private void setSolarUi(boolean isShow) {
-        if (isShow) {
-            MyUtil.showAllView(mRlSolar);
-        } else {
-            MyUtil.hideAllView(View.GONE, mRlSolar);
-        }
-    }
-
 
     /**
      * 初始化预设相关ui
      */
     private void initPresetUi() {
         ivPpmoney.setImageResource(R.drawable.charging_prepare_not_selected);
-        tvPpmoney.setText("--");
+        String s = moneyUnit + "--";
+        tvPpmoney.setText(s);
         ivPpEle.setImageResource(R.drawable.charging_prepare_not_selected);
-        String s = "--kWh";
+        s = "--kWh";
         tvPpEle.setText(s);
         ivPpTime.setImageResource(R.drawable.charging_prepare_not_selected);
         s = "-h-min";
@@ -2484,7 +2376,8 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             setEleUi(false, "--kWh");
             setTimeUi(false, "-h-min");
         }
-        tvPpmoney.setText(money);
+        String s = moneyUnit + money;
+        tvPpmoney.setText(s);
     }
 
 
@@ -2547,12 +2440,6 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
 
     /**
      * 设置预约相关ui
-     *
-     * @param startText
-     * @param onOffText
-     * @param resCheckbox
-     * @param startTime
-     * @param everyDay
      */
     private void setReserveUi(String startText, String onOffText, int resCheckbox, String startTime, boolean everyDay, boolean isEveryDay) {
         tvTextStart.setText(startText);
@@ -2611,12 +2498,6 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
         MyUtil.hideAllView(View.GONE, ivAnim, ivfinishBackground);
     }
 
-
-    /**
-     * @param keyCode
-     * @param event
-     * @return
-     */
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

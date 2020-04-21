@@ -2,14 +2,18 @@ package com.growatt.chargingpile.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.growatt.chargingpile.BaseActivity;
@@ -24,40 +28,41 @@ import butterknife.Unbinder;
 
 public class ChargingPresetEditActivity extends BaseActivity {
 
+
+    @BindView(R.id.tvTitle)
+    TextView tvTitle;
     @BindView(R.id.headerView)
-    View headerView;
+    LinearLayout headerView;
     @BindView(R.id.tv_preset_type)
-    TextView tvType;
-
-    @BindView(R.id.ll_ele_money)
-    LinearLayout llEleMoney;
+    TextView tvPresetType;
     @BindView(R.id.et_input_sn)
-    EditText etValue;
-
-    @BindView(R.id.ll_time)
-    LinearLayout llTime;
-
+    EditText etInputSn;
+    @BindView(R.id.view)
+    View view;
+    @BindView(R.id.tv_set_unit)
+    TextView tvSetUnit;
+    @BindView(R.id.ll_ele_money)
+    ConstraintLayout llEleMoney;
     @BindView(R.id.np_hour)
     NumberPicker npHour;
-
     @BindView(R.id.np_minute)
     NumberPicker npMinute;
-
-
-
+    @BindView(R.id.ll_time)
+    LinearLayout llTime;
     private int type = 1;//1.金额 2.电量 3.时长
     private String textType;
 
     private String[] hours;
     private String[] minutes;
     private Unbinder bind;
+    private String symbol;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charging_preset_edit);
-        bind=ButterKnife.bind(this);
+        bind = ButterKnife.bind(this);
         initHeaderView();
         initIntent();
         initViews();
@@ -100,18 +105,21 @@ public class ChargingPresetEditActivity extends BaseActivity {
 
 
     private void initViews() {
-        String scheme = null;
-        String hint = null;
+        String scheme;
         if (type == 1) {
             MyUtil.showAllView(llEleMoney);
             MyUtil.hideAllView(View.GONE, llTime);
             scheme = getString(R.string.m200金额);
-            etValue.setHint(getString(R.string.m210请输入金额));
+            etInputSn.setHint(getString(R.string.m210请输入金额));
+            if (!TextUtils.isEmpty(symbol)) {
+                tvSetUnit.setText(symbol);
+            }
         } else if (type == 2) {
             MyUtil.showAllView(llEleMoney);
             MyUtil.hideAllView(View.GONE, llTime);
             scheme = getString(R.string.m201电量);
-            etValue.setHint(getString(R.string.m211请输入电量));
+            etInputSn.setHint(getString(R.string.m211请输入电量));
+            tvSetUnit.setText("kWh");
         } else {
             MyUtil.showAllView(llTime);
             MyUtil.hideAllView(View.GONE, llEleMoney);
@@ -122,12 +130,15 @@ public class ChargingPresetEditActivity extends BaseActivity {
         int start = textType.lastIndexOf(scheme);
         int end = start + scheme.length();
         spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.maincolor_1)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        tvType.setText(spannableString);
+        tvPresetType.setText(spannableString);
     }
 
 
     private void initIntent() {
         type = getIntent().getIntExtra("type", 1);
+        if (type == 1) {
+            symbol = getIntent().getStringExtra("symbol");
+        }
     }
 
     @OnClick({R.id.btConfirm})
@@ -142,7 +153,7 @@ public class ChargingPresetEditActivity extends BaseActivity {
 
     private void backMainPage() {
         Intent intent = new Intent();
-        String value = etValue.getText().toString();
+        String value = etInputSn.getText().toString();
         if (type == 1) {
             if (TextUtils.isEmpty(value)) {
                 toast(getString(R.string.m210请输入金额));
@@ -193,6 +204,7 @@ public class ChargingPresetEditActivity extends BaseActivity {
         //设置当前值
         numberPicker.setValue(index);
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

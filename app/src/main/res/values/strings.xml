@@ -223,7 +223,7 @@
     <string name="m208分">min</string>
     <string name="m209预设">Preset</string>
     <string name="m210请输入金额">Please input amount of money</string>
-    <string name="m211请输入电量">Please input electricity quantity(kWh)</string>
+    <string name="m211请输入电量">Please input electricity quantity</string>
 
 
     <string name="m188过压">Overvoltage</string>

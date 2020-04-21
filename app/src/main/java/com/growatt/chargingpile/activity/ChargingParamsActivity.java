@@ -589,7 +589,7 @@ public class ChargingParamsActivity extends BaseActivity {
                         isEditInfo = false;
                         setPileParamMap.clear();
                         refreshRv(data);
-                        if ("name".equals(key)) {
+                        if ("name".equals(key)||"unit".equals(key)) {
                             EventBus.getDefault().post(new FreshListMsg());
                         }
                     }

@@ -47,6 +47,7 @@ public class ChargingRecoderActivity extends BaseActivity {
 
     private String chargingId;
     private Unbinder bind;
+    private String symbol;
 
 
     @Override
@@ -63,6 +64,7 @@ public class ChargingRecoderActivity extends BaseActivity {
 
     private void initIntent() {
         chargingId=getIntent().getStringExtra("sn");
+        symbol=getIntent().getStringExtra("symbol");
     }
 
     private void setOnClickListener() {
@@ -140,6 +142,9 @@ public class ChargingRecoderActivity extends BaseActivity {
                                 currentPage--;
                             }
                         } else {
+                            for (int i = 0; i < recordList.size(); i++) {
+                                recordList.get(i).setSymbol(symbol);
+                            }
                             if (currentPage == 1) {
                                 mChargingRecordAdapter.replaceData(recordList);
                             } else {
