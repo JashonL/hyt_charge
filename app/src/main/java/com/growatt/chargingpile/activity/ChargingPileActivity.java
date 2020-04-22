@@ -58,6 +58,7 @@ import com.growatt.chargingpile.util.SmartHomeUtil;
 import com.growatt.chargingpile.view.RoundProgressBar;
 import com.mylhyl.circledialog.CircleDialog;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
@@ -502,7 +503,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             } else {
                 Intent intent = new Intent(ChargingPileActivity.this, ChargingPresetEditActivity.class);
                 intent.putExtra("type", 1);
-                intent.putExtra("symbol", mCurrentPile.getSymbol());
+                intent.putExtra("symbol", moneyUnit);
                 startActivityForResult(intent, REQUEST_MONEY);
             }
         });
@@ -515,7 +516,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             }
             Intent intent = new Intent(ChargingPileActivity.this, ChargingPresetEditActivity.class);
             intent.putExtra("type", 1);
-            intent.putExtra("symbol", mCurrentPile.getSymbol());
+            intent.putExtra("symbol",moneyUnit);
             startActivityForResult(intent, REQUEST_MONEY);
         });
 
@@ -968,8 +969,10 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                     mStatusGroup.addView(normalChargingView);
                     setNormalCharging(data);
                 } else {
-                    String symbol = data.getSymbol();
-                    String money = MathUtil.roundDouble2String(data.getCost(), 2) + symbol;
+                    String money = MathUtil.roundDouble2String(data.getCost(), 2);
+                    if (!TextUtils.isEmpty(moneyUnit)){
+                        money=moneyUnit+money;
+                    }
                     String energy = MathUtil.roundDouble2String(data.getEnergy(), 2) + "kWh";
                     int timeCharging = data.getCtime();
                     int hourCharging = timeCharging / 60;
@@ -1037,8 +1040,8 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                 tvFinishRate.setText(String.valueOf(data.getRate()));
                 tvFinishTime.setText(sTimeFinishing);
                 String cost = MathUtil.roundDouble2String(data.getCost(), 2);
-                if (!TextUtils.isEmpty(mCurrentPile.getSymbol())){
-                    cost+=mCurrentPile.getSymbol();
+                if (!TextUtils.isEmpty(moneyUnit)){
+                    cost=moneyUnit+cost;
                 }
                 tvFinishMoney.setText(cost);
                 stopAnim();
@@ -1103,8 +1106,8 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
         tvChargingCurrent.setText(s);
         tvChargingDuration.setText(sTimeCharging);
         String money = MathUtil.roundDouble2String(data.getCost(), 2);
-        if (!TextUtils.isEmpty(mCurrentPile.getSymbol())) {
-            money += mCurrentPile.getSymbol();
+        if (!TextUtils.isEmpty(moneyUnit)) {
+            money = moneyUnit+money;
         }
         tvChargingMoney.setText(money);
         s = String.valueOf(data.getVoltage()) + "V";
@@ -1349,7 +1352,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             case R.id.ll_record:
                 Intent intent4 = new Intent(this, ChargingRecoderActivity.class);
                 intent4.putExtra("sn", mCurrentPile.getChargeId());
-                intent4.putExtra("symbol",mCurrentPile.getSymbol());
+                intent4.putExtra("symbol",moneyUnit);
                 intent4.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 jumpTo(intent4, false);
                 break;
@@ -2095,7 +2098,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void freshTiming(FreshTimingMsg msg) {
+    public void onEventFreshTiming(FreshTimingMsg msg) {
         refreshChargingUI();
     }
 

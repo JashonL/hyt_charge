@@ -15,6 +15,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.google.gson.Gson;
 import com.growatt.chargingpile.BaseActivity;
+import com.growatt.chargingpile.EventBusMsg.AddDevMsg;
 import com.growatt.chargingpile.EventBusMsg.FreshTimingMsg;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.adapter.TimingAdapter;
@@ -73,12 +74,12 @@ public class ChargingDurationActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charging_duration);
         bind = ButterKnife.bind(this);
-        EventBus.getDefault().register(this);
         initIntent();
         initHeaderView();
         initRecyclerView();
         initListeners();
         refresh();
+
     }
 
     private void initIntent() {
@@ -91,9 +92,10 @@ public class ChargingDurationActivity extends BaseActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void fresh(FreshTimingMsg msg) {
+    public void onEventFreshTiming(FreshTimingMsg msg) {
         refresh();
     }
+
 
     private void initListeners() {
         mSwipeRefresh.setColorSchemeResources(R.color.maincolor_1);
@@ -335,7 +337,6 @@ public class ChargingDurationActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 }
