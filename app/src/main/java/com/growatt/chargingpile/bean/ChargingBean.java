@@ -70,6 +70,7 @@ public class ChargingBean {
         private List<PriceConfBean> priceConf;
         private int G_SolarMode;
         private float G_SolarLimitPower;
+        private String symbol;
 
 
         public int getConnectors() {
@@ -385,6 +386,14 @@ public class ChargingBean {
 
         public void setPriceConf(List<PriceConfBean> priceConf) {
             this.priceConf = priceConf;
+        }
+
+        public String getSymbol() {
+            return symbol;
+        }
+
+        public void setSymbol(String symbol) {
+            this.symbol = symbol;
         }
 
         public static class PriceConfBean extends ParamsBeanLeveItem1 implements MultiItemEntity ,Parcelable{

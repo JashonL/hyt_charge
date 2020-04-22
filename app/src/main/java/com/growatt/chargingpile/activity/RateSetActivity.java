@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
-import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.growatt.chargingpile.BaseActivity;
@@ -34,7 +33,7 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -144,10 +143,10 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
                             return;
                         }
                     }
-                    if (!isTimeCoveredOneDay()) {
+               /*     if (!isTimeCoveredOneDay()) {
                         toast(R.string.m331时间必须包含24小时);
                         return;
-                    }
+                    }*/
                     requestEdit();
                 } else {
                     toast(R.string.m330有时间段或费率未输入);
@@ -200,35 +199,32 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
             tittleText = getString(R.string.m204开始时间);
         }
         ChargingBean.DataBean.PriceConfBean bean = mAdapter.getData().get(pos);
-        TimePickerView pvCustomTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
-            @Override
-            public void onTimeSelect(Date date, View v) {//选中事件回调
-                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", getResources().getConfiguration().locale);
-                String time = sdf.format(date);
-                if (isEnd) {
-                /*    if (!TextUtils.isEmpty(bean.getStartTime())) {
-                        if (isStartMore(bean.getStartTime(), time)) {
-                            toast(R.string.m285开始时间不能大于结束时间);
-                            return;
-                        }
-                    }*/
-                    if (!TextUtils.isEmpty(bean.getStartTime())) {
-                        String rateTime = bean.getStartTime() + "-" + time;
-                        mAdapter.getData().get(pos).setTimeX(rateTime);
+        TimePickerView pvCustomTime = new TimePickerBuilder(this, (date, v) -> {//选中事件回调
+            SimpleDateFormat sdf = new SimpleDateFormat("HH", getResources().getConfiguration().locale);
+            String time = sdf.format(date) + ":00";
+            if (isEnd) {
+            /*    if (!TextUtils.isEmpty(bean.getStartTime())) {
+                    if (isStartMore(bean.getStartTime(), time)) {
+                        toast(R.string.m285开始时间不能大于结束时间);
+                        return;
                     }
-                    bean.setEndTime(time);
-                    mAdapter.notifyItemChanged(pos);
-                } else {
-                    if (!TextUtils.isEmpty(bean.getEndTime())) {
-                        String rateTime = time + "-" + bean.getEndTime();
-                        mAdapter.getData().get(pos).setTimeX(rateTime);
-                    }
-                    bean.setStartTime(time);
-                    showTimePickView(true,pos);
+                }*/
+                if (!TextUtils.isEmpty(bean.getStartTime())) {
+                    String rateTime = bean.getStartTime() + "-" + time;
+                    mAdapter.getData().get(pos).setTimeX(rateTime);
                 }
+                bean.setEndTime(time);
+                mAdapter.notifyItemChanged(pos);
+            } else {
+                if (!TextUtils.isEmpty(bean.getEndTime())) {
+                    String rateTime = time + "-" + bean.getEndTime();
+                    mAdapter.getData().get(pos).setTimeX(rateTime);
+                }
+                bean.setStartTime(time);
+                showTimePickView(true, pos);
             }
         })
-                .setType(new boolean[]{false, false, false, true, true, false})// 默认全部显示
+                .setType(new boolean[]{false, false, false, true, false, false})// 默认全部显示
                 .setCancelText(getString(R.string.m7取消))//取消按钮文字
                 .setSubmitText(getString(R.string.m9确定))//确认按钮文字
                 .setContentTextSize(18)
@@ -244,7 +240,7 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
                 .setTextColorCenter(0xff333333)
                 .setDate(selectedDate)// 如果不设置的话，默认是系统时间*/
                 .setRangDate(startDate, endDate)//起始终止年月日设定
-                .setLabel("", "", "", getString(R.string.m207时), getString(R.string.m208分), "")//默认设置为年月日时分秒
+                .setLabel("", "", "", getString(R.string.m207时), "", "")//默认设置为年月日时分秒
                 .isCenterLabel(false) //是否只显示中间选中项的label文字，false则每项item全部都带有label。
                 .isDialog(false)//是否显示为对话框样式
                 .build();
@@ -315,20 +311,41 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
     /*判断时间是否重合*/
     private boolean isTimeCoincide(int start, int end, int pos) {
         List<ChargingBean.DataBean.PriceConfBean> data = mAdapter.getData();
+        List<Integer> oldlist = new ArrayList<>();
+        if (start > end) {
+            for (int i = start; i < 24 * 60; i++) {
+                oldlist.add(i);
+            }
+            for (int i = 0; i < end; i++) {
+                oldlist.add(i);
+            }
+        }else {
+            for (int i = start; i < end; i++) {
+                oldlist.add(i);
+            }
+        }
         for (int i = 0; i < data.size(); i++) {
             ChargingBean.DataBean.PriceConfBean bean = data.get(i);
             String time = bean.getTimeX();
             if (TextUtils.isEmpty(time)) continue;
             if (i == pos) continue;//修改时不跟自己比
+            List<Integer> newList = new ArrayList<>();
             String[] s = time.split("[\\D]");
-            int AlreadyStart = Integer.parseInt(s[0]) * 60 + Integer.parseInt(s[1]);
-            int AlreadyEnd = Integer.parseInt(s[2]) * 60 + Integer.parseInt(s[3]);
-            if ((start > AlreadyStart && start < AlreadyEnd) || (end > AlreadyStart && end < AlreadyEnd))
-                return true;
-            if ((AlreadyStart > start && AlreadyStart < end) || (AlreadyEnd > start && AlreadyEnd < end))
-                return true;
-            if (AlreadyStart == start && AlreadyEnd == end)
-                return true;
+            int alreadyStart = Integer.parseInt(s[0]) * 60 + Integer.parseInt(s[1]);
+            int alreadyEnd = Integer.parseInt(s[2]) * 60 + Integer.parseInt(s[3]);
+            if (alreadyEnd < alreadyStart) {
+                for (int j = alreadyStart; j < 24 * 60; j++) {
+                    newList.add(j);
+                }
+                for (int j = 0; j < alreadyEnd; j++) {
+                    newList.add(j);
+                }
+            } else {
+                for (int j = alreadyStart; j < alreadyEnd; j++) {
+                    newList.add(j);
+                }
+            }
+            if (!Collections.disjoint(oldlist, newList))return true;
         }
         return false;
     }
@@ -353,7 +370,7 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
             }
         }
 //        if (data.size() == 1) return timeLong == oneday - 1;
-        return timeLong == oneday - 1||timeLong==oneday;
+        return timeLong == oneday - 1 || timeLong == oneday;
     }
 
     /*判断是否有item未设置时间*/

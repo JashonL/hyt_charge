@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_marginTop="@dimen/ya20"
     android:layout_height="wrap_content">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/ya40"
+        android:layout_height="@dimen/xa40"
         android:background="@drawable/shape_white_corner_bg"
         >
 
@@ -32,9 +33,9 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:hint="@string/m283选择时间"
-                android:textColor="@color/title_3"
-                android:textColorHint="@color/title_3"
-                android:textSize="@dimen/ya24" />
+                android:textColor="@color/title_bg_white"
+                android:textColorHint="@color/note_bg_white"
+                android:textSize="@dimen/text_size_content" />
 
 
         </LinearLayout>
@@ -70,9 +71,9 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:hint="@string/m152充电费率"
-                android:textColor="@color/title_3"
-                android:textColorHint="@color/title_3"
-                android:textSize="@dimen/ya24" />
+                android:textColor="@color/title_bg_white"
+                android:textColorHint="@color/note_bg_white"
+                android:textSize="@dimen/text_size_content" />
         </LinearLayout>
 
     </android.support.constraint.ConstraintLayout>

@@ -8,6 +8,7 @@ import java.util.List;
  */
 
 public class GunBean {
+    public static final String NONE="None";
     public static final String UNAVAILABLE = "Unavailable";
     public static final String FAULTED = "Faulted";
     public static final String AVAILABLE = "Available";
@@ -183,6 +184,11 @@ public class GunBean {
 
         public void setVoltage(double voltage) {
             this.voltage = voltage;
+        }
+
+
+        public String getName() {
+            return name;
         }
 
         public void setName(String name) {

@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Project EV</string>
+
+    <string name="m1立即体验">Próbálja most</string>
+    <string name="m2下一步">Következő</string>
+    <string name="m3完成">Kész</string>
+    <string name="m4服务器错误">Szerver hiba</string>
+    <string name="m5拍照">Készítsen fényképet</string>
+    <string name="m6从相册选取">Válasszon a képek közül</string>
+    <string name="m7取消">Mégse</string>
+    <string name="m8警告">Figyelmeztetés</string>
+    <string name="m9确定">Belépés</string>
+    <string name="m10删除">Töröl</string>
+    <string name="m11扫描结果">Szkennelési eredmény</string>
+    <string name="m12配置">Konfiguráció</string>
+    <string name="m13控制提示">Távirányítás</string>
+    <string name="m14添加问题提示">Kérdés hozzáadása</string>
+    <string name="m15控制密码">Jelszó</string>
+    <string name="m16返回">Vissza</string>
+    <string name="m17停止配置">Konfigurálás leállítása</string>
+    <string name="m18注册失败">Sikertelen regisztráció</string>
+    <string name="m19是否退出当前账户">Kijelentkezik?</string>
+
+
+
+    <string name="m20用户名密码错误">Felhasználónév vagy jelszó hiba</string>
+    <string name="m21用户名密码为空">Felhasználónév vagy jelszó üres</string>
+    <string name="m25请输入用户名">Adja meg felhaználónevét</string>
+    <string name="m26请输入密码">Adja meg jelszavát</string>
+    <string name="m22忘记密码">Elfelejtett jelszó</string>
+    <string name="m23注册">Feliratkozás</string>
+    <string name="m24登陆">Bejelentkezés</string>
+
+
+    <string name="m27温馨提示">Megjegyzés? / Feljegyzés?</string>
+    <string name="m28原密码">Régi jelszó</string>
+
+    <string name="m浏览账户">Demo</string>
+
+
+    <string name="m29发送到邮箱">Az új jelszó sikeres megadását követően, jelszavát a fiókhoz rendelt e-mail fiókjában találja. </string>
+    <string name="m30请输入正确的用户名">Kérjük a helyes felhasználói nevet adja meg</string>
+    <string name="m31发送邮件失败">Sikertelen email küldés</string>
+    <string name="m32填写资料注册新用户">Töltse ki a megfelelő információval</string>
+    <string name="m33同意本公司各项用户条款及隐私政策">Felhaználói megállapodás</string>
+    <string name="m34选择用户协议">Kérjük pipálja ki a Megállapodást</string>
+    <string name="m35请输入正确邮箱格式">Kérjük, helyes e-mail fiók formátumot adjon meg</string>
+    <string name="m36超出版本限制注册用户数量">A felhasználók száma meghaladja a határértéket</string>
+    <string name="m37服务器错误">Szerver hiba</string>
+    <string name="m38注册错误">Regisztráció hiba</string>
+    <string name="m39采集器序列号或校验码错误">A naplózó sorozatszáma vagy az ellenőrző kód nem megfelelő</string>
+    <string name="m40用户名已被使用">Regisztrált felhasználónév</string>
+    <string name="m41代理商编码错误">Telepítői azonosító hiba</string>
+    <string name="m42注册成功">Sikeres regisztráció</string>
+    <string name="m43采集器序列号已经存在">Már létező naplózó sorozatszám</string>
+    <string name="m44服务器错误提示">Server hiba</string>
+    <string name="m45服务器错误提示2">Server hiba2</string>
+    <string name="m46采集器10位提示">Naplózó hiba</string>
+    <string name="m47不能找到用户名">A felhasználónév nem található</string>
+    <string name="m48打开定位开关">Helymeghatározó szolgáltatás kikapcsolva</string>
+    <string name="m49定位提示跳转">Vissza \ Beállítások \ oldal?</string>
+
+    <string name="m50我">Én</string>
+    <string name="m51账号管理">Fiókkezelés</string>
+    <string name="m52消息中心">Üzenetközpont </string>
+    <string name="m53关于">További információk</string>
+    <string name="m54用户协议">Felhasználói megállapodás</string>
+    <string name="m55注销账号">Kijelentkezés</string>
+    <string name="m56暂未开放">A funkció nem áll készen</string>
+    <string name="m57修改密码">Változtassa meg jelszavát</string>
+    <string name="m58修改手机号">Változtassa meg jelszavát</string>
+    <string name="m59修改邮箱">Változtassa meg e-mail címét</string>
+    <string name="m60填入不带国家代码的手机号">Az ország előhívókódja nélkül adja meg telefonszámát </string>
+    <string name="m61输入邮箱地址">Adja meg e-mail címét</string>
+    <string name="m62输入代理商编号">Adja meg telepítői azonosító számát</string>
+    <string name="m63系统错误">Rendszerhiba </string>
+    <string name="m64原密码错误">Hibás jelszó</string>
+    <string name="m65用户不存在">Nem létező felhasználó</string>
+    <string name="m66你的账号没有操作权限">A fiókjának nincs üzemeltetői jogosultsága</string>
+    <string name="m67参数设置成功">Sikeres paraméterbeállítás</string>
+    <string name="m68请验证注册时填写的手机号码">Kérjük erősítse meg a telefonszámát </string>
+    <string name="m69验证用户手机号码">Erősítse meg a felhasználói telefonszámát</string>
+    <string name="m70验证用户邮箱">Erősítse meg a felhasználói e-mail címét</string>
+    <string name="m71您注册时填写的手机号是">A regisztráláshoz használt telefonszáma:</string>
+    <string name="m72请输入短信验证码">Írja be a hitelesítő kódot</string>
+    <string name="m74验证码错误">Hibás hitelesítő kód</string>
+    <string name="m75发送验证码">Küldjön hitelesítő kódot</string>
+    <string name="m76国际区号错误">Nemzetközi híváshoz nem megfelelő országhívó szám</string>
+    <string name="m77手机号格式错误">Nem megfelelő telefonszám formátum</string>
+    <string name="m78发送短信验证码不成功">Az üzenet sikertelen küldjön hitelesítőkódot</string>
+    <string name="m79该手机号没有注册用户">Nem tartozik fiók a megadott telefonszámhoz </string>
+    <string name="m80短信验证码请求已经失效">Sikertelen megerősítőkód lekérés</string>
+    <string name="m81请输入正确的手机校验码">Kérjük adja meg a helyes telefonszám hitelesítő kódot </string>
+
+    <string name="m82是否更新">Frissítsen vagy sem</string>
+    <string name="m83立即更新">Frissíten most</string>
+    <string name="m84最新版本为">Legfrissebb verzió</string>
+    <string name="m85暂不">Frissíten később</string>
+    <string name="m86您使用的是最新版本">A jelenlegi változat a legfrissebb</string>
+    <string name="m87请求苹果服务器失败">Apple szerverhiba</string>
+    <string name="m88拨打电话">Telefonhívást kíván kezdeményezni?</string>
+    <string name="m89当前版本">Jelenlegi változat</string>
+
+
+    <string name="m90用户名">Felhasználónév</string>
+    <string name="m91密码">Jelszó</string>
+    <string name="m92重复密码">Ismételje meg a jelszót</string>
+    <string name="m93重复输入密码">Ismételje meg a jelszót</string>
+    <string name="m94电子邮箱">E-mail</string>
+    <string name="m95联系电话">Telefon</string>
+    <string name="m96代理商编号">Ügyfélazonosító</string>
+    <string name="m97输入代理商编号">Írja be ügyfélazonosítóját</string>
+    <string name="m98请输入相同的密码">Kérjük ugyanazt a jelszót adja meg</string>
+    <string name="m99用户名必须大于3位">A felhasználónév 3 vagy több karakter kell legyen</string>
+    <string name="m100密码必须大于6位">A jelszó 6 vagy több karakter kell legyen</string>
+
+
+
+
+
+
+    <string name="m104输入电话号码">Írja be a telefonszámot</string>
+    <string name="m101添加设备">Eszköz hozzáadása</string>
+    <string name="m102充电桩">Töltő</string>
+    <string name="m103充电">ON</string>
+    <string name="m104充电记录">Felvétel</string>
+    <string name="m105桩体设置">Beállítás</string>
+    <string name="m106选择充电桩">Válassza ki a kívánt töltőfejet</string>
+    <string name="m107连接">Kapcsolódás</string>
+    <string name="m108停止充电">Töltés kikapcsolása</string>
+    <string name="m109输入充电桩序列号添加充电桩">Adja meg a töltő azonosítóját a töltő hozzáadásához</string>
+    <string name="m212暂时还没有设备">Nincs eszköz</string>
+
+
+
+    <string name="m110A枪">A töltőfej</string>
+    <string name="m111B枪">B töltőfej</string>
+    <string name="m112C枪">C töltőfej</string>
+    <string name="m112交流">AC</string>
+    <string name="m113直流">DC</string>
+    <string name="m114单枪">1 töltőfej</string>
+    <string name="m115双枪">2 töltőfej</string>
+    <string name="m116无">Nullás</string>
+
+    <string name="m117空闲">Elérhető</string>
+    <string name="m118充电中">Tölt</string>
+    <string name="m119准备中">Előkészületben</string>
+    <string name="m120充电结束">Töltés vége</string>
+    <string name="m121故障">Töltőpont hiba</string>
+    <string name="m122不可用">Nem elérhető</string>
+    <string name="m123暂停充电">A jármű felfüggesztette a töltést</string>
+    <string name="m124已经注销">Elhalasztásra került</string>
+    <string name="m125启用中">Indul</string>
+    <string name="m126已经工作过">Töltés teljesült</string>
+
+    <string name="m127设置金额不能为0">A beállított költség értéke nem lehet 0</string>
+    <string name="m128设置电量不能为0">A beállított energia érétke nem lehet 0</string>
+    <string name="m129时长设置不能为空">Az időbeállítás értéke nem maradhat üresen</string>
+    <string name="m130未设置开始时间">Időérték nem került beállításra</string>
+    <string name="m131空闲状态无法直接开始充电">Nem kezdhet közvetlenül tölteni. A töltés megkezdéséhez kérjük előbb csatlakozzon a Töltőponthoz.</string>
+
+    <string name="m132切换">Váltás</string>
+    <string name="m133添加">Hozzáadás</string>
+    <string name="m134是否确定删除设备">Biztos benne, hogy törli az eszközt?</string>
+    <string name="m确认删除">Biztos benne, hogy törli a jogosult felhasználót?</string>
+    <string name="m135删除成功">Sikeresen törölve</string>
+    <string name="m136请输入充电桩ID">Adja meg a töltő azonosítóját</string>
+    <string name="m137扫码添加">Húzza le a kódot a hozzáadáshoz</string>
+    <string name="m138添加充电桩">Töltő hozzáadása</string>
+    <string name="m139添加成功">Sikeresen hozzáadva</string>
+    <string name="m140不能为空">Nem maradhat üresen!</string>
+
+    <string name="m141参数设置">Paraméter beállítások</string>
+    <string name="m142授权管理">Engedélyezés</string>
+    <string name="m143基本参数">Alapérték</string>
+    <string name="m144重要数据">Fontos adat</string>
+    <string name="m145其他数据">Egyéb adatok</string>
+    <string name="m213输入更改的设置">Beállítások megváltoztatása</string>
+
+    <string name="m146充电桩ID">Töltőazonosító</string>
+    <string name="m147授权认证秘钥">Azonosító kulcs</string>
+    <string name="m148基础参数">Alapértékek</string>
+    <string name="m149电桩名称">Töltő neve</string>
+    <string name="m150国家城市">Ország és város</string>
+    <string name="m151站点">Helyszín</string>
+    <string name="m152充电费率">Ft/KWh</string>
+    <string name="m153功率设置">Teljesítmény beállítás</string>
+    <string name="m154充电模式">Töltési modell</string>
+    <string name="m155高级设置">Haladó beállítások</string>
+    <string name="m156充电桩IP">Töltő IP</string>
+    <string name="m157网关">Alapértelmezett átjáró</string>
+    <string name="m158子网掩码">Alhálózati maszk</string>
+    <string name="m159网络MAC地址">MAC</string>
+    <string name="m160服务器URL">Szerver URL</string>
+    <string name="m161DNS地址">DNS</string>
+
+    <string name="m217扫码刷卡">APP/RFID</string>
+    <string name="m218仅刷卡充电">Csak RFID</string>
+    <string name="m219插枪充电">Csatlakozz &amp; tölts</string>
+    <string name="m162添加授权">További jogosult hozzáadása</string>
+    <string name="m163输入用户名添加授权用户">Felhasználó hozzáadáshoz, írjon be egy felhasználónevet</string>
+    <string name="m164注册新用户">Iratkozzon fel</string>
+    <string name="m165填写资料注册新用户">Töltse ki a megfelelő információkkal</string>
+    <string name="m166请输入用户名车牌电话邮箱">Kérjük adja meg a felhasználónevet</string>
+    <string name="m167现在正处于时段预约状态">Amennyiben azonnal el szeretné kezdeni a töltést,  kérjük törölje az aktuális foglalási beállítást és indítsa újra az időzítőt!</string>
+
+
+
+    <string name="m168搜索">Keres</string>
+    <string name="m169连接成功">Csatlakozás rendben</string>
+    <string name="m170请将充电枪插入车辆">Kérjük csatlakoztassa a töltőfejet a járműhöz!</string>
+    <string name="m171蓝牙">Bluetooth</string>
+    <string name="m172连接充电桩需打开蓝牙">A töltőhöz való csatlakozáshoz kapcsolja be a bluetooth funkciót.</string>
+    <string name="m173我的设备">Az eszközlistám</string>
+    <string name="m174可配对设备">Párosítható eszközök</string>
+    <string name="m175配件">Kiegészítők</string>
+
+
+    <string name="m176确认">Megerősítés</string>
+    <string name="m177输入格式不正确">Nem megfelelő formátum, kérjük adja meg az adatot újra</string>
+    <string name="m178定时">Időmérő </string>
+    <string name="m179新增">Hozzá ad</string>
+    <string name="m180预设充电方案时长">Adja meg a foglalás időtartamát:</string>
+    <string name="m181设置定时">Állítsa be az időzítőt</string>
+    <string name="m182保存">Mentés</string>
+    <string name="m183开启">Indítás</string>
+    <string name="m184关闭">Vége</string>
+    <string name="m185未设置">Nincs beállítva</string>
+    <string name="m186每天">Minden nap</string>
+    <string name="m187删除">Törlés</string>
+    <string name="m207时">óra</string>
+    <string name="m208分">perc</string>
+    <string name="m209预设">Előre meghatározott beállítás</string>
+    <string name="m210请输入金额">Kérjük adja meg a pénzértéket;</string>
+    <string name="m211请输入电量">Kérjük adja meg az elektromos áram mennyiségét;</string>
+
+
+
+
+    <string name="m188过压">Túlfeszültség</string>
+
+    <string name="m189已充电量">Energia</string>
+    <string name="m190充电费率">Egységár (Ft/kWh)</string>
+    <string name="m191已充时长">Idő</string>
+    <string name="m192消费金额">Költség</string>
+    <string name="m193当前电流">Áram</string>
+    <string name="m194当前电压">Feszültség</string>
+
+
+
+
+
+
+
+    <string name="m195充电结束提示拔枪">A töltés befejeztével, kérjük csatlakoztassa le a töltőfejet és helyezze vissza a helyére.</string>
+    <string name="m214请连接充电枪到车辆">Kérjük a töltőfejet csatlakoztassa a járműhöz</string>
+    <string name="m215电桩故障">Töltőpont meghibásodás, kérjük váltson másik töltőpontra</string>
+    <string name="m216桩体状态为不可用">A töltőpont nem elérhető, kérjük váltson másik töltőpontra</string>
+    <string name="m196预设">Töltési érték megadása</string>
+    <string name="m197当前">Töltés azonnali megkezdése</string>
+    <string name="m198预设充电方案">Előre beállított töltés</string>
+    <string name="m199达到预设停止充电">(A beállított érték elérésekor a töltés álljon le) </string>
+    <string name="m200金额">Költség</string>
+    <string name="m201电量">Energia</string>
+    <string name="m202时长">Idő</string>
+    <string name="m203预约充电">Töltés előfoglalása</string>
+    <string name="m204开始时间">Kezdési idő</string>
+    <string name="m205已开启">BE</string>
+    <string name="m206已关闭">KI</string>
+
+
+
+
+
+
+    <string name="m243设置成功"> Sikeres beállítás;</string>
+    <string name="m244设置失败">Sikertelen beállítás;</string>
+    <string name="m限制功率1kw">Csökkentse a töltési teljestményt 1 kW-ra</string>
+
+
+
+    <string name="m247热点连接">Csatlakozási hotspot</string>
+    <string name="m248连接至电桩热点">Telefonján a WiFi-t kapcsolja be, majd párosítsa készülékét a töltővel.</string>
+    <string name="m249当前手机连接WiFi">Aktuálisan csatlakoztatott WiFi</string>
+    <string name="m250刷新">Frissítsen</string>
+    <string name="m251已连接下一步">Kapcsolódott, következő</string>
+    <string name="m252连接充电桩中">A töltő csatlakoztatása…</string>
+    <string name="m253手机暂未连接wifi">A telefon nincs a wifi-vel párosítva</string>
+    <string name="m254连接失败">Sikertelen csatlakozás</string>
+
+    <string name="m255设备信息参数设置">Eszközinformáció paraméter beállításai</string>
+    <string name="m256设备以太网参数设置">Eszköz Ethernet paraméter beállításai</string>
+    <string name="m257设备账号密码参数设置">Eszköz fiók beállításai</string>
+    <string name="m258设备服务器参数设置">Eszköz szerver paraméter beállításai</string>
+    <string name="m259设备充电参数设置">Eszköz töltő paraméter beállításai</string>
+    <string name="m260语言">Nyelv</string>
+    <string name="m261中文">Kínai</string>
+    <string name="m262泰文">Thai nyelv</string>
+    <string name="m263英文">Angol</string>
+    <string name="m264读卡器秘钥">Kártyaolvasó</string>
+    <string name="m265RCD保护值">Védelmi szint</string>
+
+    <string name="m266Wifi名称">Wifi név</string>
+    <string name="m267Wifi密码">Wifi jelszó</string>
+    <string name="m268蓝牙名称">Bluetooth név</string>
+    <string name="m269蓝牙密码">Bluetooth jelszó</string>
+    <string name="m2704G用户名">4G felhasználónév</string>
+    <string name="m2714G密码">4G jelszó</string>
+    <string name="m2724GAPN">4G APN</string>
+
+    <string name="m273握手登录授权秘钥">Azonosító kulcs</string>
+    <string name="m274心跳间隔时间">Pulzus intervallum(s)</string>
+    <string name="m275PING间隔时间">PING időköz(s)</string>
+    <string name="m276表计上传间隔时间">Mérő feltöltési időszak</string>
+
+    <string name="m277电桩最大输出电流">Töltő legnagyobb kimeneti árama (A)</string>
+    <string name="m278保护温度">Védelmi hőmérséklet (°C)</string>
+    <string name="m279外部监测最大输入功率">Maximális bemeneti teljesítmény követése (KW); Kívülről követett legnagyobb bementi teljesítmény (kW)</string>
+    <string name="m280允许充电时间">Töltési idő engedélyezése</string>
+
+    <string name="m281电桩断开">Töltő leválasztása</string>
+    <string name="m282结束时间">Befejezési dő</string>
+    <string name="m283选择时间">Kiválasztási időtartam</string>
+    <string name="m284未设置结束时间">A befejezési idő nincs megadva</string>
+    <string name="m285开始时间不能大于结束时间">A kezdés ideje nem lehet későbbi mint a befejezés ideje</string>
+    <string name="m286输入值超出规定长度">A bemeneti érték meghaladja a meghatározott hosszt</string>
+    <string name="m287级">szint</string>
+    <string name="m288未连接">nincs csatlakoztatva</string>
+    <string name="m289进入AP模式">Kapcsoljon AP módba</string>
+    <string name="m290超出设置范围">Beállítási tartományon kívül esik</string>
+    <string name="m291设定值不能小于">Az érték nem lehet kevesebb mint</string>
+
+    <string name="m292桩拒绝充电">A jármű nem hajlandó feltölteni</string>
+    <string name="m293车拒绝充电提示">A jármű elutasítja a töltést, vagy feltöltött állapotban van, vagy szabad</string>
+    <string name="m294桩拒绝充电提示">A töltőpont elutasítja a töltést, kérjük váltson másik töltőpontra </string>
+
+    <string name="m295该电桩热点不是已选择的电桩">Ez nem a kiválasztott töltőpont</string>
+    <string name="m296版本号">Verziószám</string>
+    <string name="m297峰谷充电使能">Csúcsérték töltési mód engedélyezve</string>
+    <string name="m298功率分配使能">Teljesítmény elosztás bekapcsolva </string>
+    <string name="m299使能">bekapcsolva</string>
+    <string name="m300禁止">letiltva</string>
+    <string name="m301执行">Végrehajt</string>
+    <string name="m302请求失败">A kérés nem sikerült</string>
+    <string name="m303选择货币">válassza meg a pénznemet</string>
+    <string name="m304设置未做任何更改">A beállításokat nem kerültek megváltoztatásra</string>
+    <string name="m305AP模式">AP mód</string>
+    <string name="m306当前充电桩序列号">a jelenlegi töltőpont sorozatszáma</string>
+    <string name="m307切换成功">az átkapcsolás sikerült</string>
+    <string name="m308切换失败">az átkapcsolás nem sikerült</string>
+    <string name="m309操作引导1">Állítsa a töltésipontot AP módra  WiFi hotspotként. Ez a lépés az újonnan telepített töltőpont legelső beállításakor kihagyható.  </string>
+    <string name="m310操作引导2">Csatlakoztassa a mobiltelefonját a töltőpont WiFijé-hez, a jelszó 12345678. Ha a töltésipont WiFi-je nem található, kérjük kapcsolja ki és be töltőpontot és ekkor a WiFi 90 másodpercre a WiFi jelet sugározza.</string>
+    <string name="m311操作引导3">Miután sikeresen csatlakoztatta a hotspot-ot, kattintson a Következő gombra, hogy belépjen a WiFi beálltási oldalra és a paraméter beállításokhoz </string>
+    <string name="m312WIFI直连操作指引">WiFi csatlakozási instrukciók</string>
+    <string name="m313电桩最大输出电流">Maximális aktuális beállítás</string>
+    <string name="m314智能功率分配">Töltse be a menedzsment beállítást</string>
+    <string name="m315货币单位">Valuta egység</string>
+    <string name="m316退出登录">Kijelentkezés</string>
+    <string name="m317注销账户">Fiók törlése</string>
+    <string name="m318是否注销账户">Biztos benne, hogy törölni kívánja fiókját</string>
+    <string name="m319注销后账户将被删除">A fiók törlésre kerül és a továbbiakban nem lesz elérhető</string>
+    <string name="m320注销成功">Sikeresen törölve</string>
+    <string name="m321注销失败">Sikertelen törlés</string>
+    <string name="m322系统错误">rendszerhiba </string>
+    <string name="m323用户不存在">A felhasználó nem létezik</string>
+    <string name="m324该用户下存在浏览账户">A felahsználó neve alatt egy kereső fiók van</string>
+    <string name="m325admin账号不允许注销">Az adminisztrátor fiók törlése nem engedélyezett</string>
+    <string name="m326时间段">időszak</string>
+    <string name="m327费率">ráta</string>
+    <string name="m328设置不能超过6条">Maximálisan 6 beállítás</string>
+    <string name="m329最少要有1条">Legalább egynek kell lenni</string>
+    <string name="m330有时间段或费率未输入">Az időszak vagy ráta nem került megadásra</string>
+    <string name="m331时间必须包含24小时">Az időformátum 24 órás</string>
+    <string name="m332时间不能相同">Az időérték nem lehet ugyanaz</string>
+    <string name="m333时间段不能重叠">Az időperiódusok nem fedhetik egymást </string>
+    <string name="m334预约时间">Foglalás</string>
+    <string name="m335预设充电">Előre beállított töltés</string>
+    <string name="m336充电方案">Töltési séma</string>
+    <string name="m337预计">Várható költség</string>
+    <string name="m338充满自动停止充电">Addig töltsön míg meg nem telt az akkumulátor</string>
+    <string name="m339预约">foglalás</string>
+    <string name="m340取消预约">foglalás törlése</string>
+    <string name="m电表">Villamosenergia-mérő</string>
+    <string name="m外部电流采样接线方式">Külső áram-mintavételi huzalozási módszer</string>
+    <string name="mSolar模式">Napelemes üzemmód</string>
+    <string name="m电流限制">ECO + áramkorlát</string>
+    <string name="m电表设备地址">A mérőeszköz címe</string>
+    <string name="m设置未保存">A módosított beállítások nem kerülnek mentésre, függetlenül attól, hogy elvetik-e a módosításokat és kilépnek-e</string>
+    <string name="m输入字符长度不能超出">A bevitt karakterek száma nem haladhatja meg</string>
+    <string name="m电桩电子锁">Elektromos halom elektronikus zár</string>
+    <string name="m是否解除该枪电子锁">A fegyver elektronikus zárjának elengedése</string>
+    <string name="m已锁住">azt zárva</string>
+    <string name="m已解锁">Kártyafüggetlen</string>
+    <string name="m解锁">Unlock</string>
+    <string name="m电桩不支持该设置或指令发送出现异常">A halom nem támogatja ezt a beállítást, vagy a parancs küldése rendellenes.</string>
+
+    <string name="m邮政编码不能为空">Az irányítószám nem lehet üres</string>
+    <string name="m请输入您的邮政编码">Kérjük, adja meg irányítószámát</string>
+    <string name="m请输入安装商">Kérjük, adja meg a telepítőt</string>
+    <string name="m搜索电桩">Keressen az Elektromos Postán</string>
+    <string name="m搜索结果为空">A keresési eredmények üresek</string>
+    <string name="m密码已初始化">A jelszó inicializálva</string>
+    <string name = "枪">kivezetés</string>
+
+
+    <string name="m权限获取某权限说明">Kérjen xxx engedélyt</string>
+    <string name="m权限请求">Kérjen engedélyt</string>
+    <string name="m权限请求步骤">1. Nincs xxx engedély, kérjük erősítse meg ha kézzel nyitja fel 2. Kattintson xx, hogy belépjen a jogosultsági beállításokhoz</string>
+
+    <string name="m相机">Kamera vagy tároló</string>
+    <string name="m存储">Tároló</string>
+    <string name="m相机单">Kamera</string>
+    <string name="m位置权限">Helyszín engedély</string>
+    <string name="m修改成功">Sikeresen megváltoztatva</string>
+    <string name="m修改失败">Nem sikerült megváltoztatni</string>
+    <string name="m确认退出">Nyomja meg a kilépéshez</string>
+    <string name="m请选择">Kérjük válasszon</string>
+    <string name="m没有SD卡">Nincs SD kártya</string>
+    <string name="m国家区号">Országhívószám</string>
+    <string name="m成功">Sikerült</string>
+    <string name="m失败">Nem sikerült</string>
+    <string name="m秒">második</string>
+    <string name="m网络错误">Hálózati probléma</string>
+    <string name="m网络超时">A hálózat kapcsolódási ideje lejárt</string>
+    <string name="m服务器连接失败">Nem sikerült a szerverhez kapcsolódni</string>
+    <string name="m请开启网络">Kérjük kapcsolja be a hálózatot</string>
+    <string name="m账号未注册">A fiók nem került regisztrálásra</string>
+    <string name="m预约时间段">Foglalt időszak</string>
+    <string name="m请选择正确的时间段">Kérjük válasszon helyes időperiódust</string>
+    <string name="m输入金额不正确">Helytelen pénzösszeg</string>
+    <string name="m输入电量不正确">Helytelen elektromos áram mennyiség</string>
+    <string name="m开始时间错误">Hibás indítási idő</string>
+    <string name="m体验馆">Próbálja most</string>
+    <string name="solar">Napelem</string>
+    <string name="m限制时间段">8:00am~8:00pm</string>
+    <string name="m位置">Helyszín</string>
+    <string name="m368请重试或检查网络连接">Kérjük próbálkozzon újra, vagy ellenőrizze a hálózathoz való kapcsolódást</string>
+    <string name="m去WLAN页面进行设置">Menjen a WLAN beállításokhoz</string>
+    <string name="m133车拒绝充电">A jármű elutasítja a töltést</string>
+    <string name="m请先升级充电桩">Kérjük frissítse a töltőpontot</string>
+    <string name="mCT">CT</string>
+    <string name="m确认修改">Megerősíti a módosítást?</string>
+    <string name="m登录成功">A bejelentkezés sikeres</string>
+    <string name="m验证失败">Sikertelen hitelesítés</string>
+    <string name="m验证成功">Sikeres hitelesítés</string>
+
+</resources>

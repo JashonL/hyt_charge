@@ -25,7 +25,6 @@
     <string name="m19是否退出当前账户">是否退出当前账户</string>
 
 
-
     <string name="m20用户名密码错误">用户名密码错误</string>
     <string name="m21用户名密码为空">用户名密码为空</string>
     <string name="m25请输入用户名">请输入用户名</string>
@@ -118,10 +117,6 @@
     <string name="m100密码必须大于6位">密码必须大于6位</string>
 
 
-
-
-
-
     <string name="m104输入电话号码">输入电话号码</string>
     <string name="m101添加设备">添加设备</string>
     <string name="m102充电桩">充电桩</string>
@@ -133,7 +128,6 @@
     <string name="m108停止充电">停止充电</string>
     <string name="m109输入充电桩序列号添加充电桩">输入充电桩序列号添加充电桩</string>
     <string name="m212暂时还没有设备">您暂时还没有设备呢</string>
-
 
 
     <string name="m110A枪">A枪</string>
@@ -208,7 +202,6 @@
     <string name="m167现在正处于时段预约状态">现在正处于时段预约状态，如需立即开始充电，请关闭预约按键，并重新设置时长!</string>
 
 
-
     <string name="m168搜索">搜索</string>
     <string name="m169连接成功">连接成功!</string>
     <string name="m170请将充电枪插入车辆">请将充电枪插入车辆!</string>
@@ -235,9 +228,7 @@
     <string name="m208分">分</string>
     <string name="m209预设">预设</string>
     <string name="m210请输入金额">请输入金额</string>
-    <string name="m211请输入电量">请输入电量(kWh)</string>
-
-
+    <string name="m211请输入电量">请输入电量</string>
 
 
     <string name="m188过压">过压</string>
@@ -248,11 +239,6 @@
     <string name="m192消费金额">消费金额</string>
     <string name="m193当前电流">当前电流</string>
     <string name="m194当前电压">当前电压</string>
-
-
-
-
-
 
 
     <string name="m195充电结束提示拔枪">充电结束，请拔下充电枪，并将充电枪归位</string>
@@ -270,10 +256,6 @@
     <string name="m204开始时间">开始时间</string>
     <string name="m205已开启">已开启</string>
     <string name="m206已关闭">已关闭</string>
-
-
-
-
 
 
     <string name="m243设置成功">设置成功</string>
@@ -396,11 +378,20 @@
     <string name="m已解锁">已解锁</string>
     <string name="m解锁">解锁</string>
     <string name="m电桩不支持该设置或指令发送出现异常">电桩不支持该设置或指令发送出现异常</string>
+
+    <string name="m邮政编码不能为空">邮政编码不能为空</string>
+    <string name="m请输入您的邮政编码">请输入您的邮政编码</string>
+    <string name="m请输入安装商">请输入安装商</string>
+    <string name="m搜索电桩">搜索电桩</string>
+    <string name="m搜索结果为空">搜索结果为空</string>
+    <string name="m密码已初始化">密码已初始化</string>
+
+    <string name="枪">枪</string>
     <!--安卓额外部分-->
     <!--权限问题-->
     <string name="m权限获取某权限说明">请求获取权限</string>
     <string name="m权限请求">权限请求</string>
-    <string name="m权限请求步骤">%1$s权限未开启,是否手动设置:\n\n1.点击确定进入设置界面;\n2.点击权限;\n3.开启%2$s权限.</string>
+    <string name="m权限请求步骤">权限未开启,是否手动设置:1.点击确定进入设置界面;2.点击权限;3.开启权限.</string>
     <!--    //相机和存储-->
     <string name="m相机">相机或存储</string>
     <string name="m存储">存储</string>
@@ -435,15 +426,9 @@
     <string name="m请先升级充电桩">请先升级充电桩</string>
     <string name="mCT">CT</string>
     <string name="m确认修改">确认修改?</string>
-    <string name="m请输入您的邮政编码">请输入您的邮政编码</string>
-    <string name="m邮政编码不能为空">邮政编码不能为空</string>
-    <string name="m请输入安装商">请输入安装商</string>
-    <string name="m搜索电桩">搜索电桩</string>
-    <string name="m搜索结果为空">搜索结果为空</string>
     <string name="m登录成功">登录成功</string>
     <string name="m验证失败">验证失败</string>
     <string name="m验证成功">验证成功</string>
-    <string name="m密码已初始化">密码已初始化</string>
 </resources>
 
 

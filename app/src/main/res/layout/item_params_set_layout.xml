@@ -11,9 +11,9 @@
         android:layout_height="@dimen/xa90"
         android:background="@color/headerView">
 
-        <com.growatt.chargingpile.view.AutofitTextView
+        <TextView
             android:id="@+id/tv_key"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/xa30"
             android:gravity="center_vertical"
@@ -21,7 +21,6 @@
             android:textColor="@color/title_1"
             android:textSize="@dimen/xa30"
             android:singleLine="true"
-            app:layout_constraintHorizontal_weight="1"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -39,7 +38,8 @@
             android:textColor="@color/title_bg_white"
             android:textSize="@dimen/xa30"
             android:singleLine="true"
-            app:layout_constraintHorizontal_weight="1"
+            android:lines="1"
+            android:ellipsize="end"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/tv_key"

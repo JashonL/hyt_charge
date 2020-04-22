@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -25,92 +26,78 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/xa39">
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
             android:id="@+id/ll_ele_money"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/xa90"
+            android:layout_marginTop="@dimen/xa136"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/xa30"
-                android:layout_marginRight="@dimen/xa30"
-                android:layout_marginTop="@dimen/xa136"
-                android:orientation="horizontal">
+            <EditText
+                android:id="@+id/et_input_sn"
+                android:layout_width="@dimen/xa500"
+                android:layout_height="0dp"
+                android:background="@null"
+                android:gravity="center"
+                android:hint="@string/m211请输入电量"
+                android:inputType="numberDecimal"
+                android:textSize="@dimen/xa30"
+                android:layout_marginRight="@dimen/xa20"
+                app:layout_constraintBottom_toTopOf="@+id/v_bottom"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/view"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <EditText
-                    android:id="@+id/et_input_sn"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:gravity="center"
-                    android:hint="@string/m211请输入电量"
-                    android:inputType="numberDecimal"
-                    android:textSize="@dimen/xa30" />
+            <View
+                android:id="@+id/view"
+                android:layout_width="@dimen/xa1"
+                android:layout_height="0dp"
+                android:background="@color/preset_edit_divider"
+                android:layout_marginTop="@dimen/xa10"
+                android:layout_marginBottom="@dimen/xa10"
+                app:layout_constraintBottom_toBottomOf="@+id/et_input_sn"
+                app:layout_constraintLeft_toRightOf="@+id/et_input_sn"
+                app:layout_constraintRight_toLeftOf="@+id/tv_set_unit"
+                app:layout_constraintTop_toTopOf="@+id/et_input_sn" />
 
-
-              <!--  <RelativeLayout
-                    android:id="@+id/rl_money_unit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="bottom"
-                    android:gravity="center"
-                    android:paddingRight="@dimen/ya30"
-                    android:paddingLeft="@dimen/ya30">
-
-                    <View
-                        android:id="@+id/view"
-                        android:layout_width="@dimen/xa1"
-                        android:layout_height="match_parent"
-                        android:background="@color/preset_edit_divider" />
-
-                    <TextView
-                        android:id="@+id/tv_money_unit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toRightOf="@+id/view"
-                        android:textStyle="bold"
-                        android:layout_marginLeft="@dimen/ya30"
-                        android:layout_centerVertical="true"
-                        android:textColor="@color/title_1"
-                        android:textSize="@dimen/ya25"
-                        android:layout_toEndOf="@+id/view"
-                        android:layout_marginStart="@dimen/ya30" />
-
-                    <ImageView
-                        android:layout_marginLeft="@dimen/ya30"
-                        android:layout_width="@dimen/ya30"
-                        android:layout_height="@dimen/ya30"
-                        android:layout_centerVertical="true"
-                        android:layout_toRightOf="@+id/tv_money_unit"
-                        android:src="@drawable/select_country_drop"
-                        android:layout_marginStart="@dimen/ya30"
-                        android:layout_toEndOf="@+id/tv_money_unit" />
-                </RelativeLayout>-->
-
-            </LinearLayout>
+            <TextView
+                android:id="@+id/tv_set_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/xa20"
+                android:layout_marginStart="@dimen/xa20"
+                android:layout_toEndOf="@+id/view"
+                android:layout_toRightOf="@+id/view"
+                android:textColor="@color/title_1"
+                android:textSize="@dimen/ya25"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/view"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
             <View
+                android:id="@+id/v_bottom"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/xa1"
                 android:layout_marginLeft="@dimen/xa30"
                 android:layout_marginRight="@dimen/xa30"
-                android:layout_marginTop="@dimen/xa10"
-                android:background="@color/title_3" />
+                android:background="@color/title_3"
+                app:layout_constraintBottom_toBottomOf="parent" />
 
-        </LinearLayout>
+        </android.support.constraint.ConstraintLayout>
 
 
         <LinearLayout
             android:id="@+id/ll_time"
             android:layout_width="match_parent"
             android:layout_height="@dimen/xa370"
+            android:visibility="gone"
             android:background="@color/preset_edit_time_background"
-            android:orientation="vertical"
-            android:visibility="visible">
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:id="@+id/rl_np"
@@ -137,7 +124,6 @@
                         android:id="@+id/tv_hour"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
                         android:text="@string/m207时"
                         android:textColor="@color/title_1"
                         android:textSize="@dimen/xa25" />
@@ -153,7 +139,6 @@
                         android:id="@+id/tv_unit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/xa5"
                         android:text="@string/m208分"
                         android:textColor="@color/title_1"

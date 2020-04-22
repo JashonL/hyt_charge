@@ -165,7 +165,7 @@ public class ChargingParamsActivity extends BaseActivity {
             } else if (itemType == ParamsSetAdapter.PARAM_ITEM_SOLAR) {
                 ParamsSetBean bean = (ParamsSetBean) mAdapter.getData().get(19);
                 if (!bean.isAuthority() && !isVerified) {//如果是不允许设置，又没有验证密码
-                    showInputPassword(ParamsSetAdapter.PARAM_ITEM_SOLAR,bean);
+                    showInputPassword(ParamsSetAdapter.PARAM_ITEM_SOLAR, bean);
                 } else {
                     setECOLimit();
                 }
@@ -412,6 +412,7 @@ public class ChargingParamsActivity extends BaseActivity {
         tvTitle.setTextColor(ContextCompat.getColor(this, R.color.title_1));
         tvRight.setText(R.string.m182保存);
         tvRight.setTextColor(ContextCompat.getColor(this, R.color.title_1));
+        tvRight.setVisibility(View.INVISIBLE);
     }
 
 
@@ -488,6 +489,7 @@ public class ChargingParamsActivity extends BaseActivity {
 
     /**
      * 请求修改参数
+     * 这个方法是批量修改
      */
     private void requestEdit() {
         Mydialog.Show(this);
@@ -535,6 +537,7 @@ public class ChargingParamsActivity extends BaseActivity {
                     if (code == 0) {
                         isModyfi = true;
                         isEditInfo = false;
+                        setPileParamMap.clear();
                         if (setPileParamMap.containsKey("name")) {
                             EventBus.getDefault().post(new FreshListMsg());
                         }
@@ -553,7 +556,59 @@ public class ChargingParamsActivity extends BaseActivity {
         });
     }
 
-    private void setBean(String key, Object value) {
+
+    /**
+     * 请求修改参数
+     */
+
+    private void requestEdit(String key, Object value,PileSetBean.DataBean data) {
+        Mydialog.Show(this);
+        Map<String, Object> jsonMap = new HashMap<>();
+        jsonMap.put("chargeId", chargingId);//测试id
+        jsonMap.put("userId", SmartHomeUtil.getUserName());//测试id
+        jsonMap.put("lan", getLanguage());//测试id
+        if ("unit".equals(key)){
+            jsonMap.put("symbol",unitSymbol);
+        }
+        jsonMap.put(key, value);
+        String json = SmartHomeUtil.mapToJsonString(jsonMap);
+        PostUtil.postJson(SmartHomeUrlUtil.postSetChargingParams(), json, new PostUtil.postListener() {
+            @Override
+            public void Params(Map<String, String> params) {
+
+            }
+
+            @Override
+            public void success(String json) {
+                Mydialog.Dismiss();
+                try {
+                    JSONObject object = new JSONObject(json);
+                    int code = object.getInt("code");
+                    if (code == 0) {
+                        isModyfi = true;
+                        isEditInfo = false;
+                        setPileParamMap.clear();
+                        refreshRv(data);
+                        if ("name".equals(key)||"unit".equals(key)) {
+                            EventBus.getDefault().post(new FreshListMsg());
+                        }
+                    }
+                    toast(object.getString("data"));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void LoginError(String str) {
+
+            }
+        });
+    }
+
+
+    private void setBean(String key, Object value) {//这个版本改为一个一个传
         PileSetBean.DataBean initData = initPileSetBean.getData();
         isEditInfo = true;
         setPileParamMap.put(key, value);
@@ -620,7 +675,8 @@ public class ChargingParamsActivity extends BaseActivity {
                 initData.setG_AutoChargeTime((String) value);
                 break;
         }
-        refreshRv(initData);
+//        refreshRv(initData);
+        requestEdit(key, value,initData);
     }
 
 
@@ -1143,7 +1199,7 @@ public class ChargingParamsActivity extends BaseActivity {
                 back();
                 break;
             case R.id.tvRight:
-                save();
+//                save();
                 break;
         }
     }
@@ -1165,7 +1221,7 @@ public class ChargingParamsActivity extends BaseActivity {
     }
 
 
-    private void showInputPassword(int type,ParamsSetBean bean) {
+    private void showInputPassword(int type, ParamsSetBean bean) {
         new CircleDialog.Builder()
                 .setTitle(getString(R.string.m27温馨提示))
                 //添加标题，参考普通对话框

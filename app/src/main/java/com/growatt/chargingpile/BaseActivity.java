@@ -105,6 +105,9 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
             window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            }
             window.setStatusBarColor(Color.TRANSPARENT);//calculateStatusColor(Color.WHITE, (int) alphaValue)
         }
     }
@@ -402,7 +405,7 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
                 new AppSettingsDialog
                         .Builder(this)
                         .setTitle(R.string.m权限请求)
-                        .setRationale(String.format(getString(R.string.m权限请求步骤), permission, permission))
+                        .setRationale(String.format("%s:%s", permission,getString(R.string.m权限请求步骤)))
                         .setPositiveButton(R.string.m9确定)
                         .setRequestCode(requestCode)
                         .setNegativeButton(R.string.m7取消)

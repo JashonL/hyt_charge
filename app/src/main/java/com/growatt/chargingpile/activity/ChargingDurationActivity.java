@@ -15,6 +15,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.google.gson.Gson;
 import com.growatt.chargingpile.BaseActivity;
+import com.growatt.chargingpile.EventBusMsg.AddDevMsg;
 import com.growatt.chargingpile.EventBusMsg.FreshTimingMsg;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.adapter.TimingAdapter;
@@ -24,6 +25,7 @@ import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
 import com.growatt.chargingpile.util.SmartHomeUtil;
+import com.growatt.chargingpile.view.DividerItemDecoration;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -77,6 +79,7 @@ public class ChargingDurationActivity extends BaseActivity {
         initRecyclerView();
         initListeners();
         refresh();
+
     }
 
     private void initIntent() {
@@ -89,9 +92,10 @@ public class ChargingDurationActivity extends BaseActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void fresh(FreshTimingMsg msg) {
+    public void onEventFreshTiming(FreshTimingMsg msg) {
         refresh();
     }
+
 
     private void initListeners() {
         mSwipeRefresh.setColorSchemeResources(R.color.maincolor_1);
@@ -221,7 +225,7 @@ public class ChargingDurationActivity extends BaseActivity {
             }
             int hour = total / 60;
             int minute = total % 60;
-            String time = hour + "h" + minute + "min";
+            String time = getString(R.string.m180预设充电方案时长)+hour + "h" + minute + "min";
             tvTotal.setText(time);
             totalMinute = total;
         }
@@ -236,7 +240,7 @@ public class ChargingDurationActivity extends BaseActivity {
                finish();
             }
         });
-        setHeaderTitle(headerView, getString(R.string.m178定时), R.color.title_1, true);
+        setHeaderTitle(headerView, getString(R.string.m339预约), R.color.title_1, true);
         setHeaderTvRight(headerView, getString(R.string.m179新增), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -245,6 +249,8 @@ public class ChargingDurationActivity extends BaseActivity {
                 jumpTo(intent,false);
             }
         }, R.color.main_text_color);
+        String time = getString(R.string.m180预设充电方案时长)+0 + "h" + 0 + "min";
+        tvTotal.setText(time);
     }
 
 
@@ -263,6 +269,9 @@ public class ChargingDurationActivity extends BaseActivity {
         recyclerView.setAdapter(mAdapter);
         View emptyView = LayoutInflater.from(this).inflate(R.layout.empty_view, null);
         mAdapter.setEmptyView(emptyView);
+        int dimensionPixelSize = getResources().getDimensionPixelSize(R.dimen.xa10);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST, false, R.color.translate, dimensionPixelSize);
+        recyclerView.addItemDecoration(dividerItemDecoration);
     }
 
 

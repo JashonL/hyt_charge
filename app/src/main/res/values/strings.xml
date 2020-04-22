@@ -223,7 +223,7 @@
     <string name="m208分">min</string>
     <string name="m209预设">Preset</string>
     <string name="m210请输入金额">Please input amount of money</string>
-    <string name="m211请输入电量">Please input electricity quantity(kWh)</string>
+    <string name="m211请输入电量">Please input electricity quantity</string>
 
 
     <string name="m188过压">Overvoltage</string>
@@ -377,13 +377,21 @@
     <string name="m已解锁">Unlocked</string>
     <string name="m解锁">Unlock</string>
     <string name="m电桩不支持该设置或指令发送出现异常">The electric pile does not support this setting or the command is sent abnormally</string>
+
+    <string name="m邮政编码不能为空">Postal code cannot be empty</string>
+    <string name="m请输入您的邮政编码">Please enter your zip code</string>
+    <string name="m请输入安装商">Please enter the installer</string>
+    <string name="m搜索电桩">Search charging pile</string>
+    <string name="m搜索结果为空">Search results are empty</string>
+    <string name="m密码已初始化">Password initialized</string>
+
+    <string name="枪">outlet</string>
     <!--安卓额外部分-->
 
     <!--权限问题-->
-    <string name="m权限获取某权限说明">Requested %1$s Permission</string>
+    <string name="m权限获取某权限说明">Request to get permission</string>
     <string name="m权限请求">Permission required</string>
-    <string name="m权限请求步骤">%1$s permission are not turned on, do you manually set:\n\n1.Click to enter the settings interface;\n2.Click on permissions;\n3.Open %2$s permissions.</string>
-
+    <string name="m权限请求步骤">az engedély nem engedélyezett, függetlenül attól, hogy manuálisan van-e beállítva: 1. Kattintson az OK gombra a beállítások felületének belépéséhez; 2. Kattintási engedélyek; 3. Nyissa meg az engedélyeket.</string>
     <!--    //相机和存储-->
     <string name="m相机">Camera or storage</string>
     <string name="m存储">Storage</string>
@@ -418,15 +426,10 @@
     <string name="m请先升级充电桩">Please upgrade the pile first.</string>
     <string name="mCT">CT</string>
     <string name="m确认修改">Confirm the changes?</string>
-    <string name="m请输入您的邮政编码">Please enter your zip code</string>
-    <string name="m邮政编码不能为空">Postal code cannot be empty</string>
-    <string name="m请输入安装商">Please enter the installer</string>
-    <string name="m搜索电桩">Search charging pile</string>
-    <string name="m搜索结果为空">Search results are empty</string>
     <string name="m登录成功">login successful</string>
     <string name="m验证失败">Validazione fallita</string>
     <string name="m验证成功">Validazione riuscita</string>
-    <string name="m密码已初始化">Password initialized</string>
+
 </resources>
 
 

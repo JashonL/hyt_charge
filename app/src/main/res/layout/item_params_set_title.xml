@@ -12,5 +12,5 @@
         android:text="@string/m148基础参数"
         android:singleLine="true"
         android:textColor="@color/title_3"
-        android:textSize="@dimen/xa24" />
+        android:textSize="@dimen/text_size_content_title" />
 </LinearLayout>
