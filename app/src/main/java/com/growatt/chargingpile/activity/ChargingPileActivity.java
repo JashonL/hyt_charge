@@ -58,7 +58,6 @@ import com.growatt.chargingpile.util.SmartHomeUtil;
 import com.growatt.chargingpile.view.RoundProgressBar;
 import com.mylhyl.circledialog.CircleDialog;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
@@ -161,7 +160,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
     private String startTime;//预约开始时间
     private double reserveMoney;//预约金额
     private double reserveEle;//预约电量
-    private int ReserveTime;//预约时长(分钟)
+    private int reserveTime;//预约时长(分钟)
     private String timeEvaryDay;//定时每天这个时间开启
 
     //--------------空闲---------------
@@ -501,10 +500,8 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                 setMoneyUi(false, "--");
                 presetType = 0;
             } else {
-                Intent intent = new Intent(ChargingPileActivity.this, ChargingPresetEditActivity.class);
-                intent.putExtra("type", 1);
-                intent.putExtra("symbol", moneyUnit);
-                startActivityForResult(intent, REQUEST_MONEY);
+                presetType = 1;
+                setMoneyUi(true, "");
             }
         });
 
@@ -516,7 +513,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             }
             Intent intent = new Intent(ChargingPileActivity.this, ChargingPresetEditActivity.class);
             intent.putExtra("type", 1);
-            intent.putExtra("symbol",moneyUnit);
+            intent.putExtra("symbol", moneyUnit);
             startActivityForResult(intent, REQUEST_MONEY);
         });
 
@@ -530,9 +527,8 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                 setEleUi(false, "--kWh");
                 presetType = 0;
             } else {
-                Intent intent = new Intent(ChargingPileActivity.this, ChargingPresetEditActivity.class);
-                intent.putExtra("type", 2);
-                startActivityForResult(intent, REQUEST_ELE);
+                presetType = 2;
+                setEleUi(true, "");
             }
 
         });
@@ -557,12 +553,12 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             if (presetType == 3) {
                 setTimeUi(false, "-h-min");
                 presetType = 0;
-                isReservation = false;
-                setReserveUi(getString(R.string.m204开始时间), getString(R.string.m206已关闭), R.drawable.checkbox_off, "--:--", true, false);
+//                isReservation = false;
+//                setReserveUi(getString(R.string.m204开始时间), getString(R.string.m206已关闭), R.drawable.checkbox_off, "--:--", true, false);
             } else {
-                Intent intent = new Intent(ChargingPileActivity.this, ChargingPresetEditActivity.class);
-                intent.putExtra("type", 3);
-                startActivityForResult(intent, REQUEST_TIME);
+                presetType = 3;
+                setTimeUi(true, "");
+
             }
 
         });
@@ -589,15 +585,19 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                 return;
             }
             if (presetType == 3) {
-                if (!isReservation) {
+                String duration = tvPpTime.getText().toString();
+                if (TextUtils.isEmpty(duration)||duration.contains("-")){//未选择时长
                     //去预约列表操作
                     Intent intent = new Intent(ChargingPileActivity.this, ChargingDurationActivity.class);
                     intent.putExtra("sn", mCurrentPile.getChargeId());
                     jumpTo(intent, false);
-                } else {
-                    //关闭预约
-                    isReservation = false;
-                    initReserveUi();
+                }else {
+                    if (isReservation) {
+                        isReservation = false;
+                        initReserveUi();
+                    } else {
+                        selectTime();
+                    }
                 }
 
             } else {
@@ -617,24 +617,19 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                 toast(getString(R.string.m66你的账号没有操作权限));
                 return;
             }
-            if (isReservation) {
-                if (presetType == 3) {
+            if (presetType == 3) {
+                String duration = tvPpTime.getText().toString();
+                if (TextUtils.isEmpty(duration)||duration.contains("-")){//未选择时长
                     //去预约列表操作
                     Intent intent = new Intent(ChargingPileActivity.this, ChargingDurationActivity.class);
                     intent.putExtra("sn", mCurrentPile.getChargeId());
                     jumpTo(intent, false);
-                } else {
+                }else {
                     selectTime();
                 }
+
             } else {
-                if (presetType != 3) {
-                    selectTime();
-                } else {
-                    //去预约列表操作
-                    Intent intent = new Intent(ChargingPileActivity.this, ChargingDurationActivity.class);
-                    intent.putExtra("sn", mCurrentPile.getChargeId());
-                    jumpTo(intent, false);
-                }
+                selectTime();
             }
         });
 
@@ -970,8 +965,8 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                     setNormalCharging(data);
                 } else {
                     String money = MathUtil.roundDouble2String(data.getCost(), 2);
-                    if (!TextUtils.isEmpty(moneyUnit)){
-                        money=moneyUnit+money;
+                    if (!TextUtils.isEmpty(moneyUnit)) {
+                        money = moneyUnit + money;
                     }
                     String energy = MathUtil.roundDouble2String(data.getEnergy(), 2) + "kWh";
                     int timeCharging = data.getCtime();
@@ -1040,8 +1035,8 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                 tvFinishRate.setText(String.valueOf(data.getRate()));
                 tvFinishTime.setText(sTimeFinishing);
                 String cost = MathUtil.roundDouble2String(data.getCost(), 2);
-                if (!TextUtils.isEmpty(moneyUnit)){
-                    cost=moneyUnit+cost;
+                if (!TextUtils.isEmpty(moneyUnit)) {
+                    cost = moneyUnit + cost;
                 }
                 tvFinishMoney.setText(cost);
                 stopAnim();
@@ -1107,7 +1102,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
         tvChargingDuration.setText(sTimeCharging);
         String money = MathUtil.roundDouble2String(data.getCost(), 2);
         if (!TextUtils.isEmpty(moneyUnit)) {
-            money = moneyUnit+money;
+            money = moneyUnit + money;
         }
         tvChargingMoney.setText(money);
         s = String.valueOf(data.getVoltage()) + "V";
@@ -1352,7 +1347,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             case R.id.ll_record:
                 Intent intent4 = new Intent(this, ChargingRecoderActivity.class);
                 intent4.putExtra("sn", mCurrentPile.getChargeId());
-                intent4.putExtra("symbol",moneyUnit);
+                intent4.putExtra("symbol", moneyUnit);
                 intent4.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 jumpTo(intent4, false);
                 break;
@@ -1718,52 +1713,6 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
         //判断桩主或者普通用户
         if (mCurrentPile.getType() == 0) {//桩主
             switch (status) {
-             /*   case GunBean.AVAILABLE://空闲状态，桩主：只能预约
-                    if (!isReservation) {
-                        toast(getString(R.string.m131空闲状态无法直接开始充电));
-                        return;
-                    } else {
-                        int loopType;
-                        if (cbEveryday.isChecked()) {
-                            loopType = 0;
-                        } else {
-                            loopType = -1;
-                        }
-                        if (presetType == 0) {//没有选择充电方案
-                            //预约充电,只预约了时间
-                            //预约充电
-                            if (TextUtils.isEmpty(startTime)) {
-                                toast(getString(R.string.m130未设置开始时间));
-                                return;
-                            }
-                            requestReserve(0, startTime, "", "", loopType);
-                        } else if (presetType == 1) {
-                            //设置金额预约
-                            //预约充电
-                            if (TextUtils.isEmpty(startTime)) {
-                                toast(getString(R.string.m130未设置开始时间));
-                                return;
-                            }
-                            requestReserve(1, startTime, "G_SetAmount", reserveMoney, loopType);
-                        } else if (presetType == 2) {
-                            //预约充电
-                            if (TextUtils.isEmpty(startTime)) {
-                                toast(getString(R.string.m130未设置开始时间));
-                                return;
-                            }
-                            //设置预约电量
-                            requestReserve(2, startTime, "G_SetEnergy", reserveEle, loopType);
-                        } else if (presetType == 3) {
-                            //预约时段的时候
-                            FragmentManager fragmentManager = ChargingPileActivity.this.getSupportFragmentManager();
-                            new CircleDialog.Builder().setTitle(getString(R.string.m27温馨提示))
-                                    .setText(getString(R.string.m167现在正处于时段预约状态))
-                                    .setPositive(getString(R.string.m9确定), null)
-                                    .show(fragmentManager);
-                        }
-                    }
-
-                    break;*/
                 case GunBean.ACCEPTED:
                 case GunBean.RESERVED:
                 case GunBean.RESERVENOW:
@@ -1775,55 +1724,70 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
 
                 case GunBean.AVAILABLE://空闲状态，桩主：只能预约
                 case GunBean.PREPARING://准备中
-                    //没有预约
-                    if (!isReservation) {
-                        if (presetType == 0) {//没有选择充电方案
-                            requestNarmal(0, "", "");
-                        } else if (presetType == 1) {//设置金额预约
-                            requestNarmal(1, "G_SetAmount", reserveMoney);
-                        } else if (presetType == 2) {//设置预约电量
-                            requestNarmal(2, "G_SetEnergy", reserveEle);
-                        } else if (presetType == 3) {
-                            requestNarmal(3, "G_SetTime", ReserveTime);
-                        }
-
-                    } else {
-                        int loopType;
-                        if (cbEveryday.isChecked()) {
-                            loopType = 0;
-                        } else {
-                            loopType = -1;
-                        }
-
-                        if (presetType == 0) {//没有选择充电方案,只有时间
-                            //预约充电
-                            if (TextUtils.isEmpty(startTime)) {
-                                toast(getString(R.string.m130未设置开始时间));
+                    int loopType = cbEveryday.isChecked() ? 0 : -1;
+                    switch (presetType) {
+                        case 0://没有选择充电方案
+                            if (isReservation) {//预约了开始时间
+                                //预约充电
+                                if (TextUtils.isEmpty(startTime)) {
+                                    toast(getString(R.string.m130未设置开始时间));
+                                    return;
+                                }
+                                requestReserve(0, startTime, "", "", loopType);
+                            } else {
+                                requestNarmal(0, "", "");
+                            }
+                            break;
+                        case 1:
+                            String money = tvPpmoney.getText().toString();
+                            if (TextUtils.isEmpty(money)||money.contains("-")){
+                                toast(R.string.m输入金额不正确);
                                 return;
                             }
-                            requestReserve(0, startTime, "", "", loopType);
-                        } else if (presetType == 1) {//设置金额预约
-                            if (TextUtils.isEmpty(startTime)) {
-                                toast(getString(R.string.m130未设置开始时间));
+                            if (isReservation) {//预约了开始时间
+                                if (TextUtils.isEmpty(startTime)) {
+                                    toast(getString(R.string.m130未设置开始时间));
+                                    return;
+                                }
+                                requestReserve(1, startTime, "G_SetAmount", reserveMoney, loopType);
+                            } else {
+                                requestNarmal(1, "G_SetAmount", reserveMoney);
+                            }
+                            break;
+                        case 2:
+                            String ele = tvPpEle.getText().toString();
+                            if (TextUtils.isEmpty(ele)||ele.contains("-")){
+                                toast(R.string.m输入电量不正确);
                                 return;
                             }
-                            requestReserve(1, startTime, "G_SetAmount", reserveMoney, loopType);
-                        } else if (presetType == 2) {//设置预约电量
-                            if (TextUtils.isEmpty(startTime)) {
-                                toast(getString(R.string.m130未设置开始时间));
+                            if (isReservation) {//预约了开始时间
+                                if (TextUtils.isEmpty(startTime)) {
+                                    toast(getString(R.string.m130未设置开始时间));
+                                    return;
+                                }
+                                requestReserve(2, startTime, "G_SetEnergy", reserveEle, loopType);
+                            } else {
+                                requestNarmal(2, "G_SetEnergy", reserveEle);
+                            }
+                            break;
+                        case 3:
+                            String duration = tvPpTime.getText().toString();
+                            if (TextUtils.isEmpty(duration)||duration.contains("-")){
+                                toast(R.string.m129时长设置不能为空);
                                 return;
                             }
-                            requestReserve(2, startTime, "G_SetEnergy", reserveEle, loopType);
-                        } else if (presetType == 3) {
-                            FragmentManager fragmentManager = ChargingPileActivity.this.getSupportFragmentManager();
-                            new CircleDialog.Builder().setTitle(getString(R.string.m27温馨提示))
-                                    .setText(getString(R.string.m167现在正处于时段预约状态))
-                                    .setPositive(getString(R.string.m9确定), null)
-                                    .show(fragmentManager);
-                        }
+                            if (isReservation) {//预约了开始时间
+                                if (TextUtils.isEmpty(startTime)) {
+                                    toast(getString(R.string.m130未设置开始时间));
+                                    return;
+                                }
+                                requestReserve(3, startTime, "G_SetTime", reserveTime, loopType);
+                            } else {
+                                requestNarmal(3, "G_SetTime", reserveTime);
+                            }
+                            break;
                     }
                     break;
-
                 case GunBean.CHARGING://充电中，点击停止充电
                     requestStop();
                     break;
@@ -1868,7 +1832,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                     } else if (presetType == 2) {//设置预约电量
                         requestNarmal(2, "G_SetEnergy", reserveEle);
                     } else if (presetType == 3) {
-                        requestNarmal(3, "G_SetTime", ReserveTime);
+                        requestNarmal(3, "G_SetTime", reserveTime);
                     }
                     break;
 
@@ -2085,12 +2049,14 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                 String minute = data.getStringExtra("minute");
                 String time = hour + "h" + minute + "min";
                 timeEvaryDay = hour + ":" + minute;
-                ReserveTime = Integer.parseInt(hour) * 60 + Integer.parseInt(minute);
+                reserveTime = Integer.parseInt(hour) * 60 + Integer.parseInt(minute);
                 presetType = 3;
                 setTimeUi(true, time);
                 //初始化预约充电相关控件
                 isReservation = false;
-                setReserveUi(getString(R.string.m预约时间段), getString(R.string.m206已关闭), R.drawable.checkbox_off, "--:--", false, false);
+                startTime = null;
+                //初始化预约充电相关控件
+                setReserveUi(getString(R.string.m204开始时间), getString(R.string.m206已关闭), R.drawable.checkbox_off, "--:--", true, false);
             }
         }
 
@@ -2379,8 +2345,11 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             setEleUi(false, "--kWh");
             setTimeUi(false, "-h-min");
         }
-        String s = moneyUnit + money;
-        tvPpmoney.setText(s);
+        if (!TextUtils.isEmpty(money)) {
+            String s = moneyUnit + money;
+            tvPpmoney.setText(s);
+        }
+
     }
 
 
@@ -2394,7 +2363,9 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             setMoneyUi(false, "--");
             setTimeUi(false, "-h-min");
         }
-        tvPpEle.setText(ele);
+        if (!TextUtils.isEmpty(ele)) {
+            tvPpEle.setText(ele);
+        }
     }
 
 
@@ -2408,7 +2379,9 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             setEleUi(false, "--kWh");
             setMoneyUi(false, "--");
         }
-        tvPpTime.setText(time);
+        if (!TextUtils.isEmpty(time)) {
+            tvPpTime.setText(time);
+        }
     }
 
     /**
