@@ -560,8 +560,9 @@ public class MyUtil {
  public  static boolean isWiFiLetter(String s){
      boolean isChinese= isContainChinese(s);
      if (isChinese)return false;
-     boolean isValidate=validateLegalString(s);
-     return !isValidate;
+//     boolean isValidate=validateLegalString(s);
+//     return !isValidate;
+     return true;
  }
 
 

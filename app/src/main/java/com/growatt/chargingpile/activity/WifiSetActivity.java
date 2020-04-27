@@ -1037,7 +1037,7 @@ public class WifiSetActivity extends BaseActivity {
                         lockBean.setIndex(0);
                         lockBean.setType(WifiSetAdapter.PARAM_ITEM_LOCK);
                         List<String> letter = SmartHomeUtil.getLetter();
-                        String name = letter.get(0) + getString(R.string.枪);
+                        String name = letter.get(0) +" "+ getString(R.string.枪);
                         lockBean.setKey(name);
                         lockBeans.add(lockBean);
                     }
@@ -2181,7 +2181,7 @@ public class WifiSetActivity extends BaseActivity {
                                 }
                                 lockBean.setType(WifiSetAdapter.PARAM_ITEM_LOCK);
                                 List<String> letter = SmartHomeUtil.getLetter();
-                                String name = letter.get(k) + getString(R.string.枪);
+                                String name = letter.get(k) +" " +getString(R.string.枪);
                                 lockBean.setKey(name);
                                 lockBean.setGunId(k + 1);
                                 lockBean.setIndex(k);
@@ -2193,7 +2193,7 @@ public class WifiSetActivity extends BaseActivity {
                             lockBean.setGunId(1);
                             lockBean.setType(WifiSetAdapter.PARAM_ITEM_LOCK);
                             List<String> letter = SmartHomeUtil.getLetter();
-                            String name = letter.get(0) + getString(R.string.枪);
+                            String name = letter.get(0) +" "+ getString(R.string.枪);
                             lockBean.setKey(name);
                             lockBeans.add(lockBean);
                         }
