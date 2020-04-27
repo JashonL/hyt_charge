@@ -156,15 +156,67 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
      * @return
      */
     public int getLanguage() {
-        int lan;
-        Locale locale = getResources().getConfiguration().locale;
+        int lan = 1;
+        Locale locale = MyApplication.getInstance().getResources().getConfiguration().locale;
         String language = locale.getLanguage();
         if (language.toLowerCase().contains("zh")) {
+            language = "zh_cn";
             lan = 0;
-        } else if (language.toLowerCase().contains("en")) {
+            if (!locale.getCountry().toLowerCase().equals("cn")){
+                lan = 14;
+            }
+        }
+        if (language.toLowerCase().contains("en")) {
+            language = "en";
             lan = 1;
-        } else {
+        }
+        if (language.toLowerCase().contains("fr")) {
+            language = "fr";
             lan = 2;
+        }
+        if (language.toLowerCase().contains("ja")) {
+            language = "ja";
+            lan = 3;
+        }
+        if (language.toLowerCase().contains("it")) {
+            language = "it";
+            lan = 4;
+        }
+        if (language.toLowerCase().contains("ho")) {
+            language = "ho";
+            lan = 5;
+        }
+        if (language.toLowerCase().contains("tk")) {
+            language = "tk";
+            lan = 6;
+        }
+        if (language.toLowerCase().contains("pl")) {
+            language = "pl";
+            lan = 7;
+        }
+        if (language.toLowerCase().contains("gk")) {
+            language = "gk";
+            lan = 8;
+        }
+        if (language.toLowerCase().contains("gm")) {
+            language = "gm";
+            lan = 9;
+        }
+        if (language.toLowerCase().contains("pt")) {
+            language = "pt";
+            lan = 10;
+        }
+        if (language.toLowerCase().contains("sp")) {
+            language = "sp";
+            lan = 11;
+        }
+        if (language.toLowerCase().contains("vn")) {
+            language = "vn";
+            lan = 12;
+        }
+        if (language.toLowerCase().contains("hu")) {
+            language = "hu";
+            lan = 13;
         }
         return lan;
     }

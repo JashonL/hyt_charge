@@ -68,7 +68,7 @@ public class ParamsSetAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity,
 
                 String key = mContext.getString(R.string.m326时间段) + ((ChargingBean.DataBean.PriceConfBean) item).getTimeX();
                 holder.setText(R.id.tv_time_key, key);
-                String value = mContext.getString(R.string.m327费率) + ((ChargingBean.DataBean.PriceConfBean) item).getPrice();
+                String value = mContext.getString(R.string.m327费率) + ((ChargingBean.DataBean.PriceConfBean) item).getPrice()+((ChargingBean.DataBean.PriceConfBean) item).getSymbol();
                 holder.setText(R.id.tv_time_value, value);
                 break;
             case PARAM_ITEM_SOLAR:

@@ -33,7 +33,7 @@ public class ChargingRecordAdapter extends BaseQuickAdapter<ChargingRecordBean.D
         helper.setText(R.id.tv_name, name);
         helper.setText(R.id.tv_chargingId, item.getChargeId());
         int connectorId = item.getConnectorId();
-        String gunName= SmartHomeUtil.getLetter().get(connectorId-1)+mContext.getString(R.string.枪);
+        String gunName= SmartHomeUtil.getLetter().get(connectorId-1)+" "+mContext.getString(R.string.枪);
         helper.setText(R.id.tv_model, gunName);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
   /*      long cTime = item.getCtime() * 60 * 1000;

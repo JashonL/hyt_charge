@@ -765,7 +765,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             tvModel.setText(getString(R.string.m113直流));
         }
 
-        String gun = mCurrentPile.getConnectors() + getString(R.string.枪);
+        String gun = mCurrentPile.getConnectors() +" "+ getString(R.string.枪);
 
         if (mCurrentPile.getConnectors() == 1) {
             rlSwitchGun.setVisibility(View.GONE);
@@ -910,7 +910,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             MyUtil.showAllView(llBottomGroup);
             return;
         }
-        String name = SmartHomeUtil.getLetter().get(data.getConnectorId() - 1) + getString(R.string.枪);
+        String name = SmartHomeUtil.getLetter().get(data.getConnectorId() - 1) +" "+ getString(R.string.枪);
         tvSwitchGun.setText(name);
         /*//初始化充电枪准备中的显示
         getLastAction();*/
@@ -1368,6 +1368,10 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             case R.id.ivRight:
                 if (SmartHomeUtil.isFlagUser()) {
                     toast(getString(R.string.m66你的账号没有操作权限));
+                    return;
+                }
+                if (mCurrentPile==null){
+                    toast(R.string.m212暂时还没有设备);
                     return;
                 }
                 if (mCurrentPile.getType() == 1) {
