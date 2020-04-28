@@ -2004,7 +2004,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             stopTimer();
             startTimer();
             //刷新充电枪
-            freshChargingGun(mCurrentPile.getChargeId(), id);
+//            freshChargingGun(mCurrentPile.getChargeId(), id);
         });
 
         int width = getResources().getDimensionPixelSize(R.dimen.xa150);
