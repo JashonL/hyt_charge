@@ -24,6 +24,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.jpush.android.api.JPushInterface;
+
 public class GuiActivity extends BaseActivity {
 
     private ViewPager guideViewPager;
@@ -34,6 +36,7 @@ public class GuiActivity extends BaseActivity {
         requestWindowTitleByActivity();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gui);
+        JPushInterface.init(getApplicationContext());
         int isFrist = SharedPreferencesUnit.getInstance(MyApplication.context).getInt("num");
         if (isFrist ==0){
             setUpView();

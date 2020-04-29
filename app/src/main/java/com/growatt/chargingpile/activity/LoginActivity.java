@@ -30,6 +30,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import cn.jpush.android.api.JPushInterface;
 
 
 /**
@@ -52,6 +53,7 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         bind=ButterKnife.bind(this);
+        JPushInterface.init(getApplicationContext());
         initUser();
         AutoLogin();
     }

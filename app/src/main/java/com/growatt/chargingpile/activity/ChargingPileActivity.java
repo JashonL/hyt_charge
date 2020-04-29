@@ -68,15 +68,18 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.jpush.android.api.JPushInterface;
 import pub.devrel.easypermissions.EasyPermissions;
 
 public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapter.OnItemClickListener {
@@ -290,7 +293,17 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
         initPullView();
         initStatusView();
         initResource();
+        setJPushAliasAndTag();
         freshData();
+    }
+
+
+    private void setJPushAliasAndTag() {
+        Set<String> tags = new HashSet<String>();
+        tags.add(SmartHomeUtil.getUserName());
+        //设置别名和标签新接口
+        JPushInterface.setAlias(this,1,SmartHomeUtil.getUserName());
+        JPushInterface.setTags(this,2,tags);
     }
 
 

@@ -14,6 +14,8 @@ import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.jpush.android.api.JPushInterface;
+
 /**
  * Created by Administrator on 2018/10/16.
  */
@@ -44,6 +46,9 @@ public class MyApplication extends Application {
         // 设置是否输出debug
         x.Ext.setDebug(true);
         initCirclerDialog();
+        //极光推送
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
     }
 
 

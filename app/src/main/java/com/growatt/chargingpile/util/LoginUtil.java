@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import cn.jpush.android.api.JPushInterface;
+
 import static com.growatt.chargingpile.application.MyApplication.context;
 
 /**
@@ -288,6 +290,7 @@ public class LoginUtil {
         SqliteUtil.plant("");
         Urlsutil.setUrl_Full("");
         Cons.setNoConfigBean(null);
+        JPushInterface.setAlias(act,1,"");
         //设置不自动登录
         SharedPreferencesUnit.getInstance(act).putInt(Constant.AUTO_LOGIN, 0);
         SharedPreferencesUnit.getInstance(act).putInt(Constant.AUTO_LOGIN_TYPE, 0);
