@@ -9,6 +9,7 @@ import android.util.Log;
 
 
 import com.growatt.chargingpile.activity.ChargingPileActivity;
+import com.growatt.chargingpile.activity.GuiActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,32 +60,15 @@ public class MyReceiver extends BroadcastReceiver {
 			Log.d(TAG, "[shinephone] 用户点击打开了通知");
 			//打开自定义的Activity
 			try {
-
 				if(map.containsKey("cn.jpush.android.EXTRA")){
 					JSONObject jsonObject=new JSONObject(map.get("cn.jpush.android.EXTRA").toString());
 					String str=jsonObject.get("type").toString();
-					if("0".equals(str)){
-//    					SqliteUtil.Message(map);
-						Intent i = new Intent(context, ChargingPileActivity.class);
-						i.putExtras(bundle);
-						i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
-						context.startActivity(i);
-					}
-					if("1".equals(str)){
-						String id=jsonObject.get("id").toString();
-
-						Intent in = context.getPackageManager()
-								.getLaunchIntentForPackage(context.getPackageName());
-						in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-						context.startActivity(in);
-						//发广播至main进行界面跳转
-						Intent in2=new Intent("intent.action.Message_My");
-						if (android.os.Build.VERSION.SDK_INT >= 12) {
-							in2.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);//3.1以后的版本需要设置Intent.FLAG_INCLUDE_STOPPED_PACKAGES
-						}
-						in2.putExtra("id", id);
-						context.sendStickyBroadcast(in2);
-					}
+					String chargeId=jsonObject.get("chargeId").toString();
+					Intent i = new Intent(context, GuiActivity.class);
+					i.putExtras(bundle);
+					i.putExtra("chargeId",chargeId);
+					i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
+					context.startActivity(i);
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();

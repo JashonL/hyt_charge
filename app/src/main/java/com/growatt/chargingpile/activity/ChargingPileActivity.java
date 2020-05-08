@@ -281,6 +281,9 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
     private long period = 1000;//刷新任务的间隔时间
     private String moneyUnit = "";
 
+    private boolean isfirst=true;
+    private String jumpId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -717,15 +720,19 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                 try {
                     List<ChargingBean.DataBean> charginglist = new ArrayList<>();
                     JSONObject object = new JSONObject(json);
+                    int currentPos=0;
                     if (object.getInt("code") == 0) {
                         ChargingBean chargingListBean = new Gson().fromJson(json, ChargingBean.class);
                         if (chargingListBean != null) {
+                            jumpId=getIntent().getStringExtra("chargeId");
                             charginglist = chargingListBean.getData();
                             if (charginglist == null) charginglist = new ArrayList<>();
                             for (int i = 0; i < charginglist.size(); i++) {
                                 ChargingBean.DataBean bean = charginglist.get(i);
                                 bean.setDevType(ChargingBean.CHARGING_PILE);
                                 bean.setName(bean.getName());
+                                String chargeId = bean.getChargeId();
+                                if (chargeId.equals(jumpId)) currentPos = i;
                             }
 
                         }
@@ -735,6 +742,10 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                     if (charginglist.size() > 0) {
                         HeadRvAddButton(charginglist);
                         mAdapter.replaceData(charginglist);
+                        if (isfirst){
+                            mAdapter.setNowSelectPosition(currentPos);
+                            isfirst=false;
+                        }
                         MyUtil.hideAllView(View.GONE, emptyPage);
                         MyUtil.showAllView(rlCharging, linearlayout);
                         refreshChargingUI();
