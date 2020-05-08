@@ -24,6 +24,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.jpush.android.api.JPushInterface;
+
 public class GuiActivity extends BaseActivity {
 
     private ViewPager guideViewPager;
@@ -34,6 +36,8 @@ public class GuiActivity extends BaseActivity {
         requestWindowTitleByActivity();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gui);
+        JPushInterface.init(getApplicationContext());
+        String chargeId=getIntent().getStringExtra("chargeId");
         int isFrist = SharedPreferencesUnit.getInstance(MyApplication.context).getInt("num");
         if (isFrist ==0){
             setUpView();
@@ -41,7 +45,9 @@ public class GuiActivity extends BaseActivity {
             SharedPreferencesUnit.getInstance(this).putInt("num",1);
         }else {
             if (Cons.userBean!=null){
-                jumpTo(ChargingPileActivity.class,true);
+                Intent intent=new Intent(this,ChargingPileActivity.class);
+                intent.putExtra("chargeId",chargeId);
+                jumpTo(intent,true);
             }else {
                 jumpTo(LoginActivity.class,true);
 

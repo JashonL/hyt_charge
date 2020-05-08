@@ -387,6 +387,7 @@
     <string name="m密码已初始化">密码已初始化</string>
 
     <string name="枪">枪</string>
+    <string name="m交直流">交直流</string>
     <!--安卓额外部分-->
     <!--权限问题-->
     <string name="m权限获取某权限说明">请求获取权限</string>

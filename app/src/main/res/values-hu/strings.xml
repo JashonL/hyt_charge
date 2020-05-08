@@ -403,6 +403,7 @@
     <string name="m密码已初始化">A jelszó inicializálva</string>
     <string name = "枪">kivezetés</string>
 
+    <string name="m交直流">AC/DC</string>
 
     <string name="m权限获取某权限说明">Kérjen xxx engedélyt</string>
     <string name="m权限请求">Kérjen engedélyt</string>

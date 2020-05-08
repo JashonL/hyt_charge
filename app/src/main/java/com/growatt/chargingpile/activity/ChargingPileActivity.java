@@ -68,15 +68,18 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.jpush.android.api.JPushInterface;
 import pub.devrel.easypermissions.EasyPermissions;
 
 public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapter.OnItemClickListener {
@@ -278,6 +281,9 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
     private long period = 1000;//刷新任务的间隔时间
     private String moneyUnit = "";
 
+    private boolean isfirst=true;
+    private String jumpId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -290,7 +296,17 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
         initPullView();
         initStatusView();
         initResource();
+        setJPushAliasAndTag();
         freshData();
+    }
+
+
+    private void setJPushAliasAndTag() {
+        Set<String> tags = new HashSet<>();
+        tags.add(SmartHomeUtil.getUserName());
+        //设置别名和标签新接口
+        JPushInterface.setAlias(this,1,SmartHomeUtil.getUserName());
+        JPushInterface.setTags(this,2,tags);
     }
 
 
@@ -704,15 +720,19 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                 try {
                     List<ChargingBean.DataBean> charginglist = new ArrayList<>();
                     JSONObject object = new JSONObject(json);
+                    int currentPos=0;
                     if (object.getInt("code") == 0) {
                         ChargingBean chargingListBean = new Gson().fromJson(json, ChargingBean.class);
                         if (chargingListBean != null) {
+                            jumpId=getIntent().getStringExtra("chargeId");
                             charginglist = chargingListBean.getData();
                             if (charginglist == null) charginglist = new ArrayList<>();
                             for (int i = 0; i < charginglist.size(); i++) {
                                 ChargingBean.DataBean bean = charginglist.get(i);
                                 bean.setDevType(ChargingBean.CHARGING_PILE);
                                 bean.setName(bean.getName());
+                                String chargeId = bean.getChargeId();
+                                if (chargeId.equals(jumpId)) currentPos = i;
                             }
 
                         }
@@ -722,6 +742,10 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                     if (charginglist.size() > 0) {
                         HeadRvAddButton(charginglist);
                         mAdapter.replaceData(charginglist);
+                        if (isfirst){
+                            mAdapter.setNowSelectPosition(currentPos);
+                            isfirst=false;
+                        }
                         MyUtil.hideAllView(View.GONE, emptyPage);
                         MyUtil.showAllView(rlCharging, linearlayout);
                         refreshChargingUI();
@@ -759,9 +783,11 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
         if (!TextUtils.isEmpty(mCurrentPile.getSymbol())) moneyUnit = mCurrentPile.getSymbol();
         //电桩信息
         String Modle = mCurrentPile.getModel();
-        if (Modle.toLowerCase().contains("ac")) {
+        if (Modle.toLowerCase().contains("/")) {
+            tvModel.setText(getString(R.string.m交直流));
+        } else if ("ac".equals(Modle.toLowerCase())){
             tvModel.setText(getString(R.string.m112交流));
-        } else {
+        }else {
             tvModel.setText(getString(R.string.m113直流));
         }
 
@@ -980,16 +1006,16 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                             setPresetChargingUi(scheme, String.valueOf(data.getcValue()), money, getString(R.string.m192消费金额),
                                     R.drawable.charging_ele, energy, getString(R.string.m189已充电量), R.drawable.charging_time, sTimeCharging, getString(R.string.m191已充时长),
                                     Double.parseDouble(data.getcValue()), (int) data.getCost(),
-                                    String.valueOf(data.getRate()), String.valueOf(data.getCurrent()) + "A", String.valueOf(data.getVoltage()) + "V");
+                                    String.valueOf(data.getRate()), data.getCurrent() + "A", data.getVoltage() + "V");
                             break;
 
                         case "G_SetEnergy":
                             mStatusGroup.addView(presetChargingView);
                             String scheme1 = String.format(getString(R.string.m198预设充电方案) + "-%s", getString(R.string.m201电量));
-                            setPresetChargingUi(scheme1, String.valueOf(data.getcValue()) + "kWh", energy, getString(R.string.m189已充电量),
+                            setPresetChargingUi(scheme1, data.getcValue() + "kWh", energy, getString(R.string.m189已充电量),
                                     R.drawable.charging_money, money, getString(R.string.m192消费金额), R.drawable.charging_time, sTimeCharging, getString(R.string.m191已充时长),
                                     Double.parseDouble(data.getcValue()), (int) data.getEnergy(),
-                                    String.valueOf(data.getRate()), String.valueOf(data.getCurrent()) + "A", String.valueOf(data.getVoltage()) + "V");
+                                    String.valueOf(data.getRate()), data.getCurrent() + "A", data.getVoltage() + "V");
                             break;
 
                         default:
@@ -1002,7 +1028,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                             setPresetChargingUi(scheme2, sTimePreset, sTimeCharging, getString(R.string.m191已充时长),
                                     R.drawable.charging_money, money, getString(R.string.m192消费金额), R.drawable.charging_ele, energy, getString(R.string.m189已充电量),
                                     Double.parseDouble(data.getcValue()), data.getCtime(),
-                                    String.valueOf(data.getRate()), String.valueOf(data.getCurrent()) + "A", String.valueOf(data.getVoltage()) + "V");
+                                    String.valueOf(data.getRate()), data.getCurrent() + "A", data.getVoltage() + "V");
                             break;
 
                     }
@@ -1097,7 +1123,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
         String energy = MathUtil.roundDouble2String(data.getEnergy(), 2) + "kWh";
         tvChargingEle.setText(energy);
         tvChargingRate.setText(String.valueOf(data.getRate()));
-        String s = String.valueOf(data.getCurrent()) + "A";
+        String s = data.getCurrent() + "A";
         tvChargingCurrent.setText(s);
         tvChargingDuration.setText(sTimeCharging);
         String money = MathUtil.roundDouble2String(data.getCost(), 2);
@@ -1105,7 +1131,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             money = moneyUnit + money;
         }
         tvChargingMoney.setText(money);
-        s = String.valueOf(data.getVoltage()) + "V";
+        s = data.getVoltage() + "V";
         tvChargingVoltage.setText(s);
     }
 
@@ -1240,7 +1266,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                         for (int i = 0; i < reserveNow.size(); i++) {
                             calVaule += reserveNow.get(i).getCost();
                         }
-                        String s = String.valueOf(calVaule) + symbol2;
+                        String s = calVaule + symbol2;
                         tvReserCalValue.setText(s);
                         break;
 
@@ -1477,7 +1503,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
 //        if (solarMode > 2 || solarMode < 0) solarMode = 0;
         String mSolarMode = getString(R.string.mSolar模式) + ":" + solarArrray[solarMode];
         tvSolarMode.setText(mSolarMode);
-        String switchText = "";
+        String switchText;
         if (solarMode == 0) {
             switchText = "";
             tvSwitch.setVisibility(View.GONE);
@@ -2086,7 +2112,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
         hours = new String[24];
         for (int i = 0; i < 24; i++) {
             if (i < 10) {
-                hours[i] = "0" + String.valueOf(i);
+                hours[i] = "0" + i;
             } else {
                 hours[i] = String.valueOf(i);
             }
@@ -2195,7 +2221,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
     private void requestStop() {
         LogUtil.d("手动停止充电，指令发送");
         Mydialog.Show(this);
-        Map<String, Object> jsonMap = new HashMap<String, Object>();
+        Map<String, Object> jsonMap = new HashMap<>();
         jsonMap.put("action", "remoteStopTransaction");
         Integer gunId = gunIds.get(mCurrentPile.getChargeId());
         if (gunId == null) gunId = 1;
@@ -2248,7 +2274,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
     private void requestReserve(int type, String expiryDate, String key, Object value, int loopType) {
         LogUtil.d("预约充电，指令发送");
         Mydialog.Show(this);
-        Map<String, Object> jsonMap = new HashMap<String, Object>();
+        Map<String, Object> jsonMap = new HashMap<>();
         jsonMap.put("action", "ReserveNow");
         jsonMap.put("expiryDate", expiryDate);
         Integer gunId = gunIds.get(mCurrentPile.getChargeId());

@@ -182,42 +182,40 @@
 
                             <RelativeLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="@dimen/xa35"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
                                 android:layout_below="@+id/iv_charging_icon"
                                 android:layout_marginTop="@dimen/xa12">
 
-                                <com.growatt.chargingpile.view.AutofitTextView
+                                <TextView
                                     android:id="@+id/tv_AC_DC"
-                                    android:layout_centerInParent="true"
-                                    android:layout_width="@dimen/xa135"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginRight="@dimen/xa5"
-                                    android:layout_toLeftOf="@+id/vDivider"
-                                    android:gravity="end"
+                                    android:text="DC"
+                                    android:padding="@dimen/xa5"
+                                    android:gravity="center"
                                     android:singleLine="true"
                                     android:textColor="@color/title_3"
-                                    android:textSize="@dimen/xa28"
-                                    android:layout_marginEnd="@dimen/xa5"
-                                    android:layout_toStartOf="@+id/vDivider" />
+                                    android:textSize="@dimen/xa28" />
 
                                 <View
                                     android:id="@+id/vDivider"
                                     android:layout_width="@dimen/xa1"
                                     android:layout_height="@dimen/xa35"
-                                    android:layout_centerInParent="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_toRightOf="@+id/tv_AC_DC"
                                     android:background="@color/title_3" />
 
-                                <com.growatt.chargingpile.view.AutofitTextView
+                                <TextView
                                     android:id="@+id/tv_Gun"
-                                    android:layout_width="@dimen/xa135"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="@dimen/xa5"
-                                    android:layout_centerInParent="true"
+                                    android:padding="@dimen/xa5"
                                     android:layout_toRightOf="@+id/vDivider"
                                     android:textColor="@color/title_3"
                                     android:textSize="@dimen/xa28"
+                                    android:text="@string/m114单枪"
                                     android:singleLine="true"
-                                    android:layout_marginStart="@dimen/xa5"
                                     android:layout_toEndOf="@+id/vDivider" />
                             </RelativeLayout>
 
@@ -225,33 +223,33 @@
 
                         <RelativeLayout
                             android:id="@+id/rl_switch_gun"
-                            android:layout_width="@dimen/xa150"
-                            android:layout_height="@dimen/xa52"
-                            android:layout_marginTop="@dimen/xa32"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/xa10"
+                            android:padding="@dimen/xa5"
+                            android:minWidth="@dimen/xa150"
                             android:background="@drawable/shape_solid_all_stroke_white">
 
-                            <com.growatt.chargingpile.view.AutofitTextView
+                            <TextView
                                 android:id="@+id/tvSwitchGun"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:layout_centerInParent="true"
+                                android:layout_marginLeft="@dimen/xa5"
                                 android:singleLine="true"
-                                android:minWidth="@dimen/xa150"
-                                android:layout_toLeftOf="@+id/ivDrop"
+                                android:text="@string/m110A枪"
                                 android:textColor="@color/main_text_color"
-                                android:textSize="@dimen/xa30"
-                                android:layout_toStartOf="@+id/ivDrop" />
+                                android:textSize="@dimen/xa30" />
 
                             <ImageView
                                 android:id="@+id/ivDrop"
-                                android:layout_width="@dimen/xa18"
-                                android:layout_height="match_parent"
-                                android:layout_alignParentRight="true"
-                                android:layout_marginRight="@dimen/xa18"
+                                android:layout_width="@dimen/xa28"
+                                android:layout_height="@dimen/xa28"
                                 android:src="@drawable/gun_drop"
-                                android:layout_alignParentEnd="true"
-                                android:layout_marginEnd="@dimen/xa18" />
+                                android:layout_marginLeft="@dimen/xa5"
+                                android:layout_marginRight="@dimen/xa5"
+                                android:layout_toRightOf="@+id/tvSwitchGun"
+                                android:layout_centerVertical="true" />
                         </RelativeLayout>
 
 
