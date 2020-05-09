@@ -6,12 +6,12 @@ android {
         applicationId "com.growatt.atess"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 2
-        versionName "1.1"
+        versionCode 3
+        versionName "2.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [
                 JPUSH_PKGNAME : applicationId,
-                JPUSH_APPKEY : "ade0cc82915d052bf073ae8c",//值来自开发者平台取得的AppKey
+                JPUSH_APPKEY : "9703685ef4edc127ef02683c",//值来自开发者平台取得的AppKey
                 JPUSH_CHANNEL: "developer-default",
         ]
     }
