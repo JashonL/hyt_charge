@@ -772,6 +772,7 @@ public class ChargingParamsActivity extends BaseActivity {
                         ChargingBean.DataBean.PriceConfBean priceConfBean = priceConfBeanList.get(j);
                         priceConfBean.setItemType(ParamsSetAdapter.PARAM_ITEM_RATE);
                         priceConfBean.setSfield(keySfields[i]);
+                        priceConfBean.setSymbol(data.getSymbol());
                         if (noConfigKeys.contains(priceConfBean.getSfield())) {
                             priceConfBean.setAuthority(false);
                         } else {
