@@ -83,6 +83,9 @@ public class WifiSetActivity extends BaseActivity {
     public String[] gunArrray;
     public String[] lockArrray;
 
+    public String[] ammterTypeArray;
+    public String[] unLockTypeArray;
+
     private String ip;
     private int port;
     private String devId;
@@ -137,6 +140,8 @@ public class WifiSetActivity extends BaseActivity {
     private byte[] solarCurrentByte;
     //    private byte[] currentByte;
     private byte[] ammeterByte;
+    private byte[] ammeterTypeByte;
+    private byte[] unLockTypeByte;
     private int chargingLength;
     //获取电子锁命令
     private byte[] lockByte;
@@ -295,7 +300,7 @@ public class WifiSetActivity extends BaseActivity {
                 getString(R.string.m257设备账号密码参数设置), getString(R.string.m266Wifi名称), getString(R.string.m267Wifi密码), getString(R.string.m2704G用户名), getString(R.string.m2714G密码), getString(R.string.m2724GAPN),
                 getString(R.string.m258设备服务器参数设置), getString(R.string.m160服务器URL), getString(R.string.m273握手登录授权秘钥), getString(R.string.m274心跳间隔时间), getString(R.string.m275PING间隔时间), getString(R.string.m276表计上传间隔时间),
                 getString(R.string.m259设备充电参数设置), getString(R.string.m154充电模式), getString(R.string.m277电桩最大输出电流), getString(R.string.m152充电费率), getString(R.string.m278保护温度), getString(R.string.m279外部监测最大输入功率),
-                getString(R.string.m280允许充电时间), getString(R.string.m297峰谷充电使能), getString(R.string.m298功率分配使能), getString(R.string.m外部电流采样接线方式), getString(R.string.mSolar模式), getString(R.string.m电表设备地址),
+                getString(R.string.m280允许充电时间), getString(R.string.m297峰谷充电使能), getString(R.string.m298功率分配使能), getString(R.string.m外部电流采样接线方式), getString(R.string.mSolar模式), getString(R.string.m电表设备地址), getString(R.string.m电表类型), getString(R.string.m电子锁配置),
                 getString(R.string.m电桩电子锁)
         };
 
@@ -304,7 +309,7 @@ public class WifiSetActivity extends BaseActivity {
                 "", "G_WifiSSID", "G_WifiPassword", "G_4GUserName", "G_4GPassword", "G_4GAPN",
                 "", "host", "G_Authentication", "G_HearbeatInterval", "G_WebSocketPingInterval", "G_MeterValueInterval",
                 "", "G_ChargerMode", "G_MaxCurrent", "rate", "G_MaxTemperature", "G_ExternalLimitPower",
-                "G_AutoChargeTime", "G_PeakValleyEnable", "G_ExternalLimitPowerEnable", "G_ExternalSamplingCurWring", "G_SolarMode", "G_PowerMeterAddr",
+                "G_AutoChargeTime", "G_PeakValleyEnable", "G_ExternalLimitPowerEnable", "G_ExternalSamplingCurWring", "G_SolarMode", "G_PowerMeterAddr","G_PowerMeterType","UnlockConnectorOnEVSideDisconnect",
                 ""};
         if (Cons.getNoConfigBean() != null) {
             noConfigKeys = Cons.getNoConfigBean().getSfield();
@@ -316,7 +321,7 @@ public class WifiSetActivity extends BaseActivity {
         for (int i = 0; i < keys.length; i++) {
             WifiSetBean bean = new WifiSetBean();
             bean.setIndex(i);
-            if (i == 0 || i == 6 || i == 12 || i == 18 || i == 24 || i == 36) {
+            if (i == 0 || i == 6 || i == 12 || i == 18 || i == 24 || i == 38) {
                 bean.setTitle(keys[i]);
                 bean.setType(WifiSetAdapter.PARAM_TITILE);
             } else if (i == 1 || i == 5 || i == 10) {
@@ -348,6 +353,10 @@ public class WifiSetActivity extends BaseActivity {
         solarArrray = new String[]{"FAST", "ECO", "ECO+"};
         gunArrray = new String[]{getString(R.string.m110A枪), getString(R.string.m111B枪), getString(R.string.m112C枪)};
         lockArrray = new String[]{getString(R.string.m已解锁), getString(R.string.m已锁住)};
+
+        ammterTypeArray=new String[]{getString(R.string.m安科瑞), getString(R.string.m东宏)};
+        unLockTypeArray=new String[]{getString(R.string.m手动), getString(R.string.m自动)};
+
         solarBeans = new ArrayList<>();
         lockBeans = new ArrayList<>();
     }
@@ -459,6 +468,16 @@ public class WifiSetActivity extends BaseActivity {
             case 35://
                 if (chargingLength > 30)
                     inputEdit(index, String.valueOf(bean.getValue()));
+                else toast(R.string.m请先升级充电桩);
+                break;
+            case 36://
+                if (chargingLength > 42)
+                    setAmmterType();
+                else toast(R.string.m请先升级充电桩);
+                break;
+            case 37://
+                if (chargingLength > 43)
+                    setLockType();
                 else toast(R.string.m请先升级充电桩);
                 break;
             default:
@@ -1016,6 +1035,12 @@ public class WifiSetActivity extends BaseActivity {
             case 35:
                 initPileSetBean.setAmmeter(value);
                 break;
+            case 36:
+                initPileSetBean.setAmmeterType(value);
+                break;
+            case 37:
+                initPileSetBean.setUnLockType(value);
+                break;
             default:
                 break;
         }
@@ -1037,7 +1062,7 @@ public class WifiSetActivity extends BaseActivity {
                     bean.setTitle(keys[i]);
                     bean.setType(WifiSetAdapter.PARAM_TITILE);
                     break;
-                case 36:
+                case 38:
                     bean.setTitle(keys[i]);
                     bean.setType(WifiSetAdapter.PARAM_TITILE);
                     if (lockBeans.size() == 0) {
@@ -1225,6 +1250,18 @@ public class WifiSetActivity extends BaseActivity {
                     bean.setType(WifiSetAdapter.PARAM_ITEM);
                     bean.setKey(keys[i]);
                     bean.setValue(initPileSetBean.getAmmeter());
+                    break;
+
+                case 36:
+                    bean.setType(WifiSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getAmmeterType());
+                    break;
+
+                case 37:
+                    bean.setType(WifiSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getUnLockType());
                     break;
             }
             bean.setSfield(keySfields[i]);
@@ -1680,6 +1717,13 @@ public class WifiSetActivity extends BaseActivity {
             }
         }
 
+        if (chargingLength > 43) {//电表地址
+            if (ammeterTypeByte == null||unLockTypeByte==null) {
+                T.make(R.string.m244设置失败, this);
+                return;
+            }
+        }
+
         //模式
         System.arraycopy(modeByte, 0, prayload, 0, modeByte.length);
         //电流
@@ -1709,20 +1753,17 @@ public class WifiSetActivity extends BaseActivity {
 
         if (chargingLength > 29) {
             String solarMode = MyUtil.ByteToString(solarByte);
-            int modeIndext;
-            try {
-                modeIndext = Integer.parseInt(solarMode);
-            } catch (NumberFormatException e) {
-                modeIndext = 0;
-            }
-            if (modeIndext < 0) modeIndext = 1;
-            if (modeIndext == 2) {
-                System.arraycopy(solarCurrentByte, 0, prayload, 28, solarCurrentByte.length);
-            }
+            System.arraycopy(solarCurrentByte, 0, prayload, 28, solarCurrentByte.length);
         }
         if (chargingLength > 30) {
             System.arraycopy(ammeterByte, 0, prayload, 30, ammeterByte.length);
         }
+
+        if (chargingLength > 43) {//电表类型和解锁配置
+            System.arraycopy(ammeterTypeByte, 0, prayload, 42, ammeterTypeByte.length);
+            System.arraycopy(unLockTypeByte, 0, prayload, 43, ammeterByte.length);
+        }
+
         byte[] encryptedData = SmartHomeUtil.decodeKey(prayload, newKey);
 
         byte end = WiFiMsgConstant.BLT_MSG_END;
@@ -2155,6 +2196,34 @@ public class WifiSetActivity extends BaseActivity {
                             String ammeterAdd = MyUtil.ByteToString(ammeterByte);
                             setBean(35, ammeterAdd);
                         }
+                        if (len > 42) {
+                            ammeterTypeByte = new byte[1];
+                            System.arraycopy(prayload, 42, ammeterTypeByte, 0, 1);
+                            String ammeterType = MyUtil.ByteToString(ammeterTypeByte);
+                            int ammeterTypeIndext;
+                            try {
+                                ammeterTypeIndext = Integer.parseInt(ammeterType);
+                            } catch (NumberFormatException e) {
+                                ammeterTypeIndext = 0;
+                            }
+                            String ammeterTypeValue = ammterTypeArray[ammeterTypeIndext];
+                            setBean(36, ammeterTypeValue);
+                        }
+
+                        if (len > 43) {
+                            unLockTypeByte = new byte[1];
+                            System.arraycopy(prayload, 43, unLockTypeByte, 0, 1);
+                            String lockType = MyUtil.ByteToString(unLockTypeByte);
+                            int lockTypeIndext;
+                            try {
+                                lockTypeIndext = Integer.parseInt(lockType);
+                            } catch (NumberFormatException e) {
+                                lockTypeIndext = 0;
+                            }
+                            String lockTypeValue = unLockTypeArray[lockTypeIndext];
+                            setBean(37, lockTypeValue);
+                        }
+
                         mAdapter.notifyDataSetChanged();
                         getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_06);
                         break;
@@ -2426,74 +2495,6 @@ public class WifiSetActivity extends BaseActivity {
     }
 
 
-    /**
-     * 弹出时间选择器
-     */
-    public void showTimePickView(boolean isEnd) {
-        Calendar selectedDate = Calendar.getInstance();//系统当前时间
-        Calendar startDate = Calendar.getInstance();
-        Calendar endDate = Calendar.getInstance();
-        String tittleText;
-        if (isEnd) {
-            tittleText = getString(R.string.m282结束时间);
-        } else {
-            tittleText = getString(R.string.m283选择时间);
-        }
-        TimePickerView pvCustomTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
-            @Override
-            public void onTimeSelect(Date date, View v) {//选中事件回调
-                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", getResources().getConfiguration().locale);
-                String time = sdf.format(date);
-                if (isEnd) {
-                    endTime = time;
-                    String[] start = startTime.split(":");
-                    String[] end = endTime.split(":");
-                    int statValue = Integer.parseInt(start[0]) * 60 + Integer.parseInt(start[1]);
-                    int endValue = Integer.parseInt(end[0]) * 60 + Integer.parseInt(end[1]);
-                   /* if (statValue >= endValue) {
-                        T.make(getString(R.string.m285开始时间不能大于结束时间), WifiSetActivity.this);
-                    } else {*/
-                    String chargingTime = startTime + "-" + endTime;
-                    byte[] bytes = chargingTime.trim().getBytes();
-                    if (bytes.length > 11) {
-                        T.make(getString(R.string.m286输入值超出规定长度), WifiSetActivity.this);
-                        return;
-                    }
-                    timeByte = new byte[11];
-                    System.arraycopy(bytes, 0, timeByte, 0, bytes.length);
-                    setBean(32, chargingTime);
-                    mAdapter.notifyDataSetChanged();
-                    isEditCharging = true;
-//                    setCharging();
-//                    }
-                } else {
-                    startTime = time;
-                    showTimePickView(true);
-                }
-            }
-        })
-                .setType(new boolean[]{false, false, false, true, true, false})// 默认全部显示
-                .setCancelText(getString(R.string.m7取消))//取消按钮文字
-                .setSubmitText(getString(R.string.m9确定))//确认按钮文字
-                .setContentTextSize(18)
-                .setTitleSize(18)//标题文字大小
-                .setTitleText(tittleText)//标题文字
-                .setOutSideCancelable(false)//点击屏幕，点在控件外部范围时，是否取消显示
-                .isCyclic(true)//是否循环滚动
-                .setTitleColor(0xff333333)//标题文字颜色
-                .setSubmitColor(0xff333333)//确定按钮文字颜色
-                .setCancelColor(0xff999999)//取消按钮文字颜色
-                .setTitleBgColor(0xffffffff)//标题背景颜色 Night mode
-                .setBgColor(0xffffffff)//滚轮背景颜色 Night mode
-                .setTextColorCenter(0xff333333)
-                .setDate(selectedDate)// 如果不设置的话，默认是系统时间*/
-                .setRangDate(startDate, endDate)//起始终止年月日设定
-                .setLabel("", "", "", getString(R.string.m207时), getString(R.string.m208分), "")//默认设置为年月日时分秒
-                .isCenterLabel(false) //是否只显示中间选中项的label文字，false则每项item全部都带有label。
-                .isDialog(false)//是否显示为对话框样式
-                .build();
-        pvCustomTime.show();
-    }
 
 
     /*设置使能*/
@@ -2614,6 +2615,77 @@ public class WifiSetActivity extends BaseActivity {
     }
 
 
+    /*电表类型*/
+    private void setAmmterType() {
+        List<String> list = Arrays.asList(ammterTypeArray);
+        OptionsPickerView<String> pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                final String tx = list.get(options1);
+                String pos = String.valueOf(options1);
+                byte[] bytes = pos.trim().getBytes();
+                if (bytes.length > 1) {
+                    T.make(getString(R.string.m286输入值超出规定长度), WifiSetActivity.this);
+                    return;
+                }
+                ammeterTypeByte = new byte[1];
+                System.arraycopy(bytes, 0, ammeterTypeByte, 0, bytes.length);
+                setBean(36, tx);
+                mAdapter.notifyDataSetChanged();
+                isEditCharging = true;
+            }
+        })
+                .setTitleText(getString(R.string.m电表类型))
+                .setSubmitText(getString(R.string.m9确定))
+                .setCancelText(getString(R.string.m7取消))
+                .setTitleBgColor(0xffffffff)
+                .setTitleColor(0xff333333)
+                .setSubmitColor(0xff333333)
+                .setCancelColor(0xff999999)
+                .setBgColor(0xffffffff)
+                .setTitleSize(18)
+                .setTextColorCenter(0xff333333)
+                .build();
+        pvOptions.setPicker(list);
+        pvOptions.show();
+    }
+
+    /*电子锁配置*/
+    private void setLockType() {
+        List<String> list = Arrays.asList(unLockTypeArray);
+        OptionsPickerView<String> pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                final String tx = list.get(options1);
+                String pos = String.valueOf(options1);
+                byte[] bytes = pos.trim().getBytes();
+                if (bytes.length > 1) {
+                    T.make(getString(R.string.m286输入值超出规定长度), WifiSetActivity.this);
+                    return;
+                }
+                unLockTypeByte = new byte[1];
+                System.arraycopy(bytes, 0, unLockTypeByte, 0, bytes.length);
+                setBean(37, tx);
+                mAdapter.notifyDataSetChanged();
+                isEditCharging = true;
+            }
+        })
+                .setTitleText(getString(R.string.m电子锁配置))
+                .setSubmitText(getString(R.string.m9确定))
+                .setCancelText(getString(R.string.m7取消))
+                .setTitleBgColor(0xffffffff)
+                .setTitleColor(0xff333333)
+                .setSubmitColor(0xff333333)
+                .setCancelColor(0xff999999)
+                .setBgColor(0xffffffff)
+                .setTitleSize(18)
+                .setTextColorCenter(0xff333333)
+                .build();
+        pvOptions.setPicker(list);
+        pvOptions.show();
+    }
+
+
     private void setLock(int gunId) {
         new CircleDialog.Builder().setTitle(getString(R.string.m27温馨提示))
                 .setText(getString(R.string.m是否解除该枪电子锁))
@@ -2640,32 +2712,30 @@ public class WifiSetActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case 100:
-                    String starttime = data.getStringExtra("start");
-                    String endtime = data.getStringExtra("end");
-                    if (TextUtils.isEmpty(starttime)) {
-                        toast(R.string.m130未设置开始时间);
-                        return;
-                    }
-                    if (TextUtils.isEmpty(endtime)) {
-                        toast(R.string.m284未设置结束时间);
-                        return;
-                    }
-                    startTime = starttime;
-                    endTime = endtime;
-                    String chargingTime = starttime + "-" + endtime;
-                    byte[] bytes = chargingTime.trim().getBytes();
-                    if (bytes.length > 11) {
-                        T.make(getString(R.string.m286输入值超出规定长度), WifiSetActivity.this);
-                        return;
-                    }
-                    timeByte = new byte[11];
-                    System.arraycopy(bytes, 0, timeByte, 0, bytes.length);
-                    setBean(30, chargingTime);
-                    mAdapter.notifyDataSetChanged();
-                    isEditCharging = true;
-                    break;
+            if (requestCode == 100) {
+                String starttime = data.getStringExtra("start");
+                String endtime = data.getStringExtra("end");
+                if (TextUtils.isEmpty(starttime)) {
+                    toast(R.string.m130未设置开始时间);
+                    return;
+                }
+                if (TextUtils.isEmpty(endtime)) {
+                    toast(R.string.m284未设置结束时间);
+                    return;
+                }
+                startTime = starttime;
+                endTime = endtime;
+                String chargingTime = starttime + "-" + endtime;
+                byte[] bytes = chargingTime.trim().getBytes();
+                if (bytes.length > 11) {
+                    T.make(getString(R.string.m286输入值超出规定长度), WifiSetActivity.this);
+                    return;
+                }
+                timeByte = new byte[11];
+                System.arraycopy(bytes, 0, timeByte, 0, bytes.length);
+                setBean(30, chargingTime);
+                mAdapter.notifyDataSetChanged();
+                isEditCharging = true;
             }
         }
     }

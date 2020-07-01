@@ -41,6 +41,8 @@ public class WifiParseBean {
     private String solar="";
     private String solarCurrent="";
     private String ammeter="";
+    private String ammeterType="";
+    private String unLockType="";
     private String lock="";
 
     public String getName() {
@@ -337,5 +339,21 @@ public class WifiParseBean {
 
     public void setRcd(String rcd) {
         this.rcd = rcd;
+    }
+
+    public String getAmmeterType() {
+        return ammeterType;
+    }
+
+    public void setAmmeterType(String ammeterType) {
+        this.ammeterType = ammeterType;
+    }
+
+    public String getUnLockType() {
+        return unLockType;
+    }
+
+    public void setUnLockType(String unLockType) {
+        this.unLockType = unLockType;
     }
 }
