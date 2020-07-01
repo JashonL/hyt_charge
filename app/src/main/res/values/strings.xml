@@ -387,6 +387,9 @@
 
     <string name="枪">outlet</string>
     <string name="m交直流">AC/DC</string>
+    <string name="m只有ECO模式有效">只有ECO模式有效</string>
+
+
     <!--安卓额外部分-->
 
     <!--权限问题-->
@@ -430,6 +433,7 @@
     <string name="m登录成功">login successful</string>
     <string name="m验证失败">Validazione fallita</string>
     <string name="m验证成功">Validazione riuscita</string>
+
 
 </resources>
 

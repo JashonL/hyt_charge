@@ -111,6 +111,7 @@ public class ChargingParamsActivity extends BaseActivity {
     private boolean isEditInfo = false;
     private boolean isVerified = false;//是否已验证密码
     private String password;
+    private int solar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,6 +165,10 @@ public class ChargingParamsActivity extends BaseActivity {
                 }
             } else if (itemType == ParamsSetAdapter.PARAM_ITEM_SOLAR) {
                 ParamsSetBean bean = (ParamsSetBean) mAdapter.getData().get(19);
+                if (solar != 1){
+                    toast(R.string.m只有ECO模式有效);
+                    return;
+                }
                 if (!bean.isAuthority() && !isVerified) {//如果是不允许设置，又没有验证密码
                     showInputPassword(ParamsSetAdapter.PARAM_ITEM_SOLAR, bean);
                 } else {
@@ -589,7 +594,7 @@ public class ChargingParamsActivity extends BaseActivity {
                         isEditInfo = false;
                         setPileParamMap.clear();
                         refreshRv(data);
-                        if ("name".equals(key)||"unit".equals(key)) {
+                        if ("name".equals(key)||"unit".equals(key)||"G_SolarMode".equals(key)||"G_SolarLimitPower".equals(key)) {
                             EventBus.getDefault().post(new FreshListMsg());
                         }
                     }
@@ -662,11 +667,9 @@ public class ChargingParamsActivity extends BaseActivity {
                 break;
             case "G_SolarMode":
                 initData.setG_SolarMode((int) value);
-                EventBus.getDefault().post(new FreshListMsg());
                 break;
             case "G_SolarLimitPower":
                 initData.setG_SolarLimitPower((float) value);
-                EventBus.getDefault().post(new FreshListMsg());
                 break;
             case "G_PeakValleyEnable":
                 initData.setG_PeakValleyEnable((int) value);
@@ -864,26 +867,26 @@ public class ChargingParamsActivity extends BaseActivity {
                 case 19:
                     bean.setType(ParamsSetAdapter.PARAM_ITEM);
                     bean.setKey(keys[i]);
-                    int solar = data.getG_SolarMode();
+                    solar = data.getG_SolarMode();
                     if (solar == 0) {
                         bean.setValue(solarArrray[0]);
                     } else if (solar == 1) {
                         bean.setValue(solarArrray[1]);
                     } else {
                         bean.setValue(solarArrray[2]);
-                        float solarLimitPower = data.getG_SolarLimitPower();
-                        SolarBean solarBean = new SolarBean();
-                        solarBean.setType(ParamsSetAdapter.PARAM_ITEM_SOLAR);
-                        solarBean.setKey(getString(R.string.m电流限制));
-                        solarBean.setValue(String.valueOf(solarLimitPower));
-                        solarBean.setSfield(keySfields[i]);
-                        if (noConfigKeys.contains(solarBean.getSfield())) {
-                            solarBean.setAuthority(false);
-                        } else {
-                            solarBean.setAuthority(true);
-                        }
-                        bean.addSubItem(solarBean);
                     }
+                    float solarLimitPower = data.getG_SolarLimitPower();
+                    SolarBean solarBean = new SolarBean();
+                    solarBean.setType(ParamsSetAdapter.PARAM_ITEM_SOLAR);
+                    solarBean.setKey(getString(R.string.m电流限制));
+                    solarBean.setValue(String.valueOf(solarLimitPower));
+                    solarBean.setSfield(keySfields[i]);
+                    if (noConfigKeys.contains(solarBean.getSfield())) {
+                        solarBean.setAuthority(false);
+                    } else {
+                        solarBean.setAuthority(true);
+                    }
+                    bean.addSubItem(solarBean);
                     break;
 
                 case 20:
@@ -922,9 +925,9 @@ public class ChargingParamsActivity extends BaseActivity {
                 bean.setAuthority(true);
             }
             newlist.add(bean);
-            mAdapter.setNewData(newlist);
-            mAdapter.expandAll();
         }
+        mAdapter.setNewData(newlist);
+        mAdapter.expandAll();
     }
 
 
@@ -1107,26 +1110,10 @@ public class ChargingParamsActivity extends BaseActivity {
 
     /*solar模式*/
     private void setSolarMode() {
-        List<String> list = Arrays.asList("FAST", "ECO");
+        List<String> list = Arrays.asList(solarArrray);
         OptionsPickerView<String> pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
-                /*ParamsSetBean solarItem=new ParamsSetBean();
-                solarItem.setIndex(19);
-                int i = mAdapter.getData().indexOf(solarItem);
-                if (i==-1)return;
-                ParamsSetBean bean = (ParamsSetBean) mAdapter.getData().get(i);
-                if (options1 == 2) {//ECO+
-                    if (!bean.isExpanded()) {
-                        ((SolarBean)bean.getSubItem(0)).setValue(String.valueOf(solarLimitPower));
-                        mAdapter.expand(21, false);
-                    }
-                }else {
-                    if (bean.isExpanded()) {
-                        mAdapter.collapse(21, false);
-                    }
-                }*/
-
                 setBean("G_SolarMode", options1);
             }
         })

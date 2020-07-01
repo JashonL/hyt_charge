@@ -27,7 +27,6 @@ import com.bigkoo.pickerview.view.TimePickerView;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
-import com.growatt.chargingpile.adapter.ParamsSetAdapter;
 import com.growatt.chargingpile.adapter.WifiSetAdapter;
 import com.growatt.chargingpile.bean.LockBean;
 import com.growatt.chargingpile.bean.SolarBean;
@@ -391,6 +390,17 @@ public class WifiSetActivity extends BaseActivity {
                     setCommonParams(bean);
                 }
             } else if (itemType == WifiSetAdapter.PARAM_ITEM_SOLAR) {//设置solar限制
+                String solarMode = MyUtil.ByteToString(solarByte);
+                int modeIndext;
+                try {
+                    modeIndext = Integer.parseInt(solarMode);
+                } catch (NumberFormatException e) {
+                    modeIndext = 0;
+                }
+                if (modeIndext!=1){
+                    toast(R.string.m只有ECO模式有效);
+                    return;
+                }
                 WifiSetBean bean = (WifiSetBean) mAdapter.getData().get(34);
                 if (!bean.isAuthority() && !isVerified) {//如果是不允许设置，又没有验证密码
                     showInputPassword(WifiSetAdapter.PARAM_ITEM_SOLAR, bean);
@@ -1037,7 +1047,7 @@ public class WifiSetActivity extends BaseActivity {
                         lockBean.setIndex(0);
                         lockBean.setType(WifiSetAdapter.PARAM_ITEM_LOCK);
                         List<String> letter = SmartHomeUtil.getLetter();
-                        String name = letter.get(0) +" "+ getString(R.string.枪);
+                        String name = letter.get(0) + " " + getString(R.string.枪);
                         lockBean.setKey(name);
                         lockBeans.add(lockBean);
                     }
@@ -1109,16 +1119,6 @@ public class WifiSetActivity extends BaseActivity {
                     bean.setKey(keys[i]);
                     bean.setValue(initPileSetBean.getWifiKey());
                     break;
-     /*           case 15:
-                    bean.setType(WifiSetAdapter.PARAM_ITEM);
-                    bean.setKey(keys[i]);
-                    bean.setValue(initPileSetBean.getBltName());
-                    break;
-                case 16:
-                    bean.setType(WifiSetAdapter.PARAM_ITEM);
-                    bean.setKey(keys[i]);
-                    bean.setValue(initPileSetBean.getBltPwd());
-                    break;*/
                 case 15:
                     bean.setType(WifiSetAdapter.PARAM_ITEM);
                     bean.setKey(keys[i]);
@@ -1211,7 +1211,7 @@ public class WifiSetActivity extends BaseActivity {
                     bean.setValue(initPileSetBean.getSolar());
                     for (int j = 0; j < solarBeans.size(); j++) {
                         SolarBean solarBean = solarBeans.get(j);
-                        solarBean.setType(ParamsSetAdapter.PARAM_ITEM_SOLAR);
+                        solarBean.setType(WifiSetAdapter.PARAM_ITEM_SOLAR);
                         solarBean.setSfield(keySfields[i]);
                         if (noConfigKeys.contains(solarBean.getSfield())) {
                             solarBean.setAuthority(false);
@@ -1234,9 +1234,10 @@ public class WifiSetActivity extends BaseActivity {
                 bean.setAuthority(true);
             }
             newlist.add(bean);
-            mAdapter.setNewData(newlist);
-            mAdapter.expandAll();
         }
+
+        mAdapter.setNewData(newlist);
+        mAdapter.expandAll();
     }
 
 
@@ -2135,25 +2136,18 @@ public class WifiSetActivity extends BaseActivity {
                                 modeIndext = 0;
                             }
                             if (modeIndext < 0) modeIndext = 1;
-                            String solarModeValue = solarArrray[modeIndext];
-                            setBean(34, solarModeValue);
-                            WifiSetBean bean = (WifiSetBean) mAdapter.getData().get(36);
                             if (len > 29) {
                                 solarCurrentByte = new byte[2];
                                 System.arraycopy(prayload, 28, solarCurrentByte, 0, 2);
-                                if (modeIndext == 2) {//ECO+
-                                    String current = MyUtil.ByteToString(solarCurrentByte);//限制电流最大8A
-                                    SolarBean solarBean = new SolarBean();
-                                    solarBean.setValue(current);
-                                    solarBean.setType(WifiSetAdapter.PARAM_ITEM_SOLAR);
-                                    solarBean.setKey(getString(R.string.m电流限制));
-                                    solarBeans.add(solarBean);
-                             /*   if (!bean.isExpanded()) {
-                                    mAdapter.expand(36, false);
-                                    ((SolarBean) bean.getSubItem(0)).setValue(current);
-                                }*/
-                                }
+                                String current = MyUtil.ByteToString(solarCurrentByte);//限制电流最大8A
+                                SolarBean solarBean = new SolarBean();
+                                solarBean.setValue(current);
+                                solarBean.setType(WifiSetAdapter.PARAM_ITEM_SOLAR);
+                                solarBean.setKey(getString(R.string.m电流限制));
+                                solarBeans.add(solarBean);
                             }
+                            String solarModeValue = solarArrray[modeIndext];
+                            setBean(34, solarModeValue);
                         }
                         if (len > 30) {
                             ammeterByte = new byte[12];
@@ -2181,7 +2175,7 @@ public class WifiSetActivity extends BaseActivity {
                                 }
                                 lockBean.setType(WifiSetAdapter.PARAM_ITEM_LOCK);
                                 List<String> letter = SmartHomeUtil.getLetter();
-                                String name = letter.get(k) +" " +getString(R.string.枪);
+                                String name = letter.get(k) + " " + getString(R.string.枪);
                                 lockBean.setKey(name);
                                 lockBean.setGunId(k + 1);
                                 lockBean.setIndex(k);
@@ -2193,7 +2187,7 @@ public class WifiSetActivity extends BaseActivity {
                             lockBean.setGunId(1);
                             lockBean.setType(WifiSetAdapter.PARAM_ITEM_LOCK);
                             List<String> letter = SmartHomeUtil.getLetter();
-                            String name = letter.get(0) +" "+ getString(R.string.枪);
+                            String name = letter.get(0) + " " + getString(R.string.枪);
                             lockBean.setKey(name);
                             lockBeans.add(lockBean);
                         }
@@ -2586,7 +2580,7 @@ public class WifiSetActivity extends BaseActivity {
 
     /*solar模式*/
     private void setSolarMode() {
-        List<String> list = Arrays.asList("FAST", "ECO");
+        List<String> list = Arrays.asList(solarArrray);
         OptionsPickerView<String> pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
@@ -2599,23 +2593,7 @@ public class WifiSetActivity extends BaseActivity {
                 }
                 solarByte = new byte[1];
                 System.arraycopy(bytes, 0, solarByte, 0, bytes.length);
-//                setInfo();
                 setBean(34, tx);
-                WifiSetBean bean = (WifiSetBean) mAdapter.getData().get(36);
-               /* if (options1 == 2) {//ECO+
-                    String current = MyUtil.ByteToString(solarCurrentByte);
-                    if (!bean.isExpanded()) {
-                        mAdapter.expand(36, false);
-                        bean.getSubItem(0).setValue(current);
-                    }
-                }else {
-                    if (bean.isExpanded()) {
-                        mAdapter.collapse(36, false);
-                    }
-                }*/
-                if (bean.isExpanded()) {
-                    mAdapter.collapse(34, false);
-                }
                 mAdapter.notifyDataSetChanged();
                 isEditCharging = true;
             }
