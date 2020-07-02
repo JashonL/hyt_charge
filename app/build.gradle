@@ -73,4 +73,5 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation files('libs/jcore-android-2.3.4-google_play.jar')
     implementation files('libs/jpush-android-3.6.0-google_play.jar')
+    implementation 'com.hjq:toast:5.0'
 }

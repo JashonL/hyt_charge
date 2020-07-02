@@ -17,15 +17,14 @@
                 android:id="@+id/ll_charged_ele"
                 android:layout_width="@dimen/xa220"
                 android:layout_height="@dimen/xa170"
-                android:layout_marginLeft="@dimen/xa30"
                 android:background="@drawable/shape_white_corner_bg"
-                android:orientation="vertical"
-                android:paddingLeft="@dimen/xa15">
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="@dimen/xa36"
                     android:layout_height="0dp"
                     android:layout_weight="1"
+                    android:layout_gravity="center"
                     android:src="@drawable/charging_record_ele" />
 
                 <TextView
@@ -33,7 +32,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:textColor="@color/title_1"
                     android:textSize="@dimen/xa36" />
 
@@ -41,7 +40,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:text="@string/m189已充电量"
                     android:textColor="@color/title_3"
                     android:textSize="@dimen/xa28" />
@@ -52,16 +51,15 @@
                 android:id="@+id/ll_charging_rate"
                 android:layout_width="@dimen/xa220"
                 android:layout_height="@dimen/xa170"
-                android:layout_marginLeft="@dimen/xa15"
                 android:layout_toRightOf="@+id/ll_charged_ele"
                 android:background="@drawable/shape_white_corner_bg"
-                android:orientation="vertical"
-                android:paddingLeft="@dimen/xa15">
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="@dimen/xa36"
                     android:layout_height="0dp"
                     android:layout_weight="1"
+                    android:layout_gravity="center"
                     android:src="@drawable/charging_rate" />
 
                 <TextView
@@ -69,7 +67,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:textColor="@color/title_1"
                     android:textSize="@dimen/xa36" />
 
@@ -77,7 +75,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:text="@string/m152充电费率"
                     android:textColor="@color/title_3"
                     android:textSize="@dimen/xa28" />
@@ -88,16 +86,15 @@
                 android:id="@+id/ll_charging_current"
                 android:layout_width="@dimen/xa220"
                 android:layout_height="@dimen/xa170"
-                android:layout_marginLeft="@dimen/xa15"
                 android:layout_toRightOf="@+id/ll_charging_rate"
                 android:background="@drawable/shape_white_corner_bg"
-                android:orientation="vertical"
-                android:paddingLeft="@dimen/xa15">
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="@dimen/xa36"
                     android:layout_height="0dp"
                     android:layout_weight="1"
+                    android:layout_gravity="center"
                     android:src="@drawable/charging_current" />
 
                 <TextView
@@ -105,7 +102,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:textColor="@color/title_1"
                     android:textSize="@dimen/xa36" />
 
@@ -113,7 +110,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:text="@string/m193当前电流"
                     android:textColor="@color/title_3"
                     android:textSize="@dimen/xa28" />
@@ -124,17 +121,16 @@
                 android:id="@+id/ll_charging_time"
                 android:layout_width="@dimen/xa220"
                 android:layout_height="@dimen/xa170"
-                android:layout_alignLeft="@+id/ll_charged_ele"
                 android:layout_below="@+id/ll_charged_ele"
                 android:layout_marginTop="@dimen/xa15"
                 android:background="@drawable/shape_white_corner_bg"
-                android:orientation="vertical"
-                android:paddingLeft="@dimen/xa15">
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="@dimen/xa36"
                     android:layout_height="0dp"
                     android:layout_weight="1"
+                    android:layout_gravity="center"
                     android:src="@drawable/charging_time" />
 
                 <TextView
@@ -142,7 +138,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:textColor="@color/title_1"
                     android:textSize="@dimen/xa36" />
 
@@ -150,7 +146,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:text="@string/m191已充时长"
                     android:textColor="@color/title_3"
                     android:textSize="@dimen/xa28" />
@@ -165,13 +161,13 @@
                 android:layout_below="@+id/ll_charging_rate"
                 android:layout_marginTop="@dimen/xa15"
                 android:background="@drawable/shape_white_corner_bg"
-                android:orientation="vertical"
-                android:paddingLeft="@dimen/xa15">
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="@dimen/xa36"
                     android:layout_height="0dp"
                     android:layout_weight="1"
+                    android:layout_gravity="center"
                     android:src="@drawable/charging_money" />
 
                 <TextView
@@ -179,7 +175,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:textColor="@color/title_1"
                     android:textSize="@dimen/xa36" />
 
@@ -187,7 +183,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:text="@string/m192消费金额"
                     android:textColor="@color/title_3"
                     android:textSize="@dimen/xa28" />
@@ -202,13 +198,13 @@
                 android:layout_below="@+id/ll_charging_current"
                 android:layout_marginTop="@dimen/xa15"
                 android:background="@drawable/shape_white_corner_bg"
-                android:orientation="vertical"
-                android:paddingLeft="@dimen/xa15">
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="@dimen/xa36"
                     android:layout_height="0dp"
                     android:layout_weight="1"
+                    android:layout_gravity="center"
                     android:src="@drawable/charging_voltage" />
 
                 <TextView
@@ -216,7 +212,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:textColor="@color/title_1"
                     android:textSize="@dimen/xa36" />
 
@@ -224,7 +220,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:text="@string/m194当前电压"
                     android:textColor="@color/title_3"
                     android:textSize="@dimen/xa28" />

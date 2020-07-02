@@ -333,8 +333,8 @@
     <string name="m310操作引导2">Collega il telefono cellulare al WiFi del punto di ricarica, la password è 12345678. Se non è possibile trovare il WiFi del punto di ricarica, spegni e riaccendi il punto di ricarica che emetterà il segnale WiFi per 90 secondi dopo l\'accensione.</string>
     <string name="m311操作引导3">Dopo aver effettuato correttamente la connessione all\'hotspot, fare clic su Avanti per accedere alla pagina delle impostazioni per WiFi e impostazione dei parametri</string>
     <string name="m312WIFI直连操作指引">Istruzioni per la connessione WIFI</string>
-    <string name="m313电桩最大输出电流">Impostazione Corrente Massima</string>
-    <string name="m314智能功率分配">Impostazione gestione carico</string>
+    <string name="m313电桩最大输出电流">Impostazione Corrente Massima(A)</string>
+    <string name="m314智能功率分配">Impostazione gestione carico(W)</string>
     <string name="m315货币单位">Unità monetaria</string>
     <string name="m316退出登录">Disconnettersi</string>
     <string name="m317注销账户">Eliminare l\'account</string>
@@ -364,7 +364,7 @@
     <string name="m电表">metro</string>
     <string name="m外部电流采样接线方式">Metodo di cablaggio di campionamento corrente esterno</string>
     <string name="mSolar模式">Modalità solare</string>
-    <string name="m电流限制">ECO + Limite di corrente</string>
+    <string name="m电流限制">ECO  Limite di corrente</string>
     <string name="m电表设备地址">Indirizzo del dispositivo misuratore</string>
     <string name="m设置未保存">Ci sono ancora modifiche non salvate, se scartarle e uscire</string>
     <string name="m输入字符长度不能超出">Il numero di caratteri immessi non può superare</string>
@@ -385,6 +385,13 @@
     <string name="枪">presa</string>
 
     <string name="m交直流">AC/DC</string>
+    <string name="m电子锁配置">Configurazione della serratura elettronica</string>
+    <string name="m手动">Manuale</string>
+    <string name="m自动">automatico</string>
+    <string name="m电表类型">Tipo di misuratore</string>
+    <string name="m东宏">Eastron</string>
+    <string name="m安科瑞">Acrel</string>
+    <string name="m只有ECO模式有效">È valida solo la modalità ECO</string>
 
     <!--安卓额外部分-->
 

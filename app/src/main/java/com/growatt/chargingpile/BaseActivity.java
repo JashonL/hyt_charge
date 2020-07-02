@@ -31,6 +31,7 @@ import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.PermissionCodeUtil;
 import com.growatt.chargingpile.util.SharedPreferencesUnit;
+import com.growatt.chargingpile.util.T;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -346,20 +347,22 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
     }
 
 
+
     public void toast(String text) {
         toast(text, Toast.LENGTH_LONG);
     }
 
     public void toast(String text, int len) {
-
-        if (TextUtils.isEmpty(text)) {
-            return;
-        }
-        if (MyUtil.isNotificationEnabled(this)) {
-            Toast.makeText(this, text, len).show();
-        } else {
-            EToast.makeText(this, text, len).show();
-        }
+        T.toast(text);
+//        ToastUtils.show(text);
+//        if (TextUtils.isEmpty(text)) {
+//            return;
+//        }
+//        if (MyControl.isNotificationEnabled(this)) {
+//            Toast.makeText(this, text, len).show();
+//        } else {
+//            EToast.makeText(this, text, len).show();
+//        }
     }
 
     public void toast(int resId) {
@@ -367,15 +370,17 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
     }
 
     public void toast(int resId, int len) {
-        String text = getString(resId);
-        if (TextUtils.isEmpty(text)) {
-            return;
-        }
-        if (MyUtil.isNotificationEnabled(this)) {
-            Toast.makeText(this, text, len).show();
-        } else {
-            EToast.makeText(this, text, len).show();
-        }
+        T.toast(resId);
+//        ToastUtils.show(resId);
+//        String text = getString(resId);
+//        if (TextUtils.isEmpty(text)) {
+//            return;
+//        }
+//        if (MyControl.isNotificationEnabled(this)) {
+//            Toast.makeText(this, text, len).show();
+//        } else {
+//            EToast.makeText(this, text, len).show();
+//        }
     }
 
     public void log(String log) {

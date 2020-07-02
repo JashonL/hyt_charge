@@ -2179,6 +2179,7 @@ public class WifiSetActivity extends BaseActivity {
                             if (modeIndext < 0) modeIndext = 1;
                             if (len > 29) {
                                 solarCurrentByte = new byte[2];
+                                solarBeans.clear();
                                 System.arraycopy(prayload, 28, solarCurrentByte, 0, 2);
                                 String current = MyUtil.ByteToString(solarCurrentByte);//限制电流最大8A
                                 SolarBean solarBean = new SolarBean();

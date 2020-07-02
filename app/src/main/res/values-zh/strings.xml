@@ -337,8 +337,8 @@
     <string name="m310操作引导2">手机连接充电桩WiFi，WiFi名称为充电桩序列号，初始密码为12345678。若找不到充电桩WiFi，可重启电桩，电桩重启后60秒内为AP模式。</string>
     <string name="m311操作引导3">成功连接充电桩WiFi后，点击下一步，即可修改、设置充电桩。</string>
     <string name="m312WIFI直连操作指引">WIFI直连操作指引</string>
-    <string name="m313电桩最大输出电流">电桩最大输出电流</string>
-    <string name="m314智能功率分配">智能功率分配</string>
+    <string name="m313电桩最大输出电流">电桩最大输出电流(A)</string>
+    <string name="m314智能功率分配">智能功率分配(W)</string>
     <string name="m315货币单位">货币单位</string>
     <string name="m316退出登录">退出登录</string>
     <string name="m317注销账户">注销账户</string>
@@ -368,7 +368,7 @@
     <string name="m电表">电表</string>
     <string name="m外部电流采样接线方式">外部电流采样接线方式</string>
     <string name="mSolar模式">Solar模式</string>
-    <string name="m电流限制">ECO+ 电流限制</string>
+    <string name="m电流限制">ECO电流限制</string>
     <string name="m电表设备地址">电表设备地址</string>
     <string name="m设置未保存">更改的设置未保存，是否放弃更改并退出</string>
     <string name="m输入字符长度不能超出">输入字符数量不能超过</string>
@@ -388,6 +388,13 @@
 
     <string name="枪">枪</string>
     <string name="m交直流">交直流</string>
+    <string name="m电子锁配置">电子锁配置</string>
+    <string name="m手动">手动</string>
+    <string name="m自动">自动</string>
+    <string name="m电表类型">电表类型</string>
+    <string name="m东宏">东宏</string>
+    <string name="m安科瑞">安科瑞</string>
+    <string name="m只有ECO模式有效">只有ECO模式有效</string>
     <!--安卓额外部分-->
     <!--权限问题-->
     <string name="m权限获取某权限说明">请求获取权限</string>
