@@ -10,7 +10,7 @@
     <string name="m6从相册选取">Válasszon a képek közül</string>
     <string name="m7取消">Mégse</string>
     <string name="m8警告">Figyelmeztetés</string>
-    <string name="m9确定">Belépés</string>
+    <string name="m9确定">meghatározására</string>
     <string name="m10删除">Töröl</string>
     <string name="m11扫描结果">Szkennelési eredmény</string>
     <string name="m12配置">Konfiguráció</string>
@@ -392,7 +392,7 @@
     <string name="m是否解除该枪电子锁">A fegyver elektronikus zárjának elengedése</string>
     <string name="m已锁住">azt zárva</string>
     <string name="m已解锁">Kártyafüggetlen</string>
-    <string name="m解锁">Unlock</string>
+    <string name="m解锁">Kinyit</string>
     <string name="m电桩不支持该设置或指令发送出现异常">A halom nem támogatja ezt a beállítást, vagy a parancs küldése rendellenes.</string>
 
     <string name="m邮政编码不能为空">Az irányítószám nem lehet üres</string>

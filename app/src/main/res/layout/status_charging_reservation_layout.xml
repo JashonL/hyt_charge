@@ -19,6 +19,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/xa27"
                 android:layout_marginRight="@dimen/xa27"
+                app:layout_constraintTop_toTopOf="parent"
                 android:orientation="horizontal">
 
                 <TextView
@@ -45,7 +46,7 @@
             </LinearLayout>
 
 
-            <FrameLayout
+            <android.support.constraint.ConstraintLayout
                 android:id="@+id/fl_time_rate"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/ya210"
@@ -83,12 +84,14 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_time_reserva"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="gone">
+                    android:layout_height="@dimen/xa100"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                 </android.support.v7.widget.RecyclerView>
 
-            </FrameLayout>
+            </android.support.constraint.ConstraintLayout>
 
 
             <View
@@ -106,12 +109,12 @@
                 android:id="@+id/tv_preset_value"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:gravity="center_vertical"
                 android:paddingLeft="@dimen/xa20"
                 android:singleLine="true"
                 android:text="@string/m178定时"
                 android:textColor="@color/title_1"
                 android:textSize="@dimen/xa36"
-                android:gravity="center_vertical"
                 app:layout_constraintBottom_toTopOf="@+id/tv_preset_type"
                 app:layout_constraintLeft_toLeftOf="@+id/view_preset_background"
                 app:layout_constraintRight_toRightOf="@+id/view_preset_background"
@@ -125,10 +128,10 @@
                 android:layout_below="@+id/tv_preset_value"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/xa20"
+                android:singleLine="true"
                 android:text="@string/m178定时"
                 android:textColor="@color/title_1"
                 android:textSize="@dimen/xa28"
-                android:singleLine="true"
                 app:layout_constraintBottom_toBottomOf="@+id/view_preset_background"
                 app:layout_constraintLeft_toLeftOf="@+id/view_preset_background"
                 app:layout_constraintRight_toRightOf="@+id/view_preset_background"
@@ -161,8 +164,8 @@
                 android:id="@+id/icon_charged_type"
                 android:layout_width="@dimen/xa36"
                 android:layout_height="@dimen/xa36"
-                android:layout_marginLeft="@dimen/xa30"
                 android:layout_marginStart="@dimen/xa30"
+                android:layout_marginLeft="@dimen/xa30"
                 android:src="@drawable/charging_voltage"
                 app:layout_constraintBottom_toBottomOf="@+id/view_cost_background"
                 app:layout_constraintLeft_toLeftOf="@+id/view_cost_background"
@@ -173,13 +176,13 @@
                 android:id="@+id/tv_preset_value_cal"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginLeft="@dimen/xa30"
                 android:layout_marginStart="@dimen/xa30"
-                android:text="30"
+                android:layout_marginLeft="@dimen/xa30"
+                android:gravity="center_vertical"
                 android:singleLine="true"
+                android:text="30"
                 android:textColor="@color/title_1"
                 android:textSize="@dimen/xa36"
-                android:gravity="center_vertical"
                 app:layout_constraintBottom_toTopOf="@+id/tv_type_text"
                 app:layout_constraintLeft_toRightOf="@+id/icon_charged_type"
                 app:layout_constraintRight_toRightOf="@+id/view_cost_background"
@@ -190,10 +193,10 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:gravity="center_vertical"
+                android:singleLine="true"
                 android:text="@string/m194当前电压"
                 android:textColor="@color/title_1"
                 android:textSize="@dimen/xa28"
-                android:singleLine="true"
                 app:layout_constraintBottom_toBottomOf="@+id/view_cost_background"
                 app:layout_constraintLeft_toLeftOf="@+id/tv_preset_value_cal"
                 app:layout_constraintRight_toRightOf="@+id/view_cost_background"
@@ -204,8 +207,7 @@
                 android:id="@+id/gp_preset"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:constraint_referenced_ids="tv_type_text,tv_preset_value_cal,icon_charged_type,
-                view_cost_background,view_center_line,tv_preset_type,tv_preset_value,view_preset_background,view_preset_background" />
+                app:constraint_referenced_ids="tv_type_text,tv_preset_value_cal,icon_charged_type,view_cost_background,view_center_line,tv_preset_type,tv_preset_value,view_preset_background,view_preset_background" />
 
 
             <TextView

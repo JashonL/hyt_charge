@@ -87,11 +87,12 @@ public class AddAuthorizationActivity extends BaseActivity {
         //设置字体加粗
         tvTitle.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
 
-        int dimen = getResources().getDimensionPixelSize(R.dimen.xa23);
+        int dimen = getResources().getDimensionPixelSize(R.dimen.xa20);
         tvRight.setTextSize(TypedValue.COMPLEX_UNIT_PX, dimen);
         tvRight.setTextColor(ContextCompat.getColor(this, R.color.charging_text_color_2));
         tvRight.setText(getString(R.string.m164注册新用户));
         tvRight.setOnClickListener(v -> gotoRegister());
+
 
     }
 

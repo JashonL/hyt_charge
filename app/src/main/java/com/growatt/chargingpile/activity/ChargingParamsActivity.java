@@ -898,7 +898,7 @@ public class ChargingParamsActivity extends BaseActivity {
                     float solarLimitPower = data.getG_SolarLimitPower();
                     SolarBean solarBean = new SolarBean();
                     solarBean.setType(ParamsSetAdapter.PARAM_ITEM_SOLAR);
-                    solarBean.setKey(getString(R.string.m电流限制));
+                    solarBean.setKey(getString(R.string.m电流限制)+"(A)");
                     solarBean.setValue(String.valueOf(solarLimitPower));
                     solarBean.setSfield(keySfields[i]);
                     if (noConfigKeys.contains(solarBean.getSfield())) {
@@ -1203,7 +1203,7 @@ public class ChargingParamsActivity extends BaseActivity {
                 .setSubmitColor(0xff333333)
                 .setCancelColor(0xff999999)
                 .setBgColor(0xffffffff)
-                .setTitleSize(18)
+                .setTitleSize(14)
                 .setTextColorCenter(0xff333333)
                 .build();
         pvOptions.setPicker(list);

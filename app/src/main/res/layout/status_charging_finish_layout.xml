@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -7,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <RelativeLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -17,8 +18,12 @@
                 android:id="@+id/ll_charged_ele"
                 android:layout_width="@dimen/xa330"
                 android:layout_height="@dimen/xa140"
-                android:layout_marginLeft="@dimen/xa27"
-                android:background="@drawable/shape_white_corner_bg">
+                android:background="@drawable/shape_white_corner_bg"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginRight="@dimen/xa10"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintRight_toLeftOf="@+id/ll_charged_rate"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
                     android:id="@+id/icon_charged_ele"
@@ -63,10 +68,11 @@
                 android:id="@+id/ll_charged_rate"
                 android:layout_width="@dimen/xa330"
                 android:layout_height="@dimen/xa140"
-                android:layout_alignParentRight="true"
-                android:layout_marginLeft="@dimen/xa27"
-                android:layout_marginRight="@dimen/xa27"
-                android:background="@drawable/shape_white_corner_bg">
+                android:layout_marginLeft="@dimen/xa10"
+                android:background="@drawable/shape_white_corner_bg"
+                app:layout_constraintLeft_toRightOf="@+id/ll_charged_ele"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
                     android:id="@+id/icon_charged_rate"
@@ -112,10 +118,13 @@
                 android:id="@+id/ll_charged_time"
                 android:layout_width="@dimen/xa330"
                 android:layout_height="@dimen/xa140"
-                android:layout_below="@+id/ll_charged_ele"
-                android:layout_marginLeft="@dimen/xa27"
-                android:layout_marginTop="@dimen/xa30"
-                android:background="@drawable/shape_white_corner_bg">
+                android:background="@drawable/shape_white_corner_bg"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginTop="@dimen/xa20"
+                android:layout_marginRight="@dimen/xa10"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintRight_toLeftOf="@+id/ll_charged_money"
+                app:layout_constraintTop_toBottomOf="@+id/ll_charged_rate">
 
                 <ImageView
                     android:id="@+id/icon_charged_time"
@@ -161,12 +170,11 @@
                 android:id="@+id/ll_charged_money"
                 android:layout_width="@dimen/xa330"
                 android:layout_height="@dimen/xa140"
-                android:layout_below="@+id/ll_charged_rate"
-                android:layout_alignParentRight="true"
-                android:layout_marginLeft="@dimen/xa27"
-                android:layout_marginTop="@dimen/xa30"
-                android:layout_marginRight="@dimen/xa27"
-                android:background="@drawable/shape_white_corner_bg">
+                android:background="@drawable/shape_white_corner_bg"
+                app:layout_constraintLeft_toRightOf="@+id/ll_charged_time"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginLeft="@dimen/xa10"
+                app:layout_constraintTop_toTopOf="@+id/ll_charged_time">
 
                 <ImageView
                     android:id="@+id/icon_charged_money"
@@ -212,10 +220,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ll_charged_money"
-                android:layout_alignParentRight="true"
-                android:layout_marginLeft="@dimen/xa27"
-                android:layout_marginTop="@dimen/xa30"
-                android:layout_marginRight="@dimen/xa27">
+                android:layout_marginTop="@dimen/xa10"
+                app:layout_constraintTop_toBottomOf="@+id/ll_charged_time">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -227,7 +233,7 @@
 
             </RelativeLayout>
 
-        </RelativeLayout>
+        </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>
 
 </RelativeLayout>

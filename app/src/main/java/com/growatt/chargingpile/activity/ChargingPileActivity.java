@@ -1515,7 +1515,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             tvConfirm.setText(R.string.m184关闭);
             tvLimitPower.setVisibility(View.VISIBLE);
             float solarLimitPower = mCurrentPile.getG_SolarLimitPower();
-            String mSolarLimitPower = getString(R.string.m电流限制) + ":" + solarLimitPower + "kWh";
+            String mSolarLimitPower = getString(R.string.m电流限制) + ":" + solarLimitPower + "A";
             tvLimitPower.setText(mSolarLimitPower);
         } else {
             switchText = getString(R.string.m132切换) + ":" + solarArrray[1];

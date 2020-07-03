@@ -6,6 +6,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -39,7 +40,8 @@ public class AddAuthorizeRegisterActivity extends BaseActivity {
     View headerView;
     @BindView(R.id.tvTitle)
     TextView tvTitle;
-
+    @BindView(R.id.tvRight)
+    TextView tvRight;
     @BindView(R.id.et_username)
     EditText etUsername;
     @BindView(R.id.et_password)
@@ -91,7 +93,6 @@ public class AddAuthorizeRegisterActivity extends BaseActivity {
         tvTitle.setTextColor(ContextCompat.getColor(this, R.color.title_1));
         //设置字体加粗
         tvTitle.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-
     }
 
 

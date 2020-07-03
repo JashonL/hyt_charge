@@ -6,11 +6,12 @@
     android:orientation="vertical">
     <com.growatt.chargingpile.view.AutofitTextView
         android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/xa30"
         android:text="@string/m148基础参数"
         android:singleLine="true"
+        android:gravity="center_vertical"
         android:textColor="@color/title_3"
-        android:textSize="@dimen/text_size_content_title" />
+        android:textSize="@dimen/xa28" />
 </LinearLayout>

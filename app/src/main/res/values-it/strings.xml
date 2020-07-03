@@ -26,7 +26,7 @@
     <string name="m21用户名密码为空">Nome Utente o Password mancanti</string>
     <string name="m25请输入用户名">Inserisci il tuo Nome Utente</string>
     <string name="m26请输入密码">Inserisci la tua PW</string>
-    <string name="m22忘记密码">Password dimenticata?</string>
+    <string name="m22忘记密码">Password dimenticata</string>
     <string name="m23注册">Registrati</string>
     <string name="m24登陆">Accedi</string>
 
@@ -372,7 +372,7 @@
     <string name="m是否解除该枪电子锁">Se rilasciare la serratura elettronica della pistola</string>
     <string name="m已锁住">E \'stato bloccato</string>
     <string name="m已解锁">sbloccato</string>
-    <string name="m解锁">sbloccare</string>
+    <string name="m解锁">sbloccato</string>
     <string name="m电桩不支持该设置或指令发送出现异常">La pila elettrica non supporta questa impostazione o il comando viene inviato in modo anomalo</string>
 
     <string name="m邮政编码不能为空">Il codice postale non può essere vuoto</string>

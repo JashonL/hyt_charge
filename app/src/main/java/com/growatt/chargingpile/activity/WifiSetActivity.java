@@ -2185,7 +2185,7 @@ public class WifiSetActivity extends BaseActivity {
                                 SolarBean solarBean = new SolarBean();
                                 solarBean.setValue(current);
                                 solarBean.setType(WifiSetAdapter.PARAM_ITEM_SOLAR);
-                                solarBean.setKey(getString(R.string.m电流限制));
+                                solarBean.setKey(getString(R.string.m电流限制)+"(A)");
                                 solarBeans.add(solarBean);
                             }
                             String solarModeValue = solarArrray[modeIndext];
