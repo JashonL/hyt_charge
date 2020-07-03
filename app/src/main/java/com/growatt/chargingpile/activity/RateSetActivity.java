@@ -321,11 +321,11 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
             for (int i = start; i < 24 * 60; i++) {
                 oldlist.add(i);
             }
-            for (int i = 0; i < end; i++) {
+            for (int i = 0; i < end+1; i++) {
                 oldlist.add(i);
             }
         }else {
-            for (int i = start; i < end; i++) {
+            for (int i = start; i < end+1; i++) {
                 oldlist.add(i);
             }
         }
@@ -342,11 +342,11 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
                 for (int j = alreadyStart; j < 24 * 60; j++) {
                     newList.add(j);
                 }
-                for (int j = 0; j < alreadyEnd; j++) {
+                for (int j = 0; j < alreadyEnd+1; j++) {
                     newList.add(j);
                 }
             } else {
-                for (int j = alreadyStart; j < alreadyEnd; j++) {
+                for (int j = alreadyStart; j < alreadyEnd+1; j++) {
                     newList.add(j);
                 }
             }
