@@ -46,6 +46,7 @@ import com.growatt.chargingpile.bean.NoConfigBean;
 import com.growatt.chargingpile.bean.PileSetBean;
 import com.growatt.chargingpile.bean.ReservationBean;
 import com.growatt.chargingpile.connutil.PostUtil;
+import com.growatt.chargingpile.jpush.TagAliasOperatorHelper;
 import com.growatt.chargingpile.util.AlertPickDialog;
 import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.Constant;
@@ -81,6 +82,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.jpush.android.api.JPushInterface;
 import pub.devrel.easypermissions.EasyPermissions;
+
+import static com.growatt.chargingpile.jpush.TagAliasOperatorHelper.sequence;
 
 public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapter.OnItemClickListener {
 
@@ -296,17 +299,26 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
         initPullView();
         initStatusView();
         initResource();
-        setJPushAliasAndTag();
+        Set<String> tags = new HashSet<String>();
+        tags.add(SmartHomeUtil.getUserName());
+        setJpushAliasTag(tags, SmartHomeUtil.getUserName());
         freshData();
     }
 
 
-    private void setJPushAliasAndTag() {
-        Set<String> tags = new HashSet<>();
-        tags.add(SmartHomeUtil.getUserName());
-        //设置别名和标签新接口
-        JPushInterface.setAlias(this,1,SmartHomeUtil.getUserName());
-        JPushInterface.setTags(this,2,tags);
+
+
+    private void setJpushAliasTag(Set<String> tags, String alias) {
+        TagAliasOperatorHelper.TagAliasBean tagAliasBean = new TagAliasOperatorHelper.TagAliasBean();
+        tagAliasBean.action = TagAliasOperatorHelper.ACTION_SET;
+        tagAliasBean.alias = alias;
+        tagAliasBean.tags = tags;
+        tagAliasBean.isAliasAction = true;
+        sequence++;
+        TagAliasOperatorHelper.getInstance().handleAction(getApplicationContext(), sequence, tagAliasBean);
+    /*    tagAliasBean.isAliasAction = false;
+        sequence++;
+        TagAliasOperatorHelper.getInstance().handleAction(getApplicationContext(), sequence, tagAliasBean);*/
     }
 
 

@@ -49,7 +49,7 @@ public class MyApplication extends Application {
         x.Ext.setDebug(true);
         initCirclerDialog();
         //极光推送
-        JPushInterface.setDebugMode(false);
+        JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
 
         // toast

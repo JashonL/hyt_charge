@@ -9,6 +9,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -929,6 +930,13 @@ public class WifiSetActivity extends BaseActivity {
                     }
                     setBean(key, text);
                     mAdapter.notifyDataSetChanged();
+                })
+                .configInput(params -> {
+                    if (key==3||key==14||key==16){
+                        params.inputType = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD
+                                | InputType.TYPE_TEXT_FLAG_MULTI_LINE;
+                    }
+
                 })
                 .show(this.getSupportFragmentManager());
     }
@@ -2750,6 +2758,8 @@ public class WifiSetActivity extends BaseActivity {
                 .setInputHeight(100)//输入框高度
                 .autoInputShowKeyboard()//自动弹出键盘
                 .configInput(params -> {
+                        params.inputType = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD
+                                | InputType.TYPE_TEXT_FLAG_MULTI_LINE;
                     params.gravity = Gravity.CENTER;
                     params.textSize = 45;
 //                            params.backgroundColor=ContextCompat.getColor(ChargingPileActivity.this, R.color.preset_edit_time_background);

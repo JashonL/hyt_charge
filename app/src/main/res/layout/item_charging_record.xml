@@ -59,7 +59,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/xa11"
-                    android:text="ID:123456"
                     android:textColor="@color/title_3"
                     android:textSize="@dimen/xa26" />
 
@@ -68,7 +67,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/xa32"
-                    android:text="2018-05-21"
                     android:textColor="@color/title_3"
                     android:textSize="@dimen/xa30" />
 
@@ -100,7 +98,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/xa10"
-                        android:text="12:00"
                         android:singleLine="true"
                         android:textColor="@color/title_1"
                         android:textSize="@dimen/xa24" />
@@ -128,7 +125,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/xa10"
-                        android:text="12:00"
                         android:textColor="@color/title_1"
                         android:textSize="@dimen/xa24" />
                 </LinearLayout>
@@ -175,7 +171,6 @@
                         android:layout_height="wrap_content"
                         android:layout_above="@+id/tv_charging_time"
                         android:gravity="center_vertical"
-                        android:text="4h30min20s"
                         android:singleLine="true"
                         android:textColor="@color/title_1"
                         android:textSize="@dimen/xa26" />
@@ -228,7 +223,6 @@
                         android:layout_height="wrap_content"
                         android:layout_above="@+id/tv_charging_ele"
                         android:gravity="center_vertical"
-                        android:text="4h30min"
                         android:singleLine="true"
                         android:textColor="@color/title_1"
                         android:textSize="@dimen/xa26" />
@@ -278,7 +272,6 @@
                         android:layout_height="match_parent"
                         android:layout_above="@+id/tv_charging_money"
                         android:gravity="center_vertical"
-                        android:text="4h30min"
                         android:singleLine="true"
                         android:textColor="@color/title_1"
                         android:textSize="@dimen/xa26" />

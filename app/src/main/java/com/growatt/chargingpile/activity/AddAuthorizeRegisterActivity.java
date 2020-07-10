@@ -6,7 +6,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -442,7 +441,7 @@ public class AddAuthorizeRegisterActivity extends BaseActivity {
         }
 
         //校验邮箱
-        if (!MyUtil.regexCheckEmail(email)) {
+        if (MyUtil.regexCheckEmail(email)) {
             toast(R.string.m35请输入正确邮箱格式);
             return;
         }

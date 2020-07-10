@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.connutil.PostUtil;
+import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
 import com.mylhyl.circledialog.CircleDialog;
@@ -85,6 +86,13 @@ public class ForgotPasswordActivity extends BaseActivity {
             toast(R.string.m35请输入正确邮箱格式);
             return;
         }
+
+        //校验邮箱
+        if (!MyUtil.regexCheckEmail(email)) {
+            toast(R.string.m35请输入正确邮箱格式);
+            return;
+        }
+
         Mydialog.Show(this);
         JSONObject object = new JSONObject();
         try {
