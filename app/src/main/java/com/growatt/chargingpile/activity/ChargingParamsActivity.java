@@ -943,10 +943,8 @@ public class ChargingParamsActivity extends BaseActivity {
                     bean.setKey(keys[i]);
                     if (TextUtils.isEmpty(powerMeterType)) {
                         bean.setValue("-");
-                    } else if ("0".equals(powerMeterType)) {
-                        bean.setValue(ammterTypeArray[0]);
-                    } else {
-                        bean.setValue(ammterTypeArray[1]);
+                    }  else {
+                        bean.setValue(powerMeterType);
                     }
                     break;
 
@@ -1218,7 +1216,7 @@ public class ChargingParamsActivity extends BaseActivity {
         OptionsPickerView<String> pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
-                setBean("G_PowerMeterType", String.valueOf(options1));
+                setBean("G_PowerMeterType", list.get(options1));
             }
         })
                 .setTitleText(getString(R.string.m电表类型))

@@ -455,4 +455,7 @@
     <string name="m验证失败">Sikertelen hitelesítés</string>
     <string name="m验证成功">Sikeres hitelesítés</string>
 
+
+    <string name="m设置不满24小时">Azokat a díjakat, amelyek nincsenek a megadott időszakban, a 0 arány alapján számítják ki</string>
+
 </resources>

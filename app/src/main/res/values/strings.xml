@@ -440,7 +440,7 @@
     <string name="m验证失败">Validazione fallita</string>
     <string name="m验证成功">Validazione riuscita</string>
 
-
+    <string name="m设置不满24小时">Rates that are not in the set time period are calculated according to the rate of 0</string>
 </resources>
 
 

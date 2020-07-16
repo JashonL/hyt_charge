@@ -438,6 +438,8 @@
     <string name="m验证失败">Validazione fallita</string>
     <string name="m验证成功">Validazione riuscita</string>
 
+
+    <string name="m设置不满24小时">Le tariffe che non rientrano nel periodo di tempo impostato vengono calcolate in base alla velocità di 0</string>
 </resources>
 
 

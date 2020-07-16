@@ -1,5 +1,6 @@
 package com.growatt.chargingpile.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -145,10 +146,10 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
                             return;
                         }
                     }
-               /*     if (!isTimeCoveredOneDay()) {
-                        toast(R.string.m331时间必须包含24小时);
+                    if (!isTimeCoveredOneDay()) {
+                        setNosetRateDialog();
                         return;
-                    }*/
+                    }
                     requestEdit();
                 } else {
                     toast(R.string.m330有时间段或费率未输入);
@@ -225,7 +226,7 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
                         mAdapter.getData().get(pos).setTimeX(rateTime);
                     }
                     bean.setStartTime(time);
-                    showTimePickView(true,pos);
+                    showTimePickView(true, pos);
                 }
             }
         })
@@ -321,11 +322,11 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
             for (int i = start; i < 24 * 60; i++) {
                 oldlist.add(i);
             }
-            for (int i = 0; i < end+1; i++) {
+            for (int i = 0; i < end + 1; i++) {
                 oldlist.add(i);
             }
-        }else {
-            for (int i = start; i < end+1; i++) {
+        } else {
+            for (int i = start; i < end + 1; i++) {
                 oldlist.add(i);
             }
         }
@@ -342,15 +343,15 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
                 for (int j = alreadyStart; j < 24 * 60; j++) {
                     newList.add(j);
                 }
-                for (int j = 0; j < alreadyEnd+1; j++) {
+                for (int j = 0; j < alreadyEnd + 1; j++) {
                     newList.add(j);
                 }
             } else {
-                for (int j = alreadyStart; j < alreadyEnd+1; j++) {
+                for (int j = alreadyStart; j < alreadyEnd + 1; j++) {
                     newList.add(j);
                 }
             }
-            if (!Collections.disjoint(oldlist, newList))return true;
+            if (!Collections.disjoint(oldlist, newList)) return true;
         }
         return false;
     }
@@ -367,7 +368,7 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
             if (TextUtils.isEmpty(time)) continue;
             String[] s = time.split("[\\D]");
             int start = Integer.parseInt(s[0]) * 60 + Integer.parseInt(s[1]);
-            int end = Integer.parseInt(s[2]) * 60 + Integer.parseInt(s[3]);
+            int end = Integer.parseInt(s[2]) * 60 + Integer.parseInt(s[3]) + 1;
             if (start > end) {
                 timeLong += (oneday - start) + end;
             } else {
@@ -403,7 +404,7 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
                 .setInputText(String.valueOf(price))
                 .setNegative(this.getString(R.string.m7取消), null)
                 .configInput(params -> {
-                    params.inputType =InputType.TYPE_CLASS_NUMBER| InputType.TYPE_NUMBER_FLAG_DECIMAL|InputType.TYPE_TEXT_FLAG_MULTI_LINE;
+                    params.inputType = InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_TEXT_FLAG_MULTI_LINE;
                 })
                 .setPositiveInput(this.getString(R.string.m9确定), (text, v) -> {
                     if (!TextUtils.isEmpty(text)) {
@@ -420,6 +421,21 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
         int statValue = Integer.parseInt(start[0]) * 60 + Integer.parseInt(start[1]);
         int endValue = Integer.parseInt(end[0]) * 60 + Integer.parseInt(end[1]);
         return statValue > endValue;
+    }
+
+
+    private void setNosetRateDialog() {
+        new CircleDialog.Builder()
+                .setTitle(getString(R.string.m27温馨提示))
+                .setText(getString(R.string.m设置不满24小时))
+                .setWidth(0.7f)
+                .setPositive(getString(R.string.m9确定), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        requestEdit();
+                    }
+                })
+                .show(getSupportFragmentManager());
     }
 
 }

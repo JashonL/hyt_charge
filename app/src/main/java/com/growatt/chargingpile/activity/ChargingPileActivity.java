@@ -2,6 +2,7 @@ package com.growatt.chargingpile.activity;
 
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -1543,13 +1545,14 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             PileSetBean pileSetBean = new PileSetBean();
             PileSetBean.DataBean dataBean = new PileSetBean.DataBean();
             if (solarMode == 0) {
-                dataBean.setG_SolarMode(1);
+                pwPowerTips.dismiss();
+                setNosetRateDialog();
             } else {
                 dataBean.setG_SolarMode(0);
+                pileSetBean.setData(dataBean);
+                requestLimit(pileSetBean);
+                pwPowerTips.dismiss();
             }
-            pileSetBean.setData(dataBean);
-            requestLimit(pileSetBean);
-            pwPowerTips.dismiss();
         });
 
         tvSwitch.setOnClickListener(v -> {
@@ -1574,6 +1577,40 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
         pwPowerTips.showAtLocation(mRlSolar, Gravity.NO_GRAVITY, location[0] + mRlSolar.getWidth(), location[1]);
         //消失时重新开始刷新
         pwPowerTips.setOnDismissListener(this::startTimer);
+    }
+
+
+
+    private void setNosetRateDialog() {
+        //弹出时停止刷新
+        stopTimer();
+        String []array=new String[]{"ECO","ECO+"};
+        new CircleDialog.Builder()
+                .setItems(array, new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        int mode=position+1;
+                        PileSetBean pileSetBean = new PileSetBean();
+                        PileSetBean.DataBean dataBean = new PileSetBean.DataBean();
+                        dataBean.setG_SolarMode(mode);
+                        pileSetBean.setData(dataBean);
+                        requestLimit(pileSetBean);
+                        startTimer();
+                    }
+                })
+                .setNegative(getString(R.string.m7取消), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startTimer();
+                    }
+                }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                startTimer();
+            }
+        })
+                .setGravity(Gravity.BOTTOM)
+                .show(getSupportFragmentManager());
     }
 
 

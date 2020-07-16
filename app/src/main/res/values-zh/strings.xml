@@ -437,6 +437,9 @@
     <string name="m登录成功">登录成功</string>
     <string name="m验证失败">验证失败</string>
     <string name="m验证成功">验证成功</string>
+
+
+    <string name="m设置不满24小时">不在设置时间段的费率，按照费率为0计算</string>
 </resources>
 
 
