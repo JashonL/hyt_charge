@@ -144,13 +144,6 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         super.onDestroy();
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            finish();
-        }
-        return super.onKeyDown(keyCode, event);
-    }
 
 
     /**

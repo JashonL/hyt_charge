@@ -1529,7 +1529,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             tvConfirm.setText(R.string.m184关闭);
             tvLimitPower.setVisibility(View.VISIBLE);
             float solarLimitPower = mCurrentPile.getG_SolarLimitPower();
-            String mSolarLimitPower = getString(R.string.m电流限制) + ":" + solarLimitPower + "A";
+            String mSolarLimitPower = getString(R.string.m电流限制) + ":" + solarLimitPower + "kW";
             tvLimitPower.setText(mSolarLimitPower);
         } else {
             switchText = getString(R.string.m132切换) + ":" + solarArrray[1];
@@ -2049,6 +2049,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
      * @param v popuwindow显示在哪个view下面
      */
     public void showStorageList(View v) {
+        stopTimer();
         List<GunBean.DataBean> gunlist = new ArrayList<>();
         List<String> letters = SmartHomeUtil.getLetter();
         String unit = getString(R.string.枪);
@@ -2075,13 +2076,13 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             int id = popGunAdapter.getData().get(position).getConnectorId();
             animation = null;
             gunIds.put(mCurrentPile.getChargeId(), id);
+            String name = SmartHomeUtil.getLetter().get(id - 1) +" "+ getString(R.string.枪);
+            tvSwitchGun.setText(name);
             popupGun.dismiss();
-            stopTimer();
             startTimer();
             //刷新充电枪
 //            freshChargingGun(mCurrentPile.getChargeId(), id);
         });
-
         int width = getResources().getDimensionPixelSize(R.dimen.xa150);
         popupGun = new PopupWindow(contentView, width, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         popupGun.setTouchable(true);
@@ -2557,6 +2558,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
+            stopTimer();
             if ((System.currentTimeMillis() - mExitTime) > 2000) {
                 toast(R.string.m确认退出);
                 mExitTime = System.currentTimeMillis();

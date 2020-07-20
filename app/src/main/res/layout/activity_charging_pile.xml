@@ -366,8 +366,8 @@
 
                         <ImageView
                             android:id="@+id/iv_charging_status"
-                            android:layout_width="@dimen/xa77"
-                            android:layout_height="wrap_content"
+                            android:layout_width="@dimen/xa60"
+                            android:layout_height="@dimen/xa60"
                             android:gravity="center"
                             android:src="@drawable/btn_start_charging" />
 

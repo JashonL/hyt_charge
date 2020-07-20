@@ -292,11 +292,6 @@ public class ChargingParamsActivity extends BaseActivity {
                         T.make(getString(R.string.m177输入格式不正确), this);
                         return;
                     }
-
-                    if (Integer.parseInt(text) < 1 || Integer.parseInt(text) > 8) {
-                        T.make(getString(R.string.m290超出设置范围) + tips, ChargingParamsActivity.this);
-                        return;
-                    }
                     float v1;
                     try {
                         v1 = Float.parseFloat(text);
@@ -902,7 +897,7 @@ public class ChargingParamsActivity extends BaseActivity {
                     float solarLimitPower = data.getG_SolarLimitPower();
                     SolarBean solarBean = new SolarBean();
                     solarBean.setType(ParamsSetAdapter.PARAM_ITEM_SOLAR);
-                    solarBean.setKey(getString(R.string.m电流限制) + "(A)");
+                    solarBean.setKey(getString(R.string.m电流限制) + "(kW)");
                     solarBean.setValue(String.valueOf(solarLimitPower));
                     solarBean.setSfield(keySfields[i]);
                     if (noConfigKeys.contains(solarBean.getSfield())) {

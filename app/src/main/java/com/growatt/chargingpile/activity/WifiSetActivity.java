@@ -489,7 +489,7 @@ public class WifiSetActivity extends BaseActivity {
 
 
     private void setECOLimit() {
-        tips = "8~32(A)";
+        tips = "";
         WifiSetBean bean = (WifiSetBean) mAdapter.getData().get(34);
         SolarBean subItem = (SolarBean) bean.getSubItem(0);
         String value = subItem.getValue();
@@ -511,10 +511,6 @@ public class WifiSetActivity extends BaseActivity {
                         return;
                     }
 
-                    if (Integer.parseInt(text) < 8 || Integer.parseInt(text) > 32) {
-                        T.make(getString(R.string.m290超出设置范围) + tips, WifiSetActivity.this);
-                        return;
-                    }
 
                     System.arraycopy(bytes, 0, solarCurrentByte, 0, bytes.length);
                     isEditCharging = true;
