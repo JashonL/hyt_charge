@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.constraint.Group;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -324,6 +326,43 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
     }
 
 
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+
+
+            if (TextUtils.isEmpty(currenStatus)) {
+                return;
+            }
+            Integer gunId = gunIds.get(mCurrentPile.getChargeId());
+            if (gunId == null) gunId = 1;
+            switch (currenStatus) {
+                case GunBean.CHARGING:
+                    freshChargingGun(mCurrentPile.getChargeId(), gunId);
+                    break;
+                case GunBean.ACCEPTED:
+                case GunBean.RESERVENOW:
+                case GunBean.RESERVED:
+                    freshChargingGun(mCurrentPile.getChargeId(), gunId);
+                    break;
+                case GunBean.AVAILABLE://在准备状态，空闲状态，只更新状态，不更新其他ui
+                case GunBean.PREPARING:
+                    timeTaskRefresh(mCurrentPile.getChargeId(), gunId);
+                    break;
+                case GunBean.FINISHING:
+                    freshChargingGun(mCurrentPile.getChargeId(), gunId);
+                    break;
+
+                default:
+                    freshChargingGun(mCurrentPile.getChargeId(), gunId);
+                    break;
+            }
+        }
+    };
+
+
     /**
      * 定时刷新开始
      */
@@ -339,32 +378,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
         timerTask = new TimerTask() {
             @Override
             public void run() {
-                if (TextUtils.isEmpty(currenStatus)) {
-                    return;
-                }
-                Integer gunId = gunIds.get(mCurrentPile.getChargeId());
-                if (gunId == null) gunId = 1;
-                switch (currenStatus) {
-                    case GunBean.CHARGING:
-                        freshChargingGun(mCurrentPile.getChargeId(), gunId);
-                        break;
-                    case GunBean.ACCEPTED:
-                    case GunBean.RESERVENOW:
-                    case GunBean.RESERVED:
-                        freshChargingGun(mCurrentPile.getChargeId(), gunId);
-                        break;
-                    case GunBean.AVAILABLE://在准备状态，空闲状态，只更新状态，不更新其他ui
-                    case GunBean.PREPARING:
-                        timeTaskRefresh(mCurrentPile.getChargeId(), gunId);
-                        break;
-                    case GunBean.FINISHING:
-                        freshChargingGun(mCurrentPile.getChargeId(), gunId);
-                        break;
-
-                    default:
-                        freshChargingGun(mCurrentPile.getChargeId(), gunId);
-                        break;
-                }
+                handler.sendEmptyMessage(0);
             }
         };
     }
