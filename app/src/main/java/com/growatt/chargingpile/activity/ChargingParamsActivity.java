@@ -401,7 +401,7 @@ public class ChargingParamsActivity extends BaseActivity {
         enableArray = new String[]{getString(R.string.m300禁止), getString(R.string.m299使能)};
         wiringArray = new String[]{getString(R.string.mCT), getString(R.string.m电表)};
         solarArrray = new String[]{"FAST", "ECO", "ECO+"};
-        ammterTypeArray = new String[]{getString(R.string.m安科瑞), getString(R.string.m东宏)};
+        ammterTypeArray = new String[]{"Acrel", "Eastron"};
         unLockTypeArray = new String[]{getString(R.string.m手动), getString(R.string.m自动)};
         unitKey = moneyTypes[0];
         unitValue = moneySymbols[0];
