@@ -14,6 +14,8 @@ import com.growatt.chargingpile.bean.LockBean;
 import com.growatt.chargingpile.bean.SolarBean;
 import com.growatt.chargingpile.bean.WifiSetBean;
 
+import org.xutils.common.util.LogUtil;
+
 import java.util.List;
 
 /**
@@ -39,11 +41,12 @@ public class WifiSetAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, B
         addItemType(PARAM_ITEM, R.layout.item_params_set_layout);
         addItemType(PARAM_ITEM_CANT_CLICK, R.layout.item_params_set_layout);
         addItemType(PARAM_ITEM_SOLAR, R.layout.item_set_solar);
-        addItemType(PARAM_ITEM_LOCK, R.layout.item_set_solar);
+        addItemType(PARAM_ITEM_LOCK, R.layout.item_set_lock);
     }
 
     @Override
     protected void convert(BaseViewHolder helper, MultiItemEntity item) {
+        LogUtil.d("position:"+helper.getAdapterPosition()+"item"+item.getItemType());
         if (item.getItemType() == PARAM_TITILE) {
             WifiSetBean bean=(WifiSetBean)item;
             helper.setText(R.id.tv_title, bean.getTitle());
@@ -70,9 +73,7 @@ public class WifiSetAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, B
             helper.setText(R.id.tv_key, key);
             String value = bean.getValue();
             helper.setText(R.id.tv_value, value);
-
-        }
-        else if (item.getItemType() == PARAM_ITEM_LOCK){
+        } else if (item.getItemType() == PARAM_ITEM_LOCK){
             LockBean bean=(LockBean)item;
             String key = bean.getKey();
             helper.setText(R.id.tv_key, key);

@@ -14,6 +14,7 @@ import com.growatt.chargingpile.bean.UserBean;
 import com.growatt.chargingpile.connutil.GetUtil;
 import com.growatt.chargingpile.connutil.PostUtil;
 import com.growatt.chargingpile.connutil.Urlsutil;
+import com.growatt.chargingpile.jpush.TagAliasOperatorHelper;
 import com.growatt.chargingpile.listener.OnViewEnableListener;
 import com.growatt.chargingpile.sqlite.SqliteUtil;
 
@@ -27,6 +28,7 @@ import java.util.Map;
 import cn.jpush.android.api.JPushInterface;
 
 import static com.growatt.chargingpile.application.MyApplication.context;
+import static com.growatt.chargingpile.jpush.TagAliasOperatorHelper.sequence;
 
 /**
  * Created by Administrator on 2018/10/17.
@@ -290,7 +292,8 @@ public class LoginUtil {
         SqliteUtil.plant("");
         Urlsutil.setUrl_Full("");
         Cons.setNoConfigBean(null);
-        JPushInterface.setAlias(act,1,"");
+//        JPushInterface.setAlias(act,1,"");
+        setJpushAlias(act.getApplication());
         //设置不自动登录
         SharedPreferencesUnit.getInstance(act).putInt(Constant.AUTO_LOGIN, 0);
         SharedPreferencesUnit.getInstance(act).putInt(Constant.AUTO_LOGIN_TYPE, 0);
@@ -306,6 +309,22 @@ public class LoginUtil {
         activityStack.clear();
         act.startActivity(new Intent(act,LoginActivity.class));
         act.finish();
+    }
+
+
+    public static void setJpushAlias(Context context) {
+        //删除别名和Tag
+        TagAliasOperatorHelper.TagAliasBean tagAliasBean = new TagAliasOperatorHelper.TagAliasBean();
+        tagAliasBean.action = TagAliasOperatorHelper.ACTION_DELETE;
+        tagAliasBean.isAliasAction = true;
+        tagAliasBean.alias = SmartHomeUtil.getUserName();
+        sequence++;
+        TagAliasOperatorHelper.getInstance().handleAction(context, sequence, tagAliasBean);
+
+     /*   tagAliasBean.action = TagAliasOperatorHelper.ACTION_CLEAN;
+        tagAliasBean.isAliasAction = false;
+        sequence++;
+        TagAliasOperatorHelper.getInstance().handleAction(context.getApplicationContext(), sequence, tagAliasBean);*/
     }
 
 

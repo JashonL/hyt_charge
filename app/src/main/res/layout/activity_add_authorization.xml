@@ -16,7 +16,7 @@
         android:gravity="center"
         android:text="@string/m163输入用户名添加授权用户"
         android:textColor="@color/title_1"
-        android:textSize="@dimen/xa40"
+        android:textSize="@dimen/xa30"
         android:textStyle="bold" />
 
     <RelativeLayout

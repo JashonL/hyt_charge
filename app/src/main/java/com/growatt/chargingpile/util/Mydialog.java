@@ -17,32 +17,32 @@ public class Mydialog {
 	private static Runnable runnableDelay = MProgressDialog::dismissProgress;
 	public static void Show(@NonNull Activity act, String msg){
 		if (TextUtils.isEmpty(msg)){
-			msg = act.getString(R.string.loading);
+			msg = "";
 		}
 		MProgressDialog.showProgress(act,msg);
 		delayDismissDialog(DEFAULT_DELAY_MILLIS);
 	}
 	public static void Show(@NonNull Activity act){
-		MProgressDialog.showProgress(act,act.getString(R.string.loading));
+		MProgressDialog.showProgress(act,"");
 		delayDismissDialog(DEFAULT_DELAY_MILLIS);
 	}
 	public static void Show(@NonNull Activity act, int msg){
-		MProgressDialog.showProgress(act,act.getString(R.string.loading));
+		MProgressDialog.showProgress(act,"");
 		delayDismissDialog(DEFAULT_DELAY_MILLIS);
 	}
 	public static void Show(@NonNull Context act){
-		MProgressDialog.showProgress(act,act.getString(R.string.loading));
+		MProgressDialog.showProgress(act,"");
 		delayDismissDialog(DEFAULT_DELAY_MILLIS);
 	}
 	public static void Show(@NonNull Context act, String msg){
 		if (TextUtils.isEmpty(msg)){
-			msg = act.getString(R.string.loading);
+			msg = "";
 		}
 		MProgressDialog.showProgress(act,msg);
 		delayDismissDialog(DEFAULT_DELAY_MILLIS);
 	}
 	public static void Show(@NonNull Context act, int msg){
-		MProgressDialog.showProgress(act,act.getString(R.string.loading));
+		MProgressDialog.showProgress(act,"");
 		delayDismissDialog(DEFAULT_DELAY_MILLIS);
 	}
 	public static void Dismiss(){
@@ -55,7 +55,7 @@ public class Mydialog {
 	 * @param act
 	 */
 	public static void showDelayDismissDialog(long delayMillis ,@NonNull Context act){
-		MProgressDialog.showProgress(act,act.getString(R.string.loading));
+		MProgressDialog.showProgress(act,"");
 		delayDismissDialog(delayMillis);
 	}
 	public static void delayDismissDialog(long delayMillis) {

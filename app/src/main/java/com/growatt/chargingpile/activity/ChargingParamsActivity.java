@@ -9,6 +9,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -49,6 +50,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -104,6 +106,9 @@ public class ChargingParamsActivity extends BaseActivity {
     public String[] wiringArray;
     public String[] solarArrray;
 
+    public String[] ammterTypeArray;
+    public String[] unLockTypeArray;
+
     private PileSetBean initPileSetBean;
     private Map<String, Object> setPileParamMap;
     private String endTime;
@@ -111,6 +116,8 @@ public class ChargingParamsActivity extends BaseActivity {
     private boolean isEditInfo = false;
     private boolean isVerified = false;//是否已验证密码
     private String password;
+    private int solar;
+    private List<String> countryList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,6 +171,10 @@ public class ChargingParamsActivity extends BaseActivity {
                 }
             } else if (itemType == ParamsSetAdapter.PARAM_ITEM_SOLAR) {
                 ParamsSetBean bean = (ParamsSetBean) mAdapter.getData().get(19);
+                if (solar != 1) {
+                    toast(R.string.m只有ECO模式有效);
+                    return;
+                }
                 if (!bean.isAuthority() && !isVerified) {//如果是不允许设置，又没有验证密码
                     showInputPassword(ParamsSetAdapter.PARAM_ITEM_SOLAR, bean);
                 } else {
@@ -182,7 +193,8 @@ public class ChargingParamsActivity extends BaseActivity {
                 inputEdit("name", value);
                 break;
             case 2:
-                inputEdit("country", value);
+//                inputEdit("country", value);
+                setCountry();
                 break;
             case 3:
                 inputEdit("site", value);
@@ -238,7 +250,14 @@ public class ChargingParamsActivity extends BaseActivity {
                 intent.putExtra("end", endTime);
                 startActivityForResult(intent, 100);
                 break;
+            case 22:
+                setAmmterType();
+                break;
             case 23:
+                setLockType();
+                break;
+
+            case 25:
                 apMode();
                 break;
         }
@@ -271,11 +290,6 @@ public class ChargingParamsActivity extends BaseActivity {
                     boolean numeric_eco = MyUtil.isNumeric(text);
                     if (!numeric_eco) {
                         T.make(getString(R.string.m177输入格式不正确), this);
-                        return;
-                    }
-
-                    if (Integer.parseInt(text) < 1 || Integer.parseInt(text) > 8) {
-                        T.make(getString(R.string.m290超出设置范围) + tips, ChargingParamsActivity.this);
                         return;
                     }
                     float v1;
@@ -348,14 +362,14 @@ public class ChargingParamsActivity extends BaseActivity {
                 getString(R.string.m313电桩最大输出电流), getString(R.string.m314智能功率分配), getString(R.string.m154充电模式),
                 getString(R.string.m155高级设置), getString(R.string.m156充电桩IP), getString(R.string.m157网关), getString(R.string.m158子网掩码),
                 getString(R.string.m159网络MAC地址), getString(R.string.m160服务器URL), getString(R.string.m161DNS地址), "",
-                getString(R.string.m298功率分配使能), getString(R.string.m外部电流采样接线方式), getString(R.string.mSolar模式), getString(R.string.m297峰谷充电使能), getString(R.string.m280允许充电时间),
+                getString(R.string.m298功率分配使能), getString(R.string.m外部电流采样接线方式), getString(R.string.mSolar模式), getString(R.string.m297峰谷充电使能), getString(R.string.m280允许充电时间), getString(R.string.m电表类型), getString(R.string.m电子锁配置),
                 "", getString(R.string.m289进入AP模式), ""};
         keySfields = new String[]{"", "name", "country",
                 "site", "rate", "unit",
                 "G_MaxCurrent", "G_ExternalLimitPower", "G_ChargerMode",
                 "", "ip", "gateway", "mask",
                 "mac", "host", "dns", "",
-                "G_ExternalLimitPowerEnable", "G_ExternalSamplingCurWring", "G_SolarMode", "G_PeakValleyEnable", "G_AutoChargeTime",
+                "G_ExternalLimitPowerEnable", "G_ExternalSamplingCurWring", "G_SolarMode", "G_PeakValleyEnable", "G_AutoChargeTime", "G_PowerMeterType", "UnlockConnectorOnEVSideDisconnect",
                 "", "", ""};
         if (Cons.getNoConfigBean() != null) {
             noConfigKeys = Cons.getNoConfigBean().getSfield();
@@ -365,7 +379,7 @@ public class ChargingParamsActivity extends BaseActivity {
         for (int i = 0; i < keys.length; i++) {
             ParamsSetBean bean = new ParamsSetBean();
             bean.setIndex(i);
-            if (i == 0 || i == 9 || i == 16 || i == 22 || i == 24) {
+            if (i == 0 || i == 9 || i == 16 || i == 24 || i == 26) {
                 bean.setTitle(keys[i]);
                 bean.setType(ParamsSetAdapter.PARAM_TITILE);
             } else {
@@ -387,6 +401,8 @@ public class ChargingParamsActivity extends BaseActivity {
         enableArray = new String[]{getString(R.string.m300禁止), getString(R.string.m299使能)};
         wiringArray = new String[]{getString(R.string.mCT), getString(R.string.m电表)};
         solarArrray = new String[]{"FAST", "ECO", "ECO+"};
+        ammterTypeArray = new String[]{"Acrel", "Eastron"};
+        unLockTypeArray = new String[]{getString(R.string.m手动), getString(R.string.m自动)};
         unitKey = moneyTypes[0];
         unitValue = moneySymbols[0];
         setPileParamMap = new HashMap<>();
@@ -561,14 +577,14 @@ public class ChargingParamsActivity extends BaseActivity {
      * 请求修改参数
      */
 
-    private void requestEdit(String key, Object value,PileSetBean.DataBean data) {
+    private void requestEdit(String key, Object value, PileSetBean.DataBean data) {
         Mydialog.Show(this);
         Map<String, Object> jsonMap = new HashMap<>();
         jsonMap.put("chargeId", chargingId);//测试id
         jsonMap.put("userId", SmartHomeUtil.getUserName());//测试id
         jsonMap.put("lan", getLanguage());//测试id
-        if ("unit".equals(key)){
-            jsonMap.put("symbol",unitSymbol);
+        if ("unit".equals(key)) {
+            jsonMap.put("symbol", unitSymbol);
         }
         jsonMap.put(key, value);
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
@@ -589,7 +605,7 @@ public class ChargingParamsActivity extends BaseActivity {
                         isEditInfo = false;
                         setPileParamMap.clear();
                         refreshRv(data);
-                        if ("name".equals(key)||"unit".equals(key)) {
+                        if ("name".equals(key) || "unit".equals(key) || "G_SolarMode".equals(key) || "G_SolarLimitPower".equals(key)) {
                             EventBus.getDefault().post(new FreshListMsg());
                         }
                     }
@@ -662,11 +678,9 @@ public class ChargingParamsActivity extends BaseActivity {
                 break;
             case "G_SolarMode":
                 initData.setG_SolarMode((int) value);
-                EventBus.getDefault().post(new FreshListMsg());
                 break;
             case "G_SolarLimitPower":
                 initData.setG_SolarLimitPower((float) value);
-                EventBus.getDefault().post(new FreshListMsg());
                 break;
             case "G_PeakValleyEnable":
                 initData.setG_PeakValleyEnable((int) value);
@@ -674,9 +688,17 @@ public class ChargingParamsActivity extends BaseActivity {
             case "G_AutoChargeTime":
                 initData.setG_AutoChargeTime((String) value);
                 break;
+
+            case "G_PowerMeterType":
+                initData.setG_PowerMeterType((String) value);
+                break;
+            case "UnlockConnectorOnEVSideDisconnect":
+                initData.setUnlockConnectorOnEVSideDisconnect((String) value);
+                break;
+
         }
 //        refreshRv(initData);
-        requestEdit(key, value,initData);
+        requestEdit(key, value, initData);
     }
 
 
@@ -744,8 +766,8 @@ public class ChargingParamsActivity extends BaseActivity {
                 case 0:
                 case 9:
                 case 16:
-                case 22:
                 case 24:
+                case 26:
                     bean.setTitle(keys[i]);
                     bean.setType(ParamsSetAdapter.PARAM_TITILE);
                     break;
@@ -772,6 +794,7 @@ public class ChargingParamsActivity extends BaseActivity {
                         ChargingBean.DataBean.PriceConfBean priceConfBean = priceConfBeanList.get(j);
                         priceConfBean.setItemType(ParamsSetAdapter.PARAM_ITEM_RATE);
                         priceConfBean.setSfield(keySfields[i]);
+                        priceConfBean.setSymbol(data.getSymbol());
                         if (noConfigKeys.contains(priceConfBean.getSfield())) {
                             priceConfBean.setAuthority(false);
                         } else {
@@ -863,26 +886,26 @@ public class ChargingParamsActivity extends BaseActivity {
                 case 19:
                     bean.setType(ParamsSetAdapter.PARAM_ITEM);
                     bean.setKey(keys[i]);
-                    int solar = data.getG_SolarMode();
+                    solar = data.getG_SolarMode();
                     if (solar == 0) {
                         bean.setValue(solarArrray[0]);
                     } else if (solar == 1) {
                         bean.setValue(solarArrray[1]);
                     } else {
                         bean.setValue(solarArrray[2]);
-                        float solarLimitPower = data.getG_SolarLimitPower();
-                        SolarBean solarBean = new SolarBean();
-                        solarBean.setType(ParamsSetAdapter.PARAM_ITEM_SOLAR);
-                        solarBean.setKey(getString(R.string.m电流限制));
-                        solarBean.setValue(String.valueOf(solarLimitPower));
-                        solarBean.setSfield(keySfields[i]);
-                        if (noConfigKeys.contains(solarBean.getSfield())) {
-                            solarBean.setAuthority(false);
-                        } else {
-                            solarBean.setAuthority(true);
-                        }
-                        bean.addSubItem(solarBean);
                     }
+                    float solarLimitPower = data.getG_SolarLimitPower();
+                    SolarBean solarBean = new SolarBean();
+                    solarBean.setType(ParamsSetAdapter.PARAM_ITEM_SOLAR);
+                    solarBean.setKey(getString(R.string.m电流限制) + "(kW)");
+                    solarBean.setValue(String.valueOf(solarLimitPower));
+                    solarBean.setSfield(keySfields[i]);
+                    if (noConfigKeys.contains(solarBean.getSfield())) {
+                        solarBean.setAuthority(false);
+                    } else {
+                        solarBean.setAuthority(true);
+                    }
+                    bean.addSubItem(solarBean);
                     break;
 
                 case 20:
@@ -908,11 +931,34 @@ public class ChargingParamsActivity extends BaseActivity {
                     bean.setKey(keys[i]);
                     bean.setValue(autoChargeTime);
                     break;
+
+                case 22:
+                    String powerMeterType = data.getG_PowerMeterType();
+                    bean.setType(ParamsSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    if (TextUtils.isEmpty(powerMeterType)) {
+                        bean.setValue("-");
+                    }  else {
+                        bean.setValue(powerMeterType);
+                    }
+                    break;
+
                 case 23:
+                    String unlockConnectorOnEVSideDisconnect = data.getUnlockConnectorOnEVSideDisconnect();
+                    bean.setType(ParamsSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    if ("true".equals(unlockConnectorOnEVSideDisconnect)) {
+                        bean.setValue(unLockTypeArray[1]);
+                    } else {
+                        bean.setValue(unLockTypeArray[0]);
+                    }
+                    break;
+                case 25:
                     bean.setType(ParamsSetAdapter.PARAM_ITEM);
                     bean.setKey(keys[i]);
                     bean.setValue("");
                     break;
+
             }
             bean.setSfield(keySfields[i]);
             if (noConfigKeys.contains(bean.getSfield())) {
@@ -921,9 +967,9 @@ public class ChargingParamsActivity extends BaseActivity {
                 bean.setAuthority(true);
             }
             newlist.add(bean);
-            mAdapter.setNewData(newlist);
-            mAdapter.expandAll();
         }
+        mAdapter.setNewData(newlist);
+        mAdapter.expandAll();
     }
 
 
@@ -1079,6 +1125,144 @@ public class ChargingParamsActivity extends BaseActivity {
     }
 
 
+    /*电表类型*/
+    private void setCountry() {
+        if (countryList==null||countryList.size()==0){
+            getCountry();
+        }else {
+            seletcCountry();
+        }
+    }
+
+
+    private void getCountry() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("cmd", "countryList");
+            jsonObject.put("lan", getLanguage());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String params = jsonObject.toString();
+        PostUtil.postJson(SmartHomeUrlUtil.postByCmd(), params, new PostUtil.postListener() {
+            @Override
+            public void Params(Map<String, String> params) {
+
+            }
+
+            @Override
+            public void success(String json) {
+                try {
+                    JSONObject respon = new JSONObject(json);
+                    int code = respon.optInt("code");
+                    if (code == 0) {
+                        JSONArray jsonObject1 = respon.optJSONArray("data");
+                        if (jsonObject1!=null){
+                            parserCountryJson(jsonObject1);
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void LoginError(String str) {
+
+            }
+        });
+    }
+
+    private void parserCountryJson(JSONArray jsonObject1) throws JSONException {
+        for (int i = 0; i < jsonObject1.length(); i++) {
+            JSONObject jsonObject = jsonObject1.getJSONObject(i);
+            String s = jsonObject.optString("country", " ");
+            countryList.add(s);
+        }
+        seletcCountry();
+    }
+
+    private void seletcCountry() {
+        OptionsPickerView<String> pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                setBean("country", countryList.get(options1));
+            }
+        })
+                .setTitleText(getString(R.string.m150国家城市))
+                .setSubmitText(getString(R.string.m9确定))
+                .setCancelText(getString(R.string.m7取消))
+                .setTitleBgColor(0xffffffff)
+                .setTitleColor(0xff333333)
+                .setSubmitColor(0xff333333)
+                .setCancelColor(0xff999999)
+                .setBgColor(0xffffffff)
+                .setTitleSize(18)
+                .setTextColorCenter(0xff333333)
+                .build();
+        pvOptions.setPicker(countryList);
+        pvOptions.show();
+    }
+
+
+    /*电表类型*/
+    private void setAmmterType() {
+        List<String> list = Arrays.asList(ammterTypeArray);
+        OptionsPickerView<String> pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                setBean("G_PowerMeterType", list.get(options1));
+            }
+        })
+                .setTitleText(getString(R.string.m电表类型))
+                .setSubmitText(getString(R.string.m9确定))
+                .setCancelText(getString(R.string.m7取消))
+                .setTitleBgColor(0xffffffff)
+                .setTitleColor(0xff333333)
+                .setSubmitColor(0xff333333)
+                .setCancelColor(0xff999999)
+                .setBgColor(0xffffffff)
+                .setTitleSize(18)
+                .setTextColorCenter(0xff333333)
+                .build();
+        pvOptions.setPicker(list);
+        pvOptions.show();
+    }
+
+    /*电子锁配置*/
+    private void setLockType() {
+        List<String> list = Arrays.asList(unLockTypeArray);
+        OptionsPickerView<String> pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                String value = "true";
+                switch (options1) {
+                    case 0:
+                        value = "false";
+                        break;
+                    case 1:
+                        value = "true";
+                        break;
+                }
+                setBean("UnlockConnectorOnEVSideDisconnect", value);
+            }
+        })
+                .setTitleText(getString(R.string.m电子锁配置))
+                .setSubmitText(getString(R.string.m9确定))
+                .setCancelText(getString(R.string.m7取消))
+                .setTitleBgColor(0xffffffff)
+                .setTitleColor(0xff333333)
+                .setSubmitColor(0xff333333)
+                .setCancelColor(0xff999999)
+                .setBgColor(0xffffffff)
+                .setTitleSize(18)
+                .setTextColorCenter(0xff333333)
+                .build();
+        pvOptions.setPicker(list);
+        pvOptions.show();
+    }
+
+
     /*接线方式*/
     private void setWiring() {
         List<String> list = Arrays.asList(wiringArray);
@@ -1096,7 +1280,7 @@ public class ChargingParamsActivity extends BaseActivity {
                 .setSubmitColor(0xff333333)
                 .setCancelColor(0xff999999)
                 .setBgColor(0xffffffff)
-                .setTitleSize(18)
+                .setTitleSize(14)
                 .setTextColorCenter(0xff333333)
                 .build();
         pvOptions.setPicker(list);
@@ -1106,26 +1290,10 @@ public class ChargingParamsActivity extends BaseActivity {
 
     /*solar模式*/
     private void setSolarMode() {
-        List<String> list = Arrays.asList("FAST", "ECO");
+        List<String> list = Arrays.asList(solarArrray);
         OptionsPickerView<String> pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
-                /*ParamsSetBean solarItem=new ParamsSetBean();
-                solarItem.setIndex(19);
-                int i = mAdapter.getData().indexOf(solarItem);
-                if (i==-1)return;
-                ParamsSetBean bean = (ParamsSetBean) mAdapter.getData().get(i);
-                if (options1 == 2) {//ECO+
-                    if (!bean.isExpanded()) {
-                        ((SolarBean)bean.getSubItem(0)).setValue(String.valueOf(solarLimitPower));
-                        mAdapter.expand(21, false);
-                    }
-                }else {
-                    if (bean.isExpanded()) {
-                        mAdapter.collapse(21, false);
-                    }
-                }*/
-
                 setBean("G_SolarMode", options1);
             }
         })
@@ -1233,6 +1401,8 @@ public class ChargingParamsActivity extends BaseActivity {
                     params.textSize = 45;
 //                            params.backgroundColor=ContextCompat.getColor(ChargingPileActivity.this, R.color.preset_edit_time_background);
                     params.strokeColor = ContextCompat.getColor(this, R.color.preset_edit_time_background);
+                    params.inputType = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD
+                            | InputType.TYPE_TEXT_FLAG_MULTI_LINE;
                 })
                 .setPositiveInput(getString(R.string.m9确定), (text, v) -> {
                     if (password.equals(text)) {

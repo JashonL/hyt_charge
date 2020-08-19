@@ -336,8 +336,8 @@
     <string name="m310操作引导2">Connect mobile phone to the chargepoint\'s WiFi, the password is 12345678. If chargepoint\'s WiFi cannot be found, please turn off and back on the chargepoint then it will emit WiFi for 90sec.</string>
     <string name="m311操作引导3">After connecting to the chargepoint\'s hotspot successfully, click Next to enter the setting page for WiFi and parameter setting</string>
     <string name="m312WIFI直连操作指引">WIFI connection instructon</string>
-    <string name="m313电桩最大输出电流">Max Current Setting</string>
-    <string name="m314智能功率分配">Load management setting</string>
+    <string name="m313电桩最大输出电流">Max Current Setting(A)</string>
+    <string name="m314智能功率分配">Load management setting(W)</string>
     <string name="m315货币单位">Currency unit</string>
     <string name="m316退出登录">Sign out</string>
     <string name="m317注销账户">Delete account</string>
@@ -367,7 +367,7 @@
     <string name="m电表">Meter</string>
     <string name="m外部电流采样接线方式">External current sampling wiring method</string>
     <string name="mSolar模式">Solar mode</string>
-    <string name="m电流限制">ECO+ Current limit</string>
+    <string name="m电流限制">ECO Current limit</string>
     <string name="m电表设备地址">Meter device address</string>
     <string name="m设置未保存">There are still changes not saved, whether to discard the changes and exit</string>
     <string name="m输入字符长度不能超出">The number of input characters cannot exceed</string>
@@ -387,6 +387,15 @@
 
     <string name="枪">outlet</string>
     <string name="m交直流">AC/DC</string>
+    <string name="m电子锁配置">Electronic lock configuration</string>
+    <string name="m手动">Manual</string>
+    <string name="m自动">automatic</string>
+    <string name="m电表类型">Meter type</string>
+    <string name="m东宏">Eastron</string>
+    <string name="m安科瑞">Acrel</string>
+    <string name="m只有ECO模式有效">Only ECO mode is valid</string>
+
+
     <!--安卓额外部分-->
 
     <!--权限问题-->
@@ -431,6 +440,7 @@
     <string name="m验证失败">Validazione fallita</string>
     <string name="m验证成功">Validazione riuscita</string>
 
+    <string name="m设置不满24小时">Rates that are not in the set time period are calculated according to the rate of 0</string>
 </resources>
 
 

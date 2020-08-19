@@ -39,7 +39,8 @@ public class AddAuthorizeRegisterActivity extends BaseActivity {
     View headerView;
     @BindView(R.id.tvTitle)
     TextView tvTitle;
-
+    @BindView(R.id.tvRight)
+    TextView tvRight;
     @BindView(R.id.et_username)
     EditText etUsername;
     @BindView(R.id.et_password)
@@ -91,7 +92,6 @@ public class AddAuthorizeRegisterActivity extends BaseActivity {
         tvTitle.setTextColor(ContextCompat.getColor(this, R.color.title_1));
         //设置字体加粗
         tvTitle.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-
     }
 
 
@@ -441,7 +441,7 @@ public class AddAuthorizeRegisterActivity extends BaseActivity {
         }
 
         //校验邮箱
-        if (!MyUtil.regexCheckEmail(email)) {
+        if (MyUtil.regexCheckEmail(email)) {
             toast(R.string.m35请输入正确邮箱格式);
             return;
         }

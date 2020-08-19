@@ -31,6 +31,7 @@ import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.PermissionCodeUtil;
 import com.growatt.chargingpile.util.SharedPreferencesUnit;
+import com.growatt.chargingpile.util.T;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -105,9 +106,9 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
             window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+         /*   if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
                 window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            }
+            }*/
             window.setStatusBarColor(Color.TRANSPARENT);//calculateStatusColor(Color.WHITE, (int) alphaValue)
         }
     }
@@ -143,13 +144,6 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         super.onDestroy();
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            finish();
-        }
-        return super.onKeyDown(keyCode, event);
-    }
 
 
     /**
@@ -346,20 +340,22 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
     }
 
 
+
     public void toast(String text) {
         toast(text, Toast.LENGTH_LONG);
     }
 
     public void toast(String text, int len) {
-
-        if (TextUtils.isEmpty(text)) {
-            return;
-        }
-        if (MyUtil.isNotificationEnabled(this)) {
-            Toast.makeText(this, text, len).show();
-        } else {
-            EToast.makeText(this, text, len).show();
-        }
+        T.toast(text);
+//        ToastUtils.show(text);
+//        if (TextUtils.isEmpty(text)) {
+//            return;
+//        }
+//        if (MyControl.isNotificationEnabled(this)) {
+//            Toast.makeText(this, text, len).show();
+//        } else {
+//            EToast.makeText(this, text, len).show();
+//        }
     }
 
     public void toast(int resId) {
@@ -367,15 +363,17 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
     }
 
     public void toast(int resId, int len) {
-        String text = getString(resId);
-        if (TextUtils.isEmpty(text)) {
-            return;
-        }
-        if (MyUtil.isNotificationEnabled(this)) {
-            Toast.makeText(this, text, len).show();
-        } else {
-            EToast.makeText(this, text, len).show();
-        }
+        T.toast(resId);
+//        ToastUtils.show(resId);
+//        String text = getString(resId);
+//        if (TextUtils.isEmpty(text)) {
+//            return;
+//        }
+//        if (MyControl.isNotificationEnabled(this)) {
+//            Toast.makeText(this, text, len).show();
+//        } else {
+//            EToast.makeText(this, text, len).show();
+//        }
     }
 
     public void log(String log) {

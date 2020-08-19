@@ -5,6 +5,8 @@ import android.app.Application;
 import android.content.Context;
 
 import com.growatt.chargingpile.crashhandler.CrashHandler;
+import com.growatt.chargingpile.view.MyToastBlackStyle;
+import com.hjq.toast.ToastUtils;
 import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.res.values.CircleDimen;
 
@@ -49,6 +51,10 @@ public class MyApplication extends Application {
         //极光推送
         JPushInterface.setDebugMode(false);
         JPushInterface.init(this);
+
+        // toast
+        ToastUtils.initStyle(new MyToastBlackStyle());
+        ToastUtils.init(this);
     }
 
 

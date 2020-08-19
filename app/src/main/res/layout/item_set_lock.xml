@@ -2,10 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <android.support.constraint.ConstraintLayout
+    <RelativeLayout
         android:id="@+id/rl_name"
         android:layout_width="match_parent"
         android:layout_height="@dimen/xa90"
@@ -17,62 +16,49 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/xa30"
             android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:maxWidth="@dimen/xa450"
+            android:lines="2"
+            android:ellipsize="end"
             android:text="@string/m149电桩名称"
             android:textColor="@color/title_1"
             android:textSize="@dimen/xa26"
-            android:maxWidth="@dimen/xa400"
-            android:lines="2"
-            android:ellipsize="end"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/tv_value"
             android:layout_marginStart="@dimen/xa30" />
 
         <TextView
             android:id="@+id/tv_value"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/xa21"
+            android:layout_toLeftOf="@+id/iv_more1"
+            android:layout_toRightOf="@+id/tv_key"
             android:gravity="center_vertical|end"
             android:textColor="@color/title_bg_white"
             android:textSize="@dimen/xa26"
             android:lines="2"
             android:ellipsize="end"
-            android:layout_marginLeft="@dimen/xa20"
-            android:layout_marginRight="@dimen/xa20"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/tv_key"
-            app:layout_constraintRight_toLeftOf="@+id/iv_more1" />
+            android:layout_marginEnd="@dimen/xa21"
+            android:layout_marginStart="@dimen/xa21"
+            android:layout_toStartOf="@+id/iv_more1"
+            android:layout_toEndOf="@+id/tv_key" />
 
         <ImageView
             android:id="@+id/iv_more1"
             android:layout_width="@dimen/xa12"
             android:layout_height="@dimen/xa30"
-            android:layout_marginRight="@dimen/xa30"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/tv_value"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:src="@drawable/charger_device_item_more"
-            android:layout_marginEnd="@dimen/xa30" />
-
-        <ImageView
-            android:id="@+id/iv_more2"
-            android:layout_width="@dimen/xa30"
-            android:layout_height="@dimen/xa12"
-            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/xa30"
             android:src="@drawable/charger_device_item_more"
+            android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/xa30" />
-
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/xa2"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_alignParentBottom="true"
             android:background="@color/gray_background2" />
 
-    </android.support.constraint.ConstraintLayout>
+    </RelativeLayout>
 
 </LinearLayout>

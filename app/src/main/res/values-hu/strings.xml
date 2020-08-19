@@ -10,7 +10,7 @@
     <string name="m6从相册选取">Válasszon a képek közül</string>
     <string name="m7取消">Mégse</string>
     <string name="m8警告">Figyelmeztetés</string>
-    <string name="m9确定">Belépés</string>
+    <string name="m9确定">meghatározására</string>
     <string name="m10删除">Töröl</string>
     <string name="m11扫描结果">Szkennelési eredmény</string>
     <string name="m12配置">Konfiguráció</string>
@@ -69,7 +69,7 @@
     <string name="m55注销账号">Kijelentkezés</string>
     <string name="m56暂未开放">A funkció nem áll készen</string>
     <string name="m57修改密码">Változtassa meg jelszavát</string>
-    <string name="m58修改手机号">Változtassa meg jelszavát</string>
+    <string name="m58修改手机号">Mobil telefonszám módosítása</string>
     <string name="m59修改邮箱">Változtassa meg e-mail címét</string>
     <string name="m60填入不带国家代码的手机号">Az ország előhívókódja nélkül adja meg telefonszámát </string>
     <string name="m61输入邮箱地址">Adja meg e-mail címét</string>
@@ -353,8 +353,8 @@
     <string name="m310操作引导2">Csatlakoztassa a mobiltelefonját a töltőpont WiFijé-hez, a jelszó 12345678. Ha a töltésipont WiFi-je nem található, kérjük kapcsolja ki és be töltőpontot és ekkor a WiFi 90 másodpercre a WiFi jelet sugározza.</string>
     <string name="m311操作引导3">Miután sikeresen csatlakoztatta a hotspot-ot, kattintson a Következő gombra, hogy belépjen a WiFi beálltási oldalra és a paraméter beállításokhoz </string>
     <string name="m312WIFI直连操作指引">WiFi csatlakozási instrukciók</string>
-    <string name="m313电桩最大输出电流">Maximális aktuális beállítás</string>
-    <string name="m314智能功率分配">Töltse be a menedzsment beállítást</string>
+    <string name="m313电桩最大输出电流">Maximális aktuális beállítás(A)</string>
+    <string name="m314智能功率分配">Töltse be a menedzsment beállítást(W)</string>
     <string name="m315货币单位">Valuta egység</string>
     <string name="m316退出登录">Kijelentkezés</string>
     <string name="m317注销账户">Fiók törlése</string>
@@ -384,7 +384,7 @@
     <string name="m电表">Villamosenergia-mérő</string>
     <string name="m外部电流采样接线方式">Külső áram-mintavételi huzalozási módszer</string>
     <string name="mSolar模式">Napelemes üzemmód</string>
-    <string name="m电流限制">ECO + áramkorlát</string>
+    <string name="m电流限制">ECO  áramkorlát</string>
     <string name="m电表设备地址">A mérőeszköz címe</string>
     <string name="m设置未保存">A módosított beállítások nem kerülnek mentésre, függetlenül attól, hogy elvetik-e a módosításokat és kilépnek-e</string>
     <string name="m输入字符长度不能超出">A bevitt karakterek száma nem haladhatja meg</string>
@@ -392,7 +392,7 @@
     <string name="m是否解除该枪电子锁">A fegyver elektronikus zárjának elengedése</string>
     <string name="m已锁住">azt zárva</string>
     <string name="m已解锁">Kártyafüggetlen</string>
-    <string name="m解锁">Unlock</string>
+    <string name="m解锁">Kinyit</string>
     <string name="m电桩不支持该设置或指令发送出现异常">A halom nem támogatja ezt a beállítást, vagy a parancs küldése rendellenes.</string>
 
     <string name="m邮政编码不能为空">Az irányítószám nem lehet üres</string>
@@ -404,6 +404,15 @@
     <string name = "枪">kivezetés</string>
 
     <string name="m交直流">AC/DC</string>
+    <string name="m电子锁配置">Elektronikus zár konfiguráció</string>
+    <string name="m手动">Kézikönyv</string>
+    <string name="m自动">automatikus</string>
+    <string name="m电表类型">Méter típusa</string>
+    <string name="m东宏">Eastron</string>
+    <string name="m安科瑞">Acrel</string>
+    <string name="m只有ECO模式有效">Csak az ECO mód érvényes</string>
+
+
 
     <string name="m权限获取某权限说明">Kérjen xxx engedélyt</string>
     <string name="m权限请求">Kérjen engedélyt</string>
@@ -445,5 +454,8 @@
     <string name="m登录成功">A bejelentkezés sikeres</string>
     <string name="m验证失败">Sikertelen hitelesítés</string>
     <string name="m验证成功">Sikeres hitelesítés</string>
+
+
+    <string name="m设置不满24小时">Azokat a díjakat, amelyek nincsenek a megadott időszakban, a 0 arány alapján számítják ki</string>
 
 </resources>

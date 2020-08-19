@@ -13,6 +13,7 @@ import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.connutil.PostUtil;
 import com.growatt.chargingpile.util.DialogUtil;
+import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
 import com.growatt.chargingpile.util.SmartHomeUtil;
@@ -107,10 +108,19 @@ public class AmendsActivity extends BaseActivity {
             toast(R.string.m140不能为空);
             return;
         }
+
+        if ("2".equals(type)){
+            if (!MyUtil.regexCheckEmail(upContent)) {
+                toast(R.string.m35请输入正确邮箱格式);
+                return;
+            }
+        }
+
         if (TextUtils.isEmpty(password)){
             toast(R.string.m26请输入密码);
             return;
         }
+
         Mydialog.Show(this);
         JSONObject object = new JSONObject();
         try {

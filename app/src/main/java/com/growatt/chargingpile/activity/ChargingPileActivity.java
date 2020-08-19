@@ -2,9 +2,12 @@ package com.growatt.chargingpile.activity;
 
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.constraint.Group;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -20,6 +23,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -46,6 +50,7 @@ import com.growatt.chargingpile.bean.NoConfigBean;
 import com.growatt.chargingpile.bean.PileSetBean;
 import com.growatt.chargingpile.bean.ReservationBean;
 import com.growatt.chargingpile.connutil.PostUtil;
+import com.growatt.chargingpile.jpush.TagAliasOperatorHelper;
 import com.growatt.chargingpile.util.AlertPickDialog;
 import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.Constant;
@@ -81,6 +86,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.jpush.android.api.JPushInterface;
 import pub.devrel.easypermissions.EasyPermissions;
+
+import static com.growatt.chargingpile.jpush.TagAliasOperatorHelper.sequence;
 
 public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapter.OnItemClickListener {
 
@@ -296,18 +303,64 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
         initPullView();
         initStatusView();
         initResource();
-        setJPushAliasAndTag();
+        Set<String> tags = new HashSet<String>();
+        tags.add(SmartHomeUtil.getUserName());
+        setJpushAliasTag(tags, SmartHomeUtil.getUserName());
         freshData();
     }
 
 
-    private void setJPushAliasAndTag() {
-        Set<String> tags = new HashSet<>();
-        tags.add(SmartHomeUtil.getUserName());
-        //设置别名和标签新接口
-        JPushInterface.setAlias(this,1,SmartHomeUtil.getUserName());
-        JPushInterface.setTags(this,2,tags);
+
+
+    private void setJpushAliasTag(Set<String> tags, String alias) {
+        TagAliasOperatorHelper.TagAliasBean tagAliasBean = new TagAliasOperatorHelper.TagAliasBean();
+        tagAliasBean.action = TagAliasOperatorHelper.ACTION_SET;
+        tagAliasBean.alias = alias;
+        tagAliasBean.tags = tags;
+        tagAliasBean.isAliasAction = true;
+        sequence++;
+        TagAliasOperatorHelper.getInstance().handleAction(getApplicationContext(), sequence, tagAliasBean);
+    /*    tagAliasBean.isAliasAction = false;
+        sequence++;
+        TagAliasOperatorHelper.getInstance().handleAction(getApplicationContext(), sequence, tagAliasBean);*/
     }
+
+
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+
+
+            if (TextUtils.isEmpty(currenStatus)) {
+                return;
+            }
+            Integer gunId = gunIds.get(mCurrentPile.getChargeId());
+            if (gunId == null) gunId = 1;
+            switch (currenStatus) {
+                case GunBean.CHARGING:
+                    freshChargingGun(mCurrentPile.getChargeId(), gunId);
+                    break;
+                case GunBean.ACCEPTED:
+                case GunBean.RESERVENOW:
+                case GunBean.RESERVED:
+                    freshChargingGun(mCurrentPile.getChargeId(), gunId);
+                    break;
+                case GunBean.AVAILABLE://在准备状态，空闲状态，只更新状态，不更新其他ui
+                case GunBean.PREPARING:
+                    timeTaskRefresh(mCurrentPile.getChargeId(), gunId);
+                    break;
+                case GunBean.FINISHING:
+                    freshChargingGun(mCurrentPile.getChargeId(), gunId);
+                    break;
+
+                default:
+                    freshChargingGun(mCurrentPile.getChargeId(), gunId);
+                    break;
+            }
+        }
+    };
 
 
     /**
@@ -325,32 +378,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
         timerTask = new TimerTask() {
             @Override
             public void run() {
-                if (TextUtils.isEmpty(currenStatus)) {
-                    return;
-                }
-                Integer gunId = gunIds.get(mCurrentPile.getChargeId());
-                if (gunId == null) gunId = 1;
-                switch (currenStatus) {
-                    case GunBean.CHARGING:
-                        freshChargingGun(mCurrentPile.getChargeId(), gunId);
-                        break;
-                    case GunBean.ACCEPTED:
-                    case GunBean.RESERVENOW:
-                    case GunBean.RESERVED:
-                        freshChargingGun(mCurrentPile.getChargeId(), gunId);
-                        break;
-                    case GunBean.AVAILABLE://在准备状态，空闲状态，只更新状态，不更新其他ui
-                    case GunBean.PREPARING:
-                        timeTaskRefresh(mCurrentPile.getChargeId(), gunId);
-                        break;
-                    case GunBean.FINISHING:
-                        freshChargingGun(mCurrentPile.getChargeId(), gunId);
-                        break;
-
-                    default:
-                        freshChargingGun(mCurrentPile.getChargeId(), gunId);
-                        break;
-                }
+                handler.sendEmptyMessage(0);
             }
         };
     }
@@ -1511,16 +1539,16 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             tvConfirm.setText(R.string.m183开启);
         } else if (solarMode == 1) {
             switchText = getString(R.string.m132切换) + ":" + solarArrray[2];
-            tvLimitPower.setVisibility(View.GONE);
-            tvSwitch.setVisibility(View.GONE);
+            tvSwitch.setVisibility(View.VISIBLE);
             tvConfirm.setText(R.string.m184关闭);
+            tvLimitPower.setVisibility(View.VISIBLE);
+            float solarLimitPower = mCurrentPile.getG_SolarLimitPower();
+            String mSolarLimitPower = getString(R.string.m电流限制) + ":" + solarLimitPower + "kW";
+            tvLimitPower.setText(mSolarLimitPower);
         } else {
             switchText = getString(R.string.m132切换) + ":" + solarArrray[1];
-            tvLimitPower.setVisibility(View.VISIBLE);
             tvSwitch.setVisibility(View.VISIBLE);
-            float solarLimitPower = mCurrentPile.getG_SolarLimitPower();
-            String mSolarLimitPower = getString(R.string.m电流限制) + ":" + solarLimitPower + "kWh";
-            tvLimitPower.setText(mSolarLimitPower);
+            tvLimitPower.setVisibility(View.GONE);
             tvConfirm.setText(R.string.m184关闭);
         }
         tvSwitch.setText(switchText);
@@ -1531,13 +1559,14 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             PileSetBean pileSetBean = new PileSetBean();
             PileSetBean.DataBean dataBean = new PileSetBean.DataBean();
             if (solarMode == 0) {
-                dataBean.setG_SolarMode(1);
+                pwPowerTips.dismiss();
+                setNosetRateDialog();
             } else {
                 dataBean.setG_SolarMode(0);
+                pileSetBean.setData(dataBean);
+                requestLimit(pileSetBean);
+                pwPowerTips.dismiss();
             }
-            pileSetBean.setData(dataBean);
-            requestLimit(pileSetBean);
-            pwPowerTips.dismiss();
         });
 
         tvSwitch.setOnClickListener(v -> {
@@ -1546,7 +1575,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             if (solarMode == 2) {
                 dataBean.setG_SolarMode(1);
             } else {
-                dataBean.setG_SolarMode(0);
+                dataBean.setG_SolarMode(2);
             }
             pileSetBean.setData(dataBean);
             requestLimit(pileSetBean);
@@ -1562,6 +1591,40 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
         pwPowerTips.showAtLocation(mRlSolar, Gravity.NO_GRAVITY, location[0] + mRlSolar.getWidth(), location[1]);
         //消失时重新开始刷新
         pwPowerTips.setOnDismissListener(this::startTimer);
+    }
+
+
+
+    private void setNosetRateDialog() {
+        //弹出时停止刷新
+        stopTimer();
+        String []array=new String[]{"ECO","ECO+"};
+        new CircleDialog.Builder()
+                .setItems(array, new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        int mode=position+1;
+                        PileSetBean pileSetBean = new PileSetBean();
+                        PileSetBean.DataBean dataBean = new PileSetBean.DataBean();
+                        dataBean.setG_SolarMode(mode);
+                        pileSetBean.setData(dataBean);
+                        requestLimit(pileSetBean);
+                        startTimer();
+                    }
+                })
+                .setNegative(getString(R.string.m7取消), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startTimer();
+                    }
+                }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                startTimer();
+            }
+        })
+                .setGravity(Gravity.BOTTOM)
+                .show(getSupportFragmentManager());
     }
 
 
@@ -2000,6 +2063,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
      * @param v popuwindow显示在哪个view下面
      */
     public void showStorageList(View v) {
+        stopTimer();
         List<GunBean.DataBean> gunlist = new ArrayList<>();
         List<String> letters = SmartHomeUtil.getLetter();
         String unit = getString(R.string.枪);
@@ -2026,13 +2090,13 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             int id = popGunAdapter.getData().get(position).getConnectorId();
             animation = null;
             gunIds.put(mCurrentPile.getChargeId(), id);
+            String name = SmartHomeUtil.getLetter().get(id - 1) +" "+ getString(R.string.枪);
+            tvSwitchGun.setText(name);
             popupGun.dismiss();
-            stopTimer();
             startTimer();
             //刷新充电枪
 //            freshChargingGun(mCurrentPile.getChargeId(), id);
         });
-
         int width = getResources().getDimensionPixelSize(R.dimen.xa150);
         popupGun = new PopupWindow(contentView, width, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         popupGun.setTouchable(true);
@@ -2508,6 +2572,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
+            stopTimer();
             if ((System.currentTimeMillis() - mExitTime) > 2000) {
                 toast(R.string.m确认退出);
                 mExitTime = System.currentTimeMillis();

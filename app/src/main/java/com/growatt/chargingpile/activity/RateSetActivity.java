@@ -1,5 +1,6 @@
 package com.growatt.chargingpile.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.growatt.chargingpile.BaseActivity;
@@ -34,6 +36,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -143,10 +146,10 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
                             return;
                         }
                     }
-               /*     if (!isTimeCoveredOneDay()) {
-                        toast(R.string.m331时间必须包含24小时);
+                    if (!isTimeCoveredOneDay()) {
+                        setNosetRateDialog();
                         return;
-                    }*/
+                    }
                     requestEdit();
                 } else {
                     toast(R.string.m330有时间段或费率未输入);
@@ -199,32 +202,35 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
             tittleText = getString(R.string.m204开始时间);
         }
         ChargingBean.DataBean.PriceConfBean bean = mAdapter.getData().get(pos);
-        TimePickerView pvCustomTime = new TimePickerBuilder(this, (date, v) -> {//选中事件回调
-            SimpleDateFormat sdf = new SimpleDateFormat("HH", getResources().getConfiguration().locale);
-            String time = sdf.format(date) + ":00";
-            if (isEnd) {
-            /*    if (!TextUtils.isEmpty(bean.getStartTime())) {
-                    if (isStartMore(bean.getStartTime(), time)) {
-                        toast(R.string.m285开始时间不能大于结束时间);
-                        return;
+        TimePickerView pvCustomTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(Date date, View v) {//选中事件回调
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", getResources().getConfiguration().locale);
+                String time = sdf.format(date);
+                if (isEnd) {
+                /*    if (!TextUtils.isEmpty(bean.getStartTime())) {
+                        if (isStartMore(bean.getStartTime(), time)) {
+                            toast(R.string.m285开始时间不能大于结束时间);
+                            return;
+                        }
+                    }*/
+                    if (!TextUtils.isEmpty(bean.getStartTime())) {
+                        String rateTime = bean.getStartTime() + "-" + time;
+                        mAdapter.getData().get(pos).setTimeX(rateTime);
                     }
-                }*/
-                if (!TextUtils.isEmpty(bean.getStartTime())) {
-                    String rateTime = bean.getStartTime() + "-" + time;
-                    mAdapter.getData().get(pos).setTimeX(rateTime);
+                    bean.setEndTime(time);
+                    mAdapter.notifyItemChanged(pos);
+                } else {
+                    if (!TextUtils.isEmpty(bean.getEndTime())) {
+                        String rateTime = time + "-" + bean.getEndTime();
+                        mAdapter.getData().get(pos).setTimeX(rateTime);
+                    }
+                    bean.setStartTime(time);
+                    showTimePickView(true, pos);
                 }
-                bean.setEndTime(time);
-                mAdapter.notifyItemChanged(pos);
-            } else {
-                if (!TextUtils.isEmpty(bean.getEndTime())) {
-                    String rateTime = time + "-" + bean.getEndTime();
-                    mAdapter.getData().get(pos).setTimeX(rateTime);
-                }
-                bean.setStartTime(time);
-                showTimePickView(true, pos);
             }
         })
-                .setType(new boolean[]{false, false, false, true, false, false})// 默认全部显示
+                .setType(new boolean[]{false, false, false, true, true, false})// 默认全部显示
                 .setCancelText(getString(R.string.m7取消))//取消按钮文字
                 .setSubmitText(getString(R.string.m9确定))//确认按钮文字
                 .setContentTextSize(18)
@@ -240,7 +246,7 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
                 .setTextColorCenter(0xff333333)
                 .setDate(selectedDate)// 如果不设置的话，默认是系统时间*/
                 .setRangDate(startDate, endDate)//起始终止年月日设定
-                .setLabel("", "", "", getString(R.string.m207时), "", "")//默认设置为年月日时分秒
+                .setLabel("", "", "", getString(R.string.m207时), getString(R.string.m208分), "")//默认设置为年月日时分秒
                 .isCenterLabel(false) //是否只显示中间选中项的label文字，false则每项item全部都带有label。
                 .isDialog(false)//是否显示为对话框样式
                 .build();
@@ -316,11 +322,11 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
             for (int i = start; i < 24 * 60; i++) {
                 oldlist.add(i);
             }
-            for (int i = 0; i < end; i++) {
+            for (int i = 0; i < end + 1; i++) {
                 oldlist.add(i);
             }
-        }else {
-            for (int i = start; i < end; i++) {
+        } else {
+            for (int i = start; i < end + 1; i++) {
                 oldlist.add(i);
             }
         }
@@ -337,15 +343,15 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
                 for (int j = alreadyStart; j < 24 * 60; j++) {
                     newList.add(j);
                 }
-                for (int j = 0; j < alreadyEnd; j++) {
+                for (int j = 0; j < alreadyEnd + 1; j++) {
                     newList.add(j);
                 }
             } else {
-                for (int j = alreadyStart; j < alreadyEnd; j++) {
+                for (int j = alreadyStart; j < alreadyEnd + 1; j++) {
                     newList.add(j);
                 }
             }
-            if (!Collections.disjoint(oldlist, newList))return true;
+            if (!Collections.disjoint(oldlist, newList)) return true;
         }
         return false;
     }
@@ -362,7 +368,7 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
             if (TextUtils.isEmpty(time)) continue;
             String[] s = time.split("[\\D]");
             int start = Integer.parseInt(s[0]) * 60 + Integer.parseInt(s[1]);
-            int end = Integer.parseInt(s[2]) * 60 + Integer.parseInt(s[3]);
+            int end = Integer.parseInt(s[2]) * 60 + Integer.parseInt(s[3]) + 1;
             if (start > end) {
                 timeLong += (oneday - start) + end;
             } else {
@@ -398,8 +404,7 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
                 .setInputText(String.valueOf(price))
                 .setNegative(this.getString(R.string.m7取消), null)
                 .configInput(params -> {
-                    params.inputType = InputType.TYPE_NUMBER_FLAG_DECIMAL
-                            | InputType.TYPE_TEXT_FLAG_MULTI_LINE;
+                    params.inputType = InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_TEXT_FLAG_MULTI_LINE;
                 })
                 .setPositiveInput(this.getString(R.string.m9确定), (text, v) -> {
                     if (!TextUtils.isEmpty(text)) {
@@ -416,6 +421,21 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
         int statValue = Integer.parseInt(start[0]) * 60 + Integer.parseInt(start[1]);
         int endValue = Integer.parseInt(end[0]) * 60 + Integer.parseInt(end[1]);
         return statValue > endValue;
+    }
+
+
+    private void setNosetRateDialog() {
+        new CircleDialog.Builder()
+                .setTitle(getString(R.string.m27温馨提示))
+                .setText(getString(R.string.m设置不满24小时))
+                .setWidth(0.7f)
+                .setPositive(getString(R.string.m9确定), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        requestEdit();
+                    }
+                })
+                .show(getSupportFragmentManager());
     }
 
 }

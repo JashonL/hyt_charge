@@ -366,16 +366,18 @@
 
                         <ImageView
                             android:id="@+id/iv_charging_status"
-                            android:layout_width="@dimen/xa77"
-                            android:layout_height="@dimen/xa77"
+                            android:layout_width="@dimen/xa60"
+                            android:layout_height="@dimen/xa60"
                             android:gravity="center"
                             android:src="@drawable/btn_start_charging" />
 
-                        <TextView
+                        <com.growatt.chargingpile.view.AutofitTextView
                             android:id="@+id/tv_charging_status"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/m103充电"
+                            android:text="@string/m340取消预约"
+                            android:singleLine="true"
+                            android:gravity="center"
                             android:textColor="@color/title_1"
                             android:textSize="@dimen/xa30" />
                     </LinearLayout>

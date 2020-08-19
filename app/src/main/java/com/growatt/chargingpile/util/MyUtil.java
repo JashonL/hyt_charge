@@ -99,16 +99,8 @@ public class MyUtil {
     }
 
     public static boolean regexCheckEmail(String email) {
-        boolean flag = false;
-        try {
-            String check = "^([a-z0-9A-Z]+[-|_|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
-            Pattern regex = Pattern.compile(check);
-            Matcher matcher = regex.matcher(email);
-            flag = matcher.matches();
-        } catch (Exception e) {
-            flag = false;
-        }
-        return flag;
+        String check = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+       return  email.matches(check);
     }
 
 
@@ -548,6 +540,17 @@ public class MyUtil {
      */
     public static boolean isLetterDigit2(String s){
         String regex="[a-z,0-9,A-Z,_, ,-]*";
+        Pattern pattern=Pattern.compile(regex);
+        return pattern.matcher(s).matches();
+    }
+
+    /**
+     * 字母 数字 下划线 空格
+     * @param s
+     * @return
+     */
+    public static boolean isEmail(String s){
+        String regex="[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\\\.[A-Za-z]{2,4}";
         Pattern pattern=Pattern.compile(regex);
         return pattern.matcher(s).matches();
     }

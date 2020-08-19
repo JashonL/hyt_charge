@@ -55,6 +55,8 @@ public class PileSetBean {
         private int G_PeakValleyEnable;
         private String G_AutoChargeTime="";
         private String G_RCDProtection="";
+        private String G_PowerMeterType="";
+        private String UnlockConnectorOnEVSideDisconnect="";
 
         public int getConnectors() {
             return connectors;
@@ -358,6 +360,22 @@ public class PileSetBean {
 
         public void setG_RCDProtection(String g_RCDProtection) {
             G_RCDProtection = g_RCDProtection;
+        }
+
+        public String getG_PowerMeterType() {
+            return G_PowerMeterType;
+        }
+
+        public void setG_PowerMeterType(String g_PowerMeterType) {
+            G_PowerMeterType = g_PowerMeterType;
+        }
+
+        public String getUnlockConnectorOnEVSideDisconnect() {
+            return UnlockConnectorOnEVSideDisconnect;
+        }
+
+        public void setUnlockConnectorOnEVSideDisconnect(String unlockConnectorOnEVSideDisconnect) {
+            UnlockConnectorOnEVSideDisconnect = unlockConnectorOnEVSideDisconnect;
         }
     }
 }
