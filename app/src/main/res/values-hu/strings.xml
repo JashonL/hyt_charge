@@ -401,16 +401,30 @@
     <string name="m搜索电桩">Keressen az Elektromos Postán</string>
     <string name="m搜索结果为空">A keresési eredmények üresek</string>
     <string name="m密码已初始化">A jelszó inicializálva</string>
+
+
     <string name = "枪">kivezetés</string>
 
     <string name="m交直流">AC/DC</string>
+
     <string name="m电子锁配置">Elektronikus zár konfiguráció</string>
     <string name="m手动">Kézikönyv</string>
     <string name="m自动">automatikus</string>
     <string name="m电表类型">Méter típusa</string>
+    <string name="m只有ECO模式有效">Csak az ECO mód érvényes</string>
     <string name="m东宏">Eastron</string>
     <string name="m安科瑞">Acrel</string>
-    <string name="m只有ECO模式有效">Csak az ECO mód érvényes</string>
+    <string name="m去WLAN页面进行设置">Menjen a WLAN beállításokhoz</string>
+    <string name="m设置不满24小时">Azokat a díjakat, amelyek nincsenek a megadott időszakban, a 0 arány alapján számítják ki</string>
+
+
+
+
+
+
+
+
+
 
 
 
@@ -446,7 +460,7 @@
     <string name="m限制时间段">8:00am~8:00pm</string>
     <string name="m位置">Helyszín</string>
     <string name="m368请重试或检查网络连接">Kérjük próbálkozzon újra, vagy ellenőrizze a hálózathoz való kapcsolódást</string>
-    <string name="m去WLAN页面进行设置">Menjen a WLAN beállításokhoz</string>
+
     <string name="m133车拒绝充电">A jármű elutasítja a töltést</string>
     <string name="m请先升级充电桩">Kérjük frissítse a töltőpontot</string>
     <string name="mCT">CT</string>
@@ -455,7 +469,5 @@
     <string name="m验证失败">Sikertelen hitelesítés</string>
     <string name="m验证成功">Sikeres hitelesítés</string>
 
-
-    <string name="m设置不满24小时">Azokat a díjakat, amelyek nincsenek a megadott időszakban, a 0 arány alapján számítják ki</string>
 
 </resources>

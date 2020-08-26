@@ -188,7 +188,7 @@ public class NewPhoneVerActivity extends BaseActivity {
 
     //显示灰色button
     private void showAfterButton() {
-        if (btnSendCode.isEnabled() == true) {
+        if (btnSendCode.isEnabled()) {
             btnSendCode.setEnabled(false);
             btnSendCode.setBackgroundColor(getResources().getColor(R.color.white_background_click));
         }
