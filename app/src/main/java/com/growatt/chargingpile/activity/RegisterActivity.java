@@ -1,16 +1,20 @@
 package com.growatt.chargingpile.activity;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
@@ -22,9 +26,13 @@ import com.growatt.chargingpile.util.LoginUtil;
 import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
+import com.mylhyl.circledialog.CircleDialog;
 
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -58,17 +66,38 @@ public class RegisterActivity extends BaseActivity {
     EditText etPostCode;
     @BindView(R.id.et_installer)
     EditText etInstanller;
+    @BindView(R.id.et_installer_email)
+    EditText etInstallerEmail;
+    @BindView(R.id.et_installer_phone)
+    EditText etInstallerPhone;
+    @BindView(R.id.et_installer_address)
+    EditText etInstallerAddress;
+    @BindView(R.id.tv_installer_date)
+    TextView tvInstallerDate;
 
     private Unbinder bind;
+    private Calendar calendar = Calendar.getInstance();
+    private String username;
+    private String password;
+    private String email;
+    private String postCode;
+    private String phone;
+    private String installer;
+    private String installerEmail;
+    private String installerPhone;
+    private String installerAddress;
+    private String installerDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        bind=ButterKnife.bind(this);
+        bind = ButterKnife.bind(this);
         initHeaderView();
         initViews();
+
     }
+
     private void initHeaderView() {
         tvTitle.setTextColor(ContextCompat.getColor(this, R.color.title_1));
         tvTitle.setText(getString(R.string.m23注册));
@@ -83,34 +112,44 @@ public class RegisterActivity extends BaseActivity {
         terms.getPaint().setAntiAlias(true);//抗锯齿
     }
 
-    @OnClick({R.id.btRegister, R.id.textView4})
+    @OnClick({R.id.btRegister, R.id.textView4, R.id.ll_date})
     public void toRegister(View view) {
         switch (view.getId()) {
             case R.id.textView4:
-                startActivity(new Intent(this,AgreementActivity.class));
+                startActivity(new Intent(this, AgreementActivity.class));
                 break;
             case R.id.btRegister:
-                try {
-//                    registerNext();
-                    register();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                register();
+                break;
+            case R.id.ll_date:
+                new DatePickerDialog(this, (view1, year, month, dayOfMonth) -> {
+                    String sbDate = year +
+                            "-" + ((month + 1) < 10 ? "0" + (month + 1) : (month + 1)) +
+                            "-" + ((dayOfMonth < 10) ? "0" + dayOfMonth : dayOfMonth);
+                    tvInstallerDate.setText(sbDate);
+                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)) {
+                    @Override
+                    protected void onStop() {
+                    }
+                }.show();
                 break;
         }
 
     }
 
 
+    private void register() {
+        username = etUsername.getText().toString().trim();
+        password = etPassword.getText().toString().trim();
+        email = etEmail.getText().toString().trim();
+        postCode = etPostCode.getText().toString().trim();
+        phone = etPhone.getText().toString().trim();
+        installer = etInstanller.getText().toString().trim();
+        installerEmail = etInstallerEmail.getText().toString().trim();
+        installerPhone = etInstallerPhone.getText().toString().trim();
+        installerAddress = etInstallerAddress.getText().toString().trim();
+        installerDate = tvInstallerDate.getText().toString().trim();
 
-    private void register(){
-        String username = etUsername.getText().toString().trim();
-        String password = etPassword.getText().toString().trim();
-        String email = etEmail.getText().toString().trim();
-        String postCode=etPostCode.getText().toString().trim();
-        String phone=etPhone.getText().toString().trim();
-        String installer=etInstanller.getText().toString().trim();
-        final String country = MyUtil.getCountryAndPhoneCodeByCountryCode(this, 1);
         if (TextUtils.isEmpty(username)) {
             toast(R.string.m21用户名密码为空);
             return;
@@ -150,9 +189,37 @@ public class RegisterActivity extends BaseActivity {
             return;
         }
 
+
         //邮政编码
-        if (TextUtils.isEmpty(postCode)){
+        if (TextUtils.isEmpty(postCode)) {
             toast(R.string.m邮政编码不能为空);
+            return;
+        }
+
+
+        //安装者
+        if (TextUtils.isEmpty(installer)) {
+            toast(R.string.m请输入安装商);
+            return;
+        }
+        //安装者邮箱
+        if (TextUtils.isEmpty(installerEmail)) {
+            toast(R.string.m安装人员Email);
+            return;
+        }
+        //安装者电话
+        if (TextUtils.isEmpty(installerPhone)) {
+            toast(R.string.m安装人员电话);
+            return;
+        }
+        //安装者地址
+        if (TextUtils.isEmpty(installerAddress)) {
+            toast(R.string.m安装人员地址);
+            return;
+        }
+        //安装日期
+        if (TextUtils.isEmpty(installerDate)) {
+            toast(R.string.m安装日期);
             return;
         }
 
@@ -161,22 +228,47 @@ public class RegisterActivity extends BaseActivity {
             toast(R.string.m34选择用户协议);
             return;
         }
+        showDisclaimer();
+    }
 
+
+    public void showDisclaimer() {
+        new CircleDialog.Builder()
+                .setText(getString(R.string.m免责声明))
+                .setGravity(Gravity.CENTER)
+                .setPositive(getString(R.string.m9确定), v -> {
+                    try {
+                        requestRegister();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                })
+                .show(getSupportFragmentManager());
+    }
+
+
+    private void requestRegister() {
+        final String country = MyUtil.getCountryAndPhoneCodeByCountryCode(this, 1);
         Mydialog.Show(this);
         JSONObject object = new JSONObject();
         try {
             object.put("cmd", "register");//cmd  注册
             object.put("userId", username);//用户名
             object.put("roleId", "endUser");//角色
-            object.put("phone",phone);
+            object.put("phone", phone);
             object.put("password", password);//密码
             object.put("installer", installer);//安装者
             object.put("company", installer);//公司
             object.put("email", email);//邮箱
             object.put("installerInfo", installer);//安装商信息
-            object.put("zipCode", postCode);//邮编
+            object.put("zipCode",postCode);//邮编
             object.put("country", country);//国家
             object.put("lan", getLanguage());
+            object.put("installEmail", installerEmail);
+            object.put("installPhone", installerPhone);
+            object.put("installAddress", installerAddress);
+            object.put("installDate", installerDate);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -201,7 +293,7 @@ public class RegisterActivity extends BaseActivity {
 
                             }
                         });
-                    }else {
+                    } else {
                         String errorMsg = object.optString("data");
                         toast(errorMsg);
                     }
@@ -215,16 +307,18 @@ public class RegisterActivity extends BaseActivity {
 
             }
         });
-
         Cons.regMap.setRegEmail(email);
         Cons.regMap.setRegPassword(password);
         Cons.regMap.setRegPhoneNumber(phone);
         Cons.regMap.setRegUserName(username);
         Cons.regMap.setRegPostCode(postCode);
         Cons.regMap.setRegInstaller(installer);
+        Cons.regMap.setRegInstallEmail(installerEmail);
+        Cons.regMap.setRegInstallPhone(installerPhone);
+        Cons.regMap.setRegInstallAddress(installerAddress);
+        Cons.regMap.setRegInstallDate(installerDate);
+        Cons.regMap.setRegCity(country);
     }
-
-
 
 
     @Override

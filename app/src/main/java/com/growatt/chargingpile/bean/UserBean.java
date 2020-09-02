@@ -49,63 +49,12 @@ public class UserBean implements Serializable {
     private String addr;
     private String cid;
     private String status;
+    private String installEmail;
+    private String installPhone;
+    private String installAddress;
+    private String installDate;
+    private String installer;
 
-    public UserBean(String enabled, String agentCode, String userLanguage, String timeZone,
-                    String password, String id, String mailNotice, String phoneNum, String lastLoginIp,
-                    String accountName, String approved, String smsNotice, String email, int parentUserId,
-                    String company, String activeName, String counrty, String isBigCustomer, String createDate,
-                    String rightlevel, String lastLoginTime, String noticeType, int isValiEmail, int isValiPhone,
-                    String area, String registTime, String country, String zipCode, String agent, String code, String auth,
-                    String city, String roleId, String type, String userId, String parentId, String nick, String areaId,
-                    String phone, String provice, String name, String roleName, String time, String addr, String cid, String status, int authnum) {
-        this.enabled = enabled;
-        this.agentCode = agentCode;
-        this.userLanguage = userLanguage;
-        this.timeZone = timeZone;
-        this.password = password;
-        this.id = id;
-        this.mailNotice = mailNotice;
-        this.phoneNum = phoneNum;
-        this.lastLoginIp = lastLoginIp;
-        this.accountName = accountName;
-        this.approved = approved;
-        this.smsNotice = smsNotice;
-        this.email = email;
-        this.parentUserId = parentUserId;
-        this.company = company;
-        this.activeName = activeName;
-        this.counrty = counrty;
-        this.isBigCustomer = isBigCustomer;
-        this.createDate = createDate;
-        this.rightlevel = rightlevel;
-        this.lastLoginTime = lastLoginTime;
-        this.noticeType = noticeType;
-        this.isValiEmail = isValiEmail;
-        this.isValiPhone = isValiPhone;
-        this.area = area;
-        this.registTime = registTime;
-        this.country = country;
-        this.zipCode = zipCode;
-        this.agent = agent;
-        this.code = code;
-        this.auth = auth;
-        this.city = city;
-        this.roleId = roleId;
-        this.type = type;
-        this.userId = userId;
-        this.parentId = parentId;
-        this.nick = nick;
-        this.areaId = areaId;
-        this.phone = phone;
-        this.provice = provice;
-        this.name = name;
-        this.roleName = roleName;
-        this.time = time;
-        this.addr = addr;
-        this.cid = cid;
-        this.status = status;
-        this.authnum = authnum;
-    }
 
     //1是否是浏览账户,0是注册用户
     private int authnum;
@@ -493,5 +442,47 @@ public class UserBean implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+
+    public String getInstallEmail() {
+        return installEmail;
+    }
+
+    public void setInstallEmail(String installEmail) {
+        this.installEmail = installEmail;
+    }
+
+    public String getInstallPhone() {
+        return installPhone;
+    }
+
+    public void setInstallPhone(String installPhone) {
+        this.installPhone = installPhone;
+    }
+
+    public String getInstallAddress() {
+        return installAddress;
+    }
+
+    public void setInstallAddress(String installAddress) {
+        this.installAddress = installAddress;
+    }
+
+    public String getInstallDate() {
+        return installDate;
+    }
+
+    public void setInstallDate(String installDate) {
+        this.installDate = installDate;
+    }
+
+
+    public String getInstaller() {
+        return installer;
+    }
+
+    public void setInstaller(String installer) {
+        this.installer = installer;
     }
 }

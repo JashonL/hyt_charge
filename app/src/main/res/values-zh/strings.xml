@@ -401,6 +401,17 @@
     <string name="m设置不满24小时">不在设置时间段的费率，按照费率为0计算</string>
 
 
+    <string name="m安装人员Email">请输入安装人员Email</string>
+    <string name="m安装人员电话">请输入安装人员电话</string>
+    <string name="m安装人员地址">请输入安装人员地址</string>
+    <string name="m安装日期">请输入安装日期</string>
+    <string name="m修改安装人员">修改安装人员</string>
+    <string name="m修改安装人员邮箱">修改安装人员邮箱</string>
+    <string name="m修改安装人员电话">修改安装人员电话</string>
+    <string name="m修改安装人员地址">修改安装人员地址</string>
+    <string name="m免责声明">disclaimer：pev can analyse the data for monitoring purposes and Make recommendations from time to time on charging and potential improvements to their costs</string>
+
+
 
     <!--安卓额外部分-->
     <!--权限问题-->

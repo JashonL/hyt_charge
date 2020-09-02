@@ -7,6 +7,9 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.growatt.chargingpile.BaseActivity;
@@ -33,10 +36,20 @@ public class UserActivity extends BaseActivity {
 
     @BindView(R.id.headerView)
     View headerView;
-    @BindView(R.id.textView3)
-    TextView textView3;
-    @BindView(R.id.textView5)
-    TextView textView5;
+    @BindView(R.id.tv_phone)
+    TextView tvPhone;
+    @BindView(R.id.tv_email)
+    TextView tvEmail;
+    @BindView(R.id.tvTitle)
+    TextView tvTitle;
+/*    @BindView(R.id.tv_installer)
+    TextView tvInstaller;*/
+    @BindView(R.id.tv_installemail)
+    TextView tvInstallemail;
+    @BindView(R.id.tv_installphone)
+    TextView tvInstallphone;
+    @BindView(R.id.tv_installaddress)
+    TextView tvInstalladdress;
     private Unbinder bind;
 
 
@@ -52,12 +65,30 @@ public class UserActivity extends BaseActivity {
     private void initViews() {
         String phone = Cons.userBean.getPhone();
         if (!TextUtils.isEmpty(phone)) {
-            textView3.setText(phone);
+            tvPhone.setText(phone);
         }
         String email = Cons.userBean.getEmail();
         if (!TextUtils.isEmpty(email)) {
-            textView5.setText(email);
+            tvEmail.setText(email);
         }
+
+        String installEmail = Cons.userBean.getInstallEmail();
+        if (!TextUtils.isEmpty(installEmail)) {
+            tvInstallemail.setText(installEmail);
+        }
+
+
+        String installPhone = Cons.userBean.getInstallPhone();
+        if (!TextUtils.isEmpty(installPhone)) {
+            tvInstallphone.setText(installPhone);
+        }
+
+
+        String installAddress = Cons.userBean.getInstallAddress();
+        if (!TextUtils.isEmpty(installAddress)) {
+            tvInstalladdress.setText(installAddress);
+        }
+
     }
 
 
@@ -71,7 +102,7 @@ public class UserActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.rl_edit_password, R.id.rl_edit_phone, R.id.rl_edit_email, R.id.logout})
+    @OnClick({R.id.rl_edit_password, R.id.rl_edit_phone, R.id.rl_edit_email, R.id.rl_edit_installemail, R.id.rl_edit_installphone, R.id.rl_edit_installaddress, R.id.logout})
     public void onClickListners(View view) {
         switch (view.getId()) {
             case R.id.rl_edit_password:
@@ -82,6 +113,15 @@ public class UserActivity extends BaseActivity {
                 break;
             case R.id.rl_edit_email:
                 toUpdate(2);
+                break;
+            case R.id.rl_edit_installemail:
+                toUpdate(3);
+                break;
+            case R.id.rl_edit_installphone:
+                toUpdate(4);
+                break;
+            case R.id.rl_edit_installaddress:
+                toUpdate(5);
                 break;
             case R.id.logout:
                 LogoutUser();
@@ -149,13 +189,13 @@ public class UserActivity extends BaseActivity {
     private void toUpdate(int type) {
         Intent intent = new Intent(UserActivity.this, AmendsActivity.class);
         Bundle bundle = new Bundle();
-        if (type == 1) {
-            bundle.putString("type", "1");
-        } else if (type == 2) {
-            bundle.putString("type", "2");
-        }
+        bundle.putString("type", String.valueOf(type));
         bundle.putString("PhoneNum", Cons.userBean.getPhone());
         bundle.putString("email", Cons.userBean.getEmail());
+        bundle.putString("installEmail", Cons.userBean.getInstallEmail());
+        bundle.putString("installPhone", Cons.userBean.getInstallPhone());
+        bundle.putString("installAddress", Cons.userBean.getInstallAddress());
+        bundle.putString("installer", Cons.userBean.getInstaller());
         intent.putExtras(bundle);
         startActivityForResult(intent, 103);
     }
@@ -173,21 +213,27 @@ public class UserActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case 103:
-                    String type = data.getStringExtra("type");
-                    String result = data.getStringExtra("result");
-                    if (!TextUtils.isEmpty(result)){
-                        if ("1".equals(type)){
-                            Cons.userBean.setPhone(result);
-                            textView3.setText(result);
-                        }else {
-                            Cons.userBean.setEmail(result);
-                            textView5.setText(result);
-                        }
+            if (requestCode == 103) {
+                String type = data.getStringExtra("type");
+                String result = data.getStringExtra("result");
+                if (!TextUtils.isEmpty(result)) {
+                    if ("1".equals(type)) {
+                        Cons.userBean.setPhone(result);
+                        tvPhone.setText(result);
+                    } else if ("2".equals(type)) {
+                        Cons.userBean.setEmail(result);
+                        tvEmail.setText(result);
+                    } else if ("3".equals(type)) {
+                        Cons.userBean.setInstallEmail(result);
+                        tvInstallemail.setText(result);
+                    } else if ("4".equals(type)) {
+                        Cons.userBean.setInstallPhone(result);
+                        tvInstallphone.setText(result);
+                    } else {
+                        Cons.userBean.setInstallAddress(result);
+                        tvInstalladdress.setText(result);
                     }
-                    break;
-
+                }
             }
         }
 

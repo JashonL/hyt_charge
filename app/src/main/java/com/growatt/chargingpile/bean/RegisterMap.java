@@ -18,28 +18,13 @@ public class RegisterMap implements Serializable{
 	private String regLat;
 	private String regPostCode;
 	private String regInstaller;
-	public RegisterMap(String regUserName, String regPassword, String regEmail,
-                       String regDataLoggerNo, String regValidateCode,
-                       String regPhoneNumber, String regTimeZone, String regLanguage,
-                       String regCountry, String regCity, String agentCode, String regLng,
-                       String regLat,String regPostCode,String regInstaller) {
-		super();
-		this.regUserName = regUserName;
-		this.regPassword = regPassword;
-		this.regEmail = regEmail;
-		this.regDataLoggerNo = regDataLoggerNo;
-		this.regValidateCode = regValidateCode;
-		this.regPhoneNumber = regPhoneNumber;
-		this.regTimeZone = regTimeZone;
-		this.regLanguage = regLanguage;
-		this.regCountry = regCountry;
-		this.regCity = regCity;
-		this.agentCode = agentCode;
-		this.regLng = regLng;
-		this.regLat = regLat;
-		this.regPostCode=regPostCode;
-		this.regInstaller=regInstaller;
-	}
+
+	private String regInstallEmail;
+	private String regInstallPhone;
+	private String regInstallAddress;
+	private String regInstallDate;
+
+
 	public RegisterMap() {
 		super();
 	}
@@ -136,6 +121,38 @@ public class RegisterMap implements Serializable{
 
 	public void setRegPostCode(String regPostCode) {
 		this.regPostCode = regPostCode;
+	}
+
+	public String getRegInstallEmail() {
+		return regInstallEmail;
+	}
+
+	public void setRegInstallEmail(String regInstallEmail) {
+		this.regInstallEmail = regInstallEmail;
+	}
+
+	public String getRegInstallPhone() {
+		return regInstallPhone;
+	}
+
+	public void setRegInstallPhone(String regInstallPhone) {
+		this.regInstallPhone = regInstallPhone;
+	}
+
+	public String getRegInstallAddress() {
+		return regInstallAddress;
+	}
+
+	public void setRegInstallAddress(String regInstallAddress) {
+		this.regInstallAddress = regInstallAddress;
+	}
+
+	public String getRegInstallDate() {
+		return regInstallDate;
+	}
+
+	public void setRegInstallDate(String regInstallDate) {
+		this.regInstallDate = regInstallDate;
 	}
 
 	@Override

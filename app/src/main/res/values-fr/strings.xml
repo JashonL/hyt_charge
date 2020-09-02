@@ -1,6 +1,7 @@
-<?xml version="1.0" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Project EV</string>
+
     <string name="m1立即体验">Essayez maintenant</string>
     <string name="m2下一步">suivant</string>
     <string name="m3完成">fait</string>
@@ -41,14 +42,14 @@
     <string name="m31发送邮件失败">l\'envoi de l\'email a échoué</string>
     <string name="m32填写资料注册新用户">remplir les informations</string>
     <string name="m33同意本公司各项用户条款及隐私政策">Accord de l\'utilisateur</string>
-    <string name="m34选择用户协议">Veuillez cocher l\'accord d'utilisation</string>
+    <string name="m34选择用户协议">Veuillez cocher l\'accord d\'utilisation</string>
     <string name="m35请输入正确邮箱格式">Veuillez saisir l\'e-mail sous la forme correcte</string>
     <string name="m36超出版本限制注册用户数量">Le nombre d\'utilisateurs dépasse la limite </string>
     <string name="m37服务器错误">erreur serveur</string>
     <string name="m38注册错误">erreur enregistrement</string>
     <string name="m39采集器序列号或校验码错误">SN de l\'enregistreur de données ou code de contrôle incorrect</string>
     <string name="m40用户名已被使用">Nom d\'utilisateur enregistré</string>
-    <string name="m41代理商编码错误">Erreur d\'identification de l'agence</string>
+    <string name="m41代理商编码错误">Erreur d\'identification de l\'agence</string>
     <string name="m42注册成功">enregistré avec succès</string>
     <string name="m43采集器序列号已经存在">Enregistreur de données existant SN</string>
     <string name="m44服务器错误提示">erreur serveur</string>
@@ -70,7 +71,7 @@
     <string name="m59修改邮箱">Changer d\'adresse e-mail</string>
     <string name="m60填入不带国家代码的手机号">Entrer le numéro de téléphone sans le code pays</string>
     <string name="m61输入邮箱地址">Entrer l\'adresse mail</string>
-    <string name="m62输入代理商编号">Entrer l\'identifiant de l'agence</string>
+    <string name="m62输入代理商编号">Entrer l\'identifiant de l\'agence</string>
     <string name="m63系统错误">Erreur système</string>
     <string name="m64原密码错误">Mot de passe incorrect</string>
     <string name="m65用户不存在">l\'utilisateur n\'existe pas</string>
@@ -107,7 +108,7 @@
     <string name="m94电子邮箱">e-mail</string>
     <string name="m95联系电话">téléphone</string>
     <string name="m96代理商编号">identifiant agence</string>
-    <string name="m97输入代理商编号">Entrez l\'identifiant de l'agence</string>
+    <string name="m97输入代理商编号">Entrez l\'identifiant de l\'agence</string>
     <string name="m98请输入相同的密码">veuillez entret le même mot de passe</string>
     <string name="m99用户名必须大于3位">le nom d\'utilisatuer doit avoir 3 caractères ou plus</string>
     <string name="m100密码必须大于6位">le mot de passe doit avoir 6 caractères ou plus</string>
@@ -293,8 +294,8 @@
     <string name="m276表计上传间隔时间">Intervalle (s) de téléchargement du compteur</string>
 
     <string name="m277电桩最大输出电流">Courant de sortie maximal du chargeur (A)</string>
-    <string name="m278保护温度">Température de protection (° C)</string>
-    <string name="m279外部监测最大输入功率">Puissance d\'entrée maximale (kW) contrôlée de l'extérieur</string>
+    <string name="m278保护温度">Température de protection (°C)</string>
+    <string name="m279外部监测最大输入功率">Puissance d\'entrée maximale (kW) contrôlée de l\'extérieur</string>
     <string name="m280允许充电时间">Laisser le temps de chargement</string>
 
     <string name="m281电桩断开">Déconnexion du chargeur</string>
@@ -364,7 +365,7 @@
     <string name="mSolar模式">Mode solaire</string>
     <string name="m电流限制">Limite de courant ECO</string>
     <string name="m电表设备地址">Adresse de l\'appareil de mesure</string>
-
+    <string name="m设置未保存">Il y a toujours des modifications non enregistrées, s\'il faut annuler les modifications et quitter</string>
     <string name="m输入字符长度不能超出">Le nombre de caractères saisis ne peut pas dépasser</string>
     <string name="m电桩电子锁">Serrure électronique à pile électrique</string>
     <string name="m是否解除该枪电子锁">S\'il faut libérer le verrou électronique du pistolet</string>
@@ -394,9 +395,28 @@
     <string name="m去WLAN页面进行设置">Accédez à la page WLAN pour configurer &amp;gt</string>
     <string name="m设置不满24小时">Les tarifs qui ne sont pas dans la période définie sont calculés selon le taux de 0</string>
 
+
+
+    <string name="m安装人员Email">请输入安装人员Email</string>
+    <string name="m安装人员电话">请输入安装人员电话</string>
+    <string name="m安装人员地址">请输入安装人员地址</string>
+    <string name="m安装日期">请输入安装日期</string>
+    <string name="m修改安装人员">修改安装人员</string>
+    <string name="m修改安装人员邮箱">修改安装人员邮箱</string>
+    <string name="m修改安装人员电话">修改安装人员电话</string>
+    <string name="m修改安装人员地址">修改安装人员地址</string>
+    <string name="m免责声明">disclaimer：pev can analyse the data for monitoring purposes and Make recommendations from time to time on charging and potential improvements to their costs</string>
+
+
+
+
+
+
+
+
     <string name="m权限获取某权限说明">Demander l\'autorisation xxx</string>
     <string name="m权限请求">Autorisation requise</string>
-    <string name="m权限请求步骤">1. Aucune autorisation xxx, veuillez confirmer si vous l\'ouvrez manuellement; 2.Cliquez sur xx pour entrer le paramètre d'authrosation; 3. Cliquez pour ouvrir l'autorisation.</string>
+    <string name="m权限请求步骤">1. Aucune autorisation xxx, veuillez confirmer si vous l\'ouvrez manuellement; 2.Cliquez sur xx pour entrer le paramètre d\'authrosation; 3. Cliquez pour ouvrir l\'autorisation.</string>
 
     <string name="m相机">Appareil photo ou stockage</string>
     <string name="m存储">Espace de rangement</string>

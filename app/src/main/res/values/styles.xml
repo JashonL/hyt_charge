@@ -78,4 +78,47 @@
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
+
+    <!--注册页面-->
+    <style name="style_linearlayout_login_register">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/ya90</item>
+        <item name="android:layout_marginLeft">@dimen/xa30</item>
+        <item name="android:layout_marginRight">@dimen/xa30</item>
+        <item name="android:layout_marginTop">@dimen/ya10</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingLeft">@dimen/xa24</item>
+        <item name="android:paddingRight">@dimen/xa24</item>
+    </style>
+
+
+    <style name="style_textview_register_sign">
+        <item name="android:layout_width">@dimen/xa20</item>
+        <item name="android:layout_height">@dimen/xa20</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/red_color</item>
+        <item name="android:textSize">@dimen/xa15</item>
+    </style>
+
+
+
+    <style name="style_imageview_register_icon">
+        <item name="android:layout_width">@dimen/xa20</item>
+        <item name="android:layout_height">@dimen/xa24</item>
+    </style>
+
+
+    <style name="style_edittext_register_item">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginLeft">@dimen/xa12</item>
+        <item name="android:background">@null</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/title_2</item>
+        <item name="android:textSize">@dimen/xa24</item>
+    </style>
+
+
 </resources>
