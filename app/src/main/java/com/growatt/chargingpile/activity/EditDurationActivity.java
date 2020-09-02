@@ -2,6 +2,7 @@ package com.growatt.chargingpile.activity;
 
 
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -17,6 +18,7 @@ import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.bean.ReservationBean;
 import com.growatt.chargingpile.connutil.PostUtil;
 import com.growatt.chargingpile.util.AlertPickDialog;
+import com.growatt.chargingpile.util.CircleDialogUtils;
 import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
@@ -29,6 +31,7 @@ import org.xutils.common.util.LogUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Locale;
@@ -55,8 +58,7 @@ public class EditDurationActivity extends BaseActivity {
     @BindView(R.id.cb_everyday)
     CheckBox cbEveryday;
 
-    private String[] hours;
-    private String[] minutes;
+
     private long duration = 0;
     private int reservationId;
     private ReservationBean.DataBean dataBean;
@@ -70,7 +72,7 @@ public class EditDurationActivity extends BaseActivity {
     private String loopValue;
     private String chargingId;
     private Unbinder bind;
-
+    private DialogFragment dialogFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +80,6 @@ public class EditDurationActivity extends BaseActivity {
         setContentView(R.layout.activity_edit_duration);
         bind = ButterKnife.bind(this);
         initHeaderView();
-        initResource();
         initIntent();
         initViews();
     }
@@ -94,7 +95,7 @@ public class EditDurationActivity extends BaseActivity {
             endDate = dataBean.getEndDate();
             reservationId = dataBean.getReservationId();
             loopType = dataBean.getLoopType();
-            duration= Long.parseLong(dataBean.getcValue2());
+            duration = Long.parseLong(dataBean.getcValue2());
         } else {
             type = 2;
         }
@@ -108,9 +109,9 @@ public class EditDurationActivity extends BaseActivity {
         } else {
             cbEveryday.setChecked(loopType != -1);
             if (!TextUtils.isEmpty(expiryDate))
-            tvOpen.setText(expiryDate.substring(11, 16));
+                tvOpen.setText(expiryDate.substring(11, 16));
             if (!TextUtils.isEmpty(endDate))
-            tvClose.setText(endDate.substring(11, 16));
+                tvClose.setText(endDate.substring(11, 16));
             MyUtil.showAllView(rlDelete);
             long hour = duration / 60;
             long min = duration % 60;
@@ -119,34 +120,16 @@ public class EditDurationActivity extends BaseActivity {
         }
     }
 
-    private void initResource() {
-        hours = new String[24];
-        for (int i = 0; i < 24; i++) {
-            if (i < 10) {
-                hours[i] = "0" + String.valueOf(i);
-            } else {
-                hours[i] = String.valueOf(i);
-            }
-        }
-        minutes = new String[60];
-        for (int i = 0; i < minutes.length; i++) {
-            if (i < 10) {
-                minutes[i] = "0" + String.valueOf(i);
-            } else {
-                minutes[i] = String.valueOf(i);
-            }
-        }
-    }
 
     private void initHeaderView() {
         setHeaderImage(headerView, R.drawable.back, Position.LEFT, v -> finish());
         setHeaderTitle(headerView, getString(R.string.m181设置定时), R.color.title_1, true);
         setHeaderTvRight(headerView, getString(R.string.m182保存), v -> {
             if (type == 1) {
-                dataBean.setLoopType(cbEveryday.isChecked()?0:-1);
-                editTime( expiryDate, dataBean.getLoopType());
+                dataBean.setLoopType(cbEveryday.isChecked() ? 0 : -1);
+                editTime(expiryDate, dataBean.getLoopType());
             } else {
-                int loopType = cbEveryday.isChecked()?0:-1;
+                int loopType = cbEveryday.isChecked() ? 0 : -1;
                 addReserve(loopType, duration, loopValue);
 
             }
@@ -170,13 +153,35 @@ public class EditDurationActivity extends BaseActivity {
 
 
     private void selectTime(final int openOrclose) {
-        AlertPickDialog.showTimePickerDialog(this, hours, "00", minutes, "00", new AlertPickDialog.AlertPickCallBack() {
+        Calendar calendar=Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int min=calendar.get(Calendar.MINUTE);
+        if (openOrclose==1){
+            if (!TextUtils.isEmpty(expiryDate)){
+                String startTime = expiryDate.substring(11, 16);
+                String[] time = startTime.split("[\\D]");
+                hour= Integer.parseInt(time[0]);
+                min= Integer.parseInt(time[1]);
+            }
+        }else {
+            if (!TextUtils.isEmpty(endDate)){
+                String endTime = endDate.substring(11, 16);
+                String[] time = endTime.split("[\\D]");
+                hour= Integer.parseInt(time[0]);
+                min= Integer.parseInt(time[1]);
+            }
+        }
+        dialogFragment = CircleDialogUtils.showWhiteTimeSelect(this, hour, min, getSupportFragmentManager(), false, new CircleDialogUtils.timeSelectedListener() {
+            @Override
+            public void cancle() {
+                dialogFragment.dismiss();
+            }
 
             @Override
-            public void confirm(String hour, String minute) {
-                String time = hour + ":" + minute;
+            public void ok(boolean status, int hour, int min) {
+                String time = hour + ":" + min;
                 //获取年月
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd",Locale.getDefault());
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 Date date = new Date();
                 String yMd = sdf.format(date);
                 if (openOrclose == 1) {
@@ -191,7 +196,7 @@ public class EditDurationActivity extends BaseActivity {
                     return;
                 }
                 //国际标准格式
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",Locale.getDefault());
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
                 try {
                     //开始的日期
                     Date start = format.parse(expiryDate);
@@ -200,10 +205,10 @@ public class EditDurationActivity extends BaseActivity {
                     //计算时长
                     long startTime = start.getTime();
                     long endTime = end.getTime();
-                    long diffTime =0;
-                    if (startTime>endTime){
-                        diffTime=endTime+24*60*60*1000-startTime;
-                    }else {
+                    long diffTime = 0;
+                    if (startTime > endTime) {
+                        diffTime = endTime + 24 * 60 * 60 * 1000 - startTime;
+                    } else {
                         diffTime = endTime - startTime;
                     }
                     //毫秒转成分
@@ -221,14 +226,10 @@ public class EditDurationActivity extends BaseActivity {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-
-            }
-
-            @Override
-            public void cancel() {
-
+                dialogFragment.dismiss();
             }
         });
+
     }
 
 
@@ -250,11 +251,8 @@ public class EditDurationActivity extends BaseActivity {
     }
 
 
-
-
     /**
      * 删除预约
-     *
      */
 
     private void deleteTime() {
@@ -302,7 +300,6 @@ public class EditDurationActivity extends BaseActivity {
 
     /**
      * 修改预约
-     *
      */
 
     private void editTime(String expiryDate, int loopType) {
@@ -363,8 +360,8 @@ public class EditDurationActivity extends BaseActivity {
         jsonMap.put("action", "ReserveNow");
         jsonMap.put("connectorId", 1);
         jsonMap.put("expiryDate", expiryDate);
-        jsonMap.put("chargeId",chargingId);
-        jsonMap.put("userId",SmartHomeUtil.getUserName());
+        jsonMap.put("chargeId", chargingId);
+        jsonMap.put("userId", SmartHomeUtil.getUserName());
         jsonMap.put("cKey", "G_SetTime");
         jsonMap.put("cValue", cValue);
         jsonMap.put("loopType", loopType);

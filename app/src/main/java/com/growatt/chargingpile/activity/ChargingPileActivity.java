@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.constraint.Group;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -52,6 +53,7 @@ import com.growatt.chargingpile.bean.ReservationBean;
 import com.growatt.chargingpile.connutil.PostUtil;
 import com.growatt.chargingpile.jpush.TagAliasOperatorHelper;
 import com.growatt.chargingpile.util.AlertPickDialog;
+import com.growatt.chargingpile.util.CircleDialogUtils;
 import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.Constant;
 import com.growatt.chargingpile.util.MathUtil;
@@ -69,8 +71,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.common.util.LogUtil;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -290,6 +294,8 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
 
     private boolean isfirst=true;
     private String jumpId;
+    private DialogFragment dialogFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -630,12 +636,12 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             }
             if (presetType == 3) {
                 String duration = tvPpTime.getText().toString();
-                if (TextUtils.isEmpty(duration)||duration.contains("-")){//未选择时长
+                if (TextUtils.isEmpty(duration) || duration.contains("-")) {//未选择时长
                     //去预约列表操作
                     Intent intent = new Intent(ChargingPileActivity.this, ChargingDurationActivity.class);
                     intent.putExtra("sn", mCurrentPile.getChargeId());
                     jumpTo(intent, false);
-                }else {
+                } else {
                     if (isReservation) {
                         isReservation = false;
                         initReserveUi();
@@ -663,12 +669,12 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             }
             if (presetType == 3) {
                 String duration = tvPpTime.getText().toString();
-                if (TextUtils.isEmpty(duration)||duration.contains("-")){//未选择时长
+                if (TextUtils.isEmpty(duration) || duration.contains("-")) {//未选择时长
                     //去预约列表操作
                     Intent intent = new Intent(ChargingPileActivity.this, ChargingDurationActivity.class);
                     intent.putExtra("sn", mCurrentPile.getChargeId());
                     jumpTo(intent, false);
-                }else {
+                } else {
                     selectTime();
                 }
 
@@ -748,11 +754,11 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                 try {
                     List<ChargingBean.DataBean> charginglist = new ArrayList<>();
                     JSONObject object = new JSONObject(json);
-                    int currentPos=0;
+                    int currentPos = 0;
                     if (object.getInt("code") == 0) {
                         ChargingBean chargingListBean = new Gson().fromJson(json, ChargingBean.class);
                         if (chargingListBean != null) {
-                            jumpId=getIntent().getStringExtra("chargeId");
+                            jumpId = getIntent().getStringExtra("chargeId");
                             charginglist = chargingListBean.getData();
                             if (charginglist == null) charginglist = new ArrayList<>();
                             for (int i = 0; i < charginglist.size(); i++) {
@@ -770,9 +776,9 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                     if (charginglist.size() > 0) {
                         HeadRvAddButton(charginglist);
                         mAdapter.replaceData(charginglist);
-                        if (isfirst){
+                        if (isfirst) {
                             mAdapter.setNowSelectPosition(currentPos);
-                            isfirst=false;
+                            isfirst = false;
                         }
                         MyUtil.hideAllView(View.GONE, emptyPage);
                         MyUtil.showAllView(rlCharging, linearlayout);
@@ -813,13 +819,13 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
         String Modle = mCurrentPile.getModel();
         if (Modle.toLowerCase().contains("/")) {
             tvModel.setText(getString(R.string.m交直流));
-        } else if ("ac".equals(Modle.toLowerCase())){
+        } else if ("ac".equals(Modle.toLowerCase())) {
             tvModel.setText(getString(R.string.m112交流));
-        }else {
+        } else {
             tvModel.setText(getString(R.string.m113直流));
         }
 
-        String gun = mCurrentPile.getConnectors() +" "+ getString(R.string.枪);
+        String gun = mCurrentPile.getConnectors() + " " + getString(R.string.枪);
 
         if (mCurrentPile.getConnectors() == 1) {
             rlSwitchGun.setVisibility(View.GONE);
@@ -901,7 +907,6 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
      */
 
     private void freshChargingGun(final String chargingId, final int connectorId) {
-        Mydialog.Show(this);
         Map<String, Object> jsonMap = new HashMap<>();
         jsonMap.put("sn", chargingId);//测试id
         jsonMap.put("connectorId", connectorId);//测试id
@@ -917,7 +922,6 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
 
             @Override
             public void success(String json) {
-                Mydialog.Dismiss();
                 try {
                     JSONObject object = new JSONObject(json);
                     if (object.getInt("code") == 0) {
@@ -1424,7 +1428,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                     toast(getString(R.string.m66你的账号没有操作权限));
                     return;
                 }
-                if (mCurrentPile==null){
+                if (mCurrentPile == null) {
                     toast(R.string.m212暂时还没有设备);
                     return;
                 }
@@ -1833,7 +1837,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                             break;
                         case 1:
                             String money = tvPpmoney.getText().toString();
-                            if (TextUtils.isEmpty(money)||money.contains("-")){
+                            if (TextUtils.isEmpty(money) || money.contains("-")) {
                                 toast(R.string.m输入金额不正确);
                                 return;
                             }
@@ -1849,7 +1853,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                             break;
                         case 2:
                             String ele = tvPpEle.getText().toString();
-                            if (TextUtils.isEmpty(ele)||ele.contains("-")){
+                            if (TextUtils.isEmpty(ele) || ele.contains("-")) {
                                 toast(R.string.m输入电量不正确);
                                 return;
                             }
@@ -1865,7 +1869,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                             break;
                         case 3:
                             String duration = tvPpTime.getText().toString();
-                            if (TextUtils.isEmpty(duration)||duration.contains("-")){
+                            if (TextUtils.isEmpty(duration) || duration.contains("-")) {
                                 toast(R.string.m129时长设置不能为空);
                                 return;
                             }
@@ -2090,7 +2094,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             int id = popGunAdapter.getData().get(position).getConnectorId();
             animation = null;
             gunIds.put(mCurrentPile.getChargeId(), id);
-            String name = SmartHomeUtil.getLetter().get(id - 1) +" "+ getString(R.string.枪);
+            String name = SmartHomeUtil.getLetter().get(id - 1) + " " + getString(R.string.枪);
             tvSwitchGun.setText(name);
             popupGun.dismiss();
             startTimer();
@@ -2198,11 +2202,24 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
      * 弹起时间选择器
      */
     private void selectTime() {
-        AlertPickDialog.showTimePickerDialog(this, hours, "00", minutes, "00", new AlertPickDialog.AlertPickCallBack() {
+        Calendar calendar=Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int min=calendar.get(Calendar.MINUTE);
+        if (!TextUtils.isEmpty(startTime)){
+            String selectTime = startTime.substring(11, 16);
+            String[] time = selectTime.split("[\\D]");
+            hour= Integer.parseInt(time[0]);
+            min= Integer.parseInt(time[1]);
+        }
+        dialogFragment = CircleDialogUtils.showWhiteTimeSelect(this, hour, min, getSupportFragmentManager(), false, new CircleDialogUtils.timeSelectedListener() {
+            @Override
+            public void cancle() {
+                dialogFragment.dismiss();
+            }
 
             @Override
-            public void confirm(String hour, String minute) {
-                String time = hour + ":" + minute;
+            public void ok(boolean status, int hour, int min) {
+                String time = hour + ":" + min;
                 //获取年月
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 Date date = new Date();
@@ -2210,11 +2227,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                 startTime = yMd + "T" + time + ":00.000Z";
                 isReservation = true;
                 setReserveUi(getString(R.string.m204开始时间), getString(R.string.m205已开启), R.drawable.checkbox_on, time, true, false);
-            }
-
-            @Override
-            public void cancel() {
-
+                dialogFragment.dismiss();
             }
         });
     }

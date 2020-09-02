@@ -189,4 +189,30 @@ public class SmartHomeUtil {
         }
         return letters;
     }
+
+
+    /**
+     * 获取24小时
+     */
+    public static List<String> getHours() {
+        List<String> hours = new ArrayList<>();
+        for (int hour = 0; hour < 24; hour++) {
+            if (hour < 10) hours.add("0" + hour);
+            else hours.add(String.valueOf(hour));
+        }
+        return hours;
+    }
+
+    /**
+     * 获取60分钟
+     */
+    public static List<String> getMins() {
+        List<String> getMins = new ArrayList<>();
+        for (int min = 0; min < 24; min++) {
+            if (min < 10) getMins.add("0" + min);
+            else getMins.add(String.valueOf(min));
+        }
+        return getMins;
+    }
+
 }
