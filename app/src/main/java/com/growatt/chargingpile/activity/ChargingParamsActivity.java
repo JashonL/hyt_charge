@@ -262,7 +262,7 @@ public class ChargingParamsActivity extends BaseActivity {
         solarArrray = new String[]{"FAST", "ECO", "ECO+"};
         ammterTypeArray = new String[]{"Acrel", "Eastron"};
         unLockTypeArray = new String[]{getString(R.string.m手动), getString(R.string.m自动)};
-        netModeArray = new String[]{"STATIC", "DHCP"};
+        netModeArray = new String[]{"DHCP","STATIC" };
         LowPowerArray=new String[]{"Enable","Disable"};
         unitKey = moneyTypes[0];
         unitValue = moneySymbols[0];
