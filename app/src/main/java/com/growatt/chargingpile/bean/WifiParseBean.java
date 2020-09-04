@@ -44,6 +44,7 @@ public class WifiParseBean {
     private String ammeterType="";
     private String unLockType="";
     private String lock="";
+    private String netMode="";
 
     public String getName() {
         return name;
@@ -355,5 +356,13 @@ public class WifiParseBean {
 
     public void setUnLockType(String unLockType) {
         this.unLockType = unLockType;
+    }
+
+    public String getNetMode() {
+        return netMode;
+    }
+
+    public void setNetMode(String netMode) {
+        this.netMode = netMode;
     }
 }

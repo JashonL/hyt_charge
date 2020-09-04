@@ -82,6 +82,7 @@ public class WifiSetActivity extends BaseActivity {
 
     public String[] ammterTypeArray;
     public String[] unLockTypeArray;
+    public String[] netModeArray;
 
     private String ip;
     private int port;
@@ -106,6 +107,7 @@ public class WifiSetActivity extends BaseActivity {
     private byte[] maskByte;
     private byte[] macByte;
     private byte[] dnsByte;
+    private byte[] netModeByte;
     private int internetLength;
     //wifi相关设置
     private byte[] ssidByte;
@@ -283,7 +285,7 @@ public class WifiSetActivity extends BaseActivity {
     private void initResource() {
         keys = new String[]{
                 getString(R.string.m255设备信息参数设置), getString(R.string.m146充电桩ID), getString(R.string.m260语言), getString(R.string.m264读卡器秘钥), getString(R.string.m265RCD保护值), getString(R.string.m296版本号),
-                getString(R.string.m256设备以太网参数设置), getString(R.string.m156充电桩IP), getString(R.string.m157网关), getString(R.string.m158子网掩码), getString(R.string.m159网络MAC地址), getString(R.string.m161DNS地址),
+                getString(R.string.m256设备以太网参数设置), getString(R.string.m156充电桩IP), getString(R.string.m157网关), getString(R.string.m158子网掩码), getString(R.string.m159网络MAC地址), getString(R.string.m161DNS地址), getString(R.string.m网络模式设置),
                 getString(R.string.m257设备账号密码参数设置), getString(R.string.m266Wifi名称), getString(R.string.m267Wifi密码), getString(R.string.m2704G用户名), getString(R.string.m2714G密码), getString(R.string.m2724GAPN),
                 getString(R.string.m258设备服务器参数设置), getString(R.string.m160服务器URL), getString(R.string.m273握手登录授权秘钥), getString(R.string.m274心跳间隔时间), getString(R.string.m275PING间隔时间), getString(R.string.m276表计上传间隔时间),
                 getString(R.string.m259设备充电参数设置), getString(R.string.m154充电模式), getString(R.string.m277电桩最大输出电流), getString(R.string.m152充电费率), getString(R.string.m278保护温度), getString(R.string.m279外部监测最大输入功率),
@@ -292,11 +294,11 @@ public class WifiSetActivity extends BaseActivity {
         };
 
         keySfields = new String[]{"", "chargeId", "G_ChargerLanguage", "G_CardPin", "G_RCDProtection", "G_Version",
-                "", "ip", "gateway", "mask", "mac", "dns",
+                "", "ip", "gateway", "mask", "mac", "dns", "NetMode",
                 "", "G_WifiSSID", "G_WifiPassword", "G_4GUserName", "G_4GPassword", "G_4GAPN",
                 "", "host", "G_Authentication", "G_HearbeatInterval", "G_WebSocketPingInterval", "G_MeterValueInterval",
                 "", "G_ChargerMode", "G_MaxCurrent", "rate", "G_MaxTemperature", "G_ExternalLimitPower",
-                "G_AutoChargeTime", "G_PeakValleyEnable", "G_ExternalLimitPowerEnable", "G_ExternalSamplingCurWring", "G_SolarMode", "G_PowerMeterAddr","G_PowerMeterType",
+                "G_AutoChargeTime", "G_PeakValleyEnable", "G_ExternalLimitPowerEnable", "G_ExternalSamplingCurWring", "G_SolarMode", "G_PowerMeterAddr", "G_PowerMeterType",
                 "UnlockConnectorOnEVSideDisconnect", "G_Lock"};
         if (Cons.getNoConfigBean() != null) {
             noConfigKeys = Cons.getNoConfigBean().getSfield();
@@ -309,14 +311,14 @@ public class WifiSetActivity extends BaseActivity {
             WifiSetBean bean = new WifiSetBean();
             bean.setIndex(i);
             String keySfield = keySfields[i];
-            if ("".equals(keySfield)||"G_Lock".equals(keySfield)){
+            if ("".equals(keySfield) || "G_Lock".equals(keySfield)) {
                 bean.setTitle(keys[i]);
                 bean.setType(WifiSetAdapter.PARAM_TITILE);
-            }else if ("chargeId".equals(keySfield)||"G_Version".equals(keySfield)||"mac".equals(keySfield)){
+            } else if ("chargeId".equals(keySfield) || "G_Version".equals(keySfield) || "mac".equals(keySfield)) {
                 bean.setType(WifiSetAdapter.PARAM_ITEM_CANT_CLICK);
                 bean.setKey(keys[i]);
                 bean.setValue("");
-            }else {
+            } else {
                 bean.setType(WifiSetAdapter.PARAM_ITEM);
                 bean.setKey(keys[i]);
                 bean.setValue("");
@@ -342,9 +344,9 @@ public class WifiSetActivity extends BaseActivity {
         gunArrray = new String[]{getString(R.string.m110A枪), getString(R.string.m111B枪), getString(R.string.m112C枪)};
         lockArrray = new String[]{getString(R.string.m已解锁), getString(R.string.m已锁住)};
 
-        ammterTypeArray=new String[]{getString(R.string.m安科瑞), getString(R.string.m东宏)};
-        unLockTypeArray=new String[]{getString(R.string.m手动), getString(R.string.m自动)};
-
+        ammterTypeArray = new String[]{getString(R.string.m安科瑞), getString(R.string.m东宏)};
+        unLockTypeArray = new String[]{getString(R.string.m手动), getString(R.string.m自动)};
+        netModeArray = new String[]{"STATIC", "DHCP"};
         solarBeans = new ArrayList<>();
         lockBeans = new ArrayList<>();
     }
@@ -394,7 +396,7 @@ public class WifiSetActivity extends BaseActivity {
                 } catch (NumberFormatException e) {
                     modeIndext = 0;
                 }
-                if (modeIndext!=1){
+                if (modeIndext != 1) {
                     toast(R.string.m只有ECO模式有效);
                     return;
                 }
@@ -468,6 +470,10 @@ public class WifiSetActivity extends BaseActivity {
                 if (chargingLength > 43)
                     setLockType();
                 else toast(R.string.m请先升级充电桩);
+                break;
+
+            case "NetMode":
+                setNetMode();
                 break;
             default:
                 inputEdit(sfield, String.valueOf(bean.getValue()));
@@ -884,7 +890,7 @@ public class WifiSetActivity extends BaseActivity {
                     mAdapter.notifyDataSetChanged();
                 })
                 .configInput(params -> {
-                    if ("G_CardPin".equals(key)||"G_WifiPassword".equals(key)||"G_4GPassword".equals(key)){
+                    if ("G_CardPin".equals(key) || "G_WifiPassword".equals(key) || "G_4GPassword".equals(key)) {
                         params.inputType = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD
                                 | InputType.TYPE_TEXT_FLAG_MULTI_LINE;
                     }
@@ -1000,6 +1006,9 @@ public class WifiSetActivity extends BaseActivity {
                 break;
             case "UnlockConnectorOnEVSideDisconnect":
                 initPileSetBean.setUnLockType(value);
+                break;
+            case "NetMode":
+                initPileSetBean.setNetMode(value);
                 break;
             default:
                 break;
@@ -1219,6 +1228,11 @@ public class WifiSetActivity extends BaseActivity {
                     bean.setType(WifiSetAdapter.PARAM_ITEM);
                     bean.setKey(keys[i]);
                     bean.setValue(initPileSetBean.getUnLockType());
+                    break;
+                case "NetMode":
+                    bean.setType(WifiSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getNetMode());
                     break;
             }
             bean.setSfield(keySfields[i]);
@@ -1456,12 +1470,20 @@ public class WifiSetActivity extends BaseActivity {
         byte cmd = WiFiMsgConstant.CONSTANT_MSG_12;
 
         /*****有效数据*****/
-        byte len = (byte) 77;
-        byte[] prayload = new byte[77];
+        byte len = (byte) internetLength;
+        byte[] prayload = new byte[internetLength];
 
-        if (ipByte == null || gatewayByte == null || maskByte == null || macByte == null || dnsByte == null) {
-            T.make(R.string.m244设置失败, this);
-            return;
+
+        if (internetLength > 63) {
+            if (ipByte == null || gatewayByte == null || maskByte == null || macByte == null || dnsByte == null || netModeByte == null) {
+                T.make(R.string.m244设置失败, this);
+                return;
+            }
+        } else {
+            if (ipByte == null || gatewayByte == null || maskByte == null || macByte == null || dnsByte == null) {
+                T.make(R.string.m244设置失败, this);
+                return;
+            }
         }
 
         //ip
@@ -1474,7 +1496,10 @@ public class WifiSetActivity extends BaseActivity {
         System.arraycopy(macByte, 0, prayload, ipByte.length + gatewayByte.length + maskByte.length, macByte.length);
         //dns
         System.arraycopy(dnsByte, 0, prayload, ipByte.length + gatewayByte.length + maskByte.length + macByte.length, dnsByte.length);
-
+        //netmode
+        if (internetLength > 63) {
+            System.arraycopy(netModeByte, 0, prayload, ipByte.length + gatewayByte.length + maskByte.length + macByte.length + dnsByte.length, netModeByte.length);
+        }
 
         byte[] encryptedData = SmartHomeUtil.decodeKey(prayload, newKey);
 
@@ -1675,7 +1700,7 @@ public class WifiSetActivity extends BaseActivity {
         }
 
         if (chargingLength > 43) {//电表地址
-            if (ammeterTypeByte == null||unLockTypeByte==null) {
+            if (ammeterTypeByte == null || unLockTypeByte == null) {
                 T.make(R.string.m244设置失败, this);
                 return;
             }
@@ -1962,6 +1987,21 @@ public class WifiSetActivity extends BaseActivity {
                         System.arraycopy(prayload, 62, dnsByte, 0, 15);
                         String dns = MyUtil.ByteToString(dnsByte);
                         setBean("dns", dns);
+                        //兼容老版本
+                        if (len > 63) {
+                            netModeByte = new byte[1];
+                            System.arraycopy(prayload, 77, netModeByte, 0, 1);
+                            String netMode = MyUtil.ByteToString(netModeByte);
+                            int netModeIndex;
+                            try {
+                                netModeIndex = Integer.parseInt(netMode);
+                            } catch (NumberFormatException e) {
+                                netModeIndex = 0;
+                            }
+                            if (netModeIndex <= 0) netModeIndex = 1;
+                            netMode = netModeArray[netModeIndex - 1];
+                            setBean("NetMode", netMode);
+                        }
                         mAdapter.notifyDataSetChanged();
                         getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_03);
                         break;
@@ -2142,7 +2182,7 @@ public class WifiSetActivity extends BaseActivity {
                                 SolarBean solarBean = new SolarBean();
                                 solarBean.setValue(current);
                                 solarBean.setType(WifiSetAdapter.PARAM_ITEM_SOLAR);
-                                solarBean.setKey(getString(R.string.m电流限制)+"(A)");
+                                solarBean.setKey(getString(R.string.m电流限制) + "(A)");
                                 solarBeans.add(solarBean);
                             }
                             String solarModeValue = solarArrray[modeIndext];
@@ -2453,8 +2493,6 @@ public class WifiSetActivity extends BaseActivity {
     }
 
 
-
-
     /*设置使能*/
     private void setEnable(int position) {
         String title;
@@ -2667,6 +2705,43 @@ public class WifiSetActivity extends BaseActivity {
     }
 
 
+    /*网络模式*/
+    private void setNetMode() {
+        List<String> list = Arrays.asList(netModeArray);
+        OptionsPickerView<String> pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                final String tx = list.get(options1);
+                String pos = String.valueOf(options1);
+                byte[] bytes = pos.trim().getBytes();
+                if (bytes.length > 1) {
+                    T.make(getString(R.string.m286输入值超出规定长度), WifiSetActivity.this);
+                    return;
+                }
+                netModeByte = new byte[1];
+                System.arraycopy(bytes, 0, netModeByte, 0, bytes.length);
+                setBean("NetMode", tx);
+                mAdapter.notifyDataSetChanged();
+                isEditInterNet = true;
+            }
+        })
+                .setTitleText(getString(R.string.m网络模式设置))
+                .setSubmitText(getString(R.string.m9确定))
+                .setCancelText(getString(R.string.m7取消))
+                .setTitleBgColor(0xffffffff)
+                .setTitleColor(0xff333333)
+                .setSubmitColor(0xff333333)
+                .setCancelColor(0xff999999)
+                .setBgColor(0xffffffff)
+                .setTitleSize(18)
+                .setTextColorCenter(0xff333333)
+                .build();
+        pvOptions.setPicker(list);
+        pvOptions.show();
+
+    }
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -2708,8 +2783,8 @@ public class WifiSetActivity extends BaseActivity {
                 .setInputHeight(100)//输入框高度
                 .autoInputShowKeyboard()//自动弹出键盘
                 .configInput(params -> {
-                        params.inputType = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD
-                                | InputType.TYPE_TEXT_FLAG_MULTI_LINE;
+                    params.inputType = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD
+                            | InputType.TYPE_TEXT_FLAG_MULTI_LINE;
                     params.gravity = Gravity.CENTER;
                     params.textSize = 45;
 //                            params.backgroundColor=ContextCompat.getColor(ChargingPileActivity.this, R.color.preset_edit_time_background);
