@@ -8,7 +8,7 @@
 
     <include layout="@layout/header_view_title" />
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/headerView">
@@ -341,5 +341,5 @@
                 android:text="@string/m23注册"
                 android:textColor="@color/headerView" />
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

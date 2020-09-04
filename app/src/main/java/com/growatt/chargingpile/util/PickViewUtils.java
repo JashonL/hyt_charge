@@ -1,7 +1,7 @@
 package com.growatt.chargingpile.util;
 
 import android.app.Activity;
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;

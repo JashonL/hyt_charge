@@ -1,6 +1,6 @@
 package com.growatt.chargingpile.adapter;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;

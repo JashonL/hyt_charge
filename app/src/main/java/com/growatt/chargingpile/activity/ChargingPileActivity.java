@@ -8,13 +8,13 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.constraint.Group;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.constraintlayout.widget.Group;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.core.content.ContextCompat;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -52,7 +52,6 @@ import com.growatt.chargingpile.bean.PileSetBean;
 import com.growatt.chargingpile.bean.ReservationBean;
 import com.growatt.chargingpile.connutil.PostUtil;
 import com.growatt.chargingpile.jpush.TagAliasOperatorHelper;
-import com.growatt.chargingpile.util.AlertPickDialog;
 import com.growatt.chargingpile.util.CircleDialogUtils;
 import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.Constant;
@@ -64,6 +63,8 @@ import com.growatt.chargingpile.util.SmartHomeUrlUtil;
 import com.growatt.chargingpile.util.SmartHomeUtil;
 import com.growatt.chargingpile.view.RoundProgressBar;
 import com.mylhyl.circledialog.CircleDialog;
+import com.mylhyl.circledialog.view.listener.OnInputClickListener;
+import com.mylhyl.circledialog.view.listener.OnLvItemClickListener;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -71,7 +72,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.common.util.LogUtil;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -88,7 +88,6 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.jpush.android.api.JPushInterface;
 import pub.devrel.easypermissions.EasyPermissions;
 
 import static com.growatt.chargingpile.jpush.TagAliasOperatorHelper.sequence;
@@ -1604,9 +1603,9 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
         stopTimer();
         String []array=new String[]{"ECO","ECO+"};
         new CircleDialog.Builder()
-                .setItems(array, new AdapterView.OnItemClickListener() {
+                .setItems(array, new OnLvItemClickListener() {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    public boolean onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         int mode=position+1;
                         PileSetBean pileSetBean = new PileSetBean();
                         PileSetBean.DataBean dataBean = new PileSetBean.DataBean();
@@ -1614,6 +1613,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                         pileSetBean.setData(dataBean);
                         requestLimit(pileSetBean);
                         startTimer();
+                        return true;
                     }
                 })
                 .setNegative(getString(R.string.m7取消), new View.OnClickListener() {
@@ -1739,48 +1739,51 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                     .setTitle(getString(R.string.m27温馨提示))
                     //添加标题，参考普通对话框
                     .setInputHint(getString(R.string.m26请输入密码))//提示
-                    .setInputHeight(100)//输入框高度
-                    .autoInputShowKeyboard()//自动弹出键盘
+                    .setInputCounter(1000, (maxLen, currentLen) -> "")
                     .configInput(params -> {
                         params.gravity = Gravity.CENTER;
-                        params.textSize = 45;
+//                        params.textSize = 45;
 //                            params.backgroundColor=ContextCompat.getColor(ChargingPileActivity.this, R.color.preset_edit_time_background);
                         params.strokeColor = ContextCompat.getColor(ChargingPileActivity.this, R.color.preset_edit_time_background);
                     })
-                    .setPositiveInput(getString(R.string.m9确定), (text, v) -> {
-                        Map<String, Object> params = new HashMap<>();
-                        params.put("code", text);
-                        params.put("userId", SmartHomeUtil.getUserName());
-                        params.put("lan", getLanguage());
-                        String json = SmartHomeUtil.mapToJsonString(params);
-                        PostUtil.postJson(SmartHomeUrlUtil.postGetDemoCode(), json, new PostUtil.postListener() {
-                            @Override
-                            public void Params(Map<String, String> params) {
+                    .setPositiveInput(getString(R.string.m9确定), new OnInputClickListener() {
+                        @Override
+                        public boolean onClick(String text, View v) {
+                            Map<String, Object> params = new HashMap<>();
+                            params.put("code", text);
+                            params.put("userId", SmartHomeUtil.getUserName());
+                            params.put("lan", getLanguage());
+                            String json = SmartHomeUtil.mapToJsonString(params);
+                            PostUtil.postJson(SmartHomeUrlUtil.postGetDemoCode(), json, new PostUtil.postListener() {
+                                @Override
+                                public void Params(Map<String, String> params) {
 
-                            }
-
-                            @Override
-                            public void success(String json) {
-                                try {
-                                    JSONObject object = new JSONObject(json);
-                                    int code = object.getInt("code");
-                                    if (code == 0) {
-                                        Intent intent = new Intent(ChargingPileActivity.this, AddChargingActivity.class);
-                                        jumpTo(intent, false);
-                                    } else {
-                                        String data = object.getString("data");
-                                        toast(data);
-                                    }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
                                 }
-                            }
 
-                            @Override
-                            public void LoginError(String str) {
+                                @Override
+                                public void success(String json) {
+                                    try {
+                                        JSONObject object = new JSONObject(json);
+                                        int code = object.getInt("code");
+                                        if (code == 0) {
+                                            Intent intent = new Intent(ChargingPileActivity.this, AddChargingActivity.class);
+                                            jumpTo(intent, false);
+                                        } else {
+                                            String data = object.getString("data");
+                                            toast(data);
+                                        }
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
 
-                            }
-                        });
+                                @Override
+                                public void LoginError(String str) {
+
+                                }
+                            });
+                            return true;
+                        }
                     })
                     //添加取消按钮，参考普通对话框
                     .setNegative(getString(R.string.m7取消), v -> {

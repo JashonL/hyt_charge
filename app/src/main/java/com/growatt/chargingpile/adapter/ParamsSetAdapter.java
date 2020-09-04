@@ -69,8 +69,9 @@ public class ParamsSetAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity,
                 String key = mContext.getString(R.string.m326时间段) + ((ChargingBean.DataBean.PriceConfBean) item).getTimeX();
                 holder.setText(R.id.tv_time_key, key);
                 String value = mContext.getString(R.string.m327费率) + ((ChargingBean.DataBean.PriceConfBean) item).getPrice();
-                if(!TextUtils.isEmpty(value)){
-                    value += ((ChargingBean.DataBean.PriceConfBean) item).getSymbol();
+                String symbol = ((ChargingBean.DataBean.PriceConfBean) item).getSymbol();
+                if(!TextUtils.isEmpty(symbol)){
+                    value += symbol;
                 }
                 holder.setText(R.id.tv_time_value, value);
                 break;

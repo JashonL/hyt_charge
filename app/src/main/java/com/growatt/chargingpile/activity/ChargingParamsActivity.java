@@ -3,17 +3,18 @@ package com.growatt.chargingpile.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
+import androidx.core.content.ContextCompat;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -39,6 +40,8 @@ import com.growatt.chargingpile.util.SmartHomeUrlUtil;
 import com.growatt.chargingpile.util.SmartHomeUtil;
 import com.growatt.chargingpile.util.T;
 import com.mylhyl.circledialog.CircleDialog;
+import com.mylhyl.circledialog.view.listener.OnInputClickListener;
+import com.mylhyl.circledialog.view.listener.OnLvItemClickListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -348,23 +351,27 @@ public class ChargingParamsActivity extends BaseActivity {
                 .setInputHint(tips)
                 .setInputText(String.valueOf(solarLimitPower))
                 .setNegative(this.getString(R.string.m7取消), null)
-                .setPositiveInput(this.getString(R.string.m9确定), (text, v) -> {
-                    if (TextUtils.isEmpty(text)) {
-                        toast(R.string.m140不能为空);
-                        return;
+                .setPositiveInput(this.getString(R.string.m9确定), new OnInputClickListener() {
+                    @Override
+                    public boolean onClick(String text, View v) {
+                        if (TextUtils.isEmpty(text)) {
+                            toast(R.string.m140不能为空);
+                            return true;
+                        }
+                        boolean numeric_eco = MyUtil.isNumeric(text);
+                        if (!numeric_eco) {
+                            toast(R.string.m177输入格式不正确);
+                            return true;
+                        }
+                        float v1;
+                        try {
+                            v1 = Float.parseFloat(text);
+                        } catch (NumberFormatException e) {
+                            v1 = 0;
+                        }
+                        setBean("G_SolarLimitPower", v1);
+                        return true;
                     }
-                    boolean numeric_eco = MyUtil.isNumeric(text);
-                    if (!numeric_eco) {
-                        T.make(getString(R.string.m177输入格式不正确), this);
-                        return;
-                    }
-                    float v1;
-                    try {
-                        v1 = Float.parseFloat(text);
-                    } catch (NumberFormatException e) {
-                        v1 = 0;
-                    }
-                    setBean("G_SolarLimitPower", v1);
                 })
                 .show(this.getSupportFragmentManager());
 
@@ -432,32 +439,37 @@ public class ChargingParamsActivity extends BaseActivity {
                 .setTitle(this.getString(R.string.m27温馨提示))
                 .setInputHint(tips)
                 .setInputText(value)
+                .setInputCounter(1000, (maxLen, currentLen) -> "")
                 .setNegative(this.getString(R.string.m7取消), null)
-                .setPositiveInput(this.getString(R.string.m9确定), (text, v) -> {
-                    if (TextUtils.isEmpty(text)) {
-                        toast(R.string.m140不能为空);
-                        return;
-                    }
-                    if ("ip".equals(key)) {
-                        boolean b = MyUtil.isboolIp(value);
-                        if (!b) {
-                            toast(R.string.m177输入格式不正确);
-                            return;
+                .setPositiveInput(this.getString(R.string.m9确定), new OnInputClickListener() {
+                    @Override
+                    public boolean onClick(String text, View v) {
+                        if (TextUtils.isEmpty(text)) {
+                            toast(R.string.m140不能为空);
+                            return true;
                         }
-                    }
-                    if (key.equals("G_MaxCurrent")) {
-                        boolean numeric3 = MyUtil.isNumberiZidai(text);
-                        if (!numeric3) {
-                            T.make(getString(R.string.m177输入格式不正确), this);
-                            return;
+                        if ("ip".equals(key)) {
+                            boolean b = MyUtil.isboolIp(text);
+                            if (!b) {
+                                toast(R.string.m177输入格式不正确);
+                                return true;
+                            }
                         }
+                        if (key.equals("G_MaxCurrent")) {
+                            boolean numeric3 = MyUtil.isNumberiZidai(text);
+                            if (!numeric3) {
+                                toast(R.string.m177输入格式不正确);
+                                return true;
+                            }
 
-                        if (Integer.parseInt(text) < 3) {
-                            T.make(getString(R.string.m291设定值不能小于), this);
-                            return;
+                            if (Integer.parseInt(text) < 3) {
+                                toast(R.string.m291设定值不能小于);
+                                return true;
+                            }
                         }
+                        setBean(key, text);
+                        return true;
                     }
-                    setBean(key, text);
                 })
                 .show(this.getSupportFragmentManager());
     }
@@ -1046,20 +1058,24 @@ public class ChargingParamsActivity extends BaseActivity {
         FragmentManager fragmentManager = ChargingParamsActivity.this.getSupportFragmentManager();
         new CircleDialog.Builder()
                 .setTitle(getString(R.string.m154充电模式))
-                .setItems(mModels, (parent, view, position, id) -> {
-                    int model = 4;
-                    switch (position) {
-                        case 0:
-                            model = 1;
-                            break;
-                        case 1:
-                            model = 2;
-                            break;
-                        case 2:
-                            model = 3;
-                            break;
+                .setItems(mModels, new OnLvItemClickListener() {
+                    @Override
+                    public boolean onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        int model = 4;
+                        switch (position) {
+                            case 0:
+                                model = 1;
+                                break;
+                            case 1:
+                                model = 2;
+                                break;
+                            case 2:
+                                model = 3;
+                                break;
+                        }
+                        setBean("G_ChargerMode", model);
+                        return true;
                     }
-                    setBean("G_ChargerMode", model);
                 })
                 .setNegative(getString(R.string.m7取消), null)
                 .show(fragmentManager);
@@ -1123,16 +1139,21 @@ public class ChargingParamsActivity extends BaseActivity {
                 .setWidth(0.7f)
                 .setMaxHeight(0.5f)
                 .setGravity(Gravity.CENTER)
-                .setItems(items, (parent, view, position, id) -> {
-                    try {
-                        unitKey = keys.get(position);
-                        unitValue = values.get(position);
-                        unitSymbol = unitValue;
-                        setBean("unit", unitKey);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                .setItems(items, new OnLvItemClickListener() {
+                    @Override
+                    public boolean onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        try {
+                            unitKey = keys.get(position);
+                            unitValue = values.get(position);
+                            unitSymbol = unitValue;
+                            setBean("unit", unitKey);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        return true;
                     }
                 })
+
                 .setNegative(getString(R.string.m7取消), null)
                 .show(getSupportFragmentManager());
     }
@@ -1512,32 +1533,35 @@ public class ChargingParamsActivity extends BaseActivity {
                 .setTitle(getString(R.string.m27温馨提示))
                 //添加标题，参考普通对话框
                 .setInputHint(getString(R.string.m26请输入密码))//提示
-                .setInputHeight(100)//输入框高度
-                .autoInputShowKeyboard()//自动弹出键盘
+                .setInputCounter(1000, (maxLen, currentLen) -> "")
                 .configInput(params -> {
                     params.gravity = Gravity.CENTER;
-                    params.textSize = 45;
+//                    params.textSize = 45;
 //                            params.backgroundColor=ContextCompat.getColor(ChargingPileActivity.this, R.color.preset_edit_time_background);
                     params.strokeColor = ContextCompat.getColor(this, R.color.preset_edit_time_background);
                     params.inputType = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD
                             | InputType.TYPE_TEXT_FLAG_MULTI_LINE;
                 })
-                .setPositiveInput(getString(R.string.m9确定), (text, v) -> {
-                    if (password.equals(text)) {
-                        isVerified = true;
-                        switch (type) {
-                            case ParamsSetAdapter.PARAM_ITEM:
-                                setCommonParams(bean);
-                                break;
-                            case ParamsSetAdapter.PARAM_ITEM_RATE:
-                                setRate();
-                                break;
-                            case ParamsSetAdapter.PARAM_ITEM_SOLAR:
-                                setECOLimit();
-                                break;
+                .setPositiveInput(getString(R.string.m9确定), new OnInputClickListener() {
+                    @Override
+                    public boolean onClick(String text, View v) {
+                        if (password.equals(text)) {
+                            isVerified = true;
+                            switch (type) {
+                                case ParamsSetAdapter.PARAM_ITEM:
+                                    setCommonParams(bean);
+                                    break;
+                                case ParamsSetAdapter.PARAM_ITEM_RATE:
+                                    setRate();
+                                    break;
+                                case ParamsSetAdapter.PARAM_ITEM_SOLAR:
+                                    setECOLimit();
+                                    break;
+                            }
+                        } else {
+                            toast(R.string.m验证失败);
                         }
-                    } else {
-                        toast(R.string.m验证失败);
+                        return true;
                     }
                 })
                 //添加取消按钮，参考普通对话框

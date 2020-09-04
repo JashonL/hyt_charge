@@ -2,10 +2,9 @@ package com.growatt.chargingpile.util;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.growatt.chargingpile.R;
 import com.maning.mndialoglibrary.MProgressDialog;
 
 public class Mydialog {

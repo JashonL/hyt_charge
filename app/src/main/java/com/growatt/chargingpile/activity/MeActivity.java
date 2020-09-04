@@ -1,6 +1,5 @@
 package com.growatt.chargingpile.activity;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Context;
@@ -12,11 +11,11 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextPaint;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +37,7 @@ import com.growatt.chargingpile.util.PermissionCodeUtil;
 import com.growatt.chargingpile.util.PhotoUtil;
 import com.growatt.chargingpile.util.SmartHomeUtil;
 import com.mylhyl.circledialog.CircleDialog;
+import com.mylhyl.circledialog.view.listener.OnLvItemClickListener;
 import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
@@ -146,9 +146,9 @@ public class MeActivity extends BaseActivity {
             FragmentManager fragmentManager = getSupportFragmentManager();
             new CircleDialog.Builder()
                     .setTitle(getString(R.string.m请选择))
-                    .setItems(new String[]{getString(R.string.m5拍照), getString(R.string.m6从相册选取)}, new AdapterView.OnItemClickListener() {
+                    .setItems(new String[]{getString(R.string.m5拍照), getString(R.string.m6从相册选取)}, new OnLvItemClickListener() {
                         @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        public boolean onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             switch (position) {
                                 case 0:
                                     //请求拍照权限
@@ -166,6 +166,7 @@ public class MeActivity extends BaseActivity {
                                     }
                                     break;
                             }
+                            return true;
                         }
                     })
                     .setNegative(getString(R.string.m7取消), null)

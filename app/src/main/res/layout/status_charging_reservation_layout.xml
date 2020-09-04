@@ -4,11 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -46,7 +46,7 @@
             </LinearLayout>
 
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/fl_time_rate"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/ya210"
@@ -81,7 +81,7 @@
                         android:textSize="@dimen/xa36" />
                 </LinearLayout>
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_time_reserva"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/xa100"
@@ -89,9 +89,9 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                </android.support.v7.widget.RecyclerView>
+                </androidx.recyclerview.widget.RecyclerView>
 
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             <View
@@ -203,7 +203,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_preset_value_cal" />
 
 
-            <android.support.constraint.Group
+            <androidx.constraintlayout.widget.Group
                 android:id="@+id/gp_preset"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -221,10 +221,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/fl_time_rate" />
 
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 
 </RelativeLayout>

@@ -1,12 +1,11 @@
 package com.growatt.chargingpile.util;
 
 import android.content.Context;
-import android.support.constraint.Group;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
+import androidx.constraintlayout.widget.Group;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.core.content.ContextCompat;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 

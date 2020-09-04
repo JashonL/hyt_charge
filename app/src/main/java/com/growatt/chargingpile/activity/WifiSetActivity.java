@@ -5,10 +5,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.core.content.ContextCompat;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
@@ -40,6 +40,7 @@ import com.growatt.chargingpile.util.SocketClientUtil;
 import com.growatt.chargingpile.util.T;
 import com.growatt.chargingpile.util.WiFiMsgConstant;
 import com.mylhyl.circledialog.CircleDialog;
+import com.mylhyl.circledialog.view.listener.OnInputClickListener;
 
 import org.xutils.common.util.LogUtil;
 
@@ -502,23 +503,27 @@ public class WifiSetActivity extends BaseActivity {
                 .setInputHint(tips)
                 .setInputText(value)
                 .setNegative(this.getString(R.string.m7取消), null)
-                .setPositiveInput(this.getString(R.string.m9确定), (text, v) -> {
-                    if (TextUtils.isEmpty(text)) {
-                        toast(R.string.m140不能为空);
-                        return;
-                    }
-                    byte[] bytes = text.trim().getBytes();
-                    boolean numeric_eco = MyUtil.isNumberiZidai(text);
-                    if (!numeric_eco) {
-                        T.make(getString(R.string.m177输入格式不正确), this);
-                        return;
-                    }
+                .setPositiveInput(this.getString(R.string.m9确定), new OnInputClickListener() {
+                    @Override
+                    public boolean onClick(String text, View v) {
+                        if (TextUtils.isEmpty(text)) {
+                            toast(R.string.m140不能为空);
+                            return true;
+                        }
+                        byte[] bytes = text.trim().getBytes();
+                        boolean numeric_eco = MyUtil.isNumberiZidai(text);
+                        if (!numeric_eco) {
+                            toast(R.string.m177输入格式不正确);
+                            return true;
+                        }
 
 
-                    System.arraycopy(bytes, 0, solarCurrentByte, 0, bytes.length);
-                    isEditCharging = true;
-                    subItem.setValue(text);
-                    mAdapter.notifyDataSetChanged();
+                        System.arraycopy(bytes, 0, solarCurrentByte, 0, bytes.length);
+                        isEditCharging = true;
+                        subItem.setValue(text);
+                        mAdapter.notifyDataSetChanged();
+                        return true;
+                    }
                 })
                 .show(this.getSupportFragmentManager());
 
@@ -557,346 +562,351 @@ public class WifiSetActivity extends BaseActivity {
                 .setTitle(this.getString(R.string.m27温馨提示))
                 .setInputHint(tips)
                 .setInputText(value)
+                .setInputCounter(1000, (maxLen, currentLen) -> "")
                 .setNegative(this.getString(R.string.m7取消), null)
-                .setPositiveInput(this.getString(R.string.m9确定), (text, v) -> {
-                    if (TextUtils.isEmpty(text)) {
-                        toast(R.string.m140不能为空);
-                        return;
-                    }
-                    byte[] bytes = text.trim().getBytes();
-                    switch (key) {
-                        case "G_CardPin":
-                            boolean letterDigit_card = MyUtil.isLetterDigit2(text);
-                            if (!letterDigit_card) {
-                                T.make(getString(R.string.m177输入格式不正确), this);
-                                return;
-                            }
-                            if (bytes.length > 6) {
-                                T.make(getString(R.string.m286输入值超出规定长度), this);
-                                return;
-                            }
-                            cardByte = new byte[6];
-                            System.arraycopy(bytes, 0, cardByte, 0, bytes.length);
-                            isEditInfo = true;
-                            break;
-                        case "ip":
-                            boolean b = MyUtil.isboolIp(text);
-                            if (!b) {
-                                toast(R.string.m177输入格式不正确);
-                                return;
-                            }
-                            if (bytes.length > 15) {
-                                T.make(getString(R.string.m286输入值超出规定长度), this);
-                                return;
-                            }
-                            ipByte = new byte[15];
-                            System.arraycopy(bytes, 0, ipByte, 0, bytes.length);
-                            isEditInterNet = true;
-                            break;
-                        case "gateway":
-                            boolean b1 = MyUtil.isboolIp(text);
-                            if (!b1) {
-                                toast(R.string.m177输入格式不正确);
-                                return;
-                            }
-                            if (bytes.length > 15) {
-                                T.make(getString(R.string.m286输入值超出规定长度), this);
-                                return;
-                            }
-                            gatewayByte = new byte[15];
-                            System.arraycopy(bytes, 0, gatewayByte, 0, bytes.length);
-                            isEditInterNet = true;
-                            break;
-                        case "mask":
-                            boolean b2 = MyUtil.isboolIp(text);
-                            if (!b2) {
-                                toast(R.string.m177输入格式不正确);
-                                return;
-                            }
-                            if (bytes.length > 15) {
-                                T.make(getString(R.string.m286输入值超出规定长度), this);
-                                return;
-                            }
-                            maskByte = new byte[15];
-                            System.arraycopy(bytes, 0, maskByte, 0, bytes.length);
-                            isEditInterNet = true;
-                            break;
-                        case "mac":
-                            boolean letterDigit_mac = MyUtil.isLetterDigit2(text);
-                            if (!letterDigit_mac) {
-                                T.make(getString(R.string.m177输入格式不正确), this);
-                                return;
-                            }
-                            if (bytes.length > 17) {
-                                T.make(getString(R.string.m286输入值超出规定长度), this);
-                                return;
-                            }
-                            macByte = new byte[17];
-                            System.arraycopy(bytes, 0, macByte, 0, bytes.length);
-                            isEditInterNet = true;
-                            break;
-                        case "dns":
-                            boolean b3 = MyUtil.isboolIp(text);
-                            if (!b3) {
-                                toast(R.string.m177输入格式不正确);
-                                return;
-                            }
-                            if (bytes.length > 15) {
-                                T.make(getString(R.string.m286输入值超出规定长度), this);
-                                return;
-                            }
-                            dnsByte = new byte[15];
-                            System.arraycopy(bytes, 0, dnsByte, 0, bytes.length);
-                            isEditInterNet = true;
-                            break;
-                        case "G_WifiSSID":
-                            boolean letterDigit_ssid = MyUtil.isWiFiLetter(text);
-                            if (!letterDigit_ssid) {
-                                T.make(getString(R.string.m177输入格式不正确), this);
-                                return;
-                            }
+                .setPositiveInput(this.getString(R.string.m9确定), new OnInputClickListener() {
+                    @Override
+                    public boolean onClick(String text, View v) {
+                        if (TextUtils.isEmpty(text)) {
+                            toast(R.string.m140不能为空);
+                            return true;
+                        }
+                        byte[] bytes = text.trim().getBytes();
+                        switch (key) {
+                            case "G_CardPin":
+                                boolean letterDigit_card = MyUtil.isLetterDigit2(text);
+                                if (!letterDigit_card) {
+                                   toast(R.string.m177输入格式不正确);
+                                    return true;
+                                }
+                                if (bytes.length > 6) {
+                                    toast(R.string.m286输入值超出规定长度);
+                                    return true;
+                                }
+                                cardByte = new byte[6];
+                                System.arraycopy(bytes, 0, cardByte, 0, bytes.length);
+                                isEditInfo = true;
+                                break;
+                            case "ip":
+                                boolean b = MyUtil.isboolIp(text);
+                                if (!b) {
+                                    toast(R.string.m177输入格式不正确);
+                                    return true;
+                                }
+                                if (bytes.length > 15) {
+                                    toast(R.string.m286输入值超出规定长度);
+                                    return true;
+                                }
+                                ipByte = new byte[15];
+                                System.arraycopy(bytes, 0, ipByte, 0, bytes.length);
+                                isEditInterNet = true;
+                                break;
+                            case "gateway":
+                                boolean b1 = MyUtil.isboolIp(text);
+                                if (!b1) {
+                                    toast(R.string.m177输入格式不正确);
+                                    return true;
+                                }
+                                if (bytes.length > 15) {
+                                    toast(R.string.m286输入值超出规定长度);
+                                    return true;
+                                }
+                                gatewayByte = new byte[15];
+                                System.arraycopy(bytes, 0, gatewayByte, 0, bytes.length);
+                                isEditInterNet = true;
+                                break;
+                            case "mask":
+                                boolean b2 = MyUtil.isboolIp(text);
+                                if (!b2) {
+                                    toast(R.string.m177输入格式不正确);
+                                    return true;
+                                }
+                                if (bytes.length > 15) {
+                                    toast(R.string.m286输入值超出规定长度);
+                                    return true;
+                                }
+                                maskByte = new byte[15];
+                                System.arraycopy(bytes, 0, maskByte, 0, bytes.length);
+                                isEditInterNet = true;
+                                break;
+                            case "mac":
+                                boolean letterDigit_mac = MyUtil.isLetterDigit2(text);
+                                if (!letterDigit_mac) {
+                                   toast(R.string.m177输入格式不正确);
+                                    return true;
+                                }
+                                if (bytes.length > 17) {
+                                  toast(R.string.m286输入值超出规定长度);
+                                    return true;
+                                }
+                                macByte = new byte[17];
+                                System.arraycopy(bytes, 0, macByte, 0, bytes.length);
+                                isEditInterNet = true;
+                                break;
+                            case "dns":
+                                boolean b3 = MyUtil.isboolIp(text);
+                                if (!b3) {
+                                    toast(R.string.m177输入格式不正确);
+                                    return true;
+                                }
+                                if (bytes.length > 15) {
+                                    toast(R.string.m286输入值超出规定长度);
+                                    return true;
+                                }
+                                dnsByte = new byte[15];
+                                System.arraycopy(bytes, 0, dnsByte, 0, bytes.length);
+                                isEditInterNet = true;
+                                break;
+                            case "G_WifiSSID":
+                                boolean letterDigit_ssid = MyUtil.isWiFiLetter(text);
+                                if (!letterDigit_ssid) {
+                                   toast(R.string.m177输入格式不正确);
+                                    return true;
+                                }
 
-                            if (bytes.length > 16) {
-                                T.make(getString(R.string.m286输入值超出规定长度), this);
-                                return;
-                            }
-                            ssidByte = new byte[16];
-                            System.arraycopy(bytes, 0, ssidByte, 0, bytes.length);
-                            isEditWifi = true;
-                            break;
-                        case "G_WifiPassword":
-                            boolean letterDigit_key = MyUtil.isWiFiLetter(text);
-                            if (!letterDigit_key) {
-                                T.make(getString(R.string.m177输入格式不正确), this);
-                                return;
-                            }
-                            if (bytes.length > 16) {
-                                T.make(getString(R.string.m286输入值超出规定长度), this);
-                                return;
-                            }
-                            wifiKeyByte = new byte[16];
-                            System.arraycopy(bytes, 0, wifiKeyByte, 0, bytes.length);
-                            isEditWifi = true;
-                            break;
+                                if (bytes.length > 16) {
+                                   toast(R.string.m286输入值超出规定长度);
+                                    return true;
+                                }
+                                ssidByte = new byte[16];
+                                System.arraycopy(bytes, 0, ssidByte, 0, bytes.length);
+                                isEditWifi = true;
+                                break;
+                            case "G_WifiPassword":
+                                boolean letterDigit_key = MyUtil.isWiFiLetter(text);
+                                if (!letterDigit_key) {
+                                   toast(R.string.m177输入格式不正确);
+                                    return true;
+                                }
+                                if (bytes.length > 16) {
+                                    toast(R.string.m286输入值超出规定长度);
+                                    return true;
+                                }
+                                wifiKeyByte = new byte[16];
+                                System.arraycopy(bytes, 0, wifiKeyByte, 0, bytes.length);
+                                isEditWifi = true;
+                                break;
 
-                        case "G_4GUserName":
-                            boolean letterDigit_4gname = MyUtil.isWiFiLetter(text);
-                            if (!letterDigit_4gname) {
-                                T.make(getString(R.string.m177输入格式不正确), this);
-                                return;
-                            }
-                            if (bytes.length > 16) {
-                                T.make(getString(R.string.m286输入值超出规定长度), this);
-                                return;
-                            }
-                            name4GByte = new byte[16];
-                            System.arraycopy(bytes, 0, name4GByte, 0, bytes.length);
-                            isEditWifi = true;
-                            break;
-                        case "G_4GPassword":
-                            boolean letterDigit_4gpwd = MyUtil.isWiFiLetter(text);
-                            if (!letterDigit_4gpwd) {
-                                T.make(getString(R.string.m177输入格式不正确), this);
-                                return;
-                            }
+                            case "G_4GUserName":
+                                boolean letterDigit_4gname = MyUtil.isWiFiLetter(text);
+                                if (!letterDigit_4gname) {
+                                    toast(R.string.m177输入格式不正确);
+                                    return true;
+                                }
+                                if (bytes.length > 16) {
+                                    toast(R.string.m286输入值超出规定长度);
+                                    return true;
+                                }
+                                name4GByte = new byte[16];
+                                System.arraycopy(bytes, 0, name4GByte, 0, bytes.length);
+                                isEditWifi = true;
+                                break;
+                            case "G_4GPassword":
+                                boolean letterDigit_4gpwd = MyUtil.isWiFiLetter(text);
+                                if (!letterDigit_4gpwd) {
+                                    toast(R.string.m177输入格式不正确);
+                                    return true;
+                                }
 
-                            if (bytes.length > 16) {
-                                T.make(getString(R.string.m286输入值超出规定长度), this);
-                                return;
-                            }
-                            pwd4GByte = new byte[16];
-                            System.arraycopy(bytes, 0, pwd4GByte, 0, bytes.length);
-                            isEditWifi = true;
-                            break;
-                        case "G_4GAPN":
-                            boolean letterDigit_4gapn = MyUtil.isLetterDigit2(text);
-                            if (!letterDigit_4gapn) {
-                                T.make(getString(R.string.m177输入格式不正确), this);
-                                return;
-                            }
+                                if (bytes.length > 16) {
+                                   toast(R.string.m286输入值超出规定长度);
+                                    return true;
+                                }
+                                pwd4GByte = new byte[16];
+                                System.arraycopy(bytes, 0, pwd4GByte, 0, bytes.length);
+                                isEditWifi = true;
+                                break;
+                            case "G_4GAPN":
+                                boolean letterDigit_4gapn = MyUtil.isLetterDigit2(text);
+                                if (!letterDigit_4gapn) {
+                                    toast(R.string.m177输入格式不正确);
+                                    return true;
+                                }
 
-                            if (bytes.length > 16) {
-                                T.make(getString(R.string.m286输入值超出规定长度), this);
-                                return;
-                            }
-                            apn4GByte = new byte[16];
-                            System.arraycopy(bytes, 0, apn4GByte, 0, bytes.length);
-                            isEditWifi = true;
-                            break;
+                                if (bytes.length > 16) {
+                                    toast(R.string.m286输入值超出规定长度);
+                                    return true;
+                                }
+                                apn4GByte = new byte[16];
+                                System.arraycopy(bytes, 0, apn4GByte, 0, bytes.length);
+                                isEditWifi = true;
+                                break;
 
-                        case "host":
-                            if (bytes.length > 70) {
-                                T.make(getString(R.string.m286输入值超出规定长度), this);
-                                return;
-                            }
-                            urlByte = new byte[70];
-                            System.arraycopy(bytes, 0, urlByte, 0, bytes.length);
-                            isEditUrl = true;
-                            break;
-                        case "G_Authentication":
-                            boolean letterDigit_hskey = MyUtil.isLetterDigit2(text);
-                            if (!letterDigit_hskey) {
-                                T.make(getString(R.string.m177输入格式不正确), this);
-                                return;
-                            }
-                            if (bytes.length > 20) {
-                                T.make(getString(R.string.m286输入值超出规定长度), this);
-                                return;
-                            }
-                            hskeyByte = new byte[20];
-                            System.arraycopy(bytes, 0, hskeyByte, 0, bytes.length);
-                            isEditUrl = true;
-                            break;
-                        case "G_HearbeatInterval":
-                            boolean numeric_heat = MyUtil.isNumberiZidai(text);
-                            if (!numeric_heat) {
-                                T.make(getString(R.string.m177输入格式不正确), this);
-                                return;
-                            }
-                            if (Integer.parseInt(text) < 5 || Integer.parseInt(text) > 300) {
-                                T.make(getString(R.string.m290超出设置范围) + tips, WifiSetActivity.this);
-                                return;
-                            }
+                            case "host":
+                                if (bytes.length > 70) {
+                                    toast(R.string.m286输入值超出规定长度);
+                                    return true;
+                                }
+                                urlByte = new byte[70];
+                                System.arraycopy(bytes, 0, urlByte, 0, bytes.length);
+                                isEditUrl = true;
+                                break;
+                            case "G_Authentication":
+                                boolean letterDigit_hskey = MyUtil.isLetterDigit2(text);
+                                if (!letterDigit_hskey) {
+                                    toast(R.string.m177输入格式不正确);
+                                    return true;
+                                }
+                                if (bytes.length > 20) {
+                                    toast(R.string.m286输入值超出规定长度);
+                                    return true;
+                                }
+                                hskeyByte = new byte[20];
+                                System.arraycopy(bytes, 0, hskeyByte, 0, bytes.length);
+                                isEditUrl = true;
+                                break;
+                            case "G_HearbeatInterval":
+                                boolean numeric_heat = MyUtil.isNumberiZidai(text);
+                                if (!numeric_heat) {
+                                    toast(R.string.m177输入格式不正确);
+                                    return true;
+                                }
+                                if (Integer.parseInt(text) < 5 || Integer.parseInt(text) > 300) {
+                                    toast(getString(R.string.m290超出设置范围) + tips);
+                                    return true;
+                                }
 
-                            if (bytes.length > 4) {
-                                T.make(getString(R.string.m286输入值超出规定长度), this);
-                                return;
-                            }
-                            heatByte = new byte[4];
-                            System.arraycopy(bytes, 0, heatByte, 0, bytes.length);
-                            isEditUrl = true;
-                            break;
-                        case "G_WebSocketPingInterval":
-                            boolean numeric_ping = MyUtil.isNumberiZidai(text);
-                            if (!numeric_ping) {
-                                T.make(getString(R.string.m177输入格式不正确), this);
-                                return;
-                            }
+                                if (bytes.length > 4) {
+                                    toast(R.string.m286输入值超出规定长度);
+                                    return true;
+                                }
+                                heatByte = new byte[4];
+                                System.arraycopy(bytes, 0, heatByte, 0, bytes.length);
+                                isEditUrl = true;
+                                break;
+                            case "G_WebSocketPingInterval":
+                                boolean numeric_ping = MyUtil.isNumberiZidai(text);
+                                if (!numeric_ping) {
+                                    toast(R.string.m177输入格式不正确);
+                                    return true;
+                                }
 
-                            if (Integer.parseInt(text) < 5 || Integer.parseInt(text) > 300) {
-                                T.make(getString(R.string.m290超出设置范围) + tips, WifiSetActivity.this);
-                                return;
-                            }
+                                if (Integer.parseInt(text) < 5 || Integer.parseInt(text) > 300) {
+                                    toast(getString(R.string.m290超出设置范围) + tips);
+                                    return true;
+                                }
 
-                            if (bytes.length > 4) {
-                                T.make(getString(R.string.m286输入值超出规定长度), this);
-                                return;
-                            }
-                            pingByte = new byte[4];
-                            System.arraycopy(bytes, 0, pingByte, 0, bytes.length);
-                            isEditUrl = true;
-                            break;
-                        case "G_MeterValueInterval":
-                            boolean numeric_interval = MyUtil.isNumberiZidai(text);
-                            if (!numeric_interval) {
-                                T.make(getString(R.string.m177输入格式不正确), this);
-                                return;
-                            }
+                                if (bytes.length > 4) {
+                                    toast(R.string.m286输入值超出规定长度);
+                                    return true;
+                                }
+                                pingByte = new byte[4];
+                                System.arraycopy(bytes, 0, pingByte, 0, bytes.length);
+                                isEditUrl = true;
+                                break;
+                            case "G_MeterValueInterval":
+                                boolean numeric_interval = MyUtil.isNumberiZidai(text);
+                                if (!numeric_interval) {
+                                    toast(R.string.m177输入格式不正确);
+                                    return true;
+                                }
 
-                            if (Integer.parseInt(text) < 5 || Integer.parseInt(text) > 300) {
-                                T.make(getString(R.string.m290超出设置范围) + tips, WifiSetActivity.this);
-                                return;
-                            }
+                                if (Integer.parseInt(text) < 5 || Integer.parseInt(text) > 300) {
+                                    toast(getString(R.string.m290超出设置范围) + tips);
+                                    return true;
+                                }
 
-                            if (bytes.length > 4) {
-                                T.make(getString(R.string.m286输入值超出规定长度), this);
-                                return;
-                            }
-                            intervalByte = new byte[4];
-                            System.arraycopy(bytes, 0, intervalByte, 0, bytes.length);
+                                if (bytes.length > 4) {
+                                    toast(R.string.m286输入值超出规定长度);
+                                    return true;
+                                }
+                                intervalByte = new byte[4];
+                                System.arraycopy(bytes, 0, intervalByte, 0, bytes.length);
 //                            setUrl();
-                            isEditUrl = true;
-                            break;
+                                isEditUrl = true;
+                                break;
 
-                        case "G_MaxCurrent":
-                            boolean numeric_maxcurrent = MyUtil.isNumberiZidai(text);
-                            if (!numeric_maxcurrent) {
-                                T.make(getString(R.string.m177输入格式不正确), this);
-                                return;
-                            }
+                            case "G_MaxCurrent":
+                                boolean numeric_maxcurrent = MyUtil.isNumberiZidai(text);
+                                if (!numeric_maxcurrent) {
+                                    toast(R.string.m177输入格式不正确);
+                                    return true;
+                                }
 
-                            if (Integer.parseInt(text) < 3) {
-                                T.make(getString(R.string.m291设定值不能小于), this);
-                                return;
-                            }
+                                if (Integer.parseInt(text) < 3) {
+                                    toast(R.string.m291设定值不能小于);
+                                    return true;
+                                }
 
-                            if (bytes.length > 2) {
-                                T.make(getString(R.string.m286输入值超出规定长度), this);
-                                return;
-                            }
-                            maxCurrentByte = new byte[2];
-                            System.arraycopy(bytes, 0, maxCurrentByte, 0, bytes.length);
-                            isEditCharging = true;
-                            break;
-                        case "rate":
-                            boolean numeric_rate = MyUtil.isNumeric(text);
-                            if (!numeric_rate) {
-                                T.make(getString(R.string.m177输入格式不正确), this);
-                                return;
-                            }
-                            if (bytes.length > 5) {
-                                T.make(getString(R.string.m286输入值超出规定长度), this);
-                                return;
-                            }
-                            rateByte = new byte[5];
-                            System.arraycopy(bytes, 0, rateByte, 0, bytes.length);
-                            isEditCharging = true;
-                            break;
-                        case "G_MaxTemperature":
-                            boolean numeric_temp = MyUtil.isNumberiZidai(text);
-                            if (!numeric_temp) {
-                                T.make(getString(R.string.m177输入格式不正确), this);
-                                return;
-                            }
+                                if (bytes.length > 2) {
+                                    toast(R.string.m286输入值超出规定长度);
+                                    return true;
+                                }
+                                maxCurrentByte = new byte[2];
+                                System.arraycopy(bytes, 0, maxCurrentByte, 0, bytes.length);
+                                isEditCharging = true;
+                                break;
+                            case "rate":
+                                boolean numeric_rate = MyUtil.isNumeric(text);
+                                if (!numeric_rate) {
+                                    toast(R.string.m177输入格式不正确);
+                                    return true;
+                                }
+                                if (bytes.length > 5) {
+                                    toast(R.string.m286输入值超出规定长度);
+                                    return true;
+                                }
+                                rateByte = new byte[5];
+                                System.arraycopy(bytes, 0, rateByte, 0, bytes.length);
+                                isEditCharging = true;
+                                break;
+                            case "G_MaxTemperature":
+                                boolean numeric_temp = MyUtil.isNumberiZidai(text);
+                                if (!numeric_temp) {
+                                    toast(R.string.m177输入格式不正确);
+                                    return true;
+                                }
 
-                            if (Integer.parseInt(text) < 65 || Integer.parseInt(text) > 85) {
-                                T.make(getString(R.string.m290超出设置范围) + tips, WifiSetActivity.this);
-                                return;
-                            }
+                                if (Integer.parseInt(text) < 65 || Integer.parseInt(text) > 85) {
+                                    toast(getString(R.string.m290超出设置范围) + tips);
+                                    return true;
+                                }
 
-                            if (bytes.length > 3) {
-                                T.make(getString(R.string.m286输入值超出规定长度), this);
-                                return;
-                            }
-                            tempByte = new byte[3];
-                            System.arraycopy(bytes, 0, tempByte, 0, bytes.length);
-                            isEditCharging = true;
-                            break;
-                        case "G_ExternalLimitPower":
-                            boolean numeric_power = MyUtil.isNumberiZidai(text);
-                            if (!numeric_power) {
-                                T.make(getString(R.string.m177输入格式不正确), this);
-                                return;
-                            }
-                            if (Integer.parseInt(text) < 3) {
-                                T.make(getString(R.string.m291设定值不能小于), this);
-                                return;
-                            }
-                            if (bytes.length > 2) {
-                                T.make(getString(R.string.m286输入值超出规定长度), this);
-                                return;
-                            }
-                            powerByte = new byte[2];
-                            System.arraycopy(bytes, 0, powerByte, 0, bytes.length);
-                            isEditCharging = true;
-                            break;
-                        case "G_PowerMeterAddr":
-                            boolean numeric_ammeter = MyUtil.isNumberiZidai(text);
-                            if (!numeric_ammeter) {
-                                T.make(getString(R.string.m177输入格式不正确), this);
-                                return;
-                            }
-                            if (bytes.length > 3) {
-                                T.make(getString(R.string.m286输入值超出规定长度) + " " + 3, this);
-                                return;
-                            }
-                            ammeterByte = new byte[12];
-                            System.arraycopy(bytes, 0, ammeterByte, 0, bytes.length);
-                            isEditCharging = true;
-                            break;
+                                if (bytes.length > 3) {
+                                    toast(R.string.m286输入值超出规定长度);
+                                    return true;
+                                }
+                                tempByte = new byte[3];
+                                System.arraycopy(bytes, 0, tempByte, 0, bytes.length);
+                                isEditCharging = true;
+                                break;
+                            case "G_ExternalLimitPower":
+                                boolean numeric_power = MyUtil.isNumberiZidai(text);
+                                if (!numeric_power) {
+                                    toast(R.string.m177输入格式不正确);
+                                    return true;
+                                }
+                                if (Integer.parseInt(text) < 3) {
+                                    toast(R.string.m291设定值不能小于);
+                                    return true;
+                                }
+                                if (bytes.length > 2) {
+                                    toast(R.string.m286输入值超出规定长度);
+                                    return true;
+                                }
+                                powerByte = new byte[2];
+                                System.arraycopy(bytes, 0, powerByte, 0, bytes.length);
+                                isEditCharging = true;
+                                break;
+                            case "G_PowerMeterAddr":
+                                boolean numeric_ammeter = MyUtil.isNumberiZidai(text);
+                                if (!numeric_ammeter) {
+                                    toast(R.string.m177输入格式不正确);
+                                    return true;
+                                }
+                                if (bytes.length > 3) {
+                                    toast(getString(R.string.m286输入值超出规定长度) + " " + 3);
+                                    return true;
+                                }
+                                ammeterByte = new byte[12];
+                                System.arraycopy(bytes, 0, ammeterByte, 0, bytes.length);
+                                isEditCharging = true;
+                                break;
+                        }
+                        setBean(key, text);
+                        mAdapter.notifyDataSetChanged();
+                        return true;
                     }
-                    setBean(key, text);
-                    mAdapter.notifyDataSetChanged();
                 })
                 .configInput(params -> {
                     if ("G_CardPin".equals(key) || "G_WifiPassword".equals(key) || "G_4GPassword".equals(key)) {
@@ -2838,29 +2848,32 @@ public class WifiSetActivity extends BaseActivity {
                 .setTitle(getString(R.string.m27温馨提示))
                 //添加标题，参考普通对话框
                 .setInputHint(getString(R.string.m26请输入密码))//提示
-                .setInputHeight(100)//输入框高度
-                .autoInputShowKeyboard()//自动弹出键盘
+                .setInputCounter(1000, (maxLen, currentLen) -> "")
                 .configInput(params -> {
                     params.inputType = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD
                             | InputType.TYPE_TEXT_FLAG_MULTI_LINE;
                     params.gravity = Gravity.CENTER;
-                    params.textSize = 45;
+//                    params.textSize = 45;
 //                            params.backgroundColor=ContextCompat.getColor(ChargingPileActivity.this, R.color.preset_edit_time_background);
                     params.strokeColor = ContextCompat.getColor(this, R.color.preset_edit_time_background);
                 })
-                .setPositiveInput(getString(R.string.m9确定), (text, v) -> {
-                    if (password.equals(text)) {
-                        isVerified = true;
-                        switch (type) {
-                            case WifiSetAdapter.PARAM_ITEM:
-                                setCommonParams(bean);
-                                break;
-                            case WifiSetAdapter.PARAM_ITEM_SOLAR:
-                                setECOLimit();
-                                break;
+                .setPositiveInput(getString(R.string.m9确定), new OnInputClickListener() {
+                    @Override
+                    public boolean onClick(String text, View v) {
+                        if (password.equals(text)) {
+                            isVerified = true;
+                            switch (type) {
+                                case WifiSetAdapter.PARAM_ITEM:
+                                    setCommonParams(bean);
+                                    break;
+                                case WifiSetAdapter.PARAM_ITEM_SOLAR:
+                                    setECOLimit();
+                                    break;
+                            }
+                        } else {
+                            toast(R.string.m验证失败);
                         }
-                    } else {
-                        toast(R.string.m验证失败);
+                        return true;
                     }
                 })
                 //添加取消按钮，参考普通对话框

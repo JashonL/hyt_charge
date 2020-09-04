@@ -2,8 +2,8 @@ package com.growatt.chargingpile.activity;
 
 
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -17,7 +17,6 @@ import com.growatt.chargingpile.EventBusMsg.FreshTimingMsg;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.bean.ReservationBean;
 import com.growatt.chargingpile.connutil.PostUtil;
-import com.growatt.chargingpile.util.AlertPickDialog;
 import com.growatt.chargingpile.util.CircleDialogUtils;
 import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;

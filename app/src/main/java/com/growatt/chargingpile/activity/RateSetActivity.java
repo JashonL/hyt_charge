@@ -1,10 +1,9 @@
 package com.growatt.chargingpile.activity;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
@@ -26,6 +25,7 @@ import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
 import com.growatt.chargingpile.util.SmartHomeUtil;
 import com.mylhyl.circledialog.CircleDialog;
+import com.mylhyl.circledialog.view.listener.OnInputClickListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
@@ -399,17 +399,21 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
         double price = mAdapter.getData().get(pos).getPrice();
         new CircleDialog.Builder()
                 .setWidth(0.8f)
-                .setInputHeight(100)
                 .setTitle(this.getString(R.string.m152充电费率))
                 .setInputText(String.valueOf(price))
                 .setNegative(this.getString(R.string.m7取消), null)
+                .setInputCounter(1000, (maxLen, currentLen) -> "")
                 .configInput(params -> {
                     params.inputType = InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_TEXT_FLAG_MULTI_LINE;
                 })
-                .setPositiveInput(this.getString(R.string.m9确定), (text, v) -> {
-                    if (!TextUtils.isEmpty(text)) {
-                        mAdapter.getData().get(pos).setPrice(Double.parseDouble(text));
-                        mAdapter.notifyItemChanged(pos);
+                .setPositiveInput(this.getString(R.string.m9确定), new OnInputClickListener() {
+                    @Override
+                    public boolean onClick(String text, View v) {
+                        if (!TextUtils.isEmpty(text)) {
+                            mAdapter.getData().get(pos).setPrice(Double.parseDouble(text));
+                            mAdapter.notifyItemChanged(pos);
+                        }
+                        return true;
                     }
                 })
                 .show(this.getSupportFragmentManager());
