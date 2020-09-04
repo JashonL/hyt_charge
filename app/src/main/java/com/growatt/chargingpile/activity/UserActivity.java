@@ -50,6 +50,9 @@ public class UserActivity extends BaseActivity {
     TextView tvInstallphone;
     @BindView(R.id.tv_installaddress)
     TextView tvInstalladdress;
+    @BindView(R.id.tv_date)
+    TextView tvDate;
+
     private Unbinder bind;
 
 
@@ -89,6 +92,11 @@ public class UserActivity extends BaseActivity {
             tvInstalladdress.setText(installAddress);
         }
 
+        String date=Cons.userBean.getInstallDate();
+        if (!TextUtils.isEmpty(date)) {
+            tvDate.setText(date);
+        }
+
     }
 
 
@@ -102,7 +110,7 @@ public class UserActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.rl_edit_password, R.id.rl_edit_phone, R.id.rl_edit_email, R.id.rl_edit_installemail, R.id.rl_edit_installphone, R.id.rl_edit_installaddress, R.id.logout})
+    @OnClick({R.id.rl_edit_password, R.id.rl_edit_phone, R.id.rl_edit_email, R.id.rl_edit_installemail, R.id.rl_edit_installphone, R.id.rl_edit_installaddress, R.id.logout,R.id.rl_edit_date})
     public void onClickListners(View view) {
         switch (view.getId()) {
             case R.id.rl_edit_password:
@@ -122,6 +130,9 @@ public class UserActivity extends BaseActivity {
                 break;
             case R.id.rl_edit_installaddress:
                 toUpdate(5);
+                break;
+            case R.id.rl_edit_date:
+                toUpdate(6);
                 break;
             case R.id.logout:
                 LogoutUser();
@@ -196,6 +207,7 @@ public class UserActivity extends BaseActivity {
         bundle.putString("installPhone", Cons.userBean.getInstallPhone());
         bundle.putString("installAddress", Cons.userBean.getInstallAddress());
         bundle.putString("installer", Cons.userBean.getInstaller());
+        bundle.putString("installerDate", Cons.userBean.getInstallDate());
         intent.putExtras(bundle);
         startActivityForResult(intent, 103);
     }
@@ -229,9 +241,12 @@ public class UserActivity extends BaseActivity {
                     } else if ("4".equals(type)) {
                         Cons.userBean.setInstallPhone(result);
                         tvInstallphone.setText(result);
-                    } else {
+                    } else if ("5".equals(type)){
                         Cons.userBean.setInstallAddress(result);
                         tvInstalladdress.setText(result);
+                    }else if ("6".equals(type)){
+                        Cons.userBean.setInstallDate(result);
+                        tvDate.setText(result);
                     }
                 }
             }

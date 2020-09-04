@@ -1,5 +1,6 @@
 package com.growatt.chargingpile.activity;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
@@ -7,6 +8,7 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.growatt.chargingpile.BaseActivity;
@@ -21,6 +23,11 @@ import com.growatt.chargingpile.util.SmartHomeUtil;
 
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -37,7 +44,12 @@ public class AmendsActivity extends BaseActivity {
     EditText etContent;
     @BindView(R.id.et_user_pwd)
     EditText etUserPwd;
-
+    @BindView(R.id.ll_content)
+    LinearLayout llContent;
+    @BindView(R.id.ll_content_date)
+    LinearLayout llContentDate;
+    @BindView(R.id.tv_content_date)
+    TextView tvContentDate;
 
     private String type;
     private String PhoneNum;
@@ -46,9 +58,12 @@ public class AmendsActivity extends BaseActivity {
     private String installEmail;
     private String installPhone;
     private String installAddress;
+    private String installDate;
     private String installer;
 
     private Unbinder bind;
+
+    private Calendar calendar = Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +72,11 @@ public class AmendsActivity extends BaseActivity {
         bind = ButterKnife.bind(this);
         initHeaderView();
         initIntent();
-        initViews();
+        try {
+            initViews();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -67,11 +86,23 @@ public class AmendsActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.btnOk})
+    @OnClick({R.id.btnOk,R.id.ll_content_date})
     public void onClicklistener(View view) {
         switch (view.getId()) {
             case R.id.btnOk:
                 valPhoneOrEmail();
+                break;
+            case R.id.ll_content_date:
+                new DatePickerDialog(this, (view1, year, month, dayOfMonth) -> {
+                    String sbDate = year +
+                            "-" + ((month + 1) < 10 ? "0" + (month + 1) : (month + 1)) +
+                            "-" + ((dayOfMonth < 10) ? "0" + dayOfMonth : dayOfMonth);
+                    tvContentDate.setText(sbDate);
+                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)) {
+                    @Override
+                    protected void onStop() {
+                    }
+                }.show();
                 break;
         }
 
@@ -85,11 +116,12 @@ public class AmendsActivity extends BaseActivity {
         installEmail = bundle.getString("installEmail");
         installPhone = bundle.getString("installPhone");
         installAddress = bundle.getString("installAddress");
+        installDate=bundle.getString("installerDate");
         type = bundle.getString("type");
     }
 
 
-    private void initViews() {
+    private void initViews() throws ParseException {
         if ("1".equals(type)) {
             tvTip.setText(R.string.m58修改手机号);
             setHeaderTitle(headerView, getString(R.string.m58修改手机号));
@@ -98,6 +130,7 @@ public class AmendsActivity extends BaseActivity {
             if (!TextUtils.isEmpty(PhoneNum)) {
                 etContent.setText(PhoneNum);
             }
+
         } else if ("2".equals(type)) {
             tvTip.setText(R.string.m59修改邮箱);
             setHeaderTitle(headerView, getString(R.string.m59修改邮箱));
@@ -120,13 +153,26 @@ public class AmendsActivity extends BaseActivity {
             if (!TextUtils.isEmpty(installPhone)) {
                 etContent.setText(installPhone);
             }
-        } else {
+        } else if ("5".equals(type)){
             tvTip.setText(R.string.m安装商地址修改);
             setHeaderTitle(headerView, getString(R.string.m安装商地址修改));
             etContent.setHint(R.string.m请输入安装商地址);
             if (!TextUtils.isEmpty(installAddress)) {
                 etContent.setText(installAddress);
             }
+        }else if ("6".equals(type)){
+            tvTip.setText(R.string.m安装日期修改);
+            setHeaderTitle(headerView, getString(R.string.m安装日期修改));
+            tvContentDate.setHint(R.string.m请输入安装日期);
+            if (!TextUtils.isEmpty(installDate)) {
+                tvContentDate.setText(installDate);
+                SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                Date date = simpleDateFormat.parse(installDate);
+                calendar.setTime(date);
+
+            }
+            llContent.setVisibility(View.GONE);
+            llContentDate.setVisibility(View.VISIBLE);
         }
 
         installer = Cons.userBean.getInstaller();
@@ -174,16 +220,25 @@ public class AmendsActivity extends BaseActivity {
                 object.put("installPhone", installPhone);
                 object.put("installEmail", upContent);
                 object.put("installer", installer);
+                object.put("installDate",installDate);
             } else if ("4".equals(type)) {
                 object.put("installAddress", installAddress);
                 object.put("installPhone", upContent);
                 object.put("installEmail", installEmail);
                 object.put("installer", installer);
-            } else {
+                object.put("installDate",installDate);
+            } else if ("5".equals(type)){
                 object.put("installAddress", upContent);
                 object.put("installPhone", installPhone);
                 object.put("installEmail", installEmail);
                 object.put("installer", installer);
+                object.put("installDate",installDate);
+            }else if ("6".equals(type)){
+                object.put("installAddress", installAddress);
+                object.put("installPhone", installPhone);
+                object.put("installEmail", installEmail);
+                object.put("installer", installer);
+                object.put("installDate",upContent);
             }
             object.put("lan", getLanguage());
         } catch (Exception e) {

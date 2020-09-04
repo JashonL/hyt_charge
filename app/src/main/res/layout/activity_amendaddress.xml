@@ -25,6 +25,7 @@
 
 
     <LinearLayout
+        android:id="@+id/ll_content"
         android:layout_width="match_parent"
         android:layout_height="@dimen/xa70"
         android:layout_marginLeft="@dimen/xa46"
@@ -47,6 +48,33 @@
             android:textSize="@dimen/xa30" />
 
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_content_date"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa70"
+        android:layout_marginLeft="@dimen/xa46"
+        android:layout_marginTop="@dimen/ya50"
+        android:layout_marginRight="@dimen/xa46"
+        android:visibility="gone"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:id="@+id/tv_content_date"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:drawableBottom="@drawable/shape_edittext_bg_gray"
+            android:gravity="center"
+            android:hint="@string/m请输入安装日期"
+            android:paddingLeft="@dimen/xa23"
+            android:paddingRight="@dimen/xa23"
+            android:textColor="@color/title_1"
+            android:textSize="@dimen/xa30" />
+
+    </LinearLayout>
+
 
     <View
         android:layout_width="match_parent"

@@ -389,6 +389,63 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/rl_edit_date"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa120"
+        android:background="@drawable/selector_list_rect_item_click">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginLeft="@dimen/xa14"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/m安装日期修改"
+                android:textColor="#333333"
+                android:textSize="@dimen/xa30"
+                android:layout_marginStart="@dimen/xa14" />
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginLeft="@dimen/xa14"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="#333333"
+                android:textSize="@dimen/xa30"
+                android:layout_marginStart="@dimen/xa14" />
+
+        </LinearLayout>
+
+
+        <ImageView
+            android:layout_width="@dimen/xa70"
+            android:layout_height="@dimen/xa35"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/xa25"
+            android:src="@drawable/charger_device_item_more"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/xa25" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/xa1"
+            android:layout_alignParentBottom="true"
+            android:background="@color/gray_background2"
+            android:orientation="vertical" />
+
+    </RelativeLayout>
+
     <Button
         android:id="@+id/logout"
         android:layout_width="@dimen/xa585"
