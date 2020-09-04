@@ -208,7 +208,7 @@
                 <EditText
                     android:id="@+id/et_installer_email"
                     style="@style/style_edittext_register_item"
-                    android:hint="@string/m安装人员Email" />
+                    android:hint="@string/m请输入安装商邮箱" />
             </LinearLayout>
 
             <LinearLayout
@@ -232,7 +232,7 @@
                 <EditText
                     android:id="@+id/et_installer_phone"
                     style="@style/style_edittext_register_item"
-                    android:hint="@string/m安装人员电话" />
+                    android:hint="@string/m请输入安装商电话" />
             </LinearLayout>
 
 
@@ -257,7 +257,7 @@
                 <EditText
                     android:id="@+id/et_installer_address"
                     style="@style/style_edittext_register_item"
-                    android:hint="@string/m安装人员地址" />
+                    android:hint="@string/m请输入安装商地址" />
             </LinearLayout>
 
             <LinearLayout
@@ -285,7 +285,7 @@
                     android:layout_marginLeft="@dimen/xa12"
                     android:ellipsize="end"
                     android:gravity="center_vertical"
-                    android:hint="@string/m安装日期"
+                    android:hint="@string/m请输入安装日期"
                     android:lines="1"
                     android:textColor="@color/title_2"
                     android:textSize="@dimen/xa24" />

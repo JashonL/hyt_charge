@@ -235,7 +235,7 @@
                 android:layout_marginLeft="@dimen/xa14"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/m修改安装人员邮箱"
+                android:text="@string/m安装商邮箱修改"
                 android:textColor="#333333"
                 android:textSize="@dimen/xa30"
                 android:layout_marginStart="@dimen/xa14" />
@@ -293,7 +293,7 @@
                 android:layout_marginLeft="@dimen/xa14"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/m修改安装人员电话"
+                android:text="@string/m安装商电话修改"
                 android:textColor="#333333"
                 android:textSize="@dimen/xa30"
                 android:layout_marginStart="@dimen/xa14" />
@@ -350,7 +350,7 @@
                 android:layout_marginLeft="@dimen/xa14"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/m修改安装人员地址"
+                android:text="@string/m安装商地址修改"
                 android:textColor="#333333"
                 android:textSize="@dimen/xa30"
                 android:layout_marginStart="@dimen/xa14" />

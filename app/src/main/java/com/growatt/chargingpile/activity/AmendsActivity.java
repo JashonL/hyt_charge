@@ -106,24 +106,24 @@ public class AmendsActivity extends BaseActivity {
                 etContent.setText(email);
             }
         } else if ("3".equals(type)) {
-            tvTip.setText(R.string.m修改安装人员邮箱);
-            setHeaderTitle(headerView, getString(R.string.m修改安装人员邮箱));
-            etContent.setHint(R.string.m安装人员Email);
+            tvTip.setText(R.string.m安装商邮箱修改);
+            setHeaderTitle(headerView, getString(R.string.m安装商邮箱修改));
+            etContent.setHint(R.string.m请输入安装商邮箱);
             if (!TextUtils.isEmpty(installEmail)) {
                 etContent.setText(installEmail);
             }
 
         } else if ("4".equals(type)) {
-            tvTip.setText(R.string.m修改安装人员电话);
-            setHeaderTitle(headerView, getString(R.string.m修改安装人员电话));
-            etContent.setHint(R.string.m安装人员电话);
+            tvTip.setText(R.string.m安装商电话修改);
+            setHeaderTitle(headerView, getString(R.string.m安装商电话修改));
+            etContent.setHint(R.string.m请输入安装商电话);
             if (!TextUtils.isEmpty(installPhone)) {
                 etContent.setText(installPhone);
             }
         } else {
-            tvTip.setText(R.string.m修改安装人员地址);
-            setHeaderTitle(headerView, getString(R.string.m修改安装人员地址));
-            etContent.setHint(R.string.m安装人员地址);
+            tvTip.setText(R.string.m安装商地址修改);
+            setHeaderTitle(headerView, getString(R.string.m安装商地址修改));
+            etContent.setHint(R.string.m请输入安装商地址);
             if (!TextUtils.isEmpty(installAddress)) {
                 etContent.setText(installAddress);
             }

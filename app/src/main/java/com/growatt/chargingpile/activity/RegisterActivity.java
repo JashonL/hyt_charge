@@ -199,27 +199,27 @@ public class RegisterActivity extends BaseActivity {
 
         //安装者
         if (TextUtils.isEmpty(installer)) {
-            toast(R.string.m请输入安装商);
+            toast(R.string.m安装商不能为空);
             return;
         }
         //安装者邮箱
         if (TextUtils.isEmpty(installerEmail)) {
-            toast(R.string.m安装人员Email);
+            toast(R.string.m安装商邮箱不能为空);
             return;
         }
         //安装者电话
         if (TextUtils.isEmpty(installerPhone)) {
-            toast(R.string.m安装人员电话);
+            toast(R.string.m安装商电话不能为空);
             return;
         }
         //安装者地址
         if (TextUtils.isEmpty(installerAddress)) {
-            toast(R.string.m安装人员地址);
+            toast(R.string.m安装商地址不能为空);
             return;
         }
         //安装日期
         if (TextUtils.isEmpty(installerDate)) {
-            toast(R.string.m安装日期);
+            toast(R.string.m安装商日期不能为空);
             return;
         }
 

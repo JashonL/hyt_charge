@@ -402,18 +402,27 @@
 
 
 
-    <string name="m安装人员Email">请输入安装人员Email</string>
-    <string name="m安装人员电话">请输入安装人员电话</string>
-    <string name="m安装人员地址">请输入安装人员地址</string>
-    <string name="m安装日期">请输入安装日期</string>
-    <string name="m修改安装人员">修改安装人员</string>
-    <string name="m修改安装人员邮箱">修改安装人员邮箱</string>
-    <string name="m修改安装人员电话">修改安装人员电话</string>
-    <string name="m修改安装人员地址">修改安装人员地址</string>
-    <string name="m低功率预约充电">低功率预约充电</string>
+    <string name="m安装商不能为空">安装商不能为空</string>
+    <string name="m安装商邮箱不能为空">安装商邮箱不能为空</string>
+    <string name="m安装商电话不能为空">安装商电话不能为空</string>
+    <string name="m安装商地址不能为空">安装商地址不能为空</string>
+    <string name="m安装商日期不能为空">安装商日期不能为空</string>
+
+    <string name="m安装商邮箱修改">安装商邮箱修改</string>
+    <string name="m安装商电话修改">安装商电话修改</string>
+    <string name="m安装商地址修改">安装商地址修改</string>
+    <string name="m安装日期修改">安装商日期修改</string>
+
+    
+    <string name="m请输入安装商邮箱">请输入安装商邮箱</string>
+    <string name="m请输入安装商电话">请输入安装商电话</string>
+    <string name="m请输入安装商地址">请输入安装商地址</string>
+    <string name="m请输入安装日期">请输入安装日期</string>
+    <string name="m时区">时区</string>
     <string name="m网络模式设置">网络模式设置</string>
+    <string name="m低功率预约充电">低功率预约充电</string>
     <string name="m免责声明">disclaimer：pev can analyse the data for monitoring purposes and Make recommendations from time to time on charging and potential improvements to their costs</string>
-    <string name="m时区">Time zone</string>
+
 
 
 
