@@ -34,6 +34,7 @@ import com.growatt.chargingpile.bean.WifiSetBean;
 import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
+import com.growatt.chargingpile.util.PickViewUtils;
 import com.growatt.chargingpile.util.SmartHomeUtil;
 import com.growatt.chargingpile.util.SocketClientUtil;
 import com.growatt.chargingpile.util.T;
@@ -100,6 +101,7 @@ public class WifiSetActivity extends BaseActivity {
     private byte[] cardByte;
     private byte[] rcdByte;
     private byte[] versionByte;
+    private byte[] zoneByte;
     private int infoLength;
     //网络相关设置
     private byte[] ipByte;
@@ -284,7 +286,7 @@ public class WifiSetActivity extends BaseActivity {
 
     private void initResource() {
         keys = new String[]{
-                getString(R.string.m255设备信息参数设置), getString(R.string.m146充电桩ID), getString(R.string.m260语言), getString(R.string.m264读卡器秘钥), getString(R.string.m265RCD保护值), getString(R.string.m296版本号),
+                getString(R.string.m255设备信息参数设置), getString(R.string.m146充电桩ID), getString(R.string.m260语言), getString(R.string.m264读卡器秘钥), getString(R.string.m265RCD保护值), getString(R.string.m296版本号), getString(R.string.m时区),
                 getString(R.string.m256设备以太网参数设置), getString(R.string.m156充电桩IP), getString(R.string.m157网关), getString(R.string.m158子网掩码), getString(R.string.m159网络MAC地址), getString(R.string.m161DNS地址), getString(R.string.m网络模式设置),
                 getString(R.string.m257设备账号密码参数设置), getString(R.string.m266Wifi名称), getString(R.string.m267Wifi密码), getString(R.string.m2704G用户名), getString(R.string.m2714G密码), getString(R.string.m2724GAPN),
                 getString(R.string.m258设备服务器参数设置), getString(R.string.m160服务器URL), getString(R.string.m273握手登录授权秘钥), getString(R.string.m274心跳间隔时间), getString(R.string.m275PING间隔时间), getString(R.string.m276表计上传间隔时间),
@@ -293,7 +295,7 @@ public class WifiSetActivity extends BaseActivity {
                 getString(R.string.m电桩电子锁)
         };
 
-        keySfields = new String[]{"", "chargeId", "G_ChargerLanguage", "G_CardPin", "G_RCDProtection", "G_Version",
+        keySfields = new String[]{"", "chargeId", "G_ChargerLanguage", "G_CardPin", "G_RCDProtection", "G_Version", "TimeZone",
                 "", "ip", "gateway", "mask", "mac", "dns", "NetMode",
                 "", "G_WifiSSID", "G_WifiPassword", "G_4GUserName", "G_4GPassword", "G_4GAPN",
                 "", "host", "G_Authentication", "G_HearbeatInterval", "G_WebSocketPingInterval", "G_MeterValueInterval",
@@ -473,7 +475,14 @@ public class WifiSetActivity extends BaseActivity {
                 break;
 
             case "NetMode":
-                setNetMode();
+                if (internetLength > 77)
+                    setNetMode();
+                else toast(R.string.m请先升级充电桩);
+                break;
+            case "TimeZone":
+                if (infoLength > 52)
+                    setZone();
+                else toast(R.string.m请先升级充电桩);
                 break;
             default:
                 inputEdit(sfield, String.valueOf(bean.getValue()));
@@ -1010,6 +1019,9 @@ public class WifiSetActivity extends BaseActivity {
             case "NetMode":
                 initPileSetBean.setNetMode(value);
                 break;
+            case "TimeZone":
+                initPileSetBean.setTimezone(value);
+                break;
             default:
                 break;
         }
@@ -1234,6 +1246,11 @@ public class WifiSetActivity extends BaseActivity {
                     bean.setKey(keys[i]);
                     bean.setValue(initPileSetBean.getNetMode());
                     break;
+                case "TimeZone":
+                    bean.setType(WifiSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    bean.setValue(initPileSetBean.getTimezone());
+                    break;
             }
             bean.setSfield(keySfields[i]);
             if (noConfigKeys.contains(bean.getSfield())) {
@@ -1412,7 +1429,12 @@ public class WifiSetActivity extends BaseActivity {
         byte len = (byte) infoLength;
         byte[] prayload = new byte[infoLength];
 
-        if (infoLength > 28) {
+        if (infoLength > 52) {
+            if (idByte == null || lanByte == null || cardByte == null || rcdByte == null || versionByte == null || zoneByte == null) {
+                T.make(R.string.m244设置失败, this);
+                return;
+            }
+        } else if (infoLength > 28) {
             if (idByte == null || lanByte == null || cardByte == null || rcdByte == null || versionByte == null) {
                 T.make(R.string.m244设置失败, this);
                 return;
@@ -1435,6 +1457,10 @@ public class WifiSetActivity extends BaseActivity {
         if (infoLength > 28) {
             //版本号
             System.arraycopy(versionByte, 0, prayload, idByte.length + lanByte.length + cardByte.length + rcdByte.length, versionByte.length);
+        }
+        if (infoLength>52){
+            //时区
+            System.arraycopy(zoneByte, 0, prayload, idByte.length + lanByte.length + cardByte.length + rcdByte.length+versionByte.length, zoneByte.length);
         }
         byte[] encryptedData = SmartHomeUtil.decodeKey(prayload, newKey);
 
@@ -1474,7 +1500,7 @@ public class WifiSetActivity extends BaseActivity {
         byte[] prayload = new byte[internetLength];
 
 
-        if (internetLength > 63) {
+        if (internetLength > 77) {
             if (ipByte == null || gatewayByte == null || maskByte == null || macByte == null || dnsByte == null || netModeByte == null) {
                 T.make(R.string.m244设置失败, this);
                 return;
@@ -1497,7 +1523,7 @@ public class WifiSetActivity extends BaseActivity {
         //dns
         System.arraycopy(dnsByte, 0, prayload, ipByte.length + gatewayByte.length + maskByte.length + macByte.length, dnsByte.length);
         //netmode
-        if (internetLength > 63) {
+        if (internetLength > 77) {
             System.arraycopy(netModeByte, 0, prayload, ipByte.length + gatewayByte.length + maskByte.length + macByte.length + dnsByte.length, netModeByte.length);
         }
 
@@ -1960,7 +1986,12 @@ public class WifiSetActivity extends BaseActivity {
                             String version = MyUtil.ByteToString(versionByte);
                             setBean("G_Version", version);
                         }
-
+                        if (len > 52) {
+                            zoneByte = new byte[10];
+                            System.arraycopy(prayload, 52, zoneByte, 0, 10);
+                            String version = MyUtil.ByteToString(zoneByte);
+                            setBean("TimeZone", version);
+                        }
                         mAdapter.notifyDataSetChanged();
 
                         getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_02);
@@ -2738,6 +2769,33 @@ public class WifiSetActivity extends BaseActivity {
                 .build();
         pvOptions.setPicker(list);
         pvOptions.show();
+
+    }
+
+
+    /**
+     * 选择时区
+     */
+    public void setZone() {
+        List<String> zones = SmartHomeUtil.getZones();
+        PickViewUtils.showPickView(this, zones, new OnOptionsSelectListener() {
+
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                String zone = zones.get(options1);
+                byte[] bytes = zone.getBytes();
+                if (bytes.length > 10) {
+                    T.make(getString(R.string.m286输入值超出规定长度), WifiSetActivity.this);
+                    return;
+                }
+                zoneByte = new byte[10];
+                System.arraycopy(bytes, 0, zoneByte, 0, bytes.length);
+                setBean("TimeZone", zone);
+                mAdapter.notifyDataSetChanged();
+                isEditInfo = true;
+
+            }
+        }, getString(R.string.m时区));
 
     }
 

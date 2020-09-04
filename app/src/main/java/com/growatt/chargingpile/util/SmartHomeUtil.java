@@ -215,4 +215,41 @@ public class SmartHomeUtil {
         return getMins;
     }
 
+
+
+    /**
+     * 获取新语言
+     *
+     * @return
+     */
+    public static List<String> getZones() {
+        List<String> zones = new ArrayList<>();
+        zones.add("UTC-12:00");
+        zones.add("UTC-11:00");
+        zones.add("UTC-10:00");
+        zones.add("UTC-09:00");
+        zones.add("UTC-08:00");
+        zones.add("UTC-07:00");
+        zones.add("UTC-06:00");
+        zones.add("UTC-05:00");
+        zones.add("UTC-04:00");
+        zones.add("UTC-03:00");
+        zones.add("UTC-02:00");
+        zones.add("UTC-01:00");
+        zones.add("UTC+00:00");
+        zones.add("UTC+01:00");
+        zones.add("UTC+02:00");
+        zones.add("UTC+03:00");
+        zones.add("UTC+04:00");
+        zones.add("UTC+05:00");
+        zones.add("UTC+06:00");
+        zones.add("UTC+07:00");
+        zones.add("UTC+08:00");
+        zones.add("UTC+09:00");
+        zones.add("UTC+10:00");
+        zones.add("UTC+11:00");
+        zones.add("UTC+12:00");
+        return zones;
+    }
+
 }

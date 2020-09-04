@@ -45,6 +45,7 @@ public class WifiParseBean {
     private String unLockType="";
     private String lock="";
     private String netMode="";
+    private String timezone="";
 
     public String getName() {
         return name;
@@ -364,5 +365,13 @@ public class WifiParseBean {
 
     public void setNetMode(String netMode) {
         this.netMode = netMode;
+    }
+
+    public String getTimezone() {
+        return timezone;
+    }
+
+    public void setTimezone(String timezone) {
+        this.timezone = timezone;
     }
 }
