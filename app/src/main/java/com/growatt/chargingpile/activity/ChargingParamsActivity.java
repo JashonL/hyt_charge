@@ -225,7 +225,7 @@ public class ChargingParamsActivity extends BaseActivity {
                 "site", "rate", "unit",
                 "G_MaxCurrent", "G_ExternalLimitPower", "G_ChargerMode",
                 "", "ip", "gateway", "mask",
-                "mac", "host", "dns", "NetMode", "",
+                "mac", "host", "dns", "G_NetworkMode", "",
                 "G_ExternalLimitPowerEnable", "G_ExternalSamplingCurWring", "G_SolarMode", "G_PeakValleyEnable",
                 "G_AutoChargeTime", "G_PowerMeterType",
                 "UnlockConnectorOnEVSideDisconnect", "G_LowPowerReserveEnable",
@@ -322,7 +322,7 @@ public class ChargingParamsActivity extends BaseActivity {
                 setLowPowerReserveEnable();
                 break;
 
-            case "NetMode":
+            case "G_NetworkMode":
                 setNetMode();
                 break;
 
@@ -675,7 +675,7 @@ public class ChargingParamsActivity extends BaseActivity {
             case "G_LowPowerReserveEnable":
                 initData.setG_LowPowerReserveEnable((String) value);
                 break;
-            case "NetMode":
+            case "G_NetworkMode":
                 initData.setNetMode((String) value);
                 break;
 
@@ -919,7 +919,7 @@ public class ChargingParamsActivity extends BaseActivity {
                     }
                     break;
 
-                case "NetMode":
+                case "G_NetworkMode":
                     bean.setType(ParamsSetAdapter.PARAM_ITEM);
                     bean.setKey(keys[i]);
                     if (TextUtils.isEmpty(netMode)) {
@@ -1351,7 +1351,7 @@ public class ChargingParamsActivity extends BaseActivity {
         OptionsPickerView<String> pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
-                setBean("NetMode", list.get(options1));
+                setBean("G_NetworkMode", list.get(options1));
             }
         })
                 .setTitleText(getString(R.string.m网络模式设置))

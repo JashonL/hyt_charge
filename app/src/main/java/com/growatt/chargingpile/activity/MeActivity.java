@@ -153,7 +153,11 @@ public class MeActivity extends BaseActivity {
                                 case 0:
                                     //请求拍照权限
                                     if (EasyPermissions.hasPermissions(MeActivity.this, PermissionCodeUtil.PERMISSION_CAMERA)) {
-                                        choseHeadImageFromCameraCapture();
+                                        try {
+                                            choseHeadImageFromCameraCapture();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
                                     } else {
                                         EasyPermissions.requestPermissions(MeActivity.this,String.format("%s:%s",getString(R.string.m权限获取某权限说明),getString(R.string.m相机)),PermissionCodeUtil.PERMISSION_CAMERA_CODE, PermissionCodeUtil.PERMISSION_CAMERA);
                                     }
@@ -178,7 +182,7 @@ public class MeActivity extends BaseActivity {
     /**
      * 拍照
      */
-    private void choseHeadImageFromCameraCapture() {
+    private void choseHeadImageFromCameraCapture() throws IOException {
         imageUri = PhotoUtil.getImageUri(this, PhotoUtil.getFile());
         PhotoUtil.takePicture(this, imageUri, CODE_CAMERA_REQUEST);
     }
@@ -235,7 +239,11 @@ public class MeActivity extends BaseActivity {
         switch (requestCode) {
             case PermissionCodeUtil.PERMISSION_CAMERA_CODE:
                 if (EasyPermissions.hasPermissions(MeActivity.this, PermissionCodeUtil.PERMISSION_CAMERA)) {
-                    choseHeadImageFromCameraCapture();
+                    try {
+                        choseHeadImageFromCameraCapture();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
                 break;
             case PermissionCodeUtil.PERMISSION_EXTERNAL_STORAGE_CODE:
@@ -263,14 +271,22 @@ public class MeActivity extends BaseActivity {
                 Uri cropImageUri;
                 if (resultCode == RESULT_OK) {
                     if (intent != null) {
-                        PhotoUtil.startCropImageAct(this, intent.getData());
+                        try {
+                            PhotoUtil.startCropImageAct(this, intent.getData());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
                 break;
             case CODE_CAMERA_REQUEST:
                 if (resultCode == RESULT_OK) {
-                    cropImageUri = Uri.fromFile(PhotoUtil.getFile());
-                    PhotoUtil.startCrop(this, imageUri, cropImageUri);
+                    try {
+                        cropImageUri = Uri.fromFile(PhotoUtil.getFile());
+                        PhotoUtil.startCrop(this, imageUri, cropImageUri);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
                 break;
             case UCrop.REQUEST_CROP:

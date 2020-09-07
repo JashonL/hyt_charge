@@ -185,13 +185,21 @@ public class AmendsActivity extends BaseActivity {
      * 修改手机号或者邮箱
      */
     public void valPhoneOrEmail() {
+        String date=tvContentDate.getText().toString().trim();
         String upContent = etContent.getText().toString().trim();
         String password = etUserPwd.getText().toString().trim();
-        if (TextUtils.isEmpty(upContent)) {
-            toast(R.string.m140不能为空);
-            return;
-        }
+        if ("6".equals(type)){
+            if (TextUtils.isEmpty(date)){
+                toast(R.string.m140不能为空);
+                return;
+            }
+        }else {
 
+            if (TextUtils.isEmpty(upContent)) {
+                toast(R.string.m140不能为空);
+                return;
+            }
+        }
         if ("2".equals(type) || "3".equals(type)) {
             if (!MyUtil.regexCheckEmail(upContent)) {
                 toast(R.string.m35请输入正确邮箱格式);

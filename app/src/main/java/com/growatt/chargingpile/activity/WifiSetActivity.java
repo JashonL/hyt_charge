@@ -297,7 +297,7 @@ public class WifiSetActivity extends BaseActivity {
         };
 
         keySfields = new String[]{"", "chargeId", "G_ChargerLanguage", "G_CardPin", "G_RCDProtection", "G_Version", "TimeZone",
-                "", "ip", "gateway", "mask", "mac", "dns", "NetMode",
+                "", "ip", "gateway", "mask", "mac", "dns", "G_NetworkMode",
                 "", "G_WifiSSID", "G_WifiPassword", "G_4GUserName", "G_4GPassword", "G_4GAPN",
                 "", "host", "G_Authentication", "G_HearbeatInterval", "G_WebSocketPingInterval", "G_MeterValueInterval",
                 "", "G_ChargerMode", "G_MaxCurrent", "rate", "G_MaxTemperature", "G_ExternalLimitPower",
@@ -2039,8 +2039,8 @@ public class WifiSetActivity extends BaseActivity {
                             } catch (NumberFormatException e) {
                                 netModeIndex = 0;
                             }
-                            if (netModeIndex <= 0) netModeIndex = 1;
-                            netMode = netModeArray[netModeIndex - 1];
+                            if (netModeIndex < 0) netModeIndex = 0;
+                            netMode = netModeArray[netModeIndex];
                             setBean("NetMode", netMode);
                         }
                         mAdapter.notifyDataSetChanged();

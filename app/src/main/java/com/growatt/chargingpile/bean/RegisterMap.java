@@ -23,6 +23,7 @@ public class RegisterMap implements Serializable{
 	private String regInstallPhone;
 	private String regInstallAddress;
 	private String regInstallDate;
+	private String reInstallChargeId;
 
 
 	public RegisterMap() {
@@ -153,6 +154,14 @@ public class RegisterMap implements Serializable{
 
 	public void setRegInstallDate(String regInstallDate) {
 		this.regInstallDate = regInstallDate;
+	}
+
+	public String getReInstallChargeId() {
+		return reInstallChargeId;
+	}
+
+	public void setReInstallChargeId(String reInstallChargeId) {
+		this.reInstallChargeId = reInstallChargeId;
 	}
 
 	@Override

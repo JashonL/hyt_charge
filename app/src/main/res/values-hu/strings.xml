@@ -418,25 +418,27 @@
     <string name="m设置不满24小时">Azokat a díjakat, amelyek nincsenek a megadott időszakban, a 0 arány alapján számítják ki</string>
 
 
-    <string name="m安装商不能为空">安装商不能为空</string>
-    <string name="m安装商邮箱不能为空">安装商邮箱不能为空</string>
-    <string name="m安装商电话不能为空">安装商电话不能为空</string>
-    <string name="m安装商地址不能为空">安装商地址不能为空</string>
-    <string name="m安装商日期不能为空">安装商日期不能为空</string>
+    <string name="m安装商不能为空">A telepítő nem lehet üres</string>
+    <string name="m安装商邮箱不能为空">A telepítő postaládája nem lehet üres</string>
+    <string name="m安装商电话不能为空">A telepítő telefonja nem lehet üres</string>
+    <string name="m安装商地址不能为空">A telepítő címe nem lehet üres</string>
+    <string name="m安装商日期不能为空">A telepítő dátuma nem lehet üres</string>
 
-    <string name="m安装商邮箱修改">安装商邮箱修改</string>
-    <string name="m安装商电话修改">安装商电话修改</string>
-    <string name="m安装商地址修改">安装商地址修改</string>
-    <string name="m安装日期修改">安装商日期修改</string>
+    <string name="m安装商邮箱修改">A telepítő postafiókjának módosítása</string>
+    <string name="m安装商电话修改">A telepítő telefonjának módosítása</string>
+    <string name="m安装商地址修改">Telepítő címének módosítása</string>
+    <string name="m安装日期修改">A telepítő dátumának módosítása</string>
 
 
-    <string name="m请输入安装商邮箱">请输入安装商邮箱</string>
-    <string name="m请输入安装商电话">请输入安装商电话</string>
-    <string name="m请输入安装商地址">请输入安装商地址</string>
-    <string name="m请输入安装日期">请输入安装日期</string>
-    <string name="m时区">时区</string>
-    <string name="m网络模式设置">网络模式设置</string>
-    <string name="m低功率预约充电">低功率预约充电</string>
+    <string name="m请输入安装商邮箱">Kérjük, írja be a telepítő e-mail címét</string>
+    <string name="m请输入安装商电话">Kérjük, adja meg a telepítő telefonszámát</string>
+    <string name="m请输入安装商地址">Kérjük, írja be a telepítő címét</string>
+    <string name="m请输入安装日期">Adja meg a telepítés dátumát</string>
+    <string name="m时区">Időzóna</string>
+    <string name="m网络模式设置">Hálózati mód beállítása</string>
+    <string name="m低功率预约充电">Kis fogyasztású ütemezett töltés</string>
+    <string name="m充电桩序列号">Kérjük, adja meg a töltőállomás sorozatszámát</string>
+    <string name="m充电桩序列号不能为空">A töltőállomás sorszáma nem lehet üres</string>
     <string name="m免责声明">disclaimer：pev can analyse the data for monitoring purposes and Make recommendations from time to time on charging and potential improvements to their costs</string>
 
 

@@ -397,25 +397,27 @@
 
 
 
-    <string name="m安装商不能为空">安装商不能为空</string>
-    <string name="m安装商邮箱不能为空">安装商邮箱不能为空</string>
-    <string name="m安装商电话不能为空">安装商电话不能为空</string>
-    <string name="m安装商地址不能为空">安装商地址不能为空</string>
-    <string name="m安装商日期不能为空">安装商日期不能为空</string>
+    <string name="m安装商不能为空">Le programme d\'installation ne peut pas être vide</string>
+    <string name="m安装商邮箱不能为空">La boîte aux lettres du programme d\'installation ne peut pas être vide</string>
+    <string name="m安装商电话不能为空">Le téléphone de l\'installateur ne peut pas être vide</string>
+    <string name="m安装商地址不能为空">L\'adresse de l\'installateur ne peut pas être vide</string>
+    <string name="m安装商日期不能为空">La date de l\'installateur ne peut pas être vide</string>
 
-    <string name="m安装商邮箱修改">安装商邮箱修改</string>
-    <string name="m安装商电话修改">安装商电话修改</string>
-    <string name="m安装商地址修改">安装商地址修改</string>
-    <string name="m安装日期修改">安装商日期修改</string>
+    <string name="m安装商邮箱修改">Modification de la boîte aux lettres du programme d\'installation</string>
+    <string name="m安装商电话修改">Modification du téléphone de l\'installateur</string>
+    <string name="m安装商地址修改">Modification de l\'adresse de l\'installateur</string>
+    <string name="m安装日期修改">Modification de la date de l\'installateur</string>
 
 
-    <string name="m请输入安装商邮箱">请输入安装商邮箱</string>
-    <string name="m请输入安装商电话">请输入安装商电话</string>
-    <string name="m请输入安装商地址">请输入安装商地址</string>
-    <string name="m请输入安装日期">请输入安装日期</string>
-    <string name="m时区">时区</string>
-    <string name="m网络模式设置">网络模式设置</string>
-    <string name="m低功率预约充电">低功率预约充电</string>
+    <string name="m请输入安装商邮箱">Veuillez saisir l\'adresse e-mail du programme d\'installation</string>
+    <string name="m请输入安装商电话">Veuillez entrer le téléphone de l\'installateur</string>
+    <string name="m请输入安装商地址">Veuillez saisir l\'adresse de l\'installateur</string>
+    <string name="m请输入安装日期">Veuillez saisir la date d\'installation</string>
+    <string name="m时区">Fuseau horaire</string>
+    <string name="m网络模式设置">Réglage du mode réseau</string>
+    <string name="m低功率预约充电">Charge programmée basse consommation</string>
+    <string name="m充电桩序列号">Veuillez saisir le numéro de série de la station de charge</string>
+    <string name="m充电桩序列号不能为空">Le numéro de série de la station de charge ne peut pas être vide</string>
     <string name="m免责声明">disclaimer：pev can analyse the data for monitoring purposes and Make recommendations from time to time on charging and potential improvements to their costs</string>
 
 

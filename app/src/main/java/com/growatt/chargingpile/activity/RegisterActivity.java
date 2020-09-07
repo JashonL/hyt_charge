@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Bundle;
+
 import androidx.core.content.ContextCompat;
+
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -70,6 +72,8 @@ public class RegisterActivity extends BaseActivity {
     EditText etInstallerAddress;
     @BindView(R.id.tv_installer_date)
     TextView tvInstallerDate;
+    @BindView(R.id.tv_serial_number)
+    TextView tvSerialNumber;
 
     private Unbinder bind;
     private Calendar calendar = Calendar.getInstance();
@@ -83,6 +87,7 @@ public class RegisterActivity extends BaseActivity {
     private String installerPhone;
     private String installerAddress;
     private String installerDate;
+    private String installChargeId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,6 +150,7 @@ public class RegisterActivity extends BaseActivity {
         installerPhone = etInstallerPhone.getText().toString().trim();
         installerAddress = etInstallerAddress.getText().toString().trim();
         installerDate = tvInstallerDate.getText().toString().trim();
+        installChargeId = tvSerialNumber.getText().toString().trim();
 
         if (TextUtils.isEmpty(username)) {
             toast(R.string.m21用户名密码为空);
@@ -219,6 +225,12 @@ public class RegisterActivity extends BaseActivity {
             return;
         }
 
+        //充电桩序列号
+        if (TextUtils.isEmpty(installChargeId)){
+            toast(R.string.m充电桩序列号不能为空);
+            return;
+        }
+
 
         if (!checkBox.isChecked()) {
             toast(R.string.m34选择用户协议);
@@ -257,13 +269,14 @@ public class RegisterActivity extends BaseActivity {
             object.put("company", installer);//公司
             object.put("email", email);//邮箱
             object.put("installerInfo", installer);//安装商信息
-            object.put("zipCode",postCode);//邮编
+            object.put("zipCode", postCode);//邮编
             object.put("country", country);//国家
             object.put("lan", getLanguage());
             object.put("installEmail", installerEmail);
             object.put("installPhone", installerPhone);
             object.put("installAddress", installerAddress);
             object.put("installDate", installerDate);
+            object.put("installChargeId", installChargeId);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -314,6 +327,7 @@ public class RegisterActivity extends BaseActivity {
         Cons.regMap.setRegInstallAddress(installerAddress);
         Cons.regMap.setRegInstallDate(installerDate);
         Cons.regMap.setRegCity(country);
+        Cons.regMap.setReInstallChargeId(installChargeId);
     }
 
 
