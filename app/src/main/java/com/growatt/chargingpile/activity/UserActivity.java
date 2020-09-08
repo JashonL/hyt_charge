@@ -228,7 +228,8 @@ public class UserActivity extends BaseActivity {
             if (requestCode == 103) {
                 String type = data.getStringExtra("type");
                 String result = data.getStringExtra("result");
-                if (!TextUtils.isEmpty(result)) {
+                String date =data.getStringExtra("date");
+                if (!TextUtils.isEmpty(result)||!TextUtils.isEmpty(date)) {
                     if ("1".equals(type)) {
                         Cons.userBean.setPhone(result);
                         tvPhone.setText(result);
@@ -245,8 +246,8 @@ public class UserActivity extends BaseActivity {
                         Cons.userBean.setInstallAddress(result);
                         tvInstalladdress.setText(result);
                     }else if ("6".equals(type)){
-                        Cons.userBean.setInstallDate(result);
-                        tvDate.setText(result);
+                        Cons.userBean.setInstallDate(date);
+                        tvDate.setText(date);
                     }
                 }
             }

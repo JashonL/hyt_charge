@@ -19,7 +19,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/xa14"
             android:text="@string/m57修改密码"
             android:textColor="#333333"
             android:textSize="@dimen/xa30"
@@ -28,9 +27,7 @@
         <ImageView
             android:layout_width="@dimen/xa70"
             android:layout_height="@dimen/xa35"
-            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/xa25"
             android:src="@drawable/charger_device_item_more"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/xa25" />
@@ -60,7 +57,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginLeft="@dimen/xa14"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/m58修改手机号"
@@ -72,7 +68,6 @@
                 android:id="@+id/tv_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginLeft="@dimen/xa14"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textColor="#333333"
@@ -85,9 +80,7 @@
         <ImageView
             android:layout_width="@dimen/xa70"
             android:layout_height="@dimen/xa35"
-            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/xa25"
             android:src="@drawable/charger_device_item_more"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/xa25" />
@@ -118,7 +111,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginLeft="@dimen/xa14"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/m59修改邮箱"
@@ -130,7 +122,6 @@
                 android:id="@+id/tv_email"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginLeft="@dimen/xa14"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textColor="#333333"
@@ -232,7 +223,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginLeft="@dimen/xa14"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/m安装商邮箱修改"
@@ -244,7 +234,6 @@
                 android:id="@+id/tv_installemail"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginLeft="@dimen/xa14"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textColor="#333333"
@@ -257,9 +246,7 @@
         <ImageView
             android:layout_width="@dimen/xa70"
             android:layout_height="@dimen/xa35"
-            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/xa25"
             android:src="@drawable/charger_device_item_more"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/xa25" />
@@ -315,9 +302,7 @@
         <ImageView
             android:layout_width="@dimen/xa70"
             android:layout_height="@dimen/xa35"
-            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/xa25"
             android:src="@drawable/charger_device_item_more"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/xa25" />
@@ -347,7 +332,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginLeft="@dimen/xa14"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/m安装商地址修改"
@@ -359,7 +343,6 @@
                 android:id="@+id/tv_installaddress"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginLeft="@dimen/xa14"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textColor="#333333"
@@ -372,9 +355,7 @@
         <ImageView
             android:layout_width="@dimen/xa70"
             android:layout_height="@dimen/xa35"
-            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/xa25"
             android:src="@drawable/charger_device_item_more"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/xa25" />
@@ -404,7 +385,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginLeft="@dimen/xa14"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/m安装日期修改"
@@ -416,7 +396,6 @@
                 android:id="@+id/tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginLeft="@dimen/xa14"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textColor="#333333"
@@ -429,9 +408,7 @@
         <ImageView
             android:layout_width="@dimen/xa70"
             android:layout_height="@dimen/xa35"
-            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/xa25"
             android:src="@drawable/charger_device_item_more"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/xa25" />

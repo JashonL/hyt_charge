@@ -475,7 +475,7 @@ public class WifiSetActivity extends BaseActivity {
                 else toast(R.string.m请先升级充电桩);
                 break;
 
-            case "NetMode":
+            case "G_NetworkMode":
                 if (internetLength > 77)
                     setNetMode();
                 else toast(R.string.m请先升级充电桩);
@@ -1026,7 +1026,7 @@ public class WifiSetActivity extends BaseActivity {
             case "UnlockConnectorOnEVSideDisconnect":
                 initPileSetBean.setUnLockType(value);
                 break;
-            case "NetMode":
+            case "G_NetworkMode":
                 initPileSetBean.setNetMode(value);
                 break;
             case "TimeZone":
@@ -1251,7 +1251,7 @@ public class WifiSetActivity extends BaseActivity {
                     bean.setKey(keys[i]);
                     bean.setValue(initPileSetBean.getUnLockType());
                     break;
-                case "NetMode":
+                case "G_NetworkMode":
                     bean.setType(WifiSetAdapter.PARAM_ITEM);
                     bean.setKey(keys[i]);
                     bean.setValue(initPileSetBean.getNetMode());
@@ -2041,7 +2041,7 @@ public class WifiSetActivity extends BaseActivity {
                             }
                             if (netModeIndex < 0) netModeIndex = 0;
                             netMode = netModeArray[netModeIndex];
-                            setBean("NetMode", netMode);
+                            setBean("G_NetworkMode", netMode);
                         }
                         mAdapter.notifyDataSetChanged();
                         getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_03);
@@ -2761,7 +2761,7 @@ public class WifiSetActivity extends BaseActivity {
                 }
                 netModeByte = new byte[1];
                 System.arraycopy(bytes, 0, netModeByte, 0, bytes.length);
-                setBean("NetMode", tx);
+                setBean("G_NetworkMode", tx);
                 mAdapter.notifyDataSetChanged();
                 isEditInterNet = true;
             }

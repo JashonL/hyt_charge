@@ -270,6 +270,7 @@ public class AmendsActivity extends BaseActivity {
                             Intent intent = new Intent();
                             intent.putExtra("type", type);
                             intent.putExtra("result", upContent);
+                            intent.putExtra("date",date);
                             setResult(RESULT_OK, intent);
                             finish();
                         });
