@@ -58,7 +58,7 @@ public class PileSetBean {
         private String G_PowerMeterType="";
         private String UnlockConnectorOnEVSideDisconnect="";
         private String G_LowPowerReserveEnable;
-        private String NetMode;
+        private String G_NetworkMode;
 
 
         public int getConnectors() {
@@ -391,11 +391,11 @@ public class PileSetBean {
         }
 
         public String getNetMode() {
-            return NetMode;
+            return G_NetworkMode;
         }
 
         public void setNetMode(String netMode) {
-            NetMode = netMode;
+            G_NetworkMode = netMode;
         }
     }
 }

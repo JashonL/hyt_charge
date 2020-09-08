@@ -1440,12 +1440,12 @@ public class WifiSetActivity extends BaseActivity {
         byte[] prayload = new byte[infoLength];
 
         if (infoLength > 52) {
-            if (idByte == null || lanByte == null || cardByte == null || rcdByte == null || versionByte == null || zoneByte == null) {
+            if (idByte == null || lanByte == null || cardByte == null || rcdByte == null || zoneByte == null) {
                 T.make(R.string.m244设置失败, this);
                 return;
             }
         } else if (infoLength > 28) {
-            if (idByte == null || lanByte == null || cardByte == null || rcdByte == null || versionByte == null) {
+            if (idByte == null || lanByte == null || cardByte == null || rcdByte == null) {
                 T.make(R.string.m244设置失败, this);
                 return;
             }
@@ -1464,13 +1464,13 @@ public class WifiSetActivity extends BaseActivity {
         System.arraycopy(cardByte, 0, prayload, idByte.length + lanByte.length, cardByte.length);
         //rcd
         System.arraycopy(rcdByte, 0, prayload, idByte.length + lanByte.length + cardByte.length, rcdByte.length);
-        if (infoLength > 28) {
+      /*  if (infoLength > 28) {
             //版本号
             System.arraycopy(versionByte, 0, prayload, idByte.length + lanByte.length + cardByte.length + rcdByte.length, versionByte.length);
-        }
-        if (infoLength>52){
+        }*/
+        if (infoLength>28){
             //时区
-            System.arraycopy(zoneByte, 0, prayload, idByte.length + lanByte.length + cardByte.length + rcdByte.length+versionByte.length, zoneByte.length);
+            System.arraycopy(zoneByte, 0, prayload, idByte.length + lanByte.length + cardByte.length + rcdByte.length, zoneByte.length);
         }
         byte[] encryptedData = SmartHomeUtil.decodeKey(prayload, newKey);
 
