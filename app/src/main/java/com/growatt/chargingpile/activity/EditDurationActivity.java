@@ -178,7 +178,9 @@ public class EditDurationActivity extends BaseActivity {
 
             @Override
             public void ok(boolean status, int hour, int min) {
-                String time = hour + ":" + min;
+                String hourString=hour <10?("0"+hour):hour+"";
+                String minString=min <10?("0"+min):min+"";
+                String time = hourString + ":" + minString;
                 //获取年月
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 Date date = new Date();

@@ -72,8 +72,8 @@ public class RegisterActivity extends BaseActivity {
     EditText etInstallerAddress;
     @BindView(R.id.tv_installer_date)
     TextView tvInstallerDate;
-    @BindView(R.id.tv_serial_number)
-    TextView tvSerialNumber;
+    @BindView(R.id.et_serial_number)
+    TextView etSerialNumber;
 
     private Unbinder bind;
     private Calendar calendar = Calendar.getInstance();
@@ -150,7 +150,7 @@ public class RegisterActivity extends BaseActivity {
         installerPhone = etInstallerPhone.getText().toString().trim();
         installerAddress = etInstallerAddress.getText().toString().trim();
         installerDate = tvInstallerDate.getText().toString().trim();
-        installChargeId = tvSerialNumber.getText().toString().trim();
+        installChargeId = etSerialNumber.getText().toString().trim();
 
         if (TextUtils.isEmpty(username)) {
             toast(R.string.m21用户名密码为空);

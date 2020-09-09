@@ -208,7 +208,7 @@ public class SmartHomeUtil {
      */
     public static List<String> getMins() {
         List<String> getMins = new ArrayList<>();
-        for (int min = 0; min < 24; min++) {
+        for (int min = 0; min < 60; min++) {
             if (min < 10) getMins.add("0" + min);
             else getMins.add(String.valueOf(min));
         }

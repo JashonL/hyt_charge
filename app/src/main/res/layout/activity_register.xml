@@ -312,11 +312,11 @@
                     style="@style/style_imageview_register_icon"
                     android:src="@drawable/data" />
 
-                <TextView
-                    android:id="@+id/tv_serial_number"
+                <EditText
+                    android:id="@+id/et_serial_number"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/xa12"
+                    android:layout_marginStart="@dimen/xa12"
                     android:ellipsize="end"
                     android:gravity="center_vertical"
                     android:hint="@string/m充电桩序列号"

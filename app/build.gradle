@@ -43,6 +43,8 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
 
+    //cardView
+    implementation 'androidx.cardview:cardview:1.0.0'
 
     /*butterknife*/
     implementation 'com.jakewharton:butterknife:10.2.1'

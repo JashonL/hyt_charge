@@ -350,6 +350,7 @@ public class ChargingParamsActivity extends BaseActivity {
                 .setTitle(this.getString(R.string.m27温馨提示))
                 .setInputHint(tips)
                 .setInputText(String.valueOf(solarLimitPower))
+                .setInputCounter(1000, (maxLen, currentLen) -> "")
                 .setNegative(this.getString(R.string.m7取消), null)
                 .setPositiveInput(this.getString(R.string.m9确定), new OnInputClickListener() {
                     @Override
