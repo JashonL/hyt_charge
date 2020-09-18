@@ -8,7 +8,7 @@
 
     <include layout="@layout/header_view_title" />
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/headerView">
@@ -19,42 +19,21 @@
             android:orientation="vertical">
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/ya90"
-                android:layout_marginLeft="@dimen/xa30"
-                android:layout_marginRight="@dimen/xa30"
-                android:layout_marginTop="@dimen/ya10"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/xa24"
-                android:paddingRight="@dimen/xa24">
+            <LinearLayout style="@style/style_linearlayout_login_register">
 
                 <TextView
-                    android:layout_width="@dimen/xa20"
-                    android:layout_height="@dimen/xa20"
-                    android:gravity="center"
-                    android:text="*"
-                    android:textColor="@color/red_color"
-                    android:textSize="@dimen/xa15" />
+                    style="@style/style_textview_register_sign"
+                    android:text="*" />
 
                 <ImageView
-                    android:id="@+id/imageView1"
-                    android:layout_width="@dimen/xa20"
-                    android:layout_height="@dimen/xa24"
+                    style="@style/style_imageview_register_icon"
                     android:src="@drawable/sign_user" />
 
 
                 <EditText
                     android:id="@+id/et_username"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/xa12"
-                    android:background="@null"
-                    android:hint="@string/m25请输入用户名"
-                    android:textColor="@color/title_2"
-                    android:textSize="@dimen/xa24"
-                    android:layout_marginStart="@dimen/xa12" />
+                    style="@style/style_edittext_register_item"
+                    android:hint="@string/m25请输入用户名" />
             </LinearLayout>
 
             <LinearLayout
@@ -66,42 +45,21 @@
                 android:orientation="vertical" />
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/xa90"
-                android:layout_marginLeft="@dimen/xa30"
-                android:layout_marginRight="@dimen/xa30"
-                android:layout_marginTop="@dimen/ya10"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/xa24"
-                android:paddingRight="@dimen/xa24">
+            <LinearLayout style="@style/style_linearlayout_login_register">
 
                 <TextView
-                    android:layout_width="@dimen/xa20"
-                    android:layout_height="@dimen/xa20"
-                    android:gravity="center"
-                    android:text="*"
-                    android:textColor="@color/red_color"
-                    android:textSize="@dimen/xa15" />
+                    style="@style/style_textview_register_sign"
+                    android:text="*" />
 
                 <ImageView
-                    android:id="@+id/imageView2"
-                    android:layout_width="@dimen/xa20"
-                    android:layout_height="@dimen/xa24"
+                    style="@style/style_imageview_register_icon"
                     android:src="@drawable/sign_password" />
 
                 <EditText
                     android:id="@+id/et_password"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/xa12"
-                    android:background="@null"
-                    android:hint="@string/m26请输入密码"
+                    style="@style/style_edittext_register_item"
                     android:inputType="textPassword"
-                    android:textColor="@color/title_2"
-                    android:textSize="@dimen/xa24"
-                    android:layout_marginStart="@dimen/xa12" />
+                    android:hint="@string/m26请输入密码" />
             </LinearLayout>
 
 
@@ -113,41 +71,21 @@
                 android:background="#dedede"
                 android:orientation="vertical" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/xa90"
-                android:layout_marginLeft="@dimen/xa30"
-                android:layout_marginRight="@dimen/xa30"
-                android:layout_marginTop="@dimen/xa10"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/xa24"
-                android:paddingRight="@dimen/xa24">
+            <LinearLayout style="@style/style_linearlayout_login_register">
 
                 <TextView
-                    android:layout_width="@dimen/xa20"
-                    android:layout_height="@dimen/xa20"
-                    android:gravity="center"
-                    android:text="*"
-                    android:textColor="@color/red_color"
-                    android:textSize="@dimen/xa15" />
+                    style="@style/style_textview_register_sign"
+                    android:text="*" />
 
                 <ImageView
-                    android:id="@+id/imageView3"
-                    android:layout_width="@dimen/xa20"
-                    android:layout_height="@dimen/xa24"
+                    style="@style/style_imageview_register_icon"
                     android:src="@drawable/sign_password" />
 
                 <EditText
                     android:id="@+id/et_password_confirm"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/xa12"
-                    android:background="@null"
+                    style="@style/style_edittext_register_item"
                     android:hint="@string/m93重复输入密码"
-                    android:inputType="textPassword"
-                    android:textColor="@color/title_2"
-                    android:textSize="@dimen/xa24" />
+                    android:inputType="textPassword" />
             </LinearLayout>
 
             <LinearLayout
@@ -158,42 +96,21 @@
                 android:background="#dedede"
                 android:orientation="vertical" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/xa90"
-                android:layout_marginLeft="@dimen/xa30"
-                android:layout_marginRight="@dimen/xa30"
-                android:layout_marginTop="@dimen/xa10"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/xa24"
-                android:paddingRight="@dimen/xa24">
+            <LinearLayout style="@style/style_linearlayout_login_register">
 
                 <TextView
-                    android:layout_width="@dimen/xa20"
-                    android:layout_height="@dimen/xa20"
-                    android:gravity="center"
-                    android:text="*"
-                    android:textColor="@color/red_color"
-                    android:textSize="@dimen/xa15" />
+                    style="@style/style_textview_register_sign"
+                    android:text="*" />
 
                 <ImageView
-                    android:id="@+id/imageView4"
-                    android:layout_width="@dimen/xa20"
-                    android:layout_height="@dimen/xa24"
+                    style="@style/style_imageview_register_icon"
                     android:src="@drawable/sign_mail" />
 
                 <EditText
                     android:id="@+id/et_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/xa12"
-                    android:background="@null"
-                    android:inputType="textEmailAddress"
+                    style="@style/style_edittext_register_item"
                     android:hint="@string/m61输入邮箱地址"
-                    android:textColor="@color/title_2"
-                    android:textSize="@dimen/xa24"
-                    android:layout_marginStart="@dimen/xa12" />
+                    android:inputType="textEmailAddress" />
             </LinearLayout>
 
 
@@ -205,41 +122,20 @@
                 android:background="#dedede"
                 android:orientation="vertical" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/xa90"
-                android:layout_marginLeft="@dimen/xa30"
-                android:layout_marginRight="@dimen/xa30"
-                android:layout_marginTop="@dimen/xa10"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/xa24"
-                android:paddingRight="@dimen/xa24">
+            <LinearLayout style="@style/style_linearlayout_login_register">
 
                 <TextView
-                    android:layout_width="@dimen/xa20"
-                    android:layout_height="@dimen/xa20"
-                    android:gravity="center"
-                    android:text="*"
-                    android:textColor="@color/red_color"
-                    android:textSize="@dimen/xa15" />
+                    style="@style/style_textview_register_sign"
+                    android:text="*" />
 
                 <ImageView
-                    android:id="@+id/imageView7"
-                    android:layout_width="@dimen/xa20"
-                    android:layout_height="@dimen/xa24"
+                    style="@style/style_imageview_register_icon"
                     android:src="@drawable/sign_postcode" />
 
                 <EditText
                     android:id="@+id/et_postcode"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/xa12"
-                    android:background="@null"
-                    android:hint="@string/m请输入您的邮政编码"
-                    android:textColor="@color/title_2"
-                    android:textSize="@dimen/xa24"
-                    android:layout_marginStart="@dimen/xa12" />
+                    style="@style/style_edittext_register_item"
+                    android:hint="@string/m请输入您的邮政编码" />
             </LinearLayout>
 
             <LinearLayout
@@ -251,41 +147,19 @@
                 android:orientation="vertical" />
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/xa90"
-                android:layout_marginLeft="@dimen/xa30"
-                android:layout_marginRight="@dimen/xa30"
-                android:layout_marginTop="@dimen/xa10"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/xa24"
-                android:paddingRight="@dimen/xa24">
+            <LinearLayout style="@style/style_linearlayout_login_register">
 
-                <TextView
-                    android:layout_width="@dimen/xa20"
-                    android:layout_height="@dimen/xa20"
-                    android:gravity="center"
-                    android:textColor="@color/red_color"
-                    android:textSize="@dimen/xa15" />
+                <TextView style="@style/style_textview_register_sign" />
 
                 <ImageView
-                    android:id="@+id/imageView5"
-                    android:layout_width="@dimen/xa20"
-                    android:layout_height="@dimen/xa24"
+                    style="@style/style_imageview_register_icon"
                     android:src="@drawable/sign_phone" />
 
                 <EditText
                     android:id="@+id/et_phone"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/xa12"
-                    android:background="@null"
-                    android:inputType="phone"
+                    style="@style/style_edittext_register_item"
                     android:hint="@string/m60填入不带国家代码的手机号"
-                    android:textColor="@color/title_2"
-                    android:textSize="@dimen/xa24"
-                    android:layout_marginStart="@dimen/xa12" />
+                    android:inputType="phone" />
             </LinearLayout>
 
 
@@ -298,40 +172,125 @@
                 android:orientation="vertical" />
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/xa90"
-                android:layout_marginLeft="@dimen/xa30"
-                android:layout_marginRight="@dimen/xa30"
-                android:layout_marginTop="@dimen/xa10"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/xa24"
-                android:paddingRight="@dimen/xa24">
+            <LinearLayout style="@style/style_linearlayout_login_register">
 
                 <TextView
-                    android:layout_width="@dimen/xa20"
-                    android:layout_height="@dimen/xa20"
-                    android:gravity="center"
-                    android:textColor="@color/red_color"
-                    android:textSize="@dimen/xa15" />
+                    style="@style/style_textview_register_sign"
+                    android:text="*" />
 
                 <ImageView
-                    android:id="@+id/imageView8"
-                    android:layout_width="@dimen/xa20"
-                    android:layout_height="@dimen/xa24"
+                    style="@style/style_imageview_register_icon"
                     android:src="@drawable/sign_installter" />
 
                 <EditText
                     android:id="@+id/et_installer"
+                    style="@style/style_edittext_register_item"
+                    android:hint="@string/m请输入安装商" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.5dip"
+                android:layout_marginLeft="@dimen/xa30"
+                android:layout_marginRight="@dimen/xa30"
+                android:background="#dedede"
+                android:orientation="vertical" />
+
+            <LinearLayout style="@style/style_linearlayout_login_register">
+
+                <TextView
+                    style="@style/style_textview_register_sign"
+                    android:text="*" />
+
+                <ImageView
+                    style="@style/style_imageview_register_icon"
+                    android:src="@drawable/sign_mail" />
+
+                <EditText
+                    android:id="@+id/et_installer_email"
+                    style="@style/style_edittext_register_item"
+                    android:hint="@string/m请输入安装商邮箱" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.5dip"
+                android:layout_marginLeft="@dimen/xa30"
+                android:layout_marginRight="@dimen/xa30"
+                android:background="#dedede"
+                android:orientation="vertical" />
+
+            <LinearLayout style="@style/style_linearlayout_login_register">
+
+                <TextView
+                    style="@style/style_textview_register_sign"
+                    android:text="*" />
+
+                <ImageView
+                    style="@style/style_imageview_register_icon"
+                    android:src="@drawable/sign_phone" />
+
+                <EditText
+                    android:id="@+id/et_installer_phone"
+                    style="@style/style_edittext_register_item"
+                    android:hint="@string/m请输入安装商电话" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.5dip"
+                android:layout_marginLeft="@dimen/xa30"
+                android:layout_marginRight="@dimen/xa30"
+                android:background="#dedede"
+                android:orientation="vertical" />
+
+            <LinearLayout style="@style/style_linearlayout_login_register">
+
+                <TextView
+                    style="@style/style_textview_register_sign"
+                    android:text="*" />
+
+                <ImageView
+                    style="@style/style_imageview_register_icon"
+                    android:src="@drawable/adress" />
+
+                <EditText
+                    android:id="@+id/et_installer_address"
+                    style="@style/style_edittext_register_item"
+                    android:hint="@string/m请输入安装商地址" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.5dip"
+                android:layout_marginLeft="@dimen/xa30"
+                android:layout_marginRight="@dimen/xa30"
+                android:background="#dedede"
+                android:orientation="vertical" />
+
+            <LinearLayout android:id="@+id/ll_date" style="@style/style_linearlayout_login_register">
+
+                <TextView
+                    style="@style/style_textview_register_sign"
+                    android:text="*" />
+
+                <ImageView
+                    style="@style/style_imageview_register_icon"
+                    android:src="@drawable/data" />
+
+                <TextView
+                    android:id="@+id/tv_installer_date"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/xa12"
-                    android:background="@null"
-                    android:hint="@string/m请输入安装商"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:hint="@string/m请输入安装日期"
+                    android:lines="1"
                     android:textColor="@color/title_2"
-                    android:textSize="@dimen/xa24"
-                    android:layout_marginStart="@dimen/xa12" />
+                    android:textSize="@dimen/xa24" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -343,6 +302,37 @@
                 android:orientation="vertical" />
 
 
+            <LinearLayout android:id="@+id/ll_serial_number" style="@style/style_linearlayout_login_register">
+
+                <TextView
+                    style="@style/style_textview_register_sign"
+                    android:text="*" />
+
+                <ImageView
+                    style="@style/style_imageview_register_icon"
+                    android:src="@drawable/data" />
+
+                <EditText
+                    android:id="@+id/et_serial_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/xa12"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:hint="@string/m充电桩序列号"
+                    android:lines="1"
+                    android:textColor="@color/title_2"
+                    android:textSize="@dimen/xa24" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.5dip"
+                android:layout_marginLeft="@dimen/xa30"
+                android:layout_marginRight="@dimen/xa30"
+                android:background="#dedede"
+                android:orientation="vertical" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -364,13 +354,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:layout_toStartOf="@+id/textView4"
                     android:layout_toLeftOf="@+id/textView4"
                     android:button="@drawable/selector_checkbox_bg_white"
                     android:scaleX="0.8"
                     android:scaleY="0.8"
                     android:textColor="@color/headerView"
-                    android:textSize="@dimen/xa28"
-                    android:layout_toStartOf="@+id/textView4" />
+                    android:textSize="@dimen/xa28" />
             </RelativeLayout>
 
 
@@ -379,11 +369,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/xa88"
                 android:layout_marginLeft="@dimen/xa75"
-                android:layout_marginRight="@dimen/xa75"
                 android:layout_marginTop="@dimen/xa80"
+                android:layout_marginRight="@dimen/xa75"
                 android:background="@drawable/selector_circle_btn_green"
                 android:text="@string/m23注册"
                 android:textColor="@color/headerView" />
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

@@ -37,6 +37,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -440,9 +441,9 @@ public class MyUtil {
      */
     public static String getWIFISSID(Activity activity) {
         String ssid = null;
-        ConnectivityManager manager = (ConnectivityManager)activity.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager manager = (ConnectivityManager) activity.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         assert manager != null;
-        NetworkInfo.State wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState();
+        NetworkInfo.State wifi = Objects.requireNonNull(manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)).getState();
         if (wifi == null) {
             return null;
         }
@@ -450,16 +451,13 @@ public class MyUtil {
             WifiManager mWifiManager = (WifiManager) activity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
             assert mWifiManager != null;
             WifiInfo info = mWifiManager.getConnectionInfo();
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-                return info.getSSID();
-            } else {
-                return info.getSSID().replace("\"", "");
-            }
+            return info.getSSID().replace("\"", "");
         } else {
             WifiManager mWifiManager = (WifiManager) activity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
             if (mWifiManager != null) {
                 WifiInfo connectionInfo = mWifiManager.getConnectionInfo();
                 int networkId = connectionInfo.getNetworkId();
+                ssid = connectionInfo.getSSID();
                 List<WifiConfiguration> configuredNetworks = mWifiManager.getConfiguredNetworks();
                 for (WifiConfiguration wificonf : configuredNetworks) {
                     if (wificonf.networkId == networkId) {

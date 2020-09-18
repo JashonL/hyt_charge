@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Project EV</string>
+
+    <string name="m1立即体验">Essayez maintenant</string>
+    <string name="m2下一步">suivant</string>
+    <string name="m3完成">fait</string>
+    <string name="m4服务器错误">erreur serveur</string>
+    <string name="m5拍照">prendre une photo</string>
+    <string name="m6从相册选取">choisir parmis les photos</string>
+    <string name="m7取消">annuler</string>
+    <string name="m8警告">attention</string>
+    <string name="m9确定">entrer</string>
+    <string name="m10删除">supprimer</string>
+    <string name="m11扫描结果">résultat de l\'analyse</string>
+    <string name="m12配置">configuration</string>
+    <string name="m13控制提示">contrôle</string>
+    <string name="m14添加问题提示">Ajouter des questions</string>
+    <string name="m15控制密码">mot de passe</string>
+    <string name="m16返回">retour</string>
+    <string name="m17停止配置">Arrêter la configuration</string>
+    <string name="m18注册失败">l\'enregistrement à échoué</string>
+    <string name="m19是否退出当前账户">Déconnexion</string>
+
+
+    <string name="m20用户名密码错误">Erreur identifiant ou mot de passe</string>
+    <string name="m21用户名密码为空">Le nom d\'utilisateur ou le mot de passe est vide</string>
+    <string name="m25请输入用户名">entrer votre nom d\'utilisateur</string>
+    <string name="m26请输入密码">entrer votre mot de passe</string>
+    <string name="m22忘记密码">oubli mot de passe</string>
+    <string name="m23注册">S\'inscrire</string>
+    <string name="m24登陆">Se connecter</string>
+
+    <string name="m27温馨提示">Remarque</string>
+    <string name="m28原密码">ancien mot de passe</string>
+
+    <string name="m浏览账户">demo</string>
+
+
+    <string name="m29发送到邮箱">Après avoir réussi, le nouveau mot de passe sera envoyé à la boîte aux lettres liée au compte</string>
+    <string name="m30请输入正确的用户名">Veuillez saisir le nom d\'utilisateur correct</string>
+    <string name="m31发送邮件失败">l\'envoi de l\'email a échoué</string>
+    <string name="m32填写资料注册新用户">remplir les informations</string>
+    <string name="m33同意本公司各项用户条款及隐私政策">Accord de l\'utilisateur</string>
+    <string name="m34选择用户协议">Veuillez cocher l\'accord d\'utilisation</string>
+    <string name="m35请输入正确邮箱格式">Veuillez saisir l\'e-mail sous la forme correcte</string>
+    <string name="m36超出版本限制注册用户数量">Le nombre d\'utilisateurs dépasse la limite </string>
+    <string name="m37服务器错误">erreur serveur</string>
+    <string name="m38注册错误">erreur enregistrement</string>
+    <string name="m39采集器序列号或校验码错误">SN de l\'enregistreur de données ou code de contrôle incorrect</string>
+    <string name="m40用户名已被使用">Nom d\'utilisateur enregistré</string>
+    <string name="m41代理商编码错误">Erreur d\'identification de l\'agence</string>
+    <string name="m42注册成功">enregistré avec succès</string>
+    <string name="m43采集器序列号已经存在">Enregistreur de données existant SN</string>
+    <string name="m44服务器错误提示">erreur serveur</string>
+    <string name="m45服务器错误提示2">erreur serveur 2</string>
+    <string name="m46采集器10位提示">Erreur de l\'enregistreur de données</string>
+    <string name="m47不能找到用户名">Le nom d\'utilisateur est introuvable</string>
+    <string name="m48打开定位开关">Le service de localisation est désactivé</string>
+    <string name="m49定位提示跳转">Retour à la page \ Paramètres </string>
+
+    <string name="m50我">moi</string>
+    <string name="m51账号管理">gestion de compte</string>
+    <string name="m52消息中心">Centre de message</string>
+    <string name="m53关于">à propos</string>
+    <string name="m54用户协议">Accord de l\'utilisateur</string>
+    <string name="m55注销账号">Déconnexion</string>
+    <string name="m56暂未开放">la fonction n\'est pas prête</string>
+    <string name="m57修改密码">Changer de mot de passe</string>
+    <string name="m58修改手机号">Changer de numéro de téléphone portable</string>
+    <string name="m59修改邮箱">Changer d\'adresse e-mail</string>
+    <string name="m60填入不带国家代码的手机号">Entrer le numéro de téléphone sans le code pays</string>
+    <string name="m61输入邮箱地址">Entrer l\'adresse mail</string>
+    <string name="m62输入代理商编号">Entrer l\'identifiant de l\'agence</string>
+    <string name="m63系统错误">Erreur système</string>
+    <string name="m64原密码错误">Mot de passe incorrect</string>
+    <string name="m65用户不存在">l\'utilisateur n\'existe pas</string>
+    <string name="m66你的账号没有操作权限">Votre compte n\'a pas l\'autorisation pour opérer</string>
+    <string name="m67参数设置成功">Paramètre défini avec succès</string>
+    <string name="m68请验证注册时填写的手机号码">veuillez vérifier le numéro de téléphone</string>
+    <string name="m69验证用户手机号码">Vérifiez le numéro de téléphone de l\'utilisateur</string>
+    <string name="m70验证用户邮箱">Vérifiez l\'adresse mail</string>
+    <string name="m71您注册时填写的手机号是">Votre numéro de téléphone pour l\'enregistrement est</string>
+    <string name="m72请输入短信验证码">Entrez le code de vérification</string>
+    <string name="m74验证码错误">code de vérification faux</string>
+    <string name="m75发送验证码">envoyer le code de vérification</string>
+    <string name="m76国际区号错误">le code pays pour appel téléphonique international est faux</string>
+    <string name="m77手机号格式错误">le format du numéro de téléphone est faux</string>
+    <string name="m78发送短信验证码不成功">l\'envoi du code de vérification a échoué</string>
+    <string name="m79该手机号没有注册用户">Aucun compte associé à ce numéro de téléphone</string>
+    <string name="m80短信验证码请求已经失效">Délai d\'expiration de la demande de code de vérification</string>
+    <string name="m81请输入正确的手机校验码">veuillez entrer le bon code de vérification du téléphone</string>
+
+    <string name="m82是否更新">Mettre à jour ou pas</string>
+    <string name="m83立即更新">Mettre à jour maintenant</string>
+    <string name="m84最新版本为">dernière version</string>
+    <string name="m85暂不">Mettre à jour plus tard</string>
+    <string name="m86您使用的是最新版本">La version actuelle est la dernière</string>
+    <string name="m87请求苹果服务器失败">erreur Serveur Apple </string>
+    <string name="m88拨打电话">Avez-vous besoin de passer un appel ?</string>
+    <string name="m89当前版本">version actuelle</string>
+
+
+    <string name="m90用户名">nom d\'utilisateur</string>
+    <string name="m91密码">mot de passe</string>
+    <string name="m92重复密码">repetez le mot de passe</string>
+    <string name="m93重复输入密码">repetez le mot de passe</string>
+    <string name="m94电子邮箱">e-mail</string>
+    <string name="m95联系电话">téléphone</string>
+    <string name="m96代理商编号">identifiant agence</string>
+    <string name="m97输入代理商编号">Entrez l\'identifiant de l\'agence</string>
+    <string name="m98请输入相同的密码">veuillez entret le même mot de passe</string>
+    <string name="m99用户名必须大于3位">le nom d\'utilisatuer doit avoir 3 caractères ou plus</string>
+    <string name="m100密码必须大于6位">le mot de passe doit avoir 6 caractères ou plus</string>
+
+    <string name="m104输入电话号码">entrez le numéro de téléphone</string>
+    <string name="m101添加设备">Ajouter un appareil</string>
+    <string name="m102充电桩">Chargeur</string>
+    <string name="m103充电">marche</string>
+    <string name="m104充电记录">enregistrement</string>
+    <string name="m105桩体设置">règlage</string>
+    <string name="m106选择充电桩">selectionner le chargeur</string>
+    <string name="m107连接">connecter</string>
+    <string name="m108停止充电">arrêt</string>
+    <string name="m109输入充电桩序列号添加充电桩">Entrez l\'ID du chargeur pour ajouter un chargeur</string>
+    <string name="m212暂时还没有设备">aucun dispositif </string>
+
+
+    <string name="m110A枪">sortie A</string>
+    <string name="m111B枪">sortie B</string>
+    <string name="m112C枪">sortie C</string>
+    <string name="m112交流">AC</string>
+    <string name="m113直流">DC</string>
+    <string name="m114单枪">1 SORTIE</string>
+    <string name="m115双枪">Double SORTIE</string>
+    <string name="m116无">Nul</string>
+
+    <string name="m117空闲">DISPONIBLE</string>
+    <string name="m118充电中">EN CHARGE</string>
+    <string name="m119准备中">EN PREPARATION</string>
+    <string name="m120充电结束">FINI</string>
+    <string name="m121故障">EN PANNE</string>
+    <string name="m122不可用">INDISPONIBLE</string>
+    <string name="m123暂停充电">SUSPENDU EV</string>
+    <string name="m124已经注销">Annulé</string>
+    <string name="m125启用中">Démarrage</string>
+    <string name="m126已经工作过">a travaillé</string>
+
+    <string name="m127设置金额不能为0">Les paramètres de coût ne peuvent pas être 0</string>
+    <string name="m128设置电量不能为0">Les paramètres d\'énergie ne peuvent pas être 0</string>
+    <string name="m129时长设置不能为空">Les paramètres de l\'heure ne peuvent pas être vides.</string>
+    <string name="m130未设置开始时间">Aucune heure de début n\'a été définie</string>
+    <string name="m131空闲状态无法直接开始充电">Vous ne pouvez pas commencer à charger directement. Veuillez d\'abord connecter le véhicule au point de charge</string>
+
+    <string name="m132切换">Commutateur</string>
+    <string name="m133添加">Ajouter</string>
+    <string name="m134是否确定删除设备">Voulez-vous vraiment supprimer l\'appareil?</string>
+    <string name="m确认删除">Êtes-vous sûr de vouloir supprimer l\'utilisateur autorisé?</string>
+    <string name="m135删除成功">supprimé avec succès</string>
+    <string name="m136请输入充电桩ID">entrer l\'ID du chargeur</string>
+    <string name="m137扫码添加">Scannez le code pour ajouter</string>
+    <string name="m138添加充电桩">ajouter chargeur</string>
+    <string name="m139添加成功">ajouté avec succès</string>
+    <string name="m140不能为空">ne peut pas être vide</string>
+
+    <string name="m141参数设置">paramétrage</string>
+    <string name="m142授权管理">autorisation</string>
+    <string name="m143基本参数">paramètres de base</string>
+    <string name="m144重要数据">données importantes</string>
+    <string name="m145其他数据">autres données</string>
+    <string name="m213输入更改的设置">saisir de nouveaux paramètres</string>
+
+    <string name="m146充电桩ID">ID du chargeur</string>
+    <string name="m147授权认证秘钥">Clé d\'autorisation</string>
+    <string name="m148基础参数">paramètres de base</string>
+    <string name="m149电桩名称">nom du chargeur</string>
+    <string name="m150国家城市">pays et ville</string>
+    <string name="m151站点">site</string>
+    <string name="m152充电费率">taux</string>
+    <string name="m153功率设置">Règlage de la puissance</string>
+    <string name="m154充电模式">Modèle de Charge</string>
+    <string name="m155高级设置">Paramètres avancés</string>
+    <string name="m156充电桩IP">IP du chargeur</string>
+    <string name="m157网关">Passerelle par défaut</string>
+    <string name="m158子网掩码">Masque de sous-réseau</string>
+    <string name="m159网络MAC地址">Mac</string>
+    <string name="m160服务器URL">URL du serveur</string>
+    <string name="m161DNS地址">DNS</string>
+
+    <string name="m217扫码刷卡">APP/RFID</string>
+    <string name="m218仅刷卡充电">uniquement RFID</string>
+    <string name="m219插枪充电">Plug &amp; Charge</string>
+    <string name="m162添加授权">ajout autorisé</string>
+    <string name="m163输入用户名添加授权用户">entrer un nom d\'utilisateur pour ajouter un utilisateur autorisé</string>
+    <string name="m164注册新用户">s\'inscrire</string>
+    <string name="m165填写资料注册新用户">remplissez les informations</string>
+    <string name="m166请输入用户名车牌电话邮箱">veuillez saisir le nom d\'utilisateur</string>
+    <string name="m167现在正处于时段预约状态">Si vous devez commencer à charger immédiatement, veuillez annuler le réglage de réservation actuel et réinitialiser l\'heure!</string>
+
+
+    <string name="m168搜索">Chercher</string>
+    <string name="m169连接成功">Connexion Ok</string>
+    <string name="m170请将充电枪插入车辆">Veuillez insérer le pistolet de chargement dans le véhicule</string>
+    <string name="m171蓝牙">Bluetooth</string>
+    <string name="m172连接充电桩需打开蓝牙">Ouvrez Bluetooth pour vous connecter au chargeur</string>
+    <string name="m173我的设备">Ma liste d\'appareils</string>
+    <string name="m174可配对设备">Appareil compatible</string>
+    <string name="m175配件">Raccords</string>
+
+
+    <string name="m176确认">Confirmer</string>
+    <string name="m177输入格式不正确">Le format est incorrect, veuillez saisir à nouveau</string>
+    <string name="m178定时">Minuteur</string>
+    <string name="m179新增">Ajouter</string>
+    <string name="m180预设充电方案时长">Longueur de schéma prédéfinie</string>
+    <string name="m181设置定时">Règlez la minuterie</string>
+    <string name="m182保存">sauver</string>
+    <string name="m183开启">Début</string>
+    <string name="m184关闭">Fin</string>
+    <string name="m185未设置">Pas encore défini</string>
+    <string name="m186每天">Tous les jours</string>
+    <string name="m187删除">Supprimer</string>
+    <string name="m207时">heure</string>
+    <string name="m208分">min</string>
+    <string name="m209预设">Preset</string>
+    <string name="m210请输入金额">Veuillez saisir le montant d\'argent</string>
+    <string name="m211请输入电量">Veuillez saisir la quantité d\'électricité (kWh)</string>
+
+
+    <string name="m188过压">Surtension</string>
+
+    <string name="m189已充电量">Énergie</string>
+    <string name="m190充电费率">Taux</string>
+    <string name="m191已充时长">Temps</string>
+    <string name="m192消费金额">Coût</string>
+    <string name="m193当前电流">Actuel</string>
+    <string name="m194当前电压">Tension</string>
+
+
+    <string name="m195充电结束提示拔枪">Après la charge, veuillez débrancher le pistolet de chargement et le remettre en place</string>
+    <string name="m214请连接充电枪到车辆">Veuillez connecter le pistolet de chargement au véhicule.</string>
+    <string name="m215电桩故障">Échec du point de charge, veuillez passer à un autre point de charge.</string>
+    <string name="m216桩体状态为不可用">Point de charge indisponible, veuillez passer à un autre point de charge.</string>
+    <string name="m196预设">Preset</string>
+    <string name="m197当前">Maintenant</string>
+    <string name="m198预设充电方案">Charge préréglée</string>
+    <string name="m199达到预设停止充电">(Arrêtez de charger après avoir atteint le préréglage)</string>
+    <string name="m200金额">Coût</string>
+    <string name="m201电量">Énergie</string>
+    <string name="m202时长">Temps</string>
+    <string name="m203预约充电">Réservation de charge</string>
+    <string name="m204开始时间">Heure de début</string>
+    <string name="m205已开启">SUR</string>
+    <string name="m206已关闭">DE</string>
+
+
+    <string name="m243设置成功">Réglage réussi</string>
+    <string name="m244设置失败">Le réglage a échoué</string>
+    <string name="m限制功率1kw">Limiter la puissance de charge à 1KW</string>
+
+
+    <string name="m247热点连接">Connexion hotspot</string>
+    <string name="m248连接至电桩热点">Activez le WLAN de votre téléphone et connectez votre téléphone au point d\'accès du chargeur</string>
+    <string name="m249当前手机连接WiFi">WiFi connecté actuel</string>
+    <string name="m250刷新">Rafraîchir</string>
+    <string name="m251已连接下一步">Connecté, suivant</string>
+    <string name="m252连接充电桩中">Connexion du chargeur …</string>
+    <string name="m253手机暂未连接wifi">Le téléphone n\'est pas connecté au wifi</string>
+    <string name="m254连接失败">La connexion a échoué</string>
+
+    <string name="m255设备信息参数设置">Paramétrage des informations sur l\'appareil</string>
+    <string name="m256设备以太网参数设置">Réglages des paramètres Ethernet de l\'appareil</string>
+    <string name="m257设备账号密码参数设置">Paramétrage du mot de passe du compte de périphérique</string>
+    <string name="m258设备服务器参数设置">Réglages des paramètres du serveur de périphériques</string>
+    <string name="m259设备充电参数设置">Réglage des paramètres de charge de l\'appareil</string>
+    <string name="m260语言">Langue</string>
+    <string name="m261中文">Chinois</string>
+    <string name="m262泰文">Thaïlandais</string>
+    <string name="m263英文">Anglais</string>
+    <string name="m264读卡器秘钥">NIP de la carte RFID</string>
+    <string name="m265RCD保护值">Niveau de protection</string>
+
+    <string name="m266Wifi名称">Nom Wifi</string>
+    <string name="m267Wifi密码">Mot de passe WiFi</string>
+    <string name="m268蓝牙名称">Nom Bluetooth</string>
+    <string name="m269蓝牙密码">Mot de passe Bluetooth</string>
+    <string name="m2704G用户名">Nom d\'utilisateur 4G</string>
+    <string name="m2714G密码">Mot de passe 4G</string>
+    <string name="m2724GAPN">APN 4G</string>
+
+    <string name="m273握手登录授权秘钥">Clé d\'autorisation de connexion Handshake</string>
+    <string name="m274心跳间隔时间">Intervalle (s) de pulsation</string>
+    <string name="m275PING间隔时间">Intervalle (s) PING</string>
+    <string name="m276表计上传间隔时间">Intervalle (s) de téléchargement du compteur</string>
+
+    <string name="m277电桩最大输出电流">Courant de sortie maximal du chargeur (A)</string>
+    <string name="m278保护温度">Température de protection (°C)</string>
+    <string name="m279外部监测最大输入功率">Puissance d\'entrée maximale (kW) contrôlée de l\'extérieur</string>
+    <string name="m280允许充电时间">Laisser le temps de chargement</string>
+
+    <string name="m281电桩断开">Déconnexion du chargeur</string>
+    <string name="m282结束时间">Heure de fin</string>
+    <string name="m283选择时间">Période de sélection</string>
+    <string name="m284未设置结束时间">Heure de fin non définie</string>
+    <string name="m285开始时间不能大于结束时间">L\'heure de début ne peut pas être postérieure à l\'heure de fin</string>
+    <string name="m286输入值超出规定长度">La valeur d\'entrée dépasse la longueur spécifiée</string>
+    <string name="m287级">niveau</string>
+    <string name="m288未连接">pas connecté</string>
+    <string name="m289进入AP模式">Passer en mode AP</string>
+    <string name="m290超出设置范围">Hors de la plage de réglage</string>
+    <string name="m291设定值不能小于">La valeur ne peut pas être inférieure à</string>
+
+    <string name="m292桩拒绝充电">SuspendedEVSE</string>
+    <string name="m293车拒绝充电提示">La voiture refuse de se recharger, le véhicule est plein ou déverrouillé</string>
+    <string name="m294桩拒绝充电提示">Le point de charge a refusé de charger, veuillez passer à un autre point de charge</string>
+
+    <string name="m295该电桩热点不是已选择的电桩">Le point d\'accès de ce point de charge n\'est pas le point de charge sélectionné</string>
+    <string name="m296版本号">numéro de version</string>
+    <string name="m297峰谷充电使能">Activation de la charge de Peak Valley</string>
+    <string name="m298功率分配使能">Activation de l\'allocation de puissance</string>
+    <string name="m299使能">activer</string>
+    <string name="m300禁止">interdit</string>
+    <string name="m301执行">Exécuter</string>
+    <string name="m302请求失败">Demande échoué</string>
+    <string name="m303选择货币">Sélectionnez la devise</string>
+    <string name="m304设置未做任何更改">Les paramètres n\'ont pas été modifiés</string>
+    <string name="m305AP模式">Mode AP</string>
+    <string name="m306当前充电桩序列号">numéro de série du point de charge actuel</string>
+    <string name="m307切换成功">la commutation a réussi</string>
+    <string name="m308切换失败">la commutation a échoué</string>
+    <string name="m309操作引导1">Réglez le point de charge en mode AP comme point d\'accès WiFi.Cette étape n\'est pas nécessaire pour la configuration initiale du point de charge nouvellement installé.</string>
+    <string name="m310操作引导2">Connectez le téléphone portable au WiFi du point de charge, le mot de passe est 12345678.Si le WiFi du point de charge ne peut pas être trouvé, veuillez éteindre et rallumer le point de charge, il émettra du WiFi pendant 90 secondes.</string>
+    <string name="m311操作引导3">Après vous être connecté au hotspot avec succès,cliquez sur Suivant pour accéder à la page de configuration du WiFi et du paramétrage</string>
+    <string name="m312WIFI直连操作指引">Instructions de connexion WIFI</string>
+    <string name="m313电桩最大输出电流">Réglage du courant maximum</string>
+    <string name="m314智能功率分配">Paramètre de gestion de charge</string>
+    <string name="m315货币单位">Unité monétaire</string>
+    <string name="m316退出登录">Déconnexion</string>
+    <string name="m317注销账户">Supprimer le compte</string>
+    <string name="m318是否注销账户">Êtes-vous sûr de vouloir supprimer le compte</string>
+    <string name="m319注销后账户将被删除">Le compte sera supprimé et ne pourra plus être utilisé</string>
+    <string name="m320注销成功">Supprimer avec succès</string>
+    <string name="m321注销失败">Échec de la suppression</string>
+    <string name="m322系统错误">erreur système</string>
+    <string name="m323用户不存在">L\'utilisateur n\'existe pas</string>
+    <string name="m324该用户下存在浏览账户">Il existe un compte de navigation sous cet utilisateur</string>
+    <string name="m325admin账号不允许注销">Le compte administrateur ne peut pas être supprimé</string>
+    <string name="m326时间段">période</string>
+    <string name="m327费率">taux</string>
+    <string name="m328设置不能超过6条">Max 6 paramètres</string>
+    <string name="m329最少要有1条">Il doit y en avoir au moins un</string>
+    <string name="m330有时间段或费率未输入">Il y a une période ou un taux non saisi</string>
+    <string name="m331时间必须包含24小时">Le temps doit contenir 24 heures</string>
+    <string name="m332时间不能相同">Le temps ne peut pas être le même</string>
+    <string name="m333时间段不能重叠">Les périodes ne peuvent pas se chevaucher</string>
+    <string name="m334预约时间">Réservation</string>
+    <string name="m335预设充电">Chargement préréglé</string>
+    <string name="m336充电方案">système de tarification</string>
+    <string name="m337预计">attendu</string>
+    <string name="m338充满自动停止充电">Charger jusqu\'à ce que la batterie soit pleine</string>
+    <string name="m339预约">réservation</string>
+    <string name="m340取消预约">annuler une réservation</string>
+    <string name="m电表">Mètre</string>
+    <string name="m外部电流采样接线方式">Méthode de câblage d\'échantillonnage de courant externe</string>
+    <string name="mSolar模式">Mode solaire</string>
+    <string name="m电流限制">Limite de courant ECO</string>
+    <string name="m电表设备地址">Adresse de l\'appareil de mesure</string>
+    <string name="m设置未保存">Il y a toujours des modifications non enregistrées, s\'il faut annuler les modifications et quitter</string>
+    <string name="m输入字符长度不能超出">Le nombre de caractères saisis ne peut pas dépasser</string>
+    <string name="m电桩电子锁">Serrure électronique à pile électrique</string>
+    <string name="m是否解除该枪电子锁">S\'il faut libérer le verrou électronique du pistolet</string>
+    <string name="m已锁住">Fermé à clé</string>
+    <string name="m已解锁">Débloqué</string>
+    <string name="m解锁">Ouvrir</string>
+    <string name="m电桩不支持该设置或指令发送出现异常">La pile électrique ne prend pas en charge ce réglage ou la commande est envoyée anormalement</string>
+
+    <string name="m邮政编码不能为空">Le code postal ne peut pas être vide</string>
+    <string name="m请输入您的邮政编码">S\'il vous plait, entrer votre code postal</string>
+    <string name="m请输入安装商">Veuillez entrer le programme d\'installation</string>
+    <string name="m搜索电桩">Rechercher une pile de chargement</string>
+    <string name="m搜索结果为空">Les résultats de la recherche sont vides</string>
+    <string name="m密码已初始化">Mot de passe initialisé</string>
+
+    <string name="枪">sortie</string>
+
+    <string name="m交直流">AC/DC</string>
+
+    <string name="m电子锁配置">Configuration de la serrure électronique</string>
+    <string name="m手动">Manuel</string>
+    <string name="m自动">automatique</string>
+    <string name="m电表类型">Type de compteur</string>
+    <string name="m只有ECO模式有效">Seul le mode ECO est valide</string>
+    <string name="m东宏">Eastron</string>
+    <string name="m安科瑞">Acrel</string>
+    <string name="m去WLAN页面进行设置">Accédez à la page WLAN pour configurer &amp;gt</string>
+    <string name="m设置不满24小时">Les tarifs qui ne sont pas dans la période définie sont calculés selon le taux de 0</string>
+
+
+
+    <string name="m安装商不能为空">Le programme d\'installation ne peut pas être vide</string>
+    <string name="m安装商邮箱不能为空">La boîte aux lettres du programme d\'installation ne peut pas être vide</string>
+    <string name="m安装商电话不能为空">Le téléphone de l\'installateur ne peut pas être vide</string>
+    <string name="m安装商地址不能为空">L\'adresse de l\'installateur ne peut pas être vide</string>
+    <string name="m安装商日期不能为空">La date de l\'installateur ne peut pas être vide</string>
+
+    <string name="m安装商邮箱修改">Modification de la boîte aux lettres du programme d\'installation</string>
+    <string name="m安装商电话修改">Modification du téléphone de l\'installateur</string>
+    <string name="m安装商地址修改">Modification de l\'adresse de l\'installateur</string>
+    <string name="m安装日期修改">Modification de la date de l\'installateur</string>
+
+
+    <string name="m请输入安装商邮箱">Veuillez saisir l\'adresse e-mail du programme d\'installation</string>
+    <string name="m请输入安装商电话">Veuillez entrer le téléphone de l\'installateur</string>
+    <string name="m请输入安装商地址">Veuillez saisir l\'adresse de l\'installateur</string>
+    <string name="m请输入安装日期">Veuillez saisir la date d\'installation</string>
+    <string name="m时区">Fuseau horaire</string>
+    <string name="m网络模式设置">Réglage du mode réseau</string>
+    <string name="m低功率预约充电">Charge programmée basse consommation</string>
+    <string name="m充电桩序列号">Veuillez saisir le numéro de série de la station de charge</string>
+    <string name="m充电桩序列号不能为空">Le numéro de série de la station de charge ne peut pas être vide</string>
+    <string name="m免责声明">disclaimer：pev can analyse the data for monitoring purposes and Make recommendations from time to time on charging and potential improvements to their costs</string>
+
+
+
+
+
+
+
+
+    <string name="m权限获取某权限说明">Demander l\'autorisation xxx</string>
+    <string name="m权限请求">Autorisation requise</string>
+    <string name="m权限请求步骤">1. Aucune autorisation xxx, veuillez confirmer si vous l\'ouvrez manuellement; 2.Cliquez sur xx pour entrer le paramètre d\'authrosation; 3. Cliquez pour ouvrir l\'autorisation.</string>
+
+    <string name="m相机">Appareil photo ou stockage</string>
+    <string name="m存储">Espace de rangement</string>
+    <string name="m相机单">Caméra</string>
+    <string name="m位置权限">Autorisation de localisation</string>
+    <string name="m修改成功">Modifié avec succès</string>
+    <string name="m修改失败">Échec de la modification</string>
+    <string name="m确认退出">Appuyez pour quitter</string>
+    <string name="m请选择">Veuillez sélectionner</string>
+    <string name="m没有SD卡">Pas de carte SD</string>
+    <string name="m国家区号">Code postal</string>
+    <string name="m成功">Réussi</string>
+    <string name="m失败">Échoué</string>
+    <string name="m秒">s</string>
+    <string name="m网络错误">Problème de réseau</string>
+    <string name="m网络超时">délai d\'expiration de la connexion réseau</string>
+    <string name="m服务器连接失败">La connexion au serveur a échoué</string>
+    <string name="m请开启网络">Veuillez activer le réseau</string>
+    <string name="m账号未注册">Compte non enregistré</string>
+    <string name="m预约时间段">Période réservée</string>
+    <string name="m请选择正确的时间段">Veuillez sélectionner la période correcte</string>
+    <string name="m输入金额不正确">Le montant d\'argent n\'est pas correct</string>
+    <string name="m输入电量不正确">La quantité d\'électricité n\'est pas correcte</string>
+    <string name="m开始时间错误">Mauvaise heure de début</string>
+    <string name="m体验馆">demo</string>
+    <string name="solar">Solar</string>
+    <string name="m限制时间段">8:00am~8:00pm</string>
+    <string name="m位置">Emplacement</string>
+    <string name="m368请重试或检查网络连接">Veuillez réessayer ou vérifier la connexion réseau</string>
+    <string name="m133车拒绝充电">La voiture refuse de charger</string>
+    <string name="m请先升级充电桩">Veuillez mettre à jour le point de charge</string>
+    <string name="mCT">CT</string>
+    <string name="m确认修改">Confirmer les modifications?</string>
+    <string name="m登录成功">connexion réussie</string>
+    <string name="m验证失败">Validazione fallita</string>
+    <string name="m验证成功">Validazione riuscita</string>
+</resources>

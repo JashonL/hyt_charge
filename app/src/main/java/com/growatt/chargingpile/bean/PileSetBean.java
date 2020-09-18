@@ -57,6 +57,9 @@ public class PileSetBean {
         private String G_RCDProtection="";
         private String G_PowerMeterType="";
         private String UnlockConnectorOnEVSideDisconnect="";
+        private String G_LowPowerReserveEnable;
+        private String G_NetworkMode;
+
 
         public int getConnectors() {
             return connectors;
@@ -376,6 +379,23 @@ public class PileSetBean {
 
         public void setUnlockConnectorOnEVSideDisconnect(String unlockConnectorOnEVSideDisconnect) {
             UnlockConnectorOnEVSideDisconnect = unlockConnectorOnEVSideDisconnect;
+        }
+
+
+        public String getG_LowPowerReserveEnable() {
+            return G_LowPowerReserveEnable;
+        }
+
+        public void setG_LowPowerReserveEnable(String g_LowPowerReserveEnable) {
+            G_LowPowerReserveEnable = g_LowPowerReserveEnable;
+        }
+
+        public String getNetMode() {
+            return G_NetworkMode;
+        }
+
+        public void setNetMode(String netMode) {
+            G_NetworkMode = netMode;
         }
     }
 }

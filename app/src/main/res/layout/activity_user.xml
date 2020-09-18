@@ -16,23 +16,18 @@
         android:background="@drawable/selector_list_rect_item_click">
 
         <TextView
-            android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/xa14"
             android:text="@string/m57修改密码"
             android:textColor="#333333"
             android:textSize="@dimen/xa30"
             android:layout_marginStart="@dimen/xa14" />
 
         <ImageView
-            android:id="@+id/imageView1"
             android:layout_width="@dimen/xa70"
             android:layout_height="@dimen/xa35"
-            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/xa25"
             android:src="@drawable/charger_device_item_more"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/xa25" />
@@ -60,10 +55,8 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginLeft="@dimen/xa14"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/m58修改手机号"
@@ -72,10 +65,9 @@
                 android:layout_marginStart="@dimen/xa14" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/tv_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginLeft="@dimen/xa14"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textColor="#333333"
@@ -86,12 +78,9 @@
 
 
         <ImageView
-            android:id="@+id/imageView2"
             android:layout_width="@dimen/xa70"
             android:layout_height="@dimen/xa35"
-            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/xa25"
             android:src="@drawable/charger_device_item_more"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/xa25" />
@@ -120,10 +109,8 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginLeft="@dimen/xa14"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/m59修改邮箱"
@@ -132,10 +119,9 @@
                 android:layout_marginStart="@dimen/xa14" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/tv_email"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginLeft="@dimen/xa14"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textColor="#333333"
@@ -146,7 +132,6 @@
 
 
         <ImageView
-            android:id="@+id/imageView3"
             android:layout_width="@dimen/xa70"
             android:layout_height="@dimen/xa35"
             android:layout_alignParentRight="true"
@@ -166,6 +151,277 @@
 
     </RelativeLayout>
 
+  <!--  <RelativeLayout
+        android:id="@+id/rl_edit_intaller"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa120"
+        android:background="@drawable/selector_list_rect_item_click">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginLeft="@dimen/xa14"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/m修改安装人员"
+                android:textColor="#333333"
+                android:textSize="@dimen/xa30"
+                android:layout_marginStart="@dimen/xa14" />
+
+            <TextView
+                android:id="@+id/tv_installer"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginLeft="@dimen/xa14"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="#333333"
+                android:textSize="@dimen/xa30"
+                android:layout_marginStart="@dimen/xa14" />
+
+        </LinearLayout>
+
+
+        <ImageView
+            android:layout_width="@dimen/xa70"
+            android:layout_height="@dimen/xa35"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/xa25"
+            android:src="@drawable/charger_device_item_more"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/xa25" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/xa1"
+            android:layout_alignParentBottom="true"
+            android:background="@color/gray_background2"
+            android:orientation="vertical" />
+
+    </RelativeLayout>-->
+
+    <RelativeLayout
+        android:id="@+id/rl_edit_installemail"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa120"
+        android:background="@drawable/selector_list_rect_item_click">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/m安装商邮箱修改"
+                android:textColor="#333333"
+                android:textSize="@dimen/xa30"
+                android:layout_marginStart="@dimen/xa14" />
+
+            <TextView
+                android:id="@+id/tv_installemail"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="#333333"
+                android:textSize="@dimen/xa30"
+                android:layout_marginStart="@dimen/xa14" />
+
+        </LinearLayout>
+
+
+        <ImageView
+            android:layout_width="@dimen/xa70"
+            android:layout_height="@dimen/xa35"
+            android:layout_centerVertical="true"
+            android:src="@drawable/charger_device_item_more"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/xa25" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/xa1"
+            android:layout_alignParentBottom="true"
+            android:background="@color/gray_background2"
+            android:orientation="vertical" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rl_edit_installphone"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa120"
+        android:background="@drawable/selector_list_rect_item_click">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginLeft="@dimen/xa14"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/m安装商电话修改"
+                android:textColor="#333333"
+                android:textSize="@dimen/xa30"
+                android:layout_marginStart="@dimen/xa14" />
+
+            <TextView
+                android:id="@+id/tv_installphone"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginLeft="@dimen/xa14"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="#333333"
+                android:textSize="@dimen/xa30"
+                android:layout_marginStart="@dimen/xa14" />
+
+        </LinearLayout>
+
+
+        <ImageView
+            android:layout_width="@dimen/xa70"
+            android:layout_height="@dimen/xa35"
+            android:layout_centerVertical="true"
+            android:src="@drawable/charger_device_item_more"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/xa25" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/xa1"
+            android:layout_alignParentBottom="true"
+            android:background="@color/gray_background2"
+            android:orientation="vertical" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_edit_installaddress"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa120"
+        android:background="@drawable/selector_list_rect_item_click">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/m安装商地址修改"
+                android:textColor="#333333"
+                android:textSize="@dimen/xa30"
+                android:layout_marginStart="@dimen/xa14" />
+
+            <TextView
+                android:id="@+id/tv_installaddress"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="#333333"
+                android:textSize="@dimen/xa30"
+                android:layout_marginStart="@dimen/xa14" />
+
+        </LinearLayout>
+
+
+        <ImageView
+            android:layout_width="@dimen/xa70"
+            android:layout_height="@dimen/xa35"
+            android:layout_centerVertical="true"
+            android:src="@drawable/charger_device_item_more"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/xa25" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/xa1"
+            android:layout_alignParentBottom="true"
+            android:background="@color/gray_background2"
+            android:orientation="vertical" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_edit_date"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa120"
+        android:background="@drawable/selector_list_rect_item_click">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/m安装日期修改"
+                android:textColor="#333333"
+                android:textSize="@dimen/xa30"
+                android:layout_marginStart="@dimen/xa14" />
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="#333333"
+                android:textSize="@dimen/xa30"
+                android:layout_marginStart="@dimen/xa14" />
+
+        </LinearLayout>
+
+
+        <ImageView
+            android:layout_width="@dimen/xa70"
+            android:layout_height="@dimen/xa35"
+            android:layout_centerVertical="true"
+            android:src="@drawable/charger_device_item_more"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/xa25" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/xa1"
+            android:layout_alignParentBottom="true"
+            android:background="@color/gray_background2"
+            android:orientation="vertical" />
+
+    </RelativeLayout>
 
     <Button
         android:id="@+id/logout"

@@ -1,6 +1,8 @@
 package com.growatt.chargingpile.view;
 
 
+import android.content.Context;
+
 import com.hjq.toast.style.ToastQQStyle;
 
 /**
@@ -10,6 +12,11 @@ import com.hjq.toast.style.ToastQQStyle;
  */
 
 public class MyToastBlackStyle extends ToastQQStyle {
+
+    public MyToastBlackStyle(Context context) {
+        super(context);
+    }
+
     @Override
     public float getTextSize() {
         return 14;
@@ -21,7 +28,7 @@ public class MyToastBlackStyle extends ToastQQStyle {
     }
 
     @Override
-    public int getPaddingLeft() {
+    public int getPaddingStart() {
         return 12;
     }
 
@@ -29,5 +36,4 @@ public class MyToastBlackStyle extends ToastQQStyle {
     public int getPaddingTop() {
         return 10;
     }
-
 }

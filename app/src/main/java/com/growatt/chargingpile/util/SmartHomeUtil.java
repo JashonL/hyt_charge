@@ -189,4 +189,67 @@ public class SmartHomeUtil {
         }
         return letters;
     }
+
+
+    /**
+     * 获取24小时
+     */
+    public static List<String> getHours() {
+        List<String> hours = new ArrayList<>();
+        for (int hour = 0; hour < 24; hour++) {
+            if (hour < 10) hours.add("0" + hour);
+            else hours.add(String.valueOf(hour));
+        }
+        return hours;
+    }
+
+    /**
+     * 获取60分钟
+     */
+    public static List<String> getMins() {
+        List<String> getMins = new ArrayList<>();
+        for (int min = 0; min < 60; min++) {
+            if (min < 10) getMins.add("0" + min);
+            else getMins.add(String.valueOf(min));
+        }
+        return getMins;
+    }
+
+
+
+    /**
+     * 获取新语言
+     *
+     * @return
+     */
+    public static List<String> getZones() {
+        List<String> zones = new ArrayList<>();
+        zones.add("UTC-12:00");
+        zones.add("UTC-11:00");
+        zones.add("UTC-10:00");
+        zones.add("UTC-09:00");
+        zones.add("UTC-08:00");
+        zones.add("UTC-07:00");
+        zones.add("UTC-06:00");
+        zones.add("UTC-05:00");
+        zones.add("UTC-04:00");
+        zones.add("UTC-03:00");
+        zones.add("UTC-02:00");
+        zones.add("UTC-01:00");
+        zones.add("UTC+00:00");
+        zones.add("UTC+01:00");
+        zones.add("UTC+02:00");
+        zones.add("UTC+03:00");
+        zones.add("UTC+04:00");
+        zones.add("UTC+05:00");
+        zones.add("UTC+06:00");
+        zones.add("UTC+07:00");
+        zones.add("UTC+08:00");
+        zones.add("UTC+09:00");
+        zones.add("UTC+10:00");
+        zones.add("UTC+11:00");
+        zones.add("UTC+12:00");
+        return zones;
+    }
+
 }

@@ -53,7 +53,7 @@ public class MyApplication extends Application {
         JPushInterface.init(this);
 
         // toast
-        ToastUtils.initStyle(new MyToastBlackStyle());
+        ToastUtils.initStyle(new MyToastBlackStyle(this));
         ToastUtils.init(this);
     }
 
@@ -97,15 +97,9 @@ public class MyApplication extends Application {
      * 设置弹框按钮颜色等
      */
     private void initCirclerDialog() {
-        CircleDimen.TITLE_HEIGHT = 130;
-        CircleDimen.TITLE_TEXT_SIZE = 50;
-        CircleDimen.FOOTER_BUTTON_TEXT_SIZE = 45;
-        CircleDimen.INPUT_TEXT_SIZE = 40;
-        CircleDimen.ITEM_CONTENT_TEXT_SIZE = 40;
-        CircleDimen.CONTENT_TEXT_SIZE = 40;
-        CircleDimen.INPUT_HEIGHT = 220;
-        CircleDimen.DIALOG_RADIUS = 50;
-        CircleColor.CONTENT= 0xFF999999;
+        CircleColor.ITEM_CONTENT_TEXT = 0xFF007AFF;
+        CircleColor.FOOTER_BUTTON_TEXT_POSITIVE = 0xFF4B814B;
+        CircleColor.FOOTER_BUTTON_TEXT_NEGATIVE = 0xFF4B814B;
     }
 
 }

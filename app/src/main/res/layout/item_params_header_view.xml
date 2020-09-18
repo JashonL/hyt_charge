@@ -13,7 +13,7 @@
         android:background="@color/headerView"
         android:orientation="vertical">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -42,14 +42,14 @@
                 app:layout_constraintLeft_toRightOf="@+id/tv_id_key"
                 app:layout_constraintRight_toRightOf="parent" />
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/xa2"
             android:background="@color/gray_background2" />
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -78,14 +78,14 @@
                 app:layout_constraintLeft_toRightOf="@+id/tv_keys_key"
                 app:layout_constraintRight_toRightOf="parent" />
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/xa2"
             android:background="@color/gray_background2" />
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -114,7 +114,7 @@
                 app:layout_constraintLeft_toRightOf="@+id/tv_version_key"
                 app:layout_constraintRight_toRightOf="parent" />
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 

@@ -8,12 +8,13 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.constraint.Group;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.constraintlayout.widget.Group;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.core.content.ContextCompat;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -51,7 +52,7 @@ import com.growatt.chargingpile.bean.PileSetBean;
 import com.growatt.chargingpile.bean.ReservationBean;
 import com.growatt.chargingpile.connutil.PostUtil;
 import com.growatt.chargingpile.jpush.TagAliasOperatorHelper;
-import com.growatt.chargingpile.util.AlertPickDialog;
+import com.growatt.chargingpile.util.CircleDialogUtils;
 import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.Constant;
 import com.growatt.chargingpile.util.MathUtil;
@@ -62,6 +63,8 @@ import com.growatt.chargingpile.util.SmartHomeUrlUtil;
 import com.growatt.chargingpile.util.SmartHomeUtil;
 import com.growatt.chargingpile.view.RoundProgressBar;
 import com.mylhyl.circledialog.CircleDialog;
+import com.mylhyl.circledialog.view.listener.OnInputClickListener;
+import com.mylhyl.circledialog.view.listener.OnLvItemClickListener;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -71,6 +74,7 @@ import org.xutils.common.util.LogUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -84,7 +88,6 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.jpush.android.api.JPushInterface;
 import pub.devrel.easypermissions.EasyPermissions;
 
 import static com.growatt.chargingpile.jpush.TagAliasOperatorHelper.sequence;
@@ -290,6 +293,8 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
 
     private boolean isfirst=true;
     private String jumpId;
+    private DialogFragment dialogFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -630,12 +635,12 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             }
             if (presetType == 3) {
                 String duration = tvPpTime.getText().toString();
-                if (TextUtils.isEmpty(duration)||duration.contains("-")){//未选择时长
+                if (TextUtils.isEmpty(duration) || duration.contains("-")) {//未选择时长
                     //去预约列表操作
                     Intent intent = new Intent(ChargingPileActivity.this, ChargingDurationActivity.class);
                     intent.putExtra("sn", mCurrentPile.getChargeId());
                     jumpTo(intent, false);
-                }else {
+                } else {
                     if (isReservation) {
                         isReservation = false;
                         initReserveUi();
@@ -663,12 +668,12 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             }
             if (presetType == 3) {
                 String duration = tvPpTime.getText().toString();
-                if (TextUtils.isEmpty(duration)||duration.contains("-")){//未选择时长
+                if (TextUtils.isEmpty(duration) || duration.contains("-")) {//未选择时长
                     //去预约列表操作
                     Intent intent = new Intent(ChargingPileActivity.this, ChargingDurationActivity.class);
                     intent.putExtra("sn", mCurrentPile.getChargeId());
                     jumpTo(intent, false);
-                }else {
+                } else {
                     selectTime();
                 }
 
@@ -748,11 +753,11 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                 try {
                     List<ChargingBean.DataBean> charginglist = new ArrayList<>();
                     JSONObject object = new JSONObject(json);
-                    int currentPos=0;
+                    int currentPos = 0;
                     if (object.getInt("code") == 0) {
                         ChargingBean chargingListBean = new Gson().fromJson(json, ChargingBean.class);
                         if (chargingListBean != null) {
-                            jumpId=getIntent().getStringExtra("chargeId");
+                            jumpId = getIntent().getStringExtra("chargeId");
                             charginglist = chargingListBean.getData();
                             if (charginglist == null) charginglist = new ArrayList<>();
                             for (int i = 0; i < charginglist.size(); i++) {
@@ -770,9 +775,9 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                     if (charginglist.size() > 0) {
                         HeadRvAddButton(charginglist);
                         mAdapter.replaceData(charginglist);
-                        if (isfirst){
+                        if (isfirst) {
                             mAdapter.setNowSelectPosition(currentPos);
-                            isfirst=false;
+                            isfirst = false;
                         }
                         MyUtil.hideAllView(View.GONE, emptyPage);
                         MyUtil.showAllView(rlCharging, linearlayout);
@@ -813,13 +818,13 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
         String Modle = mCurrentPile.getModel();
         if (Modle.toLowerCase().contains("/")) {
             tvModel.setText(getString(R.string.m交直流));
-        } else if ("ac".equals(Modle.toLowerCase())){
+        } else if ("ac".equals(Modle.toLowerCase())) {
             tvModel.setText(getString(R.string.m112交流));
-        }else {
+        } else {
             tvModel.setText(getString(R.string.m113直流));
         }
 
-        String gun = mCurrentPile.getConnectors() +" "+ getString(R.string.枪);
+        String gun = mCurrentPile.getConnectors() + " " + getString(R.string.枪);
 
         if (mCurrentPile.getConnectors() == 1) {
             rlSwitchGun.setVisibility(View.GONE);
@@ -901,7 +906,6 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
      */
 
     private void freshChargingGun(final String chargingId, final int connectorId) {
-        Mydialog.Show(this);
         Map<String, Object> jsonMap = new HashMap<>();
         jsonMap.put("sn", chargingId);//测试id
         jsonMap.put("connectorId", connectorId);//测试id
@@ -917,7 +921,6 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
 
             @Override
             public void success(String json) {
-                Mydialog.Dismiss();
                 try {
                     JSONObject object = new JSONObject(json);
                     if (object.getInt("code") == 0) {
@@ -1424,7 +1427,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                     toast(getString(R.string.m66你的账号没有操作权限));
                     return;
                 }
-                if (mCurrentPile==null){
+                if (mCurrentPile == null) {
                     toast(R.string.m212暂时还没有设备);
                     return;
                 }
@@ -1600,9 +1603,9 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
         stopTimer();
         String []array=new String[]{"ECO","ECO+"};
         new CircleDialog.Builder()
-                .setItems(array, new AdapterView.OnItemClickListener() {
+                .setItems(array, new OnLvItemClickListener() {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    public boolean onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         int mode=position+1;
                         PileSetBean pileSetBean = new PileSetBean();
                         PileSetBean.DataBean dataBean = new PileSetBean.DataBean();
@@ -1610,6 +1613,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                         pileSetBean.setData(dataBean);
                         requestLimit(pileSetBean);
                         startTimer();
+                        return true;
                     }
                 })
                 .setNegative(getString(R.string.m7取消), new View.OnClickListener() {
@@ -1735,48 +1739,51 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                     .setTitle(getString(R.string.m27温馨提示))
                     //添加标题，参考普通对话框
                     .setInputHint(getString(R.string.m26请输入密码))//提示
-                    .setInputHeight(100)//输入框高度
-                    .autoInputShowKeyboard()//自动弹出键盘
+                    .setInputCounter(1000, (maxLen, currentLen) -> "")
                     .configInput(params -> {
                         params.gravity = Gravity.CENTER;
-                        params.textSize = 45;
+//                        params.textSize = 45;
 //                            params.backgroundColor=ContextCompat.getColor(ChargingPileActivity.this, R.color.preset_edit_time_background);
                         params.strokeColor = ContextCompat.getColor(ChargingPileActivity.this, R.color.preset_edit_time_background);
                     })
-                    .setPositiveInput(getString(R.string.m9确定), (text, v) -> {
-                        Map<String, Object> params = new HashMap<>();
-                        params.put("code", text);
-                        params.put("userId", SmartHomeUtil.getUserName());
-                        params.put("lan", getLanguage());
-                        String json = SmartHomeUtil.mapToJsonString(params);
-                        PostUtil.postJson(SmartHomeUrlUtil.postGetDemoCode(), json, new PostUtil.postListener() {
-                            @Override
-                            public void Params(Map<String, String> params) {
+                    .setPositiveInput(getString(R.string.m9确定), new OnInputClickListener() {
+                        @Override
+                        public boolean onClick(String text, View v) {
+                            Map<String, Object> params = new HashMap<>();
+                            params.put("code", text);
+                            params.put("userId", SmartHomeUtil.getUserName());
+                            params.put("lan", getLanguage());
+                            String json = SmartHomeUtil.mapToJsonString(params);
+                            PostUtil.postJson(SmartHomeUrlUtil.postGetDemoCode(), json, new PostUtil.postListener() {
+                                @Override
+                                public void Params(Map<String, String> params) {
 
-                            }
-
-                            @Override
-                            public void success(String json) {
-                                try {
-                                    JSONObject object = new JSONObject(json);
-                                    int code = object.getInt("code");
-                                    if (code == 0) {
-                                        Intent intent = new Intent(ChargingPileActivity.this, AddChargingActivity.class);
-                                        jumpTo(intent, false);
-                                    } else {
-                                        String data = object.getString("data");
-                                        toast(data);
-                                    }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
                                 }
-                            }
 
-                            @Override
-                            public void LoginError(String str) {
+                                @Override
+                                public void success(String json) {
+                                    try {
+                                        JSONObject object = new JSONObject(json);
+                                        int code = object.getInt("code");
+                                        if (code == 0) {
+                                            Intent intent = new Intent(ChargingPileActivity.this, AddChargingActivity.class);
+                                            jumpTo(intent, false);
+                                        } else {
+                                            String data = object.getString("data");
+                                            toast(data);
+                                        }
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
 
-                            }
-                        });
+                                @Override
+                                public void LoginError(String str) {
+
+                                }
+                            });
+                            return true;
+                        }
                     })
                     //添加取消按钮，参考普通对话框
                     .setNegative(getString(R.string.m7取消), v -> {
@@ -1833,7 +1840,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                             break;
                         case 1:
                             String money = tvPpmoney.getText().toString();
-                            if (TextUtils.isEmpty(money)||money.contains("-")){
+                            if (TextUtils.isEmpty(money) || money.contains("-")) {
                                 toast(R.string.m输入金额不正确);
                                 return;
                             }
@@ -1849,7 +1856,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                             break;
                         case 2:
                             String ele = tvPpEle.getText().toString();
-                            if (TextUtils.isEmpty(ele)||ele.contains("-")){
+                            if (TextUtils.isEmpty(ele) || ele.contains("-")) {
                                 toast(R.string.m输入电量不正确);
                                 return;
                             }
@@ -1865,7 +1872,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                             break;
                         case 3:
                             String duration = tvPpTime.getText().toString();
-                            if (TextUtils.isEmpty(duration)||duration.contains("-")){
+                            if (TextUtils.isEmpty(duration) || duration.contains("-")) {
                                 toast(R.string.m129时长设置不能为空);
                                 return;
                             }
@@ -2090,7 +2097,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             int id = popGunAdapter.getData().get(position).getConnectorId();
             animation = null;
             gunIds.put(mCurrentPile.getChargeId(), id);
-            String name = SmartHomeUtil.getLetter().get(id - 1) +" "+ getString(R.string.枪);
+            String name = SmartHomeUtil.getLetter().get(id - 1) + " " + getString(R.string.枪);
             tvSwitchGun.setText(name);
             popupGun.dismiss();
             startTimer();
@@ -2198,11 +2205,27 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
      * 弹起时间选择器
      */
     private void selectTime() {
-        AlertPickDialog.showTimePickerDialog(this, hours, "00", minutes, "00", new AlertPickDialog.AlertPickCallBack() {
+        Calendar calendar=Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int min=calendar.get(Calendar.MINUTE);
+        if (!TextUtils.isEmpty(startTime)){
+            String selectTime = startTime.substring(11, 16);
+            String[] time = selectTime.split("[\\D]");
+            hour= Integer.parseInt(time[0]);
+            min= Integer.parseInt(time[1]);
+        }
+        dialogFragment = CircleDialogUtils.showWhiteTimeSelect(this, hour, min, getSupportFragmentManager(), false, new CircleDialogUtils.timeSelectedListener() {
+            @Override
+            public void cancle() {
+                dialogFragment.dismiss();
+            }
 
             @Override
-            public void confirm(String hour, String minute) {
-                String time = hour + ":" + minute;
+            public void ok(boolean status, int hour, int min) {
+                String hourString=hour <10?("0"+hour):hour+"";
+                String minString=min <10?("0"+min):min+"";
+                String time = hourString + ":" + minString;
+
                 //获取年月
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 Date date = new Date();
@@ -2210,11 +2233,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                 startTime = yMd + "T" + time + ":00.000Z";
                 isReservation = true;
                 setReserveUi(getString(R.string.m204开始时间), getString(R.string.m205已开启), R.drawable.checkbox_on, time, true, false);
-            }
-
-            @Override
-            public void cancel() {
-
+                dialogFragment.dismiss();
             }
         });
     }

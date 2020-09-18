@@ -13,10 +13,10 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.FileProvider;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.core.content.FileProvider;
 import android.text.TextUtils;
 
 import com.growatt.chargingpile.application.MyApplication;
@@ -24,6 +24,7 @@ import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -64,11 +65,12 @@ public class PhotoUtil {
         intentCamera.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
         //将拍照结果保存至photo_file的Uri中，不保留在相册中
         intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        intentCamera.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+      /*  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             //添加这一句表示对目标应用临时授权该Uri所代表的文件
             intentCamera.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-        }
+        }*/
         activity.startActivityForResult(intentCamera, requestCode);
     }
 
@@ -178,12 +180,11 @@ public class PhotoUtil {
     }
 
 
-
-    public static String getFilePathFromURI(Context context, Uri contentUri) {
+    public static String getFilePathFromURI(Context context, Uri contentUri) throws IOException {
         //copy file and send new file path
         String fileName = getFileName(contentUri);
         if (!TextUtils.isEmpty(fileName)) {
-            File copyFile =  getFile();
+            File copyFile = getFile();
             copy(context, contentUri, copyFile);
             return copyFile.getAbsolutePath();
         }
@@ -337,15 +338,12 @@ public class PhotoUtil {
      * @return
      */
     public static Uri getImageUri(FragmentActivity act, File fileUri) {
-        Uri imageUri = null;
-        //判断是否是小米系统
-//        boolean isXiaomi = MyUtils.MIUISetStatusBarLightMode(act.getWindow());
-         /*&& !isXiaomi*/
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+        Uri imageUri;
+      /*  if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             imageUri = Uri.fromFile(fileUri);
-        } else {
-            imageUri = FileProvider.getUriForFile(act, authority, fileUri);
-        }
+        } else {*/
+        imageUri = FileProvider.getUriForFile(act, authority, fileUri);
+//        }
         return imageUri;
     }
 
@@ -353,6 +351,7 @@ public class PhotoUtil {
         UCrop.Options options = new UCrop.Options();
         options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
         options.setCompressionQuality(80);
+        options.setCircleDimmedLayer(true);
         return uCrop.withOptions(options);
     }
 
@@ -379,13 +378,14 @@ public class PhotoUtil {
      * @param uri intent.getData
      * @return 返回截取后的uri
      */
-    public static void startCropImageAct(FragmentActivity context, Uri uri) {
+    public static Uri startCropImageAct(FragmentActivity context, Uri uri) throws IOException {
         String filePathFromURI = getFilePathFromURI(context, uri);
-        if (!TextUtils.isEmpty(filePathFromURI)){
-            File imagePath=new File(filePathFromURI);
+        if (!TextUtils.isEmpty(filePathFromURI)) {
+            File imagePath = new File(filePathFromURI);
             Uri newUri = Uri.fromFile(imagePath);
-            Uri cropImageUri = Uri.fromFile(PhotoUtil.getFile(true));
+            Uri cropImageUri = Uri.fromFile(PhotoUtil.getFile());
             startCrop(context, newUri, cropImageUri);
+            return cropImageUri;
         }
 
        /* Uri cropImageUri = Uri.fromFile(PhotoUtil.getFile(true));
@@ -393,14 +393,15 @@ public class PhotoUtil {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             newUri = FileProvider.getUriForFile(context, PhotoUtil.authority, new File(newUri.getPath()));
         }*/
+        return null;
     }
 
-    public static Uri startCropImageAct(Fragment context, Uri uri) {
+    public static Uri startCropImageAct(Fragment context, Uri uri) throws IOException {
         String filePathFromURI = getFilePathFromURI(context.getActivity(), uri);
-        if (!TextUtils.isEmpty(filePathFromURI)){
-            File imagePath=new File(filePathFromURI);
+        if (!TextUtils.isEmpty(filePathFromURI)) {
+            File imagePath = new File(filePathFromURI);
             Uri newUri = Uri.fromFile(imagePath);
-            Uri cropImageUri = Uri.fromFile(PhotoUtil.getFile(true));
+            Uri cropImageUri = Uri.fromFile(PhotoUtil.getFile());
             startCrop(context, newUri, cropImageUri);
             return cropImageUri;
         }
@@ -488,29 +489,23 @@ public class PhotoUtil {
         activity.startActivityForResult(intent, requestCode);
     }
 
-    /*获取文件持久化*/
-    public static File getFile() {
-        return getFile(false);
-    }
 
-    /*获取文件持久化*/
-    public static File getFile(String childPath) {
-        return getFile(false, childPath);
+
+    /*获取文件*/
+    public static File getFile() throws IOException {
+        File file = getFile("images" + System.currentTimeMillis() + ".jpg");
+        return file;
     }
 
     /*获取文件*/
-    public static File getFile(boolean isCache) {
-        return getFile(isCache, "images" + System.currentTimeMillis() + ".jpg");
-    }
-
-    /*获取文件*/
-    public static File getFile(boolean isCache, String childPath) {
-        String parentPath = "";
-        if (isCache) {
-            parentPath = MyApplication.getInstance().getFilesDir().getPath();
-        } else {
-            parentPath = Environment.getExternalStorageDirectory().getPath();
+    public static File getFile(String childPath) throws IOException {
+        String parentPath = MyApplication.getInstance().getFilesDir().getPath();
+        File file = new File(parentPath);
+        if (!file.exists()) {
+            file.mkdirs();
         }
+        File picFile = new File(parentPath, childPath);
+        picFile.createNewFile();
         return new File(parentPath, childPath);
     }
 

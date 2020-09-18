@@ -2,10 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/headerView"
-    tools:context=".activity.AmendsActivity" >
-    <include layout="@layout/header_view_title" android:id="@+id/headerView"/>
+    android:orientation="vertical"
+    tools:context=".activity.AmendsActivity">
+
+    <include
+        android:id="@+id/headerView"
+        layout="@layout/header_view_title" />
 
 
     <TextView
@@ -13,20 +16,21 @@
         android:layout_width="@dimen/xa468"
         android:layout_height="@dimen/ya69"
         android:layout_gravity="center_horizontal"
-        android:textColor="@color/title_1"
-        android:text="@string/m58修改手机号"
-        android:gravity="center"
-        android:visibility="gone"
         android:layout_marginTop="@dimen/ya83"
+        android:gravity="center"
+        android:text="@string/m58修改手机号"
+        android:textColor="@color/title_1"
         android:textSize="@dimen/xa35"
-        />
+        android:visibility="gone" />
+
 
     <LinearLayout
+        android:id="@+id/ll_content"
         android:layout_width="match_parent"
         android:layout_height="@dimen/xa70"
         android:layout_marginLeft="@dimen/xa46"
-        android:layout_marginRight="@dimen/xa46"
         android:layout_marginTop="@dimen/ya50"
+        android:layout_marginRight="@dimen/xa46"
         android:orientation="horizontal">
 
 
@@ -45,6 +49,33 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/ll_content_date"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa70"
+        android:layout_marginLeft="@dimen/xa46"
+        android:layout_marginTop="@dimen/ya50"
+        android:layout_marginRight="@dimen/xa46"
+        android:visibility="gone"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:id="@+id/tv_content_date"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:drawableBottom="@drawable/shape_edittext_bg_gray"
+            android:gravity="center"
+            android:hint="@string/m请输入安装日期"
+            android:paddingLeft="@dimen/xa23"
+            android:paddingRight="@dimen/xa23"
+            android:textColor="@color/title_1"
+            android:textSize="@dimen/xa30" />
+
+    </LinearLayout>
+
+
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/xa1"
@@ -57,8 +88,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/xa58"
         android:layout_marginLeft="@dimen/xa185"
-        android:layout_marginRight="@dimen/xa185"
         android:layout_marginTop="@dimen/xa35"
+        android:layout_marginRight="@dimen/xa185"
         android:background="@null"
         android:gravity="center"
         android:hint="@string/m26请输入密码"

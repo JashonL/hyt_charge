@@ -25,7 +25,7 @@
     <string name="m20用户名密码错误">User name or password error</string>
     <string name="m21用户名密码为空">User name or password is empty</string>
     <string name="m25请输入用户名">Enter your username</string>
-    <string name="m26请输入密码">Enter your pwd</string>
+    <string name="m26请输入密码">Enter your password</string>
     <string name="m22忘记密码">Forgot password</string>
     <string name="m23注册">Sign up</string>
     <string name="m24登陆">Sign in</string>
@@ -386,14 +386,46 @@
     <string name="m密码已初始化">Password initialized</string>
 
     <string name="枪">outlet</string>
+
     <string name="m交直流">AC/DC</string>
+
+
     <string name="m电子锁配置">Electronic lock configuration</string>
     <string name="m手动">Manual</string>
     <string name="m自动">automatic</string>
     <string name="m电表类型">Meter type</string>
+    <string name="m只有ECO模式有效">Only ECO mode is valid</string>
     <string name="m东宏">Eastron</string>
     <string name="m安科瑞">Acrel</string>
-    <string name="m只有ECO模式有效">Only ECO mode is valid</string>
+    <string name="m去WLAN页面进行设置">Go to the WLAN page to set up&gt;</string>
+    <string name="m设置不满24小时">Rates that are not in the set time period are calculated according to the rate of 0</string>
+
+
+
+    <string name="m安装商不能为空">Installer cannot be empty</string>
+    <string name="m安装商邮箱不能为空">Installer mailbox cannot be empty</string>
+    <string name="m安装商电话不能为空">Installer phone cannot be empty</string>
+    <string name="m安装商地址不能为空">Installer address cannot be empty</string>
+    <string name="m安装商日期不能为空">Installer date cannot be empty</string>
+
+    <string name="m安装商邮箱修改">Installer mailbox modification</string>
+    <string name="m安装商电话修改">Installer phone modification</string>
+    <string name="m安装商地址修改">Installer address modification</string>
+    <string name="m安装日期修改">Installer date modification</string>
+
+    
+    <string name="m请输入安装商邮箱">Please enter the installer email</string>
+    <string name="m请输入安装商电话">Please enter the installer phone</string>
+    <string name="m请输入安装商地址">Please enter the installer address</string>
+    <string name="m请输入安装日期">Please enter installation date</string>
+    <string name="m时区">Time zone</string>
+    <string name="m网络模式设置">Network mode setting</string>
+    <string name="m低功率预约充电">Low-power scheduled charging</string>
+    <string name="m充电桩序列号">Charging station serial number</string>
+    <string name="m充电桩序列号不能为空">The serial number of the charging station cannot be empty</string>
+    <string name="m免责声明">disclaimer：pev can analyse the data for monitoring purposes and Make recommendations from time to time on charging and potential improvements to their costs</string>
+
+
 
 
     <!--安卓额外部分-->
@@ -401,7 +433,7 @@
     <!--权限问题-->
     <string name="m权限获取某权限说明">Request to get permission</string>
     <string name="m权限请求">Permission required</string>
-    <string name="m权限请求步骤">az engedély nem engedélyezett, függetlenül attól, hogy manuálisan van-e beállítva: 1. Kattintson az OK gombra a beállítások felületének belépéséhez; 2. Kattintási engedélyek; 3. Nyissa meg az engedélyeket.</string>
+    <string name="m权限请求步骤">permission is not enabled, regardless of whether it is set manually: 1. Click OK to enter the settings interface 2. Click Permissions 3. Open Permissions.</string>
     <!--    //相机和存储-->
     <string name="m相机">Camera or storage</string>
     <string name="m存储">Storage</string>
@@ -416,31 +448,30 @@
     <string name="m成功">Success</string>
     <string name="m失败">Failed</string>
     <string name="m秒">s</string>
-    <string name="m网络错误">Network error</string>
-    <string name="m网络超时">Networking Timeout</string>
-    <string name="m服务器连接失败">Failed to connect to server</string>
-    <string name="m请开启网络">Please open your network</string>
+    <string name="m网络错误">Network issue</string>
+    <string name="m网络超时">network connection timeout</string>
+    <string name="m服务器连接失败">Server connection failed</string>
+    <string name="m请开启网络">Please turn on network</string>
     <string name="m账号未注册">Account not registered</string>
-    <string name="m预约时间段">Appointment period</string>
+    <string name="m预约时间段">Reserved time period</string>
     <string name="m请选择正确的时间段">Please select the correct time period</string>
-    <string name="m输入金额不正确">The amount you entered is incorrect</string>
-    <string name="m输入电量不正确">The battery you entered is incorrect</string>
-    <string name="m开始时间错误">Wrong appointment time</string>
+    <string name="m输入金额不正确">The amount of money is not correct</string>
+    <string name="m输入电量不正确">The amount of electricity is not correct</string>
+    <string name="m开始时间错误">Wrong start time</string>
     <string name="m体验馆">demo</string>
     <string name="solar">Solar</string>
     <string name="m限制时间段">8:00am~8:00pm</string>
     <string name="m位置">Location</string>
     <string name="m368请重试或检查网络连接">Please try again or check network connection</string>
-    <string name="m去WLAN页面进行设置">Go to the WLAN page to set up&gt;</string>
     <string name="m133车拒绝充电">SuspendedEV</string>
     <string name="m请先升级充电桩">Please upgrade the pile first.</string>
     <string name="mCT">CT</string>
     <string name="m确认修改">Confirm the changes?</string>
     <string name="m登录成功">login successful</string>
-    <string name="m验证失败">Validazione fallita</string>
-    <string name="m验证成功">Validazione riuscita</string>
+    <string name="m验证失败">verification failed</string>
+    <string name="m验证成功">Verified successfully</string>
 
-    <string name="m设置不满24小时">Rates that are not in the set time period are calculated according to the rate of 0</string>
+
 </resources>
 
 
