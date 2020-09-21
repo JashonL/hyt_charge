@@ -2030,7 +2030,7 @@ public class WifiSetActivity extends BaseActivity {
                         String dns = MyUtil.ByteToString(dnsByte);
                         setBean("dns", dns);
                         //兼容老版本
-                        if (len > 63) {
+                        if (len > 77) {
                             netModeByte = new byte[1];
                             System.arraycopy(prayload, 77, netModeByte, 0, 1);
                             String netMode = MyUtil.ByteToString(netModeByte);
