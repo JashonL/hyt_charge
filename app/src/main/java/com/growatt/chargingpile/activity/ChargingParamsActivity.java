@@ -217,18 +217,18 @@ public class ChargingParamsActivity extends BaseActivity {
                 getString(R.string.m148基础参数), getString(R.string.m149电桩名称), getString(R.string.m150国家城市),
                 getString(R.string.m151站点), getString(R.string.m152充电费率), getString(R.string.m315货币单位),
                 getString(R.string.m313电桩最大输出电流), getString(R.string.m314智能功率分配), getString(R.string.m154充电模式),
-                getString(R.string.m155高级设置), getString(R.string.m156充电桩IP), getString(R.string.m157网关), getString(R.string.m158子网掩码),
-                getString(R.string.m159网络MAC地址), getString(R.string.m160服务器URL), getString(R.string.m161DNS地址), getString(R.string.m网络模式设置), "",
+                getString(R.string.m155高级设置), getString(R.string.m网络模式设置), getString(R.string.m156充电桩IP), getString(R.string.m157网关), getString(R.string.m158子网掩码),
+                getString(R.string.m159网络MAC地址), getString(R.string.m160服务器URL), getString(R.string.m161DNS地址), "",
                 getString(R.string.m298功率分配使能), getString(R.string.m外部电流采样接线方式), getString(R.string.mSolar模式), getString(R.string.m297峰谷充电使能), getString(R.string.m280允许充电时间), getString(R.string.m电表类型), getString(R.string.m电子锁配置),
-                getString(R.string.m低功率预约充电), "", getString(R.string.m289进入AP模式), ""};
+                getString(R.string.m低功率预约充电), "LCD","", getString(R.string.m289进入AP模式), ""};
         keySfields = new String[]{"", "name", "country",
                 "site", "rate", "unit",
                 "G_MaxCurrent", "G_ExternalLimitPower", "G_ChargerMode",
-                "", "ip", "gateway", "mask",
-                "mac", "host", "dns", "G_NetworkMode", "",
+                "",  "G_NetworkMode","ip", "gateway", "mask",
+                "mac", "host", "dns", "",
                 "G_ExternalLimitPowerEnable", "G_ExternalSamplingCurWring", "G_SolarMode", "G_PeakValleyEnable",
                 "G_AutoChargeTime", "G_PowerMeterType",
-                "UnlockConnectorOnEVSideDisconnect", "G_LowPowerReserveEnable",
+                "UnlockConnectorOnEVSideDisconnect", "G_LowPowerReserveEnable","G_LCDCloseEnable",
                 "", "apMode", ""};
         if (Cons.getNoConfigBean() != null) {
             noConfigKeys = Cons.getNoConfigBean().getSfield();
@@ -324,6 +324,10 @@ public class ChargingParamsActivity extends BaseActivity {
 
             case "G_NetworkMode":
                 setNetMode();
+                break;
+
+            case "G_LCDCloseEnable":
+                setLcd();
                 break;
 
             default:
@@ -678,6 +682,9 @@ public class ChargingParamsActivity extends BaseActivity {
                 break;
             case "G_NetworkMode":
                 initData.setNetMode((String) value);
+                break;
+            case "G_LCDCloseEnable":
+                initData.setG_LCDCloseEnable((String) value);
                 break;
 
         }
@@ -1037,6 +1044,16 @@ public class ChargingParamsActivity extends BaseActivity {
                         bean.setValue(lowPowerReserveEnable);
                     }
                     break;
+                case "G_LCDCloseEnable":
+                    bean.setType(ParamsSetAdapter.PARAM_ITEM);
+                    bean.setKey(keys[i]);
+                    String g_lcdCloseEnable = data.getG_LCDCloseEnable();
+                    if (TextUtils.isEmpty(g_lcdCloseEnable)) {
+                        bean.setValue("-");
+                    } else {
+                        bean.setValue(g_lcdCloseEnable);
+                    }
+                    break;
             }
             bean.setSfield(keySfields[i]);
             if (noConfigKeys.contains(bean.getSfield())) {
@@ -1370,6 +1387,35 @@ public class ChargingParamsActivity extends BaseActivity {
         pvOptions.show();
 
     }
+
+
+
+    /*网络模式*/
+    private void setLcd() {
+        List<String> list = Arrays.asList(LowPowerArray);
+        OptionsPickerView<String> pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                setBean("G_LCDCloseEnable", list.get(options1));
+            }
+        })
+                .setTitleText("LCD")
+                .setSubmitText(getString(R.string.m9确定))
+                .setCancelText(getString(R.string.m7取消))
+                .setTitleBgColor(0xffffffff)
+                .setTitleColor(0xff333333)
+                .setSubmitColor(0xff333333)
+                .setCancelColor(0xff999999)
+                .setBgColor(0xffffffff)
+                .setTitleSize(18)
+                .setTextColorCenter(0xff333333)
+                .build();
+        pvOptions.setPicker(list);
+        pvOptions.show();
+
+    }
+
+
 
 
     /*电子锁配置*/

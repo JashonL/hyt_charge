@@ -3,6 +3,7 @@ package com.growatt.chargingpile.util;
 import android.content.Context;
 import androidx.constraintlayout.widget.Group;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.core.content.ContextCompat;
 import android.view.Gravity;
@@ -82,6 +83,25 @@ public class CircleDialogUtils {
     }
 
 
+
+
+    /**
+     * 公共提示框
+     *
+     * @param activity
+     * @return
+     */
+    public static DialogFragment showCommentDialog(FragmentActivity activity, String title, String text, View.OnClickListener posiListener, View.OnClickListener negativeListener, boolean isCancelTouchOutsize) {
+        DialogFragment inputDialog = new CircleDialog.Builder()
+                .setTitle(title)
+                .setText(text)
+                .setGravity(Gravity.CENTER)
+                .setPositive(activity.getString(R.string.m9确定), posiListener)
+                .setNegative(activity.getString(R.string.m7取消), negativeListener)
+                .setCanceledOnTouchOutside(isCancelTouchOutsize)
+                .show(activity.getSupportFragmentManager());
+        return inputDialog;
+    }
 
 
     public interface timeSelectedListener {

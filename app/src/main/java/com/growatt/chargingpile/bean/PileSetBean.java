@@ -59,6 +59,7 @@ public class PileSetBean {
         private String UnlockConnectorOnEVSideDisconnect="";
         private String G_LowPowerReserveEnable;
         private String G_NetworkMode;
+        private String G_LCDCloseEnable;
 
 
         public int getConnectors() {
@@ -396,6 +397,22 @@ public class PileSetBean {
 
         public void setNetMode(String netMode) {
             G_NetworkMode = netMode;
+        }
+
+        public String getG_NetworkMode() {
+            return G_NetworkMode;
+        }
+
+        public void setG_NetworkMode(String g_NetworkMode) {
+            G_NetworkMode = g_NetworkMode;
+        }
+
+        public String getG_LCDCloseEnable() {
+            return G_LCDCloseEnable;
+        }
+
+        public void setG_LCDCloseEnable(String g_LCDCloseEnable) {
+            G_LCDCloseEnable = g_LCDCloseEnable;
         }
     }
 }
