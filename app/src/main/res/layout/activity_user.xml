@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,82 +9,103 @@
 
     <include layout="@layout/header_view" />
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rl_edit_password"
         android:layout_width="match_parent"
         android:layout_height="@dimen/xa120"
         android:layout_marginTop="@dimen/xa30"
         android:background="@drawable/selector_list_rect_item_click">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/xa14"
             android:text="@string/m57修改密码"
             android:textColor="#333333"
-            android:textSize="@dimen/xa30"
-            android:layout_marginStart="@dimen/xa14" />
+            android:textSize="@dimen/size_content_sp_16"
+            app:autoSizeMaxTextSize="@dimen/size_title_sp_16"
+            app:autoSizeMinTextSize="@dimen/size_content_sp_8"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/iv_more"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
+            android:id="@+id/iv_more"
             android:layout_width="@dimen/xa70"
             android:layout_height="@dimen/xa35"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/xa25"
             android:src="@drawable/charger_device_item_more"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/xa25" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/xa1"
-            android:layout_alignParentBottom="true"
             android:background="@color/gray_background2"
-            android:orientation="vertical" />
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rl_edit_phone"
         android:layout_width="match_parent"
         android:layout_height="@dimen/xa120"
         android:background="@drawable/selector_list_rect_item_click">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_phone_title"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/xa14"
             android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:text="@string/m58修改手机号"
+            android:textColor="#333333"
+            android:textSize="@dimen/size_content_sp_16"
+            app:autoSizeMaxTextSize="@dimen/size_title_sp_16"
+            app:autoSizeMinTextSize="@dimen/size_content_sp_8"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toTopOf="@+id/tv_phone"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/iv_phone_more"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/m58修改手机号"
-                android:textColor="#333333"
-                android:textSize="@dimen/xa30"
-                android:layout_marginStart="@dimen/xa14" />
-
-            <TextView
-                android:id="@+id/tv_phone"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textColor="#333333"
-                android:textSize="@dimen/xa30"
-                android:layout_marginStart="@dimen/xa14" />
-
-        </LinearLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_phone"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/xa14"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:textColor="#333333"
+            android:textSize="@dimen/size_content_sp_16"
+            app:autoSizeMaxTextSize="@dimen/size_title_sp_16"
+            app:autoSizeMinTextSize="@dimen/size_content_sp_8"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/iv_phone_more"
+            app:layout_constraintTop_toBottomOf="@+id/tv_phone_title" />
 
 
         <ImageView
+            android:id="@+id/iv_phone_more"
             android:layout_width="@dimen/xa70"
             android:layout_height="@dimen/xa35"
-            android:layout_centerVertical="true"
-            android:src="@drawable/charger_device_item_more"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/xa25" />
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/xa25"
+            android:src="@drawable/charger_device_item_more"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <View
@@ -92,164 +114,130 @@
             android:layout_height="@dimen/xa1"
             android:layout_alignParentBottom="true"
             android:background="@color/gray_background2"
-            android:orientation="vertical" />
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rl_edit_email"
         android:layout_width="match_parent"
         android:layout_height="@dimen/xa120"
         android:background="@drawable/selector_list_rect_item_click">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_email_title"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/xa14"
             android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:text="@string/m59修改邮箱"
+            android:textColor="#333333"
+            android:textSize="@dimen/size_content_sp_16"
+            app:autoSizeMaxTextSize="@dimen/size_title_sp_16"
+            app:autoSizeMinTextSize="@dimen/size_content_sp_8"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toTopOf="@+id/tv_email"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/iv_email_more"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/m59修改邮箱"
-                android:textColor="#333333"
-                android:textSize="@dimen/xa30"
-                android:layout_marginStart="@dimen/xa14" />
 
-            <TextView
-                android:id="@+id/tv_email"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textColor="#333333"
-                android:textSize="@dimen/xa30"
-                android:layout_marginStart="@dimen/xa14" />
-
-        </LinearLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_email"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/xa14"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:textColor="#333333"
+            android:textSize="@dimen/size_content_sp_16"
+            app:autoSizeMaxTextSize="@dimen/size_title_sp_16"
+            app:autoSizeMinTextSize="@dimen/size_content_sp_8"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/iv_email_more"
+            app:layout_constraintTop_toBottomOf="@+id/tv_email_title" />
 
 
         <ImageView
+            android:id="@+id/iv_email_more"
             android:layout_width="@dimen/xa70"
             android:layout_height="@dimen/xa35"
-            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/xa25"
             android:layout_marginRight="@dimen/xa25"
             android:src="@drawable/charger_device_item_more"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/xa25" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/xa1"
-            android:layout_alignParentBottom="true"
             android:background="@color/gray_background2"
-            android:orientation="vertical" />
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
-    </RelativeLayout>
-
-  <!--  <RelativeLayout
-        android:id="@+id/rl_edit_intaller"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/xa120"
-        android:background="@drawable/selector_list_rect_item_click">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginLeft="@dimen/xa14"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/m修改安装人员"
-                android:textColor="#333333"
-                android:textSize="@dimen/xa30"
-                android:layout_marginStart="@dimen/xa14" />
-
-            <TextView
-                android:id="@+id/tv_installer"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginLeft="@dimen/xa14"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textColor="#333333"
-                android:textSize="@dimen/xa30"
-                android:layout_marginStart="@dimen/xa14" />
-
-        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <ImageView
-            android:layout_width="@dimen/xa70"
-            android:layout_height="@dimen/xa35"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/xa25"
-            android:src="@drawable/charger_device_item_more"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/xa25" />
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/xa1"
-            android:layout_alignParentBottom="true"
-            android:background="@color/gray_background2"
-            android:orientation="vertical" />
-
-    </RelativeLayout>-->
-
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rl_edit_installemail"
         android:layout_width="match_parent"
         android:layout_height="@dimen/xa120"
         android:background="@drawable/selector_list_rect_item_click">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_installemail_title"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/xa14"
             android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:text="@string/m安装商邮箱修改"
+            android:textColor="#333333"
+            android:textSize="@dimen/size_content_sp_16"
+            app:autoSizeMaxTextSize="@dimen/size_title_sp_16"
+            app:autoSizeMinTextSize="@dimen/size_content_sp_8"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toTopOf="@+id/tv_installemail"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/iv_installemail_more"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/m安装商邮箱修改"
-                android:textColor="#333333"
-                android:textSize="@dimen/xa30"
-                android:layout_marginStart="@dimen/xa14" />
 
-            <TextView
-                android:id="@+id/tv_installemail"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textColor="#333333"
-                android:textSize="@dimen/xa30"
-                android:layout_marginStart="@dimen/xa14" />
-
-        </LinearLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_installemail"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/xa14"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:textColor="#333333"
+            android:textSize="@dimen/size_content_sp_16"
+            app:autoSizeMaxTextSize="@dimen/size_title_sp_16"
+            app:autoSizeMinTextSize="@dimen/size_content_sp_8"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/iv_installemail_more"
+            app:layout_constraintTop_toBottomOf="@+id/tv_installemail_title" />
 
 
         <ImageView
+            android:id="@+id/iv_installemail_more"
             android:layout_width="@dimen/xa70"
             android:layout_height="@dimen/xa35"
-            android:layout_centerVertical="true"
-            android:src="@drawable/charger_device_item_more"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/xa25" />
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/xa25"
+            android:src="@drawable/charger_device_item_more"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <View
@@ -257,179 +245,211 @@
             android:layout_height="@dimen/xa1"
             android:layout_alignParentBottom="true"
             android:background="@color/gray_background2"
-            android:orientation="vertical" />
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rl_edit_installphone"
         android:layout_width="match_parent"
         android:layout_height="@dimen/xa120"
         android:background="@drawable/selector_list_rect_item_click">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_nstallphone_title"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/xa14"
             android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:text="@string/m安装商电话修改"
+            android:textColor="#333333"
+            android:textSize="@dimen/size_content_sp_16"
+            app:autoSizeMaxTextSize="@dimen/size_title_sp_16"
+            app:autoSizeMinTextSize="@dimen/size_content_sp_8"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toTopOf="@+id/tv_installphone"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/iv_installphone_more"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginLeft="@dimen/xa14"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/m安装商电话修改"
-                android:textColor="#333333"
-                android:textSize="@dimen/xa30"
-                android:layout_marginStart="@dimen/xa14" />
 
-            <TextView
-                android:id="@+id/tv_installphone"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginLeft="@dimen/xa14"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textColor="#333333"
-                android:textSize="@dimen/xa30"
-                android:layout_marginStart="@dimen/xa14" />
-
-        </LinearLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_installphone"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/xa14"
+            android:gravity="center_vertical"
+            android:textColor="#333333"
+            android:textSize="@dimen/size_content_sp_16"
+            app:autoSizeMaxTextSize="@dimen/size_title_sp_16"
+            app:autoSizeMinTextSize="@dimen/size_content_sp_8"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/iv_installphone_more"
+            app:layout_constraintTop_toBottomOf="@+id/tv_nstallphone_title" />
 
 
         <ImageView
+            android:id="@+id/iv_installphone_more"
             android:layout_width="@dimen/xa70"
             android:layout_height="@dimen/xa35"
-            android:layout_centerVertical="true"
-            android:src="@drawable/charger_device_item_more"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/xa25" />
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/xa25"
+            android:src="@drawable/charger_device_item_more"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/xa1"
-            android:layout_alignParentBottom="true"
             android:background="@color/gray_background2"
-            android:orientation="vertical" />
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rl_edit_installaddress"
         android:layout_width="match_parent"
         android:layout_height="@dimen/xa120"
         android:background="@drawable/selector_list_rect_item_click">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_installaddress_title"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/xa14"
             android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:text="@string/m安装商地址修改"
+            android:textColor="#333333"
+            android:textSize="@dimen/size_content_sp_16"
+            app:autoSizeMaxTextSize="@dimen/size_title_sp_16"
+            app:autoSizeMinTextSize="@dimen/size_content_sp_8"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toTopOf="@+id/tv_installaddress"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/iv_installaddress"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/m安装商地址修改"
-                android:textColor="#333333"
-                android:textSize="@dimen/xa30"
-                android:layout_marginStart="@dimen/xa14" />
 
-            <TextView
-                android:id="@+id/tv_installaddress"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textColor="#333333"
-                android:textSize="@dimen/xa30"
-                android:layout_marginStart="@dimen/xa14" />
-
-        </LinearLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_installaddress"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/xa14"
+            android:gravity="center_vertical"
+            android:textColor="#333333"
+            android:textSize="@dimen/size_content_sp_16"
+            app:autoSizeMaxTextSize="@dimen/size_title_sp_16"
+            app:autoSizeMinTextSize="@dimen/size_content_sp_8"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/iv_installaddress"
+            app:layout_constraintTop_toBottomOf="@+id/tv_installaddress_title" />
 
 
         <ImageView
+            android:id="@+id/iv_installaddress"
             android:layout_width="@dimen/xa70"
             android:layout_height="@dimen/xa35"
-            android:layout_centerVertical="true"
-            android:src="@drawable/charger_device_item_more"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/xa25" />
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/xa25"
+            android:src="@drawable/charger_device_item_more"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/xa1"
-            android:layout_alignParentBottom="true"
             android:background="@color/gray_background2"
-            android:orientation="vertical" />
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rl_edit_date"
         android:layout_width="match_parent"
         android:layout_height="@dimen/xa120"
         android:background="@drawable/selector_list_rect_item_click">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_date_title"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/xa14"
             android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:text="@string/m安装商地址修改"
+            android:textColor="#333333"
+            android:textSize="@dimen/size_content_sp_16"
+            app:autoSizeMaxTextSize="@dimen/size_title_sp_16"
+            app:autoSizeMinTextSize="@dimen/size_content_sp_8"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toTopOf="@+id/tv_date"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/iv_date_more"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/m安装日期修改"
-                android:textColor="#333333"
-                android:textSize="@dimen/xa30"
-                android:layout_marginStart="@dimen/xa14" />
 
-            <TextView
-                android:id="@+id/tv_date"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textColor="#333333"
-                android:textSize="@dimen/xa30"
-                android:layout_marginStart="@dimen/xa14" />
-
-        </LinearLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_date"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/xa14"
+            android:gravity="center_vertical"
+            android:textColor="#333333"
+            android:textSize="@dimen/size_content_sp_16"
+            app:autoSizeMaxTextSize="@dimen/size_title_sp_16"
+            app:autoSizeMinTextSize="@dimen/size_content_sp_8"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/iv_date_more"
+            app:layout_constraintTop_toBottomOf="@+id/tv_date_title" />
 
 
         <ImageView
+            android:id="@+id/iv_date_more"
             android:layout_width="@dimen/xa70"
             android:layout_height="@dimen/xa35"
-            android:layout_centerVertical="true"
-            android:src="@drawable/charger_device_item_more"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/xa25" />
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/xa25"
+            android:src="@drawable/charger_device_item_more"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/xa1"
-            android:layout_alignParentBottom="true"
             android:background="@color/gray_background2"
-            android:orientation="vertical" />
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
         android:id="@+id/logout"
         android:layout_width="@dimen/xa585"
         android:layout_height="@dimen/xa89"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="@dimen/xa70"
         android:layout_marginTop="@dimen/xa70"
+        android:layout_marginBottom="@dimen/xa70"
         android:background="@drawable/selector_circle_btn_green"
         android:text="@string/m317注销账户"
         android:textColor="@color/headerView"

@@ -470,7 +470,7 @@
     <string name="m登录成功">login successful</string>
     <string name="m验证失败">verification failed</string>
     <string name="m验证成功">Verified successfully</string>
-
+    <string name="m315_turn_on_gps">Please turn on GPS positioning to get wifi ssid</string>
 
 </resources>
 

@@ -37,11 +37,11 @@ public class RoundProgressBar extends View {
 
     /**
      */
-    private int max;
+    private float max;
 
     /**
      */
-    private int progress;
+    private float progress;
     /**
      */
     private boolean textIsDisplayable;
@@ -99,7 +99,7 @@ public class RoundProgressBar extends View {
         paint.setColor(textColor);
         paint.setTextSize(textSize);
         paint.setTypeface(Typeface.DEFAULT_BOLD); //��������
-        int percent = (int) (((float) progress / (float) max) * 100);  //�м�Ľ��Ȱٷֱȣ���ת����float�ڽ��г������㣬��Ȼ��Ϊ0
+        int percent = (int) ((progress / (float) max) * 100);  //�м�Ľ��Ȱٷֱȣ���ת����float�ڽ��г������㣬��Ȼ��Ϊ0
         float textWidth = paint.measureText(percent + "%");   //���������ȣ�������Ҫ��������Ŀ��������Բ���м�
 
         if (textIsDisplayable && style == STROKE) {
@@ -137,14 +137,14 @@ public class RoundProgressBar extends View {
     }
 
 
-    public synchronized int getMax() {
+    public synchronized float getMax() {
         return max;
     }
 
     /**
      * @param max
      */
-    public synchronized void setMax(int max) {
+    public synchronized void setMax(float max) {
         if (max < 0) {
             throw new IllegalArgumentException("max not less than 0");
         }
@@ -154,14 +154,14 @@ public class RoundProgressBar extends View {
     /**
      * @return
      */
-    public synchronized int getProgress() {
+    public synchronized float getProgress() {
         return progress;
     }
 
     /**
      * @param progress
      */
-    public synchronized void setProgress(int progress) {
+    public synchronized void setProgress(float progress) {
         if (progress < 0) {
             throw new IllegalArgumentException("progress not less than 0");
         }

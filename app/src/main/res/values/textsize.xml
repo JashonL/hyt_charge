@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--标题文字标准-->
+    <dimen name="size_title_bar">20sp</dimen><!--头部标题大小-->
+
+    <dimen name="size_title_sp_18">18sp</dimen><!--主标题大小-->
+    <dimen name="size_title_sp_16">16sp</dimen><!--一号标题大小-->
+    <dimen name="size_title_sp_14">14sp</dimen><!--副标题大小-->
+    <dimen name="size_title_sp_12">12sp</dimen><!--小号标题大小-->
+
+    <!--内容尺寸标准-->
+    <dimen name="size_content_sp_16">16sp</dimen>
+    <dimen name="size_content_sp_14">14sp</dimen>
+    <dimen name="size_content_sp_12">12sp</dimen>
+    <dimen name="size_content_sp_10">10sp</dimen>
+    <dimen name="size_content_sp_8">8sp</dimen>
+
+    <!--注释-->
+    <dimen name="size_content_note">12sp</dimen>
+
+
+
+
+</resources>

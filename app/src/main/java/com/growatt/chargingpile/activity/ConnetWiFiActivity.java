@@ -1,18 +1,24 @@
 package com.growatt.chargingpile.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Paint;
+import android.location.LocationManager;
+import android.net.ConnectivityManager;
 import android.net.DhcpInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
+
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -28,6 +34,8 @@ import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.bean.UdpSearchBean;
 import com.growatt.chargingpile.connutil.PostUtil;
+import com.growatt.chargingpile.util.CircleDialogUtils;
+import com.growatt.chargingpile.util.GlobalConstant;
 import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.PermissionCodeUtil;
@@ -99,11 +107,25 @@ public class ConnetWiFiActivity extends BaseActivity {
     public String mIP;//服务器地址
     public int mPort = 8888;//服务器端口号
 
+
+    private DialogFragment dialogFragment;
+
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context c, final Intent intent) {
-            if (WifiManager.NETWORK_STATE_CHANGED_ACTION.equals(intent.getAction())) {
-                checkWifiNetworkStatus();
+
+            String action = intent.getAction();
+            if (action != null) {
+                switch (action) {
+                    case ConnectivityManager.CONNECTIVITY_ACTION:
+//                    case WifiManager.SCAN_RESULTS_AVAILABLE_ACTION:
+                    case "android.net.wifi.CONFIGURED_NETWORKS_CHANGE":
+                    case "android.net.wifi.LINK_CONFIGURATION_CHANGED":
+                    case WifiManager.NETWORK_STATE_CHANGED_ACTION:
+                    case WifiManager.SUPPLICANT_STATE_CHANGED_ACTION:
+                        checkWifiNetworkStatus();
+                        break;
+                }
             }
         }
     };
@@ -138,8 +160,14 @@ public class ConnetWiFiActivity extends BaseActivity {
      * 广播接收器，接收连接wifi的广播
      */
     private void initWifi() {
-        registerReceiver(mBroadcastReceiver, new IntentFilter(
-                WifiManager.NETWORK_STATE_CHANGED_ACTION));
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+//        filter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
+        filter.addAction("android.net.wifi.CONFIGURED_NETWORKS_CHANGE");
+        filter.addAction("android.net.wifi.LINK_CONFIGURATION_CHANGED");
+        filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+        filter.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
+        registerReceiver(mBroadcastReceiver, filter);
     }
 
     private void initViews() {
@@ -162,21 +190,69 @@ public class ConnetWiFiActivity extends BaseActivity {
 
 
     public void checkWifiNetworkStatus() {
-        if (MyUtil.isNetworkAvailable(ConnetWiFiActivity.this)) {
-            if (Build.VERSION.SDK_INT >= 27) {//8.1
-                if (EasyPermissions.hasPermissions(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
-                    currentSSID = MyUtil.getWIFISSID(this);
+        try {
+            if (MyUtil.isNetworkAvailable(ConnetWiFiActivity.this)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {//8.1
+                    if (EasyPermissions.hasPermissions(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                        gpsStatus();
+                    } else {
+                        EasyPermissions.requestPermissions(this,String.format("%s:%s",getString(R.string.m权限获取某权限说明),getString(R.string.m位置)), PermissionCodeUtil.PERMISSION_LOCATION_CODE, Manifest.permission.ACCESS_FINE_LOCATION);
+                    }
                 } else {
-                    EasyPermissions.requestPermissions(this,String.format("%s:%s",getString(R.string.m权限获取某权限说明),getString(R.string.m位置)), PermissionCodeUtil.PERMISSION_LOCATION_CODE, Manifest.permission.ACCESS_FINE_LOCATION);
+                    currentSSID = MyUtil.getWIFISSID(this);
+                }
+                setWiFiName();
+                mIP = getServerIp();
+            } else {
+                currentSSID = null;
+                tvWifiName.setText(R.string.m288未连接);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * 判断Gps是否打开
+     */
+    private void gpsStatus() {
+        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (lm != null) {
+            boolean ok = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            if (ok) {
+                try {
+                    currentSSID = MyUtil.getWIFISSID(this);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             } else {
-                currentSSID = MyUtil.getWIFISSID(this);
+                showGpsDialog();
             }
-            setWiFiName();
-            mIP = getServerIp();
-        } else {
-            currentSSID = null;
-            tvWifiName.setText(R.string.m288未连接);
+        }
+    }
+
+
+    /**
+     * 开启GPS弹框
+     */
+
+    private void showGpsDialog() {
+        if (dialogFragment == null) {
+            dialogFragment = CircleDialogUtils.showCommentDialog(this, getString(R.string.m27温馨提示), getString(R.string.m315_turn_on_gps), new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setAction(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivityForResult(intent, GlobalConstant.ACTION_LOCATION_CODE);
+                    dialogFragment=null;
+                }
+            }, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            }, false);
         }
 
     }
@@ -384,4 +460,5 @@ public class ConnetWiFiActivity extends BaseActivity {
         }
         dialog.show();
     }
+
 }

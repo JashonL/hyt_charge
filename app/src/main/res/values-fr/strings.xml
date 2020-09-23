@@ -466,4 +466,5 @@
     <string name="m登录成功">connexion réussie</string>
     <string name="m验证失败">Validazione fallita</string>
     <string name="m验证成功">Validazione riuscita</string>
+    <string name="m315_turn_on_gps">Veuillez activer le positionnement GPS pour obtenir le ssid wifi</string>
 </resources>

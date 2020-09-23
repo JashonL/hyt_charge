@@ -467,7 +467,7 @@
     <string name="m验证失败">验证失败</string>
     <string name="m验证成功">验证成功</string>
 
-
+    <string name="m315_turn_on_gps">请开启GPS定位，以便获取wifi ssid</string>
 </resources>
 
 
