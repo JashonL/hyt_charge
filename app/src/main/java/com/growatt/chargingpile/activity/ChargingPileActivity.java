@@ -1036,7 +1036,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                             String scheme = String.format(getString(R.string.m198预设充电方案) + "-%s", getString(R.string.m200金额));
                             setPresetChargingUi(scheme, String.valueOf(data.getcValue()), money, getString(R.string.m192消费金额),
                                     R.drawable.charging_ele, energy, getString(R.string.m189已充电量), R.drawable.charging_time, sTimeCharging, getString(R.string.m191已充时长),
-                                    Double.parseDouble(data.getcValue()), (int) data.getCost(),
+                                    Double.parseDouble(data.getcValue()), data.getCost(),
                                     String.valueOf(data.getRate()), data.getCurrent() + "A", data.getVoltage() + "V");
                             break;
 
@@ -1045,7 +1045,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                             String scheme1 = String.format(getString(R.string.m198预设充电方案) + "-%s", getString(R.string.m201电量));
                             setPresetChargingUi(scheme1, data.getcValue() + "kWh", energy, getString(R.string.m189已充电量),
                                     R.drawable.charging_money, money, getString(R.string.m192消费金额), R.drawable.charging_time, sTimeCharging, getString(R.string.m191已充时长),
-                                    Double.parseDouble(data.getcValue()), (int) data.getEnergy(),
+                                    Double.parseDouble(data.getcValue()),  data.getEnergy(),
                                     String.valueOf(data.getRate()), data.getCurrent() + "A", data.getVoltage() + "V");
                             break;
 
@@ -1333,7 +1333,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
     private void setPresetChargingUi(String scheme, String presetValue, String chargedVaule, String type,
                                      int resOther, String otherValue, String otherText, int resOhter2,
                                      String otherValue2, String otherText2, double presetValue_value,
-                                     int chargedValue_value, String rateString, String currentString, String voltageString) {
+                                     double chargedValue_value, String rateString, String currentString, String voltageString) {
         tvPresetText.setText(scheme);
         tvPresetValue.setText(presetValue);
         tvChargingValue.setText(chargedVaule);
@@ -1346,10 +1346,10 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
         ivChargedOther2.setImageResource(resOhter2);
         tvOtherValue2.setText(otherValue2);
         tvOtherText2.setText(otherText2);
-        if ((int) presetValue_value > 0) {
-            roundProgressBar.setMax((int) presetValue_value);
+        if (presetValue_value > 0) {
+            roundProgressBar.setMax((float) presetValue_value);
         }
-        roundProgressBar.setProgress(chargedValue_value);
+        roundProgressBar.setProgress((float) chargedValue_value);
         roundProgressBar.setTextSize(getResources().getDimensionPixelSize(R.dimen.xa26));
 
         tvRate.setText(rateString);

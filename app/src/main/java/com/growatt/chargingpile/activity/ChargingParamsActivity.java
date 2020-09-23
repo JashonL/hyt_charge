@@ -1222,7 +1222,7 @@ public class ChargingParamsActivity extends BaseActivity {
                 .setSubmitColor(0xff333333)
                 .setCancelColor(0xff999999)
                 .setBgColor(0xffffffff)
-                .setTitleSize(17)
+                .setTitleSize(14)
                 .setTextColorCenter(0xff333333)
                 .build();
         pvOptions.setPicker(list);
@@ -1302,7 +1302,7 @@ public class ChargingParamsActivity extends BaseActivity {
                 .setSubmitColor(0xff333333)
                 .setCancelColor(0xff999999)
                 .setBgColor(0xffffffff)
-                .setTitleSize(18)
+                .setTitleSize(14)
                 .setTextColorCenter(0xff333333)
                 .build();
         pvOptions.setPicker(countryList);
@@ -1327,7 +1327,7 @@ public class ChargingParamsActivity extends BaseActivity {
                 .setSubmitColor(0xff333333)
                 .setCancelColor(0xff999999)
                 .setBgColor(0xffffffff)
-                .setTitleSize(18)
+                .setTitleSize(14)
                 .setTextColorCenter(0xff333333)
                 .build();
         pvOptions.setPicker(list);
@@ -1353,7 +1353,7 @@ public class ChargingParamsActivity extends BaseActivity {
                 .setSubmitColor(0xff333333)
                 .setCancelColor(0xff999999)
                 .setBgColor(0xffffffff)
-                .setTitleSize(18)
+                .setTitleSize(14)
                 .setTextColorCenter(0xff333333)
                 .build();
         pvOptions.setPicker(list);
@@ -1380,7 +1380,7 @@ public class ChargingParamsActivity extends BaseActivity {
                 .setSubmitColor(0xff333333)
                 .setCancelColor(0xff999999)
                 .setBgColor(0xffffffff)
-                .setTitleSize(18)
+                .setTitleSize(14)
                 .setTextColorCenter(0xff333333)
                 .build();
         pvOptions.setPicker(list);
@@ -1407,7 +1407,7 @@ public class ChargingParamsActivity extends BaseActivity {
                 .setSubmitColor(0xff333333)
                 .setCancelColor(0xff999999)
                 .setBgColor(0xffffffff)
-                .setTitleSize(18)
+                .setTitleSize(14)
                 .setTextColorCenter(0xff333333)
                 .build();
         pvOptions.setPicker(list);
@@ -1444,7 +1444,7 @@ public class ChargingParamsActivity extends BaseActivity {
                 .setSubmitColor(0xff333333)
                 .setCancelColor(0xff999999)
                 .setBgColor(0xffffffff)
-                .setTitleSize(18)
+                .setTitleSize(14)
                 .setTextColorCenter(0xff333333)
                 .build();
         pvOptions.setPicker(list);
@@ -1494,7 +1494,7 @@ public class ChargingParamsActivity extends BaseActivity {
                 .setSubmitColor(0xff333333)
                 .setCancelColor(0xff999999)
                 .setBgColor(0xffffffff)
-                .setTitleSize(18)
+                .setTitleSize(14)
                 .setTextColorCenter(0xff333333)
                 .build();
         pvOptions.setPicker(list);
