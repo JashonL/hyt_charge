@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.growatt.chargingpile.R;
+import com.growatt.chargingpile.util.MyUtil;
 
 
 /**
@@ -99,8 +100,9 @@ public class RoundProgressBar extends View {
         paint.setColor(textColor);
         paint.setTextSize(textSize);
         paint.setTypeface(Typeface.DEFAULT_BOLD); //��������
-        int percent = (int) ((progress / (float) max) * 100);  //�м�Ľ��Ȱٷֱȣ���ת����float�ڽ��г������㣬��Ȼ��Ϊ0
-        float textWidth = paint.measureText(percent + "%");   //���������ȣ�������Ҫ��������Ŀ��������Բ���м�
+        double percent = MyUtil.divide(progress, max, 2) * 100;
+
+        float textWidth = paint.measureText(percent + "%");
 
         if (textIsDisplayable && style == STROKE) {
             if (percent == 0) {

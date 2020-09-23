@@ -621,4 +621,11 @@ public class MyUtil {
         return isNum.matches();
     }
 
+
+    public static double divide(float v1, float v2, int scale) {
+        BigDecimal b1 = new BigDecimal(Double.toString(v1));
+        BigDecimal b2 = new BigDecimal(v2 + "");
+        return b1.divide(b2, scale, BigDecimal.ROUND_HALF_UP).doubleValue();
+    }
+
 }
