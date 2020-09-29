@@ -12,7 +12,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rl_edit_password"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/xa120"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/xa120"
         android:layout_marginTop="@dimen/xa30"
         android:background="@drawable/selector_list_rect_item_click">
 
@@ -56,14 +57,15 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rl_edit_phone"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/xa120"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/xa120"
         android:background="@drawable/selector_list_rect_item_click">
 
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_phone_title"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/xa14"
             android:gravity="center_vertical"
             android:text="@string/m58修改手机号"
@@ -80,7 +82,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_phone"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/xa14"
             android:layout_weight="1"
             android:gravity="center_vertical"
@@ -122,13 +124,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rl_edit_email"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/xa120"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/xa120"
         android:background="@drawable/selector_list_rect_item_click">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_email_title"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/xa14"
             android:gravity="center_vertical"
             android:text="@string/m59修改邮箱"
@@ -146,7 +149,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_email"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/xa14"
             android:layout_weight="1"
             android:gravity="center_vertical"
@@ -187,14 +190,15 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rl_edit_installemail"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/xa120"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/xa120"
         android:background="@drawable/selector_list_rect_item_click">
 
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_installemail_title"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/xa14"
             android:gravity="center_vertical"
             android:text="@string/m安装商邮箱修改"
@@ -212,7 +216,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_installemail"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/xa14"
             android:layout_weight="1"
             android:gravity="center_vertical"
@@ -254,14 +258,15 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rl_edit_installphone"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/xa120"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/xa120"
         android:background="@drawable/selector_list_rect_item_click">
 
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_nstallphone_title"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/xa14"
             android:gravity="center_vertical"
             android:text="@string/m安装商电话修改"
@@ -279,7 +284,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_installphone"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/xa14"
             android:gravity="center_vertical"
             android:textColor="#333333"
@@ -318,14 +323,15 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rl_edit_installaddress"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/xa120"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/xa120"
         android:background="@drawable/selector_list_rect_item_click">
 
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_installaddress_title"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/xa14"
             android:gravity="center_vertical"
             android:text="@string/m安装商地址修改"
@@ -343,7 +349,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_installaddress"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/xa14"
             android:gravity="center_vertical"
             android:textColor="#333333"
@@ -382,14 +388,15 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rl_edit_date"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/xa120"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/xa120"
         android:background="@drawable/selector_list_rect_item_click">
 
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_date_title"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/xa14"
             android:gravity="center_vertical"
             android:text="@string/m安装商地址修改"
@@ -407,7 +414,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_date"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/xa14"
             android:gravity="center_vertical"
             android:textColor="#333333"

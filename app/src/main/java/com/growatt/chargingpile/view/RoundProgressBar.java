@@ -90,9 +90,9 @@ public class RoundProgressBar extends View {
         paint.setColor(textColor);
         paint.setTextSize(textSize);
         paint.setTypeface(Typeface.DEFAULT_BOLD); //��������
-        double percent = MyUtil.divide(progress, max, 2) * 100;
 
-        float textWidth = paint.measureText(percent + "%");
+
+
 
   /*      if (textIsDisplayable && style == STROKE) {
             if (percent == 0) {

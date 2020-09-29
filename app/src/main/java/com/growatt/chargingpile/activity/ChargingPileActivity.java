@@ -1023,11 +1023,11 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                     mStatusGroup.addView(normalChargingView);
                     setNormalCharging(data);
                 } else {
-                    String money = MathUtil.roundDouble2String(data.getCost(), 2);
+                    String money = MathUtil.roundDouble2String(data.getCost(), 3);
                     if (!TextUtils.isEmpty(moneyUnit)) {
                         money = moneyUnit + money;
                     }
-                    String energy = MathUtil.roundDouble2String(data.getEnergy(), 2) + "kWh";
+                    String energy = MathUtil.roundDouble2String(data.getEnergy(), 3) + "kWh";
                     int timeCharging = data.getCtime();
                     int hourCharging = timeCharging / 60;
                     int minCharging = timeCharging % 60;
@@ -1352,8 +1352,8 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             roundProgressBar.setMax((float) presetValue_value);
         }
         roundProgressBar.setProgress((float) chargedValue_value);
-
-        double percent = MyUtil.divide(chargedValue_value, presetValue_value, 2) * 100;
+        double v =   chargedValue_value* 100 / presetValue_value;
+        double percent =MyUtil.divide(v,2);
         tvPercentCenter.setText(percent + "%");
         roundProgressBar.setTextSize(getResources().getDimensionPixelSize(R.dimen.xa26));
 

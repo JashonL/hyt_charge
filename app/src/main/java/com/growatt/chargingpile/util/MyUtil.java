@@ -622,10 +622,9 @@ public class MyUtil {
     }
 
 
-    public static double divide(double v1, double v2, int scale) {
-        BigDecimal b1 = new BigDecimal(Double.toString(v1));
-        BigDecimal b2 = new BigDecimal(v2 + "");
-        return b1.divide(b2, scale, BigDecimal.ROUND_HALF_UP).doubleValue();
+    public static double divide(double doubleValue, int scale) {
+        BigDecimal b = new BigDecimal(String.valueOf(doubleValue));
+        return b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
 
 }

@@ -86,7 +86,7 @@
     <EditText
         android:id="@+id/et_user_pwd"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/xa58"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/xa185"
         android:layout_marginTop="@dimen/xa35"
         android:layout_marginRight="@dimen/xa185"
