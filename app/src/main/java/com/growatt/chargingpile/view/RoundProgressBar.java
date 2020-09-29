@@ -24,31 +24,23 @@ public class RoundProgressBar extends View {
 
     private int roundProgressColor;
 
-    /**
-     */
+
     private int textColor;
 
-    /**
-     */
+
     private float textSize;
 
-    /**
-     */
+
     private float roundWidth;
 
-    /**
-     */
+
     private float max;
 
-    /**
-     */
     private float progress;
-    /**
-     */
+
     private boolean textIsDisplayable;
 
-    /**
-     */
+
     private int style;
     public static final int STROKE = 0;
     public static final int FILL = 1;
@@ -82,8 +74,7 @@ public class RoundProgressBar extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        /**
-         */
+
         int centre = getWidth() / 2; //��ȡԲ�ĵ�x����
         int radius = (int) (centre - roundWidth / 2); //Բ���İ뾶
         paint.setColor(roundColor); //����Բ������ɫ
@@ -94,8 +85,7 @@ public class RoundProgressBar extends View {
 
         Log.e("log", centre + "");
 
-        /**
-         */
+
         paint.setStrokeWidth(0);
         paint.setColor(textColor);
         paint.setTextSize(textSize);
@@ -104,13 +94,13 @@ public class RoundProgressBar extends View {
 
         float textWidth = paint.measureText(percent + "%");
 
-        if (textIsDisplayable && style == STROKE) {
+  /*      if (textIsDisplayable && style == STROKE) {
             if (percent == 0) {
                 canvas.drawText(0 + "%", centre - textWidth / 2, centre + textSize / 2, paint);
             } else {
                 canvas.drawText(percent + "%", centre - textWidth / 2, centre + textSize / 2, paint);
             }
-        }
+        }*/
 
 
         /**
