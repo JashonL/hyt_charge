@@ -221,6 +221,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
     private TextView tvRate;
     private TextView tvCurrent;
     private TextView tvVoltage;
+    private TextView tvPercentCenter;
 
 
     private int transactionId;//充电编号，停止充电时用
@@ -712,6 +713,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
         tvRate = presetChargingView.findViewById(R.id.tv_rate);
         tvCurrent = presetChargingView.findViewById(R.id.tv_current);
         tvVoltage = presetChargingView.findViewById(R.id.tv_voltage);
+        tvPercentCenter=presetChargingView.findViewById(R.id.tv_percent_center);
 
     }
 
@@ -1021,11 +1023,11 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                     mStatusGroup.addView(normalChargingView);
                     setNormalCharging(data);
                 } else {
-                    String money = MathUtil.roundDouble2String(data.getCost(), 2);
+                    String money = MathUtil.roundDouble2String(data.getCost(), 3);
                     if (!TextUtils.isEmpty(moneyUnit)) {
                         money = moneyUnit + money;
                     }
-                    String energy = MathUtil.roundDouble2String(data.getEnergy(), 2) + "kWh";
+                    String energy = MathUtil.roundDouble2String(data.getEnergy(), 3) + "kWh";
                     int timeCharging = data.getCtime();
                     int hourCharging = timeCharging / 60;
                     int minCharging = timeCharging % 60;
@@ -1034,7 +1036,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                         case "G_SetAmount":
                             mStatusGroup.addView(presetChargingView);
                             String scheme = String.format(getString(R.string.m198预设充电方案) + "-%s", getString(R.string.m200金额));
-                            setPresetChargingUi(scheme, String.valueOf(data.getcValue()), money, getString(R.string.m192消费金额),
+                            setPresetChargingUi(scheme, moneyUnit + data.getcValue(), money, getString(R.string.m192消费金额),
                                     R.drawable.charging_ele, energy, getString(R.string.m189已充电量), R.drawable.charging_time, sTimeCharging, getString(R.string.m191已充时长),
                                     Double.parseDouble(data.getcValue()), data.getCost(),
                                     String.valueOf(data.getRate()), data.getCurrent() + "A", data.getVoltage() + "V");
@@ -1350,6 +1352,9 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             roundProgressBar.setMax((float) presetValue_value);
         }
         roundProgressBar.setProgress((float) chargedValue_value);
+        double v =   chargedValue_value* 100 / presetValue_value;
+        double percent =MyUtil.divide(v,2);
+        tvPercentCenter.setText(percent + "%");
         roundProgressBar.setTextSize(getResources().getDimensionPixelSize(R.dimen.xa26));
 
         tvRate.setText(rateString);

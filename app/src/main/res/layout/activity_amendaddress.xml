@@ -86,15 +86,14 @@
     <EditText
         android:id="@+id/et_user_pwd"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/xa58"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/xa185"
         android:layout_marginTop="@dimen/xa35"
         android:layout_marginRight="@dimen/xa185"
         android:background="@null"
         android:gravity="center"
         android:hint="@string/m26请输入密码"
-        android:paddingLeft="@dimen/xa23"
-        android:paddingRight="@dimen/xa23"
+       android:padding="@dimen/xa12"
         android:textColor="@color/title_1"
         android:textSize="@dimen/xa30" />
 
