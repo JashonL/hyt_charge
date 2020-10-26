@@ -387,7 +387,7 @@ public class WifiSetActivity extends BaseActivity {
             if (itemType == WifiSetAdapter.PARAM_ITEM) {
                 WifiSetBean bean = (WifiSetBean) mAdapter.getData().get(position);
                 if (!bean.isAuthority() && !isVerified) {//如果是不允许设置，又没有验证密码
-                    showInputPassword(WifiSetAdapter.PARAM_ITEM, bean);
+                    showInputPassword(position,WifiSetAdapter.PARAM_ITEM, bean);
                 } else {
                     setCommonParams(bean);
                 }
@@ -403,11 +403,11 @@ public class WifiSetActivity extends BaseActivity {
                     toast(R.string.m只有ECO模式有效);
                     return;
                 }
-                WifiSetBean bean = (WifiSetBean) mAdapter.getData().get(34);
+                SolarBean bean = (SolarBean) mAdapter.getData().get(position);
                 if (!bean.isAuthority() && !isVerified) {//如果是不允许设置，又没有验证密码
-                    showInputPassword(WifiSetAdapter.PARAM_ITEM_SOLAR, bean);
+                    showInputPassword(position,WifiSetAdapter.PARAM_ITEM_SOLAR, new WifiSetBean());
                 } else {
-                    setECOLimit();
+                    setECOLimit(position);
                 }
             } else if (itemType == WifiSetAdapter.PARAM_ITEM_LOCK) {
                 if (lockLength > 0) {
@@ -492,11 +492,10 @@ public class WifiSetActivity extends BaseActivity {
     }
 
 
-    private void setECOLimit() {
+    private void setECOLimit(int position) {
         tips = "";
-        WifiSetBean bean = (WifiSetBean) mAdapter.getData().get(34);
-        SolarBean subItem = (SolarBean) bean.getSubItem(0);
-        String value = subItem.getValue();
+        SolarBean bean = (SolarBean) mAdapter.getData().get(position);
+        String value = bean.getValue();
         new CircleDialog.Builder()
                 .setWidth(0.8f)
                 .setTitle(this.getString(R.string.m27温馨提示))
@@ -521,7 +520,7 @@ public class WifiSetActivity extends BaseActivity {
 
                         System.arraycopy(bytes, 0, solarCurrentByte, 0, bytes.length);
                         isEditCharging = true;
-                        subItem.setValue(text);
+                        bean.setValue(text);
                         mAdapter.notifyDataSetChanged();
                         return true;
                     }
@@ -2844,7 +2843,7 @@ public class WifiSetActivity extends BaseActivity {
     }
 
 
-    private void showInputPassword(int type, WifiSetBean bean) {
+    private void showInputPassword(int position,int type, WifiSetBean bean) {
         new CircleDialog.Builder()
                 .setTitle(getString(R.string.m27温馨提示))
                 //添加标题，参考普通对话框
@@ -2868,7 +2867,7 @@ public class WifiSetActivity extends BaseActivity {
                                     setCommonParams(bean);
                                     break;
                                 case WifiSetAdapter.PARAM_ITEM_SOLAR:
-                                    setECOLimit();
+                                    setECOLimit(position);
                                     break;
                             }
                         } else {
