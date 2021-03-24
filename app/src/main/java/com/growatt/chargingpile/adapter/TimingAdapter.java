@@ -27,7 +27,7 @@ public class TimingAdapter extends BaseQuickAdapter<ReservationBean.DataBean, Ba
     @Override
     protected void convert(final BaseViewHolder helper, ReservationBean.DataBean item) {
         String expiryDate = item.getExpiryDate();//开始时间
-        int cValue = Integer.parseInt(item.getcValue2());
+        int cValue = (int) Float.parseFloat(item.getcValue2());
         String endDate = null;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
         try {

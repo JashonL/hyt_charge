@@ -218,6 +218,39 @@ public class SmartHomeUtil {
 
 
     /**
+     * 将byte[2]转成byte[2]
+     *
+     * @return
+     */
+    public static int byte2Int(byte[] b) {
+        int value = 0;
+        if (b.length > 0) {
+//            value = (b[0] & 0xff << 8) | (b[1] & 0xff);
+            value= 0x000000ff & b[0];
+            return value;
+
+        }
+        return value;
+    }
+
+
+    /**
+     * 将int转成byte[2]
+     *
+     * @param a
+     * @return
+     */
+    public static byte[] int2Byte(int a) {
+        byte[] b = new byte[2];
+
+        b[0] = (byte) (a >> 8);
+        b[1] = (byte) (a);
+
+        return b;
+    }
+
+
+    /**
      * 获取新语言
      *
      * @return

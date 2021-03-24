@@ -219,7 +219,7 @@ public class ChargingDurationActivity extends BaseActivity {
             int total = 0;
             for (int i = 0; i < reserveList.size(); i++) {
                 ReservationBean.DataBean dataBean = reserveList.get(i);
-                int cValue = Integer.parseInt(dataBean.getcValue2());
+                float cValue = Float.parseFloat(dataBean.getcValue2());
                 total += cValue;
             }
             int hour = total / 60;
