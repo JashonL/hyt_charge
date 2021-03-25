@@ -740,11 +740,12 @@ public class WifiSetActivity extends BaseActivity {
                                     return true;
                                 }
 
-                                if (bytes.length > 16) {
+
+                                int length5 = proversion < 10 ? 16 : 30;
+                                if (bytes.length > length5) {
                                     toast(R.string.m286输入值超出规定长度);
                                     return true;
                                 }
-                                int length5 = proversion < 10 ? 16 : 30;
                                 apn4GByte = new byte[length5];
                                 System.arraycopy(bytes, 0, apn4GByte, 0, bytes.length);
                                 isEditWifi = true;
