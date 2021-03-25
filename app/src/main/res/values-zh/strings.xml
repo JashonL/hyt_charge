@@ -338,7 +338,7 @@
     <string name="m311操作引导3">成功连接充电桩WiFi后，点击下一步，即可修改、设置充电桩。</string>
     <string name="m312WIFI直连操作指引">WIFI直连操作指引</string>
     <string name="m313电桩最大输出电流">电桩最大输出电流(A)</string>
-    <string name="m314智能功率分配">智能功率分配(W)</string>
+    <string name="m314智能功率分配">智能功率分配(kW)</string>
     <string name="m315货币单位">货币单位</string>
     <string name="m316退出登录">退出登录</string>
     <string name="m317注销账户">注销账户</string>

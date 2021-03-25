@@ -707,11 +707,12 @@ public class WifiSetActivity extends BaseActivity {
                                     toast(R.string.m177输入格式不正确);
                                     return true;
                                 }
-                                if (bytes.length > 16) {
+                                int length3 = proversion < 10 ? 16 : 30;
+                                if (bytes.length > length3) {
                                     toast(R.string.m286输入值超出规定长度);
                                     return true;
                                 }
-                                name4GByte = new byte[16];
+                                name4GByte = new byte[length3];
                                 System.arraycopy(bytes, 0, name4GByte, 0, bytes.length);
                                 isEditWifi = true;
                                 break;
@@ -722,11 +723,13 @@ public class WifiSetActivity extends BaseActivity {
                                     return true;
                                 }
 
-                                if (bytes.length > 16) {
+                                int length4 = proversion < 10 ? 16 : 30;
+
+                                if (bytes.length > length4) {
                                     toast(R.string.m286输入值超出规定长度);
                                     return true;
                                 }
-                                pwd4GByte = new byte[16];
+                                pwd4GByte = new byte[length4];
                                 System.arraycopy(bytes, 0, pwd4GByte, 0, bytes.length);
                                 isEditWifi = true;
                                 break;
@@ -741,7 +744,8 @@ public class WifiSetActivity extends BaseActivity {
                                     toast(R.string.m286输入值超出规定长度);
                                     return true;
                                 }
-                                apn4GByte = new byte[16];
+                                int length5 = proversion < 10 ? 16 : 30;
+                                apn4GByte = new byte[length5];
                                 System.arraycopy(bytes, 0, apn4GByte, 0, bytes.length);
                                 isEditWifi = true;
                                 break;

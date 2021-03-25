@@ -333,7 +333,7 @@
     <string name="m311操作引导3">Après vous être connecté au hotspot avec succès,cliquez sur Suivant pour accéder à la page de configuration du WiFi et du paramétrage</string>
     <string name="m312WIFI直连操作指引">Instructions de connexion WIFI</string>
     <string name="m313电桩最大输出电流">Réglage du courant maximum</string>
-    <string name="m314智能功率分配">Paramètre de gestion de charge</string>
+    <string name="m314智能功率分配">Paramètre de gestion de charge(kW)</string>
     <string name="m315货币单位">Unité monétaire</string>
     <string name="m316退出登录">Déconnexion</string>
     <string name="m317注销账户">Supprimer le compte</string>
