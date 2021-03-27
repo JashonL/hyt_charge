@@ -337,7 +337,7 @@
     <string name="m311操作引导3">After connecting to the chargepoint\'s hotspot successfully, click Next to enter the setting page for WiFi and parameter setting</string>
     <string name="m312WIFI直连操作指引">WIFI connection instructon</string>
     <string name="m313电桩最大输出电流">Max Current Setting(A)</string>
-    <string name="m314智能功率分配">Load management setting(W)</string>
+    <string name="m314智能功率分配">Load management setting(kW)</string>
     <string name="m315货币单位">Currency unit</string>
     <string name="m316退出登录">Sign out</string>
     <string name="m317注销账户">Delete account</string>

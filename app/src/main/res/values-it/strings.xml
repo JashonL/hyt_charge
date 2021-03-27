@@ -334,7 +334,7 @@
     <string name="m311操作引导3">Dopo aver effettuato correttamente la connessione all\'hotspot, fare clic su Avanti per accedere alla pagina delle impostazioni per WiFi e impostazione dei parametri</string>
     <string name="m312WIFI直连操作指引">Istruzioni per la connessione WIFI</string>
     <string name="m313电桩最大输出电流">Impostazione Corrente Massima(A)</string>
-    <string name="m314智能功率分配">Impostazione gestione carico(W)</string>
+    <string name="m314智能功率分配">Impostazione gestione carico(kW)</string>
     <string name="m315货币单位">Unità monetaria</string>
     <string name="m316退出登录">Disconnettersi</string>
     <string name="m317注销账户">Eliminare l\'account</string>

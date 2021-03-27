@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+
 import androidx.core.content.ContextCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
@@ -115,7 +117,7 @@ public class WifiSetActivity extends BaseActivity {
     //wifi相关设置
     private byte[] ssidByte;
     private byte[] wifiKeyByte;
-    private byte[] bltNameByte;
+//    private byte[] bltNameByte;
     private byte[] bltPwdByte;
     private byte[] name4GByte;
     private byte[] pwd4GByte;
@@ -172,6 +174,9 @@ public class WifiSetActivity extends BaseActivity {
     private List<LockBean> lockBeans;
 
 
+    private int proversion;
+
+
     private Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
@@ -206,7 +211,11 @@ public class WifiSetActivity extends BaseActivity {
                     text = "回应字节消息";
                     byte[] receiByte = (byte[]) msg.obj;
 
-                    parseReceivData(receiByte);
+                    try {
+                        parseReceivData(receiByte);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     Log.d("liaojinsha", text);
                     break;
                 case SocketClientUtil.SOCKET_CONNECT:
@@ -497,7 +506,7 @@ public class WifiSetActivity extends BaseActivity {
         SolarBean bean = (SolarBean) mAdapter.getData().get(position);
         String value = bean.getValue();
         new CircleDialog.Builder()
-                .setWidth(0.8f)
+                .setWidth(0.75f)
                 .setTitle(this.getString(R.string.m27温馨提示))
                 .setInputHint(tips)
                 .setInputCounter(1000, (maxLen, currentLen) -> "")
@@ -558,7 +567,7 @@ public class WifiSetActivity extends BaseActivity {
                 break;
         }
         new CircleDialog.Builder()
-                .setWidth(0.8f)
+                .setWidth(0.75f)
                 .setTitle(this.getString(R.string.m27温馨提示))
                 .setInputHint(tips)
                 .setInputText(value)
@@ -576,7 +585,7 @@ public class WifiSetActivity extends BaseActivity {
                             case "G_CardPin":
                                 boolean letterDigit_card = MyUtil.isLetterDigit2(text);
                                 if (!letterDigit_card) {
-                                   toast(R.string.m177输入格式不正确);
+                                    toast(R.string.m177输入格式不正确);
                                     return true;
                                 }
                                 if (bytes.length > 6) {
@@ -632,11 +641,11 @@ public class WifiSetActivity extends BaseActivity {
                             case "mac":
                                 boolean letterDigit_mac = MyUtil.isLetterDigit2(text);
                                 if (!letterDigit_mac) {
-                                   toast(R.string.m177输入格式不正确);
+                                    toast(R.string.m177输入格式不正确);
                                     return true;
                                 }
                                 if (bytes.length > 17) {
-                                  toast(R.string.m286输入值超出规定长度);
+                                    toast(R.string.m286输入值超出规定长度);
                                     return true;
                                 }
                                 macByte = new byte[17];
@@ -660,29 +669,34 @@ public class WifiSetActivity extends BaseActivity {
                             case "G_WifiSSID":
                                 boolean letterDigit_ssid = MyUtil.isWiFiLetter(text);
                                 if (!letterDigit_ssid) {
-                                   toast(R.string.m177输入格式不正确);
+                                    toast(R.string.m177输入格式不正确);
                                     return true;
                                 }
 
-                                if (bytes.length > 16) {
-                                   toast(R.string.m286输入值超出规定长度);
+                                int length = proversion < 10 ? 16 : 30;
+                                if (bytes.length > length) {
+                                    toast(R.string.m286输入值超出规定长度);
                                     return true;
                                 }
-                                ssidByte = new byte[16];
+
+                                ssidByte = new byte[length];
                                 System.arraycopy(bytes, 0, ssidByte, 0, bytes.length);
                                 isEditWifi = true;
                                 break;
                             case "G_WifiPassword":
                                 boolean letterDigit_key = MyUtil.isWiFiLetter(text);
                                 if (!letterDigit_key) {
-                                   toast(R.string.m177输入格式不正确);
+                                    toast(R.string.m177输入格式不正确);
                                     return true;
                                 }
-                                if (bytes.length > 16) {
+
+                                int length2 = proversion < 10 ? 32 : 64;
+
+                                if (bytes.length > length2) {
                                     toast(R.string.m286输入值超出规定长度);
                                     return true;
                                 }
-                                wifiKeyByte = new byte[16];
+                                wifiKeyByte = new byte[length2];
                                 System.arraycopy(bytes, 0, wifiKeyByte, 0, bytes.length);
                                 isEditWifi = true;
                                 break;
@@ -693,11 +707,12 @@ public class WifiSetActivity extends BaseActivity {
                                     toast(R.string.m177输入格式不正确);
                                     return true;
                                 }
-                                if (bytes.length > 16) {
+                                int length3 = proversion < 10 ? 16 : 30;
+                                if (bytes.length > length3) {
                                     toast(R.string.m286输入值超出规定长度);
                                     return true;
                                 }
-                                name4GByte = new byte[16];
+                                name4GByte = new byte[length3];
                                 System.arraycopy(bytes, 0, name4GByte, 0, bytes.length);
                                 isEditWifi = true;
                                 break;
@@ -708,11 +723,13 @@ public class WifiSetActivity extends BaseActivity {
                                     return true;
                                 }
 
-                                if (bytes.length > 16) {
-                                   toast(R.string.m286输入值超出规定长度);
+                                int length4 = proversion < 10 ? 16 : 30;
+
+                                if (bytes.length > length4) {
+                                    toast(R.string.m286输入值超出规定长度);
                                     return true;
                                 }
-                                pwd4GByte = new byte[16];
+                                pwd4GByte = new byte[length4];
                                 System.arraycopy(bytes, 0, pwd4GByte, 0, bytes.length);
                                 isEditWifi = true;
                                 break;
@@ -723,11 +740,13 @@ public class WifiSetActivity extends BaseActivity {
                                     return true;
                                 }
 
-                                if (bytes.length > 16) {
+
+                                int length5 = proversion < 10 ? 16 : 30;
+                                if (bytes.length > length5) {
                                     toast(R.string.m286输入值超出规定长度);
                                     return true;
                                 }
-                                apn4GByte = new byte[16];
+                                apn4GByte = new byte[length5];
                                 System.arraycopy(bytes, 0, apn4GByte, 0, bytes.length);
                                 isEditWifi = true;
                                 break;
@@ -1468,7 +1487,7 @@ public class WifiSetActivity extends BaseActivity {
             //版本号
             System.arraycopy(versionByte, 0, prayload, idByte.length + lanByte.length + cardByte.length + rcdByte.length, versionByte.length);
         }*/
-        if (infoLength>28){
+        if (infoLength > 28) {
             //时区
             System.arraycopy(zoneByte, 0, prayload, idByte.length + lanByte.length + cardByte.length + rcdByte.length, zoneByte.length);
         }
@@ -1567,31 +1586,44 @@ public class WifiSetActivity extends BaseActivity {
         //加密方式
         byte encryption = this.encryption;
         //指令
-        byte cmd = WiFiMsgConstant.CONSTANT_MSG_13;
+        byte cmd = proversion<10? WiFiMsgConstant.CONSTANT_MSG_13:WiFiMsgConstant.CONSTANT_MSG_33;
 
         /*****有效数据*****/
-        byte len = (byte) 112;
-        byte[] prayload = new byte[112];
-
-        if (ssidByte == null || wifiKeyByte == null || bltNameByte == null || bltPwdByte == null || name4GByte == null || pwd4GByte == null || apn4GByte == null) {
-            T.make(R.string.m244设置失败, this);
-            return;
+        if (ssidByte == null ) {
+            ssidByte=new byte[0];
         }
+        if (wifiKeyByte == null ) {
+            wifiKeyByte=new byte[0];
+        }
+        if (bltPwdByte == null ) {
+            bltPwdByte=new byte[0];
+        }
+        if (name4GByte == null ) {
+            name4GByte=new byte[0];
+        }
+        if (pwd4GByte == null ) {
+            pwd4GByte=new byte[0];
+        }
+        if (apn4GByte == null ) {
+            apn4GByte=new byte[0];
+        }
+        int len = ssidByte.length + wifiKeyByte.length  + bltPwdByte.length + name4GByte.length + pwd4GByte.length + apn4GByte.length;
+        byte[] prayload = new byte[len];
 
         //ssid
         System.arraycopy(ssidByte, 0, prayload, 0, ssidByte.length);
         //key
         System.arraycopy(wifiKeyByte, 0, prayload, ssidByte.length, wifiKeyByte.length);
-        //蓝牙名称
-        System.arraycopy(bltNameByte, 0, prayload, ssidByte.length + wifiKeyByte.length, bltNameByte.length);
+//        //蓝牙名称
+//        System.arraycopy(bltNameByte, 0, prayload, ssidByte.length + wifiKeyByte.length, bltNameByte.length);
         //蓝牙密码
-        System.arraycopy(bltPwdByte, 0, prayload, ssidByte.length + wifiKeyByte.length + bltNameByte.length, bltPwdByte.length);
+        System.arraycopy(bltPwdByte, 0, prayload, ssidByte.length + wifiKeyByte.length, bltPwdByte.length);
         //4G用户名
-        System.arraycopy(name4GByte, 0, prayload, ssidByte.length + wifiKeyByte.length + bltNameByte.length + bltPwdByte.length, name4GByte.length);
+        System.arraycopy(name4GByte, 0, prayload, ssidByte.length + wifiKeyByte.length  + bltPwdByte.length, name4GByte.length);
         //4G密码
-        System.arraycopy(pwd4GByte, 0, prayload, ssidByte.length + wifiKeyByte.length + bltNameByte.length + bltPwdByte.length + name4GByte.length, pwd4GByte.length);
+        System.arraycopy(pwd4GByte, 0, prayload, ssidByte.length + wifiKeyByte.length  + bltPwdByte.length + name4GByte.length, pwd4GByte.length);
         //4GAPN
-        System.arraycopy(apn4GByte, 0, prayload, ssidByte.length + wifiKeyByte.length + bltNameByte.length + bltPwdByte.length + name4GByte.length + pwd4GByte.length, apn4GByte.length);
+        System.arraycopy(apn4GByte, 0, prayload, ssidByte.length + wifiKeyByte.length  + bltPwdByte.length + name4GByte.length + pwd4GByte.length, apn4GByte.length);
 
 
         byte[] encryptedData = SmartHomeUtil.decodeKey(prayload, newKey);
@@ -1604,7 +1636,7 @@ public class WifiSetActivity extends BaseActivity {
                 .setDevType(devType)
                 .setEncryption(encryption)
                 .setCmd(cmd)
-                .setDataLen(len)
+                .setDataLen((byte) len)
                 .setPrayload(encryptedData)
                 .setMsgEnd(end)
                 .create();
@@ -1905,7 +1937,7 @@ public class WifiSetActivity extends BaseActivity {
 
     /**********************************解析数据************************************/
 
-    private void parseReceivData(byte[] data) {
+    private void parseReceivData(byte[] data) throws IndexOutOfBoundsException{
         if (data == null) return;
         int length = data.length;
         if (length > 4) {
@@ -1921,14 +1953,16 @@ public class WifiSetActivity extends BaseActivity {
                     LogUtil.d("数据校验失败-->" + "返回校验数据：" + sum + "真实数据校验:" + checkSum);
                     return;
                 }
-                int len = (int) data[5];
+                int len = SmartHomeUtil.byte2Int(new byte[]{data[5]});
                 //有效数据
                 byte[] prayload = new byte[len];
                 System.arraycopy(data, 6, prayload, 0, prayload.length);
                 if (WifiSetActivity.this.encryption == WiFiMsgConstant.CONSTANT_MSG_01) {//解密
-                    if (cmd == WiFiMsgConstant.CMD_A0)
+                    if (cmd == WiFiMsgConstant.CMD_A0) {
                         prayload = SmartHomeUtil.decodeKey(prayload, oldKey);
-                    else prayload = SmartHomeUtil.decodeKey(prayload, newKey);
+                    } else {
+                        prayload = SmartHomeUtil.decodeKey(prayload, newKey);
+                    }
                 }
                 Log.d("liaojinsha", SmartHomeUtil.bytesToHexString(prayload));
                 switch (cmd) {
@@ -1936,9 +1970,10 @@ public class WifiSetActivity extends BaseActivity {
                         //电桩类型，直流或者交流
                         devType = data[2];
                         //是否允许进入
-                        byte allow = prayload[0];
+                        int allow = SmartHomeUtil.byte2Int(new byte[]{ prayload[0]});
                         Mydialog.Dismiss();
-                        if ((int) allow == 0) {
+                        proversion = allow;
+                        if (allow == 0) {
                             isAllowed = false;
                             T.make(getString(R.string.m254连接失败), WifiSetActivity.this);
                         } else {
@@ -2044,7 +2079,11 @@ public class WifiSetActivity extends BaseActivity {
                             setBean("G_NetworkMode", netMode);
                         }
                         mAdapter.notifyDataSetChanged();
-                        getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_03);
+                        if (proversion < 10) {
+                            getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_03);
+                        } else {
+                            getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_23);
+                        }
                         break;
                     case WiFiMsgConstant.CONSTANT_MSG_03://获取设备帐号密码参数
                         wifiLength = len;
@@ -2052,13 +2091,13 @@ public class WifiSetActivity extends BaseActivity {
                         System.arraycopy(prayload, 0, ssidByte, 0, 16);
                         String ssid = MyUtil.ByteToString(ssidByte);
                         setBean("G_WifiSSID", ssid);
-                        wifiKeyByte = new byte[16];
-                        System.arraycopy(prayload, 16, wifiKeyByte, 0, 16);
+                        wifiKeyByte = new byte[32];
+                        System.arraycopy(prayload, 16, wifiKeyByte, 0, 32);
                         String wifikey = MyUtil.ByteToString(wifiKeyByte);
                         setBean("G_WifiPassword", wifikey);
-                        bltNameByte = new byte[16];
-                        System.arraycopy(prayload, 32, bltNameByte, 0, 16);
-                        String bltName = MyUtil.ByteToString(bltNameByte);
+//                        bltNameByte = new byte[16];
+//                        System.arraycopy(prayload, 32, bltNameByte, 0, 16);
+//                        String bltName = MyUtil.ByteToString(bltNameByte);
 //                    setBean(15, bltName);
                         bltPwdByte = new byte[16];
                         System.arraycopy(prayload, 48, bltPwdByte, 0, 16);
@@ -2076,6 +2115,39 @@ public class WifiSetActivity extends BaseActivity {
                         System.arraycopy(prayload, 96, apn4GByte, 0, 16);
                         String apn4G = MyUtil.ByteToString(apn4GByte);
                         setBean("G_4GAPN", apn4G);
+                        mAdapter.notifyDataSetChanged();
+                        getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_04);
+                        break;
+                    case WiFiMsgConstant.CONSTANT_MSG_23:
+                        wifiLength = len;
+                        ssidByte = new byte[30];
+                        System.arraycopy(prayload, 0, ssidByte, 0, 30);
+                        String ssid1 = MyUtil.ByteToString(ssidByte);
+                        setBean("G_WifiSSID", ssid1);
+                        wifiKeyByte = new byte[64];
+                        System.arraycopy(prayload, 30, wifiKeyByte, 0, 64);
+                        String wifikey1 = MyUtil.ByteToString(wifiKeyByte);
+                        setBean("G_WifiPassword", wifikey1);
+//                        bltNameByte = new byte[30];
+//                        System.arraycopy(prayload, 94, bltNameByte, 0, 30);
+//                        String bltName1 = MyUtil.ByteToString(bltNameByte);
+//                    setBean(15, bltName);
+//                        bltPwdByte = new byte[16];
+//                        System.arraycopy(prayload, 124, bltPwdByte, 0, 16);
+//                        String bltPwd1 = MyUtil.ByteToString(bltPwdByte);
+//                    setBean(16, bltPwd);
+                        name4GByte = new byte[30];
+                        System.arraycopy(prayload, 94, name4GByte, 0, 30);
+                        String name4G1 = MyUtil.ByteToString(name4GByte);
+                        setBean("G_4GUserName", name4G1);
+                        pwd4GByte = new byte[30];
+                        System.arraycopy(prayload, 124, pwd4GByte, 0, 30);
+                        String pwd4G1 = MyUtil.ByteToString(pwd4GByte);
+                        setBean("G_4GPassword", pwd4G1);
+                        apn4GByte = new byte[30];
+                        System.arraycopy(prayload, 154, apn4GByte, 0, 30);
+                        String apn4G1 = MyUtil.ByteToString(apn4GByte);
+                        setBean("G_4GAPN", apn4G1);
                         mAdapter.notifyDataSetChanged();
                         getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_04);
                         break;
@@ -2312,8 +2384,9 @@ public class WifiSetActivity extends BaseActivity {
                         } else if (isEditCharging) {
                             setCharging();
                         } else {
-                            byte result = prayload[0];
-                            if ((int) result == 1) {
+//                            byte result = prayload[0];
+                            int result = SmartHomeUtil.byte2Int(new byte[]{prayload[0]});
+                            if (result == 1) {
                                 T.make(getString(R.string.m243设置成功), WifiSetActivity.this);
                             } else {
                                 T.make(getString(R.string.m244设置失败), WifiSetActivity.this);
@@ -2330,8 +2403,8 @@ public class WifiSetActivity extends BaseActivity {
                         } else if (isEditCharging) {
                             setCharging();
                         } else {
-                            byte result = prayload[0];
-                            if ((int) result == 1) {
+                            int result = SmartHomeUtil.byte2Int(new byte[]{prayload[0]});
+                            if (result == 1) {
 //                        getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_01);
                                 T.make(getString(R.string.m243设置成功), WifiSetActivity.this);
                             } else {
@@ -2341,14 +2414,15 @@ public class WifiSetActivity extends BaseActivity {
                             finish();
                         }
                         break;
+                    case WiFiMsgConstant.CONSTANT_MSG_33:
                     case WiFiMsgConstant.CONSTANT_MSG_13:
                         if (isEditUrl) {
                             setUrl();
                         } else if (isEditCharging) {
                             setCharging();
                         } else {
-                            byte result = prayload[0];
-                            if ((int) result == 1) {
+                            int result = SmartHomeUtil.byte2Int(new byte[]{prayload[0]});
+                            if (result == 1) {
 //                        getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_01);
                                 T.make(getString(R.string.m243设置成功), WifiSetActivity.this);
                             } else {
@@ -2362,8 +2436,8 @@ public class WifiSetActivity extends BaseActivity {
                         if (isEditCharging) {
                             setCharging();
                         } else {
-                            byte result = prayload[0];
-                            if ((int) result == 1) {
+                            int result = SmartHomeUtil.byte2Int(new byte[]{prayload[0]});
+                            if (result == 1) {
 //                        getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_01);
                                 T.make(getString(R.string.m243设置成功), WifiSetActivity.this);
                             } else {
@@ -2374,8 +2448,8 @@ public class WifiSetActivity extends BaseActivity {
                         }
                         break;
                     case WiFiMsgConstant.CONSTANT_MSG_15:
-                        byte result = prayload[0];
-                        if ((int) result == 1) {
+                        int result = SmartHomeUtil.byte2Int(new byte[]{prayload[0]});
+                        if ( result == 1) {
 //                        getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_01);
                             T.make(getString(R.string.m243设置成功), WifiSetActivity.this);
                         } else {
@@ -2385,7 +2459,7 @@ public class WifiSetActivity extends BaseActivity {
                         finish();
                         break;
                     case WiFiMsgConstant.CONSTANT_MSG_16://解锁
-                        byte unlock = prayload[0];
+                        int unlock = SmartHomeUtil.byte2Int(new byte[]{prayload[0]});
                         if ((int) unlock == 1) {
                             lockBeans.get(gunPos).setValue(lockArrray[0]);
                             refreshRv();
@@ -2393,6 +2467,7 @@ public class WifiSetActivity extends BaseActivity {
                             T.make(getString(R.string.m失败), WifiSetActivity.this);
                         }
                         break;
+
                     default:
                         break;
                 }
@@ -2727,7 +2802,7 @@ public class WifiSetActivity extends BaseActivity {
     private void setLock(int gunId) {
         new CircleDialog.Builder().setTitle(getString(R.string.m27温馨提示))
                 .setText(getString(R.string.m是否解除该枪电子锁))
-                .setWidth(0.75f)
+                .setWidth(0.8f)
                 .setPositive(getString(R.string.m9确定), view -> {
                     String pos = String.valueOf(gunId);
                     byte[] bytes = pos.trim().getBytes();
@@ -2843,7 +2918,7 @@ public class WifiSetActivity extends BaseActivity {
     }
 
 
-    private void showInputPassword(int position,int type, WifiSetBean bean) {
+    private void showInputPassword(int position, int type, WifiSetBean bean) {
         new CircleDialog.Builder()
                 .setTitle(getString(R.string.m27温馨提示))
                 //添加标题，参考普通对话框

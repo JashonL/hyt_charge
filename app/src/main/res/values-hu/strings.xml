@@ -354,7 +354,7 @@
     <string name="m311操作引导3">Miután sikeresen csatlakoztatta a hotspot-ot, kattintson a Következő gombra, hogy belépjen a WiFi beálltási oldalra és a paraméter beállításokhoz </string>
     <string name="m312WIFI直连操作指引">WiFi csatlakozási instrukciók</string>
     <string name="m313电桩最大输出电流">Maximális aktuális beállítás(A)</string>
-    <string name="m314智能功率分配">Töltse be a menedzsment beállítást(W)</string>
+    <string name="m314智能功率分配">Töltse be a menedzsment beállítást(kW)</string>
     <string name="m315货币单位">Valuta egység</string>
     <string name="m316退出登录">Kijelentkezés</string>
     <string name="m317注销账户">Fiók törlése</string>
