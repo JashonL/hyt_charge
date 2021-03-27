@@ -396,7 +396,7 @@ public class WifiSetActivity extends BaseActivity {
             if (itemType == WifiSetAdapter.PARAM_ITEM) {
                 WifiSetBean bean = (WifiSetBean) mAdapter.getData().get(position);
                 if (!bean.isAuthority() && !isVerified) {//如果是不允许设置，又没有验证密码
-                    showInputPassword(position,WifiSetAdapter.PARAM_ITEM, bean);
+                    showInputPassword(position, WifiSetAdapter.PARAM_ITEM, bean);
                 } else {
                     setCommonParams(bean);
                 }
@@ -414,7 +414,7 @@ public class WifiSetActivity extends BaseActivity {
                 }
                 SolarBean bean = (SolarBean) mAdapter.getData().get(position);
                 if (!bean.isAuthority() && !isVerified) {//如果是不允许设置，又没有验证密码
-                    showInputPassword(position,WifiSetAdapter.PARAM_ITEM_SOLAR, new WifiSetBean());
+                    showInputPassword(position, WifiSetAdapter.PARAM_ITEM_SOLAR, new WifiSetBean());
                 } else {
                     setECOLimit(position);
                 }
