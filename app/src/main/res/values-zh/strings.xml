@@ -422,7 +422,7 @@
     <string name="m低功率预约充电">低功率预约充电</string>
     <string name="m充电桩序列号">请输入充电桩序列号</string>
     <string name="m充电桩序列号不能为空">充电桩序列号不能为空</string>
-    <string name="m免责声明">disclaimer：pev can analyse the data for monitoring purposes and Make recommendations from time to time on charging and potential improvements to their costs</string>
+    <string name="m免责声明">disclaimer：ats can analyse the data for monitoring purposes and Make recommendations from time to time on charging and potential improvements to their costs</string>
 
 
     <!--安卓额外部分-->
