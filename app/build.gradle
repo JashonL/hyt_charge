@@ -105,4 +105,6 @@ dependencies {
 
     // fragment快速实现（可选）
     implementation 'com.gyf.immersionbar:immersionbar-components:3.0.0'
+
+    implementation 'org.xutils:xutils:3.9.0'
 }
