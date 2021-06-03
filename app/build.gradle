@@ -6,8 +6,8 @@ android {
         applicationId "com.growatt.atess"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 7
-        versionName "2.6"
+        versionCode 8
+        versionName "3.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [
                 JPUSH_PKGNAME : applicationId,
@@ -105,6 +105,8 @@ dependencies {
 
     // fragment快速实现（可选）
     implementation 'com.gyf.immersionbar:immersionbar-components:3.0.0'
+
+
 
     implementation 'org.xutils:xutils:3.9.0'
 }
