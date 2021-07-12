@@ -21,4 +21,6 @@ public class Constant {
     //头像文件路径
     public static String IMAGE_FILE_LOCATION = Environment.getExternalStorageDirectory() + "/Project EV/" + "projectEv_headPic.jpg";
 
+
+
 }

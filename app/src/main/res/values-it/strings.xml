@@ -469,6 +469,7 @@
     <string name="m验证失败">Validazione fallita</string>
     <string name="m验证成功">Validazione riuscita</string>
     <string name="m315_turn_on_gps">Attiva il posizionamento GPS per ottenere ssid wifi</string>
+    <string name="login_expired"> Le informazioni di accesso sono scadute, per favore accedi di nuovo</string>
 
 </resources>
 

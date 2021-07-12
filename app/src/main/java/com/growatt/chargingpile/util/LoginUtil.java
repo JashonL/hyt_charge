@@ -21,9 +21,11 @@ import com.growatt.chargingpile.sqlite.SqliteUtil;
 import org.json.JSONObject;
 
 import java.lang.ref.SoftReference;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -48,6 +50,7 @@ public class LoginUtil {
      * server登录超时，重新登录
      */
     public static void serverTimeOutLogin() {
+        T.make(R.string.login_expired,MyApplication.context);
         Map<String, Object> map = SqliteUtil.inquirylogin();
         String url = SqliteUtil.inquiryurl();
         if (map != null && map.size() > 0 && (!TextUtils.isEmpty(url))) {
@@ -313,11 +316,14 @@ public class LoginUtil {
 
 
     public static void setJpushAlias(Context context) {
+        Set<String> tags = new HashSet<String>();
+        tags.add(SmartHomeUtil.getUserName());
         //删除别名和Tag
         TagAliasOperatorHelper.TagAliasBean tagAliasBean = new TagAliasOperatorHelper.TagAliasBean();
         tagAliasBean.action = TagAliasOperatorHelper.ACTION_DELETE;
         tagAliasBean.isAliasAction = true;
         tagAliasBean.alias = SmartHomeUtil.getUserName();
+        tagAliasBean.tags=tags;
         sequence++;
         TagAliasOperatorHelper.getInstance().handleAction(context, sequence, tagAliasBean);
 

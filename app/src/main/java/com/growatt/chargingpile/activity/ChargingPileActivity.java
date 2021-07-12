@@ -1180,6 +1180,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
         if (gunId == null) gunId = 1;
         jsonMap.put("connectorId", gunId);//测试id
         jsonMap.put("lan", getLanguage());
+        jsonMap.put("userId", SmartHomeUtil.getUserName());
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         PostUtil.postJson(SmartHomeUrlUtil.postRequestReserveNowList(), json, new PostUtil.postListener() {
             @Override

@@ -15,6 +15,8 @@ import com.growatt.chargingpile.util.LoginUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.T;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.common.Callback.Cancelable;
 import org.xutils.common.Callback.CommonCallback;
 import org.xutils.common.util.LogUtil;
@@ -60,10 +62,24 @@ public class PostUtil {
                         //重新做登陆操作
                         Message.obtain(handler, 2, url).sendToTarget();
                     } else {
-                        Message msg = new Message();
-                        msg.what = 0;
-                        msg.obj = result;
-                        handler.sendMessage(msg);
+                        try {
+                            JSONObject jsonObject = new JSONObject(result);
+                            String code = jsonObject.optString("code", "");
+                            if ("501".equals(code)){
+                                //重新做登陆操作
+                                Message.obtain(handler, 2, url).sendToTarget();
+                            }else {
+                                Message msg = new Message();
+                                msg.what = 0;
+                                msg.obj = result;
+                                handler.sendMessage(msg);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
                     }
                 }
 
@@ -139,10 +155,22 @@ public class PostUtil {
                         //重新做登陆操作
                         Message.obtain(handler, 2, url).sendToTarget();
                     } else {
-                        Message msg = new Message();
-                        msg.what = 0;
-                        msg.obj = result;
-                        handler.sendMessage(msg);
+                        try {
+                            JSONObject jsonObject = new JSONObject(result);
+                            String code = jsonObject.optString("code", "");
+                            if ("501".equals(code)){
+                                //重新做登陆操作
+                                Message.obtain(handler, 2, url).sendToTarget();
+                            }else {
+                                Message msg = new Message();
+                                msg.what = 0;
+                                msg.obj = result;
+                                handler.sendMessage(msg);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
 
@@ -216,10 +244,22 @@ public class PostUtil {
                         //重新做登陆操作
                         Message.obtain(handler, 2, url).sendToTarget();
                     } else {
-                        Message msg = new Message();
-                        msg.what = 0;
-                        msg.obj = result;
-                        handler.sendMessage(msg);
+                        try {
+                            JSONObject jsonObject = new JSONObject(result);
+                            String code = jsonObject.optString("code", "");
+                            if ("501".equals(code)){
+                                //重新做登陆操作
+                                Message.obtain(handler, 2, url).sendToTarget();
+                            }else {
+                                Message msg = new Message();
+                                msg.what = 0;
+                                msg.obj = result;
+                                handler.sendMessage(msg);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
 
@@ -294,10 +334,22 @@ public class PostUtil {
                         //重新做登陆操作
                         Message.obtain(handler, 2, url).sendToTarget();
                     } else {
-                        Message msg = new Message();
-                        msg.what = 0;
-                        msg.obj = result;
-                        handler.sendMessage(msg);
+                        try {
+                            JSONObject jsonObject = new JSONObject(result);
+                            String code = jsonObject.optString("code", "");
+                            if ("501".equals(code)){
+                                //重新做登陆操作
+                                Message.obtain(handler, 2, url).sendToTarget();
+                            }else {
+                                Message msg = new Message();
+                                msg.what = 0;
+                                msg.obj = result;
+                                handler.sendMessage(msg);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
 
@@ -379,10 +431,22 @@ public class PostUtil {
                         //重新做登陆操作
                         Message.obtain(handler, 2, url).sendToTarget();
                     } else {
-                        Message msg = new Message();
-                        msg.what = 0;
-                        msg.obj = result;
-                        handler.sendMessage(msg);
+                        try {
+                            JSONObject jsonObject = new JSONObject(result);
+                            String code = jsonObject.optString("code", "");
+                            if ("501".equals(code)){
+                                //重新做登陆操作
+                                Message.obtain(handler, 2, url).sendToTarget();
+                            }else {
+                                Message msg = new Message();
+                                msg.what = 0;
+                                msg.obj = result;
+                                handler.sendMessage(msg);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
 
@@ -464,10 +528,23 @@ public class PostUtil {
                         //重新做登陆操作
                         Message.obtain(handler, 2, url).sendToTarget();
                     } else {
-                        Message msg = new Message();
-                        msg.what = 0;
-                        msg.obj = result;
-                        handler.sendMessage(msg);
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(result);
+                            String code = jsonObject.optString("code", "");
+                            if ("501".equals(code)){
+                                //重新做登陆操作
+                                Message.obtain(handler, 2, url).sendToTarget();
+                            }else {
+                                Message msg = new Message();
+                                msg.what = 0;
+                                msg.obj = result;
+                                handler.sendMessage(msg);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
 
@@ -555,10 +632,22 @@ public class PostUtil {
                         //重新做登陆操作
                         Message.obtain(handler, 2, url).sendToTarget();
                     } else {
-                        Message msg = new Message();
-                        msg.what = 0;
-                        msg.obj = result;
-                        handler.sendMessage(msg);
+                        try {
+                            JSONObject jsonObject = new JSONObject(result);
+                            String code = jsonObject.optString("code", "");
+                            if ("501".equals(code)){
+                                //重新做登陆操作
+                                Message.obtain(handler, 2, url).sendToTarget();
+                            }else {
+                                Message msg = new Message();
+                                msg.what = 0;
+                                msg.obj = result;
+                                handler.sendMessage(msg);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
 

@@ -14,6 +14,7 @@ public class NoConfigBean {
      * sfield : ["chargeId","host","G_MaxCurrent","G_CardPin","gateway","mac","mask","dns","G_Authentication","G_HearbeatInterval","G_WebSocketPingInterval","G_MeterValueInterval","G_MaxTemperature","G_ExternalLimitPower","G_ExternalLimitPowerEnable","G_ExternalSamplingCurWring","G_SolarMode","G_SolarLimitPower","G_PeakValleyEnable","G_RCDProtection"]
      */
 
+    private String configWord;
     private String password;
     private List<String> skey;
     private List<String> sfield;
@@ -40,5 +41,14 @@ public class NoConfigBean {
 
     public void setSfield(List<String> sfield) {
         this.sfield = sfield;
+    }
+
+
+    public String getConfigWord() {
+        return configWord;
+    }
+
+    public void setConfigWord(String configWord) {
+        this.configWord = configWord;
     }
 }

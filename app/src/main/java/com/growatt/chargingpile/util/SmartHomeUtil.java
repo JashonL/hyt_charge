@@ -28,7 +28,6 @@ public class SmartHomeUtil {
     }
 
 
-
     public interface OperationListener {
         void sendCommandSucces();
 
@@ -124,15 +123,14 @@ public class SmartHomeUtil {
      * 判断是否是浏览用户
      */
 
-    public static boolean isFlagUser(){
+    public static boolean isFlagUser() {
         int auth = Cons.userBean.getAuthnum();
-        boolean isflag=false;
-        if (auth==1){
-            isflag=true;
+        boolean isflag = false;
+        if (auth == 1) {
+            isflag = true;
         }
         return isflag;
     }
-
 
 
     /**
@@ -143,8 +141,8 @@ public class SmartHomeUtil {
     public static String getUserId() {
 //        return "user02";
 //        return Cons.userBean.getId();
-        if (Cons.userBean==null)return "";
-        if (TextUtils.isEmpty(Cons.userBean.getName()))return "";
+        if (Cons.userBean == null) return "";
+        if (TextUtils.isEmpty(Cons.userBean.getName())) return "";
         return Cons.userBean.getName();
     }
 
@@ -157,8 +155,8 @@ public class SmartHomeUtil {
     public static String getUserName() {
 //        return "user02";
 //        return Cons.userBean.getId();
-        if (Cons.userBean==null)return "";
-        if (TextUtils.isEmpty(Cons.userBean.getName()))return "";
+        if (Cons.userBean == null) return "";
+        if (TextUtils.isEmpty(Cons.userBean.getName())) return "";
         return Cons.userBean.getName();
     }
 
@@ -171,8 +169,8 @@ public class SmartHomeUtil {
     public static String getUserAuthority() {
 //        return "user02";
 //        return Cons.userBean.getId();
-        if (Cons.userBean==null)return "endUser";
-        if (TextUtils.isEmpty(Cons.userBean.getRoleId()))return "endUser";
+        if (Cons.userBean == null) return "endUser";
+        if (TextUtils.isEmpty(Cons.userBean.getRoleId())) return "endUser";
         return Cons.userBean.getRoleId();
     }
 
@@ -181,10 +179,10 @@ public class SmartHomeUtil {
      * 获取字母列表
      */
 
-    public static List<String> getLetter(){
-        List<String>letters=new ArrayList<>();
-        for (int i=0;i<26;i++){
-            char letter= (char) ('A'+i);
+    public static List<String> getLetter() {
+        List<String> letters = new ArrayList<>();
+        for (int i = 0; i < 26; i++) {
+            char letter = (char) ('A' + i);
             letters.add(String.valueOf(letter));
         }
         return letters;
@@ -216,7 +214,6 @@ public class SmartHomeUtil {
     }
 
 
-
     /**
      * 将byte[2]转成byte[2]
      *
@@ -226,7 +223,7 @@ public class SmartHomeUtil {
         int value = 0;
         if (b.length > 0) {
 //            value = (b[0] & 0xff << 8) | (b[1] & 0xff);
-            value= 0x000000ff & b[0];
+            value = 0x000000ff & b[0];
             return value;
 
         }
@@ -284,5 +281,26 @@ public class SmartHomeUtil {
         zones.add("UTC+12:00");
         return zones;
     }
+
+
+    public static String getDescodePassword(String str) {
+        String password="000000";
+        try {
+            if (!TextUtils.isEmpty(str)) {
+                byte[] strs = Base64.decode(str);
+                byte[] bytes = DecoudeUtil.DESDecrypt(DecoudeUtil.DES_KEY, strs);
+                if (bytes != null) {
+                    password = new String(bytes).substring(0, 6);
+                } else {
+                    password = "000000";
+                }
+            }
+        } catch (Exception e) {
+            password = "000000";
+        }
+
+        return password;
+    }
+
 
 }
