@@ -355,7 +355,7 @@ public class WifiSetActivity extends BaseActivity {
         modeArray = new String[]{getString(R.string.m217扫码刷卡), getString(R.string.m218仅刷卡充电), getString(R.string.m219插枪充电)};
         enableArray = new String[]{getString(R.string.m300禁止), getString(R.string.m299使能)};
 //        wiringArray = new String[]{getString(R.string.mCT), getString(R.string.m电表)};
-        wiringArray = new String[]{"CT200", getString(R.string.m电表),"CT3000"};
+        wiringArray = new String[]{"CT2000", getString(R.string.m电表),"CT3000"};
         solarArrray = new String[]{"FAST", "ECO", "ECO+"};
         gunArrray = new String[]{getString(R.string.m110A枪), getString(R.string.m111B枪), getString(R.string.m112C枪)};
         lockArrray = new String[]{getString(R.string.m已解锁), getString(R.string.m已锁住)};

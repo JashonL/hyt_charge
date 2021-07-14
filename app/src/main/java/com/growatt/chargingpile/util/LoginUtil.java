@@ -51,11 +51,15 @@ public class LoginUtil {
      */
     public static void serverTimeOutLogin() {
         T.make(R.string.login_expired,MyApplication.context);
+        SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN, 0);
+        SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN_TYPE, 0);
+        jumpActivity(context, LoginActivity.class);
+    /*
         Map<String, Object> map = SqliteUtil.inquirylogin();
         String url = SqliteUtil.inquiryurl();
         if (map != null && map.size() > 0 && (!TextUtils.isEmpty(url))) {
-          /*  serverLogin(1, context, url, map.get("name").toString().trim(), map.get("pwd").toString().trim(), new OnViewEnableListener() {
-            });*/
+          *//*  serverLogin(1, context, url, map.get("name").toString().trim(), map.get("pwd").toString().trim(), new OnViewEnableListener() {
+            });*//*
             LoginUtil.login(context, map.get("name").toString().trim(), map.get("pwd").toString().trim(), new OnViewEnableListener() {
                 @Override
                 public void onViewEnable() {
@@ -66,7 +70,7 @@ public class LoginUtil {
             SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN, 0);
             SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN_TYPE, 0);
             jumpActivity(context, LoginActivity.class);
-        }
+        }*/
     }
 
 

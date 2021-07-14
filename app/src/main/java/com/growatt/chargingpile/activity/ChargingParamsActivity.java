@@ -270,7 +270,7 @@ public class ChargingParamsActivity extends BaseActivity {
         moneyTypes = new String[]{"pound", "dollar", "euro", "baht", "rmb"};
         moneySymbols = new String[]{"£", "$", "€", "฿", "￥"};
         enableArray = new String[]{getString(R.string.m300禁止), getString(R.string.m299使能)};
-        wiringArray = new String[]{"CT200", getString(R.string.m电表), "CT3000"};
+        wiringArray = new String[]{"CT2000", getString(R.string.m电表), "CT3000"};
         solarArrray = new String[]{"FAST", "ECO", "ECO+"};
         ammterTypeArray = new String[]{getString(R.string.m安科瑞), getString(R.string.m东宏), "Acrel DDS1352",
                 "Acrel DTSD1352(Three)", "Eastron SDM230", "Eastron SDM630(Three)", "Eastron SDM120 MID", "Eastron SDM72D MID(Three)", "Din-Rail DTSU666 MID(Three)"};
