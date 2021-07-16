@@ -337,7 +337,7 @@ public class TagAliasOperatorHelper {
             LogUtil.e(logs);
             if (!RetryActionIfNeeded(jPushMessage.getErrorCode(), tagAliasBean)) {
 //                ExampleUtil.showToast(logs, context);
-                LoginUtil.setJpushAlias(this.context);
+//                LoginUtil.setJpushAlias(this.context);
             }
         }
     }

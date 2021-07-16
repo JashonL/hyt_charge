@@ -265,6 +265,7 @@ public class EditDurationActivity extends BaseActivity {
             object = new JSONObject(json);
             object.put("ctype", "3");
             object.put("lan", getLanguage());
+            object.put("userId",SmartHomeUtil.getUserName());
         } catch (Exception e) {
             e.printStackTrace();
         }

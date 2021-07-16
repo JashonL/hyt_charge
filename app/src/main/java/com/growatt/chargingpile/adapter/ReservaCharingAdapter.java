@@ -49,7 +49,7 @@ public class ReservaCharingAdapter extends BaseQuickAdapter<ReservationBean.Data
                 String time=expiryDate.substring(11, 16)+"~"+endDate.substring(11, 16);
                 timeValue.setText(time);
             }
-            String rate=item.getSymbol()+item.getRate()+"/h";
+            String rate=item.getSymbol()+item.getRate()+"/kWh";
             rateValue.setText(rate);
         }
     }
