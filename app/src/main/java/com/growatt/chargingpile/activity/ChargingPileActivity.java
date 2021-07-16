@@ -1162,6 +1162,8 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
         String money = MathUtil.roundDouble2String(data.getCost(), 2);
         if (!TextUtils.isEmpty(moneyUnit)) {
             money = moneyUnit + money;
+            String rate=  moneyUnit+ data.getRate()+"/kWh";
+            tvChargingRate.setText(rate);
         }
         tvChargingMoney.setText(money);
         s = data.getVoltage() + "V";
