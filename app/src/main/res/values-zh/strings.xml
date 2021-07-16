@@ -468,6 +468,7 @@
     <string name="m验证成功">验证成功</string>
 
     <string name="m315_turn_on_gps">请开启GPS定位，以便获取wifi ssid</string>
+    <string name="login_expired">登录信息已过期，请重新登录</string>
 </resources>
 
 

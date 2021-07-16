@@ -33,7 +33,9 @@ import com.growatt.chargingpile.bean.SolarBean;
 import com.growatt.chargingpile.bean.WiFiRequestMsgBean;
 import com.growatt.chargingpile.bean.WifiParseBean;
 import com.growatt.chargingpile.bean.WifiSetBean;
+import com.growatt.chargingpile.util.Base64;
 import com.growatt.chargingpile.util.Cons;
+import com.growatt.chargingpile.util.DecoudeUtil;
 import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.PickViewUtils;
@@ -314,7 +316,8 @@ public class WifiSetActivity extends BaseActivity {
                 "UnlockConnectorOnEVSideDisconnect", "G_Lock"};
         if (Cons.getNoConfigBean() != null) {
             noConfigKeys = Cons.getNoConfigBean().getSfield();
-            password = Cons.getNoConfigBean().getPassword();
+            String configWord = Cons.getNoConfigBean().getConfigWord();
+            password = SmartHomeUtil.getDescodePassword(configWord);
         }
         if (noConfigKeys == null) noConfigKeys = new ArrayList<>();
         //初始化所有设置项
@@ -351,12 +354,13 @@ public class WifiSetActivity extends BaseActivity {
         }
         modeArray = new String[]{getString(R.string.m217扫码刷卡), getString(R.string.m218仅刷卡充电), getString(R.string.m219插枪充电)};
         enableArray = new String[]{getString(R.string.m300禁止), getString(R.string.m299使能)};
-        wiringArray = new String[]{getString(R.string.mCT), getString(R.string.m电表)};
+//        wiringArray = new String[]{getString(R.string.mCT), getString(R.string.m电表)};
+        wiringArray = new String[]{"CT2000", getString(R.string.m电表),"CT3000"};
         solarArrray = new String[]{"FAST", "ECO", "ECO+"};
         gunArrray = new String[]{getString(R.string.m110A枪), getString(R.string.m111B枪), getString(R.string.m112C枪)};
         lockArrray = new String[]{getString(R.string.m已解锁), getString(R.string.m已锁住)};
-
-        ammterTypeArray = new String[]{getString(R.string.m安科瑞), getString(R.string.m东宏)};
+        ammterTypeArray = new String[]{getString(R.string.m安科瑞), getString(R.string.m东宏),"Acrel DDS1352",
+                "Acrel DTSD1352(Three)","Eastron SDM230","Eastron SDM630(Three)","Eastron SDM120 MID","Eastron SDM72D MID(Three)","Din-Rail DTSU666 MID(Three)"};
         unLockTypeArray = new String[]{getString(R.string.m手动), getString(R.string.m自动)};
         netModeArray = new String[]{"STATIC", "DHCP"};
         solarBeans = new ArrayList<>();
@@ -2273,7 +2277,15 @@ public class WifiSetActivity extends BaseActivity {
                                 wiring = 0;
                             }
                             if (wiring < 0) wiring = 1;
-                            String wiringValue = wiringArray[wiring];
+
+
+                            String wiringValue;
+                            if (wiring < wiringArray.length) {
+                                wiringValue = wiringArray[wiring];
+                            } else {
+                                wiringValue = wiring + "";
+                            }
+
                             setBean("G_ExternalSamplingCurWring", wiringValue);
                         }
                         if (len > 27) {
@@ -2317,7 +2329,14 @@ public class WifiSetActivity extends BaseActivity {
                             } catch (NumberFormatException e) {
                                 ammeterTypeIndext = 0;
                             }
-                            String ammeterTypeValue = ammterTypeArray[ammeterTypeIndext];
+                            String ammeterTypeValue;
+                            if (ammeterTypeIndext < ammterTypeArray.length) {
+                                ammeterTypeValue = ammterTypeArray[ammeterTypeIndext];
+                            } else {
+                                ammeterTypeValue = ammeterTypeIndext + "";
+                            }
+
+
                             setBean("G_PowerMeterType", ammeterTypeValue);
                         }
 

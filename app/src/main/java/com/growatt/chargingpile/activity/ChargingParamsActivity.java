@@ -1,14 +1,18 @@
 package com.growatt.chargingpile.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentManager;
 import androidx.core.content.ContextCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -33,7 +37,10 @@ import com.growatt.chargingpile.bean.ParamsSetBean;
 import com.growatt.chargingpile.bean.PileSetBean;
 import com.growatt.chargingpile.bean.SolarBean;
 import com.growatt.chargingpile.connutil.PostUtil;
+import com.growatt.chargingpile.util.Base64;
 import com.growatt.chargingpile.util.Cons;
+import com.growatt.chargingpile.util.Constant;
+import com.growatt.chargingpile.util.DecoudeUtil;
 import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
@@ -49,6 +56,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xutils.common.util.LogUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -220,19 +228,20 @@ public class ChargingParamsActivity extends BaseActivity {
                 getString(R.string.m155高级设置), getString(R.string.m网络模式设置), getString(R.string.m156充电桩IP), getString(R.string.m157网关), getString(R.string.m158子网掩码),
                 getString(R.string.m159网络MAC地址), getString(R.string.m160服务器URL), getString(R.string.m161DNS地址), "",
                 getString(R.string.m298功率分配使能), getString(R.string.m外部电流采样接线方式), getString(R.string.mSolar模式), getString(R.string.m297峰谷充电使能), getString(R.string.m280允许充电时间), getString(R.string.m电表类型), getString(R.string.m电子锁配置),
-                getString(R.string.m低功率预约充电), "LCD","", getString(R.string.m289进入AP模式), ""};
+                getString(R.string.m低功率预约充电), "LCD", "", getString(R.string.m289进入AP模式), ""};
         keySfields = new String[]{"", "name", "country",
                 "site", "rate", "unit",
                 "G_MaxCurrent", "G_ExternalLimitPower", "G_ChargerMode",
-                "",  "G_NetworkMode","ip", "gateway", "mask",
+                "", "G_NetworkMode", "ip", "gateway", "mask",
                 "mac", "host", "dns", "",
                 "G_ExternalLimitPowerEnable", "G_ExternalSamplingCurWring", "G_SolarMode", "G_PeakValleyEnable",
                 "G_AutoChargeTime", "G_PowerMeterType",
-                "UnlockConnectorOnEVSideDisconnect", "G_LowPowerReserveEnable","G_LCDCloseEnable",
+                "UnlockConnectorOnEVSideDisconnect", "G_LowPowerReserveEnable", "G_LCDCloseEnable",
                 "", "apMode", ""};
         if (Cons.getNoConfigBean() != null) {
             noConfigKeys = Cons.getNoConfigBean().getSfield();
-            password = Cons.getNoConfigBean().getPassword();
+            String configWord = Cons.getNoConfigBean().getConfigWord();
+            password = SmartHomeUtil.getDescodePassword(configWord);
         }
         if (noConfigKeys == null) noConfigKeys = new ArrayList<>();
 
@@ -261,12 +270,13 @@ public class ChargingParamsActivity extends BaseActivity {
         moneyTypes = new String[]{"pound", "dollar", "euro", "baht", "rmb"};
         moneySymbols = new String[]{"£", "$", "€", "฿", "￥"};
         enableArray = new String[]{getString(R.string.m300禁止), getString(R.string.m299使能)};
-        wiringArray = new String[]{getString(R.string.mCT), getString(R.string.m电表)};
+        wiringArray = new String[]{"CT2000", getString(R.string.m电表), "CT3000"};
         solarArrray = new String[]{"FAST", "ECO", "ECO+"};
-        ammterTypeArray = new String[]{"Acrel", "Eastron"};
+        ammterTypeArray = new String[]{getString(R.string.m安科瑞), getString(R.string.m东宏), "Acrel DDS1352",
+                "Acrel DTSD1352(Three)", "Eastron SDM230", "Eastron SDM630(Three)", "Eastron SDM120 MID", "Eastron SDM72D MID(Three)", "Din-Rail DTSU666 MID(Three)"};
         unLockTypeArray = new String[]{getString(R.string.m手动), getString(R.string.m自动)};
-        netModeArray = new String[]{"DHCP","STATIC" };
-        LowPowerArray=new String[]{"Enable","Disable"};
+        netModeArray = new String[]{"DHCP", "STATIC"};
+        LowPowerArray = new String[]{"Enable", "Disable"};
         unitKey = moneyTypes[0];
         unitValue = moneySymbols[0];
         setPileParamMap = new HashMap<>();
@@ -853,9 +863,9 @@ public class ChargingParamsActivity extends BaseActivity {
                     }
                     break;
                 case "ip":
-                    if (netModeArray[0].equals(netMode)){//静态不给修改
+                    if (netModeArray[0].equals(netMode)) {//静态不给修改
                         bean.setType(ParamsSetAdapter.PARAM_ITEM_CANT_CLICK);
-                    }else {
+                    } else {
                         bean.setType(ParamsSetAdapter.PARAM_ITEM);
                     }
                     bean.setKey(keys[i]);
@@ -867,9 +877,9 @@ public class ChargingParamsActivity extends BaseActivity {
                     }
                     break;
                 case "gateway":
-                    if (netModeArray[0].equals(netMode)){//静态不给修改
+                    if (netModeArray[0].equals(netMode)) {//静态不给修改
                         bean.setType(ParamsSetAdapter.PARAM_ITEM_CANT_CLICK);
-                    }else {
+                    } else {
                         bean.setType(ParamsSetAdapter.PARAM_ITEM);
                     }
                     bean.setKey(keys[i]);
@@ -881,9 +891,9 @@ public class ChargingParamsActivity extends BaseActivity {
                     }
                     break;
                 case "mask":
-                    if (netModeArray[0].equals(netMode)){//静态不给修改
+                    if (netModeArray[0].equals(netMode)) {//静态不给修改
                         bean.setType(ParamsSetAdapter.PARAM_ITEM_CANT_CLICK);
-                    }else {
+                    } else {
                         bean.setType(ParamsSetAdapter.PARAM_ITEM);
                     }
                     bean.setKey(keys[i]);
@@ -950,11 +960,12 @@ public class ChargingParamsActivity extends BaseActivity {
                     bean.setType(ParamsSetAdapter.PARAM_ITEM);
                     bean.setKey(keys[i]);
                     int wiring = data.getG_ExternalSamplingCurWring();
-                    if (wiring == 0) {//0禁止
-                        bean.setValue(wiringArray[0]);
+                    if (wiring < wiringArray.length) {
+                        bean.setValue(wiringArray[wiring]);
                     } else {
-                        bean.setValue(wiringArray[1]);
+                        bean.setValue(wiring + "");
                     }
+
                     break;
 
                 case "G_SolarMode":
@@ -1105,6 +1116,7 @@ public class ChargingParamsActivity extends BaseActivity {
         try {
             jsonObject.put("cmd", "selectMoneyUnit");
             jsonObject.put("lan", getLanguage());
+            jsonObject.put("userId", SmartHomeUtil.getUserName());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -1245,6 +1257,7 @@ public class ChargingParamsActivity extends BaseActivity {
         try {
             jsonObject.put("cmd", "countryList");
             jsonObject.put("lan", getLanguage());
+            jsonObject.put("userId", SmartHomeUtil.getUserName());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -1335,7 +1348,6 @@ public class ChargingParamsActivity extends BaseActivity {
     }
 
 
-
     /*网络模式*/
     private void setLowPowerReserveEnable() {
         List<String> list = Arrays.asList(LowPowerArray);
@@ -1360,7 +1372,6 @@ public class ChargingParamsActivity extends BaseActivity {
         pvOptions.show();
 
     }
-
 
 
     /*网络模式*/
@@ -1389,7 +1400,6 @@ public class ChargingParamsActivity extends BaseActivity {
     }
 
 
-
     /*网络模式*/
     private void setLcd() {
         List<String> list = Arrays.asList(LowPowerArray);
@@ -1414,8 +1424,6 @@ public class ChargingParamsActivity extends BaseActivity {
         pvOptions.show();
 
     }
-
-
 
 
     /*电子锁配置*/
