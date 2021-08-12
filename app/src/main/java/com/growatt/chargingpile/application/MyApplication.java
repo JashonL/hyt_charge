@@ -9,6 +9,7 @@ import com.growatt.chargingpile.view.MyToastBlackStyle;
 import com.hjq.toast.ToastUtils;
 import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.res.values.CircleDimen;
+import com.tencent.mmkv.MMKV;
 
 import org.xutils.x;
 
@@ -55,6 +56,8 @@ public class MyApplication extends Application {
         // toast
         ToastUtils.initStyle(new MyToastBlackStyle(this));
         ToastUtils.init(this);
+
+        MMKV.initialize(this);
     }
 
 

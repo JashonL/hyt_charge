@@ -6,8 +6,8 @@ android {
         applicationId "com.growatt.chargingpile"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 21
-        versionName "3.0.0"
+        versionCode 22
+        versionName "3.0.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [
                 JPUSH_PKGNAME : applicationId,
@@ -113,8 +113,8 @@ dependencies {
     /*circleimageview*/
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
-    implementation files('libs/jcore-android-2.3.4-google_play.jar')
-    implementation files('libs/jpush-android-3.6.0-google_play.jar')
+    implementation 'cn.jiguang.sdk:jpush-google:4.2.2'
+    implementation 'cn.jiguang.sdk:jcore-google:2.9.0'
     /*toastUtils*/
     implementation 'com.hjq:toast:8.2'
 
@@ -127,4 +127,7 @@ dependencies {
     implementation 'com.gyf.immersionbar:immersionbar-components:3.0.0'
 
     implementation 'org.xutils:xutils:3.9.0'
+
+    implementation 'com.tencent:mmkv-static:1.2.4'
+
 }
