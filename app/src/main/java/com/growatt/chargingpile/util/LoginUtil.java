@@ -383,6 +383,7 @@ public class LoginUtil {
                         //设置帐号是否是浏览帐号
                         if (Cons.isflagId.equals(userBean.getName())) {
                             userBean.setAuthnum(1);
+
                         } else {
                             userBean.setAuthnum(0);
                         }
