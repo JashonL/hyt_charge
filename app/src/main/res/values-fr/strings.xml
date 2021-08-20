@@ -468,4 +468,7 @@
     <string name="m验证成功">Validazione riuscita</string>
     <string name="m315_turn_on_gps">Veuillez activer le positionnement GPS pour obtenir le ssid wifi</string>
     <string name="login_expired"> Les informations de connexion ont expiré, veuillez vous reconnecter</string>
+
+    <string name="welcome">Welcome!</string>
+    <string name="have_an_account">don’t have an account?</string>
 </resources>

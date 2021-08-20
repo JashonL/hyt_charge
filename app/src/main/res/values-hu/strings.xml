@@ -487,4 +487,7 @@
     <string name="m验证成功">Sikeres hitelesítés</string>
     <string name="m315_turn_on_gps">Kérjük, kapcsolja be a GPS helymeghatározást a wifi-támogatás megszerzéséhez</string>
     <string name = "login_expired"> A bejelentkezési adatok lejártak, kérjük, jelentkezzen be újra </string>
+
+    <string name="welcome">Welcome!</string>
+    <string name="have_an_account">don’t have an account?</string>
 </resources>

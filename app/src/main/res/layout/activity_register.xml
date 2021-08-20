@@ -371,7 +371,7 @@
                 android:layout_marginLeft="@dimen/xa75"
                 android:layout_marginTop="@dimen/xa80"
                 android:layout_marginRight="@dimen/xa75"
-                android:background="@drawable/selector_circle_btn_green"
+                android:background="@drawable/selector_circle_btn_green_login_gradient"
                 android:text="@string/m23注册"
                 android:textColor="@color/headerView" />
         </LinearLayout>

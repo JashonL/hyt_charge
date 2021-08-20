@@ -3,10 +3,13 @@ package com.growatt.chargingpile.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.growatt.chargingpile.BaseActivity;
@@ -34,6 +37,7 @@ import cn.jpush.android.api.JPushInterface;
 
 
 /**
+ * 登录
  * Created by Administrator on 2018/10/16.
  */
 
@@ -44,10 +48,8 @@ public class LoginActivity extends BaseActivity {
     EditText etPassword;
     @BindView(R.id.bt_login)
     Button btLogin;
-    @BindView(R.id.ll_demo)
-    LinearLayout llDemo;
     private Unbinder bind;
-
+    private boolean mIsShowPassword=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,10 +66,10 @@ public class LoginActivity extends BaseActivity {
             String name = inquirylogin.get("name").toString();
             String pwd = inquirylogin.get("pwd").toString();
 //            if (!Cons.isflagId.equals(name)) {
-                etUsername.setText(name);
-                etPassword.setText(pwd);
-                etUsername.setSelection(name.length());
-                etPassword.setSelection(pwd.length());
+            etUsername.setText(name);
+            etPassword.setText(pwd);
+            etUsername.setSelection(name.length());
+            etPassword.setSelection(pwd.length());
 //            }
         }
     }
@@ -107,10 +109,10 @@ public class LoginActivity extends BaseActivity {
         }*/
     }
 
-    @OnClick({R.id.tvRight, R.id.bt_login, R.id.tv_foget, R.id.ll_demo})
+    @OnClick({R.id.tv_register, R.id.bt_login, R.id.tv_foget,R.id.iv_switch})
     public void onClickListeners(View view) {
         switch (view.getId()) {
-            case R.id.tvRight:
+            case R.id.tv_register:
                 Intent intent = new Intent();
                 intent.setClass(this, RegisterActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -123,8 +125,14 @@ public class LoginActivity extends BaseActivity {
             case R.id.tv_foget:
                 jumpTo(ForgotPasswordActivity.class, false);
                 break;
-            case R.id.ll_demo:
-                loginDemo();
+            case R.id.iv_switch:
+                //loginDemo();
+                if (!mIsShowPassword){
+                    etPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                }else {
+                    etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                }
+                mIsShowPassword=!mIsShowPassword;
                 break;
         }
     }

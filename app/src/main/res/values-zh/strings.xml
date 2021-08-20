@@ -469,6 +469,9 @@
 
     <string name="m315_turn_on_gps">请开启GPS定位，以便获取wifi ssid</string>
     <string name="login_expired">登录信息已过期，请重新登录</string>
+
+    <string name="welcome">欢迎!</string>
+    <string name="have_an_account">没有账号?</string>
 </resources>
 
 
