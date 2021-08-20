@@ -107,8 +107,8 @@
                     android:id="@+id/ll_stop_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
                     android:layout_below="@+id/ll_start_time"
+                    android:layout_alignParentRight="true"
                     android:layout_marginTop="@dimen/xa20"
                     android:gravity="center_vertical|right"
                     android:orientation="horizontal">
@@ -121,10 +121,10 @@
 
                     <com.growatt.chargingpile.view.AutofitTextView
                         android:id="@+id/tv_end"
-                        android:singleLine="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/xa10"
+                        android:singleLine="true"
                         android:textColor="@color/title_1"
                         android:textSize="@dimen/xa24" />
                 </LinearLayout>
@@ -294,5 +294,7 @@
 
 
     </LinearLayout>
+
+
 
 </LinearLayout>

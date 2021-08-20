@@ -3,6 +3,7 @@ package com.growatt.chargingpile.adapter;
 import androidx.annotation.Nullable;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -25,15 +26,18 @@ import java.util.Locale;
 public class ChargingRecordAdapter extends BaseQuickAdapter<ChargingRecordBean.DataBean, BaseViewHolder> {
 
     public ChargingRecordAdapter(@Nullable List<ChargingRecordBean.DataBean> data) {
-        super(R.layout.item_charging_record, data);
+        super(R.layout.item_charging_record111, data);
     }
 
     @Override
     protected void convert(BaseViewHolder helper, ChargingRecordBean.DataBean item) {
         String name = item.getName();
+        Log.d(TAG, "convert: name:"+name);
         if (TextUtils.isEmpty(name)) name = item.getChargeId();
         helper.setText(R.id.tv_name, name);
         helper.setText(R.id.tv_chargingId, item.getChargeId());
+
+        //Log.d(TAG, "convert: tv_chargingId:"+item.getChargeId());
 
         int connectorId = item.getConnectorId();
 
@@ -42,6 +46,7 @@ public class ChargingRecordAdapter extends BaseQuickAdapter<ChargingRecordBean.D
         }
         String gunName = SmartHomeUtil.getLetter().get(connectorId - 1) + " " + mContext.getString(R.string.枪);
         helper.setText(R.id.tv_model, gunName);
+        Log.d(TAG, "convert:gunName="+gunName);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
   /*      long cTime = item.getCtime() * 60 * 1000;
         long sysStartTime = item.getSysStartTime();
@@ -55,8 +60,9 @@ public class ChargingRecordAdapter extends BaseQuickAdapter<ChargingRecordBean.D
         Date sysStartTime = null;
         Date sysEndTime = null;
         if (!TextUtils.isEmpty(startTime)) {
-            helper.setText(R.id.tv_calendar, startTime.substring(0, 11));
-            helper.setText(R.id.tv_start, startTime);
+            //helper.setText(R.id.tv_calendar, startTime.substring(0, 11));
+            Log.d(TAG, "convert:startTime:"+startTime.substring(11, 16));
+            helper.setText(R.id.tv_start, startTime.substring(11, 16));
             try {
                 sysStartTime = sdf.parse(startTime);
             } catch (ParseException e) {
@@ -65,7 +71,9 @@ public class ChargingRecordAdapter extends BaseQuickAdapter<ChargingRecordBean.D
         }
         String endTime = item.getEndtime();
         if (!TextUtils.isEmpty(endTime)) {
-            helper.setText(R.id.tv_end, endTime);
+            Log.d(TAG, "convert: endTime:"+endTime);
+            helper.setText(R.id.tv_end_date, endTime.substring(0, 11));
+            helper.setText(R.id.tv_end, endTime.substring(11, 16));
             try {
                 sysEndTime = sdf.parse(endTime);
             } catch (ParseException e) {
@@ -84,9 +92,13 @@ public class ChargingRecordAdapter extends BaseQuickAdapter<ChargingRecordBean.D
         int min = (int) ((durationTime % (1000 * 60 * 60)) / (60 * 1000));
         //计算多少秒
         int ss = (int) ((durationTime % (1000 * 60)) / 1000);
-        String stringDuration = hour + "h" + min + "min" + ss + "s";
+        String stringDuration = hour+"";
         helper.setText(R.id.tv_duration, stringDuration);
-        String energy = MathUtil.roundDouble2String(item.getEnergy(), 2) + "kWh";
+
+        String stringMin = min+"";
+        helper.setText(R.id.tv_min, stringMin);
+
+        String energy = MathUtil.roundDouble2String(item.getEnergy(), 2);
         helper.setText(R.id.tv_ele, energy);
         String money = MathUtil.roundDouble2String(item.getCost(), 2);
         if (!TextUtils.isEmpty(item.getSymbol())) {
