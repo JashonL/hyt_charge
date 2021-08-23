@@ -3,6 +3,8 @@
     android:layout_width="@dimen/xa200"
     android:layout_height="@dimen/xa124"
     android:layout_marginBottom="@dimen/xa30"
+
+
     android:layout_marginLeft="@dimen/xa30"
     android:layout_marginTop="@dimen/xa10"
     android:gravity="center"

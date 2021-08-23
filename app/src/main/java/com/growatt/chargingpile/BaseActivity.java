@@ -30,6 +30,7 @@ import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.PermissionCodeUtil;
 import com.growatt.chargingpile.util.SharedPreferencesUnit;
 import com.growatt.chargingpile.util.T;
+import com.growatt.chargingpile.view.AutofitTextView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -41,6 +42,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Locale;
 
+import butterknife.ButterKnife;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -74,6 +76,7 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         }
         EventBus.getDefault().register(this);
         MyApplication.getInstance().addActivity(new SoftReference<>(this));
+
     }
 
 
@@ -313,14 +316,12 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         ImageView iv = null;
         switch (position) {
             case LEFT:
-                iv = (ImageView) headerView.findViewById(R.id.ivLeft);
+                iv = headerView.findViewById(R.id.ivLeft);
                 break;
-
             default:
-                iv = (ImageView) headerView.findViewById(R.id.ivRight);
+                iv = headerView.findViewById(R.id.ivRight);
                 break;
         }
-
         iv.setImageResource(resId);
 //		iv.setColorFilter(Color.WHITE,Mode.SRC_ATOP);
         if (listener != null) {

@@ -4,7 +4,7 @@
     <item  android:state_pressed="true" android:drawable="@drawable/shape_circle_btn_gray_click"/>
     <!-- 被checked的时候并且没有按下 -->
     <item  android:state_checked="true" android:drawable="@drawable/shape_circle_btn_gray_click"/>
-    <item android:drawable="@drawable/shape_circle_btn_green_normal" />
+    <item android:drawable="@drawable/shape_circle_btn_gray_normal" />
 
 
 </selector>

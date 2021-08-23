@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/headerView"
+    android:orientation="vertical">
+
+    <include layout="@layout/header_view"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/iv_login_bg"
+        android:layout_width="match_parent"
+        android:layout_marginEnd="@dimen/xa30"
+        android:layout_marginTop="@dimen/xa20"
+        android:layout_marginStart="@dimen/xa30"
+        android:layout_height="@dimen/xa90"
+        app:cardCornerRadius="@dimen/xa45"
+        app:cardElevation="@dimen/xa8">
+
+
+        <ImageView
+            android:src="@drawable/ic_search"
+            android:layout_marginStart="@dimen/xa40"
+            android:layout_width="@dimen/xa40"
+            android:layout_gravity="center_vertical"
+            android:layout_height="@dimen/xa40"/>
+
+
+        <EditText
+            android:id="@+id/et_username"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:singleLine="true"
+            android:hint="Please enter the charge point name"
+            android:paddingStart="@dimen/xa90"
+            android:textColor="#888888"
+            android:textSize="@dimen/xa24" />
+
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_charging"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+
+</LinearLayout>

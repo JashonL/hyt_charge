@@ -42,7 +42,7 @@ public class MyApplication extends Application {
         super.onCreate();
         instance = this;
         context = getApplicationContext();
-        CrashHandler.getInstance().init(this);
+        //CrashHandler.getInstance().init(this);
         // 初始化
         x.Ext.init(this);
         // 设置是否输出debug

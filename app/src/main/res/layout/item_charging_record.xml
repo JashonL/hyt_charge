@@ -1,300 +1,337 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/xa290"
-    android:layout_marginTop="@dimen/xa10">
+    android:layout_height="@dimen/xa335"
+    android:background="@color/headerView"
+    android:layout_marginTop="@dimen/xa16"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/rl_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/selector_list_rect_item_click"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/xa20">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/xa29"
+        android:orientation="horizontal">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/xa22"
-            android:paddingLeft="@dimen/xa30"
-            android:paddingRight="@dimen/xa30">
+            android:layout_weight="1"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="@dimen/xa29"
+                android:layout_height="@dimen/xa34"
+                android:layout_marginStart="@dimen/xa28"
+                android:src="@drawable/ic_charg_pile" />
 
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/title_1"
+                android:layout_marginStart="@dimen/xa10"
+                android:textColor="#343434"
                 android:textSize="@dimen/xa36"
-                android:textStyle="bold" />
+                tools:text="The garage" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="@dimen/xa26"
+                android:layout_height="@dimen/xa26"
+                android:layout_marginStart="@dimen/xa28"
+                android:layout_marginTop="@dimen/xa2"
+                android:src="@drawable/ic_date" />
 
             <TextView
-                android:id="@+id/tv_calendar"
+                android:id="@+id/tv_end_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:text="2018-05-21"
-                android:visibility="gone"
-                android:textColor="@color/title_1"
-                android:textSize="@dimen/xa30" />
-
-        </RelativeLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/xa30"
-            android:paddingRight="@dimen/xa30">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tv_chargingId"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/xa11"
-                    android:textColor="@color/title_3"
-                    android:textSize="@dimen/xa26" />
-
-                <TextView
-                    android:id="@+id/tv_model"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/xa32"
-                    android:textColor="@color/title_3"
-                    android:textSize="@dimen/xa30" />
-
-            </LinearLayout>
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_vertical">
-
-
-                <LinearLayout
-                    android:id="@+id/ll_start_time"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:gravity="right|center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="@dimen/xa15"
-                        android:layout_height="@dimen/xa15"
-                        android:layout_marginLeft="@dimen/xa28"
-                        android:src="@drawable/record_start" />
-
-                    <com.growatt.chargingpile.view.AutofitTextView
-                        android:id="@+id/tv_start"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/xa10"
-                        android:singleLine="true"
-                        android:textColor="@color/title_1"
-                        android:textSize="@dimen/xa24" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_stop_time"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/ll_start_time"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="@dimen/xa20"
-                    android:gravity="center_vertical|right"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="@dimen/xa15"
-                        android:layout_height="@dimen/xa15"
-                        android:layout_marginLeft="@dimen/xa28"
-                        android:src="@drawable/record_finish" />
-
-                    <com.growatt.chargingpile.view.AutofitTextView
-                        android:id="@+id/tv_end"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/xa10"
-                        android:singleLine="true"
-                        android:textColor="@color/title_1"
-                        android:textSize="@dimen/xa24" />
-                </LinearLayout>
-
-            </RelativeLayout>
+                android:layout_marginStart="@dimen/xa10"
+                android:layout_marginTop="@dimen/xa2"
+                android:textColor="#343434"
+                android:textSize="@dimen/xa30"
+                tools:text="2021/4/12" />
 
         </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/xa30"
-            android:paddingRight="@dimen/xa30"
-            android:paddingTop="@dimen/xa10">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <ImageView
-                    android:id="@+id/iv_charging_time"
-                    android:layout_width="@dimen/xa36"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/charging_time" />
-
-                <RelativeLayout
-                    android:paddingLeft="@dimen/xa17"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:paddingRight="@dimen/xa1"
-                    android:paddingEnd="@dimen/xa1"
-                    android:paddingStart="@dimen/xa17">
-
-                    <com.growatt.chargingpile.view.AutofitTextView
-                        android:id="@+id/tv_duration"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_above="@+id/tv_charging_time"
-                        android:gravity="center_vertical"
-                        android:singleLine="true"
-                        android:textColor="@color/title_1"
-                        android:textSize="@dimen/xa26" />
-
-                    <TextView
-                        android:id="@+id/tv_charging_time"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:gravity="center_vertical"
-                        android:text="@string/m202时长"
-                        android:textColor="@color/title_3"
-                        android:textSize="@dimen/xa26" />
-                </RelativeLayout>
-
-            </LinearLayout>
-
-
-            <View
-                android:layout_width="@dimen/xa1"
-                android:layout_height="match_parent"/>
-
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <ImageView
-                    android:id="@+id/iv_charging_ele"
-                    android:layout_width="@dimen/xa36"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/charging_record_ele" />
-
-                <RelativeLayout
-                    android:paddingRight="@dimen/xa1"
-                    android:paddingEnd="@dimen/xa1"
-                    android:paddingLeft="@dimen/xa17"
-                    android:paddingStart="@dimen/xa17"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center">
-
-
-                    <com.growatt.chargingpile.view.AutofitTextView
-                        android:id="@+id/tv_ele"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_above="@+id/tv_charging_ele"
-                        android:gravity="center_vertical"
-                        android:singleLine="true"
-                        android:textColor="@color/title_1"
-                        android:textSize="@dimen/xa26" />
-
-                    <TextView
-                        android:id="@+id/tv_charging_ele"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:gravity="center_vertical"
-                        android:text="@string/m201电量"
-                        android:textColor="@color/title_3"
-                        android:textSize="@dimen/xa26" />
-                </RelativeLayout>
-            </LinearLayout>
-
-            <View
-                android:layout_width="@dimen/xa1"
-                android:layout_height="match_parent"/>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <ImageView
-                    android:id="@+id/iv_charging_money"
-                    android:layout_width="@dimen/xa36"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/charging_money" />
-
-                <RelativeLayout
-                    android:paddingStart="@dimen/xa17"
-                    android:paddingLeft="@dimen/xa17"
-                    android:paddingRight="@dimen/xa1"
-                    android:paddingEnd="@dimen/xa1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center">
-
-
-                    <com.growatt.chargingpile.view.AutofitTextView
-                        android:id="@+id/tv_money"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_above="@+id/tv_charging_money"
-                        android:gravity="center_vertical"
-                        android:singleLine="true"
-                        android:textColor="@color/title_1"
-                        android:textSize="@dimen/xa26" />
-
-                    <TextView
-                        android:id="@+id/tv_charging_money"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:gravity="center_vertical"
-                        android:text="@string/m200金额"
-                        android:textColor="@color/title_3"
-                        android:textSize="@dimen/xa26" />
-                </RelativeLayout>
-
-            </LinearLayout>
-
-
-        </LinearLayout>
-
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/xa10"
+            android:layout_weight="1"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tv_chargingId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/xa31"
+                android:textColor="#888888"
+                android:textSize="@dimen/xa26"
+                tools:text="ID:4454545445454" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="@dimen/xa16"
+                android:layout_height="@dimen/xa16"
+                android:layout_marginStart="@dimen/xa28"
+                android:layout_marginTop="@dimen/xa2"
+                android:src="@drawable/ic_start" />
+
+            <TextView
+                android:id="@+id/tv_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/xa10"
+                android:layout_marginTop="@dimen/xa2"
+                android:textColor="#343434"
+                android:textSize="@dimen/xa30"
+                tools:text="19:00" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/xa16"
+                android:src="@drawable/ic_arrows" />
+
+            <ImageView
+                android:layout_width="@dimen/xa16"
+                android:layout_height="@dimen/xa16"
+                android:layout_marginStart="@dimen/xa15"
+                android:layout_marginTop="@dimen/xa2"
+                android:src="@drawable/ic_end" />
+
+            <TextView
+                android:id="@+id/tv_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/xa10"
+                android:layout_marginTop="@dimen/xa2"
+                android:textColor="#343434"
+                android:textSize="@dimen/xa30"
+                tools:text="03:20" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa2"
+        android:layout_marginTop="@dimen/xa16"
+        android:background="#EEEEEE" />
+
+    <TextView
+        android:id="@+id/tv_model"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/xa28"
+        android:layout_marginTop="@dimen/xa16"
+        android:textSize="@dimen/xa30"
+        tools:text="AC 2 guns(A Gun)" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/xa20"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/iv_charging_time"
+                android:layout_width="@dimen/xa27"
+                android:layout_height="@dimen/xa26"
+                android:layout_marginStart="@dimen/xa77"
+                android:layout_marginTop="@dimen/xa10"
+                android:src="@drawable/charging_time" />
+
+            <TextView
+                android:id="@+id/tv_charging_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/xa7"
+                android:layout_toEndOf="@+id/iv_charging_time"
+                android:text="@string/m202时长"
+                android:textColor="#333333"
+                android:textSize="@dimen/xa30" />
+
+            <TextView
+                android:id="@+id/tv_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_charging_time"
+                android:layout_marginStart="@dimen/xa77"
+                android:singleLine="true"
+                android:text="4"
+                android:textColor="@color/title_1"
+                android:textSize="@dimen/xa36" />
+
+            <TextView
+                android:id="@+id/tv_h"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_charging_time"
+                android:layout_marginStart="@dimen/xa4"
+                android:layout_marginTop="@dimen/xa14"
+                android:layout_toEndOf="@+id/tv_duration"
+                android:singleLine="true"
+                android:text="h"
+                android:textColor="#888888"
+                android:textSize="@dimen/xa24" />
+
+            <TextView
+                android:id="@+id/tv_min"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_charging_time"
+                android:layout_marginStart="@dimen/xa4"
+                android:layout_toEndOf="@+id/tv_h"
+                android:singleLine="true"
+                android:text="5"
+                android:textColor="@color/title_1"
+                android:textSize="@dimen/xa36" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_charging_time"
+                android:layout_marginStart="@dimen/xa4"
+                android:layout_marginTop="@dimen/xa14"
+                android:layout_toEndOf="@+id/tv_min"
+                android:singleLine="true"
+                android:text="min"
+                android:textColor="#888888"
+                android:textSize="@dimen/xa24" />
+
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="@dimen/xa4"
+            android:layout_height="@dimen/xa52"
+            android:layout_gravity="center_vertical"
+            android:background="#EEEEEE" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/xa20"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/iv_charging_ele"
+                android:layout_width="@dimen/xa16"
+                android:layout_height="@dimen/xa28"
+                android:layout_marginStart="@dimen/xa77"
+                android:layout_marginTop="@dimen/xa10"
+                android:src="@drawable/charging_record_ele" />
+
+            <TextView
+                android:id="@+id/tv_charging_ele"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/xa7"
+                android:layout_toEndOf="@+id/iv_charging_ele"
+                android:text="@string/m201电量"
+                android:textColor="#333333"
+                android:textSize="@dimen/xa30" />
+
+            <TextView
+                android:id="@+id/tv_ele"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_charging_ele"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="@dimen/xa77"
+                android:layout_marginTop="@dimen/xa6"
+                android:singleLine="true"
+                android:text="20"
+                android:textColor="@color/title_1"
+                android:textSize="@dimen/xa36" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_charging_ele"
+                android:layout_marginStart="@dimen/xa4"
+                android:layout_marginTop="@dimen/xa18"
+                android:layout_toEndOf="@+id/tv_ele"
+                android:singleLine="true"
+                android:text="kWh"
+                android:textColor="#888888"
+                android:textSize="@dimen/xa24" />
+
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="@dimen/xa4"
+            android:layout_height="@dimen/xa52"
+            android:layout_gravity="center_vertical"
+            android:background="#EEEEEE" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/xa20"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/iv_charging_money"
+                android:layout_width="@dimen/xa26"
+                android:layout_height="@dimen/xa31"
+                android:layout_marginStart="@dimen/xa77"
+                android:layout_marginTop="@dimen/xa10"
+                android:src="@drawable/charging_money" />
+
+            <TextView
+                android:id="@+id/tv_charging_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/xa7"
+                android:layout_toEndOf="@+id/iv_charging_money"
+                android:text="@string/m200金额"
+                android:textColor="#333333"
+                android:textSize="@dimen/xa30" />
+
+            <com.growatt.chargingpile.view.AutofitTextView
+                android:id="@+id/tv_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_charging_money"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="@dimen/xa6"
+                android:singleLine="true"
+                android:text="4.6"
+                android:textColor="@color/title_1"
+                android:textSize="@dimen/xa36" />
+
+        </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>

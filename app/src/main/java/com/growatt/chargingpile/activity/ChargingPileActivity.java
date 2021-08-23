@@ -16,6 +16,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -92,6 +93,9 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 import static com.growatt.chargingpile.jpush.TagAliasOperatorHelper.sequence;
 
+/**
+ * 充电桩列表
+ */
 public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapter.OnItemClickListener {
 
     @BindView(R.id.ivRight)
@@ -751,6 +755,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
 
             @Override
             public void success(String json) {
+                Log.d("ccc", "success: 3131");
                 srlPull.setRefreshing(false);
                 try {
                     List<ChargingBean.DataBean> charginglist = new ArrayList<>();

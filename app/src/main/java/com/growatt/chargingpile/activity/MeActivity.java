@@ -337,6 +337,12 @@ public class MeActivity extends BaseActivity {
     }
 
 
+
+
+
+
+
+
     private static int output_X = 80;
     private static int output_Y = 80;
 
@@ -363,7 +369,6 @@ public class MeActivity extends BaseActivity {
         intent.putExtra("noFaceDetection", true);
         startActivityForResult(intent, CODE_RESULT_REQUEST);
     }
-
 
     /**
      * @param context 上下文对象

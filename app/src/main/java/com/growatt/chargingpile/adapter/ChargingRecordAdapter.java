@@ -26,7 +26,7 @@ import java.util.Locale;
 public class ChargingRecordAdapter extends BaseQuickAdapter<ChargingRecordBean.DataBean, BaseViewHolder> {
 
     public ChargingRecordAdapter(@Nullable List<ChargingRecordBean.DataBean> data) {
-        super(R.layout.item_charging_record111, data);
+        super(R.layout.item_charging_record, data);
     }
 
     @Override

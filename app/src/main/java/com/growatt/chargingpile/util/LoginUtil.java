@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
+import com.growatt.chargingpile.MainActivity;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.activity.ChargingPileActivity;
 import com.growatt.chargingpile.activity.LoginActivity;
