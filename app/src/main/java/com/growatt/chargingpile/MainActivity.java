@@ -6,25 +6,29 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.Editable;
 import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
+import com.growatt.chargingpile.EventBusMsg.AddDevMsg;
 import com.growatt.chargingpile.EventBusMsg.SearchDevMsg;
 import com.growatt.chargingpile.activity.AboutActivity;
 import com.growatt.chargingpile.activity.AddChargingActivity;
+import com.growatt.chargingpile.activity.GunActivity;
 import com.growatt.chargingpile.activity.UserActivity;
 import com.growatt.chargingpile.adapter.ChargingListAdapter;
-import com.growatt.chargingpile.adapter.Myadapter;
+import com.growatt.chargingpile.adapter.MeAdapter;
 import com.growatt.chargingpile.bean.ChargingBean;
 import com.growatt.chargingpile.bean.GunBean;
 import com.growatt.chargingpile.connutil.PostUtil;
@@ -36,6 +40,7 @@ import com.growatt.chargingpile.util.LoginUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.PermissionCodeUtil;
 import com.growatt.chargingpile.util.PhotoUtil;
+import com.growatt.chargingpile.util.SearchUtils;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
 import com.growatt.chargingpile.util.SmartHomeUtil;
 import com.mylhyl.circledialog.CircleDialog;
@@ -69,12 +74,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import pub.devrel.easypermissions.EasyPermissions;
 
 import static com.growatt.chargingpile.jpush.TagAliasOperatorHelper.sequence;
 
 public class MainActivity extends BaseActivity {
+
+    private static String TAG = MainActivity.class.getSimpleName();
 
     @BindView(R.id.headerView)
     View headerView;
@@ -84,12 +90,13 @@ public class MainActivity extends BaseActivity {
     DrawerLayout drawerLayout;
     @BindView(R.id.ivRight)
     ImageView ivRight;
-
     @BindView(R.id.tvTitle)
     TextView tvTitle;
+    @BindView(R.id.et_search)
+    EditText editSearch;
 
     private List<Map<String, Object>> list;
-    private Myadapter adapter;
+    private MeAdapter mMeAdapter;
 
     //拍照相关变量
     private Uri imageUri;
@@ -103,7 +110,8 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.rv_charging)
     RecyclerView mRvCharging;
     private List<ChargingBean.DataBean> mChargingList = new ArrayList<>();
-    private ChargingListAdapter mAdapter;
+    private List<ChargingBean.DataBean> mTempChargingList = new ArrayList<>();
+    private ChargingListAdapter mChargingAdapter;
 
     private String searchId;
     private String jumpId;
@@ -117,7 +125,7 @@ public class MainActivity extends BaseActivity {
     private String moneyUnit = "";
 
     //充电桩当前状态
-    private String currenStatus = GunBean.NONE;
+    private String mCurrentStatus = GunBean.NONE;
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void searchFresh(SearchDevMsg msg) {
@@ -141,12 +149,44 @@ public class MainActivity extends BaseActivity {
         initListners();
         initPermission();
         initCharging();
-        initListeners();
+        initRecyclerListeners();
         Set<String> tags = new HashSet<String>();
         tags.add(SmartHomeUtil.getUserName());
         setJpushAliasTag(tags, SmartHomeUtil.getUserName());
         freshData();
+        handleSearch();
     }
+
+    /**
+     * 处理搜索
+     */
+    private void handleSearch() {
+        editSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // TODO: 2021/8/23 数据量大考虑用线程
+                List<ChargingBean.DataBean> dataBeanList = SearchUtils.search(charSequence, mTempChargingList);
+                Log.d(TAG, "onTextChanged: " + dataBeanList.size());
+                if (dataBeanList.size() > 0) {
+                    mChargingAdapter.replaceData(dataBeanList);
+                } else {
+                    mChargingAdapter.replaceData(mChargingList);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+    }
+
 
     /**
      * 刷新列表数据
@@ -180,6 +220,7 @@ public class MainActivity extends BaseActivity {
                         if (chargingListBean != null) {
                             jumpId = getIntent().getStringExtra("chargeId");
                             charginglist = chargingListBean.getData();
+                            mTempChargingList = chargingListBean.getData();
                             if (charginglist == null) charginglist = new ArrayList<>();
                             for (int i = 0; i < charginglist.size(); i++) {
                                 ChargingBean.DataBean bean = charginglist.get(i);
@@ -195,16 +236,18 @@ public class MainActivity extends BaseActivity {
                     //默认选中第一项
                     if (charginglist.size() > 0) {
                         //HeadRvAddButton(charginglist);
-                        mAdapter.replaceData(charginglist);
+
+
+                        mChargingAdapter.replaceData(charginglist);
                         if (isFirst) {
-                            mAdapter.setNowSelectPosition(currentPos);
+                            mChargingAdapter.setNowSelectPosition(currentPos);
                             isFirst = false;
                         }
                         //MyUtil.hideAllView(View.GONE, emptyPage);
                         //MyUtil.showAllView(rlCharging, linearlayout);
                         //refreshChargingUI();
                     } else {
-                        mAdapter.replaceData(charginglist);
+                        mChargingAdapter.replaceData(charginglist);
                         //MyUtil.hideAllView(View.GONE, rlCharging, linearlayout);
                         //MyUtil.showAllView(emptyPage);
                     }
@@ -231,9 +274,9 @@ public class MainActivity extends BaseActivity {
      */
     private void initCharging() {
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        mAdapter = new ChargingListAdapter(mChargingList);
+        mChargingAdapter = new ChargingListAdapter(mChargingList);
         mRvCharging.setLayoutManager(mLinearLayoutManager);
-        mRvCharging.setAdapter(mAdapter);
+        mRvCharging.setAdapter(mChargingAdapter);
     }
 
     /**
@@ -248,10 +291,12 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-
-    private void initListeners() {
-//        mAdapter.setOnItemClickListener((adapter, view, position) -> {
-//            ChargingBean.DataBean bean = mAdapter.getItem(position);
+    private void initRecyclerListeners() {
+        mChargingAdapter.setOnItemClickListener((adapter, view, position) -> {
+            Log.d(TAG, "initRecyclerListeners: "+position);
+            ChargingBean.DataBean bean = mChargingAdapter.getItem(position);
+            Intent intent = new Intent(MainActivity.this, GunActivity.class);
+            jumpTo(intent, false);
 //            if (bean == null) return;
 //            int type = bean.getDevType();
 //            if (type == ChargingBean.ADD_DEVICE) {
@@ -259,21 +304,21 @@ public class MainActivity extends BaseActivity {
 //            } else {
 //                animation = null;
 //                stopTimer();
-//                currenStatus = GunBean.NONE;
-//                mAdapter.setNowSelectPosition(position);
+//                mCurrentStatus = GunBean.NONE;
+//                mChargingAdapter.setNowSelectPosition(position);
 //                //refreshChargingUI();
 //            }
-//        });
-//
-//        mAdapter.setOnItemLongClickListener((adapter, view, position) -> {
-//            ChargingBean.DataBean bean = mAdapter.getItem(position);
-//            if (bean == null) return false;
-//            int type = bean.getDevType();
-//            if (type != ChargingBean.ADD_DEVICE) {
-//                requestDelete(bean);
-//            }
-//            return false;
-//        });
+        });
+
+        mChargingAdapter.setOnItemLongClickListener((adapter, view, position) -> {
+            ChargingBean.DataBean bean = mChargingAdapter.getItem(position);
+            if (bean == null) return false;
+            int type = bean.getDevType();
+            if (type != ChargingBean.ADD_DEVICE) {
+                requestDelete(bean);
+            }
+            return false;
+        });
     }
 
     private void requestDelete(final ChargingBean.DataBean bean) {
@@ -346,27 +391,23 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initListners() {
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (position) {
-                    case 0:
-                        if (SmartHomeUtil.isFlagUser()) {
-                            toast(getString(R.string.m66你的账号没有操作权限));
-                            return;
-                        }
-                        jumpTo(UserActivity.class, false);
-                        break;
-                    case 1:
-                        toast(getString(R.string.m56暂未开放));
-                        break;
-                    case 2:
+        mMeAdapter.setOnItemClickListener((adapter, view, position) -> {
+            switch (position) {
+                case 0:
+                    if (SmartHomeUtil.isFlagUser()) {
+                        toast(getString(R.string.m66你的账号没有操作权限));
+                        return;
+                    }
+                    jumpTo(UserActivity.class, false);
+                    break;
+                case 1:
+                    toast(getString(R.string.m56暂未开放));
+                    break;
+                case 2:
 
-                        jumpTo(AboutActivity.class, false);
-                        break;
-                }
+                    jumpTo(AboutActivity.class, false);
+                    break;
             }
-
         });
 
         findViewById(R.id.ic_close_drawer).setOnClickListener(v -> {
@@ -470,9 +511,9 @@ public class MainActivity extends BaseActivity {
 
     private void initRecycleView() {
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        adapter = new Myadapter(list);
+        mMeAdapter = new MeAdapter(list);
         recyclerView.setLayoutManager(mLinearLayoutManager);
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(mMeAdapter);
         Button btnLogout = findViewById(R.id.logout);
         btnLogout.setOnClickListener(v -> {
             FragmentManager fragmentManager = MainActivity.this.getSupportFragmentManager();

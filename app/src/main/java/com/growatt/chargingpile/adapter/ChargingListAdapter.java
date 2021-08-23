@@ -31,7 +31,7 @@ public class ChargingListAdapter extends BaseQuickAdapter<ChargingBean.DataBean,
 
     @Override
     protected void convert(BaseViewHolder helper, ChargingBean.DataBean item) {
-        LinearLayout llitemContainer = helper.getView(R.id.rl_item_container);
+        //LinearLayout llitemContainer = helper.getView(R.id.rl_item_container);
         //ImageView ivIcon = helper.getView(R.id.iv_icon);
         TextView tvName = helper.getView(R.id.tv_name);
         ImageView ivState = helper.getView(R.id.iv_state);

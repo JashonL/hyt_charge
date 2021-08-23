@@ -27,7 +27,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
-import com.growatt.chargingpile.adapter.Myadapter;
+import com.growatt.chargingpile.adapter.MeAdapter;
 import com.growatt.chargingpile.util.Constant;
 import com.growatt.chargingpile.util.GlideUtils;
 import com.growatt.chargingpile.util.ImagePathUtil;
@@ -62,7 +62,7 @@ public class MeActivity extends BaseActivity {
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     private List<Map<String, Object>> list;
-    private Myadapter adapter;
+    private MeAdapter adapter;
     private View mRvHeaderView;
 
 
@@ -209,7 +209,7 @@ public class MeActivity extends BaseActivity {
 
     private void initRecycleView() {
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        adapter = new Myadapter(list);
+        adapter = new MeAdapter(list);
         adapter.addHeaderView(mRvHeaderView);
         recyclerView.setLayoutManager(mLinearLayoutManager);
         recyclerView.setAdapter(adapter);

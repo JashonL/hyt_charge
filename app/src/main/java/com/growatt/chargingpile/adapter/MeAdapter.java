@@ -13,9 +13,9 @@ import java.util.Map;
  * Created by Administrator on 2018/10/19.
  */
 
-public class Myadapter extends BaseQuickAdapter<Map<String, Object>,BaseViewHolder>{
+public class MeAdapter extends BaseQuickAdapter<Map<String, Object>,BaseViewHolder>{
 
-    public Myadapter(@Nullable List<Map<String, Object>> data) {
+    public MeAdapter(@Nullable List<Map<String, Object>> data) {
         super(R.layout.item_me,data);
     }
 

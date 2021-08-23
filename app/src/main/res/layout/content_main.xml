@@ -30,7 +30,7 @@
 
 
         <EditText
-            android:id="@+id/et_username"
+            android:id="@+id/et_search"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@null"
@@ -46,8 +46,6 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_charging"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginBottom="@dimen/xa30" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

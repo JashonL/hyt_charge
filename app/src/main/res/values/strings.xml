@@ -253,10 +253,6 @@
     <string name="m206已关闭">OFF</string>
 
 
-
-
-
-
     <string name="m243设置成功">Setting succeeded</string>
     <string name="m244设置失败">Setting failed</string>
     <string name="m限制功率1kw">Limit charging power to 1KW</string>
@@ -401,7 +397,6 @@
     <string name="m设置不满24小时">Rates that are not in the set time period are calculated according to the rate of 0</string>
 
 
-
     <string name="m安装商不能为空">Installer cannot be empty</string>
     <string name="m安装商邮箱不能为空">Installer mailbox cannot be empty</string>
     <string name="m安装商电话不能为空">Installer phone cannot be empty</string>
@@ -413,7 +408,7 @@
     <string name="m安装商地址修改">Installer address modification</string>
     <string name="m安装日期修改">Installer date modification</string>
 
-    
+
     <string name="m请输入安装商邮箱">Please enter the installer email</string>
     <string name="m请输入安装商电话">Please enter the installer phone</string>
     <string name="m请输入安装商地址">Please enter the installer address</string>
@@ -424,8 +419,6 @@
     <string name="m充电桩序列号">Charging station serial number</string>
     <string name="m充电桩序列号不能为空">The serial number of the charging station cannot be empty</string>
     <string name="m免责声明">disclaimer：pev can analyse the data for monitoring purposes and Make recommendations from time to time on charging and potential improvements to their costs</string>
-
-
 
 
     <!--安卓额外部分-->
