@@ -410,7 +410,7 @@ public class LoginUtil {
                         SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN, autoLogin);
                         SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN_TYPE, autoLoginType);
                         enableListener.onViewEnable();
-                        jumpActivity(context, ChargingPileActivity.class);
+                        jumpActivity(context, MainActivity.class);
                     }else {
                         String errorMsg = object.optString("data");
                         enableListener.onViewEnable();

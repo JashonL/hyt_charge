@@ -72,6 +72,16 @@ public class ChargingBean {
         private float G_SolarLimitPower;
         private String symbol;
 
+        public String getStatus_1() {
+            return status_1;
+        }
+
+        public void setStatus_1(String status_1) {
+            this.status_1 = status_1;
+        }
+
+        private String status_1;
+
 
         public int getConnectors() {
             return connectors;

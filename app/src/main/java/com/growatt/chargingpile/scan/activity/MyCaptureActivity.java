@@ -8,9 +8,11 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.LinearLayoutCompat;
+
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -40,7 +42,7 @@ import com.yzq.zxinglibrary.decode.ImageUtil;
 import java.io.IOException;
 
 
-public class MyCaptureActivity extends BaseActivity implements SurfaceHolder.Callback, View.OnClickListener{
+public class MyCaptureActivity extends BaseActivity implements SurfaceHolder.Callback, View.OnClickListener {
 
 
     private static final String TAG = CaptureActivity.class.getSimpleName();
@@ -58,7 +60,7 @@ public class MyCaptureActivity extends BaseActivity implements SurfaceHolder.Cal
     private MyCameraManger cameraManager;
     private MyCaptureActivityHandler handler;
     private SurfaceHolder surfaceHolder;
-    private ImageView  ivBack;
+    private ImageView ivBack;
 
 
     public MyViewfinderView getViewfinderView() {
@@ -123,7 +125,7 @@ public class MyCaptureActivity extends BaseActivity implements SurfaceHolder.Cal
 
 
     private void initView() {
-        ivBack=findViewById(R.id.ivLeft);
+        ivBack = findViewById(R.id.ivLeft);
 
         previewView = findViewById(R.id.preview_view);
         previewView.setOnClickListener(this);
@@ -228,7 +230,7 @@ public class MyCaptureActivity extends BaseActivity implements SurfaceHolder.Cal
     protected void onResume() {
         super.onResume();
 
-        cameraManager = new MyCameraManger(getApplication(),config);
+        cameraManager = new MyCameraManger(getApplication(), config);
 
         viewfinderView.setCameraManager(cameraManager);
         handler = null;

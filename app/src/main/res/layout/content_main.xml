@@ -1,30 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/headerView"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical">
 
-    <include layout="@layout/header_view"/>
+    <include layout="@layout/header_view" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/iv_login_bg"
         android:layout_width="match_parent"
-        android:layout_marginEnd="@dimen/xa30"
-        android:layout_marginTop="@dimen/xa20"
-        android:layout_marginStart="@dimen/xa30"
         android:layout_height="@dimen/xa90"
+        android:layout_marginStart="@dimen/xa30"
+        android:layout_marginTop="@dimen/xa20"
+        android:layout_marginEnd="@dimen/xa30"
         app:cardCornerRadius="@dimen/xa45"
         app:cardElevation="@dimen/xa8">
 
 
         <ImageView
-            android:src="@drawable/ic_search"
-            android:layout_marginStart="@dimen/xa40"
             android:layout_width="@dimen/xa40"
+            android:layout_height="@dimen/xa40"
             android:layout_gravity="center_vertical"
-            android:layout_height="@dimen/xa40"/>
+            android:layout_marginStart="@dimen/xa40"
+            android:src="@drawable/ic_search" />
 
 
         <EditText
@@ -32,9 +34,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@null"
-            android:singleLine="true"
             android:hint="Please enter the charge point name"
             android:paddingStart="@dimen/xa90"
+            android:singleLine="true"
             android:textColor="#888888"
             android:textSize="@dimen/xa24" />
 
@@ -45,9 +47,7 @@
         android:id="@+id/rv_charging"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical">
-
-    </androidx.recyclerview.widget.RecyclerView>
-
+        android:layout_gravity="center_vertical"
+        android:layout_marginBottom="@dimen/xa30" />
 
 </LinearLayout>

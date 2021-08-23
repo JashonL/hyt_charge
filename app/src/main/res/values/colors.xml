@@ -70,7 +70,8 @@
     <!--充电桩首页-->
     <color name="charging_button_blue">#23496e</color>
     <color name="charging_button_blue_50">#5023496e</color>
-    <color name="charging_text_color_2">#00efad</color>
+    <color name="charging_text_color_2">#00E3BF</color>
+
     <color name="gray">#dddddd</color>
     <color name="gray_2">#cad0d5</color>
     <color name="maincolor_3">#00fff6</color>

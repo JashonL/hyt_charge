@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/headerView"
+    android:background="#F9F9F9"
     android:orientation="vertical"
     tools:context=".activity.AddChargingActivity">
 
@@ -15,7 +15,7 @@
         android:layout_marginTop="@dimen/xa138"
         android:gravity="center"
         android:text="@string/m109输入充电桩序列号添加充电桩"
-        android:textColor="@color/title_1"
+        android:textColor="#343434"
         android:textSize="@dimen/xa40"
         android:textStyle="bold" />
 
@@ -27,6 +27,7 @@
         android:layout_marginRight="@dimen/xa30"
         android:layout_marginTop="@dimen/xa136"
         android:background="@null"
+        android:textColor="#B3B3B3"
         android:gravity="center"
         android:hint="@string/m146充电桩ID"
         android:textSize="@dimen/xa30" />
@@ -47,15 +48,16 @@
         android:layout_marginLeft="@dimen/xa75"
         android:layout_marginRight="@dimen/xa75"
         android:layout_marginTop="@dimen/xa96"
-        android:background="@drawable/selector_circle_btn_green"
+        android:background="@drawable/selector_circle_btn_green_login_gradient"
         android:stateListAnimator="@null"
         android:text="@string/m9确定"
+        android:textSize="@dimen/xa36"
         android:textColor="@color/headerView"
         />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/xa60"
+        android:layout_marginTop="@dimen/xa376"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
