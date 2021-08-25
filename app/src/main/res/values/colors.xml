@@ -87,4 +87,9 @@
    <color name="orange">#FFA500</color>
 
 
+    <!--充电桩状态-->
+    <color name="charging_off">#F64330</color>
+    <color name="charging_start">#32E579</color>
+    <color name="charging_unavailable">#333333</color>
+
 </resources>

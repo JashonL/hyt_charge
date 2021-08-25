@@ -120,9 +120,9 @@
         android:layout_height="@dimen/xa88"
         android:layout_below="@+id/ll_edit"
         android:layout_marginLeft="@dimen/xa75"
-        android:layout_marginRight="@dimen/xa75"
         android:layout_marginTop="@dimen/xa49"
-        android:background="@drawable/selector_circle_btn_green"
+        android:layout_marginRight="@dimen/xa75"
+        android:background="@drawable/selector_circle_btn_green_login_gradient"
         android:stateListAnimator="@null"
         android:text="@string/m9确定"
         android:textColor="@color/headerView" />

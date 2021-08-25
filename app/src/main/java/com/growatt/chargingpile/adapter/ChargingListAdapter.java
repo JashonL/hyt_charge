@@ -12,6 +12,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.bean.ChargingBean;
+import com.growatt.chargingpile.bean.GunBean;
 
 import java.util.Collection;
 import java.util.List;
@@ -38,40 +39,39 @@ public class ChargingListAdapter extends BaseQuickAdapter<ChargingBean.DataBean,
         TextView tvState = helper.getView(R.id.tv_state);
         String devName = item.getName();
         tvName.setText(devName);
-        setState(item, tvState,ivState);
+        setState(item, tvState, ivState);
     }
 
     private void setState(ChargingBean.DataBean item, TextView tvState, ImageView ivState) {
         Log.d(TAG, "getStatus_1:" + item.getStatus_1());
         switch (item.getStatus_1()) {
-            case "Charging":
+            case GunBean.CHARGING:
                 tvState.setText("充电中");
                 tvState.setBackgroundResource(R.drawable.shape_recharg_state_bg);
                 ivState.setImageResource(R.drawable.ic_recharg_state);
                 break;
-            case "Finishing":
+            case GunBean.FINISHING:
                 tvState.setText("充电结束");
                 tvState.setBackgroundResource(R.drawable.shape_end_of_charging_state_bg);
                 ivState.setImageResource(R.drawable.ic_end_of_charging);
                 break;
-            case "Available":
+            case GunBean.AVAILABLE:
                 tvState.setText("idle");
                 tvState.setBackgroundResource(R.drawable.shape_end_of_charging_state_bg);
                 ivState.setImageResource(R.drawable.ic_idle);
                 break;
-            case "SuspendedEV":
+            case GunBean.SUSPENDEEV:
                 tvState.setText("不可用车拒绝充电");
                 break;
-            case "SuspendedEVSE":
+            case GunBean.SUSPENDEDEVSE:
                 tvState.setText("不可用桩拒绝充电");
                 break;
-            case "Faulted":
+            case GunBean.FAULTED:
                 tvState.setText("故障");
+                tvState.setBackgroundResource(R.drawable.shape_default_state_bg);
+                ivState.setImageResource(R.drawable.ic_unavailable);
                 break;
-            case "unknow":
-                tvState.setText("unknow");
-                break;
-            case "Unavailable":
+            case GunBean.UNAVAILABLE:
                 tvState.setText("异常");
                 tvState.setBackgroundResource(R.drawable.shape_default_state_bg);
                 ivState.setImageResource(R.drawable.ic_unavailable);

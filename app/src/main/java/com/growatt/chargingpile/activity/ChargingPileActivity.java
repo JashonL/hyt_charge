@@ -340,9 +340,6 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-
-
-
             if (TextUtils.isEmpty(currenStatus)) {
                 return;
             }

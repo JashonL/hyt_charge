@@ -13,7 +13,7 @@ import java.util.List;
  * Created by Administrator on 2018/10/18.
  */
 
-public class ChargingBean {
+public class ChargingBean implements Parcelable {
     public static final int CHARGING_PILE = 1;
     public static final int ADD_DEVICE = 2;
 
@@ -27,7 +27,55 @@ public class ChargingBean {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Parcelable {
+
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "connectors=" + connectors +
+                    ", chargeId='" + chargeId + '\'' +
+                    ", userPhone='" + userPhone + '\'' +
+                    ", name='" + name + '\'' +
+                    ", model='" + model + '\'' +
+                    ", time=" + time +
+                    ", userName='" + userName + '\'' +
+                    ", type=" + type +
+                    ", userId='" + userId + '\'' +
+                    ", status=" + status +
+                    ", solar=" + solar +
+                    ", isChecked=" + isChecked +
+                    ", devType=" + devType +
+                    ", G_ExternalLimitPower=" + G_ExternalLimitPower +
+                    ", code='" + code + '\'' +
+                    ", G_HearbeatInterval=" + G_HearbeatInterval +
+                    ", G_CardPin='" + G_CardPin + '\'' +
+                    ", G_MeterValueInterval=" + G_MeterValueInterval +
+                    ", mac='" + mac + '\'' +
+                    ", G_MaxTemperature=" + G_MaxTemperature +
+                    ", G_MaxCurrent=" + G_MaxCurrent +
+                    ", vendor='" + vendor + '\'' +
+                    ", host='" + host + '\'' +
+                    ", mask='" + mask + '\'' +
+                    ", G_Authentication='" + G_Authentication + '\'' +
+                    ", G_WebSocketPingInterval=" + G_WebSocketPingInterval +
+                    ", ip='" + ip + '\'' +
+                    ", G_ChargerMode='" + G_ChargerMode + '\'' +
+                    ", dns='" + dns + '\'' +
+                    ", site='" + site + '\'' +
+                    ", G_ChargerLanguage='" + G_ChargerLanguage + '\'' +
+                    ", online=" + online +
+                    ", status_2='" + status_2 + '\'' +
+                    ", status_4='" + status_4 + '\'' +
+                    ", gateway='" + gateway + '\'' +
+                    ", status_3='" + status_3 + '\'' +
+                    ", priceConf=" + priceConf +
+                    ", G_SolarMode=" + G_SolarMode +
+                    ", G_SolarLimitPower=" + G_SolarLimitPower +
+                    ", symbol='" + symbol + '\'' +
+                    ", status_1='" + status_1 + '\'' +
+                    '}';
+        }
+
         private int connectors;
         private String chargeId;
         private String userPhone;
@@ -544,5 +592,191 @@ public class ChargingBean {
 
 
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(this.connectors);
+            dest.writeString(this.chargeId);
+            dest.writeString(this.userPhone);
+            dest.writeString(this.name);
+            dest.writeString(this.model);
+            dest.writeLong(this.time);
+            dest.writeString(this.userName);
+            dest.writeInt(this.type);
+            dest.writeString(this.userId);
+            dest.writeStringList(this.status);
+            dest.writeInt(this.solar);
+            dest.writeByte(this.isChecked ? (byte) 1 : (byte) 0);
+            dest.writeInt(this.devType);
+            dest.writeInt(this.G_ExternalLimitPower);
+            dest.writeString(this.code);
+            dest.writeInt(this.G_HearbeatInterval);
+            dest.writeString(this.G_CardPin);
+            dest.writeInt(this.G_MeterValueInterval);
+            dest.writeString(this.mac);
+            dest.writeInt(this.G_MaxTemperature);
+            dest.writeInt(this.G_MaxCurrent);
+            dest.writeString(this.vendor);
+            dest.writeString(this.host);
+            dest.writeString(this.mask);
+            dest.writeString(this.G_Authentication);
+            dest.writeInt(this.G_WebSocketPingInterval);
+            dest.writeString(this.ip);
+            dest.writeString(this.G_ChargerMode);
+            dest.writeString(this.dns);
+            dest.writeString(this.site);
+            dest.writeString(this.G_ChargerLanguage);
+            dest.writeInt(this.online);
+            dest.writeString(this.status_2);
+            dest.writeString(this.status_4);
+            dest.writeString(this.gateway);
+            dest.writeString(this.status_3);
+            dest.writeTypedList(this.priceConf);
+            dest.writeInt(this.G_SolarMode);
+            dest.writeFloat(this.G_SolarLimitPower);
+            dest.writeString(this.symbol);
+            dest.writeString(this.status_1);
+        }
+
+        public void readFromParcel(Parcel source) {
+            this.connectors = source.readInt();
+            this.chargeId = source.readString();
+            this.userPhone = source.readString();
+            this.name = source.readString();
+            this.model = source.readString();
+            this.time = source.readLong();
+            this.userName = source.readString();
+            this.type = source.readInt();
+            this.userId = source.readString();
+            this.status = source.createStringArrayList();
+            this.solar = source.readInt();
+            this.isChecked = source.readByte() != 0;
+            this.devType = source.readInt();
+            this.G_ExternalLimitPower = source.readInt();
+            this.code = source.readString();
+            this.G_HearbeatInterval = source.readInt();
+            this.G_CardPin = source.readString();
+            this.G_MeterValueInterval = source.readInt();
+            this.mac = source.readString();
+            this.G_MaxTemperature = source.readInt();
+            this.G_MaxCurrent = source.readInt();
+            this.vendor = source.readString();
+            this.host = source.readString();
+            this.mask = source.readString();
+            this.G_Authentication = source.readString();
+            this.G_WebSocketPingInterval = source.readInt();
+            this.ip = source.readString();
+            this.G_ChargerMode = source.readString();
+            this.dns = source.readString();
+            this.site = source.readString();
+            this.G_ChargerLanguage = source.readString();
+            this.online = source.readInt();
+            this.status_2 = source.readString();
+            this.status_4 = source.readString();
+            this.gateway = source.readString();
+            this.status_3 = source.readString();
+            this.priceConf = source.createTypedArrayList(PriceConfBean.CREATOR);
+            this.G_SolarMode = source.readInt();
+            this.G_SolarLimitPower = source.readFloat();
+            this.symbol = source.readString();
+            this.status_1 = source.readString();
+        }
+
+        public DataBean() {
+        }
+
+        protected DataBean(Parcel in) {
+            this.connectors = in.readInt();
+            this.chargeId = in.readString();
+            this.userPhone = in.readString();
+            this.name = in.readString();
+            this.model = in.readString();
+            this.time = in.readLong();
+            this.userName = in.readString();
+            this.type = in.readInt();
+            this.userId = in.readString();
+            this.status = in.createStringArrayList();
+            this.solar = in.readInt();
+            this.isChecked = in.readByte() != 0;
+            this.devType = in.readInt();
+            this.G_ExternalLimitPower = in.readInt();
+            this.code = in.readString();
+            this.G_HearbeatInterval = in.readInt();
+            this.G_CardPin = in.readString();
+            this.G_MeterValueInterval = in.readInt();
+            this.mac = in.readString();
+            this.G_MaxTemperature = in.readInt();
+            this.G_MaxCurrent = in.readInt();
+            this.vendor = in.readString();
+            this.host = in.readString();
+            this.mask = in.readString();
+            this.G_Authentication = in.readString();
+            this.G_WebSocketPingInterval = in.readInt();
+            this.ip = in.readString();
+            this.G_ChargerMode = in.readString();
+            this.dns = in.readString();
+            this.site = in.readString();
+            this.G_ChargerLanguage = in.readString();
+            this.online = in.readInt();
+            this.status_2 = in.readString();
+            this.status_4 = in.readString();
+            this.gateway = in.readString();
+            this.status_3 = in.readString();
+            this.priceConf = in.createTypedArrayList(PriceConfBean.CREATOR);
+            this.G_SolarMode = in.readInt();
+            this.G_SolarLimitPower = in.readFloat();
+            this.symbol = in.readString();
+            this.status_1 = in.readString();
+        }
+
+        public static final Parcelable.Creator<DataBean> CREATOR = new Parcelable.Creator<DataBean>() {
+            @Override
+            public DataBean createFromParcel(Parcel source) {
+                return new DataBean(source);
+            }
+
+            @Override
+            public DataBean[] newArray(int size) {
+                return new DataBean[size];
+            }
+        };
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeTypedList(this.data);
+    }
+
+    public void readFromParcel(Parcel source) {
+        this.data = source.createTypedArrayList(DataBean.CREATOR);
+    }
+
+    public ChargingBean() {
+    }
+
+    protected ChargingBean(Parcel in) {
+        this.data = in.createTypedArrayList(DataBean.CREATOR);
+    }
+
+    public static final Parcelable.Creator<ChargingBean> CREATOR = new Parcelable.Creator<ChargingBean>() {
+        @Override
+        public ChargingBean createFromParcel(Parcel source) {
+            return new ChargingBean(source);
+        }
+
+        @Override
+        public ChargingBean[] newArray(int size) {
+            return new ChargingBean[size];
+        }
+    };
 }

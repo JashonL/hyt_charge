@@ -110,7 +110,7 @@
         android:layout_height="@dimen/xa93"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/xa140"
-        android:background="@drawable/selector_circle_btn_green"
+        android:background="@drawable/selector_circle_btn_green_login_gradient"
         android:text="@string/m3完成"
         android:textColor="@color/headerView"
         android:textSize="@dimen/xa35" />

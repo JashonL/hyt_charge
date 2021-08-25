@@ -54,9 +54,10 @@
             <RelativeLayout
                 android:id="@+id/relative_agreement"
                 android:layout_width="wrap_content"
+                android:layout_marginLeft="@dimen/xa46"
+                android:layout_marginRight="@dimen/xa46"
                 android:layout_height="@dimen/xa128"
                 android:background="@drawable/selector_list_rect_item_click">
-
 
                 <ImageView
                     android:id="@+id/imageView2"

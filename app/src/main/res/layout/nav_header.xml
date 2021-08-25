@@ -43,9 +43,9 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/xa120"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/ll_user_info"
-        android:layout_height="wrap_content"/>
+        android:layout_marginTop="@dimen/xa120" />
 
     <Button
         android:id="@+id/logout"

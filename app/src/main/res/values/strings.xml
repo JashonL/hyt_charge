@@ -128,6 +128,8 @@
     <string name="m110A枪">Outlet A</string>
     <string name="m111B枪">Outlet B</string>
     <string name="m112C枪">Outlet C</string>
+    <string name="m113D枪">Outlet D</string>
+
     <string name="m112交流">AC</string>
     <string name="m113直流">DC</string>
     <string name="m114单枪">1 outlet</string>

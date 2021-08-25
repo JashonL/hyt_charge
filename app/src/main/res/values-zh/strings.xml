@@ -130,9 +130,10 @@
     <string name="m212暂时还没有设备">您暂时还没有设备呢</string>
 
 
-    <string name="m110A枪">A枪</string>
-    <string name="m111B枪">B枪</string>
-    <string name="m112C枪">C枪</string>
+    <string name="m110A枪">A 枪</string>
+    <string name="m111B枪">B 枪</string>
+    <string name="m112C枪">C 枪</string>
+    <string name="m113D枪">D 枪</string>
     <string name="m112交流">交流</string>
     <string name="m113直流">直流</string>
     <string name="m114单枪">单枪</string>

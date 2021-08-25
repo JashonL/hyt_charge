@@ -457,7 +457,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/xa70"
         android:layout_marginBottom="@dimen/xa70"
-        android:background="@drawable/selector_circle_btn_green"
+        android:background="@drawable/selector_circle_btn_green_login_gradient"
         android:text="@string/m317注销账户"
         android:textColor="@color/headerView"
         android:textSize="@dimen/xa32" />

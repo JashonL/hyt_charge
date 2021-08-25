@@ -123,6 +123,7 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         MyApplication.context.startActivity(intent);
     }
 
+    protected void initToolBar(){}
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -144,8 +145,6 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
-
-
 
     /**
      * @return
@@ -337,8 +336,6 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
     public void setHeaderImage(View headerView, int resId) {
         setHeaderImage(headerView, resId, Position.LEFT);
     }
-
-
 
     public void toast(String text) {
         toast(text, Toast.LENGTH_LONG);

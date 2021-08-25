@@ -293,9 +293,10 @@ public class MainActivity extends BaseActivity {
 
     private void initRecyclerListeners() {
         mChargingAdapter.setOnItemClickListener((adapter, view, position) -> {
-            Log.d(TAG, "initRecyclerListeners: "+position);
+            Log.d(TAG, "initRecyclerListeners: " + position);
             ChargingBean.DataBean bean = mChargingAdapter.getItem(position);
             Intent intent = new Intent(MainActivity.this, GunActivity.class);
+            intent.putExtra("chargingBean", bean);
             jumpTo(intent, false);
 //            if (bean == null) return;
 //            int type = bean.getDevType();
@@ -317,7 +318,7 @@ public class MainActivity extends BaseActivity {
             if (type != ChargingBean.ADD_DEVICE) {
                 requestDelete(bean);
             }
-            return false;
+            return true;
         });
     }
 
@@ -404,7 +405,6 @@ public class MainActivity extends BaseActivity {
                     toast(getString(R.string.m56暂未开放));
                     break;
                 case 2:
-
                     jumpTo(AboutActivity.class, false);
                     break;
             }
@@ -504,8 +504,6 @@ public class MainActivity extends BaseActivity {
                 addChargingPile();
             }
         });
-
-
     }
 
 

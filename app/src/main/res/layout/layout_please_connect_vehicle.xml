@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_please_vehicle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:visibility="gone"
+    app:layout_constraintTop_toBottomOf="@+id/ll_function">
+
+    <ImageView
+        android:id="@+id/iv_exception_type"
+        android:layout_width="@dimen/xa302"
+        android:layout_height="@dimen/xa114"
+        android:layout_marginTop="@dimen/xa132"
+        android:src="@drawable/ic_vehicle" />
+
+
+    <TextView
+        android:id="@+id/tv_please_car"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/xa58"
+        android:text="Please connect the vehicle to the charging gun" />
+
+    <View
+        android:layout_width="@dimen/xa268"
+        android:layout_height="@dimen/xa10"
+        android:layout_marginTop="@dimen/xa111"
+        android:background="@drawable/shape_exception_line_bg" />
+
+</LinearLayout>
