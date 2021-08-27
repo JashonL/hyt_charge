@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/headerView"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -82,7 +83,7 @@
             android:id="@+id/tv_charging_pile_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Start"
+            android:text="@string/m103充电"
             android:textColor="@color/charging_unavailable"
             android:textSize="@dimen/xa30"
             app:layout_constraintEnd_toEndOf="parent"
@@ -153,7 +154,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/xa21"
                     android:gravity="center"
-                    android:text="Lock"
+                    android:text="@string/m解锁"
                     android:textColor="#FF7B7B"
                     android:textSize="@dimen/xa24" />
 
@@ -182,7 +183,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/xa21"
                     android:gravity="center"
-                    android:text="Record"
+                    android:text="@string/m104充电记录"
                     android:textColor="#66B2F7"
                     android:textSize="@dimen/xa24" />
 
@@ -211,7 +212,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/xa21"
                     android:gravity="center"
-                    android:text="Preset"
+                    android:text="@string/m196预设"
                     android:textColor="#60D6FD"
                     android:textSize="@dimen/xa24" />
 

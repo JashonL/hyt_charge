@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/xa37"
-        android:text="Reservation charging"
+        android:text="@string/m203预约充电"
         android:textColor="#FF343434" />
 
     <RelativeLayout
@@ -47,8 +47,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Start time"
-                android:textColor="#FF333333"
+                android:text="@string/m204开始时间"
+                android:textStyle="bold"
+                android:textColor="#000000"
                 android:textSize="@dimen/xa30" />
 
             <Switch
@@ -98,7 +99,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="every day"
+                android:text="@string/m186每天"
                 android:textColor="#FF666666"
                 android:textSize="@dimen/xa30" />
 

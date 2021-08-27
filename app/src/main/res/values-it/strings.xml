@@ -473,6 +473,9 @@
     <string name="login_expired"> Le informazioni di accesso sono scadute, per favore accedi di nuovo</string>
     <string name="welcome">Welcome!</string>
     <string name="have_an_account">don’t have an account?</string>
+
+    <string name="charging_time">charging time</string>
+    <string name="please_charging_id">Please enter the charge point name</string>
 </resources>
 
 

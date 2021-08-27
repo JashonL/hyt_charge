@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F7F7FAFF"
+    android:orientation="vertical"
+    tools:context=".activity.PresetActivity">
+
+    <include
+        layout="@layout/header_view"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa253"
+        android:background="#fff7f7fa"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_time"
+                android:layout_width="@dimen/xa170"
+                android:layout_height="@dimen/xa133"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/xa60"
+                android:background="@drawable/selector_rb_bg_state"
+                android:button="@null"
+                android:drawableTop="@drawable/selector_rb_time_state"
+                android:gravity="center"
+                android:paddingTop="@dimen/xa24"
+                android:text="时间"
+                android:textColor="@drawable/selector_rb_text_state"
+                android:textSize="@dimen/xa24" />
+
+            <RadioButton
+                android:id="@+id/rb_money"
+                android:layout_width="@dimen/xa170"
+                android:layout_height="@dimen/xa133"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/xa60"
+                android:background="@drawable/selector_rb_bg_state"
+                android:button="@null"
+                android:drawableTop="@drawable/selector_rb_money_state"
+                android:gravity="center"
+                android:paddingTop="@dimen/xa24"
+                android:text="金额"
+                android:textColor="@drawable/selector_rb_text_state"
+                android:textSize="@dimen/xa24" />
+
+            <RadioButton
+                android:id="@+id/rb_electric"
+                android:layout_width="@dimen/xa170"
+                android:layout_height="@dimen/xa133"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/xa60"
+                android:background="@drawable/selector_rb_bg_state"
+                android:button="@null"
+                android:drawableTop="@drawable/selector_rb_electric_state"
+                android:gravity="center"
+                android:paddingTop="@dimen/xa24"
+                android:text="电量"
+                android:textColor="@drawable/selector_rb_text_state"
+                android:textSize="@dimen/xa24" />
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

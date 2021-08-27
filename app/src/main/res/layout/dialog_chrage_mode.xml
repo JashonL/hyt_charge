@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/xa683"
+    android:layout_height="@dimen/xa434"
+    android:layout_marginStart="@dimen/xa33"
+    android:layout_marginEnd="@dimen/xa34"
+    android:background="@drawable/shape_chrage_mode_dialog_bg"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:layout_marginTop="@dimen/xa60"
+        android:layout_centerHorizontal="true"
+        android:text="充电模式"
+        android:textColor="@color/black"
+        android:textSize="@dimen/xa36"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+</RelativeLayout>

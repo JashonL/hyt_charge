@@ -33,8 +33,11 @@ public class AlertPickDialog {
         final NumberPicker numberPicker2 = (NumberPicker) dialog.findViewById(R.id.np_minute);
         TextView sureTV = (TextView) dialog.findViewById(R.id.tv_sure);
         TextView cancelTV = (TextView) dialog.findViewById(R.id.tv_cancel);
+
         initData(numberPicker1, values1, value1);
         initData(numberPicker2, values2, value2);
+
+
         sureTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

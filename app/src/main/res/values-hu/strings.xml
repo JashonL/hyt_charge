@@ -491,4 +491,8 @@
 
     <string name="welcome">Welcome!</string>
     <string name="have_an_account">don’t have an account?</string>
+
+
+    <string name="charging_time">charging time</string>
+    <string name="please_charging_id">Please enter the charge point name</string>
 </resources>

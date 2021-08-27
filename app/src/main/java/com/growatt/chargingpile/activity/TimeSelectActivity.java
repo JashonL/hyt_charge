@@ -136,6 +136,7 @@ public class TimeSelectActivity extends BaseActivity {
                 .setSubmitColor(0xff333333)//确定按钮文字颜色
                 .setCancelColor(0xff999999)//取消按钮文字颜色
                 .setTitleBgColor(0xffffffff)//标题背景颜色 Night mode
+                .setBackgroundId(R.drawable.shape_white_corner_bg)
                 .setBgColor(0xffffffff)//滚轮背景颜色 Night mode
                 .setTextColorCenter(0xff333333)
                 .setDate(selectedDate)// 如果不设置的话，默认是系统时间*/

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:layout_width="@dimen/xa600"
+        android:layout_height="@dimen/xa100"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/xa90"
+        android:background="@drawable/selector_circle_btn_green_login_gradient"
+        android:text="@string/m9确定"
+        android:textColor="#FFFFFF"
+        android:textSize="@dimen/xa36" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/xa29"
+        android:layout_marginTop="@dimen/xa90"
+        android:text="预约须知："
+        android:textColor="#333333"
+        android:textSize="@dimen/xa24" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/xa200"
+        android:layout_marginStart="@dimen/xa30"
+        android:layout_marginTop="@dimen/xa23"
+        android:text="1.同一账号，同一时间段只允许同时预约一个充电桩
+        \n2.同一账号只可以单条预约
+\n3.预约时间截止，平台不会中断充电过程
+\n4.预约提交后可取消预约"
+        android:textColor="#ff333333"
+        android:textSize="@dimen/xa24" />
+
+
+
+</LinearLayout>

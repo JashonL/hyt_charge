@@ -10,10 +10,10 @@ import com.google.android.material.tabs.TabLayout;
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.bean.ChargingBean;
-import com.growatt.chargingpile.fragment.FragmentA;
-import com.growatt.chargingpile.fragment.FragmentB;
-import com.growatt.chargingpile.fragment.FragmentC;
-import com.growatt.chargingpile.fragment.FragmentD;
+import com.growatt.chargingpile.fragment.gun.FragmentA;
+import com.growatt.chargingpile.fragment.gun.FragmentB;
+import com.growatt.chargingpile.fragment.gun.FragmentC;
+import com.growatt.chargingpile.fragment.gun.FragmentD;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

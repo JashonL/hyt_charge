@@ -1,12 +1,9 @@
-package com.growatt.chargingpile.fragment;
+package com.growatt.chargingpile.fragment.gun;
 
-import android.os.Bundle;
 import android.util.Log;
 
 import com.growatt.chargingpile.R;
-import com.growatt.chargingpile.bean.ChargingBean;
-
-import androidx.annotation.Nullable;
+import com.growatt.chargingpile.fragment.BaseFragment;
 
 /**
  * Created：2021/8/24 on 14:43:56
@@ -19,7 +16,7 @@ public class FragmentC extends BaseFragment {
 
     @Override
     protected Object setRootView() {
-        return R.layout.fragment_a;
+        return R.layout.fragment_gun;
     }
 
     @Override
@@ -29,7 +26,7 @@ public class FragmentC extends BaseFragment {
 
     @Override
     protected void requestData() {
-        Log.d(TAG, "requestData: "+pGunActivity.mDataBean.toString());
+        Log.d(TAG, "requestData: "+ pActivity.mDataBean.toString());
     }
 
     @Override

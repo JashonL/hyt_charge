@@ -1,5 +1,6 @@
 package com.growatt.chargingpile.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.growatt.chargingpile.activity.GunActivity;
+import com.growatt.chargingpile.activity.PresetActivity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,7 +26,9 @@ public abstract class BaseFragment extends Fragment {
 
     private static String TAG = BaseFragment.class.getSimpleName();
 
-    protected GunActivity pGunActivity;
+    protected GunActivity pActivity;
+
+    protected PresetActivity mPresetActivity;
 
     private Unbinder unbinder;
 
@@ -39,7 +43,6 @@ public abstract class BaseFragment extends Fragment {
 
     protected abstract void initWidget();
 
-    protected abstract void requestData();
 
     @Nullable
     @Override
@@ -54,8 +57,11 @@ public abstract class BaseFragment extends Fragment {
         }
         unbinder = ButterKnife.bind(this, rootView);
 
-        pGunActivity = (GunActivity) getActivity();
-
+        if (getActivity() instanceof GunActivity) {
+            pActivity = (GunActivity) getActivity();
+        } else if (getActivity() instanceof PresetActivity) {
+            mPresetActivity = (PresetActivity) getActivity();
+        }
         return rootView;
     }
 
@@ -65,6 +71,10 @@ public abstract class BaseFragment extends Fragment {
         isResume = true;
         lazyLoad();
         initWidget();
+    }
+
+    protected void requestData() {
+
     }
 
     @Override

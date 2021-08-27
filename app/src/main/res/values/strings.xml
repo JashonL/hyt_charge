@@ -469,6 +469,10 @@
     <string name="login_expired"> The login information has expired, please log in again</string>
     <string name="welcome">Welcome!</string>
     <string name="have_an_account">don’t have an account?</string>
+
+
+    <string name="charging_time">charging time</string>
+    <string name="please_charging_id">Please enter the charge point name</string>
 </resources>
 
 

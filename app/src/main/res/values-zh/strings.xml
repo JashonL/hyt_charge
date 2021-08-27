@@ -254,7 +254,7 @@
     <string name="m201电量">电量</string>
     <string name="m202时长">时长</string>
     <string name="m203预约充电">预约充电</string>
-    <string name="m204开始时间">开始时间</string>
+    <string name="m204开始时间">开始 时间</string>
     <string name="m205已开启">已开启</string>
     <string name="m206已关闭">已关闭</string>
 
@@ -473,6 +473,8 @@
 
     <string name="welcome">欢迎!</string>
     <string name="have_an_account">没有账号?</string>
+    <string name="charging_time">充电时长</string>
+    <string name="please_charging_id">请输入充电桩ID</string>
 </resources>
 
 
