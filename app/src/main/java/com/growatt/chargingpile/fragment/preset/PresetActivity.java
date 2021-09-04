@@ -1,23 +1,20 @@
-package com.growatt.chargingpile.activity;
+package com.growatt.chargingpile.fragment.preset;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.growatt.chargingpile.BaseActivity;
-import com.growatt.chargingpile.R;
-import com.growatt.chargingpile.constant.Constant;
-import com.growatt.chargingpile.fragment.preset.ElectricFragment;
-import com.growatt.chargingpile.fragment.preset.MoneyFragment;
-import com.growatt.chargingpile.fragment.preset.TimeFragment;
-
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.growatt.chargingpile.BaseActivity;
+import com.growatt.chargingpile.R;
+import com.growatt.chargingpile.bean.ReservationBean;
+import com.growatt.chargingpile.constant.Constant;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
@@ -34,7 +31,6 @@ public class PresetActivity extends BaseActivity {
     TextView tvTitle;
     @BindView(R.id.ivLeft)
     ImageView ivLeft;
-
     @BindView(R.id.rb_time)
     RadioButton mRbTime;
     @BindView(R.id.rb_money)
@@ -49,6 +45,13 @@ public class PresetActivity extends BaseActivity {
     public MoneyFragment mMoneyFragment;
     public ElectricFragment mElectricFragment;
 
+    public String pChargingId;
+    public int pConnectorId;
+
+    public String pSymbol;
+
+    public ReservationBean.DataBean pReservationBean;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,21 +59,44 @@ public class PresetActivity extends BaseActivity {
         mFragmentManager = getSupportFragmentManager();
         ButterKnife.bind(this);
         initToolBar();
-        initCheckRadioType();
+        handleIntent();
+        initCheckPresetType();
     }
 
-    private void initCheckRadioType() {
-        mRbTime.setChecked(true);
+    private void handleIntent() {
+        if (getIntent() != null) {
+            pReservationBean = (ReservationBean.DataBean) getIntent().getSerializableExtra("reservation");
+            if (pReservationBean != null) {
+                pChargingId = pReservationBean.getChargeId();
+                pConnectorId = pReservationBean.getConnectorId();
+                pSymbol = pReservationBean.getSymbol();
+            } else {
+                pChargingId = getIntent().getStringExtra("chargingId");
+                pConnectorId = getIntent().getIntExtra("connectorId", 0);
+                pSymbol = getIntent().getStringExtra("symbol");
+            }
+        }
+    }
+
+    private void initCheckPresetType() {
+        if (pReservationBean != null) {
+            if (pReservationBean.getCKey().equals("G_SetTime")) {
+                mRbTime.setChecked(true);
+            } else if (pReservationBean.getCKey().equals("G_SetAmount")) {
+                mRbMoney.setChecked(true);
+            } else if (pReservationBean.getCKey().equals("G_SetEnergy")) {
+                mRbElectric.setChecked(true);
+            }
+        } else {
+            mRbTime.setChecked(true);
+        }
     }
 
     @Override
     protected void initToolBar() {
         ivLeft.setImageResource(R.drawable.back);
-        ivLeft.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
+        ivLeft.setOnClickListener(view -> {
+            finish();
         });
         tvTitle.setText(R.string.m209预设);
         tvTitle.setTextColor(ContextCompat.getColor(this, R.color.black));
@@ -80,21 +106,18 @@ public class PresetActivity extends BaseActivity {
     public void onRadioCheck(CompoundButton view, boolean isChanged) {
         switch (view.getId()) {
             case R.id.rb_time:
-                if (isChanged){
-                    Log.d(TAG, "onRadioCheck: 1111111");
-                gotoWorkFragment(Constant.PRESET_TIME_TYPE);
+                if (isChanged) {
+                    gotoWorkFragment(Constant.PRESET_TIME_TYPE);
                 }
 
                 break;
             case R.id.rb_money:
                 if (isChanged) {
-                    Log.d(TAG, "onRadioCheck: 22222222");
                     gotoWorkFragment(Constant.PRESET_MONEY_TYPE);
                 }
                 break;
             case R.id.rb_electric:
-                if (isChanged){
-                    Log.d(TAG, "onRadioCheck: 333333333");
+                if (isChanged) {
                     gotoWorkFragment(Constant.PRESET_ELECTRIC_TYPE);
                 }
                 break;
@@ -110,10 +133,10 @@ public class PresetActivity extends BaseActivity {
                 mTimeFragment = new TimeFragment();
                 mTransaction.add(R.id.fl_content, mTimeFragment);
             }
-            if (mMoneyFragment!=null){
+            if (mMoneyFragment != null) {
                 mTransaction.hide(mMoneyFragment);
             }
-            if (mElectricFragment!=null){
+            if (mElectricFragment != null) {
                 mTransaction.hide(mElectricFragment);
             }
             mTransaction.show(mTimeFragment);
@@ -122,10 +145,10 @@ public class PresetActivity extends BaseActivity {
                 mMoneyFragment = new MoneyFragment();
                 mTransaction.add(R.id.fl_content, mMoneyFragment);
             }
-            if (mTimeFragment!=null){
+            if (mTimeFragment != null) {
                 mTransaction.hide(mTimeFragment);
             }
-            if (mElectricFragment!=null){
+            if (mElectricFragment != null) {
                 mTransaction.hide(mElectricFragment);
             }
             mTransaction.show(mMoneyFragment);
@@ -135,10 +158,10 @@ public class PresetActivity extends BaseActivity {
                 mTransaction.add(R.id.fl_content, mElectricFragment);
             }
 
-            if (mTimeFragment!=null){
+            if (mTimeFragment != null) {
                 mTransaction.hide(mTimeFragment);
             }
-            if (mMoneyFragment!=null){
+            if (mMoneyFragment != null) {
                 mTransaction.hide(mMoneyFragment);
             }
             mTransaction.show(mElectricFragment);

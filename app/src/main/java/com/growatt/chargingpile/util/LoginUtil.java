@@ -1,9 +1,11 @@
 package com.growatt.chargingpile.util;
 
+import static com.growatt.chargingpile.application.MyApplication.context;
+import static com.growatt.chargingpile.jpush.TagAliasOperatorHelper.sequence;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.growatt.chargingpile.MainActivity;
@@ -27,11 +29,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-
-import cn.jpush.android.api.JPushInterface;
-
-import static com.growatt.chargingpile.application.MyApplication.context;
-import static com.growatt.chargingpile.jpush.TagAliasOperatorHelper.sequence;
 
 /**
  * Created by Administrator on 2018/10/17.
@@ -371,6 +368,7 @@ public class LoginUtil {
             object.put("userId",userName);//用户名
             object.put("password", password);//密码
             object.put("lan", getLanguage(context));
+            object.put("version",Utils.getVersionName(context));
         } catch (Exception e) {
             e.printStackTrace();
         }

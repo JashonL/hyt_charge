@@ -102,18 +102,41 @@
                     android:textColor="#ff888888"
                     android:textSize="@dimen/xa24" />
 
-                <TextView
-                    android:id="@+id/tv_start_time_values"
+                <LinearLayout
+                    android:id="@+id/ll_start_time"
+                    android:background="@drawable/shape_btn_time"
                     android:layout_width="@dimen/xa246"
-                    android:layout_height="@dimen/xa80"
-                    android:layout_below="@+id/tv_start_time"
                     android:layout_marginStart="@dimen/xa60"
                     android:layout_marginTop="@dimen/xa16"
-                    android:background="@drawable/shape_btn_time"
+                    android:layout_height="@dimen/xa80"
                     android:gravity="center"
-                    android:text="00:00"
-                    android:textColor="#ff1e2b3f"
-                    android:textSize="@dimen/xa36" />
+                    android:layout_below="@+id/tv_start_time">
+
+                    <TextView
+                        android:id="@+id/tv_start_hour"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="00"
+                        android:textColor="#ff1e2b3f"
+                        android:textSize="@dimen/xa36" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=":"
+                        android:textColor="#ff1e2b3f"
+                        android:textSize="@dimen/xa36" />
+
+                    <TextView
+                        android:id="@+id/tv_start_minute"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="00"
+                        android:textColor="#ff1e2b3f"
+                        android:textSize="@dimen/xa36" />
+
+                </LinearLayout>
+
 
                 <View
                     android:id="@+id/line"
@@ -122,22 +145,45 @@
                     android:layout_below="@+id/tv_start_time"
                     android:layout_marginStart="@dimen/xa34"
                     android:layout_marginTop="@dimen/xa51"
-                    android:layout_toEndOf="@+id/tv_start_time_values"
+                    android:layout_toEndOf="@+id/ll_start_time"
                     android:background="@drawable/shape_time_line_bg" />
 
-                <TextView
-                    android:id="@+id/tv_end_time_values"
-                    android:layout_width="@dimen/xa246"
-                    android:layout_height="@dimen/xa80"
-                    android:layout_below="@+id/tv_end_time"
-                    android:layout_marginStart="@dimen/xa35"
-                    android:layout_marginTop="@dimen/xa16"
-                    android:layout_toEndOf="@+id/line"
+
+                <LinearLayout
+                    android:id="@+id/ll_end_time"
                     android:background="@drawable/shape_btn_time"
-                    android:gravity="center"
-                    android:text="00:00"
-                    android:textColor="#ff1e2b3f"
-                    android:textSize="@dimen/xa36" />
+                    android:layout_width="@dimen/xa246"
+                    android:layout_marginStart="@dimen/xa60"
+                    android:layout_toEndOf="@+id/line"
+                    android:layout_marginTop="@dimen/xa16"
+                    android:layout_below="@+id/tv_end_time"
+                    android:layout_height="@dimen/xa80"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/tv_end_hour"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="00"
+                        android:textColor="#ff1e2b3f"
+                        android:textSize="@dimen/xa36" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=":"
+                        android:textColor="#ff1e2b3f"
+                        android:textSize="@dimen/xa36" />
+
+                    <TextView
+                        android:id="@+id/tv_end_minute"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="00"
+                        android:textColor="#ff1e2b3f"
+                        android:textSize="@dimen/xa36" />
+
+                </LinearLayout>
 
             </RelativeLayout>
 
@@ -244,7 +290,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/xa30"
-
                     android:checked="false"
                     android:thumb="@drawable/shape_switch_thumb"
                     android:track="@drawable/selector_switch_track" />

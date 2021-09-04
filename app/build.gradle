@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 29
+
     defaultConfig {
         applicationId "com.growatt.chargingpile"
         minSdkVersion 21
@@ -127,4 +128,6 @@ dependencies {
     implementation 'com.gyf.immersionbar:immersionbar-components:3.0.0'
 
     implementation 'org.xutils:xutils:3.9.0'
+
+
 }

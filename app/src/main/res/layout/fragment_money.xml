@@ -3,6 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F7F7FAFF"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical">
 
     <ScrollView
@@ -58,10 +60,10 @@
                         android:background="#DDDDDDFF" />
 
                     <EditText
+                        android:id="@+id/edit_money"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@null"
-                        android:hint="20"
                         android:paddingStart="@dimen/xa32"
                         android:singleLine="true"
                         android:textColor="@color/title_1"
@@ -73,7 +75,7 @@
 
             <!--   开始时间-->
             <RelativeLayout
-                android:id="@+id/rl_duration_start"
+                android:id="@+id/rl_start_time"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/xa120"
                 android:layout_marginTop="@dimen/xa1"
@@ -90,13 +92,13 @@
                     android:textSize="@dimen/xa30" />
 
                 <TextView
-                    android:id="@+id/tv_duration_start_time"
+                    android:id="@+id/tv_start_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/xa17"
                     android:layout_toStartOf="@+id/iv_arrows_r"
-                    android:text="16:00"
+                    android:text=""
                     android:textColor="#FF666666"
                     android:textSize="@dimen/xa24" />
 
@@ -134,7 +136,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/xa30"
-
                     android:checked="false"
                     android:thumb="@drawable/shape_switch_thumb"
                     android:track="@drawable/selector_switch_track" />

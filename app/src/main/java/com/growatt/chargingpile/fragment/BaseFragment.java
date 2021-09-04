@@ -1,18 +1,22 @@
 package com.growatt.chargingpile.fragment;
 
-import android.app.Activity;
+import static com.growatt.chargingpile.constant.Constant.DELAYED_MINUTE;
+
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.growatt.chargingpile.activity.GunActivity;
-import com.growatt.chargingpile.activity.PresetActivity;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.growatt.chargingpile.activity.GunActivity;
+import com.growatt.chargingpile.fragment.preset.PresetActivity;
+import com.growatt.chargingpile.model.GunModel;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -28,7 +32,9 @@ public abstract class BaseFragment extends Fragment {
 
     protected GunActivity pActivity;
 
-    protected PresetActivity mPresetActivity;
+    protected GunModel pModel;
+
+    protected PresetActivity pPresetActivity;
 
     private Unbinder unbinder;
 
@@ -39,10 +45,39 @@ public abstract class BaseFragment extends Fragment {
     //判断当前fragment是否回调了resume
     private boolean isResume = false;
 
+    protected Handler pHandler = new Handler();
+
+
     protected abstract Object setRootView();
 
     protected abstract void initWidget();
 
+    //预设后3秒获取
+    protected Runnable runnableGunInfo = new Runnable() {
+        @Override
+        public void run() {
+            Log.d(TAG, "runnableGun");
+            getGunInfoData();
+            pHandler.postDelayed(runnableGunInfo, 3 * 1000);
+        }
+    };
+    //进入枪1分钟获取
+    protected Runnable runnableDelayedGun = new Runnable() {
+        @Override
+        public void run() {
+            Log.d(TAG, "runnableDelayedGun");
+            pHandler.postDelayed(runnableDelayedGun, DELAYED_MINUTE);
+            getGunInfoData();
+        }
+    };
+
+    public void startRunnable(boolean isStart) {
+        if (isStart) {
+            pHandler.postDelayed(runnableDelayedGun, DELAYED_MINUTE);
+        } else {
+            pHandler.removeCallbacks(runnableDelayedGun);
+        }
+    }
 
     @Nullable
     @Override
@@ -59,9 +94,12 @@ public abstract class BaseFragment extends Fragment {
 
         if (getActivity() instanceof GunActivity) {
             pActivity = (GunActivity) getActivity();
+
         } else if (getActivity() instanceof PresetActivity) {
-            mPresetActivity = (PresetActivity) getActivity();
+            pPresetActivity = (PresetActivity) getActivity();
         }
+        pModel = new GunModel();
+
         return rootView;
     }
 
@@ -73,7 +111,7 @@ public abstract class BaseFragment extends Fragment {
         initWidget();
     }
 
-    protected void requestData() {
+    protected void getGunInfoData() {
 
     }
 
@@ -90,13 +128,15 @@ public abstract class BaseFragment extends Fragment {
             //懒加载。。。
             isLoad = true;
             Log.d(TAG, "lazyLoad: 懒加载");
-            requestData();
+            getGunInfoData();
         }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        pHandler.removeCallbacks(runnableGunInfo);
+        pHandler.removeCallbacks(runnableDelayedGun);
         isLoad = false;
         isVisibleToUser = false;
         isResume = false;

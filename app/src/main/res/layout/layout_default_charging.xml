@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/rl_schedule"
+    android:id="@+id/ll_default_charging"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/xa62"
@@ -45,13 +45,13 @@
                 android:textSize="@dimen/xa28" />
 
             <TextView
-                android:id="@+id/tv_kwh_values"
+                android:id="@+id/tv_electricity_kwh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_kwh"
                 android:layout_marginStart="@dimen/xa39"
                 android:layout_toEndOf="@+id/iv_kwh"
-                android:text="20"
+                android:text="0"
                 android:textColor="#ff333333"
                 android:textSize="@dimen/xa36" />
 
@@ -61,7 +61,7 @@
                 android:layout_below="@+id/tv_kwh"
                 android:layout_marginStart="@dimen/xa4"
                 android:layout_marginTop="@dimen/xa10"
-                android:layout_toEndOf="@+id/tv_kwh_values"
+                android:layout_toEndOf="@+id/tv_electricity_kwh"
                 android:text="kWh"
                 android:textColor="#ff333333"
                 android:textSize="@dimen/xa28" />
@@ -102,7 +102,7 @@
                 android:layout_below="@+id/tv_rate"
                 android:layout_marginStart="@dimen/xa39"
                 android:layout_toEndOf="@+id/iv_rate"
-                android:text="20"
+                android:text="0"
                 android:textColor="#ff333333"
                 android:textSize="@dimen/xa36" />
 
@@ -176,7 +176,7 @@
                 android:layout_below="@+id/tv_time"
                 android:layout_marginStart="@dimen/xa4"
                 android:layout_toEndOf="@+id/tv_h"
-                android:text="30"
+                android:text="0"
                 android:textColor="#ff333333"
                 android:textSize="@dimen/xa36" />
 
@@ -227,7 +227,7 @@
                 android:layout_below="@+id/tv_money"
                 android:layout_marginStart="@dimen/xa39"
                 android:layout_toEndOf="@+id/iv_money"
-                android:text="16"
+                android:text="00"
                 android:textColor="#ff333333"
                 android:textSize="@dimen/xa36" />
 
@@ -236,13 +236,15 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ll_3"
+        android:id="@+id/ll_default_av"
         android:layout_width="match_parent"
         android:layout_height="@dimen/xa128"
         android:layout_marginStart="@dimen/xa31"
         android:layout_marginTop="@dimen/xa30"
         android:layout_marginEnd="@dimen/xa28"
-        android:orientation="horizontal">
+        android:layout_marginBottom="@dimen/xa40"
+        android:orientation="horizontal"
+        android:visibility="visible">
 
         <RelativeLayout
             android:layout_width="0dp"
@@ -271,13 +273,13 @@
                 android:textSize="@dimen/xa28" />
 
             <TextView
-                android:id="@+id/tv_a_values"
+                android:id="@+id/tv_current"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_a"
                 android:layout_marginStart="@dimen/xa39"
                 android:layout_toEndOf="@+id/iv_a"
-                android:text="20"
+                android:text="0"
                 android:textColor="#ff333333"
                 android:textSize="@dimen/xa36" />
 
@@ -287,7 +289,7 @@
                 android:layout_below="@+id/tv_a"
                 android:layout_marginStart="@dimen/xa4"
                 android:layout_marginTop="@dimen/xa8"
-                android:layout_toEndOf="@+id/tv_a_values"
+                android:layout_toEndOf="@+id/tv_current"
                 android:text="A"
                 android:textColor="#ff333333"
                 android:textSize="@dimen/xa28" />
@@ -328,7 +330,7 @@
                 android:layout_below="@+id/tv_voltage"
                 android:layout_marginStart="@dimen/xa39"
                 android:layout_toEndOf="@+id/iv_voltage"
-                android:text="20"
+                android:text="0"
                 android:textColor="#ff333333"
                 android:textSize="@dimen/xa36" />
 
@@ -353,6 +355,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/xa69"
+        android:layout_marginBottom="@dimen/xa40"
         android:gravity="center"
         android:text="please pull down and reset the charging gun"
         android:textColor="#ff888888"

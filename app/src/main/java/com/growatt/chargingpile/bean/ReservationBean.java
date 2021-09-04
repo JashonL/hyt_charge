@@ -1,12 +1,13 @@
 package com.growatt.chargingpile.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Administrator on 2018/10/23.
  */
 
-public class ReservationBean {
+public class ReservationBean implements Serializable {
 
     private int code;
     private List<DataBean> data;
@@ -27,7 +28,7 @@ public class ReservationBean {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable{
         private String endDate = "";
         private int connectorId = 0;
         private String msgId = "";

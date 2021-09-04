@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/xa58"
-        android:text="Please connect the vehicle to the charging gun" />
+        android:text="@string/m170请将充电枪插入车辆" />
 
     <View
         android:layout_width="@dimen/xa268"

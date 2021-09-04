@@ -85,8 +85,7 @@
                         <ImageView
                             android:id="@+id/iv_prepare_money_select"
                             android:layout_width="@dimen/xa36"
-                            android:layout_height="@dimen/xa36"
-                            />
+                            android:layout_height="@dimen/xa36" />
 
                     </RelativeLayout>
 
@@ -110,8 +109,8 @@
                             android:layout_width="@dimen/xa10"
                             android:layout_height="@dimen/xa16"
                             android:layout_centerVertical="true"
-                            android:layout_marginLeft="@dimen/xa8"
                             android:layout_marginStart="@dimen/xa8"
+                            android:layout_marginLeft="@dimen/xa8"
                             android:layout_toEndOf="@+id/tv_prepare_money_num"
                             android:layout_toRightOf="@+id/tv_prepare_money_num"
                             android:src="@drawable/charger_device_item_more" />
@@ -372,8 +371,8 @@
                         android:layout_width="@dimen/xa50"
                         android:layout_height="@dimen/xa50"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/xa17"
                         android:layout_marginStart="@dimen/xa17"
+                        android:layout_marginLeft="@dimen/xa17"
                         android:button="@drawable/selector_checkbox_bg_white"
                         android:textColor="@color/title_1"
                         android:textSize="@dimen/xa30" />
@@ -411,8 +410,8 @@
                         android:layout_width="@dimen/xa10"
                         android:layout_height="@dimen/xa16"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/xa13"
                         android:layout_marginStart="@dimen/xa13"
+                        android:layout_marginLeft="@dimen/xa13"
                         android:layout_toEndOf="@+id/tv_start_time"
                         android:layout_toRightOf="@+id/tv_start_time"
                         android:src="@drawable/charger_device_item_more" />

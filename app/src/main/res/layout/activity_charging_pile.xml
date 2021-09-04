@@ -128,22 +128,22 @@
                     android:id="@+id/rl_lock"
                     android:layout_width="@dimen/xa140"
                     android:layout_height="@dimen/xa44"
-                    android:layout_marginRight="@dimen/xa28"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
                     android:layout_marginTop="@dimen/xa28"
+                    android:layout_marginEnd="@dimen/xa28"
+                    android:layout_marginRight="@dimen/xa28"
                     android:background="@drawable/selector_circle_btn_white"
                     android:gravity="center"
-                    android:layout_alignParentRight="true"
-                    android:visibility="visible"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="@dimen/xa28">
+                    android:visibility="visible">
 
 
                     <TextView
                         android:id="@+id/tv_lock"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/xa10"
                         android:layout_marginStart="@dimen/xa10"
+                        android:layout_marginLeft="@dimen/xa10"
                         android:gravity="center"
                         android:text="@string/m解锁"
                         android:textColor="@color/maincolor_1"
@@ -182,18 +182,18 @@
                             <RelativeLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:gravity="center"
                                 android:layout_below="@+id/iv_charging_icon"
-                                android:layout_marginTop="@dimen/xa12">
+                                android:layout_marginTop="@dimen/xa12"
+                                android:gravity="center">
 
                                 <TextView
                                     android:id="@+id/tv_AC_DC"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="DC"
-                                    android:padding="@dimen/xa5"
                                     android:gravity="center"
+                                    android:padding="@dimen/xa5"
                                     android:singleLine="true"
+                                    android:text="DC"
                                     android:textColor="@color/title_3"
                                     android:textSize="@dimen/xa28" />
 
@@ -209,13 +209,13 @@
                                     android:id="@+id/tv_Gun"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:padding="@dimen/xa5"
+                                    android:layout_toEndOf="@+id/vDivider"
                                     android:layout_toRightOf="@+id/vDivider"
-                                    android:textColor="@color/title_3"
-                                    android:textSize="@dimen/xa28"
-                                    android:text="@string/m114单枪"
+                                    android:padding="@dimen/xa5"
                                     android:singleLine="true"
-                                    android:layout_toEndOf="@+id/vDivider" />
+                                    android:text="@string/m114单枪"
+                                    android:textColor="@color/title_3"
+                                    android:textSize="@dimen/xa28" />
                             </RelativeLayout>
 
                         </RelativeLayout>
@@ -225,9 +225,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/xa10"
-                            android:padding="@dimen/xa5"
+                            android:background="@drawable/shape_solid_all_stroke_white"
                             android:minWidth="@dimen/xa150"
-                            android:background="@drawable/shape_solid_all_stroke_white">
+                            android:padding="@dimen/xa5">
 
                             <TextView
                                 android:id="@+id/tvSwitchGun"
@@ -244,11 +244,11 @@
                                 android:id="@+id/ivDrop"
                                 android:layout_width="@dimen/xa28"
                                 android:layout_height="@dimen/xa28"
-                                android:src="@drawable/gun_drop"
+                                android:layout_centerVertical="true"
                                 android:layout_marginLeft="@dimen/xa5"
                                 android:layout_marginRight="@dimen/xa5"
                                 android:layout_toRightOf="@+id/tvSwitchGun"
-                                android:layout_centerVertical="true" />
+                                android:src="@drawable/gun_drop" />
                         </RelativeLayout>
 
 

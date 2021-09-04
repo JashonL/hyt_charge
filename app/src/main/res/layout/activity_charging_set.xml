@@ -32,13 +32,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/xa25"
             android:layout_marginLeft="@dimen/xa25"
+            android:layout_toEndOf="@+id/imageView1"
             android:layout_toRightOf="@+id/imageView1"
             android:text="@string/m141参数设置"
             android:textColor="@color/title_1"
-            android:textSize="@dimen/xa30"
-            android:layout_marginStart="@dimen/xa25"
-            android:layout_toEndOf="@+id/imageView1" />
+            android:textSize="@dimen/xa30" />
 
         <ImageView
             android:id="@+id/imageView2"

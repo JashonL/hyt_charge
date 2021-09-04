@@ -5,10 +5,12 @@
     android:orientation="vertical">
 
     <Button
+        android:id="@+id/btn_ok"
         android:layout_width="@dimen/xa600"
         android:layout_height="@dimen/xa100"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/xa90"
+        android:gravity="center"
         android:background="@drawable/selector_circle_btn_green_login_gradient"
         android:text="@string/m9确定"
         android:textColor="#FFFFFF"

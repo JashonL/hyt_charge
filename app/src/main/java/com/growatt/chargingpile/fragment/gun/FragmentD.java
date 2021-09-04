@@ -26,7 +26,7 @@ public class FragmentD extends BaseFragment {
     }
 
     @Override
-    protected void requestData() {
+    protected void getGunInfoData() {
         Log.d(TAG, "requestData: "+ pActivity.mDataBean.toString());
     }
 

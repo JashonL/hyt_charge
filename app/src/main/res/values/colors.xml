@@ -90,6 +90,8 @@
     <!--充电桩状态-->
     <color name="charging_off">#F64330</color>
     <color name="charging_start">#32E579</color>
-    <color name="charging_unavailable">#333333</color>
-
+    <color name="charging_default">#333333</color>
+    <color name="tv_pile_fast_color">#ffff4c4c</color>
+    <color name="tv_pile_eco_color">#ff4cbeff</color>
+    <color name="tv_pile_eco_plus_color">#ff9c4cff</color>
 </resources>

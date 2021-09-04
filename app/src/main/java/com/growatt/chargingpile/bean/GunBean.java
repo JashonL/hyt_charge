@@ -29,6 +29,8 @@ public class GunBean {
     private List<ReserveNowBean> ReserveNow = new ArrayList<>();
     private LastActionBean LastAction;
 
+
+
     public int getCode() {
         return code;
     }
@@ -80,7 +82,27 @@ public class GunBean {
         private String loopValue;
 
 
-
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "order_status='" + order_status + '\'' +
+                    ", current=" + current +
+                    ", cost=" + cost +
+                    ", ctype=" + ctype +
+                    ", rate=" + rate +
+                    ", ctime=" + ctime +
+                    ", transactionId=" + transactionId +
+                    ", status='" + status + '\'' +
+                    ", energy=" + energy +
+                    ", voltage=" + voltage +
+                    ", connectorId=" + connectorId +
+                    ", name='" + name + '\'' +
+                    ", cKey='" + cKey + '\'' +
+                    ", cValue='" + cValue + '\'' +
+                    ", symbol='" + symbol + '\'' +
+                    ", loopValue='" + loopValue + '\'' +
+                    '}';
+        }
 
         public String getSymbol() {
             return symbol;

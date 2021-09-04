@@ -10,14 +10,13 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.growatt.chargingpile.R;
-
-import java.util.Arrays;
-import java.util.function.IntToDoubleFunction;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
+import com.growatt.chargingpile.R;
+
+import java.util.Arrays;
 
 /**
  * Created：2021/8/27 on 9:39:07
@@ -64,28 +63,25 @@ public class TimeSetDialog extends DialogFragment {
         getDialog().setCancelable(false);
         getDialog().setCanceledOnTouchOutside(false);
         initView(view);
-
-
         Log.d(TAG, "onCreateView: ");
         return view;
     }
 
     private void initView(View view) {
-        mNumberHour = (NumberPickerView) view.findViewById(R.id.np_hour);
-        mNumberMinute = (NumberPickerView) view.findViewById(R.id.np_minute);
-        ImageView ivCancel = (ImageView) view.findViewById(R.id.iv_cancel);
-        TextView tvConfirm = (TextView) view.findViewById(R.id.tv_confirm);
-        TextView tvTitle = (TextView) view.findViewById(R.id.tv_title);
+        mNumberHour = view.findViewById(R.id.np_hour);
+        mNumberMinute = view.findViewById(R.id.np_minute);
+        ImageView ivCancel = view.findViewById(R.id.iv_cancel);
+        TextView tvConfirm = view.findViewById(R.id.tv_confirm);
+        TextView tvTitle = view.findViewById(R.id.tv_title);
         tvTitle.setText(mTitle);
 
 
         ivCancel.setOnClickListener(v -> {
-            mTimeCallBack.cancel();
             dismiss();
         });
 
         tvConfirm.setOnClickListener(v -> {
-            mTimeCallBack.confirm(mNumberHour.getContentByCurrValue() + ":" + mNumberMinute.getContentByCurrValue());
+            mTimeCallBack.confirm(mNumberHour.getContentByCurrValue() , mNumberMinute.getContentByCurrValue());
             dismiss();
         });
 
@@ -170,10 +166,7 @@ public class TimeSetDialog extends DialogFragment {
     }
 
     public interface TimeCallBack {
-
-        void confirm(String time);
-
-        void cancel();
+        void confirm(String hour,String minute);
     }
 
 

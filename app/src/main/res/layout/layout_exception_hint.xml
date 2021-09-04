@@ -11,24 +11,24 @@
     android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/iv_exception_type"
+        android:id="@+id/iv_exception_icon"
         android:layout_width="@dimen/xa214"
         android:layout_height="@dimen/xa214"
         android:layout_marginTop="@dimen/xa48"
         android:src="@drawable/ic_exception_unavailable" />
 
     <TextView
-        android:id="@+id/tv_exception_type"
+        android:id="@+id/tv_exception_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/xa48"
-        android:text="unavailable"
+        android:text="@string/m122不可用"
         android:textColor="#666666"
         android:textSize="@dimen/xa36"
         tools:text="unavailable" />
 
     <TextView
-        android:id="@+id/tv_exception_hint"
+        android:id="@+id/tv_exception_status_hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/xa48"

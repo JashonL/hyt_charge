@@ -7,15 +7,69 @@
     android:background="@drawable/shape_chrage_mode_dialog_bg"
     android:orientation="vertical">
 
-
     <TextView
-        android:layout_marginTop="@dimen/xa60"
+        android:id="@+id/tv_model"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/xa60"
         android:text="充电模式"
         android:textColor="@color/black"
-        android:textSize="@dimen/xa36"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:textSize="@dimen/xa36" />
+
+    <ImageView
+        android:id="@+id/iv_cancel"
+        android:layout_width="@dimen/xa23"
+        android:layout_height="@dimen/xa24"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/xa24"
+        android:layout_marginEnd="@dimen/xa24"
+        android:src="@drawable/ic_gray_exit" />
+
+    <TextView
+        android:id="@+id/tv_fast"
+        android:layout_width="@dimen/xa90"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_model"
+        android:layout_marginStart="@dimen/xa70"
+        android:layout_marginTop="@dimen/xa100"
+        android:drawableTop="@drawable/selector_fast_state"
+        android:drawablePadding="@dimen/xa30"
+        android:gravity="center"
+        android:text="Fast"
+        android:textColor="@drawable/selector_tv_fast_state"
+        android:textSize="@dimen/xa24" />
+
+    <TextView
+        android:id="@+id/tv_eco"
+        android:layout_width="@dimen/xa90"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_model"
+        android:layout_marginStart="@dimen/xa137"
+        android:layout_marginTop="@dimen/xa100"
+        android:layout_toEndOf="@+id/tv_fast"
+        android:drawableTop="@drawable/selector_eco_state"
+        android:drawablePadding="@dimen/xa30"
+        android:gravity="center"
+        android:text="ECO"
+        android:textColor="@drawable/selector_tv_eco_state"
+        android:textSize="@dimen/xa24" />
+
+
+    <TextView
+        android:id="@+id/tv_eco_plus"
+        android:layout_width="@dimen/xa90"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_model"
+        android:layout_marginStart="@dimen/xa136"
+        android:layout_marginTop="@dimen/xa100"
+        android:layout_toEndOf="@+id/tv_eco"
+        android:drawableTop="@drawable/selector_eco_plus_state"
+        android:drawablePadding="@dimen/xa30"
+        android:gravity="center"
+        android:text="ECO +"
+        android:textColor="@drawable/selector_tv_eco_plus_state"
+        android:textSize="@dimen/xa24" />
 
 
 </RelativeLayout>

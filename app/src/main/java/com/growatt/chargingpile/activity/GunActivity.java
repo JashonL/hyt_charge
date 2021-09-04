@@ -6,6 +6,13 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import com.google.android.material.tabs.TabLayout;
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
@@ -15,12 +22,6 @@ import com.growatt.chargingpile.fragment.gun.FragmentB;
 import com.growatt.chargingpile.fragment.gun.FragmentC;
 import com.growatt.chargingpile.fragment.gun.FragmentD;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -47,7 +48,7 @@ public class GunActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gun);
         ButterKnife.bind(this);
-        mDataBean = (ChargingBean.DataBean) getIntent().getParcelableExtra("chargingBean");
+        mDataBean = getIntent().getParcelableExtra("chargingBean");
         Log.d(TAG, "onCreate: " + mDataBean.toString());
         initToolBar();
         initTabLayout();

@@ -70,7 +70,7 @@
         tools:replace="android:supportsRtl"
         tools:targetApi="n">
         <activity
-            android:name=".activity.PresetActivity"
+            android:name=".fragment.preset.PresetActivity"
             android:exported="true" />
         <activity
             android:name=".activity.GunActivity"

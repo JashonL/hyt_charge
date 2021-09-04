@@ -3,6 +3,7 @@ package com.growatt.chargingpile.application;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import com.growatt.chargingpile.crashhandler.CrashHandler;
 import com.growatt.chargingpile.view.MyToastBlackStyle;

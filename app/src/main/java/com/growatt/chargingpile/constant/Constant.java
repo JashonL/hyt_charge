@@ -16,4 +16,7 @@ public class Constant {
     //时间类型
     public static int TIME_TYPE = 1;
     public static int DURATION_TYPE = 2;
+
+    //延时时间
+    public static int DELAYED_MINUTE = 60 * 1000;
 }

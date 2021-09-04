@@ -1,5 +1,7 @@
 package com.growatt.chargingpile;
 
+import static com.growatt.chargingpile.jpush.TagAliasOperatorHelper.sequence;
+
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -19,6 +21,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.growatt.chargingpile.EventBusMsg.AddDevMsg;
@@ -65,18 +75,9 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pub.devrel.easypermissions.EasyPermissions;
-
-import static com.growatt.chargingpile.jpush.TagAliasOperatorHelper.sequence;
 
 public class MainActivity extends BaseActivity {
 
@@ -146,6 +147,7 @@ public class MainActivity extends BaseActivity {
         initHeaderView();
         initResource();
         initRecycleView();
+
         initListners();
         initPermission();
         initCharging();

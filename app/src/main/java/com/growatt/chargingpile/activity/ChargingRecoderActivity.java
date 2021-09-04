@@ -1,9 +1,10 @@
 package com.growatt.chargingpile.activity;
 
 import android.os.Bundle;
+import android.view.View;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.view.View;
 
 import com.google.gson.Gson;
 import com.growatt.chargingpile.BaseActivity;
@@ -54,7 +55,7 @@ public class ChargingRecoderActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charging_recoder);
-        bind=ButterKnife.bind(this);
+        bind = ButterKnife.bind(this);
         initIntent();
         initHeaderView();
         initRecyclerView();
@@ -63,8 +64,8 @@ public class ChargingRecoderActivity extends BaseActivity {
     }
 
     private void initIntent() {
-        chargingId=getIntent().getStringExtra("sn");
-        symbol=getIntent().getStringExtra("symbol");
+        chargingId = getIntent().getStringExtra("sn");
+        symbol = getIntent().getStringExtra("symbol");
     }
 
     private void setOnClickListener() {
@@ -98,25 +99,20 @@ public class ChargingRecoderActivity extends BaseActivity {
     }
 
     private void initHeaderView() {
-        setHeaderImage(headerView, R.drawable.back, Position.LEFT, new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-               finish();
-            }
+        setHeaderImage(headerView, R.drawable.back, Position.LEFT, v -> {
+            finish();
         });
         setHeaderTitle(headerView, getString(R.string.m104充电记录), R.color.title_1, false);
     }
-
 
     private void refresh(int page, int psize) {
         Mydialog.Show(this);
         Map<String, Object> jsonMap = new LinkedHashMap<String, Object>();
         jsonMap.put("userId", SmartHomeUtil.getUserName());
-        jsonMap.put("sn",chargingId);
+        jsonMap.put("sn", chargingId);
         jsonMap.put("page", page);
         jsonMap.put("psize", psize);
-        jsonMap.put("lan",getLanguage());//测试id
+        jsonMap.put("lan", getLanguage());//测试id
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         PostUtil.postJson(SmartHomeUrlUtil.postUserChargingRecord(), json, new PostUtil.postListener() {
             @Override

@@ -1,237 +1,265 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/headerView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/headerView"
+    android:orientation="vertical">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:layout_width="@dimen/xa367"
-            android:layout_height="@dimen/xa367"
-            android:layout_marginTop="@dimen/xa60"
-            android:src="@drawable/ic_gray_circle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/iv_handheld_state"
-            android:layout_width="@dimen/xa115"
-            android:layout_height="@dimen/xa129"
-            android:layout_marginTop="@dimen/xa106"
-            android:src="@drawable/ic_handheld_normal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints" />
-
-        <LinearLayout
-            android:id="@+id/ll_state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/xa40"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_handheld_state"
-            tools:ignore="MissingConstraints">
-
-            <TextView
-                android:id="@+id/tv_ac"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="AC"
-                android:textColor="#666666"
-                android:textSize="@dimen/xa36"
-                tools:ignore="MissingConstraints" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/xa10"
-                android:text="l"
-                android:textSize="@dimen/xa36" />
-
-            <TextView
-                android:id="@+id/tv_prepare"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/xa10"
-                android:text="Prepare"
-                android:textColor="#00EFAD"
-                android:textSize="@dimen/xa36"
-                tools:ignore="MissingConstraints" />
-
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/iv_on"
-            android:layout_width="@dimen/xa114"
-            android:layout_height="@dimen/xa114"
-            android:layout_marginTop="@dimen/xa30"
-            android:src="@drawable/ic_gray_on"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ll_state"
-            tools:ignore="MissingConstraints" />
-
-        <TextView
-            android:id="@+id/tv_charging_pile_state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/m103充电"
-            android:textColor="@color/charging_unavailable"
-            android:textSize="@dimen/xa30"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_on" />
-
-        <LinearLayout
-            android:id="@+id/ll_function"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/xa32"
-            android:layout_marginTop="@dimen/xa59"
-            android:layout_marginEnd="@dimen/xa33"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_charging_pile_state"
-            tools:ignore="MissingConstraints">
+            android:layout_height="match_parent">
 
-            <LinearLayout
-                android:id="@+id/ll_fast"
-                android:layout_width="@dimen/xa130"
-                android:layout_height="@dimen/xa200"
-                android:background="@drawable/ic_function_bg"
-                android:orientation="vertical">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <ImageView
-                    android:layout_width="@dimen/xa90"
-                    android:layout_height="@dimen/xa90"
-                    android:layout_marginStart="@dimen/xa20"
-                    android:layout_marginTop="@dimen/xa20"
-                    android:layout_marginEnd="@dimen/xa20"
-                    android:src="@drawable/ic_gun_fast" />
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/xa21"
-                    android:gravity="center"
-                    android:text="Fast"
-                    android:textColor="#009039"
-                    android:textSize="@dimen/xa24" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_lock"
-                android:layout_width="@dimen/xa130"
-                android:layout_height="@dimen/xa200"
-                android:layout_marginStart="@dimen/xa55"
-                android:background="@drawable/ic_function_bg"
-                android:orientation="vertical">
+                    android:id="@+id/iv_circle_status"
+                    android:layout_width="@dimen/xa367"
+                    android:layout_height="@dimen/xa367"
+                    android:layout_marginTop="@dimen/xa60"
+                    android:src="@drawable/ic_gray_circle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:layout_width="@dimen/xa90"
-                    android:layout_height="@dimen/xa90"
-                    android:layout_marginStart="@dimen/xa20"
-                    android:layout_marginTop="@dimen/xa20"
-                    android:layout_marginEnd="@dimen/xa20"
-                    android:src="@drawable/ic_gun_lock" />
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/xa21"
-                    android:gravity="center"
-                    android:text="@string/m解锁"
-                    android:textColor="#FF7B7B"
-                    android:textSize="@dimen/xa24" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_record"
-                android:layout_width="@dimen/xa130"
-                android:layout_height="@dimen/xa200"
-                android:layout_marginStart="@dimen/xa55"
-                android:background="@drawable/ic_function_bg"
-                android:orientation="vertical">
+                    android:id="@+id/iv_gif"
+                    android:layout_width="@dimen/xa367"
+                    android:layout_height="@dimen/xa367"
+                    android:layout_marginTop="@dimen/xa60"
+                    android:src="@drawable/ic_charging_gif"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:layout_width="@dimen/xa90"
-                    android:layout_height="@dimen/xa90"
-                    android:layout_marginStart="@dimen/xa20"
-                    android:layout_marginTop="@dimen/xa20"
-                    android:layout_marginEnd="@dimen/xa20"
-                    android:src="@drawable/ic_gun_record" />
+                    android:id="@+id/iv_handheld_state"
+                    android:layout_width="@dimen/xa172"
+                    android:layout_height="@dimen/xa186"
+                    android:layout_marginTop="@dimen/xa106"
+                    android:src="@drawable/ic_handheld_normal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="MissingConstraints" />
 
-
-                <TextView
+                <LinearLayout
+                    android:id="@+id/ll_state"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/xa21"
-                    android:gravity="center"
-                    android:text="@string/m104充电记录"
-                    android:textColor="#66B2F7"
-                    android:textSize="@dimen/xa24" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_handheld_state"
+                    tools:ignore="MissingConstraints">
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/tv_ac"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="AC"
+                        android:textColor="#666666"
+                        android:textSize="@dimen/xa36"
+                        tools:ignore="MissingConstraints" />
 
-            <LinearLayout
-                android:id="@+id/ll_preset"
-                android:layout_width="@dimen/xa130"
-                android:layout_height="@dimen/xa200"
-                android:layout_marginStart="@dimen/xa55"
-                android:background="@drawable/ic_function_bg"
-                android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/xa10"
+                        android:text="l"
+                        android:textSize="@dimen/xa36" />
+
+                    <TextView
+                        android:id="@+id/tv_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/xa10"
+                        android:text="Prepare"
+                        android:textColor="#00EFAD"
+                        android:textSize="@dimen/xa36"
+                        tools:ignore="MissingConstraints" />
+
+                </LinearLayout>
 
                 <ImageView
-                    android:layout_width="@dimen/xa90"
-                    android:layout_height="@dimen/xa90"
-                    android:layout_marginStart="@dimen/xa20"
+                    android:id="@+id/iv_switch"
+                    android:layout_width="@dimen/xa114"
+                    android:layout_height="@dimen/xa114"
                     android:layout_marginTop="@dimen/xa20"
-                    android:layout_marginEnd="@dimen/xa20"
-                    android:src="@drawable/ic_gun_setting" />
-
+                    android:src="@drawable/ic_gray_on"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ll_state"
+                    tools:ignore="MissingConstraints" />
 
                 <TextView
+                    android:id="@+id/tv_switch_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/xa21"
-                    android:gravity="center"
-                    android:text="@string/m196预设"
-                    android:textColor="#60D6FD"
-                    android:textSize="@dimen/xa24" />
+                    android:text="@string/m103充电"
+                    android:textColor="@color/charging_default"
+                    android:textSize="@dimen/xa30"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_switch" />
 
-            </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_function"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/xa32"
+                    android:layout_marginTop="@dimen/xa59"
+                    android:layout_marginEnd="@dimen/xa33"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_switch"
+                    tools:ignore="MissingConstraints">
 
-        </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/ll_pile_status"
+                        android:layout_width="@dimen/xa130"
+                        android:layout_height="@dimen/xa200"
+                        android:background="@drawable/ic_function_bg"
+                        android:orientation="vertical">
 
-        <!--异常提示-->
-        <include layout="@layout/layout_exception_hint" />
-        <!--是否有预设-->
-        <include layout="@layout/layout_preinstall" />
-        <!--提示连接车辆-->
-        <include layout="@layout/layout_please_connect_vehicle" />
-        <!--默认充电-->
-        <include layout="@layout/layout_default_charging" />
-        <!--预设充电-->
-        <include layout="@layout/layout_preinstall_charging" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                        <ImageView
+                            android:id="@+id/iv_pile_model"
+                            android:layout_width="@dimen/xa90"
+                            android:layout_height="@dimen/xa90"
+                            android:layout_marginStart="@dimen/xa20"
+                            android:layout_marginTop="@dimen/xa20"
+                            android:layout_marginEnd="@dimen/xa20"
+                            android:src="@drawable/ic_fast_c" />
 
 
-</ScrollView>
+                        <TextView
+                            android:id="@+id/tv_solar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="@dimen/xa21"
+                            android:gravity="center"
+                            android:text="Fast"
+                            android:textColor="@color/tv_pile_fast_color"
+                            android:textSize="@dimen/xa24" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_lock"
+                        android:layout_width="@dimen/xa130"
+                        android:layout_height="@dimen/xa200"
+                        android:layout_marginStart="@dimen/xa55"
+                        android:background="@drawable/ic_function_bg"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="@dimen/xa90"
+                            android:layout_height="@dimen/xa90"
+                            android:layout_marginStart="@dimen/xa20"
+                            android:layout_marginTop="@dimen/xa20"
+                            android:layout_marginEnd="@dimen/xa20"
+                            android:src="@drawable/ic_gun_lock" />
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="@dimen/xa21"
+                            android:gravity="center"
+                            android:text="@string/m解锁"
+                            android:textColor="#FF7B7B"
+                            android:textSize="@dimen/xa24" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_record"
+                        android:layout_width="@dimen/xa130"
+                        android:layout_height="@dimen/xa200"
+                        android:layout_marginStart="@dimen/xa55"
+                        android:background="@drawable/ic_function_bg"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="@dimen/xa90"
+                            android:layout_height="@dimen/xa90"
+                            android:layout_marginStart="@dimen/xa20"
+                            android:layout_marginTop="@dimen/xa20"
+                            android:layout_marginEnd="@dimen/xa20"
+                            android:src="@drawable/ic_gun_record" />
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="@dimen/xa21"
+                            android:gravity="center"
+                            android:text="@string/m104充电记录"
+                            android:textColor="#66B2F7"
+                            android:textSize="@dimen/xa24" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_preset"
+                        android:layout_width="@dimen/xa130"
+                        android:layout_height="@dimen/xa200"
+                        android:layout_marginStart="@dimen/xa55"
+                        android:background="@drawable/ic_function_bg"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="@dimen/xa90"
+                            android:layout_height="@dimen/xa90"
+                            android:layout_marginStart="@dimen/xa20"
+                            android:layout_marginTop="@dimen/xa20"
+                            android:layout_marginEnd="@dimen/xa20"
+                            android:src="@drawable/ic_gun_setting" />
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="@dimen/xa21"
+                            android:gravity="center"
+                            android:text="@string/m196预设"
+                            android:textColor="#60D6FD"
+                            android:textSize="@dimen/xa24" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!--异常提示-->
+                <include layout="@layout/layout_exception_hint" />
+                <!--是否有预设-->
+                <include layout="@layout/layout_preinstall" />
+                <!--提示连接车辆-->
+                <include layout="@layout/layout_please_connect_vehicle" />
+                <!--默认充电-->
+                <include layout="@layout/layout_default_charging" />
+                <!--预设充电-->
+                <include layout="@layout/layout_preinstall_charging"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</LinearLayout>

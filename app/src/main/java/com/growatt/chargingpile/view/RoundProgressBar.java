@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 
 import com.growatt.chargingpile.R;
-import com.growatt.chargingpile.util.MyUtil;
 
 
 /**
@@ -62,7 +61,7 @@ public class RoundProgressBar extends View {
         roundProgressColor = mTypedArray.getColor(R.styleable.RoundProgressBar_roundProgressColor, Color.parseColor("#4ce04f"));
         textColor = mTypedArray.getColor(R.styleable.RoundProgressBar_textColor, Color.GREEN);
         textSize = mTypedArray.getDimension(R.styleable.RoundProgressBar_textSize, 15);
-        roundWidth = mTypedArray.getDimension(R.styleable.RoundProgressBar_roundWidth, 5);
+        roundWidth = mTypedArray.getDimension(R.styleable.RoundProgressBar_roundWidth, 50);
         max = mTypedArray.getInteger(R.styleable.RoundProgressBar_max, 100);
         textIsDisplayable = mTypedArray.getBoolean(R.styleable.RoundProgressBar_textIsDisplayable, true);
 
