@@ -29,7 +29,7 @@
                     android:layout_marginStart="@dimen/xa30"
                     android:layout_marginTop="@dimen/xa46"
                     android:layout_weight="1"
-                    android:text="预设充电电量"
+                    android:text="@string/preset_charge_capacity"
                     android:textColor="#ff333333"
                     android:textSize="@dimen/xa30" />
 
@@ -117,7 +117,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/xa30"
                     android:layout_weight="1"
-                    android:text="每天"
+                    android:text="@string/m186每天"
                     android:textColor="#ff333333"
                     android:textSize="@dimen/xa30" />
 

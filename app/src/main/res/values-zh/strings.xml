@@ -475,6 +475,16 @@
     <string name="have_an_account">没有账号?</string>
     <string name="charging_time">充电时长</string>
     <string name="please_charging_id">请输入充电桩ID</string>
+    <string name="charging_mode">充电模式</string>
+    <string name="pile_failure">充电桩故障，请更换其他充电桩.</string>
+    <string name="pile_available">桩不可用。请更换其他充电桩.</string>
+    <string name="time">时间</string>
+    <string name="appointment_type">预约类型</string>
+    <string name="booking_information">预约须知:</string>
+    <string name="notify">1.同一账号，同一时间段只允许同时预约一个充电桩 \n2.同一账号只可以单条预约 \n3.预约时间截止，平台不会中断充电过程 \n4.预约提交后可取消预约</string>
+    <string name="preset_charge_amount">预设充电金额</string>
+    <string name="preset_charge_capacity">预设充电电量</string>
+    <string name="please_pull_down_and_reset_the_charging_gun">请放下充电枪并复位</string>
 </resources>
 
 

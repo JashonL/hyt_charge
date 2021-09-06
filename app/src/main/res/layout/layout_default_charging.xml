@@ -357,7 +357,7 @@
         android:layout_marginTop="@dimen/xa69"
         android:layout_marginBottom="@dimen/xa40"
         android:gravity="center"
-        android:text="please pull down and reset the charging gun"
+        android:text="@string/please_pull_down_and_reset_the_charging_gun"
         android:textColor="#ff888888"
         android:textSize="@dimen/xa28"
         android:visibility="gone" />

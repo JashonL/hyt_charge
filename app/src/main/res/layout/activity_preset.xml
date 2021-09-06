@@ -35,7 +35,7 @@
                 android:drawableTop="@drawable/selector_rb_time_state"
                 android:gravity="center"
                 android:paddingTop="@dimen/xa24"
-                android:text="时间"
+                android:text="@string/time"
                 android:textColor="@drawable/selector_rb_text_state"
                 android:textSize="@dimen/xa24" />
 
@@ -50,7 +50,7 @@
                 android:drawableTop="@drawable/selector_rb_money_state"
                 android:gravity="center"
                 android:paddingTop="@dimen/xa24"
-                android:text="金额"
+                android:text="@string/m200金额"
                 android:textColor="@drawable/selector_rb_text_state"
                 android:textSize="@dimen/xa24" />
 
@@ -65,7 +65,7 @@
                 android:drawableTop="@drawable/selector_rb_electric_state"
                 android:gravity="center"
                 android:paddingTop="@dimen/xa24"
-                android:text="电量"
+                android:text="@string/m201电量"
                 android:textColor="@drawable/selector_rb_text_state"
                 android:textSize="@dimen/xa24" />
         </RadioGroup>
@@ -75,6 +75,6 @@
     <FrameLayout
         android:id="@+id/fl_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
 </LinearLayout>

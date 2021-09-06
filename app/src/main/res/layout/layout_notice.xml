@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/xa29"
         android:layout_marginTop="@dimen/xa90"
-        android:text="预约须知："
+        android:text="@string/booking_information"
         android:textColor="#333333"
         android:textSize="@dimen/xa24" />
 
@@ -30,10 +30,7 @@
         android:layout_height="@dimen/xa200"
         android:layout_marginStart="@dimen/xa30"
         android:layout_marginTop="@dimen/xa23"
-        android:text="1.同一账号，同一时间段只允许同时预约一个充电桩
-        \n2.同一账号只可以单条预约
-\n3.预约时间截止，平台不会中断充电过程
-\n4.预约提交后可取消预约"
+        android:text="@string/notify"
         android:textColor="#ff333333"
         android:textSize="@dimen/xa24" />
 

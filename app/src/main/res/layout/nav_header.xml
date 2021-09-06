@@ -6,19 +6,11 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <ImageView
-        android:id="@+id/ic_close_drawer"
-        android:layout_width="@dimen/xa31"
-        android:layout_height="@dimen/xa32"
-        android:layout_marginStart="@dimen/xa34"
-        android:layout_marginTop="@dimen/xa117"
-        android:src="@drawable/ic_exit" />
-
     <LinearLayout
         android:id="@+id/ll_user_info"
         android:layout_width="match_parent"
         android:layout_height="@dimen/xa100"
-        android:layout_marginTop="@dimen/xa212"
+        android:layout_marginTop="@dimen/xa137"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -26,14 +18,14 @@
             android:id="@+id/iv_login"
             android:layout_width="@dimen/xa78"
             android:layout_height="@dimen/xa78"
-            android:layout_marginStart="@dimen/xa30"
+            android:layout_marginStart="@dimen/xa57"
             android:src="@drawable/default_head" />
 
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/xa30"
+            android:layout_marginStart="@dimen/xa33"
             android:textColor="@color/title_bg_white"
             android:textSize="@dimen/xa40"
             tools:text="Jame" />
@@ -45,14 +37,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ll_user_info"
-        android:layout_marginTop="@dimen/xa120" />
+        android:layout_marginTop="@dimen/xa109" />
 
     <Button
         android:id="@+id/logout"
         android:layout_width="@dimen/xa300"
         android:layout_height="@dimen/xa78"
-        android:layout_marginBottom="@dimen/xa140"
-        android:layout_marginStart="@dimen/xa35"
+        android:layout_marginBottom="@dimen/xa240"
+        android:layout_marginStart="@dimen/xa81"
         android:layout_alignParentBottom="true"
         android:background="@drawable/selector_circle_btn_gray"
         android:text="@string/m316退出登录"

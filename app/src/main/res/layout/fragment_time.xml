@@ -28,7 +28,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/xa30"
                     android:layout_weight="1"
-                    android:text="预约类型"
+                    android:text="@string/appointment_type"
                     android:textColor="#ff333333"
                     android:textSize="@dimen/xa30" />
 
@@ -37,10 +37,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:drawablePadding="@dimen/xa10"
-                    android:drawableStart="@drawable/selector_tv_select_state"
                     android:layout_marginStart="@dimen/xa10"
-                    android:text="时间"
+                    android:drawableStart="@drawable/selector_tv_select_state"
+                    android:drawablePadding="@dimen/xa10"
+                    android:text="@string/time"
                     android:textColor="#ff333333"
                     android:textSize="@dimen/xa30" />
 
@@ -49,11 +49,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:drawableStart="@drawable/selector_tv_select_state"
                     android:layout_marginStart="@dimen/xa20"
-                    android:drawablePadding="@dimen/xa10"
                     android:layout_marginEnd="@dimen/xa28"
-                    android:text="时长"
+                    android:drawableStart="@drawable/selector_tv_select_state"
+                    android:drawablePadding="@dimen/xa10"
+                    android:text="@string/m202时长"
                     android:textColor="#ff333333"
                     android:textSize="@dimen/xa30" />
 
@@ -75,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/xa29"
                     android:layout_marginTop="@dimen/xa48"
-                    android:text="选择时间"
+                    android:text="@string/m283选择时间"
                     android:textColor="#ff333333"
                     android:textSize="@dimen/xa30" />
 
@@ -86,7 +86,7 @@
                     android:layout_below="@+id/tv_select"
                     android:layout_marginStart="@dimen/xa61"
                     android:layout_marginTop="@dimen/xa50"
-                    android:text="开始时间"
+                    android:text="@string/m204开始时间"
                     android:textColor="#ff888888"
                     android:textSize="@dimen/xa24" />
 
@@ -98,19 +98,19 @@
                     android:layout_marginStart="@dimen/xa290"
                     android:layout_marginTop="@dimen/xa50"
                     android:layout_toEndOf="@+id/tv_start_time"
-                    android:text="结束时间"
+                    android:text="@string/m282结束时间"
                     android:textColor="#ff888888"
                     android:textSize="@dimen/xa24" />
 
                 <LinearLayout
                     android:id="@+id/ll_start_time"
-                    android:background="@drawable/shape_btn_time"
                     android:layout_width="@dimen/xa246"
+                    android:layout_height="@dimen/xa80"
+                    android:layout_below="@+id/tv_start_time"
                     android:layout_marginStart="@dimen/xa60"
                     android:layout_marginTop="@dimen/xa16"
-                    android:layout_height="@dimen/xa80"
-                    android:gravity="center"
-                    android:layout_below="@+id/tv_start_time">
+                    android:background="@drawable/shape_btn_time"
+                    android:gravity="center">
 
                     <TextView
                         android:id="@+id/tv_start_hour"
@@ -151,13 +151,13 @@
 
                 <LinearLayout
                     android:id="@+id/ll_end_time"
-                    android:background="@drawable/shape_btn_time"
                     android:layout_width="@dimen/xa246"
-                    android:layout_marginStart="@dimen/xa60"
-                    android:layout_toEndOf="@+id/line"
-                    android:layout_marginTop="@dimen/xa16"
-                    android:layout_below="@+id/tv_end_time"
                     android:layout_height="@dimen/xa80"
+                    android:layout_below="@+id/tv_end_time"
+                    android:layout_marginStart="@dimen/xa60"
+                    android:layout_marginTop="@dimen/xa16"
+                    android:layout_toEndOf="@+id/line"
+                    android:background="@drawable/shape_btn_time"
                     android:gravity="center">
 
                     <TextView
@@ -280,7 +280,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/xa30"
                     android:layout_weight="1"
-                    android:text="每天"
+                    android:text="@string/m186每天"
                     android:textColor="#ff333333"
                     android:textSize="@dimen/xa30" />
 

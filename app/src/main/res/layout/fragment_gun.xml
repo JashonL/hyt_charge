@@ -83,10 +83,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/xa10"
-                        android:text="Prepare"
                         android:textColor="#00EFAD"
                         android:textSize="@dimen/xa36"
-                        tools:ignore="MissingConstraints" />
+                        tools:ignore="MissingConstraints"
+                        tools:text="@string/m117空闲" />
 
                 </LinearLayout>
 
@@ -253,8 +253,7 @@
                 <!--默认充电-->
                 <include layout="@layout/layout_default_charging" />
                 <!--预设充电-->
-                <include layout="@layout/layout_preinstall_charging"
-                    />
+                <include layout="@layout/layout_preinstall_charging" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -118,6 +118,7 @@ public class MainActivity extends BaseActivity {
     private String jumpId;
     private boolean isFirst = true;
 
+
     private Animation animation;
 
     private Timer mTimer;//涂鸦设备操作定时器
@@ -147,7 +148,6 @@ public class MainActivity extends BaseActivity {
         initHeaderView();
         initResource();
         initRecycleView();
-
         initListners();
         initPermission();
         initCharging();
@@ -276,7 +276,7 @@ public class MainActivity extends BaseActivity {
      */
     private void initCharging() {
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        mChargingAdapter = new ChargingListAdapter(mChargingList);
+        mChargingAdapter = new ChargingListAdapter(mChargingList, this);
         mRvCharging.setLayoutManager(mLinearLayoutManager);
         mRvCharging.setAdapter(mChargingAdapter);
     }
@@ -410,10 +410,6 @@ public class MainActivity extends BaseActivity {
                     jumpTo(AboutActivity.class, false);
                     break;
             }
-        });
-
-        findViewById(R.id.ic_close_drawer).setOnClickListener(v -> {
-            drawerLayout.closeDrawers();
         });
 
     }

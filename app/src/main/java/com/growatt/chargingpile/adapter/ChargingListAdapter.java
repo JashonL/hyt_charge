@@ -1,12 +1,12 @@
 package com.growatt.chargingpile.adapter;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
+import android.content.Context;
 import android.util.Log;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -26,8 +26,11 @@ public class ChargingListAdapter extends BaseQuickAdapter<ChargingBean.DataBean,
     //当前选择的item
     private int nowSelectPosition = -1;
 
-    public ChargingListAdapter(@Nullable List<ChargingBean.DataBean> data) {
+    private Context mContext;
+
+    public ChargingListAdapter(@Nullable List<ChargingBean.DataBean> data, Context context) {
         super(R.layout.item_charging_list_new, data);
+        mContext = context;
     }
 
     @Override
@@ -45,34 +48,43 @@ public class ChargingListAdapter extends BaseQuickAdapter<ChargingBean.DataBean,
     private void setState(ChargingBean.DataBean item, TextView tvState, ImageView ivState) {
         Log.d(TAG, "getStatus_1:" + item.getStatus_1());
         switch (item.getStatus_1()) {
+            case GunBean.PREPARING://m119准备中
+                tvState.setText(mContext.getString(R.string.m119准备中));
+                tvState.setBackgroundResource(R.drawable.shape_end_of_charging_state_bg);
+                ivState.setImageResource(R.drawable.ic_end_of_charging);
+                break;
             case GunBean.CHARGING:
-                tvState.setText("充电中");
+                tvState.setText(mContext.getString(R.string.m118充电中));
                 tvState.setBackgroundResource(R.drawable.shape_recharg_state_bg);
                 ivState.setImageResource(R.drawable.ic_recharg_state);
                 break;
             case GunBean.FINISHING:
-                tvState.setText("充电结束");
+                tvState.setText(mContext.getString(R.string.m120充电结束));
                 tvState.setBackgroundResource(R.drawable.shape_end_of_charging_state_bg);
                 ivState.setImageResource(R.drawable.ic_end_of_charging);
                 break;
             case GunBean.AVAILABLE:
-                tvState.setText("idle");
+                tvState.setText(mContext.getString(R.string.m117空闲));
                 tvState.setBackgroundResource(R.drawable.shape_end_of_charging_state_bg);
                 ivState.setImageResource(R.drawable.ic_idle);
                 break;
             case GunBean.SUSPENDEEV:
-                tvState.setText("不可用车拒绝充电");
+                tvState.setText(mContext.getString(R.string.m133车拒绝充电));
+                tvState.setBackgroundResource(R.drawable.shape_default_state_bg);
+                ivState.setImageResource(R.drawable.ic_unavailable);
                 break;
             case GunBean.SUSPENDEDEVSE:
-                tvState.setText("不可用桩拒绝充电");
+                tvState.setText(mContext.getString(R.string.m292桩拒绝充电));
+                tvState.setBackgroundResource(R.drawable.shape_default_state_bg);
+                ivState.setImageResource(R.drawable.ic_unavailable);
                 break;
             case GunBean.FAULTED:
-                tvState.setText("故障");
+                tvState.setText(mContext.getString(R.string.m121故障));
                 tvState.setBackgroundResource(R.drawable.shape_default_state_bg);
                 ivState.setImageResource(R.drawable.ic_unavailable);
                 break;
             case GunBean.UNAVAILABLE:
-                tvState.setText("异常");
+                tvState.setText(mContext.getString(R.string.m122不可用));
                 tvState.setBackgroundResource(R.drawable.shape_default_state_bg);
                 ivState.setImageResource(R.drawable.ic_unavailable);
                 break;

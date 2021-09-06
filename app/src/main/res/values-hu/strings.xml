@@ -495,4 +495,17 @@
 
     <string name="charging_time">charging time</string>
     <string name="please_charging_id">Please enter the charge point name</string>
+    <string name="charging_mode">charging mode</string>
+    <string name="pile_failure">Pile failure, please switch to other charging piles.</string>
+    <string name="pile_available">Pile is not available. Please switch to other charging piles.</string>
+    <string name="time">time</string>
+    <string name="appointment_type">appointment type</string>
+    <string name="booking_information">booking information:</string>
+    <string name="notify">1.Only one charging pile can be reserved for the same account at the same time
+        \n2. Only one reservation can be made for the same account
+        \n3. The platform will not interrupt the charging process when the booking time expires
+        \n4. The appointment can be cancelled after submission</string>
+    <string name="preset_charge_amount">preset charge amount</string>
+    <string name="preset_charge_capacity">preset charge capacity</string>
+    <string name="please_pull_down_and_reset_the_charging_gun">please pull down and reset the charging gun</string>
 </resources>

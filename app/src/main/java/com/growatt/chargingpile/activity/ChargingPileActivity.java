@@ -1960,7 +1960,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
      */
     private void initCharging() {
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        mAdapter = new ChargingListAdapter(mChargingList);
+        mAdapter = new ChargingListAdapter(mChargingList,this);
         mRvCharging.setLayoutManager(mLinearLayoutManager);
         mRvCharging.setAdapter(mAdapter);
     }

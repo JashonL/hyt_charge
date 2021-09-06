@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_exception"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:layout_constraintTop_toBottomOf="@+id/ll_function"
-    android:visibility="gone"
     android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:visibility="gone"
+    app:layout_constraintTop_toBottomOf="@+id/ll_function">
 
     <ImageView
         android:id="@+id/iv_exception_icon"
@@ -34,12 +34,9 @@
         android:layout_marginTop="@dimen/xa48"
         android:gravity="center"
         android:maxLines="2"
-        android:text="Pile is not available.
-Please switch to other charging piles."
         android:textColor="#FF888888"
         android:textSize="@dimen/xa30"
-        tools:text="Pile is not available.
-Please switch to other charging piles." />
+        tools:text="@string/pile_available" />
 
     <View
         android:layout_width="@dimen/xa268"

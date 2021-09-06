@@ -47,9 +47,9 @@
             <com.growatt.chargingpile.view.NumberPickerView
                 android:id="@+id/np_hour"
                 style="@style/number_picker_style"
-                android:layout_marginStart="@dimen/xa160"
                 android:layout_width="@dimen/xa60"
                 android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/xa160"
                 android:contentDescription="@null" />
 
             <TextView
@@ -57,16 +57,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:text="@string/m207时"
                 android:textColor="#ff888888"
-                android:visibility="gone"
-                android:text="小时" />
+                android:visibility="gone" />
 
             <com.growatt.chargingpile.view.NumberPickerView
                 android:id="@+id/np_minute"
                 style="@style/number_picker_style"
                 android:layout_width="@dimen/xa60"
-                android:layout_marginStart="@dimen/xa160"
                 android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/xa160"
                 android:contentDescription="@null" />
 
             <TextView
@@ -74,9 +74,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:visibility="gone"
+                android:text="@string/m208分"
                 android:textColor="#ff888888"
-                android:text="分钟" />
+                android:visibility="gone" />
 
         </LinearLayout>
 

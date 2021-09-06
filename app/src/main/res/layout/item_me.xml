@@ -10,14 +10,14 @@
             android:layout_height="@dimen/xa36"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/xa30" />
+            android:layout_marginStart="@dimen/xa57" />
 
         <TextView
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/xa18"
+            android:layout_marginStart="@dimen/xa24"
             android:layout_toRightOf="@+id/imageView1"
             android:text="TextView"
             android:textColor="#333333"

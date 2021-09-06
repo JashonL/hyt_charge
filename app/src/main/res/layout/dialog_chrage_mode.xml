@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/xa60"
-        android:text="充电模式"
+        android:text="@string/charging_mode"
         android:textColor="@color/black"
         android:textSize="@dimen/xa36" />
 
