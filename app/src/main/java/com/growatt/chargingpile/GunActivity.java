@@ -1,5 +1,6 @@
-package com.growatt.chargingpile.activity;
+package com.growatt.chargingpile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,13 +15,16 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
-import com.growatt.chargingpile.BaseActivity;
-import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.bean.ChargingBean;
+import com.growatt.chargingpile.bean.GunBean;
 import com.growatt.chargingpile.fragment.gun.FragmentA;
 import com.growatt.chargingpile.fragment.gun.FragmentB;
 import com.growatt.chargingpile.fragment.gun.FragmentC;
 import com.growatt.chargingpile.fragment.gun.FragmentD;
+import com.growatt.chargingpile.setting.SettingActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,6 +42,9 @@ public class GunActivity extends BaseActivity {
     ViewPager mTabViewPager;
     @BindView(R.id.line)
     View mLine;
+
+    //当前枪
+    public GunBean mCurrentGunBean;
 
     public ChargingBean.DataBean mDataBean;
     private Fragment[] mArrFragment = null;
@@ -60,7 +67,14 @@ public class GunActivity extends BaseActivity {
             finish();
         });
         setHeaderImage(mHeaderView, R.drawable.ic_setting, Position.RIGHT, v -> {
-
+            List<ChargingBean.DataBean.PriceConfBean> conf = mDataBean.getPriceConf();
+            ArrayList<ChargingBean.DataBean.PriceConfBean> priceConf = new ArrayList<>();
+            if (conf != null) priceConf.addAll(conf);
+            Intent intent = new Intent(this, SettingActivity.class);
+            intent.putExtra("sn", mDataBean.getChargeId());
+            intent.putParcelableArrayListExtra("rate", priceConf);
+            intent.putExtra("gunBean", mCurrentGunBean);
+            jumpTo(intent, false);
         });
         mTvTitle.setTextColor(ContextCompat.getColor(this, R.color.black));
         mTvTitle.setText(mDataBean.getChargeId());

@@ -35,7 +35,6 @@ import com.growatt.chargingpile.EventBusMsg.AddDevMsg;
 import com.growatt.chargingpile.EventBusMsg.SearchDevMsg;
 import com.growatt.chargingpile.activity.AboutActivity;
 import com.growatt.chargingpile.activity.AddChargingActivity;
-import com.growatt.chargingpile.activity.GunActivity;
 import com.growatt.chargingpile.activity.UserActivity;
 import com.growatt.chargingpile.adapter.ChargingListAdapter;
 import com.growatt.chargingpile.adapter.MeAdapter;

@@ -488,4 +488,14 @@
     <string name="preset_charge_amount">preset charge amount</string>
     <string name="preset_charge_capacity">preset charge capacity</string>
     <string name="please_pull_down_and_reset_the_charging_gun">please pull down and reset the charging gun</string>
+    <string name="setting">Setting</string>
+
+    <string name="basic_information">Basic information</string>
+    <string name="network_setting">Network setting</string>
+    <string name="pile_setting">Pile setting</string>
+    <string name="load_balancing">Load balancing</string>
+    <string name="permissions">Permissions</string>
+    <string name="ap_model">AP Model</string>
+    <string name="charging_pile_alias">Charging pile Alias</string>
+    <string name="belongs_to_plant">belongs to plant</string>
 </resources>

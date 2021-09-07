@@ -86,8 +86,8 @@
                     android:layout_height="@dimen/xa35"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/charger_device_item_more"
-                    android:layout_marginRight="@dimen/xa28" />
+                    android:layout_marginRight="@dimen/xa28"
+                    android:src="@drawable/charger_device_item_more" />
 
             </RelativeLayout>
 

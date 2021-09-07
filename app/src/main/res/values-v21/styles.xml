@@ -7,6 +7,7 @@
         <item name="android:alertDialogTheme">@style/Theme.AppCompat.Light.Dialog.Alert.Self</item>
         <!--<item name="android:windowAnimationStyle">@style/FadeAnimationStyle</item>-->
         <item name="android:windowAnimationStyle">@style/OutInAnimTheme</item>
+        <item name="colorAccent">#30E578</item>
     </style>
 
 

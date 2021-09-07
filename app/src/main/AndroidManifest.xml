@@ -69,11 +69,14 @@
         android:theme="@style/MyAppCompat"
         tools:replace="android:supportsRtl"
         tools:targetApi="n">
+        <activity android:name=".setting.SettingActivity" />
+        <activity android:name=".setting.BasicInfoActivity" />
+        <activity android:name=".setting.NetSettingActivity" />
+        <activity android:name=".setting.PileSettingActivity" />
+        <activity android:name=".setting.LoadBalancingActivity" />
+        <activity android:name=".PresetActivity" />
         <activity
-            android:name=".fragment.preset.PresetActivity"
-            android:exported="true" />
-        <activity
-            android:name=".activity.GunActivity"
+            android:name=".GunActivity"
             android:exported="true" /> <!-- Required SDK 核心功能 -->
         <!-- 可配置 android:process 参数将 PushService 放在其他进程中 -->
         <service
@@ -264,7 +267,7 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.ChargingAuthorizationActivity"
+            android:name=".setting.PermissionsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
         <activity

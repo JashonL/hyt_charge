@@ -1,18 +1,8 @@
 package com.growatt.chargingpile.activity;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.fragment.app.FragmentManager;
-import androidx.core.content.ContextCompat;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -21,6 +11,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
@@ -37,15 +34,11 @@ import com.growatt.chargingpile.bean.ParamsSetBean;
 import com.growatt.chargingpile.bean.PileSetBean;
 import com.growatt.chargingpile.bean.SolarBean;
 import com.growatt.chargingpile.connutil.PostUtil;
-import com.growatt.chargingpile.util.Base64;
 import com.growatt.chargingpile.util.Cons;
-import com.growatt.chargingpile.util.Constant;
-import com.growatt.chargingpile.util.DecoudeUtil;
 import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
 import com.growatt.chargingpile.util.SmartHomeUtil;
-import com.growatt.chargingpile.util.T;
 import com.mylhyl.circledialog.CircleDialog;
 import com.mylhyl.circledialog.view.listener.OnInputClickListener;
 import com.mylhyl.circledialog.view.listener.OnLvItemClickListener;
@@ -56,7 +49,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xutils.common.util.LogUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -69,6 +61,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
+/**
+ * 参数设置
+ */
 public class ChargingParamsActivity extends BaseActivity {
     @BindView(R.id.headerView)
     View headerView;

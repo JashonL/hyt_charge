@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/headerView"
     android:orientation="vertical"
-    tools:context=".activity.GunActivity">
+    tools:context=".GunActivity">
 
     <include layout="@layout/header_view" />
 

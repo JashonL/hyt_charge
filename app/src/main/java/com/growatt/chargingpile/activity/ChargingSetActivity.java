@@ -3,11 +3,12 @@ package com.growatt.chargingpile.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-import androidx.core.content.ContextCompat;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
 
 import com.google.gson.Gson;
 import com.growatt.chargingpile.BaseActivity;
@@ -16,6 +17,7 @@ import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.bean.ChargingBean;
 import com.growatt.chargingpile.bean.NoConfigBean;
 import com.growatt.chargingpile.connutil.PostUtil;
+import com.growatt.chargingpile.setting.PermissionsActivity;
 import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
@@ -34,7 +36,6 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 public class ChargingSetActivity extends BaseActivity {
 
@@ -50,13 +51,12 @@ public class ChargingSetActivity extends BaseActivity {
     private String chargingId;
 
     private List<ChargingBean.DataBean.PriceConfBean> priceConfBeanList;
-    private Unbinder bind;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charging_set);
-        bind=ButterKnife.bind(this);
+        ButterKnife.bind(this);
         initIntent();
         initHeadView();
         initViews();
@@ -98,7 +98,7 @@ public class ChargingSetActivity extends BaseActivity {
                 }
                 break;
             case R.id.rl_charging_grant:
-                Intent intent2=new Intent(this,ChargingAuthorizationActivity.class);
+                Intent intent2=new Intent(this, PermissionsActivity.class);
                 intent2.putExtra("sn",chargingId);
                 jumpTo(intent2, false);
                 break;
@@ -161,14 +161,10 @@ public class ChargingSetActivity extends BaseActivity {
     }
 
 
-
-
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void searchFresh(SearchDevMsg msg) {
        finish();
     }
-
 
     @Override
     protected void onDestroy() {

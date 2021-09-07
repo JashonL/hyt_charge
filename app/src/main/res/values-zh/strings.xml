@@ -419,7 +419,7 @@
     <string name="m请输入安装商地址">请输入安装商地址</string>
     <string name="m请输入安装日期">请输入安装日期</string>
     <string name="m时区">时区</string>
-    <string name="m网络模式设置">网络模式设置</string>
+    <string name="m网络模式设置">网络模式</string>
     <string name="m低功率预约充电">低功率预约充电</string>
     <string name="m充电桩序列号">请输入充电桩序列号</string>
     <string name="m充电桩序列号不能为空">充电桩序列号不能为空</string>
@@ -485,6 +485,17 @@
     <string name="preset_charge_amount">预设充电金额</string>
     <string name="preset_charge_capacity">预设充电电量</string>
     <string name="please_pull_down_and_reset_the_charging_gun">请放下充电枪并复位</string>
+    <string name="setting">设置</string>
+
+    <string name="basic_information">基本信息</string>
+    <string name="network_setting">网络设置</string>
+    <string name="pile_setting">桩的设置</string>
+    <string name="load_balancing">负载平衡</string>
+    <string name="permissions">权限</string>
+    <string name="ap_model">AP 模式</string>
+    <string name="charging_pile_alias">充电桩别名</string>
+    <string name="belongs_to_plant">所属电站</string>
+
 </resources>
 
 

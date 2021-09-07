@@ -16,13 +16,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.growatt.chargingpile.EventBusMsg.PreinstallEvent;
+import com.growatt.chargingpile.GunActivity;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.activity.ChargingRecoderActivity;
-import com.growatt.chargingpile.activity.GunActivity;
 import com.growatt.chargingpile.bean.ChargingBean;
 import com.growatt.chargingpile.bean.GunBean;
 import com.growatt.chargingpile.bean.ReservationBean;
-import com.growatt.chargingpile.fragment.preset.PresetActivity;
+import com.growatt.chargingpile.PresetActivity;
 import com.growatt.chargingpile.model.GunModel;
 import com.growatt.chargingpile.view.ChargingModeDialog;
 import com.mylhyl.circledialog.CircleDialog;
@@ -142,6 +142,12 @@ public abstract class BaseFragment extends Fragment {
         isResume = true;
         lazyLoad();
         initWidget();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        startRunnable(false);
     }
 
     @Override

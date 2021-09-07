@@ -61,14 +61,13 @@ public class AddAuthorizeRegisterActivity extends BaseActivity {
     EditText etInstanller;
 
     private String chargingId;
-    private Unbinder bind;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_authorize_register);
-        bind = ButterKnife.bind(this);
+        ButterKnife.bind(this);
         initIntent();
         initHeaderView();
         initViews();

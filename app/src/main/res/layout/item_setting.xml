@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/xa120"
+    android:background="@drawable/selector_recycler_item">
+
+    <ImageView
+        android:id="@+id/iv_icon"
+        android:layout_width="@dimen/xa34"
+        android:layout_height="@dimen/xa35"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/xa45"
+        tools:src="@drawable/ic_basic_information" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/xa23"
+        android:layout_toEndOf="@+id/iv_icon"
+        android:textColor="#ff343434"
+        android:textSize="@dimen/xa30"
+        tools:text="@string/basic_information" />
+
+    <ImageView
+        android:id="@+id/iv_arrow"
+        android:layout_width="@dimen/xa20"
+        android:layout_height="@dimen/xa32"
+        android:layout_alignParentEnd="true"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="@dimen/xa30"
+        android:src="@drawable/charger_device_item_more" />
+
+</RelativeLayout>

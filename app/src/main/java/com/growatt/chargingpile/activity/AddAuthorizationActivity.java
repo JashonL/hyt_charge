@@ -3,14 +3,11 @@ package com.growatt.chargingpile.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import androidx.core.content.ContextCompat;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ImageSpan;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -34,7 +31,6 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 public class AddAuthorizationActivity extends BaseActivity {
 
@@ -42,21 +38,18 @@ public class AddAuthorizationActivity extends BaseActivity {
     LinearLayout headerView;
     @BindView(R.id.tvTitle)
     TextView tvTitle;
-    @BindView(R.id.tvRight)
-    TextView tvRight;
 
     @BindView(R.id.et_username)
     EditText etUsername;
 
 
     private String chargingId;
-    private Unbinder bind;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_authorization);
-        bind = ButterKnife.bind(this);
+        ButterKnife.bind(this);
         initHeadView();
         initIntent();
         setViews();
@@ -76,24 +69,9 @@ public class AddAuthorizationActivity extends BaseActivity {
     }
 
     private void initHeadView() {
-        setHeaderImage(headerView, R.drawable.back, Position.LEFT, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        tvTitle.setTextColor(ContextCompat.getColor(this, R.color.title_1));
-        tvTitle.setText(getString(R.string.m162添加授权));
-        //设置字体加粗
-        tvTitle.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-
-        int dimen = getResources().getDimensionPixelSize(R.dimen.xa20);
-        tvRight.setTextSize(TypedValue.COMPLEX_UNIT_PX, dimen);
-        tvRight.setTextColor(ContextCompat.getColor(this, R.color.charging_text_color_2));
-        tvRight.setText(getString(R.string.m164注册新用户));
-        tvRight.setOnClickListener(v -> gotoRegister());
-
-
+        setHeaderImage(headerView, R.drawable.back, Position.LEFT, v -> finish());
+        setHeaderTitle(headerView, getResources().getString(R.string.m162添加授权), R.color.title_1, false);
+        setHeaderImage(headerView, R.drawable.ic_add_charg, Position.RIGHT, v -> gotoRegister());
     }
 
 
@@ -203,8 +181,4 @@ public class AddAuthorizationActivity extends BaseActivity {
         });
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 }

@@ -576,6 +576,7 @@ public class FragmentA extends BaseFragment {
         pModel.getChargingGunStatus(pDataBean.getChargeId(), pConnectorId, new GunModel.HttpCallBack<GunBean>() {
             @Override
             public void onSuccess(GunBean bean) {
+                pActivity.mCurrentGunBean = bean;
                 Log.d(TAG, "onSuccess: " + bean.getData().toString());
                 if (bean.getData() != null) {
                     if (mSwipeRefreshLayout != null) {

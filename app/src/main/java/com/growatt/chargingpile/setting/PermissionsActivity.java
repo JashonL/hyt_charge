@@ -1,19 +1,21 @@
-package com.growatt.chargingpile.activity;
+package com.growatt.chargingpile.setting;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.fragment.app.FragmentManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.gson.Gson;
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.EventBusMsg.FreshAuthMsg;
 import com.growatt.chargingpile.R;
+import com.growatt.chargingpile.activity.AddAuthorizationActivity;
 import com.growatt.chargingpile.adapter.ChargingUserAdapter;
 import com.growatt.chargingpile.bean.ChargingUserBean;
 import com.growatt.chargingpile.connutil.PostUtil;
@@ -34,14 +36,14 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 
-public class ChargingAuthorizationActivity extends BaseActivity {
-
+/**
+ * 权限
+ */
+public class PermissionsActivity extends BaseActivity {
     @BindView(R.id.headerView)
     View headerView;
-
     /*授权列表*/
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
@@ -49,15 +51,13 @@ public class ChargingAuthorizationActivity extends BaseActivity {
     SwipeRefreshLayout mSwipeRefresh;
     private List<ChargingUserBean.DataBean> mUserList = new ArrayList<>();
     private ChargingUserAdapter mChargingUserAdapter;
-    private String chargingId;
-    private Unbinder bind;
-
+    private String mChargingId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charging_authorization);
-        bind = ButterKnife.bind(this);
+        ButterKnife.bind(this);
         initIntent();
         initHeaderView();
         initRecyclerView();
@@ -65,12 +65,10 @@ public class ChargingAuthorizationActivity extends BaseActivity {
         refresh();
     }
 
-
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void aa(FreshAuthMsg msg) {
+    public void handleRefresh(FreshAuthMsg msg) {
         refresh();
     }
-
 
     private void initListeners() {
         mSwipeRefresh.setColorSchemeResources(R.color.maincolor_1);
@@ -78,9 +76,8 @@ public class ChargingAuthorizationActivity extends BaseActivity {
     }
 
     private void initIntent() {
-        chargingId = getIntent().getStringExtra("sn");
+        mChargingId = getIntent().getStringExtra("sn");
     }
-
 
     @Override
     protected void onResume() {
@@ -90,8 +87,8 @@ public class ChargingAuthorizationActivity extends BaseActivity {
     private void refresh() {
         Mydialog.Show(this);
         Map<String, Object> jsonMap = new LinkedHashMap<String, Object>();
-        jsonMap.put("sn", chargingId);
-        jsonMap.put("userId",SmartHomeUtil.getUserName());
+        jsonMap.put("sn", mChargingId);
+        jsonMap.put("userId", SmartHomeUtil.getUserName());
         jsonMap.put("page", 1);
         jsonMap.put("psize", 30);
         jsonMap.put("lan", getLanguage());//测试id
@@ -100,7 +97,6 @@ public class ChargingAuthorizationActivity extends BaseActivity {
         PostUtil.postJson(SmartHomeUrlUtil.postGetAuthorizationList(), json, new PostUtil.postListener() {
             @Override
             public void Params(Map<String, String> params) {
-
             }
 
             @Override
@@ -129,33 +125,18 @@ public class ChargingAuthorizationActivity extends BaseActivity {
         });
     }
 
-    /**
-     * 初始化头部
-     */
     private void initHeaderView() {
-        setHeaderImage(headerView, R.drawable.back, Position.LEFT, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        setHeaderImage(headerView, R.drawable.back, Position.LEFT, v -> finish());
         setHeaderTitle(headerView, getResources().getString(R.string.m142授权管理), R.color.title_1, false);
-        setHeaderImage(headerView, R.drawable.add_authorization_user, Position.RIGHT, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                gotoGrant();
-            }
-        });
+        setHeaderImage(headerView, R.drawable.ic_add_charg, Position.RIGHT, v -> gotoGrant());
     }
-
 
     private void gotoGrant() {
         Intent intent = new Intent(this, AddAuthorizationActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent.putExtra("sn",chargingId);
+        intent.putExtra("sn", mChargingId);
         startActivity(intent);
     }
-
 
     private void initRecyclerView() {
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -172,7 +153,6 @@ public class ChargingAuthorizationActivity extends BaseActivity {
         mChargingUserAdapter.setEmptyView(emptyView);
     }
 
-
     private void deleteUser(final String userId, final int pos) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         new CircleDialog.Builder()
@@ -182,9 +162,9 @@ public class ChargingAuthorizationActivity extends BaseActivity {
                 .setGravity(Gravity.CENTER).setPositive(getString(R.string.m9确定), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Mydialog.Show(ChargingAuthorizationActivity.this);
+                Mydialog.Show(PermissionsActivity.this);
                 Map<String, Object> jsonMap = new LinkedHashMap<String, Object>();
-                jsonMap.put("sn", chargingId);
+                jsonMap.put("sn", mChargingId);
                 jsonMap.put("userId", userId);
                 jsonMap.put("lan", getLanguage());//测试id
                 String json = SmartHomeUtil.mapToJsonString(jsonMap);
@@ -220,10 +200,5 @@ public class ChargingAuthorizationActivity extends BaseActivity {
                 .show(fragmentManager);
 
 
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
     }
 }

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    tools:context=".setting.SettingActivity">
+
+    <include layout="@layout/header_view" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa120"
+        android:background="@color/headerView">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/xa30"
+            android:text="@string/m298功率分配使能"
+            android:textColor="#333333" />
+
+        <Switch
+            android:id="@+id/sw"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/xa56"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/xa30"
+            android:checked="false"
+            android:thumb="@drawable/shape_switch_thumb"
+            android:track="@drawable/selector_switch_track" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa120"
+        android:layout_marginTop="@dimen/xa30"
+        android:background="@color/headerView">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/xa30"
+            android:text="允许最大取电功率"
+            android:textColor="#333333" />
+
+        <LinearLayout
+            android:layout_width="@dimen/xa138"
+            android:layout_height="@dimen/xa49"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/xa15"
+            android:layout_toStartOf="@+id/tv_kw"
+            android:background="@drawable/shape_kw_bg">
+
+            <EditText
+                android:id="@+id/edit_electric"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="1547"
+                android:textColor="@color/black"
+                android:textSize="@dimen/xa30" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/tv_kw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/xa29"
+            android:text="kW"
+            android:textColor="#333333"
+            android:textSize="@dimen/xa30" />
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/xa47"
+        android:paddingStart="@dimen/xa30"
+        android:paddingEnd="@dimen/xa30"
+        android:text="在激活Load balancing的模式下，充电桩可根据在电网端检测到的功率，基于最大负载功率（可设置），动态地调节充电桩的输出，以避免家庭用过载的情况。"
+        android:textColor="#333333"
+        android:textSize="@dimen/xa24" />
+
+
+</LinearLayout>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/xa120"
+    android:background="@drawable/selector_recycler_item">
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/xa29"
+        android:textColor="#ff343434"
+        android:textSize="@dimen/xa30"
+        tools:text="@string/basic_information" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_time"
+        android:layout_marginEnd="@dimen/xa16"
+        android:layout_toStartOf="@+id/iv_arrow"
+        android:text="费率：￥0.8"
+        android:textColor="#666666"
+        android:textSize="@dimen/xa24" />
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/xa26"
+        android:layout_marginEnd="@dimen/xa16"
+        android:layout_toStartOf="@+id/iv_arrow"
+        android:text="时间段:20:20-24:00"
+        android:textColor="#666666"
+        android:textSize="@dimen/xa24" />
+
+
+    <ImageView
+        android:id="@+id/iv_arrow"
+        android:layout_width="@dimen/xa12"
+        android:layout_height="@dimen/xa32"
+        android:layout_alignParentEnd="true"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="@dimen/xa30"
+        android:src="@drawable/charger_device_item_more" />
+
+</RelativeLayout>

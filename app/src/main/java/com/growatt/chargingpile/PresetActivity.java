@@ -1,4 +1,4 @@
-package com.growatt.chargingpile.fragment.preset;
+package com.growatt.chargingpile;
 
 import android.os.Bundle;
 import android.widget.CompoundButton;
@@ -10,10 +10,11 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.growatt.chargingpile.BaseActivity;
-import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.bean.ReservationBean;
 import com.growatt.chargingpile.constant.Constant;
+import com.growatt.chargingpile.fragment.preset.ElectricFragment;
+import com.growatt.chargingpile.fragment.preset.MoneyFragment;
+import com.growatt.chargingpile.fragment.preset.TimeFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

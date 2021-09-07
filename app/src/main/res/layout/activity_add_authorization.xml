@@ -3,11 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/headerView"
+    android:background="#F7F7FA"
     android:orientation="vertical"
     tools:context=".activity.AddAuthorizationActivity">
 
-    <include layout="@layout/header_view_title" />
+    <include layout="@layout/header_view" />
 
     <TextView
         android:layout_width="match_parent"
@@ -23,8 +23,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/xa90"
         android:layout_marginLeft="@dimen/xa30"
-        android:layout_marginRight="@dimen/xa30"
         android:layout_marginTop="@dimen/xa50"
+        android:layout_marginRight="@dimen/xa30"
         android:gravity="center">
 
         <EditText
@@ -51,9 +51,9 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/xa88"
         android:layout_marginLeft="@dimen/xa75"
-        android:layout_marginRight="@dimen/xa75"
         android:layout_marginTop="@dimen/xa80"
-        android:background="@drawable/selector_circle_btn_green"
+        android:layout_marginRight="@dimen/xa75"
+        android:background="@drawable/selector_circle_btn_green_login_gradient"
         android:text="@string/m3完成"
         android:textColor="@color/headerView" />
 
