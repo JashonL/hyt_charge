@@ -10,13 +10,13 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.growatt.chargingpile.R;
-
-import java.util.Arrays;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
+import com.growatt.chargingpile.R;
+
+import java.util.Arrays;
 
 /**
  * Created：2021/8/27 on 9:39:07
@@ -34,6 +34,9 @@ public class DurationSetDialog extends DialogFragment {
 
     private NumberPickerView mNumberHour;
     private NumberPickerView mNumberMinute;
+
+    public DurationSetDialog() {
+    }
 
     public static DurationSetDialog newInstance(String title, String time, TimeCallBack timeCallBack) {
         DurationSetDialog fragment = new DurationSetDialog();
@@ -83,7 +86,7 @@ public class DurationSetDialog extends DialogFragment {
         });
 
         tvConfirm.setOnClickListener(v -> {
-            mTimeCallBack.confirm(mNumberHour.getContentByCurrValue()+":"+mNumberMinute.getContentByCurrValue());
+            mTimeCallBack.confirm(mNumberHour.getContentByCurrValue() + ":" + mNumberMinute.getContentByCurrValue());
             dismiss();
         });
 
@@ -129,22 +132,11 @@ public class DurationSetDialog extends DialogFragment {
         Log.d(TAG, "onResume: ");
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        Log.d(TAG, "onPause: ");
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        Log.d(TAG, "onStop: ");
-    }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mTimeCallBack=null;
+        mTimeCallBack = null;
         Log.d(TAG, "onDestroy: ");
     }
 

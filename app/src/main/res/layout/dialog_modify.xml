@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/xa560"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/shape_dialog_bg"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa120"
+        android:background="@color/headerView"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/m204开始时间"
+            android:textColor="@color/black"
+            android:textSize="@dimen/xa30" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa80"
+        android:layout_marginStart="@dimen/xa40"
+        android:layout_marginEnd="@dimen/xa40"
+        android:background="#E5E5E5">
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:gravity="center"
+            android:hint="@string/please_enter_change_for_the_settings"
+            android:textColor="@color/black"
+            android:textSize="@dimen/xa28" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa2"
+        android:layout_marginTop="@dimen/xa60"
+        android:background="#E5E5E5" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa80"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/headerView"
+            android:gravity="center"
+            android:text="@string/m7取消"
+            android:textColor="#666666"
+            android:textSize="@dimen/xa30" />
+
+        <!--        <View-->
+        <!--            android:layout_width="@dimen/xa2"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:background="#ff666666" />-->
+
+        <TextView
+            android:id="@+id/tv_confirm"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/headerView"
+            android:gravity="center"
+            android:text="@string/m9确定"
+            android:textColor="@color/black"
+            android:textSize="@dimen/xa30" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

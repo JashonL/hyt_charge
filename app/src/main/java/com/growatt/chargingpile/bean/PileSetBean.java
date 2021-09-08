@@ -41,9 +41,9 @@ public class PileSetBean {
         private String gateway = "";
         private int cid = 0;
         private String mask = "";
-        private String site="";
-        private String G_Authentication="";
-        private String G_ChargerMode="";
+        private String site = "";
+        private String G_Authentication = "";
+        private String G_ChargerMode = "";
         private String unit;
         private String G_MaxCurrent;
         private String G_ExternalLimitPower;
@@ -53,14 +53,32 @@ public class PileSetBean {
         private int G_SolarMode;
         private float G_SolarLimitPower;
         private int G_PeakValleyEnable;
-        private String G_AutoChargeTime="";
-        private String G_RCDProtection="";
-        private String G_PowerMeterType="";
-        private String UnlockConnectorOnEVSideDisconnect="";
+        private String G_AutoChargeTime = "";
+        private String G_RCDProtection = "";
+        private String G_PowerMeterType = "";
+        private String UnlockConnectorOnEVSideDisconnect = "";
         private String G_LowPowerReserveEnable;
-        private String G_NetworkMode;
+        private String G_NetworkMode = "";
         private String G_LCDCloseEnable;
 
+        private String G_WifiSSID = "";
+        private String G_WifiPassword = "";
+
+        public String getG_WifiSSID() {
+            return G_WifiSSID;
+        }
+
+        public void setG_WifiSSID(String g_WifiSSID) {
+            G_WifiSSID = g_WifiSSID;
+        }
+
+        public String getG_WifiPassword() {
+            return G_WifiPassword;
+        }
+
+        public void setG_WifiPassword(String g_WifiPassword) {
+            G_WifiPassword = g_WifiPassword;
+        }
 
         public int getConnectors() {
             return connectors;

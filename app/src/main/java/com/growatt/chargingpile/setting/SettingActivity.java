@@ -21,6 +21,7 @@ import com.growatt.chargingpile.bean.ChargingBean;
 import com.growatt.chargingpile.bean.GunBean;
 import com.growatt.chargingpile.bean.NoConfigBean;
 import com.growatt.chargingpile.connutil.PostUtil;
+import com.growatt.chargingpile.model.SettingModel;
 import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.Constant;
 import com.growatt.chargingpile.util.Mydialog;
@@ -59,6 +60,8 @@ public class SettingActivity extends BaseActivity implements BaseQuickAdapter.On
 
     public GunBean mCurrentGunBean;
 
+    private SettingModel mSettingModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +70,8 @@ public class SettingActivity extends BaseActivity implements BaseQuickAdapter.On
         initToolBar();
         initRecyclerView();
         initIntent();
+        mSettingModel = new SettingModel();
+        mSettingModel.requestConfigParams();
     }
 
     private void initIntent() {
@@ -113,15 +118,18 @@ public class SettingActivity extends BaseActivity implements BaseQuickAdapter.On
         switch (position) {
             case 0:
                 intent = new Intent(this, BasicInfoActivity.class);
+                intent.putExtra("chargingId", mChargingId);
                 break;
             case 1:
                 intent = new Intent(this, NetSettingActivity.class);
+                intent.putExtra("chargingId", mChargingId);
                 break;
             case 2:
                 intent = new Intent(this, PileSettingActivity.class);
                 break;
             case 3:
                 intent = new Intent(this, LoadBalancingActivity.class);
+                intent.putExtra("chargingId", mChargingId);
                 break;
             case 4:
                 intent = new Intent(this, PermissionsActivity.class);
@@ -141,9 +149,6 @@ public class SettingActivity extends BaseActivity implements BaseQuickAdapter.On
 
     }
 
-    /**
-     * 获取需要密码的设置项
-     */
     private void getNoConfigParams() {
         Map<String, Object> jsonMap = new HashMap<>();
         jsonMap.put("userId", SmartHomeUtil.getUserName());//测试id

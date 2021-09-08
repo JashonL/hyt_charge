@@ -35,6 +35,9 @@ public class TimeSetDialog extends DialogFragment {
     private NumberPickerView mNumberHour;
     private NumberPickerView mNumberMinute;
 
+    public TimeSetDialog() {
+    }
+
     public static TimeSetDialog newInstance(String title, String time, TimeCallBack timeCallBack) {
         TimeSetDialog fragment = new TimeSetDialog();
         Bundle args = new Bundle();
@@ -81,26 +84,26 @@ public class TimeSetDialog extends DialogFragment {
         });
 
         tvConfirm.setOnClickListener(v -> {
-            mTimeCallBack.confirm(mNumberHour.getContentByCurrValue() , mNumberMinute.getContentByCurrValue());
+            mTimeCallBack.confirm(mNumberHour.getContentByCurrValue(), mNumberMinute.getContentByCurrValue());
             dismiss();
         });
 
         if (tvTitle.getText().toString().equals(getString(R.string.charging_time))) {
             view.findViewById(R.id.tv_hour).setVisibility(View.VISIBLE);
             view.findViewById(R.id.tv_min).setVisibility(View.VISIBLE);
-            if (mTime.length()<4){
+            if (mTime.length() < 4) {
                 initPicker(mNumberHour, 0, 23, 0, "%02d");
                 initPicker(mNumberMinute, 0, 59, 0, "%02d");
-            }else {
+            } else {
                 initPicker(mNumberHour, 0, 23, Integer.valueOf(mTime.substring(0, 2)), "%02d");
                 initPicker(mNumberMinute, 0, 59, Integer.valueOf(mTime.substring(4, 6)), "%02d");
             }
             Log.d(TAG, "show: ");
-        }else {
-            if (mTime.length()<4){
+        } else {
+            if (mTime.length() < 4) {
                 initPicker(mNumberHour, 0, 23, 0, "%02d");
                 initPicker(mNumberMinute, 0, 59, 0, "%02d");
-            }else {
+            } else {
                 initPicker(mNumberHour, 0, 23, Integer.valueOf(mTime.substring(0, 2)), "%02d");
                 initPicker(mNumberMinute, 0, 59, Integer.valueOf(mTime.substring(4, 5)), "%02d");
             }
@@ -147,26 +150,13 @@ public class TimeSetDialog extends DialogFragment {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        Log.d(TAG, "onPause: ");
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        Log.d(TAG, "onStop: ");
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         mTimeCallBack = null;
-        Log.d(TAG, "onDestroy: ");
     }
 
     public interface TimeCallBack {
-        void confirm(String hour,String minute);
+        void confirm(String hour, String minute);
     }
 
 

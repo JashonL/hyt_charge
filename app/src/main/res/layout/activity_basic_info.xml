@@ -18,25 +18,25 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/xa30"
+            android:text="@string/m146充电桩ID"
             android:textColor="#ff343434"
-            android:textSize="@dimen/xa30"
-            android:text="@string/basic_information" />
-
+            android:textSize="@dimen/xa30" />
 
         <TextView
-            android:id="@+id/tv_info_content"
+            android:id="@+id/tv_pile_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/xa30"
-            android:text="VID0991002"
             android:textColor="#ff666666"
-            android:textSize="@dimen/xa24" />
+            android:textSize="@dimen/xa24"
+            tools:text="VID0991002" />
 
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_pile_name"
         android:layout_width="match_parent"
         android:layout_height="@dimen/xa120"
         android:background="@color/headerView">
@@ -46,21 +46,21 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/xa30"
+            android:text="@string/charging_pile_alias"
             android:textColor="#ff343434"
-            android:textSize="@dimen/xa30"
-            android:text="@string/charging_pile_alias" />
+            android:textSize="@dimen/xa30" />
 
 
         <TextView
-            android:id="@+id/tv_pile_alias"
+            android:id="@+id/tv_pile_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/xa14"
             android:layout_toStartOf="@+id/iv_arrow"
-            android:text="古瑞瓦特"
             android:textColor="#ff666666"
-            android:textSize="@dimen/xa24" />
+            android:textSize="@dimen/xa24"
+            tools:text="古瑞瓦特" />
 
 
         <ImageView
@@ -76,8 +76,10 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_city"
         android:layout_width="match_parent"
         android:layout_height="@dimen/xa120"
+        android:layout_marginTop="@dimen/xa2"
         android:background="@color/headerView">
 
         <TextView
@@ -85,9 +87,9 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/xa30"
+            android:text="@string/m150国家城市"
             android:textColor="#ff343434"
-            android:textSize="@dimen/xa30"
-            android:text="@string/m150国家城市" />
+            android:textSize="@dimen/xa30" />
 
 
         <TextView
@@ -97,9 +99,9 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/xa14"
             android:layout_toStartOf="@+id/iv_arrow_city"
-            android:text="CHINA"
             android:textColor="#ff666666"
-            android:textSize="@dimen/xa24" />
+            android:textSize="@dimen/xa24"
+            tools:text="CHINA" />
 
 
         <ImageView
@@ -116,6 +118,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_belongs_plant"
         android:layout_width="match_parent"
         android:layout_height="@dimen/xa120"
         android:background="@color/headerView">
@@ -126,21 +129,32 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/xa30"
+            android:text="@string/belongs_to_plant"
             android:textColor="#ff343434"
-            android:textSize="@dimen/xa30"
-            android:text="@string/belongs_to_plant" />
+            android:textSize="@dimen/xa30" />
 
 
         <TextView
             android:id="@+id/tv_belongs_plant"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/xa30"
-            android:text="SPFS000"
+            android:layout_marginEnd="@dimen/xa14"
+            android:layout_toStartOf="@+id/iv_arrow_address"
             android:textColor="#ff343434"
-            android:textSize="@dimen/xa24" />
+            android:textSize="@dimen/xa24"
+            tools:text="SPFS000" />
+
+        <ImageView
+            android:id="@+id/iv_arrow_address"
+            android:layout_width="@dimen/xa20"
+            android:layout_height="@dimen/xa32"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/xa29"
+            android:src="@drawable/charger_device_item_more"
+            android:visibility="visible" />
 
     </RelativeLayout>
 
@@ -155,9 +169,9 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/xa30"
+            android:text="@string/m296版本号"
             android:textColor="#ff343434"
-            android:textSize="@dimen/xa30"
-            android:text="@string/m296版本号" />
+            android:textSize="@dimen/xa30" />
 
 
         <TextView
@@ -167,9 +181,9 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/xa30"
-            android:text="AC3/7K_1P_H4_V46_L03"
             android:textColor="#ff343434"
-            android:textSize="@dimen/xa24" />
+            android:textSize="@dimen/xa24"
+            tools:text="AC3/7K_1P_H4_V46_L03" />
 
     </RelativeLayout>
 

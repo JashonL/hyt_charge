@@ -481,7 +481,7 @@
     <string name="time">时间</string>
     <string name="appointment_type">预约类型</string>
     <string name="booking_information">预约须知:</string>
-    <string name="notify">1.同一账号，同一时间段只允许同时预约一个充电桩 \n2.同一账号只可以单条预约 \n3.预约时间截止，平台不会中断充电过程 \n4.预约提交后可取消预约</string>
+    <string name="notify">1.同一账号，同一时间段只允许同时预约一个充电桩 \n2.同一账号只可以单条预约 \n3.预约时间截止前，平台不会中断充电过程 \n4.预约提交后可取消预约</string>
     <string name="preset_charge_amount">预设充电金额</string>
     <string name="preset_charge_capacity">预设充电电量</string>
     <string name="please_pull_down_and_reset_the_charging_gun">请放下充电枪并复位</string>
@@ -495,6 +495,14 @@
     <string name="ap_model">AP 模式</string>
     <string name="charging_pile_alias">充电桩别名</string>
     <string name="belongs_to_plant">所属电站</string>
+    <string name="in_load_balancing">在激活Load balancing的模式下，充电桩可根据在电网端检测到的功率，基于最大负载功率（可设置），动态地调节充电桩的输出，以避免家庭用过载的情况。</string>
+    <string name="maximum_electric_power">允许最大取电功率</string>
+    <string name="wifi_information">WiFi信息</string>
+    <string name="network_settings">网络设置</string>
+    <string name="network_mode">网络模式</string>
+    <string name="subnet_mask">子网掩码</string>
+    <string name="please_enter_change_for_the_settings">请输入更改的设置</string>
+    <string name="not_set">未设置</string>
 
 </resources>
 

@@ -3,13 +3,10 @@ package com.growatt.chargingpile.application;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
 
-import com.growatt.chargingpile.crashhandler.CrashHandler;
 import com.growatt.chargingpile.view.MyToastBlackStyle;
 import com.hjq.toast.ToastUtils;
 import com.mylhyl.circledialog.res.values.CircleColor;
-import com.mylhyl.circledialog.res.values.CircleDimen;
 
 import org.xutils.x;
 
@@ -27,6 +24,8 @@ public class MyApplication extends Application {
 
     //为了实现每次使用该类时不创建新的对象而创建的静态对象
     private static MyApplication instance;
+
+    public static boolean sIsVerified = false;
 
     //构造方法
     //实例化一次

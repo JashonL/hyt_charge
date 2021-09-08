@@ -322,19 +322,15 @@ public class ChargingParamsActivity extends BaseActivity {
             case "apMode":
                 apMode();
                 break;
-
             case "G_LowPowerReserveEnable":
                 setLowPowerReserveEnable();
                 break;
-
             case "G_NetworkMode":
                 setNetMode();
                 break;
-
             case "G_LCDCloseEnable":
                 setLcd();
                 break;
-
             default:
                 inputEdit(sfield, value);
                 break;

@@ -16,10 +16,8 @@ public class SmartHomeUrlUtil {
 
 //    public static final String SMARTHOME_BASE_URL = "http://192.168.3.228";
 
-
-
-    public static String getServer(){
-       return "charge.growatt.com";
+    public static String getServer() {
+        return "charge.growatt.com";
     }
 
     public static String postGetChargingList() {
@@ -61,9 +59,11 @@ public class SmartHomeUrlUtil {
     public static String postRequestChargingReserveList() {
         return SMARTHOME_BASE_URL + "/ocpp/api/reserveList";
     }
+
     public static String postUpdateChargingReservelist() {
         return SMARTHOME_BASE_URL + "/ocpp/api/updateReserve";
     }
+
     public static String postRequestReseerveCharging() {
         return SMARTHOME_BASE_URL + "/ocpp/cmd/";
     }
@@ -71,9 +71,11 @@ public class SmartHomeUrlUtil {
     public static String postRequestDeleteCharging() {
         return SMARTHOME_BASE_URL + "/ocpp/api/deleteAuthor";
     }
+
     public static String postRequestReserveNowList() {
         return SMARTHOME_BASE_URL + "/ocpp/api/ReserveNow";
     }
+
     public static String postGetDemoUser() {
         return SMARTHOME_BASE_URL + "/ocpp/user/glanceUser";
     }
@@ -86,8 +88,8 @@ public class SmartHomeUrlUtil {
         return SMARTHOME_BASE_URL + "/ocpp/user/appMode";
     }
 
-    public static String postByCmd(){
-        return SMARTHOME_BASE_URL+"/ocpp/api/";
+    public static String postByCmd() {
+        return SMARTHOME_BASE_URL + "/ocpp/api/";
     }
 
 }
