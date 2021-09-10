@@ -2,7 +2,10 @@ package com.growatt.chargingpile.fragment.preset;
 
 import static com.growatt.chargingpile.util.T.toast;
 
+import android.content.Intent;
 import android.os.Build;
+import android.os.Parcelable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -15,12 +18,15 @@ import com.growatt.chargingpile.EventBusMsg.PreinstallEvent;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.fragment.BaseFragment;
 import com.growatt.chargingpile.model.GunModel;
+import com.growatt.chargingpile.setting.PileSettingActivity;
 import com.growatt.chargingpile.view.TimeSetDialog;
+import com.mylhyl.circledialog.CircleDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -61,7 +67,31 @@ public class MoneyFragment extends BaseFragment {
                 mSwitchEveryDay.setChecked(true);
             }
         }
-        mTvMoneyType.setText(pPresetActivity.pSymbol);
+
+        if (TextUtils.isEmpty(pPresetActivity.pSymbol)) {
+            new CircleDialog.Builder()
+                    .setText(getString(R.string.you_need_set_rate))
+                    .setWidth(0.75f)
+                    .setPositive(getString(R.string.to_set_up), view1 -> {
+                        Intent intent = new Intent(pPresetActivity, PileSettingActivity.class);
+                        intent.putExtra("chargingId", pPresetActivity.pChargingId);
+                        intent.putParcelableArrayListExtra("rate", (ArrayList<? extends Parcelable>) pPresetActivity.pPriceConfBeanList);
+                        pPresetActivity.jumpTo(intent, false);
+                    })
+                    .setNegative(getString(R.string.m7取消), view1 -> {
+
+                    })
+                    .setOnDismissListener(dialogInterface -> {
+
+                    })
+                    .show(getFragmentManager());
+
+
+        } else {
+            mTvMoneyType.setText(pPresetActivity.pSymbol);
+        }
+
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

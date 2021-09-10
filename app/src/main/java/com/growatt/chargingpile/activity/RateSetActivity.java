@@ -1,15 +1,16 @@
 package com.growatt.chargingpile.activity;
 
 import android.os.Bundle;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
@@ -43,10 +44,8 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.OnItemChildClickListener {
-
 
     @BindView(R.id.tvTitle)
     TextView tvTitle;
@@ -63,14 +62,13 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
 
     private List<ChargingBean.DataBean.PriceConfBean> priceConfBeanList;
     private String chargingId;
-    private Unbinder bind;
     private String symbol;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rate_set);
-        bind = ButterKnife.bind(this);
+        ButterKnife.bind(this);
         initIntent();
         initViews();
     }
@@ -105,18 +103,12 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
         tvTitle.setText(R.string.m152充电费率);
         tvTitle.setTextColor(ContextCompat.getColor(this, R.color.title_1));
         tvRight.setText(R.string.m182保存);
-        tvRight.setTextColor(ContextCompat.getColor(this, R.color.maincolor_1));
+        tvRight.setTextColor(ContextCompat.getColor(this, R.color.maincolor_2));
         //初始化列表
         mAdapter = new RateSetAdapter(R.layout.item_set_rate, priceConfBeanList);
         rvRateList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         rvRateList.setAdapter(mAdapter);
         mAdapter.setOnItemChildClickListener(this);
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
     }
 
     @OnClick({R.id.btnAdd, R.id.ivLeft, R.id.tvRight})
@@ -158,7 +150,6 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
         }
     }
 
-
     private void addItem() {
         if (priceConfBeanList.size() < 6) {
             ChargingBean.DataBean.PriceConfBean bean = new ChargingBean.DataBean.PriceConfBean();
@@ -172,12 +163,12 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
     @Override
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
         switch (view.getId()) {
-            case R.id.fl_delete:
+            case R.id.iv_delete:
                 if (mAdapter.getData().size() <= 1) {
                     toast(R.string.m329最少要有1条);
                     return;
                 }
-                mAdapter.remove(position);
+                deleteDialog(position);
                 break;
             case R.id.ll_select_time:
                 showTimePickView(false, position);
@@ -186,6 +177,22 @@ public class RateSetActivity extends BaseActivity implements BaseQuickAdapter.On
                 inputEdit(position);
                 break;
         }
+    }
+
+    private void deleteDialog(int position) {
+        new CircleDialog.Builder().setTitle(getString(R.string.m27温馨提示))
+                .setText(getString(R.string.remove_rates))
+                .setWidth(0.75f)
+                .setPositive(getString(R.string.m9确定), view1 -> {
+                    mAdapter.remove(position);
+                })
+                .setNegative(getString(R.string.m7取消), view1 -> {
+
+                })
+                .setOnDismissListener(dialogInterface -> {
+
+                })
+                .show(getSupportFragmentManager());
     }
 
     /**

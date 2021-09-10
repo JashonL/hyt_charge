@@ -48,7 +48,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/xa37"
-                        android:text="￥"
                         android:textColor="#ff1e2b3f"
                         android:textSize="@dimen/xa36" />
 

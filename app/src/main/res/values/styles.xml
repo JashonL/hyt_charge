@@ -35,6 +35,19 @@
         <item name="npv_WrapSelectorWheel">true</item>
     </style>
 
+    <!-- text style -->
+    <style name="number_picker_style_1">
+        <item name="npv_ItemPaddingHorizontal">5dp</item>
+        <item name="npv_ItemPaddingVertical">5dp</item>
+        <item name="npv_ShowCount">3</item>
+        <item name="npv_TextColorNormal">#ff888888</item>
+        <item name="npv_TextColorSelected">#333333</item>
+        <item name="npv_ShowDivider">false</item>
+        <item name="npv_TextSizeNormal">@dimen/xa36</item>
+        <item name="npv_TextSizeSelected">@dimen/xa36</item>
+        <item name="npv_WrapSelectorWheel">true</item>
+    </style>
+
     <!--AppCompat兼容,窗体透明-->
     <style name="MyAppCompat" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textAllCaps">false</item>

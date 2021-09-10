@@ -1,8 +1,9 @@
 package com.growatt.chargingpile.adapter;
 
-import androidx.annotation.Nullable;
 import android.text.TextUtils;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -20,35 +21,34 @@ public class RateSetAdapter extends BaseQuickAdapter<ChargingBean.DataBean.Price
         super(layoutResId, data);
     }
 
-
     @Override
     protected void convert(BaseViewHolder helper, ChargingBean.DataBean.PriceConfBean item) {
         TextView start = helper.getView(R.id.start);
         TextView end = helper.getView(R.id.end);
         TextView rateValue = helper.getView(R.id.tv_rate_value);
         String startTime = item.getStartTime();
-        String endTime=item.getEndTime();
-        if (!TextUtils.isEmpty(startTime)){
+        String endTime = item.getEndTime();
+        if (!TextUtils.isEmpty(startTime)) {
             start.setText(startTime);
-        }else {
+        } else {
             start.setText("");
         }
 
-        if (!TextUtils.isEmpty(endTime)){
+        if (!TextUtils.isEmpty(endTime)) {
             end.setText(endTime);
-        }else {
+        } else {
             end.setText("");
         }
 
         String s = String.valueOf(item.getPrice());
-        if (!TextUtils.isEmpty(s)){
+        if (!TextUtils.isEmpty(s)) {
             rateValue.setText(String.valueOf(item.getPrice()));
-        }else {
+        } else {
             rateValue.setText("");
         }
 
         helper.setText(R.id.tv_unit, item.getSymbol());
-        helper.addOnClickListener(R.id.fl_delete);
+        helper.addOnClickListener(R.id.iv_delete);
         helper.addOnClickListener(R.id.ll_select_time);
         helper.addOnClickListener(R.id.tv_rate_value);
 

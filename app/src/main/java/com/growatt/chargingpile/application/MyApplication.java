@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 
+import com.growatt.chargingpile.crashhandler.CrashHandler;
 import com.growatt.chargingpile.view.MyToastBlackStyle;
 import com.hjq.toast.ToastUtils;
 import com.mylhyl.circledialog.res.values.CircleColor;
@@ -42,7 +43,7 @@ public class MyApplication extends Application {
         super.onCreate();
         instance = this;
         context = getApplicationContext();
-        //CrashHandler.getInstance().init(this);
+        CrashHandler.getInstance().init(this);
         // 初始化
         x.Ext.init(this);
         // 设置是否输出debug

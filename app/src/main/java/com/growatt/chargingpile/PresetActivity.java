@@ -1,6 +1,7 @@
 package com.growatt.chargingpile;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -10,11 +11,19 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.growatt.chargingpile.EventBusMsg.UnitMsg;
+import com.growatt.chargingpile.bean.ChargingBean;
 import com.growatt.chargingpile.bean.ReservationBean;
 import com.growatt.chargingpile.constant.Constant;
 import com.growatt.chargingpile.fragment.preset.ElectricFragment;
 import com.growatt.chargingpile.fragment.preset.MoneyFragment;
 import com.growatt.chargingpile.fragment.preset.TimeFragment;
+import com.growatt.chargingpile.model.SettingModel;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,6 +62,8 @@ public class PresetActivity extends BaseActivity {
 
     public ReservationBean.DataBean pReservationBean;
 
+    public List<ChargingBean.DataBean.PriceConfBean> pPriceConfBeanList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +73,16 @@ public class PresetActivity extends BaseActivity {
         initToolBar();
         handleIntent();
         initCheckPresetType();
+        SettingModel model = new SettingModel();
+        model.requestConfigParams();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void refreshSymbol(UnitMsg msg) {
+        Log.d(TAG, "refreshSymbol: ");
+        if (msg.getSymbol() != null) {
+            pSymbol = msg.getSymbol();
+        }
     }
 
     private void handleIntent() {
@@ -75,7 +96,9 @@ public class PresetActivity extends BaseActivity {
                 pChargingId = getIntent().getStringExtra("chargingId");
                 pConnectorId = getIntent().getIntExtra("connectorId", 0);
                 pSymbol = getIntent().getStringExtra("symbol");
+                pPriceConfBeanList = getIntent().getParcelableArrayListExtra("rate");
             }
+
         }
     }
 

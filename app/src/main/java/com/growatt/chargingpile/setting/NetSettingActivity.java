@@ -122,10 +122,10 @@ public class NetSettingActivity extends BaseActivity {
         String wifiSSID = data.getG_WifiSSID();
         String wifiPassWord = data.getG_WifiPassword();
         if (TextUtils.isEmpty(wifiSSID)) {
-            wifiSSID = getString(R.string.not_set);
+            wifiSSID = "--";
         }
         if (TextUtils.isEmpty(wifiPassWord)) {
-            wifiPassWord = getString(R.string.not_set);
+            wifiPassWord = "--";
         }
         mTvWifiName.setText(wifiSSID);
         mTvWifiPassWord.setText(wifiPassWord);
@@ -149,9 +149,9 @@ public class NetSettingActivity extends BaseActivity {
                             toast(getString(R.string.m64原密码错误));
                         }
                     }).show(getSupportFragmentManager(), "G_WifiSSID");
-                } else {
-                    requestModify("G_WifiSSID", mTvWifiName.getText().toString(), getString(R.string.m266Wifi名称));
+                    return;
                 }
+                requestModify("G_WifiSSID", mTvWifiName.getText().toString(), getString(R.string.m266Wifi名称));
                 break;
             case R.id.rl_wifi_password:
                 if (checkKey("G_WifiPassword") && !sIsVerified) {
@@ -163,9 +163,9 @@ public class NetSettingActivity extends BaseActivity {
                             toast(getString(R.string.m64原密码错误));
                         }
                     }).show(getSupportFragmentManager(), "G_WifiPassword");
-                } else {
-                    requestModify("G_WifiPassword", mTvWifiPassWord.getText().toString(), getString(R.string.m267Wifi密码));
+                    return;
                 }
+                requestModify("G_WifiPassword", mTvWifiPassWord.getText().toString(), getString(R.string.m267Wifi密码));
                 break;
             case R.id.rl_gateway:
                 if (checkKey("gateway") && !sIsVerified) {
@@ -177,9 +177,9 @@ public class NetSettingActivity extends BaseActivity {
                             toast(getString(R.string.m64原密码错误));
                         }
                     }).show(getSupportFragmentManager(), "gateway");
-                } else {
-                    requestModify("gateway", mTvGateway.getText().toString(), getString(R.string.m157网关));
+                    return;
                 }
+                requestModify("gateway", mTvGateway.getText().toString(), getString(R.string.m157网关));
                 break;
             case R.id.rl_subnet_mask:
                 if (checkKey("mask") && !sIsVerified) {
@@ -191,9 +191,9 @@ public class NetSettingActivity extends BaseActivity {
                             toast(getString(R.string.m64原密码错误));
                         }
                     }).show(getSupportFragmentManager(), "mask");
-                } else {
-                    requestModify("mask", mTvSubnetMask.getText().toString(), getString(R.string.subnet_mask));
+                    return;
                 }
+                requestModify("mask", mTvSubnetMask.getText().toString(), getString(R.string.subnet_mask));
                 break;
             case R.id.rl_dns:
                 if (checkKey("dns") && !sIsVerified) {

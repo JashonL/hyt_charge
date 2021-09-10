@@ -76,7 +76,7 @@ public class PermissionsActivity extends BaseActivity {
     }
 
     private void initIntent() {
-        mChargingId = getIntent().getStringExtra("sn");
+        mChargingId = getIntent().getStringExtra("chargingId");
     }
 
     @Override

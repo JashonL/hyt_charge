@@ -2,6 +2,7 @@ package com.growatt.chargingpile;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -15,6 +16,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+import com.growatt.chargingpile.EventBusMsg.RefreshRateMsg;
 import com.growatt.chargingpile.bean.ChargingBean;
 import com.growatt.chargingpile.bean.GunBean;
 import com.growatt.chargingpile.fragment.gun.FragmentA;
@@ -22,6 +24,9 @@ import com.growatt.chargingpile.fragment.gun.FragmentB;
 import com.growatt.chargingpile.fragment.gun.FragmentC;
 import com.growatt.chargingpile.fragment.gun.FragmentD;
 import com.growatt.chargingpile.setting.SettingActivity;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,19 +51,29 @@ public class GunActivity extends BaseActivity {
     //当前枪
     public GunBean mCurrentGunBean;
 
-    public ChargingBean.DataBean mDataBean;
+    public ChargingBean.DataBean pDataBean;
     private Fragment[] mArrFragment = null;
     private String[] mArrTitle = null;
+
+    public List<ChargingBean.DataBean.PriceConfBean> pPriceConfBeanList;
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void refreshAdapter(RefreshRateMsg msg) {
+        if (msg.getPriceConfBeanList() != null) {
+            pPriceConfBeanList = msg.getPriceConfBeanList();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gun);
         ButterKnife.bind(this);
-        mDataBean = getIntent().getParcelableExtra("chargingBean");
-        Log.d(TAG, "onCreate: " + mDataBean.toString());
+        pDataBean = getIntent().getParcelableExtra("chargingBean");
+        Log.d(TAG, "onCreate: " + pDataBean.toString());
         initToolBar();
         initTabLayout();
+
     }
 
     @Override
@@ -67,33 +82,40 @@ public class GunActivity extends BaseActivity {
             finish();
         });
         setHeaderImage(mHeaderView, R.drawable.ic_setting, Position.RIGHT, v -> {
-            List<ChargingBean.DataBean.PriceConfBean> conf = mDataBean.getPriceConf();
+            List<ChargingBean.DataBean.PriceConfBean> conf = pDataBean.getPriceConf();
             ArrayList<ChargingBean.DataBean.PriceConfBean> priceConf = new ArrayList<>();
             if (conf != null) priceConf.addAll(conf);
             Intent intent = new Intent(this, SettingActivity.class);
-            intent.putExtra("sn", mDataBean.getChargeId());
-            intent.putParcelableArrayListExtra("rate", priceConf);
+            intent.putExtra("sn", pDataBean.getChargeId());
+            if (pPriceConfBeanList != null) {
+                intent.putParcelableArrayListExtra("rate", (ArrayList<? extends Parcelable>) pPriceConfBeanList);
+            } else {
+                intent.putParcelableArrayListExtra("rate", priceConf);
+            }
             intent.putExtra("gunBean", mCurrentGunBean);
             jumpTo(intent, false);
         });
+
+
+
         mTvTitle.setTextColor(ContextCompat.getColor(this, R.color.black));
-        mTvTitle.setText(mDataBean.getChargeId());
+        mTvTitle.setText(pDataBean.getChargeId());
     }
 
     private void initTabLayout() {
-        if (mDataBean.getConnectors() > 1) {
+        if (pDataBean.getConnectors() > 1) {
             mArrTitle = new String[]{
                     getString(R.string.m110A枪),
                     getString(R.string.m111B枪),
                     getString(R.string.m112C枪),
                     getString(R.string.m113D枪)};
             Fragment[] mTempFragment = new Fragment[]{new FragmentA(), new FragmentB(), new FragmentC(), new FragmentD()};
-            mArrFragment = new Fragment[mDataBean.getConnectors()];
-            for (int i = 0; i < mDataBean.getConnectors(); i++) {
+            mArrFragment = new Fragment[pDataBean.getConnectors()];
+            for (int i = 0; i < pDataBean.getConnectors(); i++) {
                 mArrFragment[i] = mTempFragment[i];
             }
             mTabLayout.setupWithViewPager(mTabViewPager);
-            mTabViewPager.setOffscreenPageLimit(mDataBean.getConnectors() - 1);
+            mTabViewPager.setOffscreenPageLimit(pDataBean.getConnectors() - 1);
         } else {
             mArrTitle = new String[]{""};
             mArrFragment = new Fragment[]{new FragmentA()};

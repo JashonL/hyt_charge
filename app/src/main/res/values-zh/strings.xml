@@ -183,7 +183,7 @@
     <string name="m151站点">站点</string>
     <string name="m152充电费率">充电费率</string>
     <string name="m153功率设置">功率设置</string>
-    <string name="m154充电模式">充电模式</string>
+    <string name="m154充电模式">充电方式</string>
     <string name="m155高级设置">高级设置</string>
     <string name="m156充电桩IP">充电桩IP</string>
     <string name="m157网关">网关</string>
@@ -368,7 +368,7 @@
     <string name="m340取消预约">取消预约</string>
     <string name="m电表">电表</string>
     <string name="m外部电流采样接线方式">外部电流采样接线方式</string>
-    <string name="mSolar模式">Solar模式</string>
+    <string name="mSolar模式">充电模式</string>
     <string name="m电流限制">ECO电流限制</string>
     <string name="m电表设备地址">电表设备地址</string>
     <string name="m设置未保存">更改的设置未保存，是否放弃更改并退出</string>
@@ -503,6 +503,10 @@
     <string name="subnet_mask">子网掩码</string>
     <string name="please_enter_change_for_the_settings">请输入更改的设置</string>
     <string name="not_set">未设置</string>
+    <string name="eco_current_limit_kw">ECO电流限制(kW)</string>
+    <string name="remove_rates">删除充电费率？</string>
+    <string name="you_need_set_rate">\n您还没有设置充电费率，\n"需要设置后才可以使用预设金额。\n</string>
+    <string name="to_set_up">去设置</string>
 
 </resources>
 

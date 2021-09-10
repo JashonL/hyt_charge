@@ -526,4 +526,8 @@
     <string name="subnet_mask">Subnet Mask</string>
     <string name="please_enter_change_for_the_settings">Please enter change</string>
     <string name="not_set">Is not set</string>
+    <string name="eco_current_limit_kw">ECO current limit (kW)</string>
+    <string name="remove_rates">Remove charging rates?</string>
+    <string name="you_need_set_rate">\n You have not set the charging rate, \n You need to set it before you can use the preset amount. \n</string>
+    <string name="to_set_up">To set up</string>
 </resources>

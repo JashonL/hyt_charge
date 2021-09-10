@@ -29,6 +29,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.gson.Gson;
 import com.growatt.chargingpile.EventBusMsg.AddDevMsg;
@@ -98,6 +99,9 @@ public class MainActivity extends BaseActivity {
     private List<Map<String, Object>> list;
     private MeAdapter mMeAdapter;
 
+    @BindView(R.id.swipe_refresh)
+    SwipeRefreshLayout mSwipeRefreshLayout;
+
     //拍照相关变量
     private Uri imageUri;
 
@@ -154,6 +158,7 @@ public class MainActivity extends BaseActivity {
         Set<String> tags = new HashSet<String>();
         tags.add(SmartHomeUtil.getUserName());
         setJpushAliasTag(tags, SmartHomeUtil.getUserName());
+        initPullView();
         freshData();
         handleSearch();
     }
@@ -188,6 +193,12 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    private void initPullView() {
+        mSwipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.maincolor_2));
+        mSwipeRefreshLayout.setOnRefreshListener(() -> {
+            freshData();
+        });
+    }
 
     /**
      * 刷新列表数据
@@ -195,7 +206,7 @@ public class MainActivity extends BaseActivity {
      * millis
      */
     private void freshData() {
-        Mydialog.Show(MainActivity.this);
+        mSwipeRefreshLayout.setRefreshing(true);
         Map<String, Object> jsonMap = new HashMap<>();
         jsonMap.put("userId", SmartHomeUtil.getUserName());//测试id
         if (!TextUtils.isEmpty(searchId)) jsonMap.put("chargeId", searchId);
@@ -238,19 +249,27 @@ public class MainActivity extends BaseActivity {
                     if (charginglist.size() > 0) {
                         //HeadRvAddButton(charginglist);
 
-
-                        mChargingAdapter.replaceData(charginglist);
-                        if (isFirst) {
-                            mChargingAdapter.setNowSelectPosition(currentPos);
-                            isFirst = false;
+                        if (mSwipeRefreshLayout != null) {
+                            mChargingAdapter.replaceData(charginglist);
+                            if (isFirst) {
+                                mChargingAdapter.setNowSelectPosition(currentPos);
+                                isFirst = false;
+                            }
                         }
+
                         //MyUtil.hideAllView(View.GONE, emptyPage);
                         //MyUtil.showAllView(rlCharging, linearlayout);
                         //refreshChargingUI();
                     } else {
-                        mChargingAdapter.replaceData(charginglist);
+                        if (mSwipeRefreshLayout != null) {
+                            mChargingAdapter.replaceData(charginglist);
+                        }
                         //MyUtil.hideAllView(View.GONE, rlCharging, linearlayout);
                         //MyUtil.showAllView(emptyPage);
+                    }
+
+                    if (mSwipeRefreshLayout != null) {
+                        mSwipeRefreshLayout.setRefreshing(false);
                     }
 
                 } catch (Exception e) {
@@ -265,6 +284,9 @@ public class MainActivity extends BaseActivity {
                 //srlPull.setRefreshing(false);
                 //MyUtil.hideAllView(View.GONE, rlCharging);
                 //MyUtil.showAllView(emptyPage);
+                if (mSwipeRefreshLayout != null) {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
             }
         });
 

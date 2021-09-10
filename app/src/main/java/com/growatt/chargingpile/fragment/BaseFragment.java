@@ -6,6 +6,7 @@ import static com.growatt.chargingpile.util.T.toast;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,12 +18,12 @@ import androidx.fragment.app.Fragment;
 
 import com.growatt.chargingpile.EventBusMsg.PreinstallEvent;
 import com.growatt.chargingpile.GunActivity;
+import com.growatt.chargingpile.PresetActivity;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.activity.ChargingRecoderActivity;
 import com.growatt.chargingpile.bean.ChargingBean;
 import com.growatt.chargingpile.bean.GunBean;
 import com.growatt.chargingpile.bean.ReservationBean;
-import com.growatt.chargingpile.PresetActivity;
 import com.growatt.chargingpile.model.GunModel;
 import com.growatt.chargingpile.view.ChargingModeDialog;
 import com.mylhyl.circledialog.CircleDialog;
@@ -31,6 +32,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -127,8 +130,7 @@ public abstract class BaseFragment extends Fragment {
 
         if (getActivity() instanceof GunActivity) {
             pActivity = (GunActivity) getActivity();
-            pDataBean = pActivity.mDataBean;
-
+            pDataBean = pActivity.pDataBean;
         } else if (getActivity() instanceof PresetActivity) {
             pPresetActivity = (PresetActivity) getActivity();
         }
@@ -185,6 +187,7 @@ public abstract class BaseFragment extends Fragment {
             intent.putExtra("chargingId", pDataBean.getChargeId());
             intent.putExtra("connectorId", 1);
             intent.putExtra("symbol", pDataBean.getSymbol());
+            intent.putParcelableArrayListExtra("rate", (ArrayList<? extends Parcelable>) pActivity.pDataBean.getPriceConf());
         } else if (type == 1) {
             Bundle bundle = new Bundle();
             bundle.putSerializable("reservation", pReservationBean);
@@ -257,7 +260,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     private void requestSolarModeStatus() {
-        pModel.getPileStatus(pActivity.mDataBean.getChargeId(), new GunModel.HttpCallBack() {
+        pModel.getPileStatus(pActivity.pDataBean.getChargeId(), new GunModel.HttpCallBack() {
             @Override
             public void onSuccess(Object bean) {
                 ChargingBean.DataBean dataBean = (ChargingBean.DataBean) bean;
@@ -281,8 +284,9 @@ public abstract class BaseFragment extends Fragment {
                 try {
                     JSONObject object = new JSONObject(bean.toString());
                     int code = object.optInt("code");
-                    if (code == 0) {
-                        requestGunInfoData();
+                    if (code == 0 || code == 16) {
+                        //requestGunInfoData();
+                        pHandler.post(runnableGunInfo);
                     }
                     toast(object.getString("data"));
                 } catch (Exception e) {
@@ -308,8 +312,9 @@ public abstract class BaseFragment extends Fragment {
                 try {
                     JSONObject object = new JSONObject(json.toString());
                     int code = object.optInt("code");
-                    if (code == 0) {
-                        requestGunInfoData();
+                    if (code == 0 || code == 16) {
+//                        requestGunInfoData();
+                        pHandler.post(runnableGunInfo);
                     }
                     toast(object.getString("data"));
                 } catch (Exception e) {

@@ -146,8 +146,8 @@ public class FragmentC extends BaseFragment {
     @Override
     protected void initWidget() {
         Log.d(TAG, "initWidget:");
-        handleModel(pActivity.mDataBean.getModel());
-        handleSolarMode(pActivity.mDataBean.getG_SolarMode());
+        handleModel(pActivity.pDataBean.getModel());
+        handleSolarMode(pActivity.pDataBean.getG_SolarMode());
         initChargingGif();
         startRunnable(true);
         initPullView();
@@ -221,7 +221,7 @@ public class FragmentC extends BaseFragment {
                 mTvSwitchStatus.setTextColor(ContextCompat.getColor(pActivity, R.color.charging_start));
                 mLlPreinstall.setVisibility(View.VISIBLE);
                 //获取预约
-                pModel.getReservationNow(pActivity.mDataBean.getChargeId(), 1, new GunModel.HttpCallBack() {
+                pModel.getReservationNow(pActivity.pDataBean.getChargeId(), 1, new GunModel.HttpCallBack() {
                     @Override
                     public void onSuccess(Object bean) {
                         pReservationBean = (ReservationBean.DataBean) bean;
@@ -518,7 +518,7 @@ public class FragmentC extends BaseFragment {
     }
 
     private void initPullView() {
-        mSwipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(pActivity, R.color.maincolor_1));
+        mSwipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(pActivity, R.color.maincolor_2));
         mSwipeRefreshLayout.setOnRefreshListener(() -> {
             requestGunInfoData();
         });

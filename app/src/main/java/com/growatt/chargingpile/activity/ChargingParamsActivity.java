@@ -1160,19 +1160,16 @@ public class ChargingParamsActivity extends BaseActivity {
                 .setWidth(0.7f)
                 .setMaxHeight(0.5f)
                 .setGravity(Gravity.CENTER)
-                .setItems(items, new OnLvItemClickListener() {
-                    @Override
-                    public boolean onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        try {
-                            unitKey = keys.get(position);
-                            unitValue = values.get(position);
-                            unitSymbol = unitValue;
-                            setBean("unit", unitKey);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return true;
+                .setItems(items, (parent, view, position, id) -> {
+                    try {
+                        unitKey = keys.get(position);
+                        unitValue = values.get(position);
+                        unitSymbol = unitValue;
+                        setBean("unit", unitKey);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
+                    return true;
                 })
 
                 .setNegative(getString(R.string.m7取消), null)

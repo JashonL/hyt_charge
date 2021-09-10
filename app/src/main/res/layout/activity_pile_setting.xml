@@ -18,6 +18,7 @@
             android:orientation="vertical">
 
             <RelativeLayout
+                android:id="@+id/rl_charge_mode"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/xa120"
                 android:background="@color/headerView">
@@ -27,7 +28,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/xa30"
-                    android:text="充电方式"
+                    android:text="@string/m154充电模式"
                     android:textColor="#ff343434"
                     android:textSize="@dimen/xa30" />
 
@@ -39,7 +40,6 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/xa14"
                     android:layout_toStartOf="@+id/iv_arrow"
-                    android:text="APP"
                     android:textColor="#ff666666"
                     android:textSize="@dimen/xa24" />
 
@@ -57,6 +57,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rl_monetary_unit"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/xa120"
                 android:layout_marginTop="@dimen/xa2"
@@ -79,7 +80,6 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/xa14"
                     android:layout_toStartOf="@+id/iv_arrow_city"
-                    android:text="dollar"
                     android:textColor="#ff666666"
                     android:textSize="@dimen/xa24" />
 
@@ -104,6 +104,7 @@
                 android:layout_marginTop="@dimen/xa30" />
 
             <RelativeLayout
+                android:id="@+id/rl_connection_mode"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/xa120"
                 android:layout_marginTop="@dimen/xa30"
@@ -114,10 +115,9 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/xa30"
-                    android:text="外部电流采样接线方式"
+                    android:text="@string/m外部电流采样接线方式"
                     android:textColor="#ff343434"
                     android:textSize="@dimen/xa30" />
-
 
                 <TextView
                     android:id="@+id/tv_connection_mode"
@@ -126,10 +126,8 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/xa14"
                     android:layout_toStartOf="@+id/iv_arrow_net_mode"
-                    android:text="CT200"
                     android:textColor="#ff666666"
                     android:textSize="@dimen/xa24" />
-
 
                 <ImageView
                     android:id="@+id/iv_arrow_net_mode"
@@ -141,9 +139,11 @@
                     android:layout_marginEnd="@dimen/xa29"
                     android:src="@drawable/charger_device_item_more"
                     android:visibility="visible" />
+
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rl_solar_mode"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/xa120"
                 android:layout_marginTop="@dimen/xa2"
@@ -154,19 +154,18 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/xa30"
-                    android:text="@string/m154充电模式"
+                    android:text="@string/mSolar模式"
                     android:textColor="#ff343434"
                     android:textSize="@dimen/xa30" />
 
 
                 <TextView
-                    android:id="@+id/tv_charging_mode"
+                    android:id="@+id/tv_solar_mode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/xa14"
                     android:layout_toStartOf="@+id/iv_arrow_gateway"
-                    android:text="FAST"
                     android:textColor="#ff666666"
                     android:textSize="@dimen/xa24" />
 
@@ -185,6 +184,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rl_eco_limit"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/xa120"
                 android:layout_marginTop="@dimen/xa2"
@@ -195,7 +195,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/xa30"
-                    android:text="ECO电流限制(kW)"
+                    android:text="@string/eco_current_limit_kw"
                     android:textColor="#ff343434"
                     android:textSize="@dimen/xa30" />
 
@@ -207,7 +207,6 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/xa14"
                     android:layout_toStartOf="@+id/iv_arrow_mask"
-                    android:text="Disable"
                     android:textColor="#ff666666"
                     android:textSize="@dimen/xa24" />
 
@@ -225,6 +224,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rl_peak_valley"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/xa120"
                 android:layout_marginTop="@dimen/xa2"
@@ -241,13 +241,12 @@
 
 
                 <TextView
-                    android:id="@+id/tv_dns"
+                    android:id="@+id/tv_peak_valley"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/xa14"
                     android:layout_toStartOf="@+id/iv_arrow_dns"
-                    android:text="@string/m300禁止"
                     android:textColor="#ff666666"
                     android:textSize="@dimen/xa24" />
 
@@ -266,6 +265,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rl_time"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/xa120"
                 android:layout_marginTop="@dimen/xa2"
@@ -276,19 +276,18 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/xa30"
-                    android:text="允许充电时间"
+                    android:text="@string/m280允许充电时间"
                     android:textColor="#ff343434"
                     android:textSize="@dimen/xa30" />
 
 
                 <TextView
-                    android:id="@+id/tv_dnsaa"
+                    android:id="@+id/tv_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/xa14"
                     android:layout_toStartOf="@+id/iv_arrow_dnsdd"
-                    android:text="0:00~0:00"
                     android:textColor="#ff666666"
                     android:textSize="@dimen/xa24" />
 
@@ -307,6 +306,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rl_meter_type"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/xa120"
                 android:layout_marginTop="@dimen/xa2"
@@ -323,19 +323,18 @@
 
 
                 <TextView
-                    android:id="@+id/tv_tyepdd"
+                    android:id="@+id/tv_meter_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/xa14"
-                    android:layout_toStartOf="@+id/sdasd"
-                    android:text="Easdasd"
+                    android:layout_toStartOf="@+id/meter_type"
                     android:textColor="#ff666666"
                     android:textSize="@dimen/xa24" />
 
 
                 <ImageView
-                    android:id="@+id/sdasd"
+                    android:id="@+id/meter_type"
                     android:layout_width="@dimen/xa20"
                     android:layout_height="@dimen/xa32"
                     android:layout_alignParentEnd="true"
@@ -348,6 +347,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rl_electronic_lock"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/xa120"
                 android:layout_marginTop="@dimen/xa2"
@@ -358,25 +358,24 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/xa30"
-                    android:text="电子锁配置"
+                    android:text="@string/m电子锁配置"
                     android:textColor="#ff343434"
                     android:textSize="@dimen/xa30" />
 
 
                 <TextView
-                    android:id="@+id/tv_ddd"
+                    android:id="@+id/tv_electronic_lock"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/xa14"
-                    android:layout_toStartOf="@+id/dsd"
-                    android:text="自动"
+                    android:layout_toStartOf="@+id/electronic_lock"
                     android:textColor="#ff666666"
                     android:textSize="@dimen/xa24" />
 
 
                 <ImageView
-                    android:id="@+id/dsd"
+                    android:id="@+id/electronic_lock"
                     android:layout_width="@dimen/xa20"
                     android:layout_height="@dimen/xa32"
                     android:layout_alignParentEnd="true"
@@ -389,6 +388,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rl_low_power_charging"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/xa120"
                 android:layout_marginTop="@dimen/xa2"
@@ -399,25 +399,24 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/xa30"
-                    android:text="低功率预约充电"
+                    android:text="@string/m低功率预约充电"
                     android:textColor="#ff343434"
                     android:textSize="@dimen/xa30" />
 
 
                 <TextView
-                    android:id="@+id/tv_ddddd"
+                    android:id="@+id/tv_low_power_charging"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/xa14"
-                    android:layout_toStartOf="@+id/dsdsasa"
-                    android:text="Disable"
+                    android:layout_toStartOf="@+id/low_power_charging"
                     android:textColor="#ff666666"
                     android:textSize="@dimen/xa24" />
 
 
                 <ImageView
-                    android:id="@+id/dsdsasa"
+                    android:id="@+id/low_power_charging"
                     android:layout_width="@dimen/xa20"
                     android:layout_height="@dimen/xa32"
                     android:layout_alignParentEnd="true"
@@ -430,6 +429,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rl_max_current"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/xa120"
                 android:layout_marginTop="@dimen/xa2"
@@ -440,25 +440,24 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/xa30"
-                    android:text="电桩最大输出电流"
+                    android:text="@string/m277电桩最大输出电流"
                     android:textColor="#ff343434"
                     android:textSize="@dimen/xa30" />
 
 
                 <TextView
-                    android:id="@+id/tv_ddsda"
+                    android:id="@+id/tv_max_current"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/xa14"
-                    android:layout_toStartOf="@+id/asdas"
-                    android:text="32.2"
+                    android:layout_toStartOf="@+id/max_current"
                     android:textColor="#ff666666"
                     android:textSize="@dimen/xa24" />
 
 
                 <ImageView
-                    android:id="@+id/asdas"
+                    android:id="@+id/max_current"
                     android:layout_width="@dimen/xa20"
                     android:layout_height="@dimen/xa32"
                     android:layout_alignParentEnd="true"
@@ -471,6 +470,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rl_lcd"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/xa120"
                 android:layout_marginTop="@dimen/xa2"
@@ -487,19 +487,18 @@
 
 
                 <TextView
-                    android:id="@+id/tv_ddsdasaa"
+                    android:id="@+id/tv_lcd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/xa14"
-                    android:layout_toStartOf="@+id/asdadasas"
-                    android:text="@string/m56暂未开放"
+                    android:layout_toStartOf="@+id/lcd"
                     android:textColor="#ff666666"
                     android:textSize="@dimen/xa24" />
 
 
                 <ImageView
-                    android:id="@+id/asdadasas"
+                    android:id="@+id/lcd"
                     android:layout_width="@dimen/xa20"
                     android:layout_height="@dimen/xa32"
                     android:layout_alignParentEnd="true"

@@ -48,7 +48,7 @@ public class ModifyDialog extends DialogFragment {
         if (getArguments() != null) {
             mTitle = getArguments().getString("title");
             mValue = getArguments().getString("value");
-            if (mValue.equals(getString(R.string.not_set))) {
+            if (mValue.equals("--")) {
                 mValue = "";
             }
         }

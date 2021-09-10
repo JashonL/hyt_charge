@@ -2,6 +2,7 @@ package com.growatt.chargingpile.setting;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.growatt.chargingpile.BaseActivity;
+import com.growatt.chargingpile.EventBusMsg.RefreshRateMsg;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.activity.ConnetWiFiActivity;
 import com.growatt.chargingpile.activity.WifiSetGuideActivity;
@@ -30,6 +32,8 @@ import com.growatt.chargingpile.util.SmartHomeUrlUtil;
 import com.growatt.chargingpile.util.SmartHomeUtil;
 import com.growatt.chargingpile.view.DividerItemDecoration;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 import org.xutils.common.util.LogUtil;
 
@@ -61,6 +65,13 @@ public class SettingActivity extends BaseActivity implements BaseQuickAdapter.On
     public GunBean mCurrentGunBean;
 
     private SettingModel mSettingModel;
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void refreshAdapter(RefreshRateMsg msg) {
+        if (msg.getPriceConfBeanList() != null) {
+            mPriceConfBeanList = msg.getPriceConfBeanList();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,22 +129,19 @@ public class SettingActivity extends BaseActivity implements BaseQuickAdapter.On
         switch (position) {
             case 0:
                 intent = new Intent(this, BasicInfoActivity.class);
-                intent.putExtra("chargingId", mChargingId);
                 break;
             case 1:
                 intent = new Intent(this, NetSettingActivity.class);
-                intent.putExtra("chargingId", mChargingId);
                 break;
             case 2:
                 intent = new Intent(this, PileSettingActivity.class);
+                intent.putParcelableArrayListExtra("rate", (ArrayList<? extends Parcelable>) mPriceConfBeanList);
                 break;
             case 3:
                 intent = new Intent(this, LoadBalancingActivity.class);
-                intent.putExtra("chargingId", mChargingId);
                 break;
             case 4:
                 intent = new Intent(this, PermissionsActivity.class);
-                intent.putExtra("sn", mChargingId);
                 break;
             case 5:
                 if (Cons.getNoConfigBean() == null) {
@@ -145,6 +153,7 @@ public class SettingActivity extends BaseActivity implements BaseQuickAdapter.On
             default:
                 break;
         }
+        intent.putExtra("chargingId", mChargingId);
         jumpTo(intent, false);
 
     }

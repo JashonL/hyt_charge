@@ -204,7 +204,6 @@ public class FragmentA extends BaseFragment {
                 mLlPreinstallCharging.setVisibility(View.GONE);
                 mLlPleaseVehicle.setVisibility(View.GONE);
 
-                pHandler.removeCallbacks(runnableGunInfo);
                 mIvCircleStatus.setImageResource(R.drawable.ic_green_circle);
                 mIvSwitchStatus.setImageResource(R.drawable.ic_green_on);
                 mTvSwitchStatus.setTextColor(ContextCompat.getColor(pActivity, R.color.charging_start));
@@ -221,7 +220,7 @@ public class FragmentA extends BaseFragment {
                 mTvSwitchStatus.setTextColor(ContextCompat.getColor(pActivity, R.color.charging_start));
                 mLlPreinstall.setVisibility(View.VISIBLE);
                 //获取预约
-                pModel.getReservationNow(pActivity.mDataBean.getChargeId(), 1, new GunModel.HttpCallBack() {
+                pModel.getReservationNow(pActivity.pDataBean.getChargeId(), 1, new GunModel.HttpCallBack() {
                     @Override
                     public void onSuccess(Object bean) {
                         pReservationBean = (ReservationBean.DataBean) bean;
@@ -252,6 +251,7 @@ public class FragmentA extends BaseFragment {
                 mTvChargingFinish.setVisibility(View.GONE);
                 break;
             case GunBean.CHARGING://充电中 1.普通充电 2.其他充电
+                pHandler.removeCallbacks(runnableGunInfo);
                 mLlException.setVisibility(View.GONE);
                 mLlPleaseVehicle.setVisibility(View.GONE);
                 mTvPreinstallChargingFinish.setVisibility(View.GONE);
@@ -385,6 +385,7 @@ public class FragmentA extends BaseFragment {
                 }
                 break;
             case GunBean.FINISHING://m120充电结束
+                pHandler.removeCallbacks(runnableGunInfo);
                 mLlException.setVisibility(View.GONE);
                 mIvChargingGif.setVisibility(View.GONE);
                 mTvStatus.setText(getString(R.string.m120充电结束));
@@ -538,7 +539,7 @@ public class FragmentA extends BaseFragment {
     }
 
     private void initPullView() {
-        mSwipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(pActivity, R.color.maincolor_1));
+        mSwipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(pActivity, R.color.maincolor_2));
         mSwipeRefreshLayout.setOnRefreshListener(() -> {
             requestGunInfoData();
         });
