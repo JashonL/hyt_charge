@@ -84,7 +84,7 @@ public abstract class BaseFragment extends Fragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void freshGunInfo(PreinstallEvent msg) {
         Log.d(TAG, "freshGunInfo: ");
-        pHandler.post(runnableGunInfo);
+        pHandler.postDelayed(runnableGunInfo, 3000);
     }
 
     //预设后3秒获取
@@ -93,10 +93,23 @@ public abstract class BaseFragment extends Fragment {
         public void run() {
             Log.d(TAG, "runnableGun");
             requestGunInfoData();
-            pHandler.postDelayed(runnableGunInfo, 3 * 1000);
+            pHandler.postDelayed(runnableGunInfo, 3000);
         }
     };
-    //进入枪1分钟获取
+
+
+    //预设后3秒获取
+    protected Runnable runnableStop = new Runnable() {
+        @Override
+        public void run() {
+            Log.d(TAG, "runnableStop");
+            requestGunInfoData();
+            pHandler.postDelayed(runnableStop, 3000);
+        }
+    };
+
+
+    //1分钟获取
     protected Runnable runnableDelayedGun = new Runnable() {
         @Override
         public void run() {
@@ -283,16 +296,14 @@ public abstract class BaseFragment extends Fragment {
             public void onSuccess(Object bean) {
                 try {
                     JSONObject object = new JSONObject(bean.toString());
-                    int code = object.optInt("code");
-                    if (code == 0 || code == 16) {
-                        //requestGunInfoData();
-                        pHandler.post(runnableGunInfo);
+                    int type = object.optInt("type");
+                    if (type == 0) {
+                        pHandler.postDelayed(runnableGunInfo, 3000);
                     }
                     toast(object.getString("data"));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                //handleGunStatus(mBean, GunBean.CHARGING);
             }
 
             @Override
@@ -311,17 +322,14 @@ public abstract class BaseFragment extends Fragment {
             public void onSuccess(Object json) {
                 try {
                     JSONObject object = new JSONObject(json.toString());
-                    int code = object.optInt("code");
-                    if (code == 0 || code == 16) {
-//                        requestGunInfoData();
-                        pHandler.post(runnableGunInfo);
+                    int type = object.optInt("type");
+                    if (type == 0) {
+                        pHandler.postDelayed(runnableStop, 3000);
                     }
                     toast(object.getString("data"));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                //handleGunStatus(mBean, GunBean.FINISHING);
-
             }
 
             @Override

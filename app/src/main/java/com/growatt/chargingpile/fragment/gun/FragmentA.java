@@ -203,14 +203,12 @@ public class FragmentA extends BaseFragment {
                 mLlDefaultCharging.setVisibility(View.GONE);
                 mLlPreinstallCharging.setVisibility(View.GONE);
                 mLlPleaseVehicle.setVisibility(View.GONE);
-
                 mIvCircleStatus.setImageResource(R.drawable.ic_green_circle);
                 mIvSwitchStatus.setImageResource(R.drawable.ic_green_on);
                 mTvSwitchStatus.setTextColor(ContextCompat.getColor(pActivity, R.color.charging_start));
-
+                mTvSwitchStatus.setText(getString(R.string.m103充电));
                 mTvPreinstallChargingFinish.setVisibility(View.GONE);
                 mTvChargingFinish.setVisibility(View.GONE);
-
                 break;
             case GunBean.RESERVENOW://有预约
                 pHandler.removeCallbacks(runnableGunInfo);
@@ -218,6 +216,7 @@ public class FragmentA extends BaseFragment {
                 mIvCircleStatus.setImageResource(R.drawable.ic_green_circle);
                 mIvSwitchStatus.setImageResource(R.drawable.ic_charging_off);
                 mTvSwitchStatus.setTextColor(ContextCompat.getColor(pActivity, R.color.charging_start));
+                mLlPleaseVehicle.setVisibility(View.GONE);
                 mLlPreinstall.setVisibility(View.VISIBLE);
                 //获取预约
                 pModel.getReservationNow(pActivity.pDataBean.getChargeId(), 1, new GunModel.HttpCallBack() {
@@ -232,23 +231,33 @@ public class FragmentA extends BaseFragment {
 
                     }
                 });
-
                 mTvPreinstallChargingFinish.setVisibility(View.GONE);
                 mTvChargingFinish.setVisibility(View.GONE);
                 break;
             case GunBean.PREPARING://m119准备中
+                pHandler.removeCallbacks(runnableStop);
                 mLlException.setVisibility(View.GONE);
                 mLlDefaultCharging.setVisibility(View.GONE);
                 mLlPreinstallCharging.setVisibility(View.GONE);
                 mTvStatus.setText(getString(R.string.m119准备中));
+                mTvSwitchStatus.setText(getString(R.string.m103充电));
                 mLlPreinstall.setVisibility(View.GONE);
                 mIvCircleStatus.setImageResource(R.drawable.ic_green_circle);
                 mIvSwitchStatus.setImageResource(R.drawable.ic_green_on);
                 mTvSwitchStatus.setTextColor(ContextCompat.getColor(pActivity, R.color.charging_start));
                 mLlPleaseVehicle.setVisibility(View.VISIBLE);
-
                 mTvPreinstallChargingFinish.setVisibility(View.GONE);
                 mTvChargingFinish.setVisibility(View.GONE);
+
+
+                if (mIvChargingGif.getVisibility() == View.VISIBLE) {
+                    GifDrawable endDrawable = (GifDrawable) mIvChargingGif.getDrawable();
+                    if (endDrawable.isRunning()) {
+                        endDrawable.stop();
+                        mIvChargingGif.setVisibility(View.GONE);
+                    }
+                }
+
                 break;
             case GunBean.CHARGING://充电中 1.普通充电 2.其他充电
                 pHandler.removeCallbacks(runnableGunInfo);
@@ -261,7 +270,7 @@ public class FragmentA extends BaseFragment {
                 int timeCharging = bean.getData().getCtime();
                 int hourCharging = timeCharging / 60;
                 int minCharging = timeCharging % 60;
-                if (TextUtils.isEmpty(key)) {
+                if (TextUtils.isEmpty(key) || key.equals("0")) {
                     pIsPreinstallType = false;
                     mLlDefaultCharging.setVisibility(View.VISIBLE);
                     mLlDefaultAV.setVisibility(View.VISIBLE);
@@ -278,9 +287,9 @@ public class FragmentA extends BaseFragment {
                             hourCharging, minCharging, bean.getData().getCost(), bean.getData().getCurrent(), bean.getData().getVoltage());
                     switch (key) {
                         case "G_SetTime":
-                            mTv1.setText(hourCharging);
+                            mTv1.setText(String.valueOf(hourCharging));
                             mTv2.setText(getString(R.string.m207时));
-                            mTv3.setText(minCharging);
+                            mTv3.setText(String.valueOf(minCharging));
                             mTv4.setText(getString(R.string.m208分));
                             mTvPreinstallType.setText(R.string.time);
 
@@ -385,6 +394,7 @@ public class FragmentA extends BaseFragment {
                 }
                 break;
             case GunBean.FINISHING://m120充电结束
+                pHandler.removeCallbacks(runnableStop);
                 pHandler.removeCallbacks(runnableGunInfo);
                 mLlException.setVisibility(View.GONE);
                 mIvChargingGif.setVisibility(View.GONE);
@@ -393,9 +403,9 @@ public class FragmentA extends BaseFragment {
                 mIvSwitchStatus.setImageResource(R.drawable.ic_charging_finish);
                 mTvSwitchStatus.setTextColor(ContextCompat.getColor(pActivity, R.color.charging_start));
                 mTvSwitchStatus.setText(getString(R.string.m120充电结束));
-                GifDrawable endDrawable = (GifDrawable) mIvChargingGif.getDrawable();
-                if (endDrawable.isRunning()) {
-                    endDrawable.stop();
+                GifDrawable endDrawable1 = (GifDrawable) mIvChargingGif.getDrawable();
+                if (endDrawable1.isRunning()) {
+                    endDrawable1.stop();
                 }
 
                 if (pIsPreinstallType) {//预约充电结束
@@ -409,6 +419,8 @@ public class FragmentA extends BaseFragment {
 
                 break;
             case GunBean.SUSPENDEEV://m133车拒绝充电
+                pHandler.removeCallbacks(runnableStop);
+                pHandler.removeCallbacks(runnableGunInfo);
                 mLlPleaseVehicle.setVisibility(View.GONE);
                 mLlDefaultCharging.setVisibility(View.GONE);
                 mLlPreinstallCharging.setVisibility(View.GONE);
@@ -422,6 +434,8 @@ public class FragmentA extends BaseFragment {
                 mLlException.setVisibility(View.VISIBLE);
                 break;
             case GunBean.SUSPENDEDEVSE://m292桩拒绝充电
+                pHandler.removeCallbacks(runnableStop);
+                pHandler.removeCallbacks(runnableGunInfo);
                 mLlPleaseVehicle.setVisibility(View.GONE);
                 mLlDefaultCharging.setVisibility(View.GONE);
                 mLlPreinstallCharging.setVisibility(View.GONE);
@@ -584,18 +598,16 @@ public class FragmentA extends BaseFragment {
                         handleGunStatus(bean);
                     }
                 }
-                if (mSwipeRefreshLayout != null) {
-                    mSwipeRefreshLayout.setRefreshing(false);
-                }
             }
 
             @Override
             public void onFailed() {
-                if (mSwipeRefreshLayout != null) {
-                    mSwipeRefreshLayout.setRefreshing(false);
-                }
+
             }
         });
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     @Override

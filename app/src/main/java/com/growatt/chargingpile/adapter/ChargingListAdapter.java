@@ -5,7 +5,6 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -14,7 +13,6 @@ import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.bean.ChargingBean;
 import com.growatt.chargingpile.bean.GunBean;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -38,18 +36,23 @@ public class ChargingListAdapter extends BaseQuickAdapter<ChargingBean.DataBean,
         TextView tvName = helper.getView(R.id.tv_name);
         ImageView ivState = helper.getView(R.id.iv_state);
         TextView tvState = helper.getView(R.id.tv_state);
+        setState(item, tvState, ivState);
         String devName = item.getName();
         tvName.setText(devName);
-        setState(item, tvState, ivState);
     }
 
     private void setState(ChargingBean.DataBean item, TextView tvState, ImageView ivState) {
         Log.d(TAG, "getStatus_1:" + item.getStatus_1());
         switch (item.getStatus_1()) {
-            case GunBean.PREPARING://m119准备中
+            case GunBean.RESERVED:
+                tvState.setText(mContext.getString(R.string.m339预约));
+                tvState.setBackgroundResource(R.drawable.shape_preparation_state_bg);
+                ivState.setImageResource(R.drawable.ic_preparation);
+                break;
+            case GunBean.PREPARING:
                 tvState.setText(mContext.getString(R.string.m119准备中));
-                tvState.setBackgroundResource(R.drawable.shape_end_of_charging_state_bg);
-                ivState.setImageResource(R.drawable.ic_end_of_charging);
+                tvState.setBackgroundResource(R.drawable.shape_recharg_state_bg);
+                ivState.setImageResource(R.drawable.ic_preparing);
                 break;
             case GunBean.CHARGING:
                 tvState.setText(mContext.getString(R.string.m118充电中));
@@ -81,12 +84,10 @@ public class ChargingListAdapter extends BaseQuickAdapter<ChargingBean.DataBean,
                 tvState.setBackgroundResource(R.drawable.shape_default_state_bg);
                 ivState.setImageResource(R.drawable.ic_unavailable);
                 break;
-            case GunBean.UNAVAILABLE:
+            default:
                 tvState.setText(mContext.getString(R.string.m122不可用));
                 tvState.setBackgroundResource(R.drawable.shape_default_state_bg);
                 ivState.setImageResource(R.drawable.ic_unavailable);
-                break;
-            default:
                 break;
         }
     }
@@ -95,40 +96,40 @@ public class ChargingListAdapter extends BaseQuickAdapter<ChargingBean.DataBean,
         return nowSelectPosition;
     }
 
-    public void setNowSelectPosition(int position) {
-        if (position >= getItemCount()) return;
-        //去除其他item选择
-        try {
-            //不相等时才去除之前选中item以及赋值，防止重复操作
-            if (this.nowSelectPosition != position) {
-                if (this.nowSelectPosition >= 0 && this.nowSelectPosition < getItemCount()) {
-                    ChargingBean.DataBean itemPre = getItem(nowSelectPosition);
-                    if (itemPre == null) return;
-                    itemPre.setChecked(false);
-                }
+//    public void setNowSelectPosition(int position) {
+//        if (position >= getItemCount()) return;
+//        //去除其他item选择
+//        try {
+//            //不相等时才去除之前选中item以及赋值，防止重复操作
+//            if (this.nowSelectPosition != position) {
+//                if (this.nowSelectPosition >= 0 && this.nowSelectPosition < getItemCount()) {
+//                    ChargingBean.DataBean itemPre = getItem(nowSelectPosition);
+//                    if (itemPre == null) return;
+//                    itemPre.setChecked(false);
+//                }
+//
+//                this.nowSelectPosition = position;
+//            }
+//            ChargingBean.DataBean itemNow = getItem(nowSelectPosition);
+//            if (itemNow == null) return;
+//            //只有没被选中才刷新数据
+//            if (!itemNow.isChecked()) {
+//                itemNow.setChecked(true);
+//                notifyDataSetChanged();
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
-                this.nowSelectPosition = position;
-            }
-            ChargingBean.DataBean itemNow = getItem(nowSelectPosition);
-            if (itemNow == null) return;
-            //只有没被选中才刷新数据
-            if (!itemNow.isChecked()) {
-                itemNow.setChecked(true);
-                notifyDataSetChanged();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void replaceData(@NonNull Collection<? extends ChargingBean.DataBean> data) {
-        super.replaceData(data);
-        int nowPos = 0;
-        if (nowSelectPosition >= 0 && nowSelectPosition < data.size()) {
-            nowPos = nowSelectPosition;
-        }
-        setNowSelectPosition(nowPos);
-    }
+//    @Override
+//    public void replaceData(@NonNull Collection<? extends ChargingBean.DataBean> data) {
+//        super.replaceData(data);
+//        int nowPos = 0;
+//        if (nowSelectPosition >= 0 && nowSelectPosition < data.size()) {
+//            nowPos = nowSelectPosition;
+//        }
+//        setNowSelectPosition(nowPos);
+//    }
 
 }

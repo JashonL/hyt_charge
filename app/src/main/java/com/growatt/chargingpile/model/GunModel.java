@@ -378,7 +378,6 @@ public class GunModel {
         PostUtil.postJson(SmartHomeUrlUtil.postRequestReseerveCharging(), json, new PostUtil.postListener() {
             @Override
             public void Params(Map<String, String> params) {
-
             }
 
             @Override

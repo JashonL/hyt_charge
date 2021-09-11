@@ -769,10 +769,10 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                     if (charginglist.size() > 0) {
                         HeadRvAddButton(charginglist);
                         mAdapter.replaceData(charginglist);
-                        if (isfirst) {
-                            mAdapter.setNowSelectPosition(currentPos);
-                            isfirst = false;
-                        }
+//                        if (isfirst) {
+//                            mAdapter.setNowSelectPosition(currentPos);
+//                            isfirst = false;
+//                        }
                         MyUtil.hideAllView(View.GONE, emptyPage);
                         MyUtil.showAllView(rlCharging, linearlayout);
                         refreshChargingUI();
@@ -1986,7 +1986,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                 animation = null;
                 stopTimer();
                 currenStatus = GunBean.NONE;
-                mAdapter.setNowSelectPosition(position);
+                //mAdapter.setNowSelectPosition(position);
                 refreshChargingUI();
             }
         });

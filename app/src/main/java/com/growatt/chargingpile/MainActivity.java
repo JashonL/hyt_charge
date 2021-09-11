@@ -15,7 +15,6 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,7 +39,6 @@ import com.growatt.chargingpile.activity.UserActivity;
 import com.growatt.chargingpile.adapter.ChargingListAdapter;
 import com.growatt.chargingpile.adapter.MeAdapter;
 import com.growatt.chargingpile.bean.ChargingBean;
-import com.growatt.chargingpile.bean.GunBean;
 import com.growatt.chargingpile.connutil.PostUtil;
 import com.growatt.chargingpile.jpush.TagAliasOperatorHelper;
 import com.growatt.chargingpile.util.Constant;
@@ -72,8 +70,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -107,7 +103,6 @@ public class MainActivity extends BaseActivity {
 
     private static final int CODE_GALLERY_REQUEST = 0xa0;
     private static final int CODE_CAMERA_REQUEST = 0xa1;
-    private static final int CODE_RESULT_REQUEST = 0xa2;
     private ImageView ivHead;
 
     /*充电桩列表*/
@@ -119,18 +114,6 @@ public class MainActivity extends BaseActivity {
 
     private String searchId;
     private String jumpId;
-    private boolean isFirst = true;
-
-
-    private Animation animation;
-
-    private Timer mTimer;//涂鸦设备操作定时器
-    private TimerTask timerTask;//涂鸦设备定时任务
-    private long period = 1000;//刷新任务的间隔时间
-    private String moneyUnit = "";
-
-    //充电桩当前状态
-    private String mCurrentStatus = GunBean.NONE;
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void searchFresh(SearchDevMsg msg) {
@@ -251,10 +234,10 @@ public class MainActivity extends BaseActivity {
 
                         if (mSwipeRefreshLayout != null) {
                             mChargingAdapter.replaceData(charginglist);
-                            if (isFirst) {
-                                mChargingAdapter.setNowSelectPosition(currentPos);
-                                isFirst = false;
-                            }
+//                            if (isFirst) {
+//                                //mChargingAdapter.setNowSelectPosition(currentPos);
+//                                isFirst = false;
+//                            }
                         }
 
                         //MyUtil.hideAllView(View.GONE, emptyPage);
@@ -302,18 +285,6 @@ public class MainActivity extends BaseActivity {
         mRvCharging.setAdapter(mChargingAdapter);
     }
 
-    /**
-     * 停止定时器
-     */
-    private void stopTimer() {
-        if (mTimer != null) {
-            mTimer.cancel();
-            timerTask.cancel();
-            mTimer.purge();
-            mTimer = null;
-        }
-    }
-
     private void initRecyclerListeners() {
         mChargingAdapter.setOnItemClickListener((adapter, view, position) -> {
             Log.d(TAG, "initRecyclerListeners: " + position);
@@ -321,17 +292,6 @@ public class MainActivity extends BaseActivity {
             Intent intent = new Intent(MainActivity.this, GunActivity.class);
             intent.putExtra("chargingBean", bean);
             jumpTo(intent, false);
-//            if (bean == null) return;
-//            int type = bean.getDevType();
-//            if (type == ChargingBean.ADD_DEVICE) {
-//                addChargingPile();
-//            } else {
-//                animation = null;
-//                stopTimer();
-//                mCurrentStatus = GunBean.NONE;
-//                mChargingAdapter.setNowSelectPosition(position);
-//                //refreshChargingUI();
-//            }
         });
 
         mChargingAdapter.setOnItemLongClickListener((adapter, view, position) -> {

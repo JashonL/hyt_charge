@@ -37,14 +37,11 @@ import butterknife.OnClick;
  */
 
 public class TimeFragment extends BaseFragment {
-
     private static String TAG = TimeFragment.class.getSimpleName();
-
     @BindView(R.id.cb_time)
     TextView mCheckTime;
     @BindView(R.id.cb_duration)
     TextView mCheckDuration;
-
     @BindView(R.id.rl_duration)
     RelativeLayout mRlDuration;
     @BindView(R.id.rl_duration_start)
@@ -53,32 +50,25 @@ public class TimeFragment extends BaseFragment {
     TextView mTvDuration;
     @BindView(R.id.tv_duration_start_time)
     TextView mTvDurationStartTime;
-
     @BindView(R.id.rl_time)
     RelativeLayout mRlTime;
-
     @BindView(R.id.tv_start_hour)
     TextView mTvStartHour;
     @BindView(R.id.tv_start_minute)
     TextView mTvStartMinute;
-
     @BindView(R.id.tv_end_hour)
     TextView mTvEndHour;
     @BindView(R.id.tv_end_minute)
     TextView mTvEndMinute;
-
-
     @BindView(R.id.sw_day)
     Switch mSwitchEveryDay;
 
     private int mCurrTimeType = Constant.TIME_TYPE;
-
     private String mTvDurationHour = "";
     private String mTvDurationMinute = "";
 
     @Override
     protected Object setRootView() {
-        Log.d(TAG, "setRootView: ");
         return R.layout.fragment_time;
     }
 
@@ -165,11 +155,8 @@ public class TimeFragment extends BaseFragment {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void requestPreinstall() {
-
         int loop = mSwitchEveryDay.isChecked() ? 0 : -1;
-
         if (mCurrTimeType == Constant.TIME_TYPE) {
-
             int startHours = Integer.parseInt(mTvStartHour.getText().toString());
             int startMinute = Integer.parseInt(mTvStartMinute.getText().toString());
 
@@ -188,7 +175,6 @@ public class TimeFragment extends BaseFragment {
 
             long cValue = startTime.until(endTime, ChronoUnit.MINUTES);
 
-
             Log.d(TAG, "cValue:" + cValue);
             pModel.requestReserve(3, time, "G_SetTime", cValue, loop, pPresetActivity.pChargingId, pPresetActivity.pConnectorId, new GunModel.HttpCallBack() {
                 @Override
@@ -196,8 +182,8 @@ public class TimeFragment extends BaseFragment {
                     try {
                         JSONObject object = new JSONObject(bean.toString());
                         String data = object.getString("data");
-                        int code = object.optInt("type");
-                        if (code == 0) {
+                        int type = object.optInt("type");
+                        if (type == 0) {
                             pPresetActivity.finish();
                             EventBus.getDefault().post(new PreinstallEvent());
                         }

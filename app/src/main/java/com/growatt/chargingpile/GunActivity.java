@@ -3,7 +3,6 @@ package com.growatt.chargingpile;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -70,7 +69,6 @@ public class GunActivity extends BaseActivity {
         setContentView(R.layout.activity_gun);
         ButterKnife.bind(this);
         pDataBean = getIntent().getParcelableExtra("chargingBean");
-        Log.d(TAG, "onCreate: " + pDataBean.toString());
         initToolBar();
         initTabLayout();
 
