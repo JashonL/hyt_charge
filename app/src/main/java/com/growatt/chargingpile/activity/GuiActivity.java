@@ -5,16 +5,18 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
+
 import com.growatt.chargingpile.BaseActivity;
+import com.growatt.chargingpile.MainActivity;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.application.MyApplication;
 import com.growatt.chargingpile.util.Cons;
@@ -37,19 +39,19 @@ public class GuiActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gui);
         JPushInterface.init(getApplicationContext());
-        String chargeId=getIntent().getStringExtra("chargeId");
+        String chargeId = getIntent().getStringExtra("chargeId");
         int isFrist = SharedPreferencesUnit.getInstance(MyApplication.context).getInt("num");
-        if (isFrist ==0){
+        if (isFrist == 0) {
             setUpView();
             addListener();
-            SharedPreferencesUnit.getInstance(this).putInt("num",1);
-        }else {
-            if (Cons.userBean!=null){
-                Intent intent=new Intent(this,ChargingPileActivity.class);
-                intent.putExtra("chargeId",chargeId);
-                jumpTo(intent,true);
-            }else {
-                jumpTo(LoginActivity.class,true);
+            SharedPreferencesUnit.getInstance(this).putInt("num", 1);
+        } else {
+            if (Cons.userBean != null) {
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.putExtra("chargeId", chargeId);
+                jumpTo(intent, true);
+            } else {
+                jumpTo(LoginActivity.class, true);
 
             }
         }

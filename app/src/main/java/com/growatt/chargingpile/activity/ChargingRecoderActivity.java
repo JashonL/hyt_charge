@@ -138,9 +138,9 @@ public class ChargingRecoderActivity extends BaseActivity {
                                 currentPage--;
                             }
                         } else {
-                            for (int i = 0; i < recordList.size(); i++) {
-                                recordList.get(i).setSymbol(symbol);
-                            }
+//                            for (int i = 0; i < recordList.size(); i++) {
+//                                recordList.get(i).setSymbol(symbol);
+//                            }
                             if (currentPage == 1) {
                                 mChargingRecordAdapter.replaceData(recordList);
                             } else {

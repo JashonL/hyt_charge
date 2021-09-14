@@ -111,7 +111,7 @@
     <string name="m97输入代理商编号">Entrez l\'identifiant de l\'agence</string>
     <string name="m98请输入相同的密码">veuillez entret le même mot de passe</string>
     <string name="m99用户名必须大于3位">le nom d\'utilisatuer doit avoir 3 caractères ou plus</string>
-    <string name="m100密码必须大于6位">le mot de passe doit avoir 6 caractères ou plus</string>
+    <string name="m100密码必须大于8位">le mot de passe doit avoir 8 caractères ou plus</string>
 
     <string name="m104输入电话号码">entrez le numéro de téléphone</string>
     <string name="m101添加设备">Ajouter un appareil</string>

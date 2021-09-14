@@ -22,12 +22,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/xa58"
+        android:layout_marginBottom="@dimen/xa60"
         android:text="@string/m170请将充电枪插入车辆" />
 
-    <View
-        android:layout_width="@dimen/xa268"
-        android:layout_height="@dimen/xa10"
-        android:layout_marginTop="@dimen/xa111"
-        android:background="@drawable/shape_exception_line_bg" />
 
 </LinearLayout>

@@ -10,7 +10,6 @@ import android.content.Intent;
 import com.google.gson.Gson;
 import com.growatt.chargingpile.MainActivity;
 import com.growatt.chargingpile.R;
-import com.growatt.chargingpile.activity.ChargingPileActivity;
 import com.growatt.chargingpile.activity.LoginActivity;
 import com.growatt.chargingpile.application.MyApplication;
 import com.growatt.chargingpile.bean.UserBean;
@@ -48,7 +47,7 @@ public class LoginUtil {
      * server登录超时，重新登录
      */
     public static void serverTimeOutLogin() {
-        T.make(R.string.login_expired,MyApplication.context);
+        T.make(R.string.login_expired, MyApplication.context);
         SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN, 0);
         SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN_TYPE, 0);
         jumpActivity(context, LoginActivity.class);
@@ -166,17 +165,17 @@ public class LoginUtil {
                 int autoLogin;
                 int autoLoginType;
                 if (SmartHomeUtil.isFlagUser()) {
-                     autoLogin=0;
-                     autoLoginType=0;
+                    autoLogin = 0;
+                    autoLoginType = 0;
                 } else {
-                    autoLogin=1;
-                    autoLoginType=1;
+                    autoLogin = 1;
+                    autoLoginType = 1;
                 }
                 SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN, autoLogin);
                 SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN_TYPE, autoLoginType);
                 enableListener.onViewEnable();
                 if (loginType == 0 || loginType == 2) {
-                    jumpActivity(context, ChargingPileActivity.class);
+                    jumpActivity(context, MainActivity.class);
                 }
                 Mydialog.Dismiss();
             } else {
@@ -305,14 +304,14 @@ public class LoginUtil {
         List<SoftReference<Activity>> activityStack = MyApplication.getInstance().getmList();
         for (SoftReference<Activity> activity : activityStack) {
             if (activity != null && activity.get() != null) {
-                Activity activity1=activity.get();
+                Activity activity1 = activity.get();
 //                if (activity1 instanceof MainActivity)continue;
-                if ((activity1.getClass().equals(act.getClass())))continue;//这里要忽略掉，要不然会闪屏
+                if ((activity1.getClass().equals(act.getClass()))) continue;//这里要忽略掉，要不然会闪屏
                 activity1.finish();
             }
         }
         activityStack.clear();
-        act.startActivity(new Intent(act,LoginActivity.class));
+        act.startActivity(new Intent(act, LoginActivity.class));
         act.finish();
     }
 
@@ -325,7 +324,7 @@ public class LoginUtil {
         tagAliasBean.action = TagAliasOperatorHelper.ACTION_DELETE;
         tagAliasBean.isAliasAction = true;
         tagAliasBean.alias = SmartHomeUtil.getUserName();
-        tagAliasBean.tags=tags;
+        tagAliasBean.tags = tags;
         sequence++;
         TagAliasOperatorHelper.getInstance().handleAction(context, sequence, tagAliasBean);
 
@@ -359,16 +358,16 @@ public class LoginUtil {
     /**
      * 正常终端用户登录
      */
-    public static void login(final Context context,final String userName, final String password, final OnViewEnableListener enableListener){
+    public static void login(final Context context, final String userName, final String password, final OnViewEnableListener enableListener) {
         SqliteUtil.url(SmartHomeUrlUtil.getServer());
         Mydialog.Show(context);
         JSONObject object = new JSONObject();
         try {
             object.put("cmd", "login");//cmd  注册
-            object.put("userId",userName);//用户名
+            object.put("userId", userName);//用户名
             object.put("password", password);//密码
             object.put("lan", getLanguage(context));
-            object.put("version",Utils.getVersionName(context));
+            object.put("version", Utils.getVersionName(context));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -399,17 +398,17 @@ public class LoginUtil {
                         int autoLogin;
                         int autoLoginType;
                         if (SmartHomeUtil.isFlagUser()) {
-                            autoLogin=0;
-                            autoLoginType=0;
+                            autoLogin = 0;
+                            autoLoginType = 0;
                         } else {
-                            autoLogin=1;
-                            autoLoginType=1;
+                            autoLogin = 1;
+                            autoLoginType = 1;
                         }
                         SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN, autoLogin);
                         SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN_TYPE, autoLoginType);
                         enableListener.onViewEnable();
                         jumpActivity(context, MainActivity.class);
-                    }else {
+                    } else {
                         String errorMsg = object.optString("data");
                         enableListener.onViewEnable();
                         T.make(errorMsg, context);

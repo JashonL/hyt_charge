@@ -79,7 +79,7 @@ public class PresetActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void refreshSymbol(UnitMsg msg) {
-        Log.d(TAG, "refreshSymbol: ");
+        Log.d(TAG, "refreshSymbol: " + msg.getSymbol());
         if (msg.getSymbol() != null) {
             pSymbol = msg.getSymbol();
         }

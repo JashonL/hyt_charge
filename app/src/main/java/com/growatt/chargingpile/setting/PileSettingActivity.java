@@ -353,7 +353,7 @@ public class PileSettingActivity extends BaseActivity implements BaseQuickAdapte
             finish();
         });
         mTvTitle.setTextColor(ContextCompat.getColor(this, R.color.black));
-        mTvTitle.setText(getString(R.string.pile_setting));
+        mTvTitle.setText(getString(R.string.m105桩体设置));
     }
 
     private void setRate() {

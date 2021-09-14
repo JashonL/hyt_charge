@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.growatt.chargingpile.EventBusMsg.PreinstallEvent;
+import com.growatt.chargingpile.EventBusMsg.UnitMsg;
 import com.growatt.chargingpile.GunActivity;
 import com.growatt.chargingpile.PresetActivity;
 import com.growatt.chargingpile.R;
@@ -34,6 +35,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -81,50 +83,57 @@ public abstract class BaseFragment extends Fragment {
 
     public int pConnectorId;
 
+    public String pSymbol;
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void refreshSymbol(UnitMsg msg) {
+        Log.d(TAG, "refreshSymbol: " + msg.getSymbol());
+        if (msg.getSymbol() != null) {
+            pSymbol = msg.getSymbol();
+        }
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void freshGunInfo(PreinstallEvent msg) {
         Log.d(TAG, "freshGunInfo: ");
         pHandler.postDelayed(runnableGunInfo, 3000);
     }
 
-    //预设后3秒获取
-    protected Runnable runnableGunInfo = new Runnable() {
-        @Override
-        public void run() {
-            Log.d(TAG, "runnableGun");
-            requestGunInfoData();
-            pHandler.postDelayed(runnableGunInfo, 3000);
-        }
+    protected Runnable runnableGunInfo = () -> {
+        Log.d(TAG, "runnableGun");
+        requestGunInfoData();
     };
-
-
-    //预设后3秒获取
-    protected Runnable runnableStop = new Runnable() {
-        @Override
-        public void run() {
-            Log.d(TAG, "runnableStop");
-            requestGunInfoData();
-            pHandler.postDelayed(runnableStop, 3000);
-        }
-    };
-
 
     //1分钟获取
-    protected Runnable runnableDelayedGun = new Runnable() {
+    protected Runnable runnableLoopGunInfo = new Runnable() {
         @Override
         public void run() {
             Log.d(TAG, "runnableDelayedGun");
-            pHandler.postDelayed(runnableDelayedGun, DELAYED_MINUTE);
+            pHandler.postDelayed(runnableLoopGunInfo, DELAYED_MINUTE);
             requestGunInfoData();
         }
     };
 
     public void startRunnable(boolean isStart) {
         if (isStart) {
-            pHandler.postDelayed(runnableDelayedGun, DELAYED_MINUTE);
+            pHandler.postDelayed(runnableLoopGunInfo, DELAYED_MINUTE);
         } else {
-            pHandler.removeCallbacks(runnableDelayedGun);
+            pHandler.removeCallbacks(runnableLoopGunInfo);
         }
+    }
+
+    public void showTips() {
+        if (pCurrGunStatus.equals(GunBean.RESERVENOW)) {
+            toast("已有预约,不能重复设置");
+            return;
+        } else if (pCurrGunStatus.equals(GunBean.CHARGING)) {
+            toast("充电中,不能设置预约");
+            return;
+        } else if (pCurrGunStatus.equals(GunBean.UNAVAILABLE) || pCurrGunStatus.equals(GunBean.FAULTED)) {
+            toast("当前状态不可用");
+            return;
+        }
+        startPresetActivity(0);
     }
 
     @Nullable
@@ -199,7 +208,11 @@ public abstract class BaseFragment extends Fragment {
         if (type == 0) {
             intent.putExtra("chargingId", pDataBean.getChargeId());
             intent.putExtra("connectorId", 1);
-            intent.putExtra("symbol", pDataBean.getSymbol());
+            if (pSymbol != null) {
+                intent.putExtra("symbol", pSymbol);
+            } else {
+                intent.putExtra("symbol", pDataBean.getSymbol());
+            }
             intent.putParcelableArrayListExtra("rate", (ArrayList<? extends Parcelable>) pActivity.pDataBean.getPriceConf());
         } else if (type == 1) {
             Bundle bundle = new Bundle();
@@ -224,7 +237,24 @@ public abstract class BaseFragment extends Fragment {
                 .setText(getString(R.string.m是否解除该枪电子锁))
                 .setWidth(0.75f)
                 .setPositive(getString(R.string.m9确定), view1 -> {
-                    pModel.requestGunUnlock(pDataBean.getChargeId(), pConnectorId);
+                    pModel.requestGunUnlock(pDataBean.getUserName(), pDataBean.getChargeId(), pConnectorId, new GunModel.HttpCallBack() {
+                        @Override
+                        public void onSuccess(Object json) {
+                            try {
+                                JSONObject object = new JSONObject(json.toString());
+                                String data = object.getString("data");
+                                toast(data);
+                                pHandler.postDelayed(runnableGunInfo, 2000);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onFailed() {
+
+                        }
+                    });
                 })
                 .setNegative(getString(R.string.m7取消), view1 -> {
 
@@ -276,8 +306,8 @@ public abstract class BaseFragment extends Fragment {
         pModel.getPileStatus(pActivity.pDataBean.getChargeId(), new GunModel.HttpCallBack() {
             @Override
             public void onSuccess(Object bean) {
-                ChargingBean.DataBean dataBean = (ChargingBean.DataBean) bean;
-                handleSolarMode(dataBean.getG_SolarMode());
+                List<ChargingBean.DataBean> dataBean = (List<ChargingBean.DataBean>) bean;
+                handleSolarMode(dataBean.get(pActivity.pDataBean.getConnectors() - 1).getG_SolarMode());
             }
 
             @Override
@@ -287,9 +317,6 @@ public abstract class BaseFragment extends Fragment {
         });
     }
 
-    /**
-     * 请求充电
-     */
     public void requestCharging() {
         pModel.requestCharging(pDataBean.getChargeId(), pConnectorId, new GunModel.HttpCallBack() {
             @Override
@@ -313,9 +340,6 @@ public abstract class BaseFragment extends Fragment {
         });
     }
 
-    /**
-     * 请求停止充电
-     */
     public void requestStopCharging() {
         pModel.requestStopCharging(pDataBean.getChargeId(), pConnectorId, pTransactionId, new GunModel.HttpCallBack() {
             @Override
@@ -324,7 +348,7 @@ public abstract class BaseFragment extends Fragment {
                     JSONObject object = new JSONObject(json.toString());
                     int type = object.optInt("type");
                     if (type == 0) {
-                        pHandler.postDelayed(runnableStop, 3000);
+                        pHandler.postDelayed(runnableGunInfo, 3000);
                     }
                     toast(object.getString("data"));
                 } catch (Exception e) {
@@ -348,8 +372,9 @@ public abstract class BaseFragment extends Fragment {
                         JSONObject object = new JSONObject(json.toString());
                         int code = object.getInt("code");
                         if (code == 0) {
-                            pHandler.post(runnableGunInfo);
+                            pHandler.postDelayed(runnableGunInfo, 3000);
                         }
+                        toast(object.getString("data"));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -382,7 +407,7 @@ public abstract class BaseFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         pHandler.removeCallbacks(runnableGunInfo);
-        pHandler.removeCallbacks(runnableDelayedGun);
+        pHandler.removeCallbacks(runnableLoopGunInfo);
         isLoad = false;
         isVisibleToUser = false;
         isResume = false;
@@ -390,4 +415,17 @@ public abstract class BaseFragment extends Fragment {
         EventBus.getDefault().unregister(this);
         Log.d(TAG, "onDestroyView: ");
     }
+
+    private String mMoney = "(^[1-9](\\d+)?(\\.\\d{1,2})?$)|(^0$)|(^\\d\\.\\d{1,2}$)";
+
+    public boolean ifCanChargeMoney(String str) {
+        // 判断格式是否符合金额
+        if (!str.matches(mMoney)) return false;
+        //判断金额不能小于等于 0
+        if (Double.parseDouble(str) <= 0) {
+            return false;
+        }
+        return true;
+    }
+
 }

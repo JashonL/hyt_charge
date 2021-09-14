@@ -64,6 +64,8 @@
                         android:layout_height="match_parent"
                         android:background="@null"
                         android:paddingStart="@dimen/xa32"
+                        android:hint="@string/m210请输入金额"
+                        android:inputType="numberDecimal"
                         android:singleLine="true"
                         android:textColor="@color/title_1"
                         android:textSize="@dimen/xa30" />

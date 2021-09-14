@@ -58,8 +58,8 @@
                 <EditText
                     android:id="@+id/et_password"
                     style="@style/style_edittext_register_item"
-                    android:inputType="textPassword"
-                    android:hint="@string/m26请输入密码" />
+                    android:hint="@string/m26请输入密码"
+                    android:inputType="textPassword" />
             </LinearLayout>
 
 
@@ -269,7 +269,9 @@
                 android:background="#dedede"
                 android:orientation="vertical" />
 
-            <LinearLayout android:id="@+id/ll_date" style="@style/style_linearlayout_login_register">
+            <LinearLayout
+                android:id="@+id/ll_date"
+                style="@style/style_linearlayout_login_register">
 
                 <TextView
                     style="@style/style_textview_register_sign"
@@ -302,7 +304,9 @@
                 android:orientation="vertical" />
 
 
-            <LinearLayout android:id="@+id/ll_serial_number" style="@style/style_linearlayout_login_register">
+            <LinearLayout
+                android:id="@+id/ll_serial_number"
+                style="@style/style_linearlayout_login_register">
 
                 <TextView
                     style="@style/style_textview_register_sign"
@@ -369,8 +373,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/xa88"
                 android:layout_marginLeft="@dimen/xa75"
-                android:layout_marginTop="@dimen/xa80"
+                android:layout_marginTop="@dimen/xa60"
                 android:layout_marginRight="@dimen/xa75"
+                android:layout_marginBottom="@dimen/xa60"
                 android:background="@drawable/selector_circle_btn_green_login_gradient"
                 android:text="@string/m23注册"
                 android:textColor="@color/headerView" />

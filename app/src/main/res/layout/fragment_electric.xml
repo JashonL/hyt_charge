@@ -46,6 +46,7 @@
                         android:layout_height="match_parent"
                         android:background="@null"
                         android:gravity="center"
+                        android:inputType="numberDecimal"
                         android:singleLine="true"
                         android:textColor="@color/title_1"
                         android:textSize="@dimen/xa30" />

@@ -7,7 +7,6 @@
     android:background="@color/headerView"
     android:orientation="vertical">
 
-
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
@@ -164,6 +163,7 @@
                         android:orientation="vertical">
 
                         <ImageView
+                            android:id="@+id/iv_lock"
                             android:layout_width="@dimen/xa90"
                             android:layout_height="@dimen/xa90"
                             android:layout_marginStart="@dimen/xa20"
@@ -244,7 +244,7 @@
 
                 </LinearLayout>
 
-                <!--异常提示-->
+                <!--提示-->
                 <include layout="@layout/layout_exception_hint" />
                 <!--是否有预设-->
                 <include layout="@layout/layout_preinstall" />

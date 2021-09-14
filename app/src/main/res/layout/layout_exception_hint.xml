@@ -32,16 +32,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/xa48"
+        android:layout_marginBottom="@dimen/xa60"
         android:gravity="center"
         android:maxLines="2"
         android:textColor="#FF888888"
         android:textSize="@dimen/xa30"
         tools:text="@string/pile_available" />
 
-    <View
-        android:layout_width="@dimen/xa268"
-        android:layout_height="@dimen/xa10"
-        android:layout_marginTop="@dimen/xa111"
-        android:background="@drawable/shape_exception_line_bg" />
 
 </LinearLayout>

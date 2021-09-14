@@ -134,7 +134,7 @@ public class MainActivity extends BaseActivity {
         initHeaderView();
         initResource();
         initRecycleView();
-        initListners();
+        initClick();
         initPermission();
         initCharging();
         initRecyclerListeners();
@@ -144,6 +144,19 @@ public class MainActivity extends BaseActivity {
         initPullView();
         freshData();
         handleSearch();
+    }
+
+    private long TOUCH_TIME = 0;
+
+    @Override
+    public void onBackPressed() {
+        long time = System.currentTimeMillis();
+        if (time - TOUCH_TIME > com.growatt.chargingpile.constant.Constant.WAIT_TIME) {
+            toast("再按一次退出程序");
+            TOUCH_TIME = time;
+        } else {
+            finishAll();
+        }
     }
 
     /**
@@ -374,7 +387,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private void initListners() {
+    private void initClick() {
         mMeAdapter.setOnItemClickListener((adapter, view, position) -> {
             switch (position) {
                 case 0:

@@ -30,7 +30,6 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 
 public class AddAuthorizeRegisterActivity extends BaseActivity {
@@ -425,7 +424,7 @@ public class AddAuthorizeRegisterActivity extends BaseActivity {
         }
 
         if (password.length() < 6) {
-            toast(R.string.m100密码必须大于6位);
+            toast(R.string.m100密码必须大于8位);
             return;
         }
 

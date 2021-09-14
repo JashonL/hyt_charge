@@ -3,6 +3,7 @@ package com.growatt.chargingpile;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ import com.growatt.chargingpile.fragment.gun.FragmentB;
 import com.growatt.chargingpile.fragment.gun.FragmentC;
 import com.growatt.chargingpile.fragment.gun.FragmentD;
 import com.growatt.chargingpile.setting.SettingActivity;
+import com.growatt.chargingpile.util.SmartHomeUtil;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -80,6 +82,16 @@ public class GunActivity extends BaseActivity {
             finish();
         });
         setHeaderImage(mHeaderView, R.drawable.ic_setting, Position.RIGHT, v -> {
+
+            if (SmartHomeUtil.isFlagUser()) {
+                toast(getString(R.string.m66你的账号没有操作权限));
+                return;
+            }
+            if (pDataBean.getType() == 1) {
+                toast(getString(R.string.m66你的账号没有操作权限));
+                return;
+            }
+
             List<ChargingBean.DataBean.PriceConfBean> conf = pDataBean.getPriceConf();
             ArrayList<ChargingBean.DataBean.PriceConfBean> priceConf = new ArrayList<>();
             if (conf != null) priceConf.addAll(conf);
@@ -95,9 +107,12 @@ public class GunActivity extends BaseActivity {
         });
 
 
-
         mTvTitle.setTextColor(ContextCompat.getColor(this, R.color.black));
-        mTvTitle.setText(pDataBean.getChargeId());
+        if (TextUtils.isEmpty(pDataBean.getName())) {
+            mTvTitle.setText(pDataBean.getChargeId());
+        } else {
+            mTvTitle.setText(pDataBean.getName());
+        }
     }
 
     private void initTabLayout() {

@@ -1,9 +1,9 @@
 package com.growatt.chargingpile.adapter;
 
-import androidx.annotation.Nullable;
-
 import android.text.TextUtils;
 import android.util.Log;
+
+import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -32,7 +32,7 @@ public class ChargingRecordAdapter extends BaseQuickAdapter<ChargingRecordBean.D
     @Override
     protected void convert(BaseViewHolder helper, ChargingRecordBean.DataBean item) {
         String name = item.getName();
-        Log.d(TAG, "convert: name:"+name);
+        Log.d(TAG, "convert: name:" + name);
         if (TextUtils.isEmpty(name)) name = item.getChargeId();
         helper.setText(R.id.tv_name, name);
         helper.setText(R.id.tv_chargingId, item.getChargeId());
@@ -46,7 +46,7 @@ public class ChargingRecordAdapter extends BaseQuickAdapter<ChargingRecordBean.D
         }
         String gunName = SmartHomeUtil.getLetter().get(connectorId - 1) + " " + mContext.getString(R.string.枪);
         helper.setText(R.id.tv_model, gunName);
-        Log.d(TAG, "convert:gunName="+gunName);
+        Log.d(TAG, "convert:gunName=" + gunName);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
   /*      long cTime = item.getCtime() * 60 * 1000;
         long sysStartTime = item.getSysStartTime();
@@ -61,7 +61,7 @@ public class ChargingRecordAdapter extends BaseQuickAdapter<ChargingRecordBean.D
         Date sysEndTime = null;
         if (!TextUtils.isEmpty(startTime)) {
             //helper.setText(R.id.tv_calendar, startTime.substring(0, 11));
-            Log.d(TAG, "convert:startTime:"+startTime.substring(11, 16));
+            Log.d(TAG, "convert:startTime:" + startTime.substring(11, 16));
             helper.setText(R.id.tv_start, startTime.substring(11, 16));
             try {
                 sysStartTime = sdf.parse(startTime);
@@ -71,7 +71,7 @@ public class ChargingRecordAdapter extends BaseQuickAdapter<ChargingRecordBean.D
         }
         String endTime = item.getEndtime();
         if (!TextUtils.isEmpty(endTime)) {
-            Log.d(TAG, "convert: endTime:"+endTime);
+            Log.d(TAG, "convert: endTime:" + endTime);
             helper.setText(R.id.tv_end_date, endTime.substring(0, 11));
             helper.setText(R.id.tv_end, endTime.substring(11, 16));
             try {
@@ -91,12 +91,13 @@ public class ChargingRecordAdapter extends BaseQuickAdapter<ChargingRecordBean.D
         // 计算差多少分钟
         int min = (int) ((durationTime % (1000 * 60 * 60)) / (60 * 1000));
         //计算多少秒
-        int ss = (int) ((durationTime % (1000 * 60)) / 1000);
-        String stringDuration = hour+"";
-        helper.setText(R.id.tv_duration, stringDuration);
+        int minute = (int) ((durationTime % (1000 * 60)) / 1000);
 
-        String stringMin = min+"";
-        helper.setText(R.id.tv_min, stringMin);
+        helper.setText(R.id.tv_duration, String.valueOf(hour));
+
+        helper.setText(R.id.tv_min, String.valueOf(min));
+
+        helper.setText(R.id.tv_minute, String.valueOf(minute));
 
         String energy = MathUtil.roundDouble2String(item.getEnergy(), 2);
         helper.setText(R.id.tv_ele, energy);

@@ -5,9 +5,6 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Bundle;
-
-import androidx.core.content.ContextCompat;
-
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -15,6 +12,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
 
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
@@ -166,7 +165,7 @@ public class RegisterActivity extends BaseActivity {
         }
 
         if (password.length() < 6) {
-            toast(R.string.m100密码必须大于6位);
+            toast(R.string.m100密码必须大于8位);
             return;
         }
 

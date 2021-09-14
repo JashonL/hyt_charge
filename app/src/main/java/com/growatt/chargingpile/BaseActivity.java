@@ -6,9 +6,6 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -20,6 +17,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
 import com.growatt.chargingpile.EventBusMsg.EmptyMsg;
 import com.growatt.chargingpile.activity.LoginActivity;
 import com.growatt.chargingpile.application.MyApplication;
@@ -30,7 +31,6 @@ import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.PermissionCodeUtil;
 import com.growatt.chargingpile.util.SharedPreferencesUnit;
 import com.growatt.chargingpile.util.T;
-import com.growatt.chargingpile.view.AutofitTextView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -39,10 +39,10 @@ import org.xutils.x;
 
 import java.lang.ref.SoftReference;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import butterknife.ButterKnife;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -62,6 +62,8 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         LEFT, CENTER, RIGHT
     }
 
+    private static ArrayList<BaseActivity> activities = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +78,7 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         }
         EventBus.getDefault().register(this);
         MyApplication.getInstance().addActivity(new SoftReference<>(this));
-
+        activities.add(this);
     }
 
 
@@ -123,7 +125,8 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         MyApplication.context.startActivity(intent);
     }
 
-    protected void initToolBar(){}
+    protected void initToolBar() {
+    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -143,6 +146,7 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         EToast.reset();
         Mydialog.Dismiss();
         EventBus.getDefault().unregister(this);
+        activities.remove(this);
         super.onDestroy();
     }
 
@@ -156,7 +160,7 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         if (language.toLowerCase().contains("zh")) {
             language = "zh_cn";
             lan = 0;
-            if (!locale.getCountry().toLowerCase().equals("cn")){
+            if (!locale.getCountry().toLowerCase().equals("cn")) {
                 lan = 14;
             }
         }
@@ -412,7 +416,6 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         return false;
     }
 
-
     public String getNumberFormat(String str, int num) {
         BigDecimal bd = new BigDecimal(str);
         return bd.setScale(num, BigDecimal.ROUND_HALF_UP) + "";
@@ -451,7 +454,7 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
                 new AppSettingsDialog
                         .Builder(this)
                         .setTitle(R.string.m权限请求)
-                        .setRationale(String.format("%s:%s", permission,getString(R.string.m权限请求步骤)))
+                        .setRationale(String.format("%s:%s", permission, getString(R.string.m权限请求步骤)))
                         .setPositiveButton(R.string.m9确定)
                         .setRequestCode(requestCode)
                         .setNegativeButton(R.string.m7取消)
@@ -463,7 +466,6 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         }
     }
 
-
     @Override
     public void onPermissionsGranted(int requestCode, List<String> perms) {
         /**
@@ -473,7 +475,6 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
 
         }
     }
-
 
     @Override
     public void onPermissionsDenied(int requestCode, List<String> perms) {
@@ -493,7 +494,6 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         }
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -502,5 +502,12 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         }
     }
 
-
+    public void finishAll() {
+        if (!activities.isEmpty()) {
+            for (BaseActivity activity : activities) {
+                activity.finish();
+            }
+        }
+        activities.clear();
+    }
 }

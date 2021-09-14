@@ -2,14 +2,15 @@ package com.growatt.chargingpile.activity;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
-import androidx.fragment.app.FragmentManager;
-import androidx.core.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentManager;
 
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
@@ -46,7 +47,7 @@ public class ForgotPasswordActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
-        bind=ButterKnife.bind(this);
+        bind = ButterKnife.bind(this);
         initHeaderView();
     }
 
@@ -68,9 +69,6 @@ public class ForgotPasswordActivity extends BaseActivity {
 
     }
 
-
-
-
     /**
      * 重置密码
      */
@@ -78,11 +76,11 @@ public class ForgotPasswordActivity extends BaseActivity {
         String username = etUserName.getText().toString().trim();
         String email = etEmail.getText().toString().trim();
         String phone = etPhone.getText().toString().trim();
-        if (TextUtils.isEmpty(username)){
+        if (TextUtils.isEmpty(username)) {
             toast(R.string.m25请输入用户名);
             return;
         }
-        if (TextUtils.isEmpty(email)){
+        if (TextUtils.isEmpty(email)) {
             toast(R.string.m35请输入正确邮箱格式);
             return;
         }
@@ -122,15 +120,15 @@ public class ForgotPasswordActivity extends BaseActivity {
                         new CircleDialog.Builder()
                                 .setWidth(0.75f)
                                 .setTitle(getString(R.string.m27温馨提示))
-                                .setText(getString(R.string.m密码已初始化)+":"+a)
+                                .setText(getString(R.string.m密码已初始化) + ":" + a)
                                 .setGravity(Gravity.CENTER).setPositive(getString(R.string.m9确定), v -> {
-                                    finish();
+                            finish();
 
                         })
                                 .setNegative(getString(R.string.m7取消), null)
                                 .show(fragmentManager);
 
-                    }else {
+                    } else {
                         String errorMsg = object.optString("data");
                         if (!TextUtils.isEmpty(errorMsg))
                             toast(errorMsg);
@@ -148,104 +146,99 @@ public class ForgotPasswordActivity extends BaseActivity {
     }
 
 
-
-
-
-
-
-/*
-    private void repeatPassword() {
-        final String s = etUserName.getText().toString();
-        if (TextUtils.isEmpty(s)) {
-            toast(R.string.m25请输入用户名);
-            return;
-        }
-        Mydialog.Show(this, "");
-        PostUtil.post(new Urlsutil().postGetServerUrlByParam, new PostUtil.postListener() {
-
-            @Override
-            public void Params(Map<String, String> params) {
-                params.put("type", "1");
-                params.put("param", s);
+    /*
+        private void repeatPassword() {
+            final String s = etUserName.getText().toString();
+            if (TextUtils.isEmpty(s)) {
+                toast(R.string.m25请输入用户名);
+                return;
             }
+            Mydialog.Show(this, "");
+            PostUtil.post(new Urlsutil().postGetServerUrlByParam, new PostUtil.postListener() {
 
-            @Override
-            public void success(String json) {
-                try {
-                    JSONObject jsonObject = new JSONObject(json);
-                    if (jsonObject.opt("success").toString().equals("true")) {
-                        String url = jsonObject.getString("msg").toString();
-                        if (TextUtils.isEmpty(url)) {
-                            url = Urlsutil.url_host;
-                        }
-                        PostUtil.post("http://" + url + "/newForgetAPI.do?op=sendResetEmailByAccount", new PostUtil.postListener() {
-
-                            @Override
-                            public void success(String json) {
-                                Mydialog.Dismiss();
-                                try {
-                                    JSONObject jsonObject = new JSONObject(json).getJSONObject("back");
-                                    if (jsonObject.opt("success").toString().equals("true")) {
-                                        String str = jsonObject.getString("msg").toString();
-                                        String a = getResources().getString(R.string.m29发送到邮箱);
-                                        a = a.concat(str);
-                                        toast(a);
-                                    } else {
-                                        String str = jsonObject.getString("msg").toString();
-                                        if (str.equals("501")) {
-                                            toast(R.string.m31发送邮件失败);
-                                        }
-                                        if (str.equals("502")) {
-                                            toast(R.string.m65用户不存在);
-                                        }
-                                        if (str.equals("503")) {
-                                            toast(R.string.m37服务器错误);
-                                        }
-                                    }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            @Override
-                            public void Params(Map<String, String> params) {
-                                String s = etUserName.getText().toString();
-                                params.put("accountName", s);
-                            }
-
-                            @Override
-                            public void LoginError(String str) {
-                                // TODO Auto-generated method stub
-
-                            }
-                        });
-                    } else {
-                        String str = jsonObject.getString("msg").toString();
-                        if (str.equals("501")) {
-                            toast(R.string.m31发送邮件失败);
-                        }
-                        if (str.equals("502")) {
-                            toast(R.string.m65用户不存在);
-                        }
-                        if (str.equals("503")) {
-                            toast(R.string.m37服务器错误);
-                        }
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
+                @Override
+                public void Params(Map<String, String> params) {
+                    params.put("type", "1");
+                    params.put("param", s);
                 }
-            }
+
+                @Override
+                public void success(String json) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(json);
+                        if (jsonObject.opt("success").toString().equals("true")) {
+                            String url = jsonObject.getString("msg").toString();
+                            if (TextUtils.isEmpty(url)) {
+                                url = Urlsutil.url_host;
+                            }
+                            PostUtil.post("http://" + url + "/newForgetAPI.do?op=sendResetEmailByAccount", new PostUtil.postListener() {
+
+                                @Override
+                                public void success(String json) {
+                                    Mydialog.Dismiss();
+                                    try {
+                                        JSONObject jsonObject = new JSONObject(json).getJSONObject("back");
+                                        if (jsonObject.opt("success").toString().equals("true")) {
+                                            String str = jsonObject.getString("msg").toString();
+                                            String a = getResources().getString(R.string.m29发送到邮箱);
+                                            a = a.concat(str);
+                                            toast(a);
+                                        } else {
+                                            String str = jsonObject.getString("msg").toString();
+                                            if (str.equals("501")) {
+                                                toast(R.string.m31发送邮件失败);
+                                            }
+                                            if (str.equals("502")) {
+                                                toast(R.string.m65用户不存在);
+                                            }
+                                            if (str.equals("503")) {
+                                                toast(R.string.m37服务器错误);
+                                            }
+                                        }
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void Params(Map<String, String> params) {
+                                    String s = etUserName.getText().toString();
+                                    params.put("accountName", s);
+                                }
+
+                                @Override
+                                public void LoginError(String str) {
+                                    // TODO Auto-generated method stub
+
+                                }
+                            });
+                        } else {
+                            String str = jsonObject.getString("msg").toString();
+                            if (str.equals("501")) {
+                                toast(R.string.m31发送邮件失败);
+                            }
+                            if (str.equals("502")) {
+                                toast(R.string.m65用户不存在);
+                            }
+                            if (str.equals("503")) {
+                                toast(R.string.m37服务器错误);
+                            }
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
 
 
-            @Override
-            public void LoginError(String str) {
-                // TODO Auto-generated method stub
+                @Override
+                public void LoginError(String str) {
+                    // TODO Auto-generated method stub
 
-            }
-        });
+                }
+            });
 
-    }*/
+        }*/
     @Override
     protected void onDestroy() {
         super.onDestroy();

@@ -10,6 +10,7 @@ public class SmartHomeUrlUtil {
 
     //欧洲服务器
     public static final String SMARTHOME_BASE_URL = "https://charge.growatt.com";
+  //  https://www.projectevcharger.com/
 
     //测试地址
 //    public static final String SMARTHOME_BASE_URL = "http://192.168.30.69:8080";

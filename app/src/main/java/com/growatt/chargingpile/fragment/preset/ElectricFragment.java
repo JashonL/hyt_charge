@@ -3,6 +3,7 @@ package com.growatt.chargingpile.fragment.preset;
 import static com.growatt.chargingpile.util.T.toast;
 
 import android.os.Build;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -84,6 +85,20 @@ public class ElectricFragment extends BaseFragment {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         String time = sdf.format(new Date()) + "T" + mTvStartTime.getText().toString() + ":00.000Z";
 
+        if (!ifCanChargeMoney(mEditElectric.getText().toString())) {
+            toast(R.string.m输入电量不正确);
+            return;
+        }
+
+        if (TextUtils.isEmpty(mEditElectric.getText().toString())) {
+            toast(R.string.m211请输入电量);
+            return;
+        }
+
+        if (TextUtils.isEmpty(mTvStartTime.getText())) {
+            toast(getString(R.string.m130未设置开始时间));
+            return;
+        }
         double electric = Double.parseDouble(mEditElectric.getText().toString());
 
         pModel.requestReserve(2, time, "G_SetEnergy", electric, loop, pPresetActivity.pChargingId, pPresetActivity.pConnectorId, new GunModel.HttpCallBack() {

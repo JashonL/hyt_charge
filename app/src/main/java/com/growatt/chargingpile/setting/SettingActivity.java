@@ -94,7 +94,7 @@ public class SettingActivity extends BaseActivity implements BaseQuickAdapter.On
 
     private void initRecyclerView() {
         int[] titles = new int[]{R.string.basic_information, R.string.network_setting,
-                R.string.pile_setting, R.string.load_balancing, R.string.m142授权管理, R.string.ap_model};
+                R.string.m105桩体设置, R.string.load_balancing, R.string.m142授权管理, R.string.ap_model};
         int[] images = new int[]{R.drawable.ic_basic_information, R.drawable.ic_network_setting,
                 R.drawable.ic_pile_setting, R.drawable.ic_load_balancing, R.drawable.ic_permissions, R.drawable.ic_ap};
         for (int i = 0; i < titles.length; i++) {

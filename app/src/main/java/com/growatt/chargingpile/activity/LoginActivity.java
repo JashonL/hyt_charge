@@ -9,8 +9,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
@@ -49,12 +47,13 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.bt_login)
     Button btLogin;
     private Unbinder bind;
-    private boolean mIsShowPassword=false;
+    private boolean mIsShowPassword = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        bind=ButterKnife.bind(this);
+        bind = ButterKnife.bind(this);
         JPushInterface.init(getApplicationContext());
         initUser();
         AutoLogin();
@@ -88,7 +87,7 @@ public class LoginActivity extends BaseActivity {
         LoginUtil.login(mContext, etUsername.getText().toString().trim(), etPassword.getText().toString().trim(), new OnViewEnableListener() {
             @Override
             public void onViewEnable() {
-
+                finish();
             }
         });
 
@@ -109,7 +108,7 @@ public class LoginActivity extends BaseActivity {
         }*/
     }
 
-    @OnClick({R.id.tv_register, R.id.bt_login, R.id.tv_foget,R.id.iv_switch})
+    @OnClick({R.id.tv_register, R.id.bt_login, R.id.tv_foget, R.id.iv_switch})
     public void onClickListeners(View view) {
         switch (view.getId()) {
             case R.id.tv_register:
@@ -127,12 +126,12 @@ public class LoginActivity extends BaseActivity {
                 break;
             case R.id.iv_switch:
                 //loginDemo();
-                if (!mIsShowPassword){
+                if (!mIsShowPassword) {
                     etPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                }else {
+                } else {
                     etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 }
-                mIsShowPassword=!mIsShowPassword;
+                mIsShowPassword = !mIsShowPassword;
                 break;
         }
     }
@@ -207,6 +206,7 @@ public class LoginActivity extends BaseActivity {
                 if (!btLogin.isEnabled()) {
                     btLogin.setEnabled(true);
                 }
+                finish();
             }
         });
 
@@ -225,6 +225,6 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (bind!=null)bind.unbind();
+        if (bind != null) bind.unbind();
     }
 }

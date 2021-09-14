@@ -58,7 +58,6 @@ public class MyApplication extends Application {
         ToastUtils.init(this);
     }
 
-
     public static Context getContext() {
         return context;
     }
@@ -92,7 +91,6 @@ public class MyApplication extends Application {
         }
 
     }
-
 
     /**
      * 设置弹框按钮颜色等

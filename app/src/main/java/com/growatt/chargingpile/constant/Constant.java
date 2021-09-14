@@ -19,4 +19,6 @@ public class Constant {
 
     //延时时间
     public static int DELAYED_MINUTE = 60 * 1000;
+
+    public static final long WAIT_TIME = 2000L;
 }

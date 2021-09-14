@@ -3,6 +3,7 @@ package com.growatt.chargingpile.fragment.preset;
 import static com.growatt.chargingpile.util.T.toast;
 
 import android.os.Build;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -74,7 +75,7 @@ public class TimeFragment extends BaseFragment {
 
     @Override
     protected void initWidget() {
-        if (pPresetActivity.pReservationBean != null&& pPresetActivity.pReservationBean.getCKey().equals("G_SetTime")) {
+        if (pPresetActivity.pReservationBean != null && pPresetActivity.pReservationBean.getCKey().equals("G_SetTime")) {
             mTvStartHour.setText(pPresetActivity.pReservationBean.getExpiryDate().substring(11, 13));
             mTvStartMinute.setText(pPresetActivity.pReservationBean.getExpiryDate().substring(14, 16));
             mTvEndHour.setText(pPresetActivity.pReservationBean.getEndDate().substring(11, 13));
@@ -107,45 +108,32 @@ public class TimeFragment extends BaseFragment {
                 handleViewHide(Constant.DURATION_TYPE);
                 break;
             case R.id.ll_start_time:
-                TimeSetDialog.newInstance(getString(R.string.m204开始时间), mTvStartHour.getText().toString() + ":" + mTvStartMinute.getText().toString(), new TimeSetDialog.TimeCallBack() {
-                    @Override
-                    public void confirm(String hour, String minute) {
-                        mTvStartHour.setText(hour);
-                        mTvStartMinute.setText(minute);
-                        Log.d(TAG, "confirm: hour:" + hour + "  minute:" + minute);
-                    }
-
+                TimeSetDialog.newInstance(getString(R.string.m204开始时间), mTvStartHour.getText().toString() + ":" + mTvStartMinute.getText().toString(), (hour, minute) -> {
+                    mTvStartHour.setText(hour);
+                    mTvStartMinute.setText(minute);
+                    Log.d(TAG, "confirm: hour:" + hour + "  minute:" + minute);
                 }).show(pPresetActivity.getSupportFragmentManager(), "startDialog");
                 break;
             case R.id.ll_end_time:
-                TimeSetDialog.newInstance(getString(R.string.m282结束时间), mTvEndHour.getText().toString() + ":" + mTvEndMinute.getText().toString(), new TimeSetDialog.TimeCallBack() {
-                    @Override
-                    public void confirm(String hour, String minute) {
-                        mTvEndHour.setText(hour);
-                        mTvEndMinute.setText(minute);
-                        Log.d(TAG, "confirm: hour:" + hour + "  minute:" + minute);
-                    }
+                TimeSetDialog.newInstance(getString(R.string.m282结束时间), mTvEndHour.getText().toString() + ":" + mTvEndMinute.getText().toString(), (hour, minute) -> {
+                    mTvEndHour.setText(hour);
+                    mTvEndMinute.setText(minute);
+                    Log.d(TAG, "confirm: hour:" + hour + "  minute:" + minute);
                 }).show(pPresetActivity.getSupportFragmentManager(), "endDialog");
                 break;
             case R.id.rl_duration:
-                TimeSetDialog.newInstance(getString(R.string.charging_time), mTvDuration.getText().toString(), new TimeSetDialog.TimeCallBack() {
-                    @Override
-                    public void confirm(String hour, String minute) {
-                        mTvDurationHour = hour;
-                        mTvDurationMinute = minute;
-                        mTvDuration.setText(hour + "小时" + minute + "分钟");
-                    }
+                TimeSetDialog.newInstance(getString(R.string.charging_time), mTvDuration.getText().toString(), (hour, minute) -> {
+                    mTvDurationHour = hour;
+                    mTvDurationMinute = minute;
+                    mTvDuration.setText(hour + getString(R.string.m207时) + minute + getString(R.string.m208分));
                 }).show(pPresetActivity.getSupportFragmentManager(), "endDialog");
                 break;
             case R.id.rl_duration_start:
-                TimeSetDialog.newInstance(getString(R.string.m204开始时间), mTvDurationStartTime.getText().toString(), new TimeSetDialog.TimeCallBack() {
-                    @Override
-                    public void confirm(String hour, String minute) {
+                TimeSetDialog.newInstance(getString(R.string.m204开始时间), mTvDurationStartTime.getText().toString(), (hour, minute) -> {
 
-                        mTvDurationStartTime.setText(hour + ":" + minute);
+                    mTvDurationStartTime.setText(hour + ":" + minute);
 
-                        Log.d(TAG, "mTvDurationStartTime: hour:" + hour + "  minute:" + minute);
-                    }
+                    Log.d(TAG, "mTvDurationStartTime: hour:" + hour + "  minute:" + minute);
                 }).show(pPresetActivity.getSupportFragmentManager(), "durationStartDialog");
                 break;
             default:
@@ -163,7 +151,16 @@ public class TimeFragment extends BaseFragment {
             int endHours = Integer.parseInt(mTvEndHour.getText().toString());
             int endMinute = Integer.parseInt(mTvEndMinute.getText().toString());
 
-            if (startHours == 00 && startMinute == 00 && endHours == 00 && endMinute == 00) {
+            if (startHours == 0 && startMinute == 0) {
+                toast(getString(R.string.m130未设置开始时间));
+                return;
+            } else if (endHours == 0 && endMinute == 0) {
+                toast(getString(R.string.m284未设置结束时间));
+                return;
+            }
+
+            if (endHours < startHours) {
+                toast(getString(R.string.m请选择正确的时间段));
                 return;
             }
 
@@ -200,7 +197,13 @@ public class TimeFragment extends BaseFragment {
             });
         } else if (mCurrTimeType == Constant.DURATION_TYPE) {
 
-            if (mTvDurationHour.equals("") && mTvDurationMinute.equals("")) {
+            if (Integer.parseInt(mTvDurationHour) == 0 && Integer.parseInt(mTvDurationMinute) == 0) {
+                toast(R.string.m129时长设置不能为空);
+                return;
+            }
+
+            if (TextUtils.isEmpty(mTvDurationHour) && (TextUtils.isEmpty(mTvDurationMinute))) {
+                toast(R.string.m129时长设置不能为空);
                 return;
             }
 

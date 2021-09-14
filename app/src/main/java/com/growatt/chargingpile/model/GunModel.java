@@ -1,6 +1,5 @@
 package com.growatt.chargingpile.model;
 
-import static com.growatt.chargingpile.util.T.toast;
 import static com.growatt.chargingpile.util.Utils.getLanguage;
 
 import android.util.Log;
@@ -139,7 +138,7 @@ public class GunModel {
                     object = new JSONObject(json);
                     if (object.getInt("code") == 0) {
                         ChargingBean chargingListBean = new Gson().fromJson(json, ChargingBean.class);
-                        if (chargingListBean != null) {
+                        if (chargingListBean != null && chargingListBean.getData().size() != 0) {
                             httpCallBack.onSuccess(chargingListBean.getData());
                         }
                     }
@@ -164,9 +163,10 @@ public class GunModel {
      * @param chargingId  充电桩的id
      * @param connectorId 充电枪的id
      */
-    public void requestGunUnlock(final String chargingId, final int connectorId) {
+    public void requestGunUnlock(final String userID, final String chargingId, final int connectorId, HttpCallBack httpCallBack) {
         Map<String, Object> jsonMap = new HashMap<>();
         jsonMap.put("cmd", "unlock");//测试id
+        jsonMap.put("userId", userID);//用户id
         jsonMap.put("chargeId", chargingId);//测试id
         jsonMap.put("lan", getLanguage());//测试id
         jsonMap.put("connectorId", connectorId);
@@ -179,13 +179,7 @@ public class GunModel {
 
             @Override
             public void success(String json) {
-                try {
-                    JSONObject object = new JSONObject(json);
-                    String data = object.getString("data");
-                    toast(data);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                httpCallBack.onSuccess(json);
             }
 
             @Override
@@ -369,7 +363,7 @@ public class GunModel {
      */
     public void requestCharging(final String chargingId, final int connectorId, HttpCallBack httpCallBack) {
         Map<String, Object> jsonMap = new HashMap<>();
-        jsonMap.put("action", "remoteStopTransaction");
+        jsonMap.put("action", "remoteStartTransaction");
         jsonMap.put("connectorId", connectorId);
         jsonMap.put("userId", SmartHomeUtil.getUserName());
         jsonMap.put("chargeId", chargingId);

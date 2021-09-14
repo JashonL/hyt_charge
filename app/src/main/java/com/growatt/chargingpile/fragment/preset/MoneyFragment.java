@@ -118,6 +118,21 @@ public class MoneyFragment extends BaseFragment {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         String time = sdf.format(new Date()) + "T" + mTvStartTime.getText().toString() + ":00.000Z";
 
+        if (!ifCanChargeMoney(mEditMoney.getText().toString())) {
+            toast(R.string.m输入金额不正确);
+            return;
+        }
+
+        if (TextUtils.isEmpty(mEditMoney.getText().toString())) {
+            toast(R.string.m210请输入金额);
+            return;
+        }
+
+        if (TextUtils.isEmpty(mTvStartTime.getText())) {
+            toast(getString(R.string.m130未设置开始时间));
+            return;
+        }
+
         double money = Double.parseDouble(mEditMoney.getText().toString());
 
         pModel.requestReserve(1, time, "G_SetAmount", money, loop, pPresetActivity.pChargingId, pPresetActivity.pConnectorId, new GunModel.HttpCallBack() {

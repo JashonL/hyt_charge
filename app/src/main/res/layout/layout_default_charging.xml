@@ -40,7 +40,7 @@
                 android:layout_marginStart="@dimen/xa39"
                 android:layout_marginTop="@dimen/xa22"
                 android:layout_toEndOf="@+id/iv_kwh"
-                android:text="电费"
+                android:text="@string/m189已充电量"
                 android:textColor="#ff666666"
                 android:textSize="@dimen/xa28" />
 
@@ -91,7 +91,7 @@
                 android:layout_marginStart="@dimen/xa39"
                 android:layout_marginTop="@dimen/xa22"
                 android:layout_toEndOf="@+id/iv_rate"
-                android:text="费率"
+                android:text="@string/m190充电费率"
                 android:textColor="#ff666666"
                 android:textSize="@dimen/xa28" />
 
@@ -142,7 +142,7 @@
                 android:layout_marginStart="@dimen/xa39"
                 android:layout_marginTop="@dimen/xa22"
                 android:layout_toEndOf="@+id/iv_time"
-                android:text="时长"
+                android:text="@string/m191已充时长"
                 android:textColor="#ff666666"
                 android:textSize="@dimen/xa28" />
 
@@ -216,7 +216,7 @@
                 android:layout_marginStart="@dimen/xa39"
                 android:layout_marginTop="@dimen/xa22"
                 android:layout_toEndOf="@+id/iv_money"
-                android:text="金额"
+                android:text="@string/m192消费金额"
                 android:textColor="#ff666666"
                 android:textSize="@dimen/xa28" />
 
@@ -268,7 +268,7 @@
                 android:layout_marginStart="@dimen/xa39"
                 android:layout_marginTop="@dimen/xa22"
                 android:layout_toEndOf="@+id/iv_a"
-                android:text="电流"
+                android:text="@string/m193当前电流"
                 android:textColor="#ff666666"
                 android:textSize="@dimen/xa28" />
 
@@ -319,7 +319,7 @@
                 android:layout_marginStart="@dimen/xa39"
                 android:layout_marginTop="@dimen/xa22"
                 android:layout_toEndOf="@+id/iv_voltage"
-                android:text="电压"
+                android:text="@string/m194当前电压"
                 android:textColor="#ff666666"
                 android:textSize="@dimen/xa28" />
 

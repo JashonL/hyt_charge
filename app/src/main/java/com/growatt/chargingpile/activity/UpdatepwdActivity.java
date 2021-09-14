@@ -81,8 +81,8 @@ public class UpdatepwdActivity extends BaseActivity {
             return;
         }
 
-        if (newPwd.length() < 6) {
-            toast(R.string.m100密码必须大于6位);
+        if (newPwd.length() < 8) {
+            toast(R.string.m100密码必须大于8位);
             return;
         }
 

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ll_preinstall"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/xa300"
+    android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/xa60"
     android:orientation="vertical"
     android:visibility="gone"
@@ -24,6 +24,16 @@
         android:layout_marginEnd="@dimen/xa30"
         android:background="@drawable/shape_preinstall_bg">
 
+        <!--        <Switch-->
+        <!--            android:id="@+id/sw_preinstall"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_alignParentEnd="true"-->
+        <!--            android:layout_marginTop="@dimen/xa30"-->
+        <!--            android:layout_marginEnd="@dimen/xa40"-->
+        <!--            android:checked="true"-->
+        <!--            android:thumb="@drawable/shape_switch_thumb"-->
+        <!--            android:track="@drawable/selector_switch_track" />-->
 
         <ImageView
             android:id="@+id/iv_preinstall_delete"
@@ -78,7 +88,7 @@
                 android:id="@+id/tv_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:text="00:00-00:00"
                 android:textColor="#FF009DFF"
                 android:textSize="@dimen/xa36" />
 
@@ -88,7 +98,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="@dimen/xa12"
                 android:layout_weight="1"
-                android:text=">"
+                android:text=""
                 android:textColor="#FF888888"
                 android:textSize="@dimen/xa30" />
 
@@ -112,5 +122,24 @@
 
 
     </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/iv_exception_type"
+        android:layout_width="@dimen/xa302"
+        android:layout_height="@dimen/xa114"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/xa30"
+        android:src="@drawable/ic_yuyue" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/xa58"
+        android:layout_marginBottom="@dimen/xa60"
+        android:paddingStart="@dimen/xa30"
+        android:paddingEnd="@dimen/xa30"
+        android:text="@string/m167现在正处于时段预约状态" />
+
 
 </LinearLayout>

@@ -131,6 +131,11 @@ public class FragmentA extends BaseFragment {
     LinearLayout mLlPleaseVehicle;
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
+//    @BindView(R.id.sw_preinstall)
+//    Switch mSwitchPreinstall;
+
+    @BindView(R.id.iv_lock)
+    ImageView mIvLock;
 
     @Override
     protected Object setRootView() {
@@ -154,18 +159,20 @@ public class FragmentA extends BaseFragment {
     }
 
     @OnClick({R.id.tv_time, R.id.ll_pile_status, R.id.ll_lock, R.id.ll_record, R.id.ll_preset,
-            R.id.iv_preinstall_delete, R.id.iv_switch})
+            R.id.iv_switch, R.id.iv_preinstall_delete})
     public void onClickListener(View view) {
         switch (view.getId()) {
+            case R.id.iv_preinstall_delete:
+                showDeleteReservationNowDialog();
+                break;
             case R.id.iv_switch:
                 if (pCurrGunStatus.equals(GunBean.CHARGING)) {
                     requestStopCharging();
                 } else if (pCurrGunStatus.equals(GunBean.AVAILABLE) || pCurrGunStatus.equals(GunBean.PREPARING) || pCurrGunStatus.equals(GunBean.FINISHING)) {
                     requestCharging();
+                } else if (pCurrGunStatus.equals(GunBean.RESERVENOW)) {
+                    showDeleteReservationNowDialog();
                 }
-                break;
-            case R.id.iv_preinstall_delete:
-                showDeleteReservationNowDialog();
                 break;
             case R.id.ll_pile_status:
                 showChargingModeDialog(mTvSolarMode.getText().toString());
@@ -180,10 +187,7 @@ public class FragmentA extends BaseFragment {
                 startPresetActivity(1);
                 break;
             case R.id.ll_preset:
-                if (pCurrGunStatus.equals(GunBean.UNAVAILABLE) || pCurrGunStatus.equals(GunBean.FAULTED)) {
-                    return;
-                }
-                startPresetActivity(0);
+                showTips();
                 break;
             default:
                 break;
@@ -210,12 +214,13 @@ public class FragmentA extends BaseFragment {
                 mTvPreinstallChargingFinish.setVisibility(View.GONE);
                 mTvChargingFinish.setVisibility(View.GONE);
                 break;
-            case GunBean.RESERVENOW://有预约
+            case GunBean.RESERVENOW://预约
                 pHandler.removeCallbacks(runnableGunInfo);
                 mTvStatus.setText(getString(R.string.m339预约));
                 mIvCircleStatus.setImageResource(R.drawable.ic_green_circle);
                 mIvSwitchStatus.setImageResource(R.drawable.ic_charging_off);
                 mTvSwitchStatus.setTextColor(ContextCompat.getColor(pActivity, R.color.charging_start));
+                mTvSwitchStatus.setText(getString(R.string.m340取消预约));
                 mLlPleaseVehicle.setVisibility(View.GONE);
                 mLlPreinstall.setVisibility(View.VISIBLE);
                 //获取预约
@@ -235,7 +240,7 @@ public class FragmentA extends BaseFragment {
                 mTvChargingFinish.setVisibility(View.GONE);
                 break;
             case GunBean.PREPARING://m119准备中
-                pHandler.removeCallbacks(runnableStop);
+                pHandler.removeCallbacks(runnableGunInfo);
                 mLlException.setVisibility(View.GONE);
                 mLlDefaultCharging.setVisibility(View.GONE);
                 mLlPreinstallCharging.setVisibility(View.GONE);
@@ -249,7 +254,6 @@ public class FragmentA extends BaseFragment {
                 mTvPreinstallChargingFinish.setVisibility(View.GONE);
                 mTvChargingFinish.setVisibility(View.GONE);
 
-
                 if (mIvChargingGif.getVisibility() == View.VISIBLE) {
                     GifDrawable endDrawable = (GifDrawable) mIvChargingGif.getDrawable();
                     if (endDrawable.isRunning()) {
@@ -261,6 +265,7 @@ public class FragmentA extends BaseFragment {
                 break;
             case GunBean.CHARGING://充电中 1.普通充电 2.其他充电
                 pHandler.removeCallbacks(runnableGunInfo);
+                mLlPreinstall.setVisibility(View.GONE);
                 mLlException.setVisibility(View.GONE);
                 mLlPleaseVehicle.setVisibility(View.GONE);
                 mTvPreinstallChargingFinish.setVisibility(View.GONE);
@@ -287,9 +292,11 @@ public class FragmentA extends BaseFragment {
                             hourCharging, minCharging, bean.getData().getCost(), bean.getData().getCurrent(), bean.getData().getVoltage());
                     switch (key) {
                         case "G_SetTime":
-                            mTv1.setText(String.valueOf(hourCharging));
+                            String hour = String.valueOf(Integer.parseInt(bean.getData().getcValue()) / 60);
+                            mTv1.setText(hour);
                             mTv2.setText(getString(R.string.m207时));
-                            mTv3.setText(String.valueOf(minCharging));
+                            String min = String.valueOf(Integer.parseInt(bean.getData().getcValue()) % 60);
+                            mTv3.setText(min);
                             mTv4.setText(getString(R.string.m208分));
                             mTvPreinstallType.setText(R.string.time);
 
@@ -394,7 +401,6 @@ public class FragmentA extends BaseFragment {
                 }
                 break;
             case GunBean.FINISHING://m120充电结束
-                pHandler.removeCallbacks(runnableStop);
                 pHandler.removeCallbacks(runnableGunInfo);
                 mLlException.setVisibility(View.GONE);
                 mIvChargingGif.setVisibility(View.GONE);
@@ -419,8 +425,6 @@ public class FragmentA extends BaseFragment {
 
                 break;
             case GunBean.SUSPENDEEV://m133车拒绝充电
-                pHandler.removeCallbacks(runnableStop);
-                pHandler.removeCallbacks(runnableGunInfo);
                 mLlPleaseVehicle.setVisibility(View.GONE);
                 mLlDefaultCharging.setVisibility(View.GONE);
                 mLlPreinstallCharging.setVisibility(View.GONE);
@@ -434,8 +438,6 @@ public class FragmentA extends BaseFragment {
                 mLlException.setVisibility(View.VISIBLE);
                 break;
             case GunBean.SUSPENDEDEVSE://m292桩拒绝充电
-                pHandler.removeCallbacks(runnableStop);
-                pHandler.removeCallbacks(runnableGunInfo);
                 mLlPleaseVehicle.setVisibility(View.GONE);
                 mLlDefaultCharging.setVisibility(View.GONE);
                 mLlPreinstallCharging.setVisibility(View.GONE);
@@ -517,9 +519,15 @@ public class FragmentA extends BaseFragment {
         } else {
             mCbEveryDay.setChecked(false);
         }
-        String startTime = data.getExpiryDate().substring(11, 16);
-        String endTime = data.getEndDate().substring(11, 16);
-
+        String startTime;
+        String endTime;
+        if (!TextUtils.isEmpty(data.getExpiryDate()) && !TextUtils.isEmpty(data.getEndDate())) {
+            startTime = data.getExpiryDate().substring(11, 16);
+            endTime = data.getEndDate().substring(11, 16);
+        } else {
+            startTime = "null";
+            endTime = "null";
+        }
         switch (data.getCKey()) {
             case "G_SetTime":
                 mTvPreinstallTime.setText(startTime + "~" + endTime);
@@ -596,17 +604,29 @@ public class FragmentA extends BaseFragment {
                 if (bean.getData() != null) {
                     if (mSwipeRefreshLayout != null) {
                         handleGunStatus(bean);
+                        handleLock(bean);
+                        mSwipeRefreshLayout.setRefreshing(false);
+
                     }
                 }
             }
 
             @Override
             public void onFailed() {
-
+                if (mSwipeRefreshLayout != null) {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
             }
         });
-        if (mSwipeRefreshLayout != null) {
-            mSwipeRefreshLayout.setRefreshing(false);
+
+    }
+
+    private void handleLock(GunBean bean) {
+        Log.d(TAG, "handleLock: " + bean.getData().getLockState());
+        if (bean.getData().getLockState().equals("unlocked")) {
+            mIvLock.setImageResource(R.drawable.ic_gun_lock);
+        } else {
+            mIvLock.setImageResource(R.drawable.ic_gun_unlock);
         }
     }
 

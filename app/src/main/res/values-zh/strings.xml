@@ -114,7 +114,7 @@
     <string name="m97输入代理商编号">输入代理商编号</string>
     <string name="m98请输入相同的密码">请输入相同的密码</string>
     <string name="m99用户名必须大于3位">用户名必须大于3位</string>
-    <string name="m100密码必须大于6位">密码必须大于6位</string>
+    <string name="m100密码必须大于8位">密码必须大于8位</string>
 
 
     <string name="m104输入电话号码">输入电话号码</string>
@@ -474,7 +474,7 @@
     <string name="welcome">欢迎!</string>
     <string name="have_an_account">没有账号?</string>
     <string name="charging_time">充电时长</string>
-    <string name="please_charging_id">请输入充电桩ID</string>
+    <string name="please_charging_id">请输入充电桩名称</string>
     <string name="charging_mode">充电模式</string>
     <string name="pile_failure">充电桩故障，请更换其他充电桩.</string>
     <string name="pile_available">桩不可用。请更换其他充电桩.</string>

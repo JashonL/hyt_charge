@@ -146,26 +146,28 @@ public class FragmentC extends BaseFragment {
     @Override
     protected void initWidget() {
         Log.d(TAG, "initWidget:");
-        handleModel(pActivity.pDataBean.getModel());
-        handleSolarMode(pActivity.pDataBean.getG_SolarMode());
+        handleModel(pDataBean.getModel());
+        handleSolarMode(pDataBean.getG_SolarMode());
         initChargingGif();
         startRunnable(true);
         initPullView();
     }
 
     @OnClick({R.id.tv_time, R.id.ll_pile_status, R.id.ll_lock, R.id.ll_record, R.id.ll_preset,
-            R.id.iv_preinstall_delete, R.id.iv_switch})
+            R.id.iv_switch, R.id.iv_preinstall_delete})
     public void onClickListener(View view) {
         switch (view.getId()) {
+            case R.id.iv_preinstall_delete:
+                showDeleteReservationNowDialog();
+                break;
             case R.id.iv_switch:
                 if (pCurrGunStatus.equals(GunBean.CHARGING)) {
                     requestStopCharging();
                 } else if (pCurrGunStatus.equals(GunBean.AVAILABLE) || pCurrGunStatus.equals(GunBean.PREPARING) || pCurrGunStatus.equals(GunBean.FINISHING)) {
                     requestCharging();
+                } else if (pCurrGunStatus.equals(GunBean.RESERVENOW)) {
+                    showDeleteReservationNowDialog();
                 }
-                break;
-            case R.id.iv_preinstall_delete:
-                showDeleteReservationNowDialog();
                 break;
             case R.id.ll_pile_status:
                 showChargingModeDialog(mTvSolarMode.getText().toString());
@@ -180,10 +182,7 @@ public class FragmentC extends BaseFragment {
                 startPresetActivity(1);
                 break;
             case R.id.ll_preset:
-                if (pCurrGunStatus.equals(GunBean.UNAVAILABLE) || pCurrGunStatus.equals(GunBean.FAULTED)) {
-                    return;
-                }
-                startPresetActivity(0);
+                showTips();
                 break;
             default:
                 break;
@@ -203,22 +202,21 @@ public class FragmentC extends BaseFragment {
                 mLlDefaultCharging.setVisibility(View.GONE);
                 mLlPreinstallCharging.setVisibility(View.GONE);
                 mLlPleaseVehicle.setVisibility(View.GONE);
-
-                pHandler.removeCallbacks(runnableGunInfo);
                 mIvCircleStatus.setImageResource(R.drawable.ic_green_circle);
                 mIvSwitchStatus.setImageResource(R.drawable.ic_green_on);
                 mTvSwitchStatus.setTextColor(ContextCompat.getColor(pActivity, R.color.charging_start));
-
+                mTvSwitchStatus.setText(getString(R.string.m103充电));
                 mTvPreinstallChargingFinish.setVisibility(View.GONE);
                 mTvChargingFinish.setVisibility(View.GONE);
-
                 break;
-            case GunBean.RESERVENOW://有预约
+            case GunBean.RESERVENOW://预约
                 pHandler.removeCallbacks(runnableGunInfo);
                 mTvStatus.setText(getString(R.string.m339预约));
                 mIvCircleStatus.setImageResource(R.drawable.ic_green_circle);
                 mIvSwitchStatus.setImageResource(R.drawable.ic_charging_off);
                 mTvSwitchStatus.setTextColor(ContextCompat.getColor(pActivity, R.color.charging_start));
+                mTvSwitchStatus.setText(getString(R.string.m340取消预约));
+                mLlPleaseVehicle.setVisibility(View.GONE);
                 mLlPreinstall.setVisibility(View.VISIBLE);
                 //获取预约
                 pModel.getReservationNow(pActivity.pDataBean.getChargeId(), 1, new GunModel.HttpCallBack() {
@@ -233,25 +231,35 @@ public class FragmentC extends BaseFragment {
 
                     }
                 });
-
                 mTvPreinstallChargingFinish.setVisibility(View.GONE);
                 mTvChargingFinish.setVisibility(View.GONE);
                 break;
             case GunBean.PREPARING://m119准备中
+                pHandler.removeCallbacks(runnableGunInfo);
                 mLlException.setVisibility(View.GONE);
                 mLlDefaultCharging.setVisibility(View.GONE);
                 mLlPreinstallCharging.setVisibility(View.GONE);
                 mTvStatus.setText(getString(R.string.m119准备中));
+                mTvSwitchStatus.setText(getString(R.string.m103充电));
                 mLlPreinstall.setVisibility(View.GONE);
                 mIvCircleStatus.setImageResource(R.drawable.ic_green_circle);
                 mIvSwitchStatus.setImageResource(R.drawable.ic_green_on);
                 mTvSwitchStatus.setTextColor(ContextCompat.getColor(pActivity, R.color.charging_start));
                 mLlPleaseVehicle.setVisibility(View.VISIBLE);
-
                 mTvPreinstallChargingFinish.setVisibility(View.GONE);
                 mTvChargingFinish.setVisibility(View.GONE);
+
+                if (mIvChargingGif.getVisibility() == View.VISIBLE) {
+                    GifDrawable endDrawable = (GifDrawable) mIvChargingGif.getDrawable();
+                    if (endDrawable.isRunning()) {
+                        endDrawable.stop();
+                        mIvChargingGif.setVisibility(View.GONE);
+                    }
+                }
+
                 break;
             case GunBean.CHARGING://充电中 1.普通充电 2.其他充电
+                pHandler.removeCallbacks(runnableGunInfo);
                 mLlException.setVisibility(View.GONE);
                 mLlPleaseVehicle.setVisibility(View.GONE);
                 mTvPreinstallChargingFinish.setVisibility(View.GONE);
@@ -261,7 +269,7 @@ public class FragmentC extends BaseFragment {
                 int timeCharging = bean.getData().getCtime();
                 int hourCharging = timeCharging / 60;
                 int minCharging = timeCharging % 60;
-                if (TextUtils.isEmpty(key)) {
+                if (TextUtils.isEmpty(key) || key.equals("0")) {
                     pIsPreinstallType = false;
                     mLlDefaultCharging.setVisibility(View.VISIBLE);
                     mLlDefaultAV.setVisibility(View.VISIBLE);
@@ -278,9 +286,11 @@ public class FragmentC extends BaseFragment {
                             hourCharging, minCharging, bean.getData().getCost(), bean.getData().getCurrent(), bean.getData().getVoltage());
                     switch (key) {
                         case "G_SetTime":
-                            mTv1.setText(hourCharging);
+                            String hour = String.valueOf(Integer.parseInt(bean.getData().getcValue()) / 60);
+                            mTv1.setText(hour);
                             mTv2.setText(getString(R.string.m207时));
-                            mTv3.setText(minCharging);
+                            String min = String.valueOf(Integer.parseInt(bean.getData().getcValue()) % 60);
+                            mTv3.setText(min);
                             mTv4.setText(getString(R.string.m208分));
                             mTvPreinstallType.setText(R.string.time);
 
@@ -305,7 +315,6 @@ public class FragmentC extends BaseFragment {
 
                             double percent = MyUtil.divide(value, 2);
                             mTvProgressValue.setText(percent + "%");
-
 
                             break;
                         case "G_SetAmount":
@@ -386,6 +395,7 @@ public class FragmentC extends BaseFragment {
                 }
                 break;
             case GunBean.FINISHING://m120充电结束
+                pHandler.removeCallbacks(runnableGunInfo);
                 mLlException.setVisibility(View.GONE);
                 mIvChargingGif.setVisibility(View.GONE);
                 mTvStatus.setText(getString(R.string.m120充电结束));
@@ -393,9 +403,9 @@ public class FragmentC extends BaseFragment {
                 mIvSwitchStatus.setImageResource(R.drawable.ic_charging_finish);
                 mTvSwitchStatus.setTextColor(ContextCompat.getColor(pActivity, R.color.charging_start));
                 mTvSwitchStatus.setText(getString(R.string.m120充电结束));
-                GifDrawable endDrawable = (GifDrawable) mIvChargingGif.getDrawable();
-                if (endDrawable.isRunning()) {
-                    endDrawable.stop();
+                GifDrawable endDrawable1 = (GifDrawable) mIvChargingGif.getDrawable();
+                if (endDrawable1.isRunning()) {
+                    endDrawable1.stop();
                 }
 
                 if (pIsPreinstallType) {//预约充电结束
@@ -409,8 +419,30 @@ public class FragmentC extends BaseFragment {
 
                 break;
             case GunBean.SUSPENDEEV://m133车拒绝充电
+                mLlPleaseVehicle.setVisibility(View.GONE);
+                mLlDefaultCharging.setVisibility(View.GONE);
+                mLlPreinstallCharging.setVisibility(View.GONE);
+                mIvCircleStatus.setImageResource(R.drawable.ic_gray_circle);
+                mIvSwitchStatus.setImageResource(R.drawable.ic_gray_on);
+                mTvSwitchStatus.setTextColor(ContextCompat.getColor(pActivity, R.color.charging_default));
+                mTvStatus.setText(getString(R.string.m133车拒绝充电));
+                mIvExceptionIcon.setImageResource(R.drawable.ic_exception_unavailable);
+                mTvExceptionStatus.setText(getString(R.string.m133车拒绝充电));
+                mTvExceptionStatusHint.setText(getString(R.string.pile_available));
+                mLlException.setVisibility(View.VISIBLE);
                 break;
             case GunBean.SUSPENDEDEVSE://m292桩拒绝充电
+                mLlPleaseVehicle.setVisibility(View.GONE);
+                mLlDefaultCharging.setVisibility(View.GONE);
+                mLlPreinstallCharging.setVisibility(View.GONE);
+                mIvCircleStatus.setImageResource(R.drawable.ic_gray_circle);
+                mIvSwitchStatus.setImageResource(R.drawable.ic_gray_on);
+                mTvSwitchStatus.setTextColor(ContextCompat.getColor(pActivity, R.color.charging_default));
+                mTvStatus.setText(getString(R.string.m292桩拒绝充电));
+                mIvExceptionIcon.setImageResource(R.drawable.ic_exception_unavailable);
+                mTvExceptionStatus.setText(getString(R.string.m292桩拒绝充电));
+                mTvExceptionStatusHint.setText(getString(R.string.pile_available));
+                mLlException.setVisibility(View.VISIBLE);
                 break;
             case GunBean.FAULTED://m121故障
                 mLlPleaseVehicle.setVisibility(View.GONE);
@@ -428,7 +460,6 @@ public class FragmentC extends BaseFragment {
                 mLlException.setVisibility(View.VISIBLE);
                 break;
             case GunBean.UNAVAILABLE://m122不可用
-                pHandler.removeCallbacks(runnableGunInfo);
                 mLlPleaseVehicle.setVisibility(View.GONE);
                 mLlDefaultCharging.setVisibility(View.GONE);
                 mLlPreinstallCharging.setVisibility(View.GONE);
@@ -482,9 +513,15 @@ public class FragmentC extends BaseFragment {
         } else {
             mCbEveryDay.setChecked(false);
         }
-        String startTime = data.getExpiryDate().substring(11, 16);
-        String endTime = data.getEndDate().substring(11, 16);
-
+        String startTime;
+        String endTime;
+        if (!TextUtils.isEmpty(data.getExpiryDate()) && !TextUtils.isEmpty(data.getEndDate())) {
+            startTime = data.getExpiryDate().substring(11, 16);
+            endTime = data.getEndDate().substring(11, 16);
+        } else {
+            startTime = "null";
+            endTime = "null";
+        }
         switch (data.getCKey()) {
             case "G_SetTime":
                 mTvPreinstallTime.setText(startTime + "~" + endTime);
@@ -561,10 +598,9 @@ public class FragmentC extends BaseFragment {
                 if (bean.getData() != null) {
                     if (mSwipeRefreshLayout != null) {
                         handleGunStatus(bean);
+                        mSwipeRefreshLayout.setRefreshing(false);
+
                     }
-                }
-                if (mSwipeRefreshLayout != null) {
-                    mSwipeRefreshLayout.setRefreshing(false);
                 }
             }
 
@@ -575,6 +611,7 @@ public class FragmentC extends BaseFragment {
                 }
             }
         });
+
     }
 
     @Override

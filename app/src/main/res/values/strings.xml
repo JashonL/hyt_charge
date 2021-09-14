@@ -110,7 +110,7 @@
     <string name="m97输入代理商编号">Enter the agency ID</string>
     <string name="m98请输入相同的密码">Please enter the same password</string>
     <string name="m99用户名必须大于3位">Username must be 3 or more characters</string>
-    <string name="m100密码必须大于6位">Password must be 6 or more characters</string>
+    <string name="m100密码必须大于8位">Password must be 8 or more characters</string>
 
     <string name="m104输入电话号码">Enter phone number</string>
     <string name="m101添加设备">Add device</string>
