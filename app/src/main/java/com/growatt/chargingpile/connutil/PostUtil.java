@@ -1,16 +1,13 @@
 package com.growatt.chargingpile.connutil;
 
 
-import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
 
 import com.growatt.chargingpile.R;
-import com.growatt.chargingpile.activity.LoginActivity;
 import com.growatt.chargingpile.application.MyApplication;
-import com.growatt.chargingpile.listener.PostJsonListener;
 import com.growatt.chargingpile.util.LoginUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.T;
@@ -34,7 +31,7 @@ public class PostUtil {
         LogUtil.i("post_utl:" + url);
         httpListener.Params(params);
         LogUtil.i("params:" + params.toString());
-        final  Handler handler = new Handler(Looper.getMainLooper(),msg -> {
+        final Handler handler = new Handler(Looper.getMainLooper(), msg -> {
             String a = (String) msg.obj;
             Mydialog.Dismiss();
             switch (msg.what) {
@@ -65,10 +62,10 @@ public class PostUtil {
                         try {
                             JSONObject jsonObject = new JSONObject(result);
                             String code = jsonObject.optString("code", "");
-                            if ("501".equals(code)){
+                            if ("501".equals(code)) {
                                 //重新做登陆操作
                                 Message.obtain(handler, 2, url).sendToTarget();
-                            }else {
+                            } else {
                                 Message msg = new Message();
                                 msg.what = 0;
                                 msg.obj = result;
@@ -122,12 +119,13 @@ public class PostUtil {
             handler.sendMessage(msg);
         }
     }
-    public static void post(final String url, boolean isLogErr,final postListener httpListener) {
+
+    public static void post(final String url, boolean isLogErr, final postListener httpListener) {
         final Map<String, String> params = new HashMap<String, String>();
         LogUtil.i("post_utl:" + url);
         httpListener.Params(params);
         LogUtil.i("params:" + params.toString());
-        final Handler handler = new Handler(Looper.getMainLooper(),msg -> {
+        final Handler handler = new Handler(Looper.getMainLooper(), msg -> {
             String a = (String) msg.obj;
             Mydialog.Dismiss();
             switch (msg.what) {
@@ -158,10 +156,10 @@ public class PostUtil {
                         try {
                             JSONObject jsonObject = new JSONObject(result);
                             String code = jsonObject.optString("code", "");
-                            if ("501".equals(code)){
+                            if ("501".equals(code)) {
                                 //重新做登陆操作
                                 Message.obtain(handler, 2, url).sendToTarget();
-                            }else {
+                            } else {
                                 Message msg = new Message();
                                 msg.what = 0;
                                 msg.obj = result;
@@ -214,9 +212,10 @@ public class PostUtil {
             handler.sendMessage(msg);
         }
     }
+
     public static void postJson(final String url, final String json, final postListener httpListener) {
         LogUtil.i("post_url:" + url + "\njson:" + json);
-        final Handler handler = new Handler(Looper.getMainLooper(),msg -> {
+        final Handler handler = new Handler(Looper.getMainLooper(), msg -> {
             String a = (String) msg.obj;
             Mydialog.Dismiss();
             switch (msg.what) {
@@ -247,10 +246,10 @@ public class PostUtil {
                         try {
                             JSONObject jsonObject = new JSONObject(result);
                             String code = jsonObject.optString("code", "");
-                            if ("501".equals(code)){
+                            if ("501".equals(code)) {
                                 //重新做登陆操作
                                 Message.obtain(handler, 2, url).sendToTarget();
-                            }else {
+                            } else {
                                 Message msg = new Message();
                                 msg.what = 0;
                                 msg.obj = result;
@@ -304,11 +303,11 @@ public class PostUtil {
     }
 
 
-
-
     public interface postListener {
         void Params(Map<String, String> params);
+
         void success(String json);
+
         void LoginError(String str);
     }
 

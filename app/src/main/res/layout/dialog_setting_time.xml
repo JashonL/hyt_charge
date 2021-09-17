@@ -1,103 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/shape_dialog_bg"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/xa120"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:background="@color/headerView"
-        android:orientation="horizontal">
+        android:gravity="center"
+        android:text="@string/m204开始时间"
+        android:textColor="@color/black"
+        android:textSize="@dimen/xa30"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="5dp" />
 
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:text="@string/m204开始时间"
-            android:textColor="@color/black"
-            android:textSize="@dimen/xa30" />
+    <ImageView
+        android:id="@+id/iv_cancel"
+        android:layout_width="@dimen/xa23"
+        android:layout_height="@dimen/xa24"
+        android:layout_marginTop="@dimen/xa24"
+        android:layout_marginEnd="@dimen/xa24"
+        android:src="@drawable/ic_exit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
-        <ImageView
-            android:id="@+id/iv_cancel"
-            android:layout_width="@dimen/xa23"
-            android:layout_height="@dimen/xa24"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="@dimen/xa24"
-            android:layout_marginEnd="@dimen/xa24"
-            android:src="@drawable/ic_exit" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_np"
+    <LinearLayout
+        android:id="@+id/ll_number"
         android:layout_width="match_parent"
         android:layout_height="@dimen/xa337"
-        android:background="#fff5f6f7">
+        android:background="#fff5f6f7"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title"
+        tools:ignore="MissingConstraints">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <com.growatt.chargingpile.view.NumberPickerView
+            android:id="@+id/np_hour"
+            style="@style/number_picker_style"
+            android:layout_width="@dimen/xa60"
             android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/xa164"
+            android:contentDescription="@null" />
 
-            android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tv_hour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/m207时"
+            android:textColor="#ff888888"
+            android:visibility="gone" />
 
-            <com.growatt.chargingpile.view.NumberPickerView
-                android:id="@+id/np_hour"
-                style="@style/number_picker_style"
-                android:layout_width="@dimen/xa60"
-                android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/xa160"
-                android:contentDescription="@null" />
+        <com.growatt.chargingpile.view.NumberPickerView
+            android:id="@+id/np_minute"
+            style="@style/number_picker_style"
+            android:layout_width="@dimen/xa60"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/xa260"
+            android:contentDescription="@null" />
 
-            <TextView
-                android:id="@+id/tv_hour"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="@string/m207时"
-                android:textColor="#ff888888"
-                android:visibility="gone" />
+        <TextView
+            android:id="@+id/tv_min"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/m208分"
+            android:textColor="#ff888888"
+            android:visibility="gone" />
 
-            <com.growatt.chargingpile.view.NumberPickerView
-                android:id="@+id/np_minute"
-                style="@style/number_picker_style"
-                android:layout_width="@dimen/xa60"
-                android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/xa160"
-                android:contentDescription="@null" />
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/tv_min"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="@string/m208分"
-                android:textColor="#ff888888"
-                android:visibility="gone" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa70"
+        android:layout_marginTop="@dimen/xa134"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title"
+        tools:ignore="MissingConstraints">
 
-        </LinearLayout>
-
-        <RelativeLayout
+        <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/xa70"
-            android:layout_centerInParent="true">
+            android:layout_height="@dimen/ya2"
+            android:layout_alignParentTop="true"
+            android:background="@color/preset_edit_divider" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/ya2"
-                android:layout_alignParentTop="true"
-                android:background="@color/preset_edit_divider" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/ya2"
-                android:layout_alignParentBottom="true"
-                android:background="@color/preset_edit_divider" />
-        </RelativeLayout>
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/ya2"
+            android:layout_alignParentBottom="true"
+            android:background="@color/preset_edit_divider" />
     </RelativeLayout>
 
     <TextView
@@ -108,6 +105,9 @@
         android:gravity="center"
         android:text="@string/m3完成"
         android:textColor="#666666"
-        android:textSize="@dimen/xa30" />
+        android:textSize="@dimen/xa30"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_number"
+        tools:ignore="MissingConstraints" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

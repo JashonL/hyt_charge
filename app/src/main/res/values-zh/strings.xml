@@ -507,6 +507,10 @@
     <string name="remove_rates">删除充电费率？</string>
     <string name="you_need_set_rate">\n您还没有设置充电费率，\n"需要设置后才可以使用预设金额。\n</string>
     <string name="to_set_up">去设置</string>
+    <string name="exit_program">再按一次退出程序</string>
+    <string name="not_deleted">桩主不能删除</string>
+    <string name="not_available">当前状态不可用</string>
+    <string name="while_charging">充电中,不能设置预约</string>
 
 </resources>
 

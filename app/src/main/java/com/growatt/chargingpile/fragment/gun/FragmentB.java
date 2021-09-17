@@ -1,5 +1,7 @@
 package com.growatt.chargingpile.fragment.gun;
 
+import static com.growatt.chargingpile.util.T.toast;
+
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -24,6 +26,7 @@ import com.growatt.chargingpile.fragment.BaseFragment;
 import com.growatt.chargingpile.model.GunModel;
 import com.growatt.chargingpile.util.MathUtil;
 import com.growatt.chargingpile.util.MyUtil;
+import com.growatt.chargingpile.util.SmartHomeUtil;
 import com.growatt.chargingpile.view.RoundProgressBar;
 
 import butterknife.BindView;
@@ -131,6 +134,8 @@ public class FragmentB extends BaseFragment {
     LinearLayout mLlPleaseVehicle;
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.iv_lock)
+    ImageView mIvLock;
 
     @Override
     protected Object setRootView() {
@@ -154,16 +159,16 @@ public class FragmentB extends BaseFragment {
     }
 
     @OnClick({R.id.tv_time, R.id.ll_pile_status, R.id.ll_lock, R.id.ll_record, R.id.ll_preset,
-            R.id.iv_switch, R.id.iv_preinstall_delete})
+            R.id.iv_switch})
     public void onClickListener(View view) {
         switch (view.getId()) {
-            case R.id.iv_preinstall_delete:
-                showDeleteReservationNowDialog();
-                break;
             case R.id.iv_switch:
-                if (pCurrGunStatus.equals(GunBean.CHARGING)) {
+                if (pCurrGunStatus.equals(GunBean.AVAILABLE)) {
+                    toast(getString(R.string.m131空闲状态无法直接开始充电));
+                    return;
+                } else if (pCurrGunStatus.equals(GunBean.CHARGING)) {
                     requestStopCharging();
-                } else if (pCurrGunStatus.equals(GunBean.AVAILABLE) || pCurrGunStatus.equals(GunBean.PREPARING) || pCurrGunStatus.equals(GunBean.FINISHING)) {
+                } else if (pCurrGunStatus.equals(GunBean.PREPARING) || pCurrGunStatus.equals(GunBean.FINISHING)) {
                     requestCharging();
                 } else if (pCurrGunStatus.equals(GunBean.RESERVENOW)) {
                     showDeleteReservationNowDialog();
@@ -179,9 +184,25 @@ public class FragmentB extends BaseFragment {
                 startChargingRecordActivity();
                 break;
             case R.id.tv_time:
+                if (SmartHomeUtil.isFlagUser()) {
+                    toast(getString(R.string.m66你的账号没有操作权限));
+                    return;
+                }
+                if (pDataBean.getType() == 1) {
+                    toast(getString(R.string.m66你的账号没有操作权限));
+                    return;
+                }
                 startPresetActivity(1);
                 break;
             case R.id.ll_preset:
+                if (SmartHomeUtil.isFlagUser()) {
+                    toast(getString(R.string.m66你的账号没有操作权限));
+                    return;
+                }
+                if (pDataBean.getType() == 1) {
+                    toast(getString(R.string.m66你的账号没有操作权限));
+                    return;
+                }
                 showTips();
                 break;
             default:
@@ -211,7 +232,7 @@ public class FragmentB extends BaseFragment {
                 break;
             case GunBean.RESERVENOW://预约
                 pHandler.removeCallbacks(runnableGunInfo);
-                mTvStatus.setText(getString(R.string.m339预约));
+                mTvStatus.setText(getString(R.string.m119准备中));
                 mIvCircleStatus.setImageResource(R.drawable.ic_green_circle);
                 mIvSwitchStatus.setImageResource(R.drawable.ic_charging_off);
                 mTvSwitchStatus.setTextColor(ContextCompat.getColor(pActivity, R.color.charging_start));
@@ -260,130 +281,14 @@ public class FragmentB extends BaseFragment {
                 break;
             case GunBean.CHARGING://充电中 1.普通充电 2.其他充电
                 pHandler.removeCallbacks(runnableGunInfo);
+                mLlPreinstall.setVisibility(View.GONE);
                 mLlException.setVisibility(View.GONE);
                 mLlPleaseVehicle.setVisibility(View.GONE);
                 mTvPreinstallChargingFinish.setVisibility(View.GONE);
                 mTvChargingFinish.setVisibility(View.GONE);
                 mTvStatus.setText(getString(R.string.m118充电中));
                 pTransactionId = bean.getData().getTransactionId();
-                int timeCharging = bean.getData().getCtime();
-                int hourCharging = timeCharging / 60;
-                int minCharging = timeCharging % 60;
-                if (TextUtils.isEmpty(key) || key.equals("0")) {
-                    pIsPreinstallType = false;
-                    mLlDefaultCharging.setVisibility(View.VISIBLE);
-                    mLlDefaultAV.setVisibility(View.VISIBLE);
-                    setChargingInfoUi(0, bean.getData().getEnergy(), bean.getData().getRate(),
-                            hourCharging, minCharging, bean.getData().getCost(), bean.getData().getCurrent(), bean.getData().getVoltage());
-                    Log.d(TAG, "普通充电");
-                } else {
-                    Log.d(TAG, "预约充电");
-                    pIsPreinstallType = true;
-                    mLlPreinstallCharging.setVisibility(View.VISIBLE);
-                    mLlPreinstallAV.setVisibility(View.VISIBLE);
-                    mRlPreinstallBg.setVisibility(View.VISIBLE);
-                    setChargingInfoUi(1, bean.getData().getEnergy(), bean.getData().getRate(),
-                            hourCharging, minCharging, bean.getData().getCost(), bean.getData().getCurrent(), bean.getData().getVoltage());
-                    switch (key) {
-                        case "G_SetTime":
-                            String hour = String.valueOf(Integer.parseInt(bean.getData().getcValue()) / 60);
-                            mTv1.setText(hour);
-                            mTv2.setText(getString(R.string.m207时));
-                            String min = String.valueOf(Integer.parseInt(bean.getData().getcValue()) % 60);
-                            mTv3.setText(min);
-                            mTv4.setText(getString(R.string.m208分));
-                            mTvPreinstallType.setText(R.string.time);
-
-                            mProgressBar.setCricleColor(Color.parseColor("#FFDDDD"));
-                            mProgressBar.setCricleProgressColor(Color.parseColor("#FF8B8B"));
-
-                            double presetValue_value = Double.parseDouble(bean.getData().getcValue());
-                            double chargedValue_value = bean.getData().getCtime();
-
-                            if (presetValue_value > 0) {
-                                mProgressBar.setMax((float) presetValue_value);
-
-                            }
-                            mProgressBar.setProgress((float) chargedValue_value);
-
-                            double value;
-                            if (presetValue_value == 0.0) {
-                                value = 0.0;
-                            } else {
-                                value = chargedValue_value * 100 / presetValue_value;
-                            }
-
-                            double percent = MyUtil.divide(value, 2);
-                            mTvProgressValue.setText(percent + "%");
-
-                            break;
-                        case "G_SetAmount":
-                            mTv1.setText(bean.getData().getcValue());
-                            if (TextUtils.isEmpty(bean.getData().getSymbol())) {
-                                mTv2.setText("£");
-                            } else {
-                                mTv2.setText(bean.getData().getSymbol());
-                            }
-                            mTv3.setVisibility(View.GONE);
-                            mTv4.setVisibility(View.GONE);
-                            mTvPreinstallType.setText(getString(R.string.m200金额));
-
-                            mProgressBar.setCricleColor(Color.parseColor("#FDF6E4"));
-                            mProgressBar.setCricleProgressColor(Color.parseColor("#FFDD8B"));
-
-                            double presetValue_value_Amount = Double.parseDouble(bean.getData().getcValue());
-                            double chargedValue_value_Amount = bean.getData().getCost();
-
-                            if (presetValue_value_Amount > 0) {
-                                mProgressBar.setMax((float) presetValue_value_Amount);
-
-                            }
-                            mProgressBar.setProgress((float) chargedValue_value_Amount);
-
-                            double amountValue;
-                            if (presetValue_value_Amount == 0.0) {
-                                amountValue = 0.0;
-                            } else {
-                                amountValue = chargedValue_value_Amount * 100 / presetValue_value_Amount;
-                            }
-
-                            double percent1 = MyUtil.divide(amountValue, 2);
-                            mTvProgressValue.setText(percent1 + "%");
-
-                            break;
-                        case "G_SetEnergy":
-                            mTv1.setText(bean.getData().getcValue());
-                            mTv2.setText("kwh");
-                            mTv3.setVisibility(View.GONE);
-                            mTv4.setVisibility(View.GONE);
-                            mTvPreinstallType.setText(getString(R.string.m201电量));
-
-                            mProgressBar.setCricleColor(Color.parseColor("#D6FFE6"));
-                            mProgressBar.setCricleProgressColor(Color.parseColor("#30E578"));
-
-                            double presetValue_value_Energy = Double.parseDouble(bean.getData().getcValue());
-                            double chargedValue_value_Energy = bean.getData().getEnergy();
-
-                            if (presetValue_value_Energy > 0) {
-                                mProgressBar.setMax((float) presetValue_value_Energy);
-                            }
-                            mProgressBar.setProgress((float) chargedValue_value_Energy);
-
-                            double energyValue;
-                            if (presetValue_value_Energy == 0.0) {
-                                energyValue = 0.0;
-                            } else {
-                                energyValue = chargedValue_value_Energy * 100 / presetValue_value_Energy;
-                            }
-
-                            double percent2 = MyUtil.divide(energyValue, 2);
-                            mTvProgressValue.setText(percent2 + "%");
-
-                            break;
-                        default:
-                            break;
-                    }
-                }
+                handlerChargingInfo(bean, key);
                 mIvCircleStatus.setImageResource(R.drawable.ic_green_circle);
                 mIvChargingGif.setVisibility(View.VISIBLE);
                 mIvSwitchStatus.setImageResource(R.drawable.ic_charging_off);
@@ -403,9 +308,10 @@ public class FragmentB extends BaseFragment {
                 mIvSwitchStatus.setImageResource(R.drawable.ic_charging_finish);
                 mTvSwitchStatus.setTextColor(ContextCompat.getColor(pActivity, R.color.charging_start));
                 mTvSwitchStatus.setText(getString(R.string.m120充电结束));
-                GifDrawable endDrawable1 = (GifDrawable) mIvChargingGif.getDrawable();
-                if (endDrawable1.isRunning()) {
-                    endDrawable1.stop();
+                handlerChargingInfo(bean, key);
+                GifDrawable endDrawable = (GifDrawable) mIvChargingGif.getDrawable();
+                if (endDrawable.isRunning()) {
+                    endDrawable.stop();
                 }
 
                 if (pIsPreinstallType) {//预约充电结束
@@ -430,6 +336,13 @@ public class FragmentB extends BaseFragment {
                 mTvExceptionStatus.setText(getString(R.string.m133车拒绝充电));
                 mTvExceptionStatusHint.setText(getString(R.string.pile_available));
                 mLlException.setVisibility(View.VISIBLE);
+                mIvChargingGif.setVisibility(View.GONE);
+
+                GifDrawable supDrawable = (GifDrawable) mIvChargingGif.getDrawable();
+                if (supDrawable.isRunning()) {
+                    supDrawable.stop();
+                }
+
                 break;
             case GunBean.SUSPENDEDEVSE://m292桩拒绝充电
                 mLlPleaseVehicle.setVisibility(View.GONE);
@@ -443,6 +356,13 @@ public class FragmentB extends BaseFragment {
                 mTvExceptionStatus.setText(getString(R.string.m292桩拒绝充电));
                 mTvExceptionStatusHint.setText(getString(R.string.pile_available));
                 mLlException.setVisibility(View.VISIBLE);
+                mIvChargingGif.setVisibility(View.GONE);
+
+                GifDrawable suspendDrawable = (GifDrawable) mIvChargingGif.getDrawable();
+                if (suspendDrawable.isRunning()) {
+                    suspendDrawable.stop();
+                }
+
                 break;
             case GunBean.FAULTED://m121故障
                 mLlPleaseVehicle.setVisibility(View.GONE);
@@ -458,6 +378,12 @@ public class FragmentB extends BaseFragment {
                 mTvExceptionStatus.setTextColor(ContextCompat.getColor(pActivity, R.color.charging_off));
                 mTvExceptionStatusHint.setText(getString(R.string.pile_failure));
                 mLlException.setVisibility(View.VISIBLE);
+                mIvChargingGif.setVisibility(View.GONE);
+                GifDrawable faultedDrawable = (GifDrawable) mIvChargingGif.getDrawable();
+                if (faultedDrawable.isRunning()) {
+                    faultedDrawable.stop();
+                }
+
                 break;
             case GunBean.UNAVAILABLE://m122不可用
                 mLlPleaseVehicle.setVisibility(View.GONE);
@@ -471,11 +397,141 @@ public class FragmentB extends BaseFragment {
                 mTvExceptionStatus.setText(getString(R.string.m122不可用));
                 mTvExceptionStatusHint.setText(getString(R.string.pile_available));
                 mLlException.setVisibility(View.VISIBLE);
+                mIvChargingGif.setVisibility(View.GONE);
+                GifDrawable drawable = (GifDrawable) mIvChargingGif.getDrawable();
+                if (drawable.isRunning()) {
+                    drawable.stop();
+                }
                 break;
             default:
                 break;
         }
 
+    }
+
+    private void handlerChargingInfo(GunBean bean, String key) {
+        int timeCharging = bean.getData().getCtime();
+        Log.d(TAG, "timeCharging: " + timeCharging);
+        int hourCharging = timeCharging / 60;
+        int minCharging = timeCharging % 60;
+
+        Log.d(TAG, "handlerChargingInfo: hourCharging:" + hourCharging + " minCharging:" + minCharging);
+
+        if (TextUtils.isEmpty(key) || key.equals("0")) {
+            pIsPreinstallType = false;
+            mLlDefaultCharging.setVisibility(View.VISIBLE);
+            mLlDefaultAV.setVisibility(View.VISIBLE);
+            setChargingInfoUi(0, bean.getData().getEnergy(), bean.getData().getRate(),
+                    hourCharging, minCharging, bean.getData().getCost(), bean.getData().getCurrent(), bean.getData().getVoltage());
+            Log.d(TAG, "普通充电");
+        } else {
+            Log.d(TAG, "预约充电");
+            pIsPreinstallType = true;
+            mLlPreinstallCharging.setVisibility(View.VISIBLE);
+            mLlPreinstallAV.setVisibility(View.VISIBLE);
+            mRlPreinstallBg.setVisibility(View.VISIBLE);
+            setChargingInfoUi(1, bean.getData().getEnergy(), bean.getData().getRate(),
+                    hourCharging, minCharging, bean.getData().getCost(), bean.getData().getCurrent(), bean.getData().getVoltage());
+            switch (key) {
+                case "G_SetTime":
+                    String hour = String.valueOf(Integer.parseInt(bean.getData().getcValue()) / 60);
+                    mTv1.setText(hour);
+                    mTv2.setText(getString(R.string.m207时));
+                    String min = String.valueOf(Integer.parseInt(bean.getData().getcValue()) % 60);
+                    mTv3.setText(min);
+                    mTv4.setText(getString(R.string.m208分));
+                    mTvPreinstallType.setText(R.string.time);
+
+                    mProgressBar.setCricleColor(Color.parseColor("#FFDDDD"));
+                    mProgressBar.setCricleProgressColor(Color.parseColor("#FF8B8B"));
+
+                    double presetValue_value = Double.parseDouble(bean.getData().getcValue());
+                    double chargedValue_value = bean.getData().getCtime();
+
+                    if (presetValue_value > 0) {
+                        mProgressBar.setMax((float) presetValue_value);
+
+                    }
+                    mProgressBar.setProgress((float) chargedValue_value);
+
+                    double value;
+                    if (presetValue_value == 0.0) {
+                        value = 0.0;
+                    } else {
+                        value = chargedValue_value * 100 / presetValue_value;
+                    }
+
+                    double percent = MyUtil.divide(value, 2);
+                    mTvProgressValue.setText(percent + "%");
+
+                    break;
+                case "G_SetAmount":
+                    mTv1.setText(bean.getData().getcValue());
+                    if (TextUtils.isEmpty(bean.getData().getSymbol())) {
+                        mTv2.setText("£");
+                    } else {
+                        mTv2.setText(bean.getData().getSymbol());
+                    }
+                    mTv3.setVisibility(View.GONE);
+                    mTv4.setVisibility(View.GONE);
+                    mTvPreinstallType.setText(getString(R.string.m200金额));
+
+                    mProgressBar.setCricleColor(Color.parseColor("#FDF6E4"));
+                    mProgressBar.setCricleProgressColor(Color.parseColor("#FFDD8B"));
+
+                    double presetValue_value_Amount = Double.parseDouble(bean.getData().getcValue());
+                    double chargedValue_value_Amount = bean.getData().getCost();
+
+                    if (presetValue_value_Amount > 0) {
+                        mProgressBar.setMax((float) presetValue_value_Amount);
+
+                    }
+                    mProgressBar.setProgress((float) chargedValue_value_Amount);
+
+                    double amountValue;
+                    if (presetValue_value_Amount == 0.0) {
+                        amountValue = 0.0;
+                    } else {
+                        amountValue = chargedValue_value_Amount * 100 / presetValue_value_Amount;
+                    }
+
+                    double percent1 = MyUtil.divide(amountValue, 2);
+                    mTvProgressValue.setText(percent1 + "%");
+
+                    break;
+                case "G_SetEnergy":
+                    mTv1.setText(bean.getData().getcValue());
+                    mTv2.setText("kwh");
+                    mTv3.setVisibility(View.GONE);
+                    mTv4.setVisibility(View.GONE);
+                    mTvPreinstallType.setText(getString(R.string.m201电量));
+
+                    mProgressBar.setCricleColor(Color.parseColor("#D6FFE6"));
+                    mProgressBar.setCricleProgressColor(Color.parseColor("#30E578"));
+
+                    double presetValue_value_Energy = Double.parseDouble(bean.getData().getcValue());
+                    double chargedValue_value_Energy = bean.getData().getEnergy();
+
+                    if (presetValue_value_Energy > 0) {
+                        mProgressBar.setMax((float) presetValue_value_Energy);
+                    }
+                    mProgressBar.setProgress((float) chargedValue_value_Energy);
+
+                    double energyValue;
+                    if (presetValue_value_Energy == 0.0) {
+                        energyValue = 0.0;
+                    } else {
+                        energyValue = chargedValue_value_Energy * 100 / presetValue_value_Energy;
+                    }
+
+                    double percent2 = MyUtil.divide(energyValue, 2);
+                    mTvProgressValue.setText(percent2 + "%");
+
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     private void setChargingInfoUi(int type, double electricity, double rate, int hour, int min, double money, double current, double voltage) {
@@ -598,6 +654,7 @@ public class FragmentB extends BaseFragment {
                 if (bean.getData() != null) {
                     if (mSwipeRefreshLayout != null) {
                         handleGunStatus(bean);
+                        handleLock(bean);
                         mSwipeRefreshLayout.setRefreshing(false);
 
                     }
@@ -611,7 +668,16 @@ public class FragmentB extends BaseFragment {
                 }
             }
         });
+        handleSolarMode(pDataBean.getG_SolarMode());
+    }
 
+    private void handleLock(GunBean bean) {
+        Log.d(TAG, "handleLock: " + bean.getData().getLockState());
+        if (bean.getData().getLockState().equals("unlocked")) {
+            mIvLock.setImageResource(R.drawable.ic_gun_unlock);
+        } else if (bean.getData().getLockState().equals("locked")) {
+            mIvLock.setImageResource(R.drawable.ic_gun_lock);
+        }
     }
 
     @Override

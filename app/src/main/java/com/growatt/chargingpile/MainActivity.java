@@ -38,6 +38,7 @@ import com.growatt.chargingpile.activity.AddChargingActivity;
 import com.growatt.chargingpile.activity.UserActivity;
 import com.growatt.chargingpile.adapter.ChargingListAdapter;
 import com.growatt.chargingpile.adapter.MeAdapter;
+import com.growatt.chargingpile.application.MyApplication;
 import com.growatt.chargingpile.bean.ChargingBean;
 import com.growatt.chargingpile.connutil.PostUtil;
 import com.growatt.chargingpile.jpush.TagAliasOperatorHelper;
@@ -152,10 +153,10 @@ public class MainActivity extends BaseActivity {
     public void onBackPressed() {
         long time = System.currentTimeMillis();
         if (time - TOUCH_TIME > com.growatt.chargingpile.constant.Constant.WAIT_TIME) {
-            toast("再按一次退出程序");
+            toast(getString(R.string.exit_program));
             TOUCH_TIME = time;
         } else {
-            finishAll();
+            MyApplication.getInstance().exit();
         }
     }
 

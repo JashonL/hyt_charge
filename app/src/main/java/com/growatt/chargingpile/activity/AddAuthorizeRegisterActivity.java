@@ -4,12 +4,13 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import androidx.core.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
 
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
@@ -398,13 +399,13 @@ public class AddAuthorizeRegisterActivity extends BaseActivity {
     /**
      * 注册一个用户
      */
-    private void register(){
+    private void register() {
         String username = etUsername.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
         String email = etEmail.getText().toString().trim();
-        String postCode=etPostCode.getText().toString().trim();
-        String phone=etPhone.getText().toString().trim();
-        String installer=etInstanller.getText().toString().trim();
+        String postCode = etPostCode.getText().toString().trim();
+        String phone = etPhone.getText().toString().trim();
+        String installer = etInstanller.getText().toString().trim();
         final String country = MyUtil.getCountryAndPhoneCodeByCountryCode(this, 1);
         if (TextUtils.isEmpty(username)) {
             toast(R.string.m21用户名密码为空);
@@ -423,7 +424,7 @@ public class AddAuthorizeRegisterActivity extends BaseActivity {
             return;
         }
 
-        if (password.length() < 6) {
+        if (password.length() < 8) {
             toast(R.string.m100密码必须大于8位);
             return;
         }
@@ -445,7 +446,7 @@ public class AddAuthorizeRegisterActivity extends BaseActivity {
         }
 
         //邮政编码
-        if (TextUtils.isEmpty(postCode)){
+        if (TextUtils.isEmpty(postCode)) {
             toast(R.string.m邮政编码不能为空);
             return;
         }
@@ -460,9 +461,9 @@ public class AddAuthorizeRegisterActivity extends BaseActivity {
         JSONObject object = new JSONObject();
         try {
             object.put("cmd", "register");//cmd  注册
-            object.put("userId",username);//用户名
+            object.put("userId", username);//用户名
             object.put("roleId", "endUser");//角色
-            object.put("phone",phone);
+            object.put("phone", phone);
             object.put("password", password);//密码
             object.put("installer", installer);//安装者
             object.put("company", installer);//公司
@@ -490,7 +491,7 @@ public class AddAuthorizeRegisterActivity extends BaseActivity {
                         toast(R.string.m42注册成功);
                         SqliteUtil.url(SmartHomeUrlUtil.getServer());
                         toAddAuthorize();
-                    }else {
+                    } else {
                         String errorMsg = object.optString("data");
                         toast(errorMsg);
                     }
@@ -512,8 +513,6 @@ public class AddAuthorizeRegisterActivity extends BaseActivity {
         Cons.regMap.setRegPostCode(postCode);
         Cons.regMap.setRegInstaller(installer);
     }
-
-
 
 
     @Override

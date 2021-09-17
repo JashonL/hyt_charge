@@ -101,7 +101,7 @@ public class MyUtil {
 
     public static boolean regexCheckEmail(String email) {
         String check = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
-       return  email.matches(check);
+        return email.matches(check);
     }
 
 
@@ -344,7 +344,7 @@ public class MyUtil {
      * 判断是否为合法IP * @return the ip
      */
     public static boolean isboolIp(String ipAddress) {
-        if(TextUtils.isEmpty(ipAddress))
+        if (TextUtils.isEmpty(ipAddress))
             return false;
         Pattern pattern = Pattern.compile("^(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|[1-9])\\.(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\.(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\.(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)$");
         Matcher matcher = pattern.matcher(ipAddress);
@@ -353,10 +353,11 @@ public class MyUtil {
 
     /**
      * byte数组转16进制字符串
+     *
      * @param src
      * @return
      */
-    public static String bytesToHexString(byte[] src){
+    public static String bytesToHexString(byte[] src) {
         StringBuilder stringBuilder = new StringBuilder("");
         if (src == null || src.length <= 0) {
             return null;
@@ -377,7 +378,7 @@ public class MyUtil {
 
     public static boolean isNetworkAvailable(Context context) {
         boolean result = false;
-        if(getNetworkType(context) != null) {
+        if (getNetworkType(context) != null) {
             result = true;
         }
 
@@ -385,25 +386,24 @@ public class MyUtil {
     }
 
 
-
     public static String getNetworkType(Context context) {
         String result = null;
         ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if(connectivity == null) {
+        if (connectivity == null) {
             result = null;
         } else {
             NetworkInfo[] info = null;
 
             try {
-                if(Build.VERSION.SDK_INT >= 21) {
+                if (Build.VERSION.SDK_INT >= 21) {
                     Network[] allNetworks = connectivity.getAllNetworks();
-                    if(allNetworks != null && allNetworks.length > 0) {
+                    if (allNetworks != null && allNetworks.length > 0) {
                         info = new NetworkInfo[allNetworks.length];
                         int i = 0;
                         Network[] var6 = allNetworks;
                         int var7 = allNetworks.length;
 
-                        for(int var8 = 0; var8 < var7; ++var8) {
+                        for (int var8 = 0; var8 < var7; ++var8) {
                             Network network = var6[var8];
                             info[i++] = connectivity.getNetworkInfo(network);
                         }
@@ -415,11 +415,11 @@ public class MyUtil {
                 ;
             }
 
-            if(info != null) {
-                for(int i = 0; i < info.length; ++i) {
-                    if(info[i] != null) {
+            if (info != null) {
+                for (int i = 0; i < info.length; ++i) {
+                    if (info[i] != null) {
                         NetworkInfo.State tem = info[i].getState();
-                        if(tem == NetworkInfo.State.CONNECTED || tem == NetworkInfo.State.CONNECTING) {
+                        if (tem == NetworkInfo.State.CONNECTED || tem == NetworkInfo.State.CONNECTING) {
                             String temp = info[i].getExtraInfo();
                             result = info[i].getTypeName() + " " + info[i].getSubtypeName() + temp;
                             break;
@@ -474,8 +474,7 @@ public class MyUtil {
         return ssid;
     }
 
-    public static String ByteToString(byte[] bytes)
-    {
+    public static String ByteToString(byte[] bytes) {
 
         StringBuilder strBuilder = new StringBuilder();
         for (byte aByte : bytes) {
@@ -490,14 +489,13 @@ public class MyUtil {
     }
 
 
-    public static String ByteToInteger(byte[] bytes)
-    {
+    public static String ByteToInteger(byte[] bytes) {
 
         StringBuilder strBuilder = new StringBuilder();
-        for (int i = 0; i <bytes.length ; i++) {
-            if (bytes[i]!=0){
+        for (int i = 0; i < bytes.length; i++) {
+            if (bytes[i] != 0) {
                 strBuilder.append((int) bytes[i]);
-            }else {
+            } else {
                 break;
             }
 
@@ -508,6 +506,7 @@ public class MyUtil {
 
     /**
      * 只有数字
+     *
      * @param string
      * @return
      */
@@ -521,56 +520,58 @@ public class MyUtil {
 
     /**
      * 字母 数字 下划线
+     *
      * @param s
      * @return
      */
-    public static boolean isLetterDigit(String s){
-        String regex="[a-z,0-9,A-Z,_]*";
-        Pattern pattern=Pattern.compile(regex);
+    public static boolean isLetterDigit(String s) {
+        String regex = "[a-z,0-9,A-Z,_]*";
+        Pattern pattern = Pattern.compile(regex);
         return pattern.matcher(s).matches();
     }
 
 
     /**
      * 字母 数字 下划线 空格
+     *
      * @param s
      * @return
      */
-    public static boolean isLetterDigit2(String s){
-        String regex="[a-z,0-9,A-Z,_, ,-]*";
-        Pattern pattern=Pattern.compile(regex);
+    public static boolean isLetterDigit2(String s) {
+        String regex = "[a-z,0-9,A-Z,_, ,-]*";
+        Pattern pattern = Pattern.compile(regex);
         return pattern.matcher(s).matches();
     }
 
     /**
      * 字母 数字 下划线 空格
+     *
      * @param s
      * @return
      */
-    public static boolean isEmail(String s){
-        String regex="[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\\\.[A-Za-z]{2,4}";
-        Pattern pattern=Pattern.compile(regex);
+    public static boolean isEmail(String s) {
+        String regex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\\\.[A-Za-z]{2,4}";
+        Pattern pattern = Pattern.compile(regex);
         return pattern.matcher(s).matches();
     }
 
 
     /**
      * wifi输入限制
-     *
      */
- public  static boolean isWiFiLetter(String s){
-     boolean isChinese= isContainChinese(s);
-     if (isChinese)return false;
+    public static boolean isWiFiLetter(String s) {
+        boolean isChinese = isContainChinese(s);
+        if (isChinese) return false;
 //     boolean isValidate=validateLegalString(s);
 //     return !isValidate;
-     return true;
- }
+        return true;
+    }
 
 
     /**
      * 判断字符串中是否包含中文
-     * @param str
-     * 待校验字符串
+     *
+     * @param str 待校验字符串
      * @return 是否为中文
      * @warn 不能校验是否为中文标点符号
      */
@@ -585,18 +586,17 @@ public class MyUtil {
      * 验证字符串内容是否包含下列非法字符<br>
      * `~!#%^&*=+\\|{};:'\",<>/?○●★☆☉♀♂※¤╬の〆
      *
-     * @param content
-     *  字符串内容
+     * @param content 字符串内容
      * @return 't'代表不包含非法字符，otherwise代表包含非法字符。
      */
     public static boolean validateLegalString(String content) {
         String illegal = "\\'\",/";
-        boolean isLegalChar =false;
-         for (int i = 0; i < content.length(); i++) {
+        boolean isLegalChar = false;
+        for (int i = 0; i < content.length(); i++) {
             for (int j = 0; j < illegal.length(); j++) {
                 if (content.charAt(i) == illegal.charAt(j)) {
                     isLegalChar = true;
-                    break ;
+                    break;
                 }
             }
         }

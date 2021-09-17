@@ -169,7 +169,7 @@
                             android:layout_marginStart="@dimen/xa20"
                             android:layout_marginTop="@dimen/xa20"
                             android:layout_marginEnd="@dimen/xa20"
-                            android:src="@drawable/ic_gun_lock" />
+                            android:src="@drawable/ic_gun_unlock" />
 
 
                         <TextView

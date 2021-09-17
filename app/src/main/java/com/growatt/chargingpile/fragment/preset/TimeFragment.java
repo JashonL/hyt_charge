@@ -22,7 +22,9 @@ import com.growatt.chargingpile.view.TimeSetDialog;
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
@@ -93,7 +95,11 @@ public class TimeFragment extends BaseFragment {
     public void onClickListener(View view) {
         switch (view.getId()) {
             case R.id.btn_ok:
-                requestPreinstall();
+                try {
+                    requestPreinstall();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 break;
             case R.id.cb_time:
                 if (mCheckTime.isSelected()) {
@@ -142,7 +148,8 @@ public class TimeFragment extends BaseFragment {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void requestPreinstall() {
+    private void requestPreinstall() throws ParseException {
+
         int loop = mSwitchEveryDay.isChecked() ? 0 : -1;
         if (mCurrTimeType == Constant.TIME_TYPE) {
             int startHours = Integer.parseInt(mTvStartHour.getText().toString());
@@ -150,6 +157,34 @@ public class TimeFragment extends BaseFragment {
 
             int endHours = Integer.parseInt(mTvEndHour.getText().toString());
             int endMinute = Integer.parseInt(mTvEndMinute.getText().toString());
+
+            long cValue;
+
+            if (startHours == endHours && startMinute > endMinute) {
+
+                LocalDateTime startTime = LocalDateTime.of(2021, 9, 15, startHours, startMinute),
+                        endTime = LocalDateTime.of(2021, 9, 16, endHours, endMinute);
+
+                cValue = startTime.until(endTime, ChronoUnit.MINUTES);
+
+            } else if (startHours >= endHours && startMinute > endMinute) {
+
+                LocalDateTime startTime = LocalDateTime.of(2021, 9, 15, startHours, startMinute),
+                        endTime = LocalDateTime.of(2021, 9, 16, endHours, endMinute);
+
+                cValue = startTime.until(endTime, ChronoUnit.MINUTES);
+            } else if (startHours > endHours) {
+                LocalDateTime startTime = LocalDateTime.of(2021, 9, 15, startHours, startMinute),
+                        endTime = LocalDateTime.of(2021, 9, 16, endHours, endMinute);
+
+                cValue = startTime.until(endTime, ChronoUnit.MINUTES);
+            } else {
+                LocalTime startTime = LocalTime.of(startHours, startMinute),
+                        endTime = LocalTime.of(endHours, endMinute);
+
+                cValue = startTime.until(endTime, ChronoUnit.MINUTES);
+            }
+
 
             if (startHours == 0 && startMinute == 0) {
                 toast(getString(R.string.m130未设置开始时间));
@@ -159,18 +194,10 @@ public class TimeFragment extends BaseFragment {
                 return;
             }
 
-            if (endHours < startHours) {
-                toast(getString(R.string.m请选择正确的时间段));
-                return;
-            }
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
             String time = sdf.format(new Date()) + "T" + startHours + ":" + startMinute + ":00.000Z";
 
-            LocalTime startTime = LocalTime.of(startHours, startMinute),
-                    endTime = LocalTime.of(endHours, endMinute);
-
-            long cValue = startTime.until(endTime, ChronoUnit.MINUTES);
 
             Log.d(TAG, "cValue:" + cValue);
             pModel.requestReserve(3, time, "G_SetTime", cValue, loop, pPresetActivity.pChargingId, pPresetActivity.pConnectorId, new GunModel.HttpCallBack() {
@@ -197,13 +224,19 @@ public class TimeFragment extends BaseFragment {
             });
         } else if (mCurrTimeType == Constant.DURATION_TYPE) {
 
+            if (TextUtils.isEmpty(mTvDurationHour) && (TextUtils.isEmpty(mTvDurationMinute))) {
+                toast(R.string.m129时长设置不能为空);
+                return;
+            }
+
+
             if (Integer.parseInt(mTvDurationHour) == 0 && Integer.parseInt(mTvDurationMinute) == 0) {
                 toast(R.string.m129时长设置不能为空);
                 return;
             }
 
-            if (TextUtils.isEmpty(mTvDurationHour) && (TextUtils.isEmpty(mTvDurationMinute))) {
-                toast(R.string.m129时长设置不能为空);
+            if (TextUtils.isEmpty(mTvDurationStartTime.getText())) {
+                toast(getString(R.string.m130未设置开始时间));
                 return;
             }
 

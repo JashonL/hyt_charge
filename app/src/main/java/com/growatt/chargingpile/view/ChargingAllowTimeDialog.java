@@ -110,6 +110,12 @@ public class ChargingAllowTimeDialog extends DialogFragment implements View.OnCl
                 }).show(this.getChildFragmentManager(), "endDialog");
                 break;
             case R.id.tv_confirm:
+//                int startHour = Integer.parseInt(tvStartTime.getText().toString().substring(0, 2));
+//                int endHour = Integer.parseInt(tvEndTime.getText().toString().substring(0, 2));
+//                if (endHour < startHour) {
+//                    toast(getString(R.string.m请选择正确的时间段));
+//                    return;
+//                }
                 mCallBack.confirm(tvStartTime.getText().toString() + "-" + tvEndTime.getText().toString());
                 dismiss();
                 break;

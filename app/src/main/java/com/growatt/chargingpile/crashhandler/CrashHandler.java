@@ -45,11 +45,15 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     // 用于格式化日期,作为日志文件名的一部分
     private DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
-    /** 保证只有一个CrashHandler实例 */
+    /**
+     * 保证只有一个CrashHandler实例
+     */
     private CrashHandler() {
     }
 
-    /** 获取CrashHandler实例 ,单例模式 */
+    /**
+     * 获取CrashHandler实例 ,单例模式
+     */
     public static CrashHandler getInstance() {
         return instance;
     }
@@ -152,8 +156,9 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 
     /**
      * 保存错误信息到文件中
+     *
      * @param ex
-     * @return 返回文件名称,便于将文件传送到服务器
+     * @return 返回文件名称, 便于将文件传送到服务器
      * @throws Exception
      */
     private String saveCrashInfoFile(Throwable ex) throws Exception {
@@ -214,7 +219,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 
     private static String getGlobalpath() {
         return Environment.getExternalStorageDirectory().getAbsolutePath()
-                + File.separator + "crash" + File.separator;
+                + File.separator + "EvCrash" + File.separator;
     }
 
     public static void setTag(String tag) {
@@ -227,7 +232,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     private void autoClear(final int autoClearDay) {
         FileUtils.delete(getGlobalpath(), (file, filename) -> {
             String s = FileUtils.getFileNameWithoutExtension(filename);
-            s=s.substring(6,16);
+            s = s.substring(6, 16);
             int day = autoClearDay < 0 ? autoClearDay : -1 * autoClearDay;
             String date = DateUtil.getOtherDay(day);
             return date.compareTo(s) >= 0;

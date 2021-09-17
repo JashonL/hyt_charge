@@ -96,7 +96,7 @@ public class TimeSetDialog extends DialogFragment {
                 initPicker(mNumberMinute, 0, 59, 0, "%02d");
             } else {
                 initPicker(mNumberHour, 0, 23, Integer.valueOf(mTime.substring(0, 2)), "%02d");
-                initPicker(mNumberMinute, 0, 59, Integer.valueOf(mTime.substring(4, 6)), "%02d");
+                initPicker(mNumberMinute, 0, 59, Integer.valueOf(mTime.substring(3, 5)), "%02d");
             }
             Log.d(TAG, "show: ");
         } else {

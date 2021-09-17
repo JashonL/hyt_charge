@@ -128,25 +128,20 @@ public class PresetActivity extends BaseActivity {
 
     @OnCheckedChanged({R.id.rb_time, R.id.rb_money, R.id.rb_electric})
     public void onRadioCheck(CompoundButton view, boolean isChanged) {
-        switch (view.getId()) {
-            case R.id.rb_time:
-                if (isChanged) {
+        if (isChanged) {
+            switch (view.getId()) {
+                case R.id.rb_time:
                     gotoWorkFragment(Constant.PRESET_TIME_TYPE);
-                }
-
-                break;
-            case R.id.rb_money:
-                if (isChanged) {
+                    break;
+                case R.id.rb_money:
                     gotoWorkFragment(Constant.PRESET_MONEY_TYPE);
-                }
-                break;
-            case R.id.rb_electric:
-                if (isChanged) {
+                    break;
+                case R.id.rb_electric:
                     gotoWorkFragment(Constant.PRESET_ELECTRIC_TYPE);
-                }
-                break;
-            default:
-                break;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 

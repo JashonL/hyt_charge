@@ -410,7 +410,7 @@ public class LoginUtil {
                         jumpActivity(context, MainActivity.class);
                     } else {
                         String errorMsg = object.optString("data");
-                        enableListener.onViewEnable();
+                        enableListener.onFail();
                         T.make(errorMsg, context);
                         //设置不自动登录
                         SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN, 0);
@@ -424,7 +424,7 @@ public class LoginUtil {
             @Override
             public void LoginError(String str) {
                 Mydialog.Dismiss();
-                enableListener.onViewEnable();
+                enableListener.onFail();
             }
         });
     }

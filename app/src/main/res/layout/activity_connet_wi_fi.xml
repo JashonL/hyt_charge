@@ -179,6 +179,7 @@
                 android:background="@drawable/selector_circle_btn_green_gradient"
                 android:text="@string/m251已连接下一步"
                 android:textColor="@color/white_background"
+                android:layout_marginBottom="@dimen/xa60"
                 android:textSize="15sp" />
 
         </LinearLayout>

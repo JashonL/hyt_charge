@@ -43,7 +43,9 @@ public class MyApplication extends Application {
         super.onCreate();
         instance = this;
         context = getApplicationContext();
+
         CrashHandler.getInstance().init(this);
+
         // 初始化
         x.Ext.init(this);
         // 设置是否输出debug
@@ -56,6 +58,7 @@ public class MyApplication extends Application {
         // toast
         ToastUtils.initStyle(new MyToastBlackStyle(this));
         ToastUtils.init(this);
+
     }
 
     public static Context getContext() {

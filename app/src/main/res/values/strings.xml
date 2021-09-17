@@ -509,6 +509,10 @@
     <string name="remove_rates">Remove charging rates?</string>
     <string name="you_need_set_rate">\n You have not set the charging rate, \n You need to set it before you can use the preset amount. \n</string>
     <string name="to_set_up">To set up</string>
+    <string name="exit_program">Press again to exit the program</string>
+    <string name="not_deleted">Stakeholder cannot be deleted</string>
+    <string name="not_available">Current status is not available</string>
+    <string name="while_charging">Cannot set appointment while charging</string>
 
 </resources>
 

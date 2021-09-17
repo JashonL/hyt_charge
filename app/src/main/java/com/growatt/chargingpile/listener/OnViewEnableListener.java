@@ -5,5 +5,10 @@ package com.growatt.chargingpile.listener;
  */
 
 public abstract class OnViewEnableListener {
-   public void onViewEnable(){}
+    public void onViewEnable() {
+    }
+
+
+    public void onFail() {
+    }
 }

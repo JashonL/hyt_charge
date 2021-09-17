@@ -397,9 +397,10 @@
                 android:layout_marginLeft="@dimen/xa75"
                 android:layout_marginRight="@dimen/xa75"
                 android:layout_marginTop="@dimen/xa80"
-                android:background="@drawable/selector_circle_btn_green_gradient"
+                android:background="@drawable/selector_circle_btn_green_login_gradient"
                 android:stateListAnimator="@null"
                 android:text="@string/m3完成"
+                android:layout_marginBottom="@dimen/xa60"
                 android:textColor="@color/headerView" />
 
         </LinearLayout>

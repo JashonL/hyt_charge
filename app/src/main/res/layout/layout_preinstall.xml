@@ -35,14 +35,14 @@
         <!--            android:thumb="@drawable/shape_switch_thumb"-->
         <!--            android:track="@drawable/selector_switch_track" />-->
 
-        <ImageView
-            android:id="@+id/iv_preinstall_delete"
-            android:layout_width="@dimen/xa32"
-            android:layout_height="@dimen/xa32"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="@dimen/xa30"
-            android:layout_marginEnd="@dimen/xa40"
-            android:src="@drawable/ic_cancel_preinstall" />
+        <!--        <ImageView-->
+        <!--            android:id="@+id/iv_preinstall_delete"-->
+        <!--            android:layout_width="@dimen/xa32"-->
+        <!--            android:layout_height="@dimen/xa32"-->
+        <!--            android:layout_alignParentEnd="true"-->
+        <!--            android:layout_marginTop="@dimen/xa30"-->
+        <!--            android:layout_marginEnd="@dimen/xa40"-->
+        <!--            android:src="@drawable/ic_cancel_preinstall" />-->
 
         <ImageView
             android:id="@+id/iv_preinstall_type"
@@ -106,6 +106,7 @@
                 android:id="@+id/cb_everyday"
                 android:layout_width="@dimen/xa32"
                 android:layout_height="@dimen/xa32"
+                android:enabled="false"
                 android:button="@drawable/selector_cb_state"
                 android:checked="false" />
 

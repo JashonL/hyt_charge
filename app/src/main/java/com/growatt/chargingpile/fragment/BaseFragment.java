@@ -123,14 +123,11 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public void showTips() {
-        if (pCurrGunStatus.equals(GunBean.RESERVENOW)) {
-            toast("已有预约,不能重复设置");
-            return;
-        } else if (pCurrGunStatus.equals(GunBean.CHARGING)) {
-            toast("充电中,不能设置预约");
+        if (pCurrGunStatus.equals(GunBean.CHARGING)) {
+            toast(getString(R.string.while_charging));
             return;
         } else if (pCurrGunStatus.equals(GunBean.UNAVAILABLE) || pCurrGunStatus.equals(GunBean.FAULTED)) {
-            toast("当前状态不可用");
+            toast(getString(R.string.not_available));
             return;
         }
         startPresetActivity(0);
@@ -213,6 +210,11 @@ public abstract class BaseFragment extends Fragment {
             } else {
                 intent.putExtra("symbol", pDataBean.getSymbol());
             }
+            if (pReservationBean != null) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("reservation", pReservationBean);
+                intent.putExtras(bundle);
+            }
             intent.putParcelableArrayListExtra("rate", (ArrayList<? extends Parcelable>) pActivity.pDataBean.getPriceConf());
         } else if (type == 1) {
             Bundle bundle = new Bundle();
@@ -237,6 +239,10 @@ public abstract class BaseFragment extends Fragment {
                 .setText(getString(R.string.m是否解除该枪电子锁))
                 .setWidth(0.75f)
                 .setPositive(getString(R.string.m9确定), view1 -> {
+                    if (pCurrGunStatus != GunBean.CHARGING) {
+                        toast(getString(R.string.not_available));
+                        return;
+                    }
                     pModel.requestGunUnlock(pDataBean.getUserName(), pDataBean.getChargeId(), pConnectorId, new GunModel.HttpCallBack() {
                         @Override
                         public void onSuccess(Object json) {
@@ -244,7 +250,7 @@ public abstract class BaseFragment extends Fragment {
                                 JSONObject object = new JSONObject(json.toString());
                                 String data = object.getString("data");
                                 toast(data);
-                                pHandler.postDelayed(runnableGunInfo, 2000);
+                                pHandler.postDelayed(runnableGunInfo, 3000);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -302,12 +308,13 @@ public abstract class BaseFragment extends Fragment {
                 }).show(pActivity.getSupportFragmentManager(), "ModeDialog");
     }
 
-    private void requestSolarModeStatus() {
+    public void requestSolarModeStatus() {
         pModel.getPileStatus(pActivity.pDataBean.getChargeId(), new GunModel.HttpCallBack() {
             @Override
             public void onSuccess(Object bean) {
                 List<ChargingBean.DataBean> dataBean = (List<ChargingBean.DataBean>) bean;
-                handleSolarMode(dataBean.get(pActivity.pDataBean.getConnectors() - 1).getG_SolarMode());
+                handleSolarMode(dataBean.get(0).getG_SolarMode());
+                pActivity.pDataBean.setG_SolarMode(dataBean.get(0).getG_SolarMode());
             }
 
             @Override
@@ -318,6 +325,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public void requestCharging() {
+
         pModel.requestCharging(pDataBean.getChargeId(), pConnectorId, new GunModel.HttpCallBack() {
             @Override
             public void onSuccess(Object bean) {
@@ -341,6 +349,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public void requestStopCharging() {
+
         pModel.requestStopCharging(pDataBean.getChargeId(), pConnectorId, pTransactionId, new GunModel.HttpCallBack() {
             @Override
             public void onSuccess(Object json) {
@@ -373,6 +382,7 @@ public abstract class BaseFragment extends Fragment {
                         int code = object.getInt("code");
                         if (code == 0) {
                             pHandler.postDelayed(runnableGunInfo, 3000);
+                            pReservationBean = null;
                         }
                         toast(object.getString("data"));
                     } catch (Exception e) {
@@ -416,11 +426,11 @@ public abstract class BaseFragment extends Fragment {
         Log.d(TAG, "onDestroyView: ");
     }
 
-    private String mMoney = "(^[1-9](\\d+)?(\\.\\d{1,2})?$)|(^0$)|(^\\d\\.\\d{1,2}$)";
+    private String mNumber = "(^[1-9](\\d+)?(\\.\\d{1,2})?$)|(^0$)|(^\\d\\.\\d{1,2}$)";
 
     public boolean ifCanChargeMoney(String str) {
         // 判断格式是否符合金额
-        if (!str.matches(mMoney)) return false;
+        if (!str.matches(mNumber)) return false;
         //判断金额不能小于等于 0
         if (Double.parseDouble(str) <= 0) {
             return false;

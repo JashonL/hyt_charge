@@ -62,8 +62,6 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         LEFT, CENTER, RIGHT
     }
 
-    private static ArrayList<BaseActivity> activities = new ArrayList<>();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +76,6 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         }
         EventBus.getDefault().register(this);
         MyApplication.getInstance().addActivity(new SoftReference<>(this));
-        activities.add(this);
     }
 
 
@@ -146,7 +143,6 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         EToast.reset();
         Mydialog.Dismiss();
         EventBus.getDefault().unregister(this);
-        activities.remove(this);
         super.onDestroy();
     }
 
@@ -502,12 +498,4 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         }
     }
 
-    public void finishAll() {
-        if (!activities.isEmpty()) {
-            for (BaseActivity activity : activities) {
-                activity.finish();
-            }
-        }
-        activities.clear();
-    }
 }

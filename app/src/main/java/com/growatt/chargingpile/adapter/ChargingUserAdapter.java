@@ -1,5 +1,6 @@
 package com.growatt.chargingpile.adapter;
 
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -49,10 +50,11 @@ public class ChargingUserAdapter extends BaseQuickAdapter<ChargingUserBean.DataB
         final String userId = item.getUserName();
         //设置时间
         long t = item.getTime();
-        Date date = new Date(t);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:MM");
-        String dateString = sdf.format(date);
 
+        Date date = new Date(t);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        String dateString = sdf.format(date);
+        Log.i(TAG, "convert: " + dateString);
         dayMonth.setText(dateString.substring(0, 10));
         tvTime.setText(dateString.substring(10));
         llDelete.setOnClickListener(v -> mDelListener.deleteItem(userId, helper.getAdapterPosition()));

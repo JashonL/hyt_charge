@@ -208,6 +208,13 @@ public class LoginActivity extends BaseActivity {
                 }
                 finish();
             }
+
+            @Override
+            public void onFail() {
+                if (!btLogin.isEnabled()) {
+                    btLogin.setEnabled(true);
+                }
+            }
         });
 
     }

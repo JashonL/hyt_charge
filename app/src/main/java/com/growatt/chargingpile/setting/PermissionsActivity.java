@@ -39,7 +39,7 @@ import butterknife.ButterKnife;
 
 
 /**
- * 权限
+ * 权限管理
  */
 public class PermissionsActivity extends BaseActivity {
     @BindView(R.id.headerView)
@@ -77,11 +77,6 @@ public class PermissionsActivity extends BaseActivity {
 
     private void initIntent() {
         mChargingId = getIntent().getStringExtra("chargingId");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 
     private void refresh() {
@@ -141,11 +136,15 @@ public class PermissionsActivity extends BaseActivity {
     private void initRecyclerView() {
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mChargingUserAdapter = new ChargingUserAdapter(mUserList);
-        mChargingUserAdapter.setDelListener(new ChargingUserAdapter.DeleteListener() {
-            @Override
-            public void deleteItem(String userId, int position) {
-                deleteUser(userId, position);
+        mChargingUserAdapter.setDelListener((userId, position) -> {
+
+            if (SmartHomeUtil.getUserName().equals(userId)) {
+                toast(getString(R.string.not_deleted));
+                return;
             }
+
+            deleteUser(userId, position);
+
         });
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mRecyclerView.setAdapter(mChargingUserAdapter);
@@ -159,42 +158,39 @@ public class PermissionsActivity extends BaseActivity {
                 .setWidth(0.75f)
                 .setTitle(getString(R.string.m8警告))
                 .setText(getString(R.string.m确认删除))
-                .setGravity(Gravity.CENTER).setPositive(getString(R.string.m9确定), new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Mydialog.Show(PermissionsActivity.this);
-                Map<String, Object> jsonMap = new LinkedHashMap<String, Object>();
-                jsonMap.put("sn", mChargingId);
-                jsonMap.put("userId", userId);
-                jsonMap.put("lan", getLanguage());//测试id
-                String json = SmartHomeUtil.mapToJsonString(jsonMap);
-                LogUtil.i(json);
-                PostUtil.postJson(SmartHomeUrlUtil.postDeleteAuthorizationUser(), json, new PostUtil.postListener() {
-                    @Override
-                    public void Params(Map<String, String> params) {
+                .setGravity(Gravity.CENTER).setPositive(getString(R.string.m9确定), v -> {
+            Mydialog.Show(PermissionsActivity.this);
+            Map<String, Object> jsonMap = new LinkedHashMap<String, Object>();
+            jsonMap.put("sn", mChargingId);
+            jsonMap.put("userId", userId);
+            jsonMap.put("lan", getLanguage());//测试id
+            String json = SmartHomeUtil.mapToJsonString(jsonMap);
+            LogUtil.i(json);
+            PostUtil.postJson(SmartHomeUrlUtil.postDeleteAuthorizationUser(), json, new PostUtil.postListener() {
+                @Override
+                public void Params(Map<String, String> params) {
 
+                }
+
+                @Override
+                public void success(String json) {
+                    Mydialog.Dismiss();
+                    try {
+                        JSONObject object = new JSONObject(json);
+                        int code = object.getInt("code");
+                        if (code == 0) mChargingUserAdapter.remove(pos);
+                        String data = object.getString("data");
+                        toast(data);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
+                }
 
-                    @Override
-                    public void success(String json) {
-                        Mydialog.Dismiss();
-                        try {
-                            JSONObject object = new JSONObject(json);
-                            int code = object.getInt("code");
-                            if (code == 0) mChargingUserAdapter.remove(pos);
-                            String data = object.getString("data");
-                            toast(data);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
+                @Override
+                public void LoginError(String str) {
 
-                    @Override
-                    public void LoginError(String str) {
-
-                    }
-                });
-            }
+                }
+            });
         })
                 .setNegative(getString(R.string.m7取消), null)
                 .show(fragmentManager);

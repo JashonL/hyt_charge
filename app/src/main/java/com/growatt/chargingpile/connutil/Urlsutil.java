@@ -78,7 +78,7 @@ public class Urlsutil implements Serializable {
 //        if (Cons.isflag == false) {
             String u = SqliteUtil.inquiryurl();
             if (!TextUtils.isEmpty(u)) {
-                return "http://" + replaceUrl(u);
+                return "https://" + replaceUrl(u);
             } else {
                 return serverurl;
             }
