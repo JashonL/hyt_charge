@@ -254,7 +254,7 @@ public class GunModel {
      * @param value
      * @param loopType  是否每天
      */
-    public void requestReserve(String symbol, int type, String startTime, String key, Object value, int loopType, final String chargingId, final int connectorId, HttpCallBack httpCallBack) {
+    public void requestReserve(int type, String startTime, String key, Object value, int loopType, final String chargingId, final int connectorId, HttpCallBack httpCallBack) {
         Map<String, Object> jsonMap = new HashMap<>();
         jsonMap.put("action", "ReserveNow");
         jsonMap.put("expiryDate", startTime);
@@ -263,9 +263,7 @@ public class GunModel {
         jsonMap.put("userId", SmartHomeUtil.getUserName());
         jsonMap.put("loopType", loopType);
         jsonMap.put("lan", getLanguage());
-        if (type == 1 && symbol != null) {
-            jsonMap.put("symbol", symbol);
-        }
+
         if (loopType == 0) {
             String loopValue = startTime.substring(11, 16);
             jsonMap.put("loopValue", loopValue);
@@ -420,16 +418,14 @@ public class GunModel {
      * @param connectorId
      * @param httpCallBack
      */
-    public void requestCharging(String symbol, final String chargingId, final int connectorId, HttpCallBack httpCallBack) {
+    public void requestCharging(final String chargingId, final int connectorId, HttpCallBack httpCallBack) {
         Map<String, Object> jsonMap = new HashMap<>();
         jsonMap.put("action", "remoteStartTransaction");
         jsonMap.put("connectorId", connectorId);
         jsonMap.put("userId", SmartHomeUtil.getUserName());
         jsonMap.put("chargeId", chargingId);
         jsonMap.put("lan", getLanguage());
-        if (symbol != null) {
-            jsonMap.put("symbol", symbol);
-        }
+
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         PostUtil.postJson(SmartHomeUrlUtil.postRequestReseerveCharging(), json, new PostUtil.postListener() {
             @Override

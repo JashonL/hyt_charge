@@ -134,7 +134,7 @@ public class MoneyFragment extends BaseFragment {
 
         double money = Double.parseDouble(mEditMoney.getText().toString());
 
-        GunModel.getInstance().requestReserve(pPresetActivity.pSymbol, 1, time, "G_SetAmount", money, loop, pPresetActivity.pChargingId, pPresetActivity.pConnectorId, new GunModel.HttpCallBack() {
+        GunModel.getInstance().requestReserve(1, time, "G_SetAmount", money, loop, pPresetActivity.pChargingId, pPresetActivity.pConnectorId, new GunModel.HttpCallBack() {
             @Override
             public void onSuccess(Object bean) {
                 try {

@@ -240,6 +240,7 @@ public class FragmentA extends BaseFragment {
                 mLlDefaultCharging.setVisibility(View.GONE);
                 mLlPreinstallCharging.setVisibility(View.GONE);
                 mTvPreinstallChargingFinish.setVisibility(View.GONE);
+                mLlException.setVisibility(View.GONE);
                 mTvChargingFinish.setVisibility(View.GONE);
                 pHandler.removeCallbacks(runnableGunInfo);
                 mTvStatus.setText(getString(R.string.m119准备中));
@@ -339,9 +340,11 @@ public class FragmentA extends BaseFragment {
                 mLlPleaseVehicle.setVisibility(View.GONE);
                 mLlDefaultCharging.setVisibility(View.GONE);
                 mLlPreinstallCharging.setVisibility(View.GONE);
+                mLlPreinstall.setVisibility(View.GONE);
                 mIvCircleStatus.setImageResource(R.drawable.ic_gray_circle);
                 mIvSwitchStatus.setImageResource(R.drawable.ic_gray_on);
                 mTvSwitchStatus.setTextColor(ContextCompat.getColor(pActivity, R.color.charging_default));
+                mTvSwitchStatus.setText(getString(R.string.m133车拒绝充电));
                 mTvStatus.setText(getString(R.string.m133车拒绝充电));
                 mIvExceptionIcon.setImageResource(R.drawable.ic_exception_unavailable);
                 mTvExceptionStatus.setText(getString(R.string.m133车拒绝充电));
@@ -361,9 +364,11 @@ public class FragmentA extends BaseFragment {
                 mLlPleaseVehicle.setVisibility(View.GONE);
                 mLlDefaultCharging.setVisibility(View.GONE);
                 mLlPreinstallCharging.setVisibility(View.GONE);
+                mLlPreinstall.setVisibility(View.GONE);
                 mIvCircleStatus.setImageResource(R.drawable.ic_gray_circle);
                 mIvSwitchStatus.setImageResource(R.drawable.ic_gray_on);
                 mTvSwitchStatus.setTextColor(ContextCompat.getColor(pActivity, R.color.charging_default));
+                mTvSwitchStatus.setText(getString(R.string.m292桩拒绝充电));
                 mTvStatus.setText(getString(R.string.m292桩拒绝充电));
                 mIvExceptionIcon.setImageResource(R.drawable.ic_exception_unavailable);
                 mTvExceptionStatus.setText(getString(R.string.m292桩拒绝充电));
@@ -383,10 +388,12 @@ public class FragmentA extends BaseFragment {
                 mLlPleaseVehicle.setVisibility(View.GONE);
                 mLlDefaultCharging.setVisibility(View.GONE);
                 mLlPreinstallCharging.setVisibility(View.GONE);
+                mLlPreinstall.setVisibility(View.GONE);
                 mIvCircleStatus.setImageResource(R.drawable.ic_gray_circle);
                 mIvSwitchStatus.setImageResource(R.drawable.ic_gray_on);
                 mIvHandheldStatus.setImageResource(R.drawable.ic_handheld_overvoltage);
                 mTvSwitchStatus.setTextColor(ContextCompat.getColor(pActivity, R.color.charging_default));
+                mTvSwitchStatus.setText(getString(R.string.m121故障));
                 mTvStatus.setText(getString(R.string.m121故障));
                 mIvExceptionIcon.setImageResource(R.drawable.ic_exception_overvoltage);
                 mTvExceptionStatus.setText(getString(R.string.m121故障));
@@ -406,9 +413,11 @@ public class FragmentA extends BaseFragment {
                 mLlPleaseVehicle.setVisibility(View.GONE);
                 mLlDefaultCharging.setVisibility(View.GONE);
                 mLlPreinstallCharging.setVisibility(View.GONE);
+                mLlPreinstall.setVisibility(View.GONE);
                 mIvCircleStatus.setImageResource(R.drawable.ic_gray_circle);
                 mIvSwitchStatus.setImageResource(R.drawable.ic_gray_on);
                 mTvSwitchStatus.setTextColor(ContextCompat.getColor(pActivity, R.color.charging_default));
+                mTvSwitchStatus.setText(getString(R.string.m122不可用));
                 mTvStatus.setText(getString(R.string.m122不可用));
                 mIvExceptionIcon.setImageResource(R.drawable.ic_exception_unavailable);
                 mTvExceptionStatus.setText(getString(R.string.m122不可用));
@@ -469,6 +478,11 @@ public class FragmentA extends BaseFragment {
 
                     double presetValue_value = Double.parseDouble(bean.getData().getcValue());
                     double chargedValue_value = bean.getData().getCtime();
+                    Log.d(TAG, "mTvProgressValue: "+mTvProgressValue.getText().toString());
+                    if (mTvProgressValue.getText().toString().equals("100.0%")) {
+                        Log.d(TAG, "mTvProgressValue: return");
+                        return;
+                    }
 
                     if (presetValue_value > 0) {
                         mProgressBar.setMax((float) presetValue_value);
@@ -484,6 +498,7 @@ public class FragmentA extends BaseFragment {
                     }
 
                     double percent = MyUtil.divide(value, 2);
+
                     mTvProgressValue.setText(percent + "%");
 
                     break;
@@ -501,7 +516,9 @@ public class FragmentA extends BaseFragment {
 
                     double presetValue_value_Amount = Double.parseDouble(bean.getData().getcValue());
                     double chargedValue_value_Amount = bean.getData().getCost();
-
+                    if (mTvProgressValue.getText().equals("100.0%")) {
+                        return;
+                    }
                     if (presetValue_value_Amount > 0) {
                         mProgressBar.setMax((float) presetValue_value_Amount);
 
@@ -516,6 +533,7 @@ public class FragmentA extends BaseFragment {
                     }
 
                     double percent1 = MyUtil.divide(amountValue, 2);
+
                     mTvProgressValue.setText(percent1 + "%");
 
                     break;
@@ -531,7 +549,9 @@ public class FragmentA extends BaseFragment {
 
                     double presetValue_value_Energy = Double.parseDouble(bean.getData().getcValue());
                     double chargedValue_value_Energy = bean.getData().getEnergy();
-
+                    if (mTvProgressValue.getText().equals("100.0%")) {
+                        return;
+                    }
                     if (presetValue_value_Energy > 0) {
                         mProgressBar.setMax((float) presetValue_value_Energy);
                     }
@@ -545,6 +565,7 @@ public class FragmentA extends BaseFragment {
                     }
 
                     double percent2 = MyUtil.divide(energyValue, 2);
+
                     mTvProgressValue.setText(percent2 + "%");
 
                     break;

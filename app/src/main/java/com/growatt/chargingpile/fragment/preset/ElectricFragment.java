@@ -101,7 +101,7 @@ public class ElectricFragment extends BaseFragment {
         }
         double electric = Double.parseDouble(mEditElectric.getText().toString());
 
-        GunModel.getInstance().requestReserve(pPresetActivity.pSymbol,2, time, "G_SetEnergy", electric, loop, pPresetActivity.pChargingId, pPresetActivity.pConnectorId, new GunModel.HttpCallBack() {
+        GunModel.getInstance().requestReserve(2, time, "G_SetEnergy", electric, loop, pPresetActivity.pChargingId, pPresetActivity.pConnectorId, new GunModel.HttpCallBack() {
             @Override
             public void onSuccess(Object bean) {
                 try {

@@ -318,7 +318,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public void requestCharging() {
-        GunModel.getInstance().requestCharging(pActivity.pSymbol, pDataBean.getChargeId(), pConnectorId, new GunModel.HttpCallBack() {
+        GunModel.getInstance().requestCharging(pDataBean.getChargeId(), pConnectorId, new GunModel.HttpCallBack() {
             @Override
             public void onSuccess(Object bean) {
                 try {
