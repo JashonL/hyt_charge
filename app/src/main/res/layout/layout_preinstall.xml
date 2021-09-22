@@ -106,9 +106,9 @@
                 android:id="@+id/cb_everyday"
                 android:layout_width="@dimen/xa32"
                 android:layout_height="@dimen/xa32"
-                android:enabled="false"
                 android:button="@drawable/selector_cb_state"
-                android:checked="false" />
+                android:checked="false"
+                android:enabled="false" />
 
 
             <TextView

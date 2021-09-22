@@ -18,10 +18,10 @@ import androidx.fragment.app.Fragment;
 
 import com.growatt.chargingpile.EventBusMsg.PreinstallEvent;
 import com.growatt.chargingpile.EventBusMsg.UnitMsg;
-import com.growatt.chargingpile.GunActivity;
-import com.growatt.chargingpile.PresetActivity;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.activity.ChargingRecoderActivity;
+import com.growatt.chargingpile.activity.GunActivity;
+import com.growatt.chargingpile.activity.PresetActivity;
 import com.growatt.chargingpile.bean.ChargingBean;
 import com.growatt.chargingpile.bean.GunBean;
 import com.growatt.chargingpile.bean.ReservationBean;
@@ -52,8 +52,6 @@ public abstract class BaseFragment extends Fragment {
 
     protected GunActivity pActivity;
 
-    protected GunModel pModel;
-
     protected PresetActivity pPresetActivity;
 
     private Unbinder unbinder;
@@ -83,13 +81,11 @@ public abstract class BaseFragment extends Fragment {
 
     public int pConnectorId;
 
-    public String pSymbol;
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void refreshSymbol(UnitMsg msg) {
         Log.d(TAG, "refreshSymbol: " + msg.getSymbol());
         if (msg.getSymbol() != null) {
-            pSymbol = msg.getSymbol();
+            pActivity.pSymbol = msg.getSymbol();
         }
     }
 
@@ -109,8 +105,8 @@ public abstract class BaseFragment extends Fragment {
         @Override
         public void run() {
             Log.d(TAG, "runnableDelayedGun");
-            pHandler.postDelayed(runnableLoopGunInfo, DELAYED_MINUTE);
             requestGunInfoData();
+            pHandler.postDelayed(runnableLoopGunInfo, DELAYED_MINUTE);
         }
     };
 
@@ -153,7 +149,6 @@ public abstract class BaseFragment extends Fragment {
         } else if (getActivity() instanceof PresetActivity) {
             pPresetActivity = (PresetActivity) getActivity();
         }
-        pModel = new GunModel();
         return rootView;
     }
 
@@ -205,16 +200,14 @@ public abstract class BaseFragment extends Fragment {
         if (type == 0) {
             intent.putExtra("chargingId", pDataBean.getChargeId());
             intent.putExtra("connectorId", 1);
-            if (pSymbol != null) {
-                intent.putExtra("symbol", pSymbol);
-            } else {
-                intent.putExtra("symbol", pDataBean.getSymbol());
-            }
+            intent.putExtra("symbol", pActivity.pSymbol);
+
             if (pReservationBean != null) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("reservation", pReservationBean);
                 intent.putExtras(bundle);
             }
+
             intent.putParcelableArrayListExtra("rate", (ArrayList<? extends Parcelable>) pActivity.pDataBean.getPriceConf());
         } else if (type == 1) {
             Bundle bundle = new Bundle();
@@ -239,11 +232,11 @@ public abstract class BaseFragment extends Fragment {
                 .setText(getString(R.string.m是否解除该枪电子锁))
                 .setWidth(0.75f)
                 .setPositive(getString(R.string.m9确定), view1 -> {
-                    if (pCurrGunStatus != GunBean.CHARGING) {
+                    if (!pCurrGunStatus.equals(GunBean.CHARGING)) {
                         toast(getString(R.string.not_available));
                         return;
                     }
-                    pModel.requestGunUnlock(pDataBean.getUserName(), pDataBean.getChargeId(), pConnectorId, new GunModel.HttpCallBack() {
+                    GunModel.getInstance().requestGunUnlock(pDataBean.getUserName(), pDataBean.getChargeId(), pConnectorId, new GunModel.HttpCallBack() {
                         @Override
                         public void onSuccess(Object json) {
                             try {
@@ -277,7 +270,7 @@ public abstract class BaseFragment extends Fragment {
                     @Override
                     public void confirm(int index) {
                         Log.d(TAG, "confirm: index:" + index);
-                        pModel.setLimit(pDataBean.getChargeId(), index, new GunModel.HttpCallBack() {
+                        GunModel.getInstance().setLimit(pDataBean.getChargeId(), index, new GunModel.HttpCallBack() {
                             @Override
                             public void onSuccess(Object json) {
                                 Log.d(TAG, "onSuccess: " + json.toString());
@@ -309,7 +302,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public void requestSolarModeStatus() {
-        pModel.getPileStatus(pActivity.pDataBean.getChargeId(), new GunModel.HttpCallBack() {
+        GunModel.getInstance().getPileStatus(pActivity.pDataBean.getChargeId(), new GunModel.HttpCallBack() {
             @Override
             public void onSuccess(Object bean) {
                 List<ChargingBean.DataBean> dataBean = (List<ChargingBean.DataBean>) bean;
@@ -325,8 +318,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public void requestCharging() {
-
-        pModel.requestCharging(pDataBean.getChargeId(), pConnectorId, new GunModel.HttpCallBack() {
+        GunModel.getInstance().requestCharging(pActivity.pSymbol, pDataBean.getChargeId(), pConnectorId, new GunModel.HttpCallBack() {
             @Override
             public void onSuccess(Object bean) {
                 try {
@@ -350,7 +342,7 @@ public abstract class BaseFragment extends Fragment {
 
     public void requestStopCharging() {
 
-        pModel.requestStopCharging(pDataBean.getChargeId(), pConnectorId, pTransactionId, new GunModel.HttpCallBack() {
+        GunModel.getInstance().requestStopCharging(pDataBean.getChargeId(), pConnectorId, pTransactionId, new GunModel.HttpCallBack() {
             @Override
             public void onSuccess(Object json) {
                 try {
@@ -374,7 +366,7 @@ public abstract class BaseFragment extends Fragment {
 
     public void requestDeleteReservationNow() {
         if (pReservationBean != null) {
-            pModel.deleteReservationNow(pReservationBean, new GunModel.HttpCallBack() {
+            GunModel.getInstance().deleteReservationNow(pReservationBean, new GunModel.HttpCallBack() {
                 @Override
                 public void onSuccess(Object json) {
                     try {

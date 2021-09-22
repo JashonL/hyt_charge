@@ -200,7 +200,7 @@ public class TimeFragment extends BaseFragment {
 
 
             Log.d(TAG, "cValue:" + cValue);
-            pModel.requestReserve(3, time, "G_SetTime", cValue, loop, pPresetActivity.pChargingId, pPresetActivity.pConnectorId, new GunModel.HttpCallBack() {
+            GunModel.getInstance().requestReserve(pPresetActivity.pSymbol, 3, time, "G_SetTime", cValue, loop, pPresetActivity.pChargingId, pPresetActivity.pConnectorId, new GunModel.HttpCallBack() {
                 @Override
                 public void onSuccess(Object bean) {
                     try {
@@ -246,7 +246,7 @@ public class TimeFragment extends BaseFragment {
             int cValue = Integer.parseInt(mTvDurationHour) * 60 + Integer.parseInt(mTvDurationMinute);
             Log.d(TAG, "cValue:" + cValue);
 
-            pModel.requestReserve(3, startTime, "G_SetTime", cValue, loop, pPresetActivity.pChargingId, pPresetActivity.pConnectorId, new GunModel.HttpCallBack() {
+            GunModel.getInstance().requestReserve(pPresetActivity.pSymbol, 3, startTime, "G_SetTime", cValue, loop, pPresetActivity.pChargingId, pPresetActivity.pConnectorId, new GunModel.HttpCallBack() {
                 @Override
                 public void onSuccess(Object json) {
                     try {

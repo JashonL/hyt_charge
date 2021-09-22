@@ -440,7 +440,7 @@ public class AddAuthorizeRegisterActivity extends BaseActivity {
         }
 
         //校验邮箱
-        if (MyUtil.regexCheckEmail(email)) {
+        if (!MyUtil.regexCheckEmail(email)) {
             toast(R.string.m35请输入正确邮箱格式);
             return;
         }

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#F7F7FAFF"
     android:orientation="vertical"
-    tools:context=".PresetActivity">
+    tools:context=".activity.PresetActivity">
 
     <include
         layout="@layout/header_view"

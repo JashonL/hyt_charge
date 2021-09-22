@@ -7,6 +7,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.growatt.chargingpile.bean.ChargingBean;
 import com.growatt.chargingpile.bean.GunBean;
+import com.growatt.chargingpile.bean.PileSetBean;
 import com.growatt.chargingpile.bean.ReservationBean;
 import com.growatt.chargingpile.connutil.PostUtil;
 import com.growatt.chargingpile.util.Mydialog;
@@ -30,6 +31,61 @@ import java.util.Map;
 public class GunModel {
 
     private static String TAG = GunModel.class.getSimpleName();
+
+    public GunModel() {
+    }
+
+    private static class InnerObject {
+        private static GunModel single = new GunModel();
+    }
+
+    public static GunModel getInstance() {
+        return InnerObject.single;
+    }
+
+    /**
+     * 获取配置信息
+     *
+     * @param chargingId
+     * @param httpCallBack
+     */
+    public void requestChargingParams(String chargingId, GunModel.HttpCallBack httpCallBack) {
+        Map<String, Object> jsonMap = new HashMap<String, Object>();
+        jsonMap.put("sn", chargingId);//测试id
+        jsonMap.put("userId", SmartHomeUtil.getUserName());//测试id
+        jsonMap.put("lan", getLanguage());//测试id
+        String json = SmartHomeUtil.mapToJsonString(jsonMap);
+        PostUtil.postJson(SmartHomeUrlUtil.postRequestChargingParams(), json, new PostUtil.postListener() {
+            @Override
+            public void Params(Map<String, String> params) {
+            }
+
+            @Override
+            public void success(String json) {
+                try {
+                    JSONObject jsonObject = new JSONObject(json);
+                    int code = jsonObject.getInt("code");
+                    if (code == 0) {
+                        PileSetBean mPileSetBean = new Gson().fromJson(json, PileSetBean.class);
+                        if (mPileSetBean != null) {
+                            PileSetBean.DataBean data = mPileSetBean.getData();
+                            httpCallBack.onSuccess(data);
+                        }
+                    } else {
+                        String data = jsonObject.getString("data");
+                        Log.d(TAG, "data: " + data);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void LoginError(String str) {
+                httpCallBack.onFailed();
+            }
+        });
+    }
 
     /**
      * 获取当前GUN状态
@@ -198,7 +254,7 @@ public class GunModel {
      * @param value
      * @param loopType  是否每天
      */
-    public void requestReserve(int type, String startTime, String key, Object value, int loopType, final String chargingId, final int connectorId, HttpCallBack httpCallBack) {
+    public void requestReserve(String symbol, int type, String startTime, String key, Object value, int loopType, final String chargingId, final int connectorId, HttpCallBack httpCallBack) {
         Map<String, Object> jsonMap = new HashMap<>();
         jsonMap.put("action", "ReserveNow");
         jsonMap.put("expiryDate", startTime);
@@ -207,6 +263,9 @@ public class GunModel {
         jsonMap.put("userId", SmartHomeUtil.getUserName());
         jsonMap.put("loopType", loopType);
         jsonMap.put("lan", getLanguage());
+        if (type == 1 && symbol != null) {
+            jsonMap.put("symbol", symbol);
+        }
         if (loopType == 0) {
             String loopValue = startTime.substring(11, 16);
             jsonMap.put("loopValue", loopValue);
@@ -361,13 +420,16 @@ public class GunModel {
      * @param connectorId
      * @param httpCallBack
      */
-    public void requestCharging(final String chargingId, final int connectorId, HttpCallBack httpCallBack) {
+    public void requestCharging(String symbol, final String chargingId, final int connectorId, HttpCallBack httpCallBack) {
         Map<String, Object> jsonMap = new HashMap<>();
         jsonMap.put("action", "remoteStartTransaction");
         jsonMap.put("connectorId", connectorId);
         jsonMap.put("userId", SmartHomeUtil.getUserName());
         jsonMap.put("chargeId", chargingId);
         jsonMap.put("lan", getLanguage());
+        if (symbol != null) {
+            jsonMap.put("symbol", symbol);
+        }
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         PostUtil.postJson(SmartHomeUrlUtil.postRequestReseerveCharging(), json, new PostUtil.postListener() {
             @Override

@@ -1,4 +1,4 @@
-package com.growatt.chargingpile;
+package com.growatt.chargingpile.activity;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -11,7 +11,9 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.EventBusMsg.UnitMsg;
+import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.bean.ChargingBean;
 import com.growatt.chargingpile.bean.ReservationBean;
 import com.growatt.chargingpile.constant.Constant;

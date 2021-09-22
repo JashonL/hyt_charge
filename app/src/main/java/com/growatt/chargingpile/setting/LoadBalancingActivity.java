@@ -47,7 +47,6 @@ public class LoadBalancingActivity extends BaseActivity {
     @BindView(R.id.btn_ok)
     Button mOk;
 
-    private SettingModel mSettingModel;
     private String mChargingId;
     private PileSetBean mPileSetBean;
 
@@ -60,12 +59,11 @@ public class LoadBalancingActivity extends BaseActivity {
         ButterKnife.bind(this);
         initToolBar();
         mChargingId = getIntent().getStringExtra("chargingId");
-        mSettingModel = new SettingModel();
         initData();
 
         mIvSwitch.setOnClickListener(v -> {
             if (mIsCheckStatus) {
-                mSettingModel.requestEditChargingParams(mChargingId, "G_ExternalLimitPowerEnable", 0, new GunModel.HttpCallBack() {
+                SettingModel.getInstance().requestEditChargingParams(mChargingId, "G_ExternalLimitPowerEnable", 0, new GunModel.HttpCallBack() {
                     @Override
                     public void onSuccess(Object json) {
                         try {
@@ -88,7 +86,7 @@ public class LoadBalancingActivity extends BaseActivity {
                 });
 
             } else {
-                mSettingModel.requestEditChargingParams(mChargingId, "G_ExternalLimitPowerEnable", 1, new GunModel.HttpCallBack() {
+                SettingModel.getInstance().requestEditChargingParams(mChargingId, "G_ExternalLimitPowerEnable", 1, new GunModel.HttpCallBack() {
                     @Override
                     public void onSuccess(Object json) {
                         try {
@@ -117,7 +115,7 @@ public class LoadBalancingActivity extends BaseActivity {
             if (TextUtils.isEmpty(mEditKw.getText())) {
                 return;
             }
-            mSettingModel.requestEditChargingParams(mChargingId, "G_ExternalLimitPower", mEditKw.getText().toString(), new GunModel.HttpCallBack() {
+            SettingModel.getInstance().requestEditChargingParams(mChargingId, "G_ExternalLimitPower", mEditKw.getText().toString(), new GunModel.HttpCallBack() {
                 @Override
                 public void onSuccess(Object json) {
                     try {
@@ -141,7 +139,7 @@ public class LoadBalancingActivity extends BaseActivity {
 
     private void initData() {
         Mydialog.Show(this);
-        mSettingModel.requestChargingParams(mChargingId, new GunModel.HttpCallBack() {
+        SettingModel.getInstance().requestChargingParams(mChargingId, new GunModel.HttpCallBack() {
             @Override
             public void onSuccess(Object json) {
                 Mydialog.Dismiss();

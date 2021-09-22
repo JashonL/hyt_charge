@@ -1,9 +1,10 @@
-package com.growatt.chargingpile;
+package com.growatt.chargingpile.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,13 +17,17 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.EventBusMsg.RefreshRateMsg;
+import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.bean.ChargingBean;
 import com.growatt.chargingpile.bean.GunBean;
+import com.growatt.chargingpile.bean.PileSetBean;
 import com.growatt.chargingpile.fragment.gun.FragmentA;
 import com.growatt.chargingpile.fragment.gun.FragmentB;
 import com.growatt.chargingpile.fragment.gun.FragmentC;
 import com.growatt.chargingpile.fragment.gun.FragmentD;
+import com.growatt.chargingpile.model.GunModel;
 import com.growatt.chargingpile.setting.SettingActivity;
 import com.growatt.chargingpile.util.SmartHomeUtil;
 
@@ -50,7 +55,11 @@ public class GunActivity extends BaseActivity {
     View mLine;
 
     //当前枪
-    public GunBean mCurrentGunBean;
+    public GunBean pCurrentGunBean;
+
+    //当前桩的
+    public String pSymbol = "";
+
 
     public ChargingBean.DataBean pDataBean;
     private Fragment[] mArrFragment = null;
@@ -73,7 +82,24 @@ public class GunActivity extends BaseActivity {
         pDataBean = getIntent().getParcelableExtra("chargingBean");
         initToolBar();
         initTabLayout();
+        getPileSettingParams();
+    }
 
+
+    private void getPileSettingParams() {
+        GunModel.getInstance().requestChargingParams(pDataBean.getChargeId(), new GunModel.HttpCallBack() {
+            @Override
+            public void onSuccess(Object bean) {
+                PileSetBean.DataBean data = (PileSetBean.DataBean) bean;
+                pSymbol = data.getSymbol();
+                Log.d(TAG, "pSymbol: " + pSymbol);
+            }
+
+            @Override
+            public void onFailed() {
+
+            }
+        });
     }
 
     @Override
@@ -102,7 +128,7 @@ public class GunActivity extends BaseActivity {
             } else {
                 intent.putParcelableArrayListExtra("rate", priceConf);
             }
-            intent.putExtra("gunBean", mCurrentGunBean);
+            intent.putExtra("gunBean", pCurrentGunBean);
             jumpTo(intent, false);
         });
 

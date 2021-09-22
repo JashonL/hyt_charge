@@ -52,7 +52,6 @@ public class BasicInfoActivity extends BaseActivity {
     @BindView(R.id.tv_version)
     TextView mTvVersion;
 
-    private SettingModel mSettingModel;
     private String mChargingId;
     private PileSetBean mPileSetBean;
 
@@ -65,7 +64,6 @@ public class BasicInfoActivity extends BaseActivity {
         ButterKnife.bind(this);
         initToolBar();
         mChargingId = getIntent().getStringExtra("chargingId");
-        mSettingModel = new SettingModel();
         initData();
     }
 
@@ -80,7 +78,7 @@ public class BasicInfoActivity extends BaseActivity {
 
     private void initData() {
         Mydialog.Show(this);
-        mSettingModel.requestChargingParams(mChargingId, new GunModel.HttpCallBack() {
+        SettingModel.getInstance().requestChargingParams(mChargingId, new GunModel.HttpCallBack() {
             @Override
             public void onSuccess(Object json) {
                 Mydialog.Dismiss();
@@ -94,7 +92,7 @@ public class BasicInfoActivity extends BaseActivity {
                             PileSetBean.DataBean data = mPileSetBean.getData();
                             handleBasicInfo(data);
                         }
-                        mSettingModel.requestCountry(new GunModel.HttpCallBack() {
+                        SettingModel.getInstance().requestCountry(new GunModel.HttpCallBack() {
                             @Override
                             public void onSuccess(Object bean) {
                                 mCountryList.clear();
@@ -173,7 +171,7 @@ public class BasicInfoActivity extends BaseActivity {
     private void requestEditCity(String city) {
         Log.d(TAG, "requestEditCity: " + city);
         Mydialog.Show(this);
-        mSettingModel.requestEditChargingParams(mChargingId, "country", city, new GunModel.HttpCallBack() {
+        SettingModel.getInstance().requestEditChargingParams(mChargingId, "country", city, new GunModel.HttpCallBack() {
             @Override
             public void onSuccess(Object json) {
                 Mydialog.Dismiss();
@@ -209,7 +207,7 @@ public class BasicInfoActivity extends BaseActivity {
             }
 
             Mydialog.Show(this);
-            mSettingModel.requestEditChargingParams(mChargingId, "site", str, new GunModel.HttpCallBack() {
+            SettingModel.getInstance().requestEditChargingParams(mChargingId, "site", str, new GunModel.HttpCallBack() {
                 @Override
                 public void onSuccess(Object json) {
                     Mydialog.Dismiss();
@@ -245,7 +243,7 @@ public class BasicInfoActivity extends BaseActivity {
                 return;
             }
             Mydialog.Show(this);
-            mSettingModel.requestEditChargingParams(mChargingId, "name", str, new GunModel.HttpCallBack() {
+            SettingModel.getInstance().requestEditChargingParams(mChargingId, "name", str, new GunModel.HttpCallBack() {
                 @Override
                 public void onSuccess(Object json) {
                     Mydialog.Dismiss();

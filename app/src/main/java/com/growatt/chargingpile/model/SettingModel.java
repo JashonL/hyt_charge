@@ -20,6 +20,17 @@ import java.util.Map;
 
 public class SettingModel {
 
+    public SettingModel() {
+    }
+
+    private static class InnerObject {
+        private static SettingModel single = new SettingModel();
+    }
+
+    public static SettingModel getInstance() {
+        return SettingModel.InnerObject.single;
+    }
+
     /**
      * 获取配置信息
      *

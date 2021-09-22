@@ -102,7 +102,6 @@ public class PileSettingActivity extends BaseActivity implements BaseQuickAdapte
 
     private ChargingRatesAdapter mChargingRatesAdapter;
 
-    private SettingModel mSettingModel;
     private String mChargingId;
     private PileSetBean mPileSetBean;
 
@@ -154,14 +153,13 @@ public class PileSettingActivity extends BaseActivity implements BaseQuickAdapte
         mChargingId = getIntent().getStringExtra("chargingId");
         priceConfBeanList = getIntent().getParcelableArrayListExtra("rate");
         if (priceConfBeanList == null) priceConfBeanList = new ArrayList<>();
-        mSettingModel = new SettingModel();
         initRecyclerView();
         initData();
         initMoneyUnit();
     }
 
     private void initMoneyUnit() {
-        mSettingModel.requestMoneyUnit(new GunModel.HttpCallBack() {
+        SettingModel.getInstance().requestMoneyUnit(new GunModel.HttpCallBack() {
             @Override
             public void onSuccess(Object bean) {
                 JSONArray jsonArray = (JSONArray) bean;
@@ -220,7 +218,7 @@ public class PileSettingActivity extends BaseActivity implements BaseQuickAdapte
             mPassword = SmartHomeUtil.getDescodePassword(configWord);
         }
 
-        mSettingModel.requestChargingParams(mChargingId, new GunModel.HttpCallBack() {
+        SettingModel.getInstance().requestChargingParams(mChargingId, new GunModel.HttpCallBack() {
             @Override
             public void onSuccess(Object json) {
                 Mydialog.Dismiss();
@@ -748,7 +746,7 @@ public class PileSettingActivity extends BaseActivity implements BaseQuickAdapte
 
     private void requestModify(String key, Object value) {
         Mydialog.Show(this);
-        mSettingModel.requestEditChargingParams(mChargingId, key, value, new GunModel.HttpCallBack() {
+        SettingModel.getInstance().requestEditChargingParams(mChargingId, key, value, new GunModel.HttpCallBack() {
             @Override
             public void onSuccess(Object json) {
                 Log.d(TAG, "onSuccess: " + json.toString());
@@ -864,7 +862,7 @@ public class PileSettingActivity extends BaseActivity implements BaseQuickAdapte
 
     private void requestUnit(Object value, String unitSymbol) {
         Mydialog.Show(this);
-        mSettingModel.requestEditChargingUnit(mChargingId, value, unitSymbol, new GunModel.HttpCallBack() {
+        SettingModel.getInstance().requestEditChargingUnit(mChargingId, value, unitSymbol, new GunModel.HttpCallBack() {
             @Override
             public void onSuccess(Object json) {
                 Log.d(TAG, "onSuccess: " + json.toString());

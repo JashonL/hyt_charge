@@ -35,6 +35,7 @@ import com.growatt.chargingpile.EventBusMsg.AddDevMsg;
 import com.growatt.chargingpile.EventBusMsg.SearchDevMsg;
 import com.growatt.chargingpile.activity.AboutActivity;
 import com.growatt.chargingpile.activity.AddChargingActivity;
+import com.growatt.chargingpile.activity.GunActivity;
 import com.growatt.chargingpile.activity.UserActivity;
 import com.growatt.chargingpile.adapter.ChargingListAdapter;
 import com.growatt.chargingpile.adapter.MeAdapter;
@@ -480,7 +481,6 @@ public class MainActivity extends BaseActivity {
         PhotoUtil.openPic(this, CODE_GALLERY_REQUEST);
     }
 
-
     private void initHeaderView() {
         setHeaderImage(headerView, R.drawable.ic_menu, Position.LEFT, v -> {
             drawerLayout.openDrawer(GravityCompat.START);
@@ -491,14 +491,8 @@ public class MainActivity extends BaseActivity {
         tvTitle.setTextColor(ContextCompat.getColor(this, R.color.black));
         tvTitle.setText(getString(R.string.m102充电桩));
 
-        headerView.findViewById(R.id.ivRight).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addChargingPile();
-            }
-        });
+        headerView.findViewById(R.id.ivRight).setOnClickListener(view -> addChargingPile());
     }
-
 
     private void initRecycleView() {
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);

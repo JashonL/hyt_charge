@@ -64,8 +64,6 @@ public class SettingActivity extends BaseActivity implements BaseQuickAdapter.On
 
     public GunBean mCurrentGunBean;
 
-    private SettingModel mSettingModel;
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void refreshAdapter(RefreshRateMsg msg) {
         if (msg.getPriceConfBeanList() != null) {
@@ -81,8 +79,7 @@ public class SettingActivity extends BaseActivity implements BaseQuickAdapter.On
         initToolBar();
         initRecyclerView();
         initIntent();
-        mSettingModel = new SettingModel();
-        mSettingModel.requestConfigParams();
+        SettingModel.getInstance().requestConfigParams();
     }
 
     private void initIntent() {

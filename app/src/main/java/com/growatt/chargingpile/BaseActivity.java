@@ -39,7 +39,6 @@ import org.xutils.x;
 
 import java.lang.ref.SoftReference;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -300,7 +299,6 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
     public void setHeaderTitle(View headerView, String title) {
         setHeaderTitle(headerView, title, -1, false);
     }
-
 
     public void setHeaderTitle(View headerView, String title, int textcolor, boolean isBold) {
         setHeaderTitle(headerView, title, Position.CENTER, textcolor, isBold);

@@ -59,7 +59,6 @@ public class NetSettingActivity extends BaseActivity {
     @BindView(R.id.tv_dns)
     TextView mTvDns;
 
-    private SettingModel mSettingModel;
     private String mChargingId;
     private PileSetBean mPileSetBean;
 
@@ -76,13 +75,12 @@ public class NetSettingActivity extends BaseActivity {
         ButterKnife.bind(this);
         initToolBar();
         mChargingId = getIntent().getStringExtra("chargingId");
-        mSettingModel = new SettingModel();
         initData();
     }
 
     private void initData() {
         Mydialog.Show(this);
-        mSettingModel.requestChargingParams(mChargingId, new GunModel.HttpCallBack() {
+        SettingModel.getInstance().requestChargingParams(mChargingId, new GunModel.HttpCallBack() {
             @Override
             public void onSuccess(Object json) {
                 Mydialog.Dismiss();
@@ -220,7 +218,7 @@ public class NetSettingActivity extends BaseActivity {
         ModifyDialog.newInstance(title, value, str -> {
             Mydialog.Show(this);
             if (!mTvWifiName.getText().equals(str)) {
-                mSettingModel.requestEditChargingParams(mChargingId, key, str, new GunModel.HttpCallBack() {
+                SettingModel.getInstance().requestEditChargingParams(mChargingId, key, str, new GunModel.HttpCallBack() {
                     @Override
                     public void onSuccess(Object json) {
                         Log.d(TAG, "onSuccess: " + json.toString());
@@ -259,13 +257,12 @@ public class NetSettingActivity extends BaseActivity {
     }
 
     private void requestNetMode() {
-
         OptionsPickerView<String> pvOptions = new OptionsPickerBuilder(this, (options1, options2, options3, v) -> {
             if (mTvNetMode.getText().equals(mNetModeList.get(options1))) {
                 return;
             }
             Mydialog.Show(this);
-            mSettingModel.requestEditChargingParams(mChargingId, "G_NetworkMode", mNetModeList.get(options1), new GunModel.HttpCallBack() {
+            SettingModel.getInstance().requestEditChargingParams(mChargingId, "G_NetworkMode", mNetModeList.get(options1), new GunModel.HttpCallBack() {
                 @Override
                 public void onSuccess(Object json) {
                     Log.d(TAG, "onSuccess: " + json.toString());

@@ -225,7 +225,7 @@ public class RegisterActivity extends BaseActivity {
         }
 
         //充电桩序列号
-        if (TextUtils.isEmpty(installChargeId)){
+        if (TextUtils.isEmpty(installChargeId)) {
             toast(R.string.m充电桩序列号不能为空);
             return;
         }
