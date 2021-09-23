@@ -511,6 +511,7 @@
     <string name="not_deleted">桩主不能删除</string>
     <string name="not_available">当前状态不可用</string>
     <string name="while_charging">充电中,不能设置预约</string>
+    <string name="start_immediately">立即开始</string>
 
 </resources>
 

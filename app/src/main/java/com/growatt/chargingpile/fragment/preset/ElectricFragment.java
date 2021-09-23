@@ -4,7 +4,6 @@ import static com.growatt.chargingpile.util.T.toast;
 
 import android.os.Build;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Switch;
@@ -16,7 +15,7 @@ import com.growatt.chargingpile.EventBusMsg.PreinstallEvent;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.fragment.BaseFragment;
 import com.growatt.chargingpile.model.GunModel;
-import com.growatt.chargingpile.view.TimeSetDialog;
+import com.growatt.chargingpile.view.TypeSelectDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
@@ -55,6 +54,7 @@ public class ElectricFragment extends BaseFragment {
         if (pPresetActivity.pReservationBean != null && pPresetActivity.pReservationBean.getCKey().equals("G_SetEnergy")) {
             mEditElectric.setText(pPresetActivity.pReservationBean.getCValue());
             mTvStartTime.setText(pPresetActivity.pReservationBean.getExpiryDate().substring(11, 16));
+
             if (pPresetActivity.pReservationBean.getLoopType() == 0) {
                 mSwitchEveryDay.setChecked(true);
             }
@@ -69,21 +69,16 @@ public class ElectricFragment extends BaseFragment {
                 requestPreinstall();
                 break;
             case R.id.rl_start_time:
-                TimeSetDialog.newInstance(getString(R.string.m204开始时间), mTvStartTime.getText().toString(), (hour, minute) -> {
-                    Log.d(TAG, "confirm: hour:" + hour + "  minute:" + minute);
-                    mTvStartTime.setText(hour + ":" + minute);
-                }).show(pPresetActivity.getSupportFragmentManager(), "startDialog");
+                TypeSelectDialog.newInstance(str -> {
+                    mTvStartTime.setText(str);
+                }).show(pPresetActivity.getSupportFragmentManager(), "");
                 break;
             default:
                 break;
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private void requestPreinstall() {
-        int loop = mSwitchEveryDay.isChecked() ? 0 : -1;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        String time = sdf.format(new Date()) + "T" + mTvStartTime.getText().toString() + ":00.000Z";
 
         if (!ifCanChargeMoney(mEditElectric.getText().toString())) {
             toast(R.string.m输入电量不正确);
@@ -99,30 +94,63 @@ public class ElectricFragment extends BaseFragment {
             toast(getString(R.string.m130未设置开始时间));
             return;
         }
-        double electric = Double.parseDouble(mEditElectric.getText().toString());
 
-        GunModel.getInstance().requestReserve(2, time, "G_SetEnergy", electric, loop, pPresetActivity.pChargingId, pPresetActivity.pConnectorId, new GunModel.HttpCallBack() {
-            @Override
-            public void onSuccess(Object bean) {
-                try {
-                    JSONObject object = new JSONObject(bean.toString());
-                    String data = object.getString("data");
-                    int code = object.optInt("type");
-                    if (code == 0) {
-                        pPresetActivity.finish();
-                        EventBus.getDefault().post(new PreinstallEvent());
+        int loop = mSwitchEveryDay.isChecked() ? 0 : -1;
+
+        double cValue = Double.parseDouble(mEditElectric.getText().toString());
+
+        if (mTvStartTime.getText().equals(getString(R.string.start_immediately))) {
+
+            GunModel.getInstance().requestCharging("G_SetEnergy", cValue, loop, pPresetActivity.pChargingId, pPresetActivity.pConnectorId, new GunModel.HttpCallBack() {
+                @Override
+                public void onSuccess(Object bean) {
+                    try {
+                        JSONObject object = new JSONObject(bean.toString());
+                        int type = object.optInt("type");
+                        if (type == 0) {
+                            EventBus.getDefault().post(new PreinstallEvent());
+                            pPresetActivity.finish();
+                        }
+                        toast(object.getString("data"));
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    toast(data);
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-            }
 
-            @Override
-            public void onFailed() {
+                @Override
+                public void onFailed() {
 
-            }
-        });
+                }
+            });
 
+        } else {
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            String time = sdf.format(new Date()) + "T" + mTvStartTime.getText().toString() + ":00.000Z";
+
+            GunModel.getInstance().requestReserve(2, time, "G_SetEnergy", cValue, loop, pPresetActivity.pChargingId, pPresetActivity.pConnectorId, new GunModel.HttpCallBack() {
+                @Override
+                public void onSuccess(Object bean) {
+                    try {
+                        JSONObject object = new JSONObject(bean.toString());
+                        String data = object.getString("data");
+                        int code = object.optInt("type");
+                        if (code == 0) {
+                            pPresetActivity.finish();
+                            EventBus.getDefault().post(new PreinstallEvent());
+                        }
+                        toast(data);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailed() {
+
+                }
+            });
+
+        }
     }
 }

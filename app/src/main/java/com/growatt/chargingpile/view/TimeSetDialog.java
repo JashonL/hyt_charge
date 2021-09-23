@@ -56,7 +56,6 @@ public class TimeSetDialog extends DialogFragment {
             mTitle = getArguments().getString("title");
             mTime = getArguments().getString("time");
         }
-        Log.d(TAG, "onCreate: ");
     }
 
     @Nullable
@@ -66,7 +65,6 @@ public class TimeSetDialog extends DialogFragment {
         getDialog().setCancelable(false);
         getDialog().setCanceledOnTouchOutside(false);
         initView(view);
-        Log.d(TAG, "onCreateView: ");
         return view;
     }
 
@@ -98,7 +96,6 @@ public class TimeSetDialog extends DialogFragment {
                 initPicker(mNumberHour, 0, 23, Integer.valueOf(mTime.substring(0, 2)), "%02d");
                 initPicker(mNumberMinute, 0, 59, Integer.valueOf(mTime.substring(3, 5)), "%02d");
             }
-            Log.d(TAG, "show: ");
         } else {
             if (mTime.length() < 4) {
                 initPicker(mNumberHour, 0, 23, 0, "%02d");
@@ -146,7 +143,6 @@ public class TimeSetDialog extends DialogFragment {
         params.gravity = Gravity.BOTTOM;
         params.y = getResources().getDimensionPixelSize(R.dimen.xa50);
         getDialog().getWindow().setAttributes(params);
-        Log.d(TAG, "onResume: ");
     }
 
     @Override

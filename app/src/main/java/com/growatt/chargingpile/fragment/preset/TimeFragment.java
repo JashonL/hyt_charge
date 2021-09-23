@@ -2,7 +2,6 @@ package com.growatt.chargingpile.fragment.preset;
 
 import static com.growatt.chargingpile.util.T.toast;
 
-import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -10,23 +9,17 @@ import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import androidx.annotation.RequiresApi;
-
 import com.growatt.chargingpile.EventBusMsg.PreinstallEvent;
 import com.growatt.chargingpile.R;
-import com.growatt.chargingpile.constant.Constant;
 import com.growatt.chargingpile.fragment.BaseFragment;
 import com.growatt.chargingpile.model.GunModel;
 import com.growatt.chargingpile.view.TimeSetDialog;
+import com.growatt.chargingpile.view.TypeSelectDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Locale;
 
@@ -41,32 +34,17 @@ import butterknife.OnClick;
 
 public class TimeFragment extends BaseFragment {
     private static String TAG = TimeFragment.class.getSimpleName();
-    @BindView(R.id.cb_time)
-    TextView mCheckTime;
-    @BindView(R.id.cb_duration)
-    TextView mCheckDuration;
     @BindView(R.id.rl_duration)
     RelativeLayout mRlDuration;
-    @BindView(R.id.rl_duration_start)
-    RelativeLayout mRlDurationStart;
+    @BindView(R.id.rl_start_type)
+    RelativeLayout mRlStartType;
     @BindView(R.id.tv_duration)
     TextView mTvDuration;
-    @BindView(R.id.tv_duration_start_time)
-    TextView mTvDurationStartTime;
-    @BindView(R.id.rl_time)
-    RelativeLayout mRlTime;
-    @BindView(R.id.tv_start_hour)
-    TextView mTvStartHour;
-    @BindView(R.id.tv_start_minute)
-    TextView mTvStartMinute;
-    @BindView(R.id.tv_end_hour)
-    TextView mTvEndHour;
-    @BindView(R.id.tv_end_minute)
-    TextView mTvEndMinute;
+    @BindView(R.id.tv_start_type)
+    TextView mTvStartTime;
     @BindView(R.id.sw_day)
     Switch mSwitchEveryDay;
 
-    private int mCurrTimeType = Constant.TIME_TYPE;
     private String mTvDurationHour = "";
     private String mTvDurationMinute = "";
 
@@ -78,128 +56,97 @@ public class TimeFragment extends BaseFragment {
     @Override
     protected void initWidget() {
         if (pPresetActivity.pReservationBean != null && pPresetActivity.pReservationBean.getCKey().equals("G_SetTime")) {
-            mTvStartHour.setText(pPresetActivity.pReservationBean.getExpiryDate().substring(11, 13));
-            mTvStartMinute.setText(pPresetActivity.pReservationBean.getExpiryDate().substring(14, 16));
-            mTvEndHour.setText(pPresetActivity.pReservationBean.getEndDate().substring(11, 13));
-            mTvEndMinute.setText(pPresetActivity.pReservationBean.getEndDate().substring(14, 16));
+            String hour = pPresetActivity.pReservationBean.getExpiryDate().substring(11, 13);
+            String minute = pPresetActivity.pReservationBean.getExpiryDate().substring(14, 16);
+            mTvStartTime.setText(hour + ":" + minute);
+            int timeCharging = Integer.parseInt(pPresetActivity.pReservationBean.getCValue());
+
+            int hourCharging = timeCharging / 60;
+            int minCharging = timeCharging % 60;
+
+            mTvDurationHour = String.valueOf(hourCharging);
+            mTvDurationMinute = String.valueOf(minCharging);
+
+            mTvDuration.setText(String.format("%02d", hourCharging) + getString(R.string.m207时) + String.format("%02d", minCharging) + getString(R.string.m208分));
+
             if (pPresetActivity.pReservationBean.getLoopType() == 0) {
                 mSwitchEveryDay.setChecked(true);
             }
         }
-        handleViewHide(Constant.TIME_TYPE);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    @OnClick({R.id.cb_time, R.id.cb_duration, R.id.ll_start_time, R.id.ll_end_time,
-            R.id.rl_duration, R.id.btn_ok, R.id.rl_duration_start})
+    @OnClick({R.id.rl_duration, R.id.btn_ok, R.id.rl_start_type})
     public void onClickListener(View view) {
         switch (view.getId()) {
             case R.id.btn_ok:
-                try {
-                    requestPreinstall();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case R.id.cb_time:
-                if (mCheckTime.isSelected()) {
-                    return;
-                }
-                handleViewHide(Constant.TIME_TYPE);
-                break;
-            case R.id.cb_duration:
-                if (mCheckDuration.isSelected()) {
-                    return;
-                }
-                handleViewHide(Constant.DURATION_TYPE);
-                break;
-            case R.id.ll_start_time:
-                TimeSetDialog.newInstance(getString(R.string.m204开始时间), mTvStartHour.getText().toString() + ":" + mTvStartMinute.getText().toString(), (hour, minute) -> {
-                    mTvStartHour.setText(hour);
-                    mTvStartMinute.setText(minute);
-                    Log.d(TAG, "confirm: hour:" + hour + "  minute:" + minute);
-                }).show(pPresetActivity.getSupportFragmentManager(), "startDialog");
-                break;
-            case R.id.ll_end_time:
-                TimeSetDialog.newInstance(getString(R.string.m282结束时间), mTvEndHour.getText().toString() + ":" + mTvEndMinute.getText().toString(), (hour, minute) -> {
-                    mTvEndHour.setText(hour);
-                    mTvEndMinute.setText(minute);
-                    Log.d(TAG, "confirm: hour:" + hour + "  minute:" + minute);
-                }).show(pPresetActivity.getSupportFragmentManager(), "endDialog");
+                requestPreinstall();
                 break;
             case R.id.rl_duration:
                 TimeSetDialog.newInstance(getString(R.string.charging_time), mTvDuration.getText().toString(), (hour, minute) -> {
                     mTvDurationHour = hour;
                     mTvDurationMinute = minute;
                     mTvDuration.setText(hour + getString(R.string.m207时) + minute + getString(R.string.m208分));
-                }).show(pPresetActivity.getSupportFragmentManager(), "endDialog");
+                }).show(pPresetActivity.getSupportFragmentManager(), "");
                 break;
-            case R.id.rl_duration_start:
-                TimeSetDialog.newInstance(getString(R.string.m204开始时间), mTvDurationStartTime.getText().toString(), (hour, minute) -> {
-
-                    mTvDurationStartTime.setText(hour + ":" + minute);
-
-                    Log.d(TAG, "mTvDurationStartTime: hour:" + hour + "  minute:" + minute);
-                }).show(pPresetActivity.getSupportFragmentManager(), "durationStartDialog");
+            case R.id.rl_start_type:
+                TypeSelectDialog.newInstance(str -> {
+                    mTvStartTime.setText(str);
+                }).show(pPresetActivity.getSupportFragmentManager(), "");
                 break;
             default:
                 break;
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void requestPreinstall() throws ParseException {
+    private void requestPreinstall() {
+
+        if (TextUtils.isEmpty(mTvDuration.getText())) {
+            toast(getString(R.string.m129时长设置不能为空));
+            return;
+        }
+
+        if (mTvDurationHour.equals("00") && mTvDurationMinute.equals("00")) {
+            toast(R.string.m请选择正确的时间段);
+            return;
+        }
+
+        if (TextUtils.isEmpty(mTvStartTime.getText())) {
+            toast(getString(R.string.m130未设置开始时间));
+            return;
+        }
 
         int loop = mSwitchEveryDay.isChecked() ? 0 : -1;
-        if (mCurrTimeType == Constant.TIME_TYPE) {
-            int startHours = Integer.parseInt(mTvStartHour.getText().toString());
-            int startMinute = Integer.parseInt(mTvStartMinute.getText().toString());
 
-            int endHours = Integer.parseInt(mTvEndHour.getText().toString());
-            int endMinute = Integer.parseInt(mTvEndMinute.getText().toString());
+        int cValue = Integer.parseInt(mTvDurationHour) * 60 + Integer.parseInt(mTvDurationMinute);
 
-            long cValue;
+        Log.d(TAG, "cValue:" + cValue);
 
-            if (startHours == endHours && startMinute > endMinute) {
+        if (mTvStartTime.getText().equals(getString(R.string.start_immediately))) {
+            GunModel.getInstance().requestCharging("G_SetTime", cValue, loop, pPresetActivity.pChargingId, pPresetActivity.pConnectorId, new GunModel.HttpCallBack() {
+                @Override
+                public void onSuccess(Object bean) {
+                    try {
+                        JSONObject object = new JSONObject(bean.toString());
+                        int type = object.optInt("type");
+                        if (type == 0) {
+                            EventBus.getDefault().post(new PreinstallEvent());
+                            pPresetActivity.finish();
+                        }
+                        toast(object.getString("data"));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
 
-                LocalDateTime startTime = LocalDateTime.of(2021, 9, 15, startHours, startMinute),
-                        endTime = LocalDateTime.of(2021, 9, 16, endHours, endMinute);
+                @Override
+                public void onFailed() {
 
-                cValue = startTime.until(endTime, ChronoUnit.MINUTES);
+                }
+            });
 
-            } else if (startHours >= endHours && startMinute > endMinute) {
-
-                LocalDateTime startTime = LocalDateTime.of(2021, 9, 15, startHours, startMinute),
-                        endTime = LocalDateTime.of(2021, 9, 16, endHours, endMinute);
-
-                cValue = startTime.until(endTime, ChronoUnit.MINUTES);
-            } else if (startHours > endHours) {
-                LocalDateTime startTime = LocalDateTime.of(2021, 9, 15, startHours, startMinute),
-                        endTime = LocalDateTime.of(2021, 9, 16, endHours, endMinute);
-
-                cValue = startTime.until(endTime, ChronoUnit.MINUTES);
-            } else {
-                LocalTime startTime = LocalTime.of(startHours, startMinute),
-                        endTime = LocalTime.of(endHours, endMinute);
-
-                cValue = startTime.until(endTime, ChronoUnit.MINUTES);
-            }
-
-
-            if (startHours == 0 && startMinute == 0) {
-                toast(getString(R.string.m130未设置开始时间));
-                return;
-            } else if (endHours == 0 && endMinute == 0) {
-                toast(getString(R.string.m284未设置结束时间));
-                return;
-            }
-
-
+        } else {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-            String time = sdf.format(new Date()) + "T" + startHours + ":" + startMinute + ":00.000Z";
-
-
-            Log.d(TAG, "cValue:" + cValue);
+            String time = sdf.format(new Date()) + "T" + mTvStartTime.getText() + ":00.000Z";
             GunModel.getInstance().requestReserve(3, time, "G_SetTime", cValue, loop, pPresetActivity.pChargingId, pPresetActivity.pConnectorId, new GunModel.HttpCallBack() {
                 @Override
                 public void onSuccess(Object bean) {
@@ -216,76 +163,12 @@ public class TimeFragment extends BaseFragment {
                         e.printStackTrace();
                     }
                 }
-
                 @Override
                 public void onFailed() {
 
                 }
             });
-        } else if (mCurrTimeType == Constant.DURATION_TYPE) {
-
-            if (TextUtils.isEmpty(mTvDurationHour) && (TextUtils.isEmpty(mTvDurationMinute))) {
-                toast(R.string.m129时长设置不能为空);
-                return;
-            }
-
-
-            if (Integer.parseInt(mTvDurationHour) == 0 && Integer.parseInt(mTvDurationMinute) == 0) {
-                toast(R.string.m129时长设置不能为空);
-                return;
-            }
-
-            if (TextUtils.isEmpty(mTvDurationStartTime.getText())) {
-                toast(getString(R.string.m130未设置开始时间));
-                return;
-            }
-
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-            String startTime = sdf.format(new Date()) + "T" + mTvDurationStartTime.getText().toString() + ":00.000Z";
-
-            int cValue = Integer.parseInt(mTvDurationHour) * 60 + Integer.parseInt(mTvDurationMinute);
-            Log.d(TAG, "cValue:" + cValue);
-
-            GunModel.getInstance().requestReserve(3, startTime, "G_SetTime", cValue, loop, pPresetActivity.pChargingId, pPresetActivity.pConnectorId, new GunModel.HttpCallBack() {
-                @Override
-                public void onSuccess(Object json) {
-                    try {
-                        JSONObject object = new JSONObject(json.toString());
-                        String data = object.getString("data");
-                        int code = object.optInt("type");
-                        if (code == 0) {
-                            pPresetActivity.finish();
-                            EventBus.getDefault().post(new PreinstallEvent());
-                        }
-                        toast(data);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onFailed() {
-
-                }
-            });
-        }
-    }
-
-    private void handleViewHide(int type) {
-        if (type == Constant.TIME_TYPE) {
-            mRlDuration.setVisibility(View.GONE);
-            mRlDurationStart.setVisibility(View.GONE);
-            mRlTime.setVisibility(View.VISIBLE);
-            mCheckTime.setSelected(true);
-            mCheckDuration.setSelected(false);
-            mCurrTimeType = Constant.TIME_TYPE;
-        } else if (type == Constant.DURATION_TYPE) {
-            mRlTime.setVisibility(View.GONE);
-            mRlDuration.setVisibility(View.VISIBLE);
-            mRlDurationStart.setVisibility(View.VISIBLE);
-            mCheckDuration.setSelected(true);
-            mCheckTime.setSelected(false);
-            mCurrTimeType = Constant.DURATION_TYPE;
         }
     }
 }
+

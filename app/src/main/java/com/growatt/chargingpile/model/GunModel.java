@@ -412,7 +412,7 @@ public class GunModel {
     }
 
     /**
-     * 正常请求充电
+     * 请求充电
      *
      * @param chargingId
      * @param connectorId
@@ -425,6 +425,46 @@ public class GunModel {
         jsonMap.put("userId", SmartHomeUtil.getUserName());
         jsonMap.put("chargeId", chargingId);
         jsonMap.put("lan", getLanguage());
+
+        String json = SmartHomeUtil.mapToJsonString(jsonMap);
+        PostUtil.postJson(SmartHomeUrlUtil.postRequestReseerveCharging(), json, new PostUtil.postListener() {
+            @Override
+            public void Params(Map<String, String> params) {
+            }
+
+            @Override
+            public void success(String json) {
+                httpCallBack.onSuccess(json);
+            }
+
+            @Override
+            public void LoginError(String str) {
+                Mydialog.Dismiss();
+            }
+
+        });
+    }
+
+    /**
+     * 立即充电
+     * @param key
+     * @param value
+     * @param loopType
+     * @param chargingId
+     * @param connectorId
+     * @param httpCallBack
+     */
+    public void requestCharging(String key, Object value, int loopType,final String chargingId, final int connectorId, HttpCallBack httpCallBack) {
+        Map<String, Object> jsonMap = new HashMap<>();
+        jsonMap.put("action", "remoteStartTransaction");
+        jsonMap.put("connectorId", connectorId);
+        jsonMap.put("userId", SmartHomeUtil.getUserName());
+        jsonMap.put("chargeId", chargingId);
+        jsonMap.put("lan", getLanguage());
+
+        jsonMap.put("cKey", key);
+        jsonMap.put("cValue", value);
+        jsonMap.put("loopType", loopType);
 
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         PostUtil.postJson(SmartHomeUrlUtil.postRequestReseerveCharging(), json, new PostUtil.postListener() {

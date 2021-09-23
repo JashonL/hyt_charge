@@ -515,6 +515,7 @@
     <string name="not_deleted">Stakeholder cannot be deleted</string>
     <string name="not_available">Current status is not available</string>
     <string name="while_charging">Cannot set appointment while charging</string>
+    <string name="start_immediately">start immediately</string>
 </resources>
 
 

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Parcelable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Switch;
@@ -19,7 +18,7 @@ import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.fragment.BaseFragment;
 import com.growatt.chargingpile.model.GunModel;
 import com.growatt.chargingpile.setting.PileSettingActivity;
-import com.growatt.chargingpile.view.TimeSetDialog;
+import com.growatt.chargingpile.view.TypeSelectDialog;
 import com.mylhyl.circledialog.CircleDialog;
 
 import org.greenrobot.eventbus.EventBus;
@@ -101,21 +100,16 @@ public class MoneyFragment extends BaseFragment {
                 requestPreinstall();
                 break;
             case R.id.rl_start_time:
-                TimeSetDialog.newInstance(getString(R.string.m204开始时间), mTvStartTime.getText().toString(), (hour, minute) -> {
-                    Log.d(TAG, "confirm: hour:" + hour + "  minute:" + minute);
-                    mTvStartTime.setText(hour + ":" + minute);
-                }).show(pPresetActivity.getSupportFragmentManager(), "startDialog");
+                TypeSelectDialog.newInstance(str -> {
+                    mTvStartTime.setText(str);
+                }).show(pPresetActivity.getSupportFragmentManager(), "");
                 break;
             default:
                 break;
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private void requestPreinstall() {
-        int loop = mSwitchEveryDay.isChecked() ? 0 : -1;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        String time = sdf.format(new Date()) + "T" + mTvStartTime.getText().toString() + ":00.000Z";
 
         if (!ifCanChargeMoney(mEditMoney.getText().toString())) {
             toast(R.string.m输入金额不正确);
@@ -132,30 +126,64 @@ public class MoneyFragment extends BaseFragment {
             return;
         }
 
-        double money = Double.parseDouble(mEditMoney.getText().toString());
+        int loop = mSwitchEveryDay.isChecked() ? 0 : -1;
 
-        GunModel.getInstance().requestReserve(1, time, "G_SetAmount", money, loop, pPresetActivity.pChargingId, pPresetActivity.pConnectorId, new GunModel.HttpCallBack() {
-            @Override
-            public void onSuccess(Object bean) {
-                try {
-                    JSONObject object = new JSONObject(bean.toString());
-                    String data = object.getString("data");
-                    int code = object.optInt("type");
-                    if (code == 0) {
-                        pPresetActivity.finish();
-                        EventBus.getDefault().post(new PreinstallEvent());
+        double cValue = Double.parseDouble(mEditMoney.getText().toString());
+
+        if (mTvStartTime.getText().equals(getString(R.string.start_immediately))) {
+
+            GunModel.getInstance().requestCharging("G_SetAmount", cValue, loop, pPresetActivity.pChargingId, pPresetActivity.pConnectorId, new GunModel.HttpCallBack() {
+                @Override
+                public void onSuccess(Object bean) {
+                    try {
+                        JSONObject object = new JSONObject(bean.toString());
+                        int type = object.optInt("type");
+                        if (type == 0) {
+                            EventBus.getDefault().post(new PreinstallEvent());
+                            pPresetActivity.finish();
+                        }
+                        toast(object.getString("data"));
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    toast(data);
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-            }
 
-            @Override
-            public void onFailed() {
+                @Override
+                public void onFailed() {
 
-            }
-        });
+                }
+            });
+
+        }else {
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            String time = sdf.format(new Date()) + "T" + mTvStartTime.getText().toString() + ":00.000Z";
+
+            GunModel.getInstance().requestReserve(1, time, "G_SetAmount", cValue, loop, pPresetActivity.pChargingId, pPresetActivity.pConnectorId, new GunModel.HttpCallBack() {
+                @Override
+                public void onSuccess(Object bean) {
+                    try {
+                        JSONObject object = new JSONObject(bean.toString());
+                        String data = object.getString("data");
+                        int code = object.optInt("type");
+                        if (code == 0) {
+                            pPresetActivity.finish();
+                            EventBus.getDefault().post(new PreinstallEvent());
+                        }
+                        toast(data);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailed() {
+
+                }
+            });
+
+        }
+
 
     }
 

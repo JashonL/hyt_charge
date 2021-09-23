@@ -235,6 +235,7 @@ public class FragmentA extends BaseFragment {
                 mIvSwitchStatus.setImageResource(R.drawable.ic_green_on);
                 mTvSwitchStatus.setTextColor(ContextCompat.getColor(pActivity, R.color.charging_start));
                 mTvSwitchStatus.setText(getString(R.string.m103充电));
+                stopGif();
                 break;
             case GunBean.RESERVENOW://预约
                 mLlDefaultCharging.setVisibility(View.GONE);
@@ -263,7 +264,7 @@ public class FragmentA extends BaseFragment {
 
                     }
                 });
-
+                stopGif();
                 break;
             case GunBean.PREPARING://m119准备中
                 pHandler.removeCallbacks(runnableGunInfo);
@@ -279,15 +280,7 @@ public class FragmentA extends BaseFragment {
                 mIvSwitchStatus.setImageResource(R.drawable.ic_green_on);
                 mTvSwitchStatus.setTextColor(ContextCompat.getColor(pActivity, R.color.charging_start));
                 mLlPleaseVehicle.setVisibility(View.VISIBLE);
-
-                if (mIvChargingGif.getVisibility() == View.VISIBLE) {
-                    GifDrawable endDrawable = (GifDrawable) mIvChargingGif.getDrawable();
-                    if (endDrawable.isRunning()) {
-                        endDrawable.stop();
-                        mIvChargingGif.setVisibility(View.GONE);
-                    }
-                }
-
+                stopGif();
                 break;
             case GunBean.CHARGING://充电中 1.普通充电 2.其他充电
                 pHandler.removeCallbacks(runnableGunInfo);
@@ -319,11 +312,7 @@ public class FragmentA extends BaseFragment {
                 mTvSwitchStatus.setTextColor(ContextCompat.getColor(pActivity, R.color.charging_start));
                 mTvSwitchStatus.setText(getString(R.string.m120充电结束));
                 handlerChargingInfo(bean, key);
-                GifDrawable endDrawable = (GifDrawable) mIvChargingGif.getDrawable();
-                if (endDrawable.isRunning()) {
-                    endDrawable.stop();
-                }
-
+                stopGif();
                 if (pIsPreinstallType) {//预约充电结束
                     mRlPreinstallBg.setVisibility(View.GONE);
                     mLlPreinstallAV.setVisibility(View.GONE);
@@ -351,12 +340,7 @@ public class FragmentA extends BaseFragment {
                 mTvExceptionStatusHint.setText(getString(R.string.pile_available));
                 mLlException.setVisibility(View.VISIBLE);
                 mIvChargingGif.setVisibility(View.GONE);
-
-                GifDrawable supDrawable = (GifDrawable) mIvChargingGif.getDrawable();
-                if (supDrawable.isRunning()) {
-                    supDrawable.stop();
-                }
-
+                stopGif();
                 break;
             case GunBean.SUSPENDEDEVSE://m292桩拒绝充电
                 mTvPreinstallChargingFinish.setVisibility(View.GONE);
@@ -376,10 +360,7 @@ public class FragmentA extends BaseFragment {
                 mLlException.setVisibility(View.VISIBLE);
                 mIvChargingGif.setVisibility(View.GONE);
 
-                GifDrawable suspendDrawable = (GifDrawable) mIvChargingGif.getDrawable();
-                if (suspendDrawable.isRunning()) {
-                    suspendDrawable.stop();
-                }
+                stopGif();
 
                 break;
             case GunBean.FAULTED://m121故障
@@ -401,11 +382,7 @@ public class FragmentA extends BaseFragment {
                 mTvExceptionStatusHint.setText(getString(R.string.pile_failure));
                 mLlException.setVisibility(View.VISIBLE);
                 mIvChargingGif.setVisibility(View.GONE);
-                GifDrawable faultedDrawable = (GifDrawable) mIvChargingGif.getDrawable();
-                if (faultedDrawable.isRunning()) {
-                    faultedDrawable.stop();
-                }
-
+                stopGif();
                 break;
             case GunBean.UNAVAILABLE://m122不可用
                 mTvPreinstallChargingFinish.setVisibility(View.GONE);
@@ -424,15 +401,22 @@ public class FragmentA extends BaseFragment {
                 mTvExceptionStatusHint.setText(getString(R.string.pile_available));
                 mLlException.setVisibility(View.VISIBLE);
                 mIvChargingGif.setVisibility(View.GONE);
-                GifDrawable drawable = (GifDrawable) mIvChargingGif.getDrawable();
-                if (drawable.isRunning()) {
-                    drawable.stop();
-                }
+                stopGif();
                 break;
             default:
                 break;
         }
 
+    }
+
+    private void stopGif() {
+        if (mIvChargingGif.getVisibility() == View.VISIBLE) {
+            GifDrawable drawable = (GifDrawable) mIvChargingGif.getDrawable();
+            if (drawable.isRunning()) {
+                drawable.stop();
+                mIvChargingGif.setVisibility(View.GONE);
+            }
+        }
     }
 
     private void handlerChargingInfo(GunBean bean, String key) {
@@ -504,8 +488,7 @@ public class FragmentA extends BaseFragment {
                     break;
                 case "G_SetAmount":
                     mTv1.setText(bean.getData().getcValue());
-
-                    mTv2.setText(bean.getData().getSymbol());
+                    mTv2.setText(pActivity.pSymbol);
 
                     mTv3.setVisibility(View.GONE);
                     mTv4.setVisibility(View.GONE);

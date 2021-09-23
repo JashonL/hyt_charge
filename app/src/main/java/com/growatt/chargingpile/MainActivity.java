@@ -173,14 +173,10 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                // TODO: 2021/8/23 数据量大考虑用线程
+                // TODO: 2021/8/23 数据量大用线程
                 List<ChargingBean.DataBean> dataBeanList = SearchUtils.search(charSequence, mTempChargingList);
                 Log.d(TAG, "onTextChanged: " + dataBeanList.size());
-                if (dataBeanList.size() > 0) {
-                    mChargingAdapter.replaceData(dataBeanList);
-                } else {
-                    mChargingAdapter.replaceData(mChargingList);
-                }
+                mChargingAdapter.replaceData(dataBeanList);
             }
 
             @Override
