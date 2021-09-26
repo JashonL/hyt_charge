@@ -5,7 +5,7 @@ import static com.growatt.chargingpile.util.T.toast;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -34,10 +34,8 @@ import butterknife.OnClick;
 
 public class TimeFragment extends BaseFragment {
     private static String TAG = TimeFragment.class.getSimpleName();
-    @BindView(R.id.rl_duration)
-    RelativeLayout mRlDuration;
-    @BindView(R.id.rl_start_type)
-    RelativeLayout mRlStartType;
+    @BindView(R.id.ll_every_day)
+    LinearLayout mLlEveryDay;
     @BindView(R.id.tv_duration)
     TextView mTvDuration;
     @BindView(R.id.tv_start_type)
@@ -70,6 +68,7 @@ public class TimeFragment extends BaseFragment {
             mTvDuration.setText(String.format("%02d", hourCharging) + getString(R.string.m207时) + String.format("%02d", minCharging) + getString(R.string.m208分));
 
             if (pPresetActivity.pReservationBean.getLoopType() == 0) {
+                mLlEveryDay.setVisibility(View.VISIBLE);
                 mSwitchEveryDay.setChecked(true);
             }
         }
@@ -90,6 +89,11 @@ public class TimeFragment extends BaseFragment {
                 break;
             case R.id.rl_start_type:
                 TypeSelectDialog.newInstance(str -> {
+                    if (str.equals(getString(R.string.start_immediately))) {
+                        mLlEveryDay.setVisibility(View.GONE);
+                    } else {
+                        mLlEveryDay.setVisibility(View.VISIBLE);
+                    }
                     mTvStartTime.setText(str);
                 }).show(pPresetActivity.getSupportFragmentManager(), "");
                 break;
@@ -115,14 +119,13 @@ public class TimeFragment extends BaseFragment {
             return;
         }
 
-        int loop = mSwitchEveryDay.isChecked() ? 0 : -1;
 
         int cValue = Integer.parseInt(mTvDurationHour) * 60 + Integer.parseInt(mTvDurationMinute);
 
         Log.d(TAG, "cValue:" + cValue);
 
         if (mTvStartTime.getText().equals(getString(R.string.start_immediately))) {
-            GunModel.getInstance().requestCharging("G_SetTime", cValue, loop, pPresetActivity.pChargingId, pPresetActivity.pConnectorId, new GunModel.HttpCallBack() {
+            GunModel.getInstance().requestCharging("G_SetTime", cValue, pPresetActivity.pChargingId, pPresetActivity.pConnectorId, new GunModel.HttpCallBack() {
                 @Override
                 public void onSuccess(Object bean) {
                     try {
@@ -145,6 +148,7 @@ public class TimeFragment extends BaseFragment {
             });
 
         } else {
+            int loop = mSwitchEveryDay.isChecked() ? 0 : -1;
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
             String time = sdf.format(new Date()) + "T" + mTvStartTime.getText() + ":00.000Z";
             GunModel.getInstance().requestReserve(3, time, "G_SetTime", cValue, loop, pPresetActivity.pChargingId, pPresetActivity.pConnectorId, new GunModel.HttpCallBack() {
@@ -163,6 +167,7 @@ public class TimeFragment extends BaseFragment {
                         e.printStackTrace();
                     }
                 }
+
                 @Override
                 public void onFailed() {
 

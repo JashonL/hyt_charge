@@ -106,11 +106,13 @@
             </RelativeLayout>
             <!--   每天-->
             <LinearLayout
+                android:id="@+id/ll_every_day"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/xa120"
                 android:layout_marginTop="@dimen/xa1"
                 android:background="#FFFFFFFF"
                 android:gravity="center_vertical"
+                android:visibility="gone"
                 android:orientation="horizontal">
 
                 <TextView

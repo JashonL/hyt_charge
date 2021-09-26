@@ -63,9 +63,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@null"
-                        android:paddingStart="@dimen/xa32"
                         android:hint="@string/m210请输入金额"
                         android:inputType="numberDecimal"
+                        android:paddingStart="@dimen/xa32"
                         android:singleLine="true"
                         android:textColor="@color/title_1"
                         android:textSize="@dimen/xa30" />
@@ -115,11 +115,13 @@
             </RelativeLayout>
             <!--   每天-->
             <LinearLayout
+                android:id="@+id/ll_every_day"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/xa120"
                 android:layout_marginTop="@dimen/xa1"
                 android:background="#FFFFFFFF"
                 android:gravity="center_vertical"
+                android:visibility="gone"
                 android:orientation="horizontal">
 
                 <TextView

@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -62,8 +61,6 @@ public class FragmentB extends BaseFragment {
     TextView mTvPreinstallTime;
     @BindView(R.id.iv_preinstall_type)
     ImageView mIvPreinstallType;
-    @BindView(R.id.cb_everyday)
-    CheckBox mCbEveryDay;
     @BindView(R.id.ll_default_charging)//普通充电UI
     LinearLayout mLlDefaultCharging;
     @BindView(R.id.tv_electricity_kwh)
@@ -138,6 +135,21 @@ public class FragmentB extends BaseFragment {
     ImageView mIvLock;
     @BindView(R.id.tv_lock)
     TextView mTvLockStatus;
+    @BindView(R.id.tv_preinstall_types)
+    TextView mTvPreinstallTypes;
+    @BindView(R.id.tv_start_time)
+    TextView mTvStartTime;
+    @BindView(R.id.tv_every_day)
+    TextView mTvEveryDay;
+    @BindView(R.id.tv_5)
+    TextView mTv5;
+    @BindView(R.id.tv_6)
+    TextView mTv6;
+    @BindView(R.id.tv_7)
+    TextView mTv7;
+    @BindView(R.id.tv_8)
+    TextView mTv8;
+
 
     @Override
     protected Object setRootView() {
@@ -160,7 +172,7 @@ public class FragmentB extends BaseFragment {
         initPullView();
     }
 
-    @OnClick({R.id.tv_time, R.id.ll_pile_status, R.id.ll_lock, R.id.ll_record, R.id.ll_preset,
+    @OnClick({R.id.ll_value, R.id.ll_pile_status, R.id.ll_lock, R.id.ll_record, R.id.ll_preset,
             R.id.iv_switch})
     public void onClickListener(View view) {
         switch (view.getId()) {
@@ -189,7 +201,7 @@ public class FragmentB extends BaseFragment {
             case R.id.ll_record:
                 startChargingRecordActivity();
                 break;
-            case R.id.tv_time:
+            case R.id.ll_value:
                 if (SmartHomeUtil.isFlagUser()) {
                     toast(getString(R.string.m66你的账号没有操作权限));
                     return;
@@ -317,10 +329,12 @@ public class FragmentB extends BaseFragment {
                     mRlPreinstallBg.setVisibility(View.GONE);
                     mLlPreinstallAV.setVisibility(View.GONE);
                     mTvPreinstallChargingFinish.setVisibility(View.VISIBLE);
+
                 } else {
                     mLlDefaultAV.setVisibility(View.GONE);
                     mTvChargingFinish.setVisibility(View.VISIBLE);
                 }
+
 
                 break;
             case GunBean.SUSPENDEEV://m133车拒绝充电
@@ -462,7 +476,7 @@ public class FragmentB extends BaseFragment {
 
                     double presetValue_value = Double.parseDouble(bean.getData().getcValue());
                     double chargedValue_value = bean.getData().getCtime();
-                    Log.d(TAG, "mTvProgressValue: "+mTvProgressValue.getText().toString());
+                    Log.d(TAG, "mTvProgressValue: " + mTvProgressValue.getText().toString());
                     if (mTvProgressValue.getText().toString().equals("100.0%")) {
                         Log.d(TAG, "mTvProgressValue: return");
                         return;
@@ -589,36 +603,54 @@ public class FragmentB extends BaseFragment {
 
     private void handleReservationInfo(ReservationBean.DataBean data) {
         if (data.getLoopType() == 0) {
-            mCbEveryDay.setChecked(true);
+            mTvEveryDay.setVisibility(View.VISIBLE);
         } else {
-            mCbEveryDay.setChecked(false);
+            mTvEveryDay.setVisibility(View.GONE);
         }
         String startTime;
-        String endTime;
-        if (!TextUtils.isEmpty(data.getExpiryDate()) && !TextUtils.isEmpty(data.getEndDate())) {
+        if (!TextUtils.isEmpty(data.getExpiryDate())) {
             startTime = data.getExpiryDate().substring(11, 16);
-            endTime = data.getEndDate().substring(11, 16);
         } else {
             startTime = "null";
-            endTime = "null";
         }
+
         switch (data.getCKey()) {
             case "G_SetTime":
-                mTvPreinstallTime.setText(startTime + "~" + endTime);
+                mTvPreinstallTypes.setText(R.string.time);
+                int cValue = Integer.parseInt(data.getcValue());
+                int hour = cValue / 60;
+                int min = cValue % 60;
+                mTv5.setText(String.valueOf(hour));
+                mTv6.setText(getString(R.string.m207时));
+                mTv7.setVisibility(View.VISIBLE);
+                mTv7.setText(String.valueOf(min));
+                mTv8.setVisibility(View.VISIBLE);
+                mTv8.setText(R.string.m208分);
+                mTvStartTime.setText(startTime);
                 mIvPreinstallType.setImageResource(R.drawable.ic_time_preinstall);
                 break;
             case "G_SetAmount":
-                mTvPreinstallTime.setText(startTime);
+                mTv7.setVisibility(View.GONE);
+                mTv8.setVisibility(View.GONE);
+                mTv5.setText(data.getcValue());
+                mTv6.setText(pActivity.pSymbol);
+                mTvPreinstallTypes.setText(getString(R.string.m200金额));
+                mTvStartTime.setText(startTime);
                 mIvPreinstallType.setImageResource(R.drawable.ic_amount_preinstall);
                 break;
             case "G_SetEnergy":
-                mTvPreinstallTime.setText(startTime);
+                mTv7.setVisibility(View.GONE);
+                mTv8.setVisibility(View.GONE);
+                mTv5.setText(data.getcValue());
+                mTv6.setText("kwh");
+                mTvPreinstallTypes.setText(getString(R.string.m201电量));
+                mTvStartTime.setText(startTime);
                 mIvPreinstallType.setImageResource(R.drawable.ic_energy_preinstall);
                 break;
             default:
                 break;
         }
-        Log.d(TAG, "handleReservationInfo: startTime:" + startTime + "endTime:" + endTime + " isCheck:" + data.getLoopType());
+
     }
 
     private void handleModel(String model) {

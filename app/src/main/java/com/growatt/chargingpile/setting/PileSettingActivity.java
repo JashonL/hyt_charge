@@ -398,6 +398,9 @@ public class PileSettingActivity extends BaseActivity implements BaseQuickAdapte
                 }).show(getSupportFragmentManager(), "");
                 break;
             case R.id.rl_meter_type:
+                if (!mTvConnectionMode.getText().equals(getString(R.string.m电表))){
+                    return;
+                }
                 checkMeterType();
                 break;
             case R.id.rl_electronic_lock:

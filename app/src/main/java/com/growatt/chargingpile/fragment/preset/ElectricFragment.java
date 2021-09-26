@@ -6,6 +6,7 @@ import android.os.Build;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -36,7 +37,8 @@ import butterknife.OnClick;
 public class ElectricFragment extends BaseFragment {
 
     private static String TAG = ElectricFragment.class.getSimpleName();
-
+    @BindView(R.id.ll_every_day)
+    LinearLayout mLlEveryDay;
     @BindView(R.id.tv_start_time)
     TextView mTvStartTime;
     @BindView(R.id.edit_electric)
@@ -56,6 +58,7 @@ public class ElectricFragment extends BaseFragment {
             mTvStartTime.setText(pPresetActivity.pReservationBean.getExpiryDate().substring(11, 16));
 
             if (pPresetActivity.pReservationBean.getLoopType() == 0) {
+                mLlEveryDay.setVisibility(View.VISIBLE);
                 mSwitchEveryDay.setChecked(true);
             }
         }
@@ -70,6 +73,11 @@ public class ElectricFragment extends BaseFragment {
                 break;
             case R.id.rl_start_time:
                 TypeSelectDialog.newInstance(str -> {
+                    if (str.equals(getString(R.string.start_immediately))) {
+                        mLlEveryDay.setVisibility(View.GONE);
+                    } else {
+                        mLlEveryDay.setVisibility(View.VISIBLE);
+                    }
                     mTvStartTime.setText(str);
                 }).show(pPresetActivity.getSupportFragmentManager(), "");
                 break;
@@ -95,13 +103,12 @@ public class ElectricFragment extends BaseFragment {
             return;
         }
 
-        int loop = mSwitchEveryDay.isChecked() ? 0 : -1;
 
         double cValue = Double.parseDouble(mEditElectric.getText().toString());
 
         if (mTvStartTime.getText().equals(getString(R.string.start_immediately))) {
 
-            GunModel.getInstance().requestCharging("G_SetEnergy", cValue, loop, pPresetActivity.pChargingId, pPresetActivity.pConnectorId, new GunModel.HttpCallBack() {
+            GunModel.getInstance().requestCharging("G_SetEnergy", cValue, pPresetActivity.pChargingId, pPresetActivity.pConnectorId, new GunModel.HttpCallBack() {
                 @Override
                 public void onSuccess(Object bean) {
                     try {
@@ -124,6 +131,8 @@ public class ElectricFragment extends BaseFragment {
             });
 
         } else {
+
+            int loop = mSwitchEveryDay.isChecked() ? 0 : -1;
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
             String time = sdf.format(new Date()) + "T" + mTvStartTime.getText().toString() + ":00.000Z";

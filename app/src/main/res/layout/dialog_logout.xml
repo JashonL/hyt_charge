@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/xa689"
+    android:layout_gravity="bottom"
+    android:background="@drawable/shape_dialog_bg"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/xa30"
+        android:layout_marginTop="@dimen/xa60"
+        android:text="@string/notice_for_cancellation_of_account"
+        android:textColor="#333333"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:id="@+id/iv_exit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/xa74"
+        android:layout_marginEnd="@dimen/xa30"
+        android:src="@drawable/ic_exit" />
+
+    <RelativeLayout
+        android:layout_width="@dimen/xa690"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_exit"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="@dimen/xa70"
+        android:background="@drawable/shape_preinstall_bg">
+
+
+        <LinearLayout
+            android:id="@+id/ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/xa60"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_ellipse_1"
+                android:layout_width="@dimen/xa16"
+                android:layout_height="@dimen/xa16"
+                android:layout_marginStart="@dimen/xa30"
+                android:src="@drawable/logout_ellipse" />
+
+
+            <TextView
+                android:id="@+id/tv_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/xa24"
+                android:text="@string/after_logging_out_the_user_will_not_be_able_to_log_in"
+                android:textSize="@dimen/xa30" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll"
+            android:layout_marginTop="@dimen/xa20"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="@dimen/xa60"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_ellipse_2"
+                android:layout_width="@dimen/xa16"
+                android:layout_height="@dimen/xa16"
+                android:layout_marginStart="@dimen/xa30"
+                android:src="@drawable/logout_ellipse" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/xa24"
+                android:text="@string/remove_completely"
+                android:textSize="@dimen/xa30" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="@dimen/xa600"
+        android:layout_height="@dimen/xa100"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/xa59"
+        android:background="@drawable/selector_circle_btn_green_login_gradient"
+        android:text="@string/confirm_cancellation_of_account"
+        android:textColor="@color/headerView"
+        android:textSize="@dimen/xa32" />
+
+</RelativeLayout>

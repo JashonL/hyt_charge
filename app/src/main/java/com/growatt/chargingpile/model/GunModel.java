@@ -268,10 +268,9 @@ public class GunModel {
             String loopValue = startTime.substring(11, 16);
             jsonMap.put("loopValue", loopValue);
         }
-        if (type != 0) {
-            jsonMap.put("cKey", key);
-            jsonMap.put("cValue", value);
-        }
+
+        jsonMap.put("cKey", key);
+        jsonMap.put("cValue", value);
 
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         LogUtil.i(json);
@@ -447,24 +446,22 @@ public class GunModel {
 
     /**
      * 立即充电
+     *
      * @param key
      * @param value
-     * @param loopType
      * @param chargingId
      * @param connectorId
      * @param httpCallBack
      */
-    public void requestCharging(String key, Object value, int loopType,final String chargingId, final int connectorId, HttpCallBack httpCallBack) {
+    public void requestCharging(String key, Object value, final String chargingId, final int connectorId, HttpCallBack httpCallBack) {
         Map<String, Object> jsonMap = new HashMap<>();
         jsonMap.put("action", "remoteStartTransaction");
         jsonMap.put("connectorId", connectorId);
         jsonMap.put("userId", SmartHomeUtil.getUserName());
         jsonMap.put("chargeId", chargingId);
         jsonMap.put("lan", getLanguage());
-
         jsonMap.put("cKey", key);
         jsonMap.put("cValue", value);
-        jsonMap.put("loopType", loopType);
 
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         PostUtil.postJson(SmartHomeUrlUtil.postRequestReseerveCharging(), json, new PostUtil.postListener() {
@@ -482,6 +479,41 @@ public class GunModel {
                 Mydialog.Dismiss();
             }
 
+        });
+    }
+
+    public void requestUpdateReserve(ReservationBean.DataBean dataBean,int loopType, HttpCallBack httpCallBack) {
+        Map<String, Object> jsonMap = new HashMap<>();
+        jsonMap.put("action", "ReserveNow");
+        jsonMap.put("expiryDate", dataBean.getExpiryDate());
+        jsonMap.put("connectorId", dataBean.getConnectorId());
+        jsonMap.put("chargeId", dataBean.getChargeId());
+        jsonMap.put("userId", SmartHomeUtil.getUserName());
+        jsonMap.put("loopType", loopType);
+        jsonMap.put("lan", getLanguage());
+
+        if (loopType == 0) {
+            String loopValue = dataBean.getExpiryDate().substring(11, 16);
+            jsonMap.put("loopValue", loopValue);
+        }
+
+        String json = SmartHomeUtil.mapToJsonString(jsonMap);
+        LogUtil.i(json);
+        PostUtil.postJson(SmartHomeUrlUtil.postRequestReseerveCharging(), json, new PostUtil.postListener() {
+            @Override
+            public void Params(Map<String, String> params) {
+
+            }
+
+            @Override
+            public void success(String json) {
+                httpCallBack.onSuccess(json);
+            }
+
+            @Override
+            public void LoginError(String str) {
+                Mydialog.Dismiss();
+            }
         });
     }
 

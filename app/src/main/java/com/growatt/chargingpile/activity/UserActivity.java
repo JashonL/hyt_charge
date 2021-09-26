@@ -4,23 +4,20 @@ package com.growatt.chargingpile.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.connutil.PostUtil;
+import com.growatt.chargingpile.sqlite.SqliteUtil;
 import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.LoginUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
 import com.growatt.chargingpile.util.SmartHomeUtil;
-import com.mylhyl.circledialog.CircleDialog;
+import com.growatt.chargingpile.view.LogoutDialog;
 
 import org.json.JSONObject;
 
@@ -42,8 +39,8 @@ public class UserActivity extends BaseActivity {
     TextView tvEmail;
     @BindView(R.id.tvTitle)
     TextView tvTitle;
-/*    @BindView(R.id.tv_installer)
-    TextView tvInstaller;*/
+    /*    @BindView(R.id.tv_installer)
+        TextView tvInstaller;*/
     @BindView(R.id.tv_installemail)
     TextView tvInstallemail;
     @BindView(R.id.tv_installphone)
@@ -92,7 +89,7 @@ public class UserActivity extends BaseActivity {
             tvInstalladdress.setText(installAddress);
         }
 
-        String date=Cons.userBean.getInstallDate();
+        String date = Cons.userBean.getInstallDate();
         if (!TextUtils.isEmpty(date)) {
             tvDate.setText(date);
         }
@@ -110,7 +107,7 @@ public class UserActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.rl_edit_password, R.id.rl_edit_phone, R.id.rl_edit_email, R.id.rl_edit_installemail, R.id.rl_edit_installphone, R.id.rl_edit_installaddress, R.id.logout,R.id.rl_edit_date})
+    @OnClick({R.id.rl_edit_password, R.id.rl_edit_phone, R.id.rl_edit_email, R.id.rl_edit_installemail, R.id.rl_edit_installphone, R.id.rl_edit_installaddress, R.id.logout, R.id.rl_edit_date})
     public void onClickListners(View view) {
         switch (view.getId()) {
             case R.id.rl_edit_password:
@@ -141,30 +138,30 @@ public class UserActivity extends BaseActivity {
     }
 
     private void LogoutUser() {
-        new CircleDialog.Builder()
-                .setWidth(0.75f)
-                .setTitle(getString(R.string.m318是否注销账户))
-                .setText(getString(R.string.m319注销后账户将被删除))
-                .configText(params -> {
-                    params.textSize = 30;
-                })
-                .setGravity(Gravity.CENTER).setPositive(getString(R.string.m9确定), new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                deleteUser();
-            }
-        })
-                .setNegative(getString(R.string.m7取消), null)
-                .show(getSupportFragmentManager());
+//        new CircleDialog.Builder()
+//                .setWidth(0.75f)
+//                .setTitle(getString(R.string.m318是否注销账户))
+//                .setText(getString(R.string.m319注销后账户将被删除))
+//                .configText(params -> {
+//                    params.textSize = 30;
+//                })
+//                .setGravity(Gravity.CENTER).setPositive(getString(R.string.m9确定), v -> deleteUser())
+//                .setNegative(getString(R.string.m7取消), null)
+//                .show(getSupportFragmentManager());
+
+        LogoutDialog.newInstance().show(getSupportFragmentManager(), "");
 
     }
 
 
     private void deleteUser() {
+        Map<String, Object> map = SqliteUtil.inquirylogin();
+
         JSONObject object = new JSONObject();
         try {
             object.put("cmd", "deleteUser");
             object.put("userId", SmartHomeUtil.getUserName());
+            object.put("password", map.get("pwd"));
             object.put("lan", getLanguage());
         } catch (Exception e) {
             e.printStackTrace();
@@ -184,6 +181,7 @@ public class UserActivity extends BaseActivity {
                     if (code == 0) {
                         LoginUtil.logout(UserActivity.this);
                     }
+                    toast(object.getString("data"));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -228,8 +226,8 @@ public class UserActivity extends BaseActivity {
             if (requestCode == 103) {
                 String type = data.getStringExtra("type");
                 String result = data.getStringExtra("result");
-                String date =data.getStringExtra("date");
-                if (!TextUtils.isEmpty(result)||!TextUtils.isEmpty(date)) {
+                String date = data.getStringExtra("date");
+                if (!TextUtils.isEmpty(result) || !TextUtils.isEmpty(date)) {
                     if ("1".equals(type)) {
                         Cons.userBean.setPhone(result);
                         tvPhone.setText(result);
@@ -242,10 +240,10 @@ public class UserActivity extends BaseActivity {
                     } else if ("4".equals(type)) {
                         Cons.userBean.setInstallPhone(result);
                         tvInstallphone.setText(result);
-                    } else if ("5".equals(type)){
+                    } else if ("5".equals(type)) {
                         Cons.userBean.setInstallAddress(result);
                         tvInstalladdress.setText(result);
-                    }else if ("6".equals(type)){
+                    } else if ("6".equals(type)) {
                         Cons.userBean.setInstallDate(date);
                         tvDate.setText(date);
                     }

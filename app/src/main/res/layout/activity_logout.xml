@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.LogoutActivity">
+
+    <include layout="@layout/header_view" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/headerView"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/xa30"
+            android:layout_marginTop="@dimen/xa31"
+            android:text="@string/please_this_account_password"
+            android:textColor="#333333"
+            android:textSize="@dimen/xa30" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/xa87"
+            android:layout_marginStart="@dimen/xa30"
+            android:layout_marginTop="@dimen/xa63"
+            android:layout_marginEnd="@dimen/xa30"
+            android:layout_marginBottom="@dimen/xa34"
+            android:background="@drawable/user_pass_bg">
+
+            <EditText
+                android:id="@+id/edit_password"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:hint="@string/please_your_account_password"
+                android:paddingStart="@dimen/xa32"
+                android:singleLine="true"
+                android:textColor="@color/title_1"
+                android:textSize="@dimen/xa30" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btn_ok"
+        android:layout_width="@dimen/xa600"
+        android:layout_height="@dimen/xa100"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/xa152"
+        android:background="@drawable/selector_circle_btn_green_login_gradient"
+        android:gravity="center"
+        android:text="@string/m9确定"
+        android:textColor="#FFFFFF"
+        android:textSize="@dimen/xa36" />
+
+</LinearLayout>

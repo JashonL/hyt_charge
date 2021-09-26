@@ -3,15 +3,13 @@ package com.growatt.chargingpile.fragment.preset;
 import static com.growatt.chargingpile.util.T.toast;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Parcelable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
-
-import androidx.annotation.RequiresApi;
 
 import com.growatt.chargingpile.EventBusMsg.PreinstallEvent;
 import com.growatt.chargingpile.R;
@@ -41,7 +39,8 @@ import butterknife.OnClick;
 public class MoneyFragment extends BaseFragment {
 
     private static String TAG = MoneyFragment.class.getSimpleName();
-
+    @BindView(R.id.ll_every_day)
+    LinearLayout mLlEveryDay;
     @BindView(R.id.tv_start_time)
     TextView mTvStartTime;
     @BindView(R.id.edit_money)
@@ -62,6 +61,7 @@ public class MoneyFragment extends BaseFragment {
             mEditMoney.setText(pPresetActivity.pReservationBean.getCValue());
             mTvStartTime.setText(pPresetActivity.pReservationBean.getExpiryDate().substring(11, 16));
             if (pPresetActivity.pReservationBean.getLoopType() == 0) {
+                mLlEveryDay.setVisibility(View.VISIBLE);
                 mSwitchEveryDay.setChecked(true);
             }
         }
@@ -92,7 +92,6 @@ public class MoneyFragment extends BaseFragment {
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @OnClick({R.id.rl_start_time, R.id.btn_ok})
     public void onClickListener(View view) {
         switch (view.getId()) {
@@ -101,6 +100,11 @@ public class MoneyFragment extends BaseFragment {
                 break;
             case R.id.rl_start_time:
                 TypeSelectDialog.newInstance(str -> {
+                    if (str.equals(getString(R.string.start_immediately))) {
+                        mLlEveryDay.setVisibility(View.GONE);
+                    } else {
+                        mLlEveryDay.setVisibility(View.VISIBLE);
+                    }
                     mTvStartTime.setText(str);
                 }).show(pPresetActivity.getSupportFragmentManager(), "");
                 break;
@@ -126,13 +130,12 @@ public class MoneyFragment extends BaseFragment {
             return;
         }
 
-        int loop = mSwitchEveryDay.isChecked() ? 0 : -1;
 
         double cValue = Double.parseDouble(mEditMoney.getText().toString());
 
         if (mTvStartTime.getText().equals(getString(R.string.start_immediately))) {
 
-            GunModel.getInstance().requestCharging("G_SetAmount", cValue, loop, pPresetActivity.pChargingId, pPresetActivity.pConnectorId, new GunModel.HttpCallBack() {
+            GunModel.getInstance().requestCharging("G_SetAmount", cValue, pPresetActivity.pChargingId, pPresetActivity.pConnectorId, new GunModel.HttpCallBack() {
                 @Override
                 public void onSuccess(Object bean) {
                     try {
@@ -154,7 +157,8 @@ public class MoneyFragment extends BaseFragment {
                 }
             });
 
-        }else {
+        } else {
+            int loop = mSwitchEveryDay.isChecked() ? 0 : -1;
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
             String time = sdf.format(new Date()) + "T" + mTvStartTime.getText().toString() + ":00.000Z";

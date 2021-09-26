@@ -535,4 +535,12 @@
     <string name="not_available">Current status is not available</string>
     <string name="while_charging">Cannot set appointment while charging</string>
     <string name="start_immediately">start immediately</string>
+    <string name="preset_program">Preset program</string>
+    <string name="notice_for_cancellation_of_account">Notice for cancellation of account</string>
+    <string name="confirm_cancellation_of_account">Confirm cancellation of account</string>
+    <string name="after_logging_out_the_user_will_not_be_able_to_log_in">After logging out the user will not be able to log in;</string>
+    <string name="remove_completely">The electric piles and related data under the account are completely deleted.</string>
+    <string name="please_this_account_password">Please enter this account password</string>
+    <string name="please_your_account_password">Please enter your account password</string>
+    <string name="Incorrect_password">Incorrect password</string>
 </resources>

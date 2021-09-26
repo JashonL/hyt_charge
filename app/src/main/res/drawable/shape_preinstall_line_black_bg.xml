@@ -2,14 +2,14 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- 背景色 -->
     <solid
-        android:color="#F1EFEF"
+        android:color="#000000"
         android:shape="rectangle" />
 
     <!-- 圆角 -->
     <corners
-        android:bottomLeftRadius="@dimen/xa25"
-        android:bottomRightRadius="@dimen/xa25"
-        android:topLeftRadius="@dimen/xa25"
-        android:topRightRadius="@dimen/xa25" />
+        android:bottomLeftRadius="@dimen/xa3"
+        android:bottomRightRadius="@dimen/xa3"
+        android:topLeftRadius="@dimen/xa3"
+        android:topRightRadius="@dimen/xa3" />
 
 </shape>

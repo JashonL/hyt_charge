@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_preinstall"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -18,31 +19,11 @@
 
     <RelativeLayout
         android:layout_width="@dimen/xa690"
-        android:layout_height="@dimen/xa200"
+        android:layout_height="@dimen/xa229"
         android:layout_marginStart="@dimen/xa30"
         android:layout_marginTop="@dimen/xa30"
         android:layout_marginEnd="@dimen/xa30"
         android:background="@drawable/shape_preinstall_bg">
-
-        <!--        <Switch-->
-        <!--            android:id="@+id/sw_preinstall"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_alignParentEnd="true"-->
-        <!--            android:layout_marginTop="@dimen/xa30"-->
-        <!--            android:layout_marginEnd="@dimen/xa40"-->
-        <!--            android:checked="true"-->
-        <!--            android:thumb="@drawable/shape_switch_thumb"-->
-        <!--            android:track="@drawable/selector_switch_track" />-->
-
-        <!--        <ImageView-->
-        <!--            android:id="@+id/iv_preinstall_delete"-->
-        <!--            android:layout_width="@dimen/xa32"-->
-        <!--            android:layout_height="@dimen/xa32"-->
-        <!--            android:layout_alignParentEnd="true"-->
-        <!--            android:layout_marginTop="@dimen/xa30"-->
-        <!--            android:layout_marginEnd="@dimen/xa40"-->
-        <!--            android:src="@drawable/ic_cancel_preinstall" />-->
 
         <ImageView
             android:id="@+id/iv_preinstall_type"
@@ -52,75 +33,132 @@
             android:layout_marginStart="@dimen/xa40"
             android:src="@drawable/ic_time_preinstall" />
 
+
+        <LinearLayout
+            android:id="@+id/ll_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/xa40"
+            android:layout_marginTop="@dimen/xa60"
+            android:layout_toEndOf="@+id/iv_preinstall_type"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/preset_program"
+                android:textSize="@dimen/xa24" />
+
+            <View
+                android:id="@+id/line"
+                android:layout_width="@dimen/xa27"
+                android:layout_height="@dimen/xa6"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/xa15"
+                android:background="@drawable/shape_preinstall_line_black_bg" />
+
+            <TextView
+                android:id="@+id/tv_preinstall_types"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/xa11"
+                android:text=""
+                android:textColor="#000000"
+                android:textSize="@dimen/xa36" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_type"
+            android:layout_marginStart="@dimen/xa40"
+            android:layout_marginEnd="@dimen/xa37"
+            android:layout_toEndOf="@+id/iv_preinstall_type"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FF009DFF"
+                android:textSize="@dimen/xa36"
+                tools:text="5" />
+
+            <TextView
+                android:id="@+id/tv_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/xa9"
+                android:text="@string/m207时"
+                android:textColor="#FF009DFF"
+                android:textSize="@dimen/xa30" />
+
+            <TextView
+                android:id="@+id/tv_7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/xa9"
+                android:visibility="gone"
+                android:textColor="#FF009DFF"
+                android:textSize="@dimen/xa36"
+                tools:text="30" />
+
+            <TextView
+                android:id="@+id/tv_8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/xa9"
+                android:visibility="gone"
+                android:text="@string/m208分"
+                android:textColor="#FF009DFF"
+                android:textSize="@dimen/xa30" />
+
+
+        </LinearLayout>
+
         <LinearLayout
             android:id="@+id/ll_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_value"
             android:layout_marginStart="@dimen/xa40"
-            android:layout_marginTop="@dimen/xa56"
+            android:layout_marginTop="@dimen/xa5"
             android:layout_marginEnd="@dimen/xa37"
             android:layout_toEndOf="@+id/iv_preinstall_type"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/m204开始时间"
+                android:textSize="@dimen/xa24"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_start_time"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/m204开始时间"
-                android:textColor="#000000"
-                android:textSize="@dimen/xa30"
-                android:textStyle="bold" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/ll_time"
-            android:layout_marginStart="@dimen/xa40"
-            android:layout_marginEnd="@dimen/xa37"
-            android:layout_toEndOf="@+id/iv_preinstall_type"
-            android:orientation="horizontal">
+                android:paddingStart="@dimen/xa30"
+                android:textColor="#333333"
+                android:textSize="@dimen/xa24"
+                tools:text="13:00" />
 
             <TextView
-                android:id="@+id/tv_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="00:00-00:00"
-                android:textColor="#FF009DFF"
-                android:textSize="@dimen/xa36" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/xa12"
-                android:layout_weight="1"
-                android:text=""
-                android:textColor="#FF888888"
-                android:textSize="@dimen/xa30" />
-
-            <CheckBox
-                android:id="@+id/cb_everyday"
-                android:layout_width="@dimen/xa32"
-                android:layout_height="@dimen/xa32"
-                android:button="@drawable/selector_cb_state"
-                android:checked="false"
-                android:enabled="false" />
-
-
-            <TextView
+                android:id="@+id/tv_every_day"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="@string/m186每天"
+                android:visibility="gone"
                 android:textColor="#FF666666"
                 android:textSize="@dimen/xa30" />
 
         </LinearLayout>
-
 
     </RelativeLayout>
 
