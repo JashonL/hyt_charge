@@ -57,8 +57,6 @@ public class FragmentA extends BaseFragment {
     TextView mTvSwitchStatus;
     @BindView(R.id.iv_gif)
     ImageView mIvChargingGif;
-    @BindView(R.id.tv_time)//预设 开始时间~结束时间
-    TextView mTvPreinstallTime;
     @BindView(R.id.iv_preinstall_type)
     ImageView mIvPreinstallType;
     @BindView(R.id.ll_default_charging)//普通充电UI
@@ -641,6 +639,7 @@ public class FragmentA extends BaseFragment {
                 mTv7.setVisibility(View.GONE);
                 mTv8.setVisibility(View.GONE);
                 mTv5.setText(data.getcValue());
+                Log.d(TAG, "G_SetEnergy: getCValue: "+data.getcValue());
                 mTv6.setText("kwh");
                 mTvPreinstallTypes.setText(getString(R.string.m201电量));
                 mTvStartTime.setText(startTime);
@@ -699,7 +698,6 @@ public class FragmentA extends BaseFragment {
 
     @Override
     protected void requestGunInfoData() {
-        Log.d(TAG, "requestGunInfoData: " + pConnectorId);
         mSwipeRefreshLayout.setRefreshing(true);
         GunModel.getInstance().getChargingGunStatus(pDataBean.getChargeId(), pConnectorId, new GunModel.HttpCallBack<GunBean>() {
             @Override

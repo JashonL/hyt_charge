@@ -57,8 +57,6 @@ public class FragmentB extends BaseFragment {
     TextView mTvSwitchStatus;
     @BindView(R.id.iv_gif)
     ImageView mIvChargingGif;
-    @BindView(R.id.tv_time)//预设 开始时间~结束时间
-    TextView mTvPreinstallTime;
     @BindView(R.id.iv_preinstall_type)
     ImageView mIvPreinstallType;
     @BindView(R.id.ll_default_charging)//普通充电UI

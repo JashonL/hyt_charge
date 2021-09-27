@@ -43,6 +43,11 @@ public class PostUtil {
                     break;
                 case 2:    //超时重新登录
                     LoginUtil.serverTimeOutLogin();
+                    httpListener.LoginError("");
+                    return false;
+                case 3:
+                    LoginUtil.pressOutLogin();
+
             }
             return false;
         });
@@ -65,6 +70,9 @@ public class PostUtil {
                             if ("501".equals(code)) {
                                 //重新做登陆操作
                                 Message.obtain(handler, 2, url).sendToTarget();
+                            } else if ("502".equals(code)) {
+                                //重新做登陆操作
+                                Message.obtain(handler, 3, url).sendToTarget();
                             } else {
                                 Message msg = new Message();
                                 msg.what = 0;
@@ -137,6 +145,10 @@ public class PostUtil {
                     break;
                 case 2:    //超时重新登录
                     LoginUtil.serverTimeOutLogin();
+                    httpListener.LoginError("");
+                    return false;
+                case 3:
+                    LoginUtil.pressOutLogin();
             }
             return false;
         });
@@ -159,6 +171,9 @@ public class PostUtil {
                             if ("501".equals(code)) {
                                 //重新做登陆操作
                                 Message.obtain(handler, 2, url).sendToTarget();
+                            } else if ("502".equals(code)) {
+                                //重新做登陆操作
+                                Message.obtain(handler, 3, url).sendToTarget();
                             } else {
                                 Message msg = new Message();
                                 msg.what = 0;
@@ -227,9 +242,14 @@ public class PostUtil {
                     break;
                 case 2:    //超时重新登录
                     LoginUtil.serverTimeOutLogin();
+                    httpListener.LoginError("");
+                    return false;
+                case 3:
+                    LoginUtil.pressOutLogin();
             }
             return false;
         });
+
         try {
             Cancelable cancle = XUtil.postJson(url, json, new CommonCallback<String>() {
                 @Override
@@ -247,8 +267,11 @@ public class PostUtil {
                             JSONObject jsonObject = new JSONObject(result);
                             String code = jsonObject.optString("code", "");
                             if ("501".equals(code)) {
-                                //重新做登陆操作
+                                //无感登录
                                 Message.obtain(handler, 2, url).sendToTarget();
+                            } else if ("502".equals(code)) {
+                                //重新做登陆操作
+                                Message.obtain(handler, 3, url).sendToTarget();
                             } else {
                                 Message msg = new Message();
                                 msg.what = 0;

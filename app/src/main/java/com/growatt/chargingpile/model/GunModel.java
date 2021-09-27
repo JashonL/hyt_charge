@@ -161,7 +161,7 @@ public class GunModel {
 
             @Override
             public void LoginError(String str) {
-
+                httpCallBack.onFailed();
             }
         });
     }

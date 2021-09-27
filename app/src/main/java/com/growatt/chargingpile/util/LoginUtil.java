@@ -44,30 +44,43 @@ public class LoginUtil {
     }
 
     /**
-     * server登录超时，重新登录
+     * 无感重新登录
      */
     public static void serverTimeOutLogin() {
+//        T.make(R.string.login_expired, MyApplication.context);
+//        SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN, 0);
+//        SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN_TYPE, 0);
+//        jumpActivity(context, LoginActivity.class);
+//    /*
+        Map<String, Object> map = SqliteUtil.inquirylogin();
+//        String url = SqliteUtil.inquiryurl();
+//        if (map != null && map.size() > 0 && (!TextUtils.isEmpty(url))) {
+//          *//*  serverLogin(1, context, url, map.get("name").toString().trim(), map.get("pwd").toString().trim(), new OnViewEnableListener() {
+//            });*//*
+//            LoginUtil.login(context, map.get("name").toString().trim(), map.get("pwd").toString().trim(), new OnViewEnableListener() {
+//                @Override
+//                public void onViewEnable() {
+//
+//                }
+//            });
+//        } else {
+//            SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN, 0);
+//            SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN_TYPE, 0);
+//            jumpActivity(context, LoginActivity.class);
+//        }*/
+
+        LoginUtil.notInductiveLogin((String) map.get("name"), (String) map.get("pwd"));
+
+    }
+
+    /**
+     * 用户被挤下线  返回到登录界面
+     */
+    public static void pressOutLogin() {
         T.make(R.string.login_expired, MyApplication.context);
         SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN, 0);
         SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN_TYPE, 0);
         jumpActivity(context, LoginActivity.class);
-    /*
-        Map<String, Object> map = SqliteUtil.inquirylogin();
-        String url = SqliteUtil.inquiryurl();
-        if (map != null && map.size() > 0 && (!TextUtils.isEmpty(url))) {
-          *//*  serverLogin(1, context, url, map.get("name").toString().trim(), map.get("pwd").toString().trim(), new OnViewEnableListener() {
-            });*//*
-            LoginUtil.login(context, map.get("name").toString().trim(), map.get("pwd").toString().trim(), new OnViewEnableListener() {
-                @Override
-                public void onViewEnable() {
-
-                }
-            });
-        } else {
-            SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN, 0);
-            SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN_TYPE, 0);
-            jumpActivity(context, LoginActivity.class);
-        }*/
     }
 
 
@@ -335,6 +348,70 @@ public class LoginUtil {
     }
 
 
+    public static void notInductiveLogin(final String userName, final String password) {
+        JSONObject object = new JSONObject();
+        try {
+            object.put("cmd", "login");//cmd  注册
+            object.put("userId", userName);//用户名
+            object.put("password", password);//密码
+            object.put("lan", getLanguage(context));
+            object.put("version", Utils.getVersionName(context));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        PostUtil.postJson(SmartHomeUrlUtil.postByCmd(), object.toString(), new PostUtil.postListener() {
+            @Override
+            public void Params(Map<String, String> params) {
+
+            }
+
+            @Override
+            public void success(String json) {
+                try {
+                    JSONObject object = new JSONObject(json);
+                    int code = object.getInt("code");
+                    if (code == 0) {
+                        JSONObject jsonObject = object.optJSONObject("data");
+                        UserBean userBean = new Gson().fromJson(jsonObject.toString(), UserBean.class);
+                        //设置帐号是否是浏览帐号
+                        if (Cons.isflagId.equals(userBean.getName())) {
+                            userBean.setAuthnum(1);
+                        } else {
+                            userBean.setAuthnum(0);
+                        }
+                        Cons.userBean = userBean;
+                        SqliteUtil.login(userName, password);
+                        int autoLogin;
+                        int autoLoginType;
+                        if (SmartHomeUtil.isFlagUser()) {
+                            autoLogin = 0;
+                            autoLoginType = 0;
+                        } else {
+                            autoLogin = 1;
+                            autoLoginType = 1;
+                        }
+                        SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN, autoLogin);
+                        SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN_TYPE, autoLoginType);
+                    } else {
+                        //设置不自动登录
+                        SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN, 0);
+                        SharedPreferencesUnit.getInstance(context).putInt(Constant.AUTO_LOGIN_TYPE, 0);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void LoginError(String str) {
+                Mydialog.Dismiss();
+            }
+        });
+
+    }
+
+
     /**
      * demo帐号登录
      */
@@ -353,7 +430,6 @@ public class LoginUtil {
             }
         });
     }
-
 
     /**
      * 正常终端用户登录
