@@ -232,10 +232,6 @@ public abstract class BaseFragment extends Fragment {
                 .setText(getString(R.string.m是否解除该枪电子锁))
                 .setWidth(0.75f)
                 .setPositive(getString(R.string.m9确定), view1 -> {
-                    if (!pCurrGunStatus.equals(GunBean.CHARGING)) {
-                        toast(getString(R.string.not_available));
-                        return;
-                    }
                     GunModel.getInstance().requestGunUnlock(pDataBean.getUserName(), pDataBean.getChargeId(), pConnectorId, new GunModel.HttpCallBack() {
                         @Override
                         public void onSuccess(Object json) {

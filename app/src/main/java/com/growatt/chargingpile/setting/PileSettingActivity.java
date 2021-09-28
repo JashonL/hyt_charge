@@ -153,6 +153,12 @@ public class PileSettingActivity extends BaseActivity implements BaseQuickAdapte
         mChargingId = getIntent().getStringExtra("chargingId");
         priceConfBeanList = getIntent().getParcelableArrayListExtra("rate");
         if (priceConfBeanList == null) priceConfBeanList = new ArrayList<>();
+        if (priceConfBeanList.size()==0){
+            ChargingBean.DataBean.PriceConfBean priceConfBean=new ChargingBean.DataBean.PriceConfBean();
+            priceConfBean.setTimeX("00:00-23:59");
+            priceConfBean.setPrice(0);
+            priceConfBeanList.add(priceConfBean);
+        }
         initRecyclerView();
         initData();
         initMoneyUnit();

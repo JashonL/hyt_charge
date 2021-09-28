@@ -444,9 +444,7 @@ public class FragmentC extends BaseFragment {
             mLlDefaultAV.setVisibility(View.VISIBLE);
             setChargingInfoUi(0, bean.getData().getEnergy(), bean.getData().getRate(),
                     hourCharging, minCharging, bean.getData().getCost(), bean.getData().getCurrent(), bean.getData().getVoltage());
-            Log.d(TAG, "普通充电");
         } else {
-            Log.d(TAG, "预约充电");
             pIsPreinstallType = true;
             mLlPreinstallCharging.setVisibility(View.VISIBLE);
             mLlPreinstallAV.setVisibility(View.VISIBLE);
@@ -639,6 +637,7 @@ public class FragmentC extends BaseFragment {
                 mTv7.setVisibility(View.GONE);
                 mTv8.setVisibility(View.GONE);
                 mTv5.setText(data.getcValue());
+                Log.d(TAG, "G_SetEnergy: getCValue: "+data.getcValue());
                 mTv6.setText("kwh");
                 mTvPreinstallTypes.setText(getString(R.string.m201电量));
                 mTvStartTime.setText(startTime);
@@ -697,7 +696,6 @@ public class FragmentC extends BaseFragment {
 
     @Override
     protected void requestGunInfoData() {
-        Log.d(TAG, "requestGunInfoData: " + pConnectorId);
         mSwipeRefreshLayout.setRefreshing(true);
         GunModel.getInstance().getChargingGunStatus(pDataBean.getChargeId(), pConnectorId, new GunModel.HttpCallBack<GunBean>() {
             @Override

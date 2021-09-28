@@ -10,29 +10,30 @@
         android:layout_height="@dimen/xa100"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/xa90"
+        android:layout_marginBottom="@dimen/xa60"
         android:gravity="center"
         android:background="@drawable/selector_circle_btn_green_login_gradient"
         android:text="@string/m9确定"
         android:textColor="#FFFFFF"
         android:textSize="@dimen/xa36" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/xa29"
-        android:layout_marginTop="@dimen/xa90"
-        android:text="@string/booking_information"
-        android:textColor="#333333"
-        android:textSize="@dimen/xa24" />
+<!--    <TextView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="@dimen/xa29"-->
+<!--        android:layout_marginTop="@dimen/xa90"-->
+<!--        android:text="@string/booking_information"-->
+<!--        android:textColor="#333333"-->
+<!--        android:textSize="@dimen/xa24" />-->
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/xa200"
-        android:layout_marginStart="@dimen/xa30"
-        android:layout_marginTop="@dimen/xa23"
-        android:text="@string/notify"
-        android:textColor="#ff333333"
-        android:textSize="@dimen/xa24" />
+<!--    <TextView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="@dimen/xa200"-->
+<!--        android:layout_marginStart="@dimen/xa30"-->
+<!--        android:layout_marginTop="@dimen/xa23"-->
+<!--        android:text="@string/notify"-->
+<!--        android:textColor="#ff333333"-->
+<!--        android:textSize="@dimen/xa24" />-->
 
 
 

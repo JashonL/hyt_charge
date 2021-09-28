@@ -444,9 +444,7 @@ public class FragmentA extends BaseFragment {
             mLlDefaultAV.setVisibility(View.VISIBLE);
             setChargingInfoUi(0, bean.getData().getEnergy(), bean.getData().getRate(),
                     hourCharging, minCharging, bean.getData().getCost(), bean.getData().getCurrent(), bean.getData().getVoltage());
-            Log.d(TAG, "普通充电");
         } else {
-            Log.d(TAG, "预约充电");
             pIsPreinstallType = true;
             mLlPreinstallCharging.setVisibility(View.VISIBLE);
             mLlPreinstallAV.setVisibility(View.VISIBLE);

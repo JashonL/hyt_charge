@@ -67,6 +67,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -296,13 +297,22 @@ public class MainActivity extends BaseActivity {
         mRvCharging.setAdapter(mChargingAdapter);
     }
 
+    // 0.9秒内防止多次点击
+    public static final int MIN_CLICK_DELAY_TIME = 900;
+
+    private long lastClickTime = 0;
+
     private void initRecyclerListeners() {
         mChargingAdapter.setOnItemClickListener((adapter, view, position) -> {
             Log.d(TAG, "initRecyclerListeners: " + position);
-            ChargingBean.DataBean bean = mChargingAdapter.getItem(position);
-            Intent intent = new Intent(MainActivity.this, GunActivity.class);
-            intent.putExtra("chargingBean", bean);
-            jumpTo(intent, false);
+            long currentTime = Calendar.getInstance().getTimeInMillis();
+            if (currentTime - lastClickTime > MIN_CLICK_DELAY_TIME) {
+                lastClickTime = currentTime;
+                ChargingBean.DataBean bean = mChargingAdapter.getItem(position);
+                Intent intent = new Intent(MainActivity.this, GunActivity.class);
+                intent.putExtra("chargingBean", bean);
+                jumpTo(intent, false);
+            }
         });
 
         mChargingAdapter.setOnItemLongClickListener((adapter, view, position) -> {
