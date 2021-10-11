@@ -63,7 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/xa11"
-                android:text=""
+                android:text="@string/m202时长"
                 android:textColor="#000000"
                 android:textSize="@dimen/xa36" />
 
@@ -85,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="#FF009DFF"
                 android:textSize="@dimen/xa36"
-                tools:text="5" />
+                tools:text="" />
 
             <TextView
                 android:id="@+id/tv_6"
@@ -101,9 +101,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/xa9"
-                android:visibility="gone"
                 android:textColor="#FF009DFF"
                 android:textSize="@dimen/xa36"
+                android:visibility="gone"
                 tools:text="30" />
 
             <TextView
@@ -111,10 +111,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/xa9"
-                android:visibility="gone"
                 android:text="@string/m208分"
                 android:textColor="#FF009DFF"
-                android:textSize="@dimen/xa30" />
+                android:textSize="@dimen/xa30"
+                android:visibility="gone" />
 
 
         </LinearLayout>

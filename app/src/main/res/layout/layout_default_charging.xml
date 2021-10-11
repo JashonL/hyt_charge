@@ -103,6 +103,8 @@
                 android:layout_marginStart="@dimen/xa39"
                 android:layout_toEndOf="@+id/iv_rate"
                 android:text="0"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:textColor="#ff333333"
                 android:textSize="@dimen/xa36" />
 

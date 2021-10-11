@@ -524,6 +524,7 @@
     <string name="please_this_account_password">Please enter this account password</string>
     <string name="please_your_account_password">Please enter your account password</string>
     <string name="Incorrect_password">Incorrect password</string>
+    <string name="please_charging_duration">Please select charging duration (optional)</string>
 </resources>
 
 

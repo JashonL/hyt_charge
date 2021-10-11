@@ -106,7 +106,7 @@ public class PresetActivity extends BaseActivity {
 
     private void initCheckPresetType() {
         if (pReservationBean != null) {
-            if (pReservationBean.getCKey().equals("G_SetTime")) {
+            if (pReservationBean.getCKey().equals("G_SetTime")||pReservationBean.getCKey().isEmpty()) {
                 mRbTime.setChecked(true);
             } else if (pReservationBean.getCKey().equals("G_SetAmount")) {
                 mRbMoney.setChecked(true);

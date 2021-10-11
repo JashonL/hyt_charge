@@ -1,7 +1,6 @@
 package com.growatt.chargingpile.view;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,19 +29,23 @@ public class TimeSetDialog extends DialogFragment {
 
     private String mTitle;
     private String mTime;
+    private int mType;
     private static TimeCallBack mTimeCallBack;
 
     private NumberPickerView mNumberHour;
     private NumberPickerView mNumberMinute;
 
+    private TextView mTvClear;
+
     public TimeSetDialog() {
     }
 
-    public static TimeSetDialog newInstance(String title, String time, TimeCallBack timeCallBack) {
+    public static TimeSetDialog newInstance(int type, String title, String time, TimeCallBack timeCallBack) {
         TimeSetDialog fragment = new TimeSetDialog();
         Bundle args = new Bundle();
         args.putString("title", title);
         args.putString("time", time);
+        args.putInt("type", type);
         fragment.setArguments(args);
         mTimeCallBack = timeCallBack;
         return fragment;
@@ -55,6 +58,7 @@ public class TimeSetDialog extends DialogFragment {
         if (getArguments() != null) {
             mTitle = getArguments().getString("title");
             mTime = getArguments().getString("time");
+            mType = getArguments().getInt("type");
         }
     }
 
@@ -71,6 +75,7 @@ public class TimeSetDialog extends DialogFragment {
     private void initView(View view) {
         mNumberHour = view.findViewById(R.id.np_hour);
         mNumberMinute = view.findViewById(R.id.np_minute);
+        mTvClear = view.findViewById(R.id.tv_clear);
         ImageView ivCancel = view.findViewById(R.id.iv_cancel);
         TextView tvConfirm = view.findViewById(R.id.tv_confirm);
         TextView tvTitle = view.findViewById(R.id.tv_title);
@@ -86,15 +91,28 @@ public class TimeSetDialog extends DialogFragment {
             dismiss();
         });
 
+        mTvClear.setOnClickListener(v -> {
+            mTimeCallBack.confirm(getString(R.string.please_charging_duration), "");
+            dismiss();
+        });
+
+
         if (tvTitle.getText().toString().equals(getString(R.string.charging_time))) {
+
+            if (mTime.equals(getString(R.string.please_charging_duration))) {
+                mTime = "";
+            }
+
             view.findViewById(R.id.tv_hour).setVisibility(View.VISIBLE);
             view.findViewById(R.id.tv_min).setVisibility(View.VISIBLE);
             if (mTime.length() < 4) {
                 initPicker(mNumberHour, 0, 23, 0, "%02d");
                 initPicker(mNumberMinute, 0, 59, 0, "%02d");
+                mTvClear.setVisibility(View.INVISIBLE);
             } else {
                 initPicker(mNumberHour, 0, 23, Integer.valueOf(mTime.substring(0, 2)), "%02d");
                 initPicker(mNumberMinute, 0, 59, Integer.valueOf(mTime.substring(3, 5)), "%02d");
+                mTvClear.setVisibility(View.VISIBLE);
             }
         } else {
             if (mTime.length() < 4) {
@@ -104,6 +122,10 @@ public class TimeSetDialog extends DialogFragment {
                 initPicker(mNumberHour, 0, 23, Integer.valueOf(mTime.substring(0, 2)), "%02d");
                 initPicker(mNumberMinute, 0, 59, Integer.valueOf(mTime.substring(4, 5)), "%02d");
             }
+        }
+
+        if (mType != 1) {
+            mTvClear.setVisibility(View.INVISIBLE);
         }
 
     }
@@ -139,7 +161,7 @@ public class TimeSetDialog extends DialogFragment {
         super.onResume();
         WindowManager.LayoutParams params = getDialog().getWindow().getAttributes();
         params.width = getResources().getDimensionPixelSize(R.dimen.xa688);
-        params.height = getResources().getDimensionPixelSize(R.dimen.xa560);
+        params.height = getResources().getDimensionPixelSize(R.dimen.xa683);
         params.gravity = Gravity.BOTTOM;
         params.y = getResources().getDimensionPixelSize(R.dimen.xa50);
         getDialog().getWindow().setAttributes(params);
@@ -153,6 +175,8 @@ public class TimeSetDialog extends DialogFragment {
 
     public interface TimeCallBack {
         void confirm(String hour, String minute);
+//
+//        void confirm(String hour, String minute);
     }
 
 

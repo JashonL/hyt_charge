@@ -53,24 +53,35 @@ public class TimeFragment extends BaseFragment {
 
     @Override
     protected void initWidget() {
-        if (pPresetActivity.pReservationBean != null && pPresetActivity.pReservationBean.getCKey().equals("G_SetTime")) {
-            String hour = pPresetActivity.pReservationBean.getExpiryDate().substring(11, 13);
-            String minute = pPresetActivity.pReservationBean.getExpiryDate().substring(14, 16);
-            mTvStartTime.setText(hour + ":" + minute);
-            int timeCharging = Integer.parseInt(pPresetActivity.pReservationBean.getCValue());
+        if (pPresetActivity.pReservationBean != null) {
+            if (pPresetActivity.pReservationBean.getCKey().equals("G_SetTime") || pPresetActivity.pReservationBean.getCKey().isEmpty()) {
+                String hour = pPresetActivity.pReservationBean.getExpiryDate().substring(11, 13);
+                String minute = pPresetActivity.pReservationBean.getExpiryDate().substring(14, 16);
+                mTvStartTime.setText(hour + ":" + minute);
 
-            int hourCharging = timeCharging / 60;
-            int minCharging = timeCharging % 60;
+                if (pPresetActivity.pReservationBean.getLoopType() == 0) {
+                    mLlEveryDay.setVisibility(View.VISIBLE);
+                    mSwitchEveryDay.setChecked(true);
+                }
 
-            mTvDurationHour = String.valueOf(hourCharging);
-            mTvDurationMinute = String.valueOf(minCharging);
+                int timeCharging = Integer.parseInt(pPresetActivity.pReservationBean.getCValue());
 
-            mTvDuration.setText(String.format("%02d", hourCharging) + getString(R.string.m207时) + String.format("%02d", minCharging) + getString(R.string.m208分));
+                if (timeCharging == 0) {
+                    mTvDuration.setText(R.string.please_charging_duration);
+                    return;
+                }
 
-            if (pPresetActivity.pReservationBean.getLoopType() == 0) {
-                mLlEveryDay.setVisibility(View.VISIBLE);
-                mSwitchEveryDay.setChecked(true);
+                int hourCharging = timeCharging / 60;
+                int minCharging = timeCharging % 60;
+
+                mTvDurationHour = String.valueOf(hourCharging);
+                mTvDurationMinute = String.valueOf(minCharging);
+
+                mTvDuration.setText(String.format("%02d", hourCharging) + getString(R.string.m207时) + String.format("%02d", minCharging) + getString(R.string.m208分));
             }
+
+        } else {
+            mTvDuration.setText(R.string.please_charging_duration);
         }
     }
 
@@ -81,10 +92,16 @@ public class TimeFragment extends BaseFragment {
                 requestPreinstall();
                 break;
             case R.id.rl_duration:
-                TimeSetDialog.newInstance(getString(R.string.charging_time), mTvDuration.getText().toString(), (hour, minute) -> {
-                    mTvDurationHour = hour;
-                    mTvDurationMinute = minute;
-                    mTvDuration.setText(hour + getString(R.string.m207时) + minute + getString(R.string.m208分));
+                TimeSetDialog.newInstance(1, getString(R.string.charging_time), mTvDuration.getText().toString(), (hour, minute) -> {
+                    if (hour.equals(getString(R.string.please_charging_duration))) {
+                        mTvDurationHour = "";
+                        mTvDurationMinute = "";
+                        mTvDuration.setText(hour);
+                    } else {
+                        mTvDurationHour = hour;
+                        mTvDurationMinute = minute;
+                        mTvDuration.setText(hour + getString(R.string.m207时) + minute + getString(R.string.m208分));
+                    }
                 }).show(pPresetActivity.getSupportFragmentManager(), "");
                 break;
             case R.id.rl_start_type:
@@ -119,13 +136,22 @@ public class TimeFragment extends BaseFragment {
             return;
         }
 
+        Object cValue;
 
-        int cValue = Integer.parseInt(mTvDurationHour) * 60 + Integer.parseInt(mTvDurationMinute);
+        String cKey;
+
+        if (!mTvDurationHour.isEmpty() && !mTvDurationMinute.isEmpty()) {
+            cValue = Integer.parseInt(mTvDurationHour) * 60 + Integer.parseInt(mTvDurationMinute);
+            cKey = "G_SetTime";
+        } else {
+            cValue = "";
+            cKey = "";
+        }
 
         Log.d(TAG, "cValue:" + cValue);
 
         if (mTvStartTime.getText().equals(getString(R.string.start_immediately))) {
-            GunModel.getInstance().requestCharging("G_SetTime", cValue, pPresetActivity.pChargingId, pPresetActivity.pConnectorId, new GunModel.HttpCallBack() {
+            GunModel.getInstance().requestCharging(cKey, cValue, pPresetActivity.pChargingId, pPresetActivity.pConnectorId, new GunModel.HttpCallBack() {
                 @Override
                 public void onSuccess(Object bean) {
                     try {
@@ -151,7 +177,8 @@ public class TimeFragment extends BaseFragment {
             int loop = mSwitchEveryDay.isChecked() ? 0 : -1;
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
             String time = sdf.format(new Date()) + "T" + mTvStartTime.getText() + ":00.000Z";
-            GunModel.getInstance().requestReserve(3, time, "G_SetTime", cValue, loop, pPresetActivity.pChargingId, pPresetActivity.pConnectorId, new GunModel.HttpCallBack() {
+
+            GunModel.getInstance().requestReserve(time, cKey, cValue, loop, pPresetActivity.pChargingId, pPresetActivity.pConnectorId, new GunModel.HttpCallBack() {
                 @Override
                 public void onSuccess(Object bean) {
                     try {

@@ -163,7 +163,7 @@ public class MoneyFragment extends BaseFragment {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
             String time = sdf.format(new Date()) + "T" + mTvStartTime.getText().toString() + ":00.000Z";
 
-            GunModel.getInstance().requestReserve(1, time, "G_SetAmount", cValue, loop, pPresetActivity.pChargingId, pPresetActivity.pConnectorId, new GunModel.HttpCallBack() {
+            GunModel.getInstance().requestReserve(time, "G_SetAmount", cValue, loop, pPresetActivity.pChargingId, pPresetActivity.pConnectorId, new GunModel.HttpCallBack() {
                 @Override
                 public void onSuccess(Object bean) {
                     try {

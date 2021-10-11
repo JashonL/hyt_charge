@@ -147,6 +147,8 @@ public class FragmentA extends BaseFragment {
     TextView mTv7;
     @BindView(R.id.tv_8)
     TextView mTv8;
+    @BindView(R.id.ll_value)
+    LinearLayout mLLValue;
 
     @Override
     protected Object setRootView() {
@@ -174,12 +176,9 @@ public class FragmentA extends BaseFragment {
     public void onClickListener(View view) {
         switch (view.getId()) {
             case R.id.iv_switch:
-                if (pCurrGunStatus.equals(GunBean.AVAILABLE)) {
-                    toast(getString(R.string.m131空闲状态无法直接开始充电));
-                    return;
-                } else if (pCurrGunStatus.equals(GunBean.CHARGING)) {
+                if (pCurrGunStatus.equals(GunBean.CHARGING)) {
                     requestStopCharging();
-                } else if (pCurrGunStatus.equals(GunBean.PREPARING) || pCurrGunStatus.equals(GunBean.FINISHING)) {
+                } else if (pCurrGunStatus.equals(GunBean.PREPARING) || pCurrGunStatus.equals(GunBean.FINISHING) || pCurrGunStatus.equals(GunBean.AVAILABLE)) {
                     requestCharging();
                 } else if (pCurrGunStatus.equals(GunBean.RESERVENOW)) {
                     showDeleteReservationNowDialog();
@@ -609,20 +608,34 @@ public class FragmentA extends BaseFragment {
             startTime = "null";
         }
 
+        mTvStartTime.setText(startTime);
+
+        if (data.getcKey().isEmpty()) {
+            mTv5.setText("充满即停");
+            mTv6.setVisibility(View.GONE);
+            return;
+        }
+
         switch (data.getCKey()) {
             case "G_SetTime":
+                mIvPreinstallType.setImageResource(R.drawable.ic_time_preinstall);
                 mTvPreinstallTypes.setText(R.string.time);
                 int cValue = Integer.parseInt(data.getcValue());
+                if (cValue == 0) {
+                    mLLValue.setVisibility(View.GONE);
+                    return;
+                }
+                mLLValue.setVisibility(View.VISIBLE);
+                Log.d(TAG, "handleReservationInfo: G_SetTime cValue:" + cValue);
                 int hour = cValue / 60;
                 int min = cValue % 60;
                 mTv5.setText(String.valueOf(hour));
                 mTv6.setText(getString(R.string.m207时));
+                mTv6.setVisibility(View.VISIBLE);
                 mTv7.setVisibility(View.VISIBLE);
                 mTv7.setText(String.valueOf(min));
                 mTv8.setVisibility(View.VISIBLE);
                 mTv8.setText(R.string.m208分);
-                mTvStartTime.setText(startTime);
-                mIvPreinstallType.setImageResource(R.drawable.ic_time_preinstall);
                 break;
             case "G_SetAmount":
                 mTv7.setVisibility(View.GONE);
@@ -637,21 +650,21 @@ public class FragmentA extends BaseFragment {
                 mTv7.setVisibility(View.GONE);
                 mTv8.setVisibility(View.GONE);
                 mTv5.setText(data.getcValue());
-                Log.d(TAG, "G_SetEnergy: getCValue: "+data.getcValue());
+                Log.d(TAG, "G_SetEnergy: getCValue: " + data.getcValue());
                 mTv6.setText("kwh");
                 mTvPreinstallTypes.setText(getString(R.string.m201电量));
-                mTvStartTime.setText(startTime);
                 mIvPreinstallType.setImageResource(R.drawable.ic_energy_preinstall);
                 break;
             default:
                 break;
+
         }
 
     }
 
     private void handleModel(String model) {
         Log.d(TAG, "handleModel:" + model);
-        String str = null;
+        String str;
         if (model.toLowerCase().contains("/")) {
             str = getString(R.string.m交直流);
         } else if ("ac".equalsIgnoreCase(model)) {

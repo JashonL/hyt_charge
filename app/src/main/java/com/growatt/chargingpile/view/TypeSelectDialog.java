@@ -59,11 +59,11 @@ public class TypeSelectDialog extends DialogFragment {
             dismiss();
         });
 
-       view.findViewById(R.id.tv_timer).setOnClickListener(v -> {
-           TimeSetDialog.newInstance(getString(R.string.m204开始时间), "00:00", (hour, minute) -> {
-                        mCallBack.confirm(hour + ":" + minute);
-               dismiss();
-           }).show(getFragmentManager(), "StartDialog");
+        view.findViewById(R.id.tv_timer).setOnClickListener(v -> {
+            TimeSetDialog.newInstance(0, getString(R.string.m204开始时间), "00:00", (hour, minute) -> {
+                mCallBack.confirm(hour + ":" + minute);
+                dismiss();
+            }).show(getFragmentManager(), "StartDialog");
         });
 
     }

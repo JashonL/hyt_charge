@@ -520,6 +520,7 @@
     <string name="please_this_account_password">请输入本账号密码</string>
     <string name="please_your_account_password">请输入账号密码</string>
     <string name="Incorrect_password">密码不正确</string>
+    <string name="please_charging_duration">请选择充电时长(非必选)</string>
 
 </resources>
 

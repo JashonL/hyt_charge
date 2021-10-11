@@ -32,7 +32,7 @@ public class GunModel {
 
     private static String TAG = GunModel.class.getSimpleName();
 
-    public GunModel() {
+    private GunModel() {
     }
 
     private static class InnerObject {
@@ -248,13 +248,12 @@ public class GunModel {
     /**
      * 预约充电
      *
-     * @param type
      * @param startTime
      * @param key
      * @param value
      * @param loopType  是否每天
      */
-    public void requestReserve(int type, String startTime, String key, Object value, int loopType, final String chargingId, final int connectorId, HttpCallBack httpCallBack) {
+    public void requestReserve(String startTime, String key, Object value, int loopType, final String chargingId, final int connectorId, HttpCallBack httpCallBack) {
         Map<String, Object> jsonMap = new HashMap<>();
         jsonMap.put("action", "ReserveNow");
         jsonMap.put("expiryDate", startTime);
@@ -270,7 +269,9 @@ public class GunModel {
         }
 
         jsonMap.put("cKey", key);
-        jsonMap.put("cValue", value);
+        if (!value.equals("")){
+            jsonMap.put("cValue", value);
+        }
 
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         LogUtil.i(json);
@@ -479,41 +480,6 @@ public class GunModel {
                 Mydialog.Dismiss();
             }
 
-        });
-    }
-
-    public void requestUpdateReserve(ReservationBean.DataBean dataBean,int loopType, HttpCallBack httpCallBack) {
-        Map<String, Object> jsonMap = new HashMap<>();
-        jsonMap.put("action", "ReserveNow");
-        jsonMap.put("expiryDate", dataBean.getExpiryDate());
-        jsonMap.put("connectorId", dataBean.getConnectorId());
-        jsonMap.put("chargeId", dataBean.getChargeId());
-        jsonMap.put("userId", SmartHomeUtil.getUserName());
-        jsonMap.put("loopType", loopType);
-        jsonMap.put("lan", getLanguage());
-
-        if (loopType == 0) {
-            String loopValue = dataBean.getExpiryDate().substring(11, 16);
-            jsonMap.put("loopValue", loopValue);
-        }
-
-        String json = SmartHomeUtil.mapToJsonString(jsonMap);
-        LogUtil.i(json);
-        PostUtil.postJson(SmartHomeUrlUtil.postRequestReseerveCharging(), json, new PostUtil.postListener() {
-            @Override
-            public void Params(Map<String, String> params) {
-
-            }
-
-            @Override
-            public void success(String json) {
-                httpCallBack.onSuccess(json);
-            }
-
-            @Override
-            public void LoginError(String str) {
-                Mydialog.Dismiss();
-            }
         });
     }
 
