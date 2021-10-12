@@ -64,6 +64,7 @@ public class LogoutActivity extends BaseActivity {
         JSONObject object = new JSONObject();
         try {
             object.put("cmd", "deleteUser");
+            object.put("ownerId", SmartHomeUtil.getUserName());
             object.put("userId", SmartHomeUtil.getUserName());
             object.put("password", map.get("pwd"));
             object.put("lan", getLanguage());
