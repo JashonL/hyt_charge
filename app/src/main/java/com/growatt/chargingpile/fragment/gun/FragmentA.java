@@ -611,7 +611,7 @@ public class FragmentA extends BaseFragment {
         mTvStartTime.setText(startTime);
 
         if (data.getcKey().isEmpty()) {
-            mTv5.setText("充满即停");
+            mTv5.setText(R.string.stop_when_full);
             mTv6.setVisibility(View.GONE);
             return;
         }
