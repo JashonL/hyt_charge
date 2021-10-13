@@ -26,6 +26,7 @@ import com.growatt.chargingpile.bean.ChargingBean;
 import com.growatt.chargingpile.bean.GunBean;
 import com.growatt.chargingpile.bean.ReservationBean;
 import com.growatt.chargingpile.model.GunModel;
+import com.growatt.chargingpile.util.SmartHomeUtil;
 import com.growatt.chargingpile.view.ChargingModeDialog;
 import com.mylhyl.circledialog.CircleDialog;
 
@@ -387,6 +388,16 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public void showDeleteReservationNowDialog() {
+
+        if (SmartHomeUtil.isFlagUser()) {
+            toast(getString(R.string.m66你的账号没有操作权限));
+            return;
+        }
+        if (pDataBean.getType() == 1) {
+            toast(getString(R.string.m66你的账号没有操作权限));
+            return;
+        }
+
         new CircleDialog.Builder().setTitle(getString(R.string.m27温馨提示))
                 .setText(getString(R.string.m340取消预约))
                 .setWidth(0.75f)
