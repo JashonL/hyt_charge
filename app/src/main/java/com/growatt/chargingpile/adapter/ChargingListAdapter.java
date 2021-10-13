@@ -44,7 +44,7 @@ public class ChargingListAdapter extends BaseQuickAdapter<ChargingBean.DataBean,
     private void setState(ChargingBean.DataBean item, TextView tvState, ImageView ivState) {
         Log.d(TAG, "getStatus_1:" + item.getStatus_1());
         switch (item.getStatus_1()) {
-            case GunBean.RESERVED:
+            case GunBean.RESERVENOW:
                 tvState.setText(mContext.getString(R.string.m339预约));
                 tvState.setBackgroundResource(R.drawable.shape_preparation_state_bg);
                 ivState.setImageResource(R.drawable.ic_preparation);
