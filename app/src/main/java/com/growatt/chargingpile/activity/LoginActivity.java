@@ -108,7 +108,7 @@ public class LoginActivity extends BaseActivity {
         }*/
     }
 
-    @OnClick({R.id.tv_register, R.id.bt_login, R.id.tv_foget, R.id.iv_switch})
+    @OnClick({R.id.tv_register, R.id.bt_login, R.id.tv_foget, R.id.iv_switch, R.id.tv_guest})
     public void onClickListeners(View view) {
         switch (view.getId()) {
             case R.id.tv_register:
@@ -125,7 +125,6 @@ public class LoginActivity extends BaseActivity {
                 jumpTo(ForgotPasswordActivity.class, false);
                 break;
             case R.id.iv_switch:
-                //loginDemo();
                 if (!mIsShowPassword) {
                     etPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                 } else {
@@ -133,6 +132,10 @@ public class LoginActivity extends BaseActivity {
                 }
                 mIsShowPassword = !mIsShowPassword;
                 break;
+            case R.id.tv_guest:
+                loginDemo();
+                break;
+
         }
     }
 

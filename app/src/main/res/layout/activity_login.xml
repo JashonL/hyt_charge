@@ -122,19 +122,6 @@
                 tools:ignore="MissingConstraints" />
         </RelativeLayout>
 
-        <Button
-            android:id="@+id/bt_login"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/xa88"
-            android:layout_marginStart="@dimen/xa45"
-            android:layout_marginTop="@dimen/xa510"
-            android:layout_marginEnd="@dimen/xa45"
-            android:background="@drawable/selector_circle_btn_green_login_gradient"
-            android:stateListAnimator="@null"
-            android:text="@string/m24登陆"
-            android:textColor="@color/headerView"
-            android:textSize="@dimen/xa36" />
-
         <LinearLayout
             android:layout_width="@dimen/xa542"
             android:layout_height="wrap_content"
@@ -164,6 +151,32 @@
                 android:textColor="#30E578" />
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/bt_login"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/xa88"
+            android:layout_marginStart="@dimen/xa45"
+            android:layout_marginTop="@dimen/xa510"
+            android:layout_marginEnd="@dimen/xa45"
+            android:background="@drawable/selector_circle_btn_green_login_gradient"
+            android:stateListAnimator="@null"
+            android:text="@string/m24登陆"
+            android:textColor="@color/headerView"
+            android:textSize="@dimen/xa36" />
+
+
+        <TextView
+            android:id="@+id/tv_guest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#30E578"
+            android:gravity="center"
+            android:textSize="@dimen/xa24"
+            android:layout_marginTop="@dimen/xa650"
+            android:text="@string/m体验馆" />
+
 
     </androidx.cardview.widget.CardView>
 
