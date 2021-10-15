@@ -178,13 +178,17 @@ public class ConnetWiFiActivity extends BaseActivity {
 
         if (online == 1) {//1是离线
             //llSwitchAp.setVisibility(View.GONE);
-            ivSw.setEnabled(false);
+            //ivSw.setEnabled(false);
         } else {
-            ivSw.setEnabled(true);
-            //llSwitchAp.setVisibility(View.VISIBLE);
+            //ivSw.setEnabled(true);
+            ////llSwitchAp.setVisibility(View.VISIBLE);
         }
 
         ivSw.setOnClickListener(v -> {
+            if (online==1){
+                toast(getString(R.string.not_available));
+                return;
+            }
             apMode();
         });
     }

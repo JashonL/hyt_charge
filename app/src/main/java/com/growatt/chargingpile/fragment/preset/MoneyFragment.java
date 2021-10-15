@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.growatt.chargingpile.EventBusMsg.DeletePreinstallEvent;
 import com.growatt.chargingpile.EventBusMsg.PreinstallEvent;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.fragment.BaseFragment;
@@ -92,6 +93,33 @@ public class MoneyFragment extends BaseFragment {
 
     }
 
+    public void deleteReservationNow() {
+        if (pPresetActivity.pReservationBean != null) {
+            GunModel.getInstance().deleteReservationNow(pPresetActivity.pReservationBean, new GunModel.HttpCallBack() {
+                @Override
+                public void onSuccess(Object json) {
+                    try {
+                        JSONObject object = new JSONObject(json.toString());
+                        int code = object.getInt("code");
+                        if (code == 0) {
+                            //pHandler.postDelayed(runnableGunInfo, 3000);
+                            EventBus.getDefault().post(new DeletePreinstallEvent());
+                            pPresetActivity.pReservationBean = null;
+                            toast("删除成功:" + object.getString("data"));
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailed() {
+
+                }
+            });
+        }
+    }
+
     @OnClick({R.id.rl_start_time, R.id.btn_ok})
     public void onClickListener(View view) {
         switch (view.getId()) {
@@ -142,6 +170,7 @@ public class MoneyFragment extends BaseFragment {
                         JSONObject object = new JSONObject(bean.toString());
                         int type = object.optInt("type");
                         if (type == 0) {
+                            deleteReservationNow();
                             EventBus.getDefault().post(new PreinstallEvent());
                             pPresetActivity.finish();
                         }
