@@ -122,16 +122,6 @@
                 tools:ignore="MissingConstraints" />
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/tv_foget"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/xa128"
-            android:layout_marginTop="@dimen/xa410"
-            android:text="@string/m22忘记密码"
-            android:textColor="#0D6CF8"
-            android:textSize="@dimen/xa24" />
-
         <Button
             android:id="@+id/bt_login"
             android:layout_width="match_parent"
@@ -146,24 +136,30 @@
             android:textSize="@dimen/xa36" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/xa542"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/xa620">
+            android:layout_marginStart="@dimen/xa71"
+            android:layout_marginTop="@dimen/xa410"
+            android:layout_marginEnd="@dimen/xa77">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_foget"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="@dimen/xa140"
-                android:text="@string/have_an_account"
-                android:textColor="#666666" />
+                android:layout_marginStart="@dimen/xa24"
+                android:layout_weight="1"
+                android:text="@string/m22忘记密码"
+                android:textColor="#0D6CF8"
+                android:textSize="@dimen/xa24" />
 
             <TextView
                 android:id="@+id/tv_register"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/xa16"
+                android:layout_weight="1"
+                android:gravity="end"
                 android:text="@string/m23注册"
                 android:textColor="#30E578" />
 

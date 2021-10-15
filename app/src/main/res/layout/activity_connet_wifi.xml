@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F9F9F9"
+    android:orientation="vertical">
+
+    <include layout="@layout/header_view" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa90"
+        android:layout_marginTop="@dimen/xa30"
+        android:background="#FFFFFF">
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/xa30"
+            android:layout_weight="1"
+            android:text="ID"
+            android:textColor="#464646" />
+
+        <TextView
+            android:id="@+id/tv_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/xa32"
+            android:textColor="#888888"
+            tools:text="1010101010" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa90"
+        android:layout_marginTop="@dimen/xa2"
+        android:background="#FFFFFF">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/xa30"
+            android:layout_weight="1"
+            android:text="@string/ap_model"
+            android:textColor="#464646" />
+
+        <ImageView
+            android:id="@+id/iv_sw"
+            android:layout_width="@dimen/xa89"
+            android:layout_height="@dimen/xa58"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/xa32"
+            android:src="@drawable/ic_check_gray" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/xa15"
+        android:gravity="center"
+        android:text="@string/m248连接至电桩热点"
+        android:textColor="#888888"
+        android:textSize="@dimen/xa24" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa90"
+        android:layout_marginTop="@dimen/xa30"
+        android:background="#FFFFFF">
+
+        <TextView
+            android:id="@+id/tv_wifi_prompt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/xa29"
+            android:layout_weight="1"
+            android:text="@string/m249当前手机连接WiFi"
+            android:textColor="#464646"
+            android:textSize="@dimen/xa24"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/iv_refresh"
+            android:layout_width="@dimen/xa36"
+            android:layout_height="@dimen/xa36"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/xa32"
+            android:src="@drawable/ic_refresh" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa151"
+        android:layout_marginTop="@dimen/xa2"
+        android:background="#FFFFFF"
+        android:gravity="center">
+
+        <LinearLayout
+            android:id="@+id/ll_wifi"
+            android:layout_width="@dimen/xa690"
+            android:layout_height="@dimen/xa87"
+            android:background="@drawable/shape_ap_btn_bg"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="@dimen/xa37"
+                android:layout_height="@dimen/xa27"
+                android:src="@drawable/smart_home_connect_wifi" />
+
+            <TextView
+                android:id="@+id/tv_wifi_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/xa24"
+                android:gravity="center"
+                android:text="@string/m288未连接"
+                android:textColor="@color/title_1"
+                android:textSize="@dimen/xa30" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btnOk"
+        android:layout_width="@dimen/xa600"
+        android:layout_height="@dimen/xa100"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/xa155"
+        android:layout_marginBottom="@dimen/xa60"
+        android:background="@drawable/selector_circle_btn_green_login_gradient"
+        android:text="@string/m251已连接下一步"
+        android:textColor="@color/white_background"
+        android:textSize="15sp" />
+</LinearLayout>

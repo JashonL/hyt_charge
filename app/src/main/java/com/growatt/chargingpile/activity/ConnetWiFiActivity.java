@@ -6,7 +6,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Paint;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.DhcpInfo;
@@ -62,34 +61,34 @@ public class ConnetWiFiActivity extends BaseActivity {
     LinearLayout headerView;
     @BindView(R.id.tv_wifi_name)
     TextView tvWifiName;
-    @BindView(R.id.get_wifi)
-    TextView tvGetWifi;
+    //    @BindView(R.id.get_wifi)
+//    TextView tvGetWifi;
     @BindView(R.id.ivRight)
     ImageView ivRight;
     @BindView(R.id.relativeLayout1)
     RelativeLayout relativeLayout1;
     @BindView(R.id.tv_id)
     TextView tvId;
-    @BindView(R.id.tv_current_charging)
-    TextView tvCurrentCharging;
-    @BindView(R.id.ll_switch_ap)
-    LinearLayout llSwitchAp;
+    @BindView(R.id.iv_sw)
+    ImageView ivSw;
+    //    @BindView(R.id.tv_current_charging)
+//    TextView tvCurrentCharging;
+//    @BindView(R.id.ll_switch_ap)
+//    LinearLayout llSwitchAp;
     @BindView(R.id.tv_wifi_prompt)
     TextView tvWifiPrompt;
-    @BindView(R.id.ll_refresh)
-    LinearLayout llRefresh;
-    @BindView(R.id.linearlayout2)
-    LinearLayout linearlayout2;
-    @BindView(R.id.et_wifi_password)
-    TextView etWifiPassword;
-    @BindView(R.id.ll_setwifi)
-    LinearLayout llSetwifi;
-    @BindView(R.id.btnOk)
-    Button btnOk;
-    @BindView(R.id.iv_apicon)
-    ImageView ivApicon;
-    @BindView(R.id.tv_aptext)
-    TextView tvAptext;
+    //    @BindView(R.id.linearlayout2)
+//    LinearLayout linearlayout2;
+//    @BindView(R.id.et_wifi_password)
+//    TextView etWifiPassword;
+//    @BindView(R.id.ll_setwifi)
+//    LinearLayout llSetwifi;
+//    @BindView(R.id.btnOk)
+//    Button btnOk;
+//    @BindView(R.id.iv_apicon)
+//    ImageView ivApicon;
+//    @BindView(R.id.tv_aptext)
+//    TextView tvAptext;
     //wifi名称
     private String currentSSID;
     public static final int SEARCH_DEVICE_START = 1;
@@ -132,7 +131,7 @@ public class ConnetWiFiActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_connet_wi_fi);
+        setContentView(R.layout.activity_connet_wifi);
         ButterKnife.bind(this);
 //        mDeviceList = new ArrayList<>();
         initIntent();
@@ -171,17 +170,23 @@ public class ConnetWiFiActivity extends BaseActivity {
         tvTitle.setText(R.string.m247热点连接);
         tvTitle.setTextColor(ContextCompat.getColor(this, R.color.title_1));
         ivRight.setImageResource(R.drawable.info);
-        tvGetWifi.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
-        tvGetWifi.getPaint().setAntiAlias(true);//抗锯齿
+//        tvGetWifi.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
+//        tvGetWifi.getPaint().setAntiAlias(true);//抗锯齿
         if (!TextUtils.isEmpty(devId)) {
             tvId.setText(devId);
         } else tvId.setText(R.string.m106选择充电桩);
 
         if (online == 1) {//1是离线
-            llSwitchAp.setVisibility(View.GONE);
+            //llSwitchAp.setVisibility(View.GONE);
+            ivSw.setEnabled(false);
         } else {
-            llSwitchAp.setVisibility(View.VISIBLE);
+            ivSw.setEnabled(true);
+            //llSwitchAp.setVisibility(View.VISIBLE);
         }
+
+        ivSw.setOnClickListener(v -> {
+            apMode();
+        });
     }
 
 
@@ -303,10 +308,10 @@ public class ConnetWiFiActivity extends BaseActivity {
         startActivity(intent);
     }
 
-    @OnClick({R.id.ll_setwifi, R.id.ivLeft, R.id.btnOk, R.id.ll_refresh, R.id.ivRight, R.id.ll_switch_ap})
+    @OnClick({R.id.ivLeft, R.id.btnOk, R.id.iv_refresh, R.id.ivRight, R.id.ll_wifi})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.ll_setwifi:
+            case R.id.ll_wifi:
                 showJumpWifiSet();
                 break;
             case R.id.ivLeft:
@@ -317,7 +322,7 @@ public class ConnetWiFiActivity extends BaseActivity {
                 isCancel = false;
                 searchDevice();
                 break;
-            case R.id.ll_refresh:
+            case R.id.iv_refresh:
                 checkWifiNetworkStatus();
                 break;
             case R.id.ivRight:
@@ -325,9 +330,9 @@ public class ConnetWiFiActivity extends BaseActivity {
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 jumpTo(intent, false);
                 break;
-            case R.id.ll_switch_ap:
-                apMode();
-                break;
+//            case R.id.ll_switch_ap:
+//                apMode();
+//                break;
         }
     }
 
@@ -351,14 +356,16 @@ public class ConnetWiFiActivity extends BaseActivity {
                     JSONObject object = new JSONObject(json);
                     int code = object.getInt("code");
                     if (code == 0) {
-                        llSwitchAp.setBackgroundResource(R.drawable.selector_circle_btn_green_gradient);
-                        ivApicon.setImageResource(R.drawable.ap_off);
-                        tvAptext.setTextColor(ContextCompat.getColor(ConnetWiFiActivity.this, R.color.white_background));
+                        //llSwitchAp.setBackgroundResource(R.drawable.selector_circle_btn_green_gradient);
+                        //ivApicon.setImageResource(R.drawable.ap_off);
+                        //tvAptext.setTextColor(ContextCompat.getColor(ConnetWiFiActivity.this, R.color.white_background));
+                        ivSw.setImageResource(R.drawable.ic_check_green);
                         toast(R.string.m307切换成功);
                     } else {
-                        llSwitchAp.setBackgroundResource(R.drawable.shape_solid_white_stroke_green);
-                        ivApicon.setImageResource(R.drawable.ap_on);
-                        tvAptext.setTextColor(ContextCompat.getColor(ConnetWiFiActivity.this, R.color.maincolor_1));
+                        //llSwitchAp.setBackgroundResource(R.drawable.shape_solid_white_stroke_green);
+                        //ivApicon.setImageResource(R.drawable.ap_on);
+                        //tvAptext.setTextColor(ContextCompat.getColor(ConnetWiFiActivity.this, R.color.maincolor_1));
+                        ivSw.setImageResource(R.drawable.ic_check_gray);
                         toast(R.string.m308切换失败);
                     }
 
