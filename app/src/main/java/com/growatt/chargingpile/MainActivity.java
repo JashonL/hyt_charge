@@ -47,6 +47,7 @@ import com.growatt.chargingpile.util.Constant;
 import com.growatt.chargingpile.util.GlideUtils;
 import com.growatt.chargingpile.util.ImagePathUtil;
 import com.growatt.chargingpile.util.LoginUtil;
+import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.PermissionCodeUtil;
 import com.growatt.chargingpile.util.PhotoUtil;
@@ -100,6 +101,9 @@ public class MainActivity extends BaseActivity {
 
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
+
+    @BindView(R.id.smart_home_empty_page)
+    View mEmptyDevice;
 
     //拍照相关变量
     private Uri imageUri;
@@ -252,15 +256,15 @@ public class MainActivity extends BaseActivity {
 //                            }
                         }
 
-                        //MyUtil.hideAllView(View.GONE, emptyPage);
+                        MyUtil.hideAllView(View.GONE, mEmptyDevice);
                         //MyUtil.showAllView(rlCharging, linearlayout);
                         //refreshChargingUI();
                     } else {
                         if (mSwipeRefreshLayout != null) {
                             mChargingAdapter.replaceData(charginglist);
                         }
-                        //MyUtil.hideAllView(View.GONE, rlCharging, linearlayout);
-                        //MyUtil.showAllView(emptyPage);
+                        ///MyUtil.hideAllView(View.GONE, rlCharging, linearlayout);
+                        MyUtil.showAllView(mEmptyDevice);
                     }
 
                     if (mSwipeRefreshLayout != null) {

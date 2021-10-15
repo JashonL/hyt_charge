@@ -1350,7 +1350,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
 
 
     @OnClick({R.id.ivLeft, R.id.ll_Authorization, R.id.ll_record, R.id.ll_charging,
-            R.id.rl_switch_gun, R.id.to_add_device, R.id.rl_solar, R.id.ivRight, R.id.rl_lock})
+            R.id.rl_switch_gun,  R.id.rl_solar, R.id.ivRight, R.id.rl_lock})
     public void onClickListener(View view) {
         switch (view.getId()) {
             case R.id.ivLeft:
@@ -1389,9 +1389,9 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                 }
                 showStorageList(tvSwitchGun);
                 break;
-            case R.id.to_add_device:
-                addChargingPile();
-                break;
+//            case R.id.to_add_device:
+//                addChargingPile();
+//                break;
             case R.id.ll_record:
                 Intent intent4 = new Intent(this, ChargingRecoderActivity.class);
                 intent4.putExtra("sn", mCurrentPile.getChargeId());

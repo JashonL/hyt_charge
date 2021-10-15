@@ -40,8 +40,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/xa40"
             android:layout_marginTop="@dimen/xa60"
+            android:visibility="gone"
             android:layout_toEndOf="@+id/iv_preinstall_type"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            tools:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -75,9 +77,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/ll_type"
             android:layout_marginStart="@dimen/xa40"
+            android:visibility="gone"
             android:layout_marginEnd="@dimen/xa37"
             android:layout_toEndOf="@+id/iv_preinstall_type"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            tools:visibility="gone">
 
             <TextView
                 android:id="@+id/tv_5"
@@ -94,7 +98,8 @@
                 android:layout_marginStart="@dimen/xa9"
                 android:text="@string/m207时"
                 android:textColor="#FF009DFF"
-                android:textSize="@dimen/xa30" />
+                android:textSize="@dimen/xa30"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_7"
@@ -127,9 +132,11 @@
             android:layout_marginStart="@dimen/xa40"
             android:layout_marginTop="@dimen/xa5"
             android:layout_marginEnd="@dimen/xa37"
+            android:visibility="gone"
             android:layout_toEndOf="@+id/iv_preinstall_type"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            tools:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -154,11 +161,52 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="@string/m186每天"
-                android:visibility="gone"
                 android:textColor="#FF666666"
-                android:textSize="@dimen/xa30" />
+                android:textSize="@dimen/xa30"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_duration_start_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/xa42"
+            android:layout_marginTop="@dimen/xa60"
+            android:layout_toEndOf="@+id/iv_preinstall_type"
+            android:text="@string/m204开始时间"
+            android:textSize="@dimen/xa36"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_duration_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_duration_start_time"
+            android:layout_marginStart="@dimen/xa42"
+            android:visibility="gone"
+            android:layout_marginTop="@dimen/xa10"
+            android:layout_toEndOf="@+id/iv_preinstall_type"
+            android:textColor="#333333"
+            android:textSize="@dimen/xa36"
+            tools:text="13:00" />
+
+
+        <TextView
+            android:id="@+id/tv_duration_every_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_duration_start_time"
+            android:layout_marginStart="@dimen/xa254"
+            android:layout_marginTop="@dimen/xa15"
+            android:layout_toEndOf="@+id/tv_duration_time"
+            android:text="@string/m186每天"
+            android:textColor="#333333"
+            android:textSize="@dimen/xa30"
+            android:visibility="gone" />
+
 
     </RelativeLayout>
 

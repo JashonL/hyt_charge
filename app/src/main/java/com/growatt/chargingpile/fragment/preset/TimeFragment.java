@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.growatt.chargingpile.EventBusMsg.DeletePreinstallEvent;
 import com.growatt.chargingpile.EventBusMsg.PreinstallEvent;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.fragment.BaseFragment;
@@ -67,7 +68,7 @@ public class TimeFragment extends BaseFragment {
                 int timeCharging = Integer.parseInt(pPresetActivity.pReservationBean.getCValue());
 
                 if (timeCharging == 0) {
-                    mTvDuration.setText(R.string.please_charging_duration);
+                    mTvDuration.setText("");
                     return;
                 }
 
@@ -80,8 +81,6 @@ public class TimeFragment extends BaseFragment {
                 mTvDuration.setText(String.format("%02d", hourCharging) + getString(R.string.m207时) + String.format("%02d", minCharging) + getString(R.string.m208分));
             }
 
-        } else {
-            mTvDuration.setText(R.string.please_charging_duration);
         }
     }
 
@@ -119,12 +118,34 @@ public class TimeFragment extends BaseFragment {
         }
     }
 
-    private void requestPreinstall() {
+    public void deleteReservationNow() {
+        if (pPresetActivity.pReservationBean != null) {
+            GunModel.getInstance().deleteReservationNow(pPresetActivity.pReservationBean, new GunModel.HttpCallBack() {
+                @Override
+                public void onSuccess(Object json) {
+                    try {
+                        JSONObject object = new JSONObject(json.toString());
+                        int code = object.getInt("code");
+                        if (code == 0) {
+                            //pHandler.postDelayed(runnableGunInfo, 3000);
+                            EventBus.getDefault().post(new DeletePreinstallEvent());
+                            pPresetActivity.pReservationBean = null;
+                            toast("删除成功:" + object.getString("data"));
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
 
-        if (TextUtils.isEmpty(mTvDuration.getText())) {
-            toast(getString(R.string.m129时长设置不能为空));
-            return;
+                @Override
+                public void onFailed() {
+
+                }
+            });
         }
+    }
+
+    private void requestPreinstall() {
 
         if (mTvDurationHour.equals("00") && mTvDurationMinute.equals("00")) {
             toast(R.string.m请选择正确的时间段);
@@ -151,6 +172,7 @@ public class TimeFragment extends BaseFragment {
         Log.d(TAG, "cValue:" + cValue);
 
         if (mTvStartTime.getText().equals(getString(R.string.start_immediately))) {
+
             GunModel.getInstance().requestCharging(cKey, cValue, pPresetActivity.pChargingId, pPresetActivity.pConnectorId, new GunModel.HttpCallBack() {
                 @Override
                 public void onSuccess(Object bean) {
@@ -158,6 +180,7 @@ public class TimeFragment extends BaseFragment {
                         JSONObject object = new JSONObject(bean.toString());
                         int type = object.optInt("type");
                         if (type == 0) {
+                            deleteReservationNow();
                             EventBus.getDefault().post(new PreinstallEvent());
                             pPresetActivity.finish();
                         }

@@ -147,8 +147,20 @@ public class FragmentB extends BaseFragment {
     TextView mTv7;
     @BindView(R.id.tv_8)
     TextView mTv8;
+
     @BindView(R.id.ll_value)
     LinearLayout mLLValue;
+    @BindView(R.id.ll_type)
+    LinearLayout mLLType;
+    @BindView(R.id.ll_time)
+    LinearLayout mLLTime;
+
+    @BindView(R.id.tv_duration_start_time)
+    TextView mTvDurationStartTime;
+    @BindView(R.id.tv_duration_time)
+    TextView mTvDurationTime;
+    @BindView(R.id.tv_duration_every_day)
+    TextView mTvDurationEveryDay;
 
     @Override
     protected Object setRootView() {
@@ -172,10 +184,14 @@ public class FragmentB extends BaseFragment {
     }
 
     @OnClick({R.id.ll_value, R.id.ll_pile_status, R.id.ll_lock, R.id.ll_record, R.id.ll_preset,
-            R.id.iv_switch})
+            R.id.iv_switch, R.id.tv_duration_time})
     public void onClickListener(View view) {
         switch (view.getId()) {
             case R.id.iv_switch:
+                if (SmartHomeUtil.isFlagUser()) {
+                    toast(getString(R.string.m66你的账号没有操作权限));
+                    return;
+                }
                 if (pCurrGunStatus.equals(GunBean.CHARGING)) {
                     requestStopCharging();
                 } else if (pCurrGunStatus.equals(GunBean.PREPARING) || pCurrGunStatus.equals(GunBean.FINISHING) || pCurrGunStatus.equals(GunBean.AVAILABLE)) {
@@ -198,6 +214,7 @@ public class FragmentB extends BaseFragment {
                 startChargingRecordActivity();
                 break;
             case R.id.ll_value:
+            case R.id.tv_duration_time:
                 if (SmartHomeUtil.isFlagUser()) {
                     toast(getString(R.string.m66你的账号没有操作权限));
                     return;
@@ -258,7 +275,6 @@ public class FragmentB extends BaseFragment {
                 mTvSwitchStatus.setTextColor(ContextCompat.getColor(pActivity, R.color.charging_start));
                 mTvSwitchStatus.setText(getString(R.string.m340取消预约));
                 mLlPleaseVehicle.setVisibility(View.GONE);
-                mLlPreinstall.setVisibility(View.VISIBLE);
                 //获取预约
                 GunModel.getInstance().getReservationNow(pActivity.pDataBean.getChargeId(), 1, new GunModel.HttpCallBack() {
                     @Override
@@ -596,6 +612,8 @@ public class FragmentB extends BaseFragment {
     }
 
     private void handleReservationInfo(ReservationBean.DataBean data) {
+        mLlPreinstall.setVisibility(View.VISIBLE);
+
         if (data.getLoopType() == 0) {
             mTvEveryDay.setVisibility(View.VISIBLE);
         } else {
@@ -608,28 +626,43 @@ public class FragmentB extends BaseFragment {
             startTime = "null";
         }
 
-        mTvStartTime.setText(startTime);
-
         if (data.getcKey().isEmpty()) {
-            mTv5.setText(R.string.stop_when_full);
-            mTv6.setVisibility(View.GONE);
+            mLLValue.setVisibility(View.GONE);
+            mLLType.setVisibility(View.GONE);
+            mLLTime.setVisibility(View.GONE);
+
+            mTvDurationStartTime.setVisibility(View.VISIBLE);
+            mTvDurationTime.setVisibility(View.VISIBLE);
+            mTvDurationTime.setText(startTime);
+
+            if (data.getLoopType() == 0) {
+                mTvDurationEveryDay.setVisibility(View.VISIBLE);
+            } else {
+                mTvDurationEveryDay.setVisibility(View.GONE);
+            }
+
             return;
         }
+
+        mTvDurationStartTime.setVisibility(View.GONE);
+        mTvDurationTime.setVisibility(View.GONE);
+        mTvDurationEveryDay.setVisibility(View.GONE);
+
+        mLLValue.setVisibility(View.VISIBLE);
+        mLLType.setVisibility(View.VISIBLE);
+        mLLTime.setVisibility(View.VISIBLE);
+        mTvStartTime.setText(startTime);
 
         switch (data.getCKey()) {
             case "G_SetTime":
                 mIvPreinstallType.setImageResource(R.drawable.ic_time_preinstall);
                 mTvPreinstallTypes.setText(R.string.time);
                 int cValue = Integer.parseInt(data.getcValue());
-                if (cValue == 0) {
-                    mLLValue.setVisibility(View.GONE);
-                    return;
-                }
-                mLLValue.setVisibility(View.VISIBLE);
                 Log.d(TAG, "handleReservationInfo: G_SetTime cValue:" + cValue);
                 int hour = cValue / 60;
                 int min = cValue % 60;
                 mTv5.setText(String.valueOf(hour));
+                mTv5.setVisibility(View.VISIBLE);
                 mTv6.setText(getString(R.string.m207时));
                 mTv6.setVisibility(View.VISIBLE);
                 mTv7.setVisibility(View.VISIBLE);
@@ -642,6 +675,7 @@ public class FragmentB extends BaseFragment {
                 mTv8.setVisibility(View.GONE);
                 mTv5.setText(data.getcValue());
                 mTv6.setText(pActivity.pSymbol);
+                mTv6.setVisibility(View.VISIBLE);
                 mTvPreinstallTypes.setText(getString(R.string.m200金额));
                 mTvStartTime.setText(startTime);
                 mIvPreinstallType.setImageResource(R.drawable.ic_amount_preinstall);
@@ -652,6 +686,7 @@ public class FragmentB extends BaseFragment {
                 mTv5.setText(data.getcValue());
                 Log.d(TAG, "G_SetEnergy: getCValue: " + data.getcValue());
                 mTv6.setText("kwh");
+                mTv6.setVisibility(View.VISIBLE);
                 mTvPreinstallTypes.setText(getString(R.string.m201电量));
                 mIvPreinstallType.setImageResource(R.drawable.ic_energy_preinstall);
                 break;

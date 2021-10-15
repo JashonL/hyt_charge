@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.growatt.chargingpile.EventBusMsg.DeletePreinstallEvent;
 import com.growatt.chargingpile.EventBusMsg.PreinstallEvent;
 import com.growatt.chargingpile.EventBusMsg.UnitMsg;
 import com.growatt.chargingpile.R;
@@ -94,6 +95,13 @@ public abstract class BaseFragment extends Fragment {
     public void freshGunInfo(PreinstallEvent msg) {
         Log.d(TAG, "freshGunInfo: ");
         pHandler.postDelayed(runnableGunInfo, 3000);
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void clearPreinstallBean(DeletePreinstallEvent msg) {
+        Log.d(TAG, "clearPreinstallBean: ");
+        pReservationBean = null;
     }
 
     protected Runnable runnableGunInfo = () -> {
@@ -229,6 +237,10 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public void requestUnLock() {
+        if (SmartHomeUtil.isFlagUser()) {
+            toast(getString(R.string.m66你的账号没有操作权限));
+            return;
+        }
         new CircleDialog.Builder().setTitle(getString(R.string.m27温馨提示))
                 .setText(getString(R.string.m是否解除该枪电子锁))
                 .setWidth(0.75f)
@@ -262,6 +274,10 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public void showChargingModeDialog(String typeMode) {
+        if (SmartHomeUtil.isFlagUser()) {
+            toast(getString(R.string.m66你的账号没有操作权限));
+            return;
+        }
         ChargingModeDialog.newInstance(typeMode
                 , new ChargingModeDialog.CallBack() {
                     @Override
@@ -361,6 +377,7 @@ public abstract class BaseFragment extends Fragment {
         });
     }
 
+
     public void requestDeleteReservationNow() {
         if (pReservationBean != null) {
             GunModel.getInstance().deleteReservationNow(pReservationBean, new GunModel.HttpCallBack() {
@@ -389,7 +406,7 @@ public abstract class BaseFragment extends Fragment {
 
     public void showDeleteReservationNowDialog() {
 
-        if (SmartHomeUtil.isFlagUser()) {
+        if (SmartHomeUtil.isFlagUser()) {//浏览账号
             toast(getString(R.string.m66你的账号没有操作权限));
             return;
         }

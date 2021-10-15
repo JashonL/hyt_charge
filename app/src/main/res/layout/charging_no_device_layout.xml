@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/smart_home_empty_page"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:id="@+id/smart_home_empty_page"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:visibility="gone">
 
     <ImageView
         android:id="@+id/iv_empty"
@@ -20,14 +21,14 @@
         android:textColor="@color/title_1"
         android:textSize="@dimen/xa28" />
 
-    <Button
-        android:id="@+id/to_add_device"
-        android:layout_width="@dimen/xa273"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/xa38"
-        android:background="@drawable/selector_circle_btn_green"
-        android:text="@string/m101添加设备"
-        android:textColor="@color/headerView" />
+    <!--    <Button-->
+    <!--        android:id="@+id/to_add_device"-->
+    <!--        android:layout_width="@dimen/xa273"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="@dimen/xa38"-->
+    <!--        android:background="@drawable/selector_circle_btn_green"-->
+    <!--        android:text="@string/m101添加设备"-->
+    <!--        android:textColor="@color/headerView" />-->
 
 
 </LinearLayout>

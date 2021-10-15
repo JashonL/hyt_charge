@@ -12,10 +12,10 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:background="#F7F7FAFF"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="#F7F7FAFF"
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:id="@+id/rl_duration"
@@ -55,6 +55,13 @@
                     android:src="@drawable/ic_arrows_r" />
 
             </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/xa60"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/xa30"
+                android:text="未设置充电时长，默认将车充满。" />
 
             <RelativeLayout
                 android:id="@+id/rl_start_type"
@@ -101,9 +108,9 @@
                 android:layout_height="@dimen/xa120"
                 android:layout_marginTop="@dimen/xa1"
                 android:background="#FFFFFFFF"
-                android:visibility="gone"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="0dp"
