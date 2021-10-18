@@ -8,269 +8,407 @@
 
     <include layout="@layout/header_view" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/xa28"
-        android:layout_marginTop="@dimen/xa36"
-        android:text="@string/wifi_information"
-        android:textColor="#ff888888"
-        android:textSize="@dimen/xa24" />
-
-    <RelativeLayout
-        android:id="@+id/rl_wifi_name"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/xa120"
-        android:layout_marginTop="@dimen/xa11"
-        android:background="@color/headerView">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/xa30"
-            android:text="@string/m266Wifi名称"
-            android:textColor="#ff343434"
-            android:textSize="@dimen/xa30" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/xa28"
+                android:layout_marginTop="@dimen/xa36"
+                android:text="@string/wifi_information"
+                android:textColor="#ff888888"
+                android:textSize="@dimen/xa24" />
 
-        <TextView
-            android:id="@+id/tv_wifi_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/xa14"
-            android:layout_toStartOf="@+id/iv_arrow"
-            android:textColor="#ff666666"
-            android:textSize="@dimen/xa24"
-            tools:text="ten_da888" />
+            <RelativeLayout
+                android:id="@+id/rl_wifi_name"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/xa120"
+                android:layout_marginTop="@dimen/xa11"
+                android:background="@color/headerView">
 
-
-        <ImageView
-            android:id="@+id/iv_arrow"
-            android:layout_width="@dimen/xa20"
-            android:layout_height="@dimen/xa32"
-            android:layout_alignParentEnd="true"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="@dimen/xa29"
-            android:src="@drawable/charger_device_item_more"
-            android:visibility="visible" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_wifi_password"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/xa120"
-        android:layout_marginTop="@dimen/xa2"
-        android:background="@color/headerView">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/xa30"
-            android:text="@string/m267Wifi密码"
-            android:textColor="#ff343434"
-            android:textSize="@dimen/xa30" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/xa30"
+                    android:text="@string/m266Wifi名称"
+                    android:textColor="#ff343434"
+                    android:textSize="@dimen/xa30" />
 
 
-        <TextView
-            android:id="@+id/tv_wifi_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/xa14"
-            android:layout_toStartOf="@+id/iv_arrow_city"
-            android:textColor="#ff666666"
-            android:textSize="@dimen/xa24"
-            tools:text="******" />
+                <TextView
+                    android:id="@+id/tv_wifi_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/xa14"
+                    android:layout_toStartOf="@+id/iv_arrow"
+                    android:textColor="#ff666666"
+                    android:textSize="@dimen/xa24"
+                    tools:text="ten_da888" />
 
 
-        <ImageView
-            android:id="@+id/iv_arrow_city"
-            android:layout_width="@dimen/xa20"
-            android:layout_height="@dimen/xa32"
-            android:layout_alignParentEnd="true"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="@dimen/xa29"
-            android:src="@drawable/charger_device_item_more"
-            android:visibility="visible" />
+                <ImageView
+                    android:id="@+id/iv_arrow"
+                    android:layout_width="@dimen/xa20"
+                    android:layout_height="@dimen/xa32"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/xa29"
+                    android:src="@drawable/charger_device_item_more"
+                    android:visibility="visible" />
+            </RelativeLayout>
 
-    </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/rl_wifi_password"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/xa120"
+                android:layout_marginTop="@dimen/xa2"
+                android:background="@color/headerView">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/xa28"
-        android:layout_marginTop="@dimen/xa36"
-        android:text="@string/network_settings"
-        android:textColor="#ff888888"
-        android:textSize="@dimen/xa24" />
-
-    <RelativeLayout
-        android:id="@+id/rl_net_mode"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/xa120"
-        android:layout_marginTop="@dimen/xa11"
-        android:background="@color/headerView">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/xa30"
-            android:text="@string/network_mode"
-            android:textColor="#ff343434"
-            android:textSize="@dimen/xa30" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/xa30"
+                    android:text="@string/m267Wifi密码"
+                    android:textColor="#ff343434"
+                    android:textSize="@dimen/xa30" />
 
 
-        <TextView
-            android:id="@+id/tv_net_mode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/xa14"
-            android:layout_toStartOf="@+id/iv_arrow_net_mode"
-            android:textColor="#ff666666"
-            android:textSize="@dimen/xa24"
-            tools:text="DHCP" />
+                <TextView
+                    android:id="@+id/tv_wifi_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/xa14"
+                    android:layout_toStartOf="@+id/iv_arrow_city"
+                    android:textColor="#ff666666"
+                    android:textSize="@dimen/xa24"
+                    tools:text="******" />
 
 
-        <ImageView
-            android:id="@+id/iv_arrow_net_mode"
-            android:layout_width="@dimen/xa20"
-            android:layout_height="@dimen/xa32"
-            android:layout_alignParentEnd="true"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="@dimen/xa29"
-            android:src="@drawable/charger_device_item_more"
-            android:visibility="visible" />
-    </RelativeLayout>
+                <ImageView
+                    android:id="@+id/iv_arrow_city"
+                    android:layout_width="@dimen/xa20"
+                    android:layout_height="@dimen/xa32"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/xa29"
+                    android:src="@drawable/charger_device_item_more"
+                    android:visibility="visible" />
 
-    <RelativeLayout
-        android:id="@+id/rl_gateway"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/xa120"
-        android:layout_marginTop="@dimen/xa2"
-        android:background="@color/headerView">
+            </RelativeLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/xa30"
-            android:text="@string/m157网关"
-            android:textColor="#ff343434"
-            android:textSize="@dimen/xa30" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/xa28"
+                android:layout_marginTop="@dimen/xa36"
+                android:text="@string/network_settings"
+                android:textColor="#ff888888"
+                android:textSize="@dimen/xa24" />
 
+            <RelativeLayout
+                android:id="@+id/rl_net_mode"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/xa120"
+                android:layout_marginTop="@dimen/xa11"
+                android:background="@color/headerView">
 
-        <TextView
-            android:id="@+id/tv_gateway"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/xa14"
-            android:layout_toStartOf="@+id/iv_arrow_gateway"
-            android:textColor="#ff666666"
-            android:textSize="@dimen/xa24"
-            tools:text="192.168.1.1" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/xa30"
+                    android:text="@string/network_mode"
+                    android:textColor="#ff343434"
+                    android:textSize="@dimen/xa30" />
 
 
-        <ImageView
-            android:id="@+id/iv_arrow_gateway"
-            android:layout_width="@dimen/xa20"
-            android:layout_height="@dimen/xa32"
-            android:layout_alignParentEnd="true"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="@dimen/xa29"
-            android:src="@drawable/charger_device_item_more"
-            android:visibility="visible" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_subnet_mask"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/xa120"
-        android:layout_marginTop="@dimen/xa2"
-        android:background="@color/headerView">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/xa30"
-            android:text="@string/subnet_mask"
-            android:textColor="#ff343434"
-            android:textSize="@dimen/xa30" />
+                <TextView
+                    android:id="@+id/tv_net_mode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/xa14"
+                    android:layout_toStartOf="@+id/iv_arrow_net_mode"
+                    android:textColor="#ff666666"
+                    android:textSize="@dimen/xa24"
+                    tools:text="DHCP" />
 
 
-        <TextView
-            android:id="@+id/tv_subnet_mask"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/xa14"
-            android:layout_toStartOf="@+id/iv_arrow_mask"
-            android:textColor="#ff666666"
-            android:textSize="@dimen/xa24"
-            tools:text="255.255.225.0" />
+                <ImageView
+                    android:id="@+id/iv_arrow_net_mode"
+                    android:layout_width="@dimen/xa20"
+                    android:layout_height="@dimen/xa32"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/xa29"
+                    android:src="@drawable/charger_device_item_more"
+                    android:visibility="visible" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_ip"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/xa120"
+                android:layout_marginTop="@dimen/xa2"
+                android:background="@color/headerView">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/xa30"
+                    android:text="@string/m156充电桩IP"
+                    android:textColor="#ff343434"
+                    android:textSize="@dimen/xa30" />
 
 
-        <ImageView
-            android:id="@+id/iv_arrow_mask"
-            android:layout_width="@dimen/xa20"
-            android:layout_height="@dimen/xa32"
-            android:layout_alignParentEnd="true"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="@dimen/xa29"
-            android:src="@drawable/charger_device_item_more"
-            android:visibility="visible" />
-    </RelativeLayout>
+                <TextView
+                    android:id="@+id/tv_ip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/xa14"
+                    android:layout_toStartOf="@+id/iv_arrow_ip"
+                    android:textColor="#ff666666"
+                    android:textSize="@dimen/xa24"
+                    tools:text="************" />
 
-    <RelativeLayout
-        android:id="@+id/rl_dns"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/xa120"
-        android:layout_marginTop="@dimen/xa2"
-        android:background="@color/headerView">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/xa30"
-            android:text="@string/m161DNS地址"
-            android:textColor="#ff343434"
-            android:textSize="@dimen/xa30" />
+                <ImageView
+                    android:id="@+id/iv_arrow_ip"
+                    android:layout_width="@dimen/xa20"
+                    android:layout_height="@dimen/xa32"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/xa29"
+                    android:src="@drawable/charger_device_item_more"
+                    android:visibility="visible" />
 
-        <TextView
-            android:id="@+id/tv_dns"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/xa14"
-            android:layout_toStartOf="@+id/iv_arrow_dns"
-            android:textColor="#ff666666"
-            android:textSize="@dimen/xa24"
-            tools:text="8.8.8.8" />
+            </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/iv_arrow_dns"
-            android:layout_width="@dimen/xa20"
-            android:layout_height="@dimen/xa32"
-            android:layout_alignParentEnd="true"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="@dimen/xa29"
-            android:src="@drawable/charger_device_item_more"
-            android:visibility="visible" />
+            <RelativeLayout
+                android:id="@+id/rl_gateway"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/xa120"
+                android:layout_marginTop="@dimen/xa2"
+                android:background="@color/headerView">
 
-    </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/xa30"
+                    android:text="@string/m157网关"
+                    android:textColor="#ff343434"
+                    android:textSize="@dimen/xa30" />
+
+
+                <TextView
+                    android:id="@+id/tv_gateway"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/xa14"
+                    android:layout_toStartOf="@+id/iv_arrow_gateway"
+                    android:textColor="#ff666666"
+                    android:textSize="@dimen/xa24"
+                    tools:text="192.168.1.1" />
+
+
+                <ImageView
+                    android:id="@+id/iv_arrow_gateway"
+                    android:layout_width="@dimen/xa20"
+                    android:layout_height="@dimen/xa32"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/xa29"
+                    android:src="@drawable/charger_device_item_more"
+                    android:visibility="visible" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_subnet_mask"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/xa120"
+                android:layout_marginTop="@dimen/xa2"
+                android:background="@color/headerView">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/xa30"
+                    android:text="@string/subnet_mask"
+                    android:textColor="#ff343434"
+                    android:textSize="@dimen/xa30" />
+
+
+                <TextView
+                    android:id="@+id/tv_subnet_mask"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/xa14"
+                    android:layout_toStartOf="@+id/iv_arrow_mask"
+                    android:textColor="#ff666666"
+                    android:textSize="@dimen/xa24"
+                    tools:text="255.255.225.0" />
+
+
+                <ImageView
+                    android:id="@+id/iv_arrow_mask"
+                    android:layout_width="@dimen/xa20"
+                    android:layout_height="@dimen/xa32"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/xa29"
+                    android:src="@drawable/charger_device_item_more"
+                    android:visibility="visible" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/xa120"
+                android:layout_marginTop="@dimen/xa2"
+                android:background="@color/headerView">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/xa30"
+                    android:text="@string/m159网络MAC地址"
+                    android:textColor="#ff343434"
+                    android:textSize="@dimen/xa30" />
+
+
+                <TextView
+                    android:id="@+id/tv_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/xa14"
+                    android:layout_toStartOf="@+id/iv_arrow_address"
+                    android:textColor="#ff666666"
+                    android:textSize="@dimen/xa24"
+                    tools:text="***********" />
+
+
+                <ImageView
+                    android:id="@+id/iv_arrow_address"
+                    android:layout_width="@dimen/xa20"
+                    android:layout_height="@dimen/xa32"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/xa29"
+                    android:src="@drawable/charger_device_item_more"
+                    android:visibility="visible" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_url"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/xa120"
+                android:layout_marginTop="@dimen/xa2"
+                android:background="@color/headerView">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/xa30"
+                    android:text="@string/m160服务器URL"
+                    android:textColor="#ff343434"
+                    android:textSize="@dimen/xa30" />
+
+
+                <TextView
+                    android:id="@+id/tv_url"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/xa14"
+                    android:layout_toStartOf="@+id/iv_arrow_url"
+                    android:textColor="#ff666666"
+                    android:textSize="@dimen/xa24"
+                    tools:text="***********" />
+
+
+                <ImageView
+                    android:id="@+id/iv_arrow_url"
+                    android:layout_width="@dimen/xa20"
+                    android:layout_height="@dimen/xa32"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/xa29"
+                    android:src="@drawable/charger_device_item_more"
+                    android:visibility="visible" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_dns"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/xa120"
+                android:layout_marginTop="@dimen/xa2"
+                android:background="@color/headerView">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/xa30"
+                    android:text="@string/m161DNS地址"
+                    android:textColor="#ff343434"
+                    android:textSize="@dimen/xa30" />
+
+                <TextView
+                    android:id="@+id/tv_dns"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/xa14"
+                    android:layout_toStartOf="@+id/iv_arrow_dns"
+                    android:textColor="#ff666666"
+                    android:textSize="@dimen/xa24"
+                    tools:text="8.8.8.8" />
+
+                <ImageView
+                    android:id="@+id/iv_arrow_dns"
+                    android:layout_width="@dimen/xa20"
+                    android:layout_height="@dimen/xa32"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/xa29"
+                    android:src="@drawable/charger_device_item_more"
+                    android:visibility="visible" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

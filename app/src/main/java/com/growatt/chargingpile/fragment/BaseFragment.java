@@ -454,4 +454,16 @@ public abstract class BaseFragment extends Fragment {
         return true;
     }
 
+    public boolean checkPermission() {
+        if (SmartHomeUtil.isFlagUser()) {
+            toast(getString(R.string.m66你的账号没有操作权限));
+            return true;
+        }
+        if (pDataBean.getType() == 1) {
+            toast(getString(R.string.m66你的账号没有操作权限));
+            return true;
+        }
+        return false;
+    }
+
 }

@@ -25,7 +25,6 @@ import com.growatt.chargingpile.fragment.BaseFragment;
 import com.growatt.chargingpile.model.GunModel;
 import com.growatt.chargingpile.util.MathUtil;
 import com.growatt.chargingpile.util.MyUtil;
-import com.growatt.chargingpile.util.SmartHomeUtil;
 import com.growatt.chargingpile.view.RoundProgressBar;
 
 import butterknife.BindView;
@@ -188,10 +187,7 @@ public class FragmentB extends BaseFragment {
     public void onClickListener(View view) {
         switch (view.getId()) {
             case R.id.iv_switch:
-                if (SmartHomeUtil.isFlagUser()) {
-                    toast(getString(R.string.m66你的账号没有操作权限));
-                    return;
-                }
+                if (checkPermission()) return;
                 if (pCurrGunStatus.equals(GunBean.CHARGING)) {
                     requestStopCharging();
                 } else if (pCurrGunStatus.equals(GunBean.PREPARING) || pCurrGunStatus.equals(GunBean.FINISHING) || pCurrGunStatus.equals(GunBean.AVAILABLE)) {
@@ -215,25 +211,11 @@ public class FragmentB extends BaseFragment {
                 break;
             case R.id.ll_value:
             case R.id.tv_duration_time:
-                if (SmartHomeUtil.isFlagUser()) {
-                    toast(getString(R.string.m66你的账号没有操作权限));
-                    return;
-                }
-                if (pDataBean.getType() == 1) {
-                    toast(getString(R.string.m66你的账号没有操作权限));
-                    return;
-                }
+                if (checkPermission()) return;
                 startPresetActivity(1);
                 break;
             case R.id.ll_preset:
-                if (SmartHomeUtil.isFlagUser()) {
-                    toast(getString(R.string.m66你的账号没有操作权限));
-                    return;
-                }
-                if (pDataBean.getType() == 1) {
-                    toast(getString(R.string.m66你的账号没有操作权限));
-                    return;
-                }
+                if (checkPermission()) return;
                 showTips();
                 break;
             default:
@@ -346,8 +328,7 @@ public class FragmentB extends BaseFragment {
                     mLlDefaultAV.setVisibility(View.GONE);
                     mTvChargingFinish.setVisibility(View.VISIBLE);
                 }
-
-
+                mLlPleaseVehicle.setVisibility(View.GONE);
                 break;
             case GunBean.SUSPENDEEV://m133车拒绝充电
                 mTvPreinstallChargingFinish.setVisibility(View.GONE);

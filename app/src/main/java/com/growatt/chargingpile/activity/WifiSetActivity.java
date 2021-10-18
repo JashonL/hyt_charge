@@ -5,12 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-
-import androidx.core.content.ContextCompat;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
@@ -20,6 +14,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
@@ -33,9 +32,7 @@ import com.growatt.chargingpile.bean.SolarBean;
 import com.growatt.chargingpile.bean.WiFiRequestMsgBean;
 import com.growatt.chargingpile.bean.WifiParseBean;
 import com.growatt.chargingpile.bean.WifiSetBean;
-import com.growatt.chargingpile.util.Base64;
 import com.growatt.chargingpile.util.Cons;
-import com.growatt.chargingpile.util.DecoudeUtil;
 import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.PickViewUtils;
@@ -119,7 +116,7 @@ public class WifiSetActivity extends BaseActivity {
     //wifi相关设置
     private byte[] ssidByte;
     private byte[] wifiKeyByte;
-//    private byte[] bltNameByte;
+    //    private byte[] bltNameByte;
     private byte[] bltPwdByte;
     private byte[] name4GByte;
     private byte[] pwd4GByte;
@@ -299,7 +296,7 @@ public class WifiSetActivity extends BaseActivity {
     private void initResource() {
         keys = new String[]{
                 getString(R.string.m255设备信息参数设置), getString(R.string.m146充电桩ID), getString(R.string.m260语言), getString(R.string.m264读卡器秘钥), getString(R.string.m265RCD保护值), getString(R.string.m296版本号), getString(R.string.m时区),
-                getString(R.string.m256设备以太网参数设置), getString(R.string.m156充电桩IP), getString(R.string.m157网关), getString(R.string.m158子网掩码), getString(R.string.m159网络MAC地址), getString(R.string.m161DNS地址), getString(R.string.m网络模式设置),
+                getString(R.string.m256设备以太网参数设置), getString(R.string.m网络模式设置), getString(R.string.m156充电桩IP), getString(R.string.m157网关), getString(R.string.m158子网掩码), getString(R.string.m159网络MAC地址), getString(R.string.m161DNS地址),
                 getString(R.string.m257设备账号密码参数设置), getString(R.string.m266Wifi名称), getString(R.string.m267Wifi密码), getString(R.string.m2704G用户名), getString(R.string.m2714G密码), getString(R.string.m2724GAPN),
                 getString(R.string.m258设备服务器参数设置), getString(R.string.m160服务器URL), getString(R.string.m273握手登录授权秘钥), getString(R.string.m274心跳间隔时间), getString(R.string.m275PING间隔时间), getString(R.string.m276表计上传间隔时间),
                 getString(R.string.m259设备充电参数设置), getString(R.string.m154充电模式), getString(R.string.m277电桩最大输出电流), getString(R.string.m152充电费率), getString(R.string.m278保护温度), getString(R.string.m279外部监测最大输入功率),
@@ -308,7 +305,7 @@ public class WifiSetActivity extends BaseActivity {
         };
 
         keySfields = new String[]{"", "chargeId", "G_ChargerLanguage", "G_CardPin", "G_RCDProtection", "G_Version", "TimeZone",
-                "", "ip", "gateway", "mask", "mac", "dns", "G_NetworkMode",
+                "", "G_NetworkMode", "ip", "gateway", "mask", "mac", "dns",
                 "", "G_WifiSSID", "G_WifiPassword", "G_4GUserName", "G_4GPassword", "G_4GAPN",
                 "", "host", "G_Authentication", "G_HearbeatInterval", "G_WebSocketPingInterval", "G_MeterValueInterval",
                 "", "G_ChargerMode", "G_MaxCurrent", "rate", "G_MaxTemperature", "G_ExternalLimitPower",
@@ -355,12 +352,12 @@ public class WifiSetActivity extends BaseActivity {
         modeArray = new String[]{getString(R.string.m217扫码刷卡), getString(R.string.m218仅刷卡充电), getString(R.string.m219插枪充电)};
         enableArray = new String[]{getString(R.string.m300禁止), getString(R.string.m299使能)};
 //        wiringArray = new String[]{getString(R.string.mCT), getString(R.string.m电表)};
-        wiringArray = new String[]{"CT2000", getString(R.string.m电表),"CT3000"};
+        wiringArray = new String[]{"CT2000", getString(R.string.m电表), "CT3000"};
         solarArrray = new String[]{"FAST", "ECO", "ECO+"};
         gunArrray = new String[]{getString(R.string.m110A枪), getString(R.string.m111B枪), getString(R.string.m112C枪)};
         lockArrray = new String[]{getString(R.string.m已解锁), getString(R.string.m已锁住)};
-        ammterTypeArray = new String[]{getString(R.string.m安科瑞), getString(R.string.m东宏),"Acrel DDS1352",
-                "Acrel DTSD1352(Three)","Eastron SDM230","Eastron SDM630(Three)","Eastron SDM120 MID","Eastron SDM72D MID(Three)","Din-Rail DTSU666 MID(Three)"};
+        ammterTypeArray = new String[]{getString(R.string.m安科瑞), getString(R.string.m东宏), "Acrel DDS1352",
+                "Acrel DTSD1352(Three)", "Eastron SDM230", "Eastron SDM630(Three)", "Eastron SDM120 MID", "Eastron SDM72D MID(Three)", "Din-Rail DTSU666 MID(Three)"};
         unLockTypeArray = new String[]{getString(R.string.m手动), getString(R.string.m自动)};
         netModeArray = new String[]{"STATIC", "DHCP"};
         solarBeans = new ArrayList<>();
@@ -1590,28 +1587,28 @@ public class WifiSetActivity extends BaseActivity {
         //加密方式
         byte encryption = this.encryption;
         //指令
-        byte cmd = proversion<10? WiFiMsgConstant.CONSTANT_MSG_13:WiFiMsgConstant.CONSTANT_MSG_33;
+        byte cmd = proversion < 10 ? WiFiMsgConstant.CONSTANT_MSG_13 : WiFiMsgConstant.CONSTANT_MSG_33;
 
         /*****有效数据*****/
-        if (ssidByte == null ) {
-            ssidByte=new byte[0];
+        if (ssidByte == null) {
+            ssidByte = new byte[0];
         }
-        if (wifiKeyByte == null ) {
-            wifiKeyByte=new byte[0];
+        if (wifiKeyByte == null) {
+            wifiKeyByte = new byte[0];
         }
-        if (bltPwdByte == null ) {
-            bltPwdByte=new byte[0];
+        if (bltPwdByte == null) {
+            bltPwdByte = new byte[0];
         }
-        if (name4GByte == null ) {
-            name4GByte=new byte[0];
+        if (name4GByte == null) {
+            name4GByte = new byte[0];
         }
-        if (pwd4GByte == null ) {
-            pwd4GByte=new byte[0];
+        if (pwd4GByte == null) {
+            pwd4GByte = new byte[0];
         }
-        if (apn4GByte == null ) {
-            apn4GByte=new byte[0];
+        if (apn4GByte == null) {
+            apn4GByte = new byte[0];
         }
-        int len = ssidByte.length + wifiKeyByte.length  + bltPwdByte.length + name4GByte.length + pwd4GByte.length + apn4GByte.length;
+        int len = ssidByte.length + wifiKeyByte.length + bltPwdByte.length + name4GByte.length + pwd4GByte.length + apn4GByte.length;
         byte[] prayload = new byte[len];
 
         //ssid
@@ -1623,11 +1620,11 @@ public class WifiSetActivity extends BaseActivity {
         //蓝牙密码
         System.arraycopy(bltPwdByte, 0, prayload, ssidByte.length + wifiKeyByte.length, bltPwdByte.length);
         //4G用户名
-        System.arraycopy(name4GByte, 0, prayload, ssidByte.length + wifiKeyByte.length  + bltPwdByte.length, name4GByte.length);
+        System.arraycopy(name4GByte, 0, prayload, ssidByte.length + wifiKeyByte.length + bltPwdByte.length, name4GByte.length);
         //4G密码
-        System.arraycopy(pwd4GByte, 0, prayload, ssidByte.length + wifiKeyByte.length  + bltPwdByte.length + name4GByte.length, pwd4GByte.length);
+        System.arraycopy(pwd4GByte, 0, prayload, ssidByte.length + wifiKeyByte.length + bltPwdByte.length + name4GByte.length, pwd4GByte.length);
         //4GAPN
-        System.arraycopy(apn4GByte, 0, prayload, ssidByte.length + wifiKeyByte.length  + bltPwdByte.length + name4GByte.length + pwd4GByte.length, apn4GByte.length);
+        System.arraycopy(apn4GByte, 0, prayload, ssidByte.length + wifiKeyByte.length + bltPwdByte.length + name4GByte.length + pwd4GByte.length, apn4GByte.length);
 
 
         byte[] encryptedData = SmartHomeUtil.decodeKey(prayload, newKey);
@@ -1941,7 +1938,7 @@ public class WifiSetActivity extends BaseActivity {
 
     /**********************************解析数据************************************/
 
-    private void parseReceivData(byte[] data) throws IndexOutOfBoundsException{
+    private void parseReceivData(byte[] data) throws IndexOutOfBoundsException {
         if (data == null) return;
         int length = data.length;
         if (length > 4) {
@@ -1974,7 +1971,7 @@ public class WifiSetActivity extends BaseActivity {
                         //电桩类型，直流或者交流
                         devType = data[2];
                         //是否允许进入
-                        int allow = SmartHomeUtil.byte2Int(new byte[]{ prayload[0]});
+                        int allow = SmartHomeUtil.byte2Int(new byte[]{prayload[0]});
                         Mydialog.Dismiss();
                         proversion = allow;
                         if (allow == 0) {
@@ -2468,7 +2465,7 @@ public class WifiSetActivity extends BaseActivity {
                         break;
                     case WiFiMsgConstant.CONSTANT_MSG_15:
                         int result = SmartHomeUtil.byte2Int(new byte[]{prayload[0]});
-                        if ( result == 1) {
+                        if (result == 1) {
 //                        getDeviceInfo(WiFiMsgConstant.CONSTANT_MSG_01);
                             T.make(getString(R.string.m243设置成功), WifiSetActivity.this);
                         } else {

@@ -26,7 +26,6 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 
 public class UserActivity extends BaseActivity {
@@ -50,14 +49,12 @@ public class UserActivity extends BaseActivity {
     @BindView(R.id.tv_date)
     TextView tvDate;
 
-    private Unbinder bind;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
-        bind = ButterKnife.bind(this);
+        ButterKnife.bind(this);
         initHeaderView();
         initViews();
     }

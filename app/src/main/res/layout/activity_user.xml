@@ -399,7 +399,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/xa14"
             android:gravity="center_vertical"
-            android:text="@string/m安装商地址修改"
+            android:text="@string/m安装日期修改"
             android:textColor="#333333"
             android:textSize="@dimen/size_content_sp_16"
             app:autoSizeMaxTextSize="@dimen/size_title_sp_16"
