@@ -269,7 +269,7 @@
     <string name="m248连接至电桩热点">打开手机WLAN,将手机连接至电桩热点</string>
     <string name="m249当前手机连接WiFi">当前手机连接WiFi</string>
     <string name="m250刷新">刷新</string>
-    <string name="m251已连接下一步">已连接，下一步</string>
+    <string name="m251已连接下一步">下一步</string>
     <string name="m252连接充电桩中">连接充电桩中…</string>
     <string name="m253手机暂未连接wifi">手机暂未连接wifi</string>
     <string name="m254连接失败">连接失败</string>

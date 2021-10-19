@@ -61,7 +61,6 @@ public class AmendsActivity extends BaseActivity {
     private String installDate;
     private String installer;
 
-    private Unbinder bind;
 
     private Calendar calendar = Calendar.getInstance();
 
@@ -69,7 +68,7 @@ public class AmendsActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_amendaddress);
-        bind = ButterKnife.bind(this);
+        ButterKnife.bind(this);
         initHeaderView();
         initIntent();
         try {
@@ -246,7 +245,7 @@ public class AmendsActivity extends BaseActivity {
                 object.put("installPhone", installPhone);
                 object.put("installEmail", installEmail);
                 object.put("installer", installer);
-                object.put("installDate",upContent);
+                object.put("installDate",date);
             }
             object.put("lan", getLanguage());
         } catch (Exception e) {

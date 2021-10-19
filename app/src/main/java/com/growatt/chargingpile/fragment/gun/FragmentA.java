@@ -222,8 +222,6 @@ public class FragmentA extends BaseFragment {
         }
     }
 
-
-
     @Override
     protected void handleGunStatus(GunBean bean) {
         String status = bean.getData().getStatus();
@@ -640,7 +638,6 @@ public class FragmentA extends BaseFragment {
                 mIvPreinstallType.setImageResource(R.drawable.ic_time_preinstall);
                 mTvPreinstallTypes.setText(R.string.time);
                 int cValue = Integer.parseInt(data.getcValue());
-                Log.d(TAG, "handleReservationInfo: G_SetTime cValue:" + cValue);
                 int hour = cValue / 60;
                 int min = cValue % 60;
                 mTv5.setText(String.valueOf(hour));

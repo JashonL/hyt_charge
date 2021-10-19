@@ -265,7 +265,7 @@
     <string name="m248连接至电桩热点">Attiva la WLAN del telefono e collega il telefono all\'hotspot della Stazione di Ricarica</string>
     <string name="m249当前手机连接WiFi">WiFi attualmente connesso</string>
     <string name="m250刷新">Rinfrescare</string>
-    <string name="m251已连接下一步">Connesso, procedi</string>
+    <string name="m251已连接下一步">Procedi</string>
     <string name="m252连接充电桩中">Stazione di Ricarica in connessione</string>
     <string name="m253手机暂未连接wifi">Telefono non connesso al WiFi</string>
     <string name="m254连接失败">Connessione fallita</string>

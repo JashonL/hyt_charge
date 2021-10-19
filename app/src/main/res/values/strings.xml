@@ -265,7 +265,7 @@
     <string name="m248连接至电桩热点">Turn on your phone\'s WLAN and connect your phone to the charger hotspot</string>
     <string name="m249当前手机连接WiFi">Current connected WiFi</string>
     <string name="m250刷新">Refresh</string>
-    <string name="m251已连接下一步">Connected, next</string>
+    <string name="m251已连接下一步">Next</string>
     <string name="m252连接充电桩中">Connecting the charger…</string>
     <string name="m253手机暂未连接wifi">The phone is not connected to wifi</string>
     <string name="m254连接失败">Connection failed</string>

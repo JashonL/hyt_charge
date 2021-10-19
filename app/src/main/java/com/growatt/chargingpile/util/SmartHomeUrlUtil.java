@@ -9,7 +9,7 @@ public class SmartHomeUrlUtil {
 //    public static final String SMARTHOME_BASE_URL = "http://chat.growatt.com";
 
     //欧洲服务器
-    public static final String SMARTHOME_BASE_URL = "https://charger-server.atesspower.com";
+    public static final String SMARTHOME_BASE_URL = "https://projectevcharger.com:8443";
   //  https://projectevcharger.com:8443/
   //  https://charger-server.atesspower.com/
 
@@ -19,7 +19,7 @@ public class SmartHomeUrlUtil {
 //    public static final String SMARTHOME_BASE_URL = "http://192.168.3.228";
 
     public static String getServer() {
-        return "charger-server.atesspower.com";
+        return "projectevcharger.com:8443";
     }
 
     public static String postGetChargingList() {

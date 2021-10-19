@@ -285,7 +285,7 @@
     <string name="m248连接至电桩热点">Telefonján a WiFi-t kapcsolja be, majd párosítsa készülékét a töltővel.</string>
     <string name="m249当前手机连接WiFi">Aktuálisan csatlakoztatott WiFi</string>
     <string name="m250刷新">Frissítsen</string>
-    <string name="m251已连接下一步">Kapcsolódott, következő</string>
+    <string name="m251已连接下一步">Következő</string>
     <string name="m252连接充电桩中">A töltő csatlakoztatása…</string>
     <string name="m253手机暂未连接wifi">A telefon nincs a wifi-vel párosítva</string>
     <string name="m254连接失败">Sikertelen csatlakozás</string>

@@ -1,31 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:padding="@dimen/ya30"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="#F5F7FB"
+    android:padding="@dimen/ya30">
 
     <TextView
         android:id="@+id/tv_number"
         android:layout_width="@dimen/ya40"
         android:layout_height="@dimen/ya40"
+        android:background="@drawable/shape_circle_orange"
         android:gravity="center"
-        android:textSize="@dimen/ya30"
         android:textColor="@color/white_background"
-        android:background="@drawable/shape_circle_orange" />
+        android:textSize="@dimen/ya30"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/tv_des"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/ya30"
+        android:layout_marginStart="@dimen/ya30"
         android:layout_marginLeft="@dimen/ya30"
-        android:textColor="@color/title_2"
         android:gravity="top"
-        app:layout_constraintTop_toTopOf="@+id/tv_number"
+        android:textColor="@color/title_2"
+        android:textSize="@dimen/ya30"
         app:layout_constraintLeft_toRightOf="@+id/tv_number"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginStart="@dimen/ya30" />
+        app:layout_constraintTop_toTopOf="@+id/tv_number" />
 
     <ImageView
         android:id="@+id/iv_imageview"
