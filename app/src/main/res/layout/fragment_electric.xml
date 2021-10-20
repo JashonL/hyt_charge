@@ -7,140 +7,127 @@
     android:focusableInTouchMode="true"
     android:orientation="vertical">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="@dimen/xa120"
+        android:background="#FFFFFFFF"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/xa30"
+            android:layout_marginTop="@dimen/xa46"
+            android:layout_weight="1"
+            android:text="@string/preset_charge_capacity"
+            android:textColor="#ff333333"
+            android:textSize="@dimen/xa30" />
+
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#F7F7FAFF"
-            android:orientation="vertical">
+            android:layout_width="@dimen/xa138"
+            android:layout_height="@dimen/xa49"
+            android:layout_gravity="center_vertical"
+            android:background="#fff3f7fa">
 
-            <LinearLayout
+            <EditText
+                android:id="@+id/edit_electric"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/xa120"
-                android:background="#FFFFFFFF"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/xa30"
-                    android:layout_marginTop="@dimen/xa46"
-                    android:layout_weight="1"
-                    android:text="@string/preset_charge_capacity"
-                    android:textColor="#ff333333"
-                    android:textSize="@dimen/xa30" />
-
-
-                <LinearLayout
-                    android:layout_width="@dimen/xa138"
-                    android:layout_height="@dimen/xa49"
-                    android:layout_gravity="center_vertical"
-                    android:background="#fff3f7fa">
-
-                    <EditText
-                        android:id="@+id/edit_electric"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@null"
-                        android:gravity="center"
-                        android:inputType="numberDecimal"
-                        android:singleLine="true"
-                        android:textColor="@color/title_1"
-                        android:textSize="@dimen/xa30" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/xa15"
-                    android:layout_marginEnd="@dimen/xa32"
-                    android:text="kW"
-                    android:textColor="#333333"
-                    android:textSize="@dimen/xa26" />
-
-            </LinearLayout>
-
-            <!--   开始时间-->
-            <RelativeLayout
-                android:id="@+id/rl_start_time"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/xa120"
-                android:layout_marginTop="@dimen/xa1"
-                android:background="#FFFFFFFF"
-                android:visibility="visible">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/xa30"
-                    android:text="@string/m204开始时间"
-                    android:textColor="#ff333333"
-                    android:textSize="@dimen/xa30" />
-
-                <TextView
-                    android:id="@+id/tv_start_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/xa17"
-                    android:layout_toStartOf="@+id/iv_arrows_r"
-                    android:text=""
-                    android:textColor="#FF666666"
-                    android:textSize="@dimen/xa24" />
-
-                <ImageView
-                    android:id="@+id/iv_arrows_r"
-                    android:layout_width="@dimen/xa12"
-                    android:layout_height="@dimen/xa30"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/xa30"
-                    android:src="@drawable/ic_arrows_r" />
-
-            </RelativeLayout>
-            <!--   每天-->
-            <LinearLayout
-                android:id="@+id/ll_every_day"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/xa120"
-                android:layout_marginTop="@dimen/xa1"
-                android:background="#FFFFFFFF"
-                android:gravity="center_vertical"
-                android:visibility="gone"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/xa30"
-                    android:layout_weight="1"
-                    android:text="@string/m186每天"
-                    android:textColor="#ff333333"
-                    android:textSize="@dimen/xa30" />
-
-
-                <Switch
-                    android:id="@+id/sw_day"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/xa30"
-
-                    android:checked="false"
-                    android:thumb="@drawable/shape_switch_thumb"
-                    android:track="@drawable/selector_switch_track" />
-
-            </LinearLayout>
-
-            <include layout="@layout/layout_notice" />
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:gravity="center"
+                android:inputType="numberDecimal"
+                android:singleLine="true"
+                android:textColor="@color/title_1"
+                android:textSize="@dimen/xa30" />
 
         </LinearLayout>
 
-    </ScrollView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/xa15"
+            android:layout_marginEnd="@dimen/xa32"
+            android:text="kW"
+            android:textColor="#333333"
+            android:textSize="@dimen/xa26" />
+
+    </LinearLayout>
+
+    <!--   开始时间-->
+    <RelativeLayout
+        android:id="@+id/rl_start_time"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa120"
+        android:layout_marginTop="@dimen/xa1"
+        android:background="#FFFFFFFF"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/xa30"
+            android:text="@string/m204开始时间"
+            android:textColor="#ff333333"
+            android:textSize="@dimen/xa30" />
+
+        <TextView
+            android:id="@+id/tv_start_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/xa17"
+            android:layout_toStartOf="@+id/iv_arrows_r"
+            android:text=""
+            android:textColor="#FF666666"
+            android:textSize="@dimen/xa24" />
+
+        <ImageView
+            android:id="@+id/iv_arrows_r"
+            android:layout_width="@dimen/xa12"
+            android:layout_height="@dimen/xa30"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/xa30"
+            android:src="@drawable/ic_arrows_r" />
+
+    </RelativeLayout>
+    <!--   每天-->
+    <LinearLayout
+        android:id="@+id/ll_every_day"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa120"
+        android:layout_marginTop="@dimen/xa1"
+        android:background="#FFFFFFFF"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/xa30"
+            android:layout_weight="1"
+            android:text="@string/m186每天"
+            android:textColor="#ff333333"
+            android:textSize="@dimen/xa30" />
+
+
+        <Switch
+            android:id="@+id/sw_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/xa30"
+
+            android:checked="false"
+            android:thumb="@drawable/shape_switch_thumb"
+            android:track="@drawable/selector_switch_track" />
+
+    </LinearLayout>
+
+    <include layout="@layout/layout_notice" />
+
 
 </LinearLayout>

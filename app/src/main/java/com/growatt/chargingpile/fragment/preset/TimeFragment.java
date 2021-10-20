@@ -55,7 +55,7 @@ public class TimeFragment extends BaseFragment {
     @Override
     protected void initWidget() {
         if (pPresetActivity.pReservationBean != null) {
-            if (pPresetActivity.pReservationBean.getCKey().equals("G_SetTime") || pPresetActivity.pReservationBean.getCKey().isEmpty()) {
+            if (pPresetActivity.pReservationBean.getCKey().equals("G_SetTime")) {
                 String hour = pPresetActivity.pReservationBean.getExpiryDate().substring(11, 13);
                 String minute = pPresetActivity.pReservationBean.getExpiryDate().substring(14, 16);
                 mTvStartTime.setText(hour + ":" + minute);

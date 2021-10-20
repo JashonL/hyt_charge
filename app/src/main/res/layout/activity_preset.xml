@@ -72,6 +72,89 @@
 
     </LinearLayout>
 
+    <RelativeLayout
+        android:id="@+id/rl_start"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa120"
+        android:background="#FFFFFFFF"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/xa30"
+            android:text="@string/m204开始时间"
+            android:textColor="#ff333333"
+            android:textSize="@dimen/xa30" />
+
+        <TextView
+            android:id="@+id/tv_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/xa17"
+            android:layout_toStartOf="@+id/iv_arrows"
+            android:text=""
+            android:textColor="#FF666666"
+            android:textSize="@dimen/xa24" />
+
+        <ImageView
+            android:id="@+id/iv_arrows"
+            android:layout_width="@dimen/xa12"
+            android:layout_height="@dimen/xa30"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/xa30"
+            android:src="@drawable/ic_arrows_r" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_every_day"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa120"
+        android:layout_marginTop="@dimen/xa2"
+        android:background="#FFFFFFFF"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/xa30"
+            android:layout_weight="1"
+            android:text="@string/m186每天"
+            android:textColor="#ff333333"
+            android:textSize="@dimen/xa30" />
+
+
+        <Switch
+            android:id="@+id/sw_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/xa30"
+            android:checked="false"
+            android:thumb="@drawable/shape_switch_thumb"
+            android:track="@drawable/selector_switch_track" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_ok"
+        android:layout_width="@dimen/xa600"
+        android:layout_height="@dimen/xa100"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/xa220"
+        android:layout_marginBottom="@dimen/xa60"
+        android:gravity="center"
+        android:visibility="gone"
+        android:background="@drawable/selector_circle_btn_green_login_gradient"
+        android:text="@string/m9确定"
+        android:textColor="#FFFFFF"
+        android:textSize="@dimen/xa36" />
+
     <FrameLayout
         android:id="@+id/fl_content"
         android:layout_width="match_parent"

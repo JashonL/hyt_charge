@@ -7,136 +7,115 @@
     android:focusableInTouchMode="true"
     android:orientation="vertical">
 
-    <ScrollView
+    <RelativeLayout
+        android:id="@+id/rl_duration"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="@dimen/xa120"
+        android:background="#FFFFFFFF"
+        android:visibility="visible">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#F7F7FAFF"
-            android:orientation="vertical">
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/xa30"
+            android:text="@string/charging_time"
+            android:textColor="#ff333333"
+            android:textSize="@dimen/xa30" />
 
-            <RelativeLayout
-                android:id="@+id/rl_duration"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/xa120"
-                android:layout_marginTop="@dimen/xa1"
-                android:background="#FFFFFFFF"
-                android:visibility="visible">
+        <TextView
+            android:id="@+id/tv_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/xa17"
+            android:layout_toStartOf="@+id/iv_arrows"
+            android:text=""
+            android:textColor="#FF666666"
+            android:textSize="@dimen/xa24" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/xa30"
-                    android:text="@string/charging_time"
-                    android:textColor="#ff333333"
-                    android:textSize="@dimen/xa30" />
+        <ImageView
+            android:id="@+id/iv_arrows"
+            android:layout_width="@dimen/xa12"
+            android:layout_height="@dimen/xa30"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/xa30"
+            android:src="@drawable/ic_arrows_r" />
 
-                <TextView
-                    android:id="@+id/tv_duration"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/xa17"
-                    android:layout_toStartOf="@+id/iv_arrows"
-                    android:text=""
-                    android:textColor="#FF666666"
-                    android:textSize="@dimen/xa24" />
-
-                <ImageView
-                    android:id="@+id/iv_arrows"
-                    android:layout_width="@dimen/xa12"
-                    android:layout_height="@dimen/xa30"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/xa30"
-                    android:src="@drawable/ic_arrows_r" />
-
-            </RelativeLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/xa60"
-                android:gravity="center_vertical"
-                android:paddingStart="@dimen/xa30"
-                android:text="未设置充电时长，默认将车充满。" />
-
-            <RelativeLayout
-                android:id="@+id/rl_start_type"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/xa120"
-                android:layout_marginTop="@dimen/xa1"
-                android:background="#FFFFFFFF"
-                android:visibility="visible">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/xa30"
-                    android:text="@string/m204开始时间"
-                    android:textColor="#ff333333"
-                    android:textSize="@dimen/xa30" />
-
-                <TextView
-                    android:id="@+id/tv_start_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/xa17"
-                    android:layout_toStartOf="@+id/iv_arrows_r"
-                    android:text=""
-                    android:textColor="#FF666666"
-                    android:textSize="@dimen/xa24" />
-
-                <ImageView
-                    android:id="@+id/iv_arrows_r"
-                    android:layout_width="@dimen/xa12"
-                    android:layout_height="@dimen/xa30"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/xa30"
-                    android:src="@drawable/ic_arrows_r" />
-
-            </RelativeLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_every_day"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/xa120"
-                android:layout_marginTop="@dimen/xa1"
-                android:background="#FFFFFFFF"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/xa30"
-                    android:layout_weight="1"
-                    android:text="@string/m186每天"
-                    android:textColor="#ff333333"
-                    android:textSize="@dimen/xa30" />
+    </RelativeLayout>
 
 
-                <Switch
-                    android:id="@+id/sw_day"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/xa30"
-                    android:checked="false"
-                    android:thumb="@drawable/shape_switch_thumb"
-                    android:track="@drawable/selector_switch_track" />
+    <RelativeLayout
+        android:id="@+id/rl_start_type"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa120"
+        android:layout_marginTop="@dimen/xa1"
+        android:background="#FFFFFFFF"
+        android:visibility="visible">
 
-            </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/xa30"
+            android:text="@string/m204开始时间"
+            android:textColor="#ff333333"
+            android:textSize="@dimen/xa30" />
 
-            <include layout="@layout/layout_notice" />
+        <TextView
+            android:id="@+id/tv_start_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/xa17"
+            android:layout_toStartOf="@+id/iv_arrows_r"
+            android:text=""
+            android:textColor="#FF666666"
+            android:textSize="@dimen/xa24" />
 
-        </LinearLayout>
+        <ImageView
+            android:id="@+id/iv_arrows_r"
+            android:layout_width="@dimen/xa12"
+            android:layout_height="@dimen/xa30"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/xa30"
+            android:src="@drawable/ic_arrows_r" />
 
-    </ScrollView>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_every_day"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xa120"
+        android:layout_marginTop="@dimen/xa1"
+        android:background="#FFFFFFFF"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/xa30"
+            android:layout_weight="1"
+            android:text="@string/m186每天"
+            android:textColor="#ff333333"
+            android:textSize="@dimen/xa30" />
+
+
+        <Switch
+            android:id="@+id/sw_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/xa30"
+            android:checked="false"
+            android:thumb="@drawable/shape_switch_thumb"
+            android:track="@drawable/selector_switch_track" />
+
+    </LinearLayout>
+
+    <include layout="@layout/layout_notice" />
 
 </LinearLayout>

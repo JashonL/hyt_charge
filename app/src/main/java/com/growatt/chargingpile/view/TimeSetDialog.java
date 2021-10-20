@@ -15,6 +15,8 @@ import androidx.fragment.app.DialogFragment;
 
 import com.growatt.chargingpile.R;
 
+import java.util.Arrays;
+
 /**
  * Created：2021/8/27 on 9:39:07
  * Author: on admin
@@ -80,21 +82,6 @@ public class TimeSetDialog extends DialogFragment {
         tvTitle.setText(mTitle);
 
 
-        ivCancel.setOnClickListener(v -> {
-            dismiss();
-        });
-
-        tvConfirm.setOnClickListener(v -> {
-            mTimeCallBack.confirm(mNumberHour.getContentByCurrValue(), mNumberMinute.getContentByCurrValue());
-            dismiss();
-        });
-
-        mTvClear.setOnClickListener(v -> {
-            mTimeCallBack.confirm("", "");
-            dismiss();
-        });
-
-
         if (tvTitle.getText().toString().equals(getString(R.string.charging_time))) {
             view.findViewById(R.id.tv_hour).setVisibility(View.VISIBLE);
             view.findViewById(R.id.tv_min).setVisibility(View.VISIBLE);
@@ -122,6 +109,23 @@ public class TimeSetDialog extends DialogFragment {
             mTvClear.setVisibility(View.INVISIBLE);
         }
 
+
+
+        ivCancel.setOnClickListener(v -> {
+            dismiss();
+        });
+
+        tvConfirm.setOnClickListener(v -> {
+            mTimeCallBack.confirm(mNumberHour.getContentByCurrValue(), mNumberMinute.getContentByCurrValue());
+            dismiss();
+        });
+
+        mTvClear.setOnClickListener(v -> {
+            mTimeCallBack.confirm("", "");
+            dismiss();
+        });
+
+
     }
 
     /**
@@ -131,30 +135,39 @@ public class TimeSetDialog extends DialogFragment {
      */
     private void initPicker(NumberPickerView picker, int minValue, int maxValue, int showValue,
                             String format, boolean isProduct) {
-//        int[] arrayInt = new int[maxValue - minValue + 1];
-//        for (int i = 0; i <= maxValue - minValue; i++) {
-//            arrayInt[i] = i + minValue;
-//        }
-//        int index = Arrays.binarySearch(arrayInt, showValue);
-//        index = (index >= 0 && index < arrayInt.length) ? index : (arrayInt.length - 1);
-        String[] arrayValue = null;
+        String[] arrayValue;
+        int[] arrayInt = new int[maxValue - minValue + 1];
+
         if (isProduct) {
-            arrayValue = new String[maxValue - minValue + 1];
-            for (int i = 1; i <= arrayValue.length; i++) {
-                String str = String.format(format, i * 5);
-                arrayValue[i-1] = str;
+            for (int i = 0; i <= maxValue - minValue; i++) {
+                arrayInt[i] = i * 5;
             }
-            picker.setDisplayedValuesAndPickedIndex(arrayValue, 0, true);
+            int position = Arrays.binarySearch(arrayInt, showValue);
+            position = (position >= 0 && position < arrayInt.length) ? position : (arrayInt.length - 1);
+
+            arrayValue = new String[maxValue - minValue + 1];
+            for (int i = 0; i <arrayValue.length; i++) {
+                String str = String.format(format, i * 5);
+                arrayValue[i] = str;
+            }
+
+            picker.setDisplayedValuesAndPickedIndex(arrayValue, position, true);
         } else {
+
+            for (int i = 0; i <= maxValue - minValue; i++) {
+                arrayInt[i] = i + minValue;
+            }
+            int index = Arrays.binarySearch(arrayInt, showValue);
+            index = (index >= 0 && index < arrayInt.length) ? index : (arrayInt.length - 1);
+
+
             arrayValue = new String[maxValue - minValue + 1];
             for (int i = 0; i <= maxValue - minValue; i++) {
                 String str = String.format(format, i + minValue);
                 arrayValue[i] = str;
             }
-
-            picker.setDisplayedValuesAndPickedIndex(arrayValue, 0, true);
+            picker.setDisplayedValuesAndPickedIndex(arrayValue, index, true);
         }
-
     }
 
     @Override
