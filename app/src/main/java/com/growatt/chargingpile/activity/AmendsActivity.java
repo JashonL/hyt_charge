@@ -33,7 +33,6 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 public class AmendsActivity extends BaseActivity {
     @BindView(R.id.headerView)

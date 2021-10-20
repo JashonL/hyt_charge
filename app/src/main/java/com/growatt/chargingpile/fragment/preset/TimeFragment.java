@@ -92,7 +92,7 @@ public class TimeFragment extends BaseFragment {
                 break;
             case R.id.rl_duration:
                 TimeSetDialog.newInstance(1, getString(R.string.charging_time), mTvDuration.getText().toString(), (hour, minute) -> {
-                    if (hour.equals(getString(R.string.please_charging_duration))) {
+                    if (hour.isEmpty()) {
                         mTvDurationHour = "";
                         mTvDurationMinute = "";
                         mTvDuration.setText(hour);
