@@ -25,6 +25,7 @@ import com.growatt.chargingpile.util.LoginUtil;
 import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
 import com.growatt.chargingpile.util.SmartHomeUrlUtil;
+import com.growatt.chargingpile.util.Utils;
 import com.mylhyl.circledialog.CircleDialog;
 
 import org.json.JSONObject;
@@ -35,7 +36,6 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 public class RegisterActivity extends BaseActivity {
 
@@ -62,7 +62,7 @@ public class RegisterActivity extends BaseActivity {
     @BindView(R.id.et_postcode)
     EditText etPostCode;
     @BindView(R.id.et_installer)
-    EditText etInstanller;
+    EditText etInstaller;
     @BindView(R.id.et_installer_email)
     EditText etInstallerEmail;
     @BindView(R.id.et_installer_phone)
@@ -74,7 +74,22 @@ public class RegisterActivity extends BaseActivity {
     @BindView(R.id.et_serial_number)
     TextView etSerialNumber;
 
-    private Unbinder bind;
+
+    @BindView(R.id.tv_check_password_hint)
+    TextView mTvCheckPassWordHint;
+    @BindView(R.id.tv_check_loop_password_hint)
+    TextView mTvCheckLoopPassWordHint;
+    @BindView(R.id.tv_check_email)
+    TextView mTvCheckEmailHint;
+    @BindView(R.id.tv_check_install_email)
+    TextView mTvCheckInstallEmailHint;
+    @BindView(R.id.tv_installer)
+    TextView mTvInstallerHint;
+    @BindView(R.id.tv_installer_address)
+    TextView mTvInstallerAddressHint;
+    @BindView(R.id.tv_username_hint)
+    TextView mTvUserNameHint;
+
     private Calendar calendar = Calendar.getInstance();
     private String username;
     private String password;
@@ -92,7 +107,7 @@ public class RegisterActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        bind = ButterKnife.bind(this);
+        ButterKnife.bind(this);
         initHeaderView();
         initViews();
 
@@ -110,6 +125,108 @@ public class RegisterActivity extends BaseActivity {
     private void initViews() {
         terms.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
         terms.getPaint().setAntiAlias(true);//抗锯齿
+
+        initEditOnFocusListener();
+    }
+
+    private void initEditOnFocusListener() {
+
+        etUsername.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                if (etUsername.getText().length()==0){
+                    mTvUserNameHint.setVisibility(View.GONE);
+                    return;
+                }
+                if (!Utils.rexCheckString(etUsername.getText().toString())) {
+                    mTvUserNameHint.setVisibility(View.VISIBLE);
+                }else {
+                    mTvUserNameHint.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        etPassword.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                if (etPassword.getText().toString().length() <= 8) {
+                    mTvCheckPassWordHint.setText(getString(R.string.m100密码必须大于8位));
+                    mTvCheckPassWordHint.setVisibility(View.VISIBLE);
+                } else if (!Utils.rexCheckPassword(etPassword.getText().toString())) {
+                    mTvCheckPassWordHint.setText(R.string.check_password_hint);
+                    mTvCheckPassWordHint.setVisibility(View.VISIBLE);
+                } else {
+                    mTvCheckPassWordHint.setVisibility(View.GONE);
+                }
+            }
+        });
+
+
+        etConfirm.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                if (etPassword.getText().toString().length() > 8 && mTvCheckPassWordHint.getVisibility() == View.GONE && !etConfirm.getText().toString().equals(etPassword.getText().toString())) {
+                    mTvCheckLoopPassWordHint.setVisibility(View.VISIBLE);
+                }else {
+                    mTvCheckLoopPassWordHint.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        etEmail.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                if (etEmail.getText().length()==0){
+                    mTvCheckEmailHint.setVisibility(View.GONE);
+                    return;
+                }
+                if (!MyUtil.regexCheckEmail(etEmail.getText().toString())) {
+                    mTvCheckEmailHint.setVisibility(View.VISIBLE);
+                }else {
+                    mTvCheckEmailHint.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        etInstallerEmail.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                if (etInstallerEmail.getText().length()==0){
+                    mTvCheckInstallEmailHint.setVisibility(View.GONE);
+                    return;
+                }
+                if (!MyUtil.regexCheckEmail(etInstallerEmail.getText().toString())) {
+                    mTvCheckInstallEmailHint.setVisibility(View.VISIBLE);
+                }else {
+                    mTvCheckInstallEmailHint.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        etInstaller.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                if (etInstaller.getText().length()==0){
+                    mTvInstallerHint.setVisibility(View.GONE);
+                    return;
+                }
+                if (!Utils.rexCheckString(etInstaller.getText().toString())) {
+                    mTvInstallerHint.setVisibility(View.VISIBLE);
+                }else {
+                    mTvInstallerHint.setVisibility(View.GONE);
+                }
+            }
+        });
+
+
+        etInstallerAddress.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                if (etInstallerAddress.getText().length()==0){
+                    mTvInstallerAddressHint.setVisibility(View.GONE);
+                    return;
+                }
+                if (!Utils.rexCheckString(etInstallerAddress.getText().toString())) {
+                    mTvInstallerAddressHint.setVisibility(View.VISIBLE);
+                }else {
+                    mTvInstallerAddressHint.setVisibility(View.GONE);
+                }
+            }
+        });
+
     }
 
     @OnClick({R.id.btRegister, R.id.textView4, R.id.ll_date})
@@ -144,7 +261,7 @@ public class RegisterActivity extends BaseActivity {
         email = etEmail.getText().toString().trim();
         postCode = etPostCode.getText().toString().trim();
         phone = etPhone.getText().toString().trim();
-        installer = etInstanller.getText().toString().trim();
+        installer = etInstaller.getText().toString().trim();
         installerEmail = etInstallerEmail.getText().toString().trim();
         installerPhone = etInstallerPhone.getText().toString().trim();
         installerAddress = etInstallerAddress.getText().toString().trim();
@@ -164,7 +281,7 @@ public class RegisterActivity extends BaseActivity {
             return;
         }
 
-        if (password.length() < 6) {
+        if (password.length() <= 8) {
             toast(R.string.m100密码必须大于8位);
             return;
         }
@@ -327,12 +444,6 @@ public class RegisterActivity extends BaseActivity {
         Cons.regMap.setRegInstallDate(installerDate);
         Cons.regMap.setRegCity(country);
         Cons.regMap.setReInstallChargeId(installChargeId);
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
     }
 
 }

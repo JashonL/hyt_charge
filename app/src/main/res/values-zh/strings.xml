@@ -522,6 +522,10 @@
     <string name="Incorrect_password">密码不正确</string>
     <string name="please_charging_duration">请选择充电时长(非必选)</string>
     <string name="stop_when_full">充满即停</string>
+    <string name="check_password_hint">必须包含大写字母、小写字母、数字、特殊符</string>
+    <string name="two_passwords">您输入的两次密码不同</string>
+    <string name="email_fail">您输入的邮箱格式错误</string>
+    <string name="contains_sensitive_characters">包含敏感字符</string>
 
 </resources>
 

@@ -524,6 +524,10 @@
     <string name="Incorrect_password">Incorrect password</string>
     <string name="please_charging_duration">Please select charging duration (optional)</string>
     <string name="stop_when_full">Stop when full</string>
+    <string name="check_password_hint">Must contain uppercase letters, lowercase letters, numbers, special characters</string>
+    <string name="two_passwords">The two passwords you entered are different</string>
+    <string name="email_fail">The email format you entered is incorrect</string>
+    <string name="contains_sensitive_characters">Contains sensitive characters</string>
 
 </resources>
 

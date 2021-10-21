@@ -24,10 +24,7 @@ import com.growatt.chargingpile.util.SmartHomeUtil;
 import org.json.JSONObject;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -60,7 +57,6 @@ public class AmendsActivity extends BaseActivity {
     private String installDate;
     private String installer;
 
-
     private Calendar calendar = Calendar.getInstance();
 
     @Override
@@ -77,12 +73,10 @@ public class AmendsActivity extends BaseActivity {
         }
     }
 
-
     private void initHeaderView() {
         setHeaderImage(headerView, R.drawable.back, Position.LEFT, v -> finish());
         setHeaderTitle(headerView, getString(R.string.m57修改密码), R.color.title_1, false);
     }
-
 
     @OnClick({R.id.btnOk,R.id.ll_content_date})
     public void onClicklistener(View view) {
@@ -118,57 +112,56 @@ public class AmendsActivity extends BaseActivity {
         type = bundle.getString("type");
     }
 
-
     private void initViews() throws ParseException {
         if ("1".equals(type)) {
             tvTip.setText(R.string.m58修改手机号);
             setHeaderTitle(headerView, getString(R.string.m58修改手机号));
             etContent.setHint(R.string.m104输入电话号码);
             etContent.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_PHONE);
-            if (!TextUtils.isEmpty(PhoneNum)) {
-                etContent.setText(PhoneNum);
-            }
+//            if (!TextUtils.isEmpty(PhoneNum)) {
+//                etContent.setText(PhoneNum);
+//            }
 
         } else if ("2".equals(type)) {
             tvTip.setText(R.string.m59修改邮箱);
             setHeaderTitle(headerView, getString(R.string.m59修改邮箱));
             etContent.setHint(R.string.m61输入邮箱地址);
-            if (!TextUtils.isEmpty(email)) {
-                etContent.setText(email);
-            }
+//            if (!TextUtils.isEmpty(email)) {
+//                etContent.setText(email);
+//            }
         } else if ("3".equals(type)) {
             tvTip.setText(R.string.m安装商邮箱修改);
             setHeaderTitle(headerView, getString(R.string.m安装商邮箱修改));
             etContent.setHint(R.string.m请输入安装商邮箱);
-            if (!TextUtils.isEmpty(installEmail)) {
-                etContent.setText(installEmail);
-            }
+//            if (!TextUtils.isEmpty(installEmail)) {
+//                etContent.setText(installEmail);
+//            }
 
         } else if ("4".equals(type)) {
             tvTip.setText(R.string.m安装商电话修改);
             setHeaderTitle(headerView, getString(R.string.m安装商电话修改));
             etContent.setHint(R.string.m请输入安装商电话);
-            if (!TextUtils.isEmpty(installPhone)) {
-                etContent.setText(installPhone);
-            }
+//            if (!TextUtils.isEmpty(installPhone)) {
+//                etContent.setText(installPhone);
+//            }
         } else if ("5".equals(type)){
             tvTip.setText(R.string.m安装商地址修改);
             setHeaderTitle(headerView, getString(R.string.m安装商地址修改));
             etContent.setHint(R.string.m请输入安装商地址);
-            if (!TextUtils.isEmpty(installAddress)) {
-                etContent.setText(installAddress);
-            }
+//            if (!TextUtils.isEmpty(installAddress)) {
+//                etContent.setText(installAddress);
+//            }
         }else if ("6".equals(type)){
             tvTip.setText(R.string.m安装日期修改);
             setHeaderTitle(headerView, getString(R.string.m安装日期修改));
             tvContentDate.setHint(R.string.m请输入安装日期);
-            if (!TextUtils.isEmpty(installDate)) {
-                tvContentDate.setText(installDate);
-                SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                Date date = simpleDateFormat.parse(installDate);
-                calendar.setTime(date);
-
-            }
+//            if (!TextUtils.isEmpty(installDate)) {
+//                tvContentDate.setText(installDate);
+//                SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+//                Date date = simpleDateFormat.parse(installDate);
+//                calendar.setTime(date);
+//
+//            }
             llContent.setVisibility(View.GONE);
             llContentDate.setVisibility(View.VISIBLE);
         }
@@ -288,7 +281,6 @@ public class AmendsActivity extends BaseActivity {
         });
     }
 
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -297,8 +289,4 @@ public class AmendsActivity extends BaseActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 }

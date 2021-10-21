@@ -44,6 +44,19 @@
                 android:background="#dedede"
                 android:orientation="vertical" />
 
+            <TextView
+                android:id="@+id/tv_username_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/xa90"
+                android:layout_marginTop="@dimen/xa10"
+                android:textColor="#EA0000"
+                android:textSize="@dimen/xa24"
+                android:visibility="gone"
+                tools:text="@string/contains_sensitive_characters"
+                android:text="@string/contains_sensitive_characters"
+                tools:visibility="visible" />
+
 
             <LinearLayout style="@style/style_linearlayout_login_register">
 
@@ -62,14 +75,24 @@
                     android:inputType="textPassword" />
             </LinearLayout>
 
-
-            <LinearLayout
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dip"
                 android:layout_marginLeft="@dimen/xa30"
                 android:layout_marginRight="@dimen/xa30"
-                android:background="#dedede"
-                android:orientation="vertical" />
+                android:background="#dedede" />
+
+            <TextView
+                android:id="@+id/tv_check_password_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/xa90"
+                android:layout_marginTop="@dimen/xa10"
+                android:textColor="#EA0000"
+                android:textSize="@dimen/xa24"
+                android:visibility="gone"
+                tools:text="密码大于8位"
+                tools:visibility="visible" />
 
             <LinearLayout style="@style/style_linearlayout_login_register">
 
@@ -96,6 +119,20 @@
                 android:background="#dedede"
                 android:orientation="vertical" />
 
+            <TextView
+                android:id="@+id/tv_check_loop_password_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/xa90"
+                android:layout_marginTop="@dimen/xa10"
+                android:textColor="#EA0000"
+                android:textSize="@dimen/xa24"
+                android:text="@string/two_passwords"
+                android:visibility="gone"
+                tools:text="@string/two_passwords"
+                tools:visibility="visible" />
+
+
             <LinearLayout style="@style/style_linearlayout_login_register">
 
                 <TextView
@@ -121,6 +158,19 @@
                 android:layout_marginRight="@dimen/xa30"
                 android:background="#dedede"
                 android:orientation="vertical" />
+
+            <TextView
+                android:id="@+id/tv_check_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/xa90"
+                android:layout_marginTop="@dimen/xa10"
+                android:textColor="#EA0000"
+                android:textSize="@dimen/xa24"
+                android:visibility="gone"
+                tools:text="@string/email_fail"
+                android:text="@string/email_fail"
+                tools:visibility="visible" />
 
             <LinearLayout style="@style/style_linearlayout_login_register">
 
@@ -196,6 +246,19 @@
                 android:background="#dedede"
                 android:orientation="vertical" />
 
+            <TextView
+                android:id="@+id/tv_installer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/xa90"
+                android:layout_marginTop="@dimen/xa10"
+                android:textColor="#EA0000"
+                android:textSize="@dimen/xa24"
+                android:visibility="gone"
+                tools:text="@string/contains_sensitive_characters"
+                android:text="@string/contains_sensitive_characters"
+                tools:visibility="visible" />
+
             <LinearLayout style="@style/style_linearlayout_login_register">
 
                 <TextView
@@ -219,6 +282,19 @@
                 android:layout_marginRight="@dimen/xa30"
                 android:background="#dedede"
                 android:orientation="vertical" />
+
+            <TextView
+                android:id="@+id/tv_check_install_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/xa90"
+                android:layout_marginTop="@dimen/xa10"
+                android:textColor="#EA0000"
+                android:textSize="@dimen/xa24"
+                android:visibility="gone"
+                android:text="@string/email_fail"
+                tools:text="@string/email_fail"
+                tools:visibility="visible" />
 
             <LinearLayout style="@style/style_linearlayout_login_register">
 
@@ -268,6 +344,19 @@
                 android:layout_marginRight="@dimen/xa30"
                 android:background="#dedede"
                 android:orientation="vertical" />
+
+            <TextView
+                android:id="@+id/tv_installer_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/xa90"
+                android:layout_marginTop="@dimen/xa10"
+                android:textColor="#EA0000"
+                android:textSize="@dimen/xa24"
+                android:visibility="gone"
+                tools:text="@string/contains_sensitive_characters"
+                android:text="@string/contains_sensitive_characters"
+                tools:visibility="visible" />
 
             <LinearLayout
                 android:id="@+id/ll_date"

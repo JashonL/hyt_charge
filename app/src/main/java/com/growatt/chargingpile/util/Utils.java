@@ -16,11 +16,17 @@ import java.util.UUID;
 
 /**
  * Created：2021/8/30 on 11:33:52
- * Author:gaideng on admin
+ * Author: on admin
  * Description:
  */
 
 public class Utils {
+
+    //密码必须是长度大于8，包含大写字母、小写字母、数字、特殊符
+    public static final String PW_PATTERN = "^(?![A-Za-z0-9]+$)(?![a-z0-9\\W]+$)(?![A-Za-z\\W]+$)(?![A-Z0-9\\W]+$)[a-zA-Z0-9\\W]{8,}$";
+
+    public static final String STR_PATTERN = "select | or |drop |sleep|from | join |insert |delete |update |truncate |declare | union | show | alter | column | table |(|)|`|%|#|'|;|--";
+
 
     public static String getVersionName(Context context) {
         PackageManager manager = context.getPackageManager();
@@ -138,7 +144,6 @@ public class Utils {
     /**
      * 得到全局唯一UUID
      */
-
     public static String getUUID(Context context) {
         String uuid = null;
 
@@ -153,4 +158,18 @@ public class Utils {
         return uuid;
     }
 
+
+    public static boolean rexCheckPassword(String newPwd) {
+        return newPwd.matches(PW_PATTERN);
+    }
+
+    public static boolean rexCheckString(String str) {
+        String[] splitStr = STR_PATTERN.split("\\|");
+        for (int i = 0; i < splitStr.length; i++) {
+            if (splitStr[i].contains(str)) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
