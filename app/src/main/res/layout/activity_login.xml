@@ -136,8 +136,8 @@
                 android:layout_marginStart="@dimen/xa24"
                 android:layout_weight="1"
                 android:text="@string/m22忘记密码"
-                android:textColor="#0D6CF8"
-                android:textSize="@dimen/xa24" />
+                android:textColor="#30E578"
+                android:textSize="@dimen/xa26" />
 
             <TextView
                 android:id="@+id/tv_register"
@@ -147,6 +147,7 @@
                 android:layout_marginStart="@dimen/xa16"
                 android:layout_weight="1"
                 android:gravity="end"
+                android:textSize="@dimen/xa26"
                 android:text="@string/m23注册"
                 android:textColor="#30E578" />
 
