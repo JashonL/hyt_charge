@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -65,6 +66,13 @@ public class NetSettingActivity extends BaseActivity {
     TextView mTvAddress;
     @BindView(R.id.tv_url)
     TextView mTvUrl;
+
+    @BindView(R.id.iv_arrow_ip)
+    ImageView mIvIp;
+    @BindView(R.id.iv_arrow_gateway)
+    ImageView mIvGateway;
+    @BindView(R.id.iv_arrow_mask)
+    ImageView mIvMask;
 
     private String mChargingId;
     private PileSetBean mPileSetBean;
@@ -150,9 +158,18 @@ public class NetSettingActivity extends BaseActivity {
         }
         mTvUrl.setText(data.getHost());
 
+        if (mNetModeType.equals(netModeArray[0])) {
+            mIvIp.setVisibility(View.INVISIBLE);
+            mIvGateway.setVisibility(View.INVISIBLE);
+            mIvMask.setVisibility(View.INVISIBLE);
+        } else {
+            mIvIp.setVisibility(View.VISIBLE);
+            mIvGateway.setVisibility(View.VISIBLE);
+            mIvMask.setVisibility(View.VISIBLE);
+        }
     }
 
-    @OnClick({R.id.rl_wifi_name, R.id.rl_wifi_password, R.id.rl_net_mode, R.id.rl_gateway, R.id.rl_dns, R.id.rl_ip, R.id.rl_url})
+    @OnClick({R.id.rl_subnet_mask,R.id.rl_wifi_name, R.id.rl_wifi_password, R.id.rl_net_mode, R.id.rl_gateway, R.id.rl_dns, R.id.rl_ip, R.id.rl_url})
     public void onClickListener(View view) {
         if (mConfigKeys.size() == 0) {
             return;
@@ -234,20 +251,23 @@ public class NetSettingActivity extends BaseActivity {
                 }
                 requestModify("gateway", mTvGateway.getText().toString(), getString(R.string.m157网关));
                 break;
-//            case R.id.rl_subnet_mask:
-//                if (checkKey("mask") && !sIsVerified) {
-//                    PassWordDialog.newInstance(str -> {
-//                        if (str.equals(mPassword)) {
-//                            sIsVerified = true;
-//                            requestModify("mask", mTvSubnetMask.getText().toString(), getString(R.string.subnet_mask));
-//                        } else {
-//                            toast(getString(R.string.m64原密码错误));
-//                        }
-//                    }).show(getSupportFragmentManager(), "mask");
-//                    return;
-//                }
-//                requestModify("mask", mTvSubnetMask.getText().toString(), getString(R.string.subnet_mask));
-//                break;
+            case R.id.rl_subnet_mask:
+                if (mNetModeType.equals(netModeArray[0])) {
+                    return;
+                }
+                if (checkKey("mask") && !sIsVerified) {
+                    PassWordDialog.newInstance(str -> {
+                        if (str.equals(mPassword)) {
+                            sIsVerified = true;
+                            requestModify("mask", mTvSubnetMask.getText().toString(), getString(R.string.subnet_mask));
+                        } else {
+                            toast(getString(R.string.m64原密码错误));
+                        }
+                    }).show(getSupportFragmentManager(), "mask");
+                    return;
+                }
+                requestModify("mask", mTvSubnetMask.getText().toString(), getString(R.string.subnet_mask));
+                break;
             case R.id.rl_dns:
                 if (checkKey("dns") && !sIsVerified) {
                     PassWordDialog.newInstance(str -> {

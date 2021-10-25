@@ -88,6 +88,7 @@ public abstract class BaseFragment extends Fragment {
         Log.d(TAG, "refreshSymbol: " + msg.getSymbol());
         if (msg.getSymbol() != null) {
             pActivity.pSymbol = msg.getSymbol();
+            requestGunInfoData();
         }
     }
 

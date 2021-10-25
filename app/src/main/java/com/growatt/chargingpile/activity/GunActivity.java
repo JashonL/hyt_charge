@@ -19,6 +19,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.growatt.chargingpile.BaseActivity;
 import com.growatt.chargingpile.EventBusMsg.RefreshRateMsg;
+import com.growatt.chargingpile.EventBusMsg.UnitMsg;
 import com.growatt.chargingpile.R;
 import com.growatt.chargingpile.bean.ChargingBean;
 import com.growatt.chargingpile.bean.GunBean;
@@ -31,6 +32,7 @@ import com.growatt.chargingpile.model.GunModel;
 import com.growatt.chargingpile.setting.SettingActivity;
 import com.growatt.chargingpile.util.SmartHomeUtil;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -80,9 +82,9 @@ public class GunActivity extends BaseActivity {
         setContentView(R.layout.activity_gun);
         ButterKnife.bind(this);
         pDataBean = getIntent().getParcelableExtra("chargingBean");
+        getPileSettingParams();
         initToolBar();
         initTabLayout();
-        getPileSettingParams();
     }
 
 
@@ -92,6 +94,7 @@ public class GunActivity extends BaseActivity {
             public void onSuccess(Object bean) {
                 PileSetBean.DataBean data = (PileSetBean.DataBean) bean;
                 pSymbol = data.getSymbol();
+                EventBus.getDefault().post(new UnitMsg(pSymbol));
                 Log.d(TAG, "pSymbol: " + pSymbol);
             }
 
