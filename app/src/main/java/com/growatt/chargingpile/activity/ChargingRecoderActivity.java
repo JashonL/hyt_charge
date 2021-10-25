@@ -94,6 +94,7 @@ public class ChargingRecoderActivity extends BaseActivity {
     private void initRecyclerView() {
         mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mChargingRecordAdapter = new ChargingRecordAdapter(mRecordList);
+        mChargingRecordAdapter.setSymbol(symbol);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mRecyclerView.setAdapter(mChargingRecordAdapter);
     }

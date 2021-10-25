@@ -43,26 +43,20 @@
 
     </androidx.cardview.widget.CardView>
 
-    <FrameLayout
-        android:layout_width="match_parent"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/xa30">
+        android:layout_marginTop="@dimen/xa26">
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipe_refresh"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_charging"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_charging"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-        <include layout="@layout/charging_no_device_layout" />
-
-    </FrameLayout>
+    <include layout="@layout/charging_no_device_layout" />
 
 
 </LinearLayout>

@@ -25,6 +25,12 @@ import java.util.Locale;
 
 public class ChargingRecordAdapter extends BaseQuickAdapter<ChargingRecordBean.DataBean, BaseViewHolder> {
 
+    private String mSymbol;
+
+    public void setSymbol(String symbol) {
+        this.mSymbol = symbol;
+    }
+
     public ChargingRecordAdapter(@Nullable List<ChargingRecordBean.DataBean> data) {
         super(R.layout.item_charging_record, data);
     }
@@ -102,9 +108,11 @@ public class ChargingRecordAdapter extends BaseQuickAdapter<ChargingRecordBean.D
         String energy = MathUtil.roundDouble2String(item.getEnergy(), 2);
         helper.setText(R.id.tv_ele, energy);
         String money = MathUtil.roundDouble2String(item.getCost(), 2);
-        if (!TextUtils.isEmpty(item.getSymbol())) {
-            money += item.getSymbol();
-        }
+//        if (!TextUtils.isEmpty(item.getSymbol())) {
+//            money += item.getSymbol();
+//        } else {
+        money += mSymbol;
+//        }
         helper.setText(R.id.tv_money, money);
     }
 }

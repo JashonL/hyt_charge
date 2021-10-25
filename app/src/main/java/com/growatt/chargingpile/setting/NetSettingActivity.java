@@ -75,6 +75,8 @@ public class NetSettingActivity extends BaseActivity {
     private String[] netModeArray = new String[]{"DHCP", "STATIC"};
     private List<String> mNetModeList = Arrays.asList(netModeArray);
 
+    private String mNetModeType;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,8 +136,8 @@ public class NetSettingActivity extends BaseActivity {
         }
         mTvWifiName.setText(wifiSSID);
         mTvWifiPassWord.setText(wifiPassWord);
-
-        mTvNetMode.setText(data.getG_NetworkMode());
+        mNetModeType = data.getG_NetworkMode();
+        mTvNetMode.setText(mNetModeType);
         mTvGateway.setText(data.getGateway());
         mTvSubnetMask.setText(data.getMask());
         mTvDns.setText(data.getDns());
@@ -157,6 +159,9 @@ public class NetSettingActivity extends BaseActivity {
         }
         switch (view.getId()) {
             case R.id.rl_ip:
+                if (mNetModeType.equals(netModeArray[0])) {
+                    return;
+                }
                 if (checkKey("ip") && !sIsVerified) {
                     PassWordDialog.newInstance(str -> {
                         if (str.equals(mPassword)) {
@@ -213,6 +218,9 @@ public class NetSettingActivity extends BaseActivity {
                 requestModify("G_WifiPassword", mTvWifiPassWord.getText().toString(), getString(R.string.m267Wifi密码));
                 break;
             case R.id.rl_gateway:
+                if (mNetModeType.equals(netModeArray[0])) {
+                    return;
+                }
                 if (checkKey("gateway") && !sIsVerified) {
                     PassWordDialog.newInstance(str -> {
                         if (str.equals(mPassword)) {

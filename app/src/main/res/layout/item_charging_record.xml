@@ -342,7 +342,6 @@
                 android:textSize="@dimen/xa30" />
 
 
-
             <com.growatt.chargingpile.view.AutofitTextView
                 android:id="@+id/tv_money"
                 android:layout_width="wrap_content"

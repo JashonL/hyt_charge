@@ -567,23 +567,23 @@ public class FragmentA extends BaseFragment {
                 " current" + current + " voltage:" + voltage);
         if (type == 0) {
             mTvElectricity.setText(MathUtil.roundDouble2String(electricity, 3));
-            mTvRate.setText(String.valueOf(rate));
+            mTvRate.setText(pActivity.pSymbol + rate);
 
             mTvDurationHour.setText(String.valueOf(hour));
             mTvDurationMin.setText(String.valueOf(min));
 
-            mTvMoney.setText(MathUtil.roundDouble2String(money, 3));
+            mTvMoney.setText(pActivity.pSymbol + MathUtil.roundDouble2String(money, 3));
 
             mTvCurrent.setText(String.valueOf(current));
             mTvVoltage.setText(String.valueOf(voltage));
         } else {
             mTvPreinstallElectricity.setText(MathUtil.roundDouble2String(electricity, 3));
-            mTvPreinstallRate.setText(String.valueOf(rate));
+            mTvPreinstallRate.setText(pActivity.pSymbol + rate);
 
             mTvPreinstallDurationHour.setText(String.valueOf(hour));
             mTvPreinstallDurationMin.setText(String.valueOf(min));
 
-            mTvPreinstallMoney.setText(MathUtil.roundDouble2String(money, 3));
+            mTvPreinstallMoney.setText(pActivity.pSymbol + MathUtil.roundDouble2String(money, 3));
 
             mTvPreinstallCurrent.setText(String.valueOf(current));
             mTvPreinstallVoltage.setText(String.valueOf(voltage));

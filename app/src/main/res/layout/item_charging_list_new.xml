@@ -6,12 +6,13 @@
     android:layout_height="@dimen/xa180"
     android:layout_marginStart="@dimen/xa30"
     android:layout_marginEnd="@dimen/xa30"
-    android:layout_marginBottom="@dimen/xa30"
+    android:layout_marginBottom="@dimen/xa26"
     android:clickable="true"
     android:focusable="true"
+    android:layout_marginTop="@dimen/xa4"
     android:foreground="?android:attr/selectableItemBackground"
     app:cardCornerRadius="@dimen/xa45"
-    app:cardElevation="4dp">
+    app:cardElevation="6dp">
 
     <ImageView
         android:id="@+id/iv_icon"

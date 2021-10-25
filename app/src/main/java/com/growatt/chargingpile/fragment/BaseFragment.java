@@ -230,7 +230,7 @@ public abstract class BaseFragment extends Fragment {
     public void startChargingRecordActivity() {
         Intent intent = new Intent(pActivity, ChargingRecoderActivity.class);
         intent.putExtra("sn", pDataBean.getChargeId());
-        intent.putExtra("symbol", pDataBean.getSymbol());
+        intent.putExtra("symbol", pActivity.pSymbol);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         pActivity.jumpTo(intent, false);
         startRunnable(false);
