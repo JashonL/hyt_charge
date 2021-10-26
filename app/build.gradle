@@ -35,6 +35,13 @@ android {
 
     }
 
+    android.applicationVariants.all {
+        variant ->
+            variant.outputs.all {
+                outputFileName = "Project EV-${variant.name}-v${variant.versionName}.apk"
+            }
+    }
+
 
     bundle {
         language {

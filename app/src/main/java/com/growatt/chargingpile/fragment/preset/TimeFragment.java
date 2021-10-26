@@ -91,7 +91,7 @@ public class TimeFragment extends BaseFragment {
                 requestPreinstall();
                 break;
             case R.id.rl_duration:
-                TimeSetDialog.newInstance(1, getString(R.string.charging_time), mTvDuration.getText().toString(), (hour, minute) -> {
+                TimeSetDialog.newInstance(1, getString(R.string.charging_time), mTvDurationHour + ":" + mTvDurationMinute, (hour, minute) -> {
                     if (hour.isEmpty()) {
                         mTvDurationHour = "";
                         mTvDurationMinute = "";
@@ -130,7 +130,6 @@ public class TimeFragment extends BaseFragment {
                             //pHandler.postDelayed(runnableGunInfo, 3000);
                             EventBus.getDefault().post(new DeletePreinstallEvent());
                             pPresetActivity.pReservationBean = null;
-                            toast("删除成功:" + object.getString("data"));
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

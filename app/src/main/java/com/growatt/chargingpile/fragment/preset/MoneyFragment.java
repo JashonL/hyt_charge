@@ -105,7 +105,6 @@ public class MoneyFragment extends BaseFragment {
                             //pHandler.postDelayed(runnableGunInfo, 3000);
                             EventBus.getDefault().post(new DeletePreinstallEvent());
                             pPresetActivity.pReservationBean = null;
-                            toast("删除成功:" + object.getString("data"));
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

@@ -526,6 +526,7 @@
     <string name="two_passwords">您输入的两次密码不同</string>
     <string name="email_fail">您输入的邮箱格式错误</string>
     <string name="contains_sensitive_characters">包含敏感字符</string>
+    <string name="clear_selected">清除所选</string>
 
 </resources>
 

@@ -549,4 +549,5 @@
     <string name="two_passwords">The two passwords you entered are different</string>
     <string name="email_fail">The email format you entered is incorrect</string>
     <string name="contains_sensitive_characters">Contains sensitive characters</string>
+    <string name="clear_selected">Clear selected</string>
 </resources>
