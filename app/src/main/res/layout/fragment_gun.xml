@@ -117,7 +117,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/xa32"
                     android:layout_marginTop="@dimen/xa59"
-                    android:layout_marginEnd="@dimen/xa33"
                     android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
