@@ -137,10 +137,10 @@ public class NetSettingActivity extends BaseActivity {
         String wifiSSID = data.getG_WifiSSID();
         String wifiPassWord = data.getG_WifiPassword();
         if (TextUtils.isEmpty(wifiSSID)) {
-            wifiSSID = "--";
+            wifiSSID = "****************";
         }
         if (TextUtils.isEmpty(wifiPassWord)) {
-            wifiPassWord = "--";
+            wifiPassWord = "****************";
         }
         mTvWifiName.setText(wifiSSID);
         mTvWifiPassWord.setText(wifiPassWord);
@@ -169,9 +169,9 @@ public class NetSettingActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.rl_subnet_mask,R.id.rl_wifi_name, R.id.rl_wifi_password, R.id.rl_net_mode, R.id.rl_gateway, R.id.rl_dns, R.id.rl_ip, R.id.rl_url})
+    @OnClick({R.id.rl_subnet_mask, R.id.rl_wifi_name, R.id.rl_wifi_password, R.id.rl_net_mode, R.id.rl_gateway, R.id.rl_dns, R.id.rl_ip, R.id.rl_url})
     public void onClickListener(View view) {
-        if (mConfigKeys.size() == 0) {
+        if (mConfigKeys == null || mConfigKeys.size() == 0) {
             return;
         }
         switch (view.getId()) {

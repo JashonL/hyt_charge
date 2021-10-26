@@ -50,7 +50,7 @@ public class PassWordDialog extends DialogFragment {
         super.onResume();
         WindowManager.LayoutParams params = getDialog().getWindow().getAttributes();
         params.width = getResources().getDimensionPixelSize(R.dimen.xa560);
-        params.height = getResources().getDimensionPixelSize(R.dimen.xa480);
+        params.height = getResources().getDimensionPixelSize(R.dimen.xa460);
         getDialog().getWindow().setAttributes(params);
     }
 
@@ -78,6 +78,4 @@ public class PassWordDialog extends DialogFragment {
     public interface CallBack {
         void confirm(String str);
     }
-
-
 }
