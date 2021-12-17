@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.growatt.chargingpile.util.AppUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
@@ -46,26 +47,19 @@ public class PushMessageReceiver extends JPushMessageReceiver {
     public void onNotifyMessageOpened(Context context, NotificationMessage message) {
         Log.e(TAG, "[onNotifyMessageOpened] " + message);
         try {
-        /*    //打开自定义的Activity
-            Intent i = new Intent(context, TestActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putString(JPushInterface.EXTRA_NOTIFICATION_TITLE,message.notificationTitle);
-            bundle.putString(JPushInterface.EXTRA_ALERT,message.notificationContent);
-            i.putExtras(bundle);
-            //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
-            context.startActivity(i);*/
-
-
             //设置自定义消息
             String notificationExtras = message.notificationExtras;
             Gson gson = new Gson();
             //没有运行在前台
-//            if (!AppUtils.isRunningForeground(context)) {
+            if (!AppUtils.isRunningForeground(context)) {
                 Intent inLogin = context.getPackageManager()
                         .getLaunchIntentForPackage(context.getPackageName());
                 inLogin.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
                 context.startActivity(inLogin);
+            }
+
+
+
         } catch (Throwable throwable) {
 
         }

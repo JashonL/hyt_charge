@@ -3,7 +3,6 @@ package com.growatt.chargingpile.util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.growatt.chargingpile.R;
@@ -14,23 +13,23 @@ import com.growatt.chargingpile.bean.UserBean;
 import com.growatt.chargingpile.connutil.GetUtil;
 import com.growatt.chargingpile.connutil.PostUtil;
 import com.growatt.chargingpile.connutil.Urlsutil;
+import com.growatt.chargingpile.jpush.PushUtils;
 import com.growatt.chargingpile.jpush.TagAliasOperatorHelper;
 import com.growatt.chargingpile.listener.OnViewEnableListener;
 import com.growatt.chargingpile.sqlite.SqliteUtil;
+import com.tencent.mmkv.MMKV;
 
 import org.json.JSONObject;
 
 import java.lang.ref.SoftReference;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 
-import cn.jpush.android.api.JPushInterface;
 
 import static com.growatt.chargingpile.application.MyApplication.context;
-import static com.growatt.chargingpile.jpush.TagAliasOperatorHelper.sequence;
+import static com.growatt.chargingpile.jpush.TagAliasOperatorHelper.ALIAS_ACTION;
+import static com.growatt.chargingpile.jpush.TagAliasOperatorHelper.ALIAS_DATA;
 
 /**
  * Created by Administrator on 2018/10/17.
@@ -319,22 +318,14 @@ public class LoginUtil {
     }
 
 
-    public static void setJpushAlias(Context context) {
-        Set<String> tags = new HashSet<String>();
-        tags.add(SmartHomeUtil.getUserName());
-        //删除别名和Tag
-        TagAliasOperatorHelper.TagAliasBean tagAliasBean = new TagAliasOperatorHelper.TagAliasBean();
-        tagAliasBean.action = TagAliasOperatorHelper.ACTION_DELETE;
-        tagAliasBean.isAliasAction = true;
-        tagAliasBean.alias = SmartHomeUtil.getUserName();
-        tagAliasBean.tags=tags;
-        sequence++;
-        TagAliasOperatorHelper.getInstance().handleAction(context, sequence, tagAliasBean);
 
-     /*   tagAliasBean.action = TagAliasOperatorHelper.ACTION_CLEAN;
-        tagAliasBean.isAliasAction = false;
-        sequence++;
-        TagAliasOperatorHelper.getInstance().handleAction(context.getApplicationContext(), sequence, tagAliasBean);*/
+
+    public static void setJpushAlias(Context context) {
+        //删除绑定极光的别名
+        MMKV.defaultMMKV().putString(ALIAS_DATA, "");
+        MMKV.defaultMMKV().putInt(ALIAS_ACTION, 2);
+        PushUtils.deleteAlias(context,PushUtils.sequence++);
+        PushUtils.sequence=1;
     }
 
 
@@ -392,6 +383,7 @@ public class LoginUtil {
                         //设置帐号是否是浏览帐号
                         if (Cons.isflagId.equals(userBean.getName())) {
                             userBean.setAuthnum(1);
+
                         } else {
                             userBean.setAuthnum(0);
                         }

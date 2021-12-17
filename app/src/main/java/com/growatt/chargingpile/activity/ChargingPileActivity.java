@@ -6,8 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+
 import androidx.constraintlayout.widget.Group;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
@@ -15,6 +14,7 @@ import androidx.core.content.ContextCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -45,16 +45,19 @@ import com.growatt.chargingpile.adapter.ChargingListAdapter;
 import com.growatt.chargingpile.adapter.GunSwitchAdapter;
 import com.growatt.chargingpile.adapter.ReservaCharingAdapter;
 import com.growatt.chargingpile.application.MyApplication;
+import com.growatt.chargingpile.bean.ChargeStartFreshMsg;
 import com.growatt.chargingpile.bean.ChargingBean;
 import com.growatt.chargingpile.bean.GunBean;
 import com.growatt.chargingpile.bean.NoConfigBean;
 import com.growatt.chargingpile.bean.PileSetBean;
 import com.growatt.chargingpile.bean.ReservationBean;
 import com.growatt.chargingpile.connutil.PostUtil;
+import com.growatt.chargingpile.jpush.PushUtils;
 import com.growatt.chargingpile.jpush.TagAliasOperatorHelper;
 import com.growatt.chargingpile.util.CircleDialogUtils;
 import com.growatt.chargingpile.util.Cons;
 import com.growatt.chargingpile.util.Constant;
+import com.growatt.chargingpile.util.CustomTimer;
 import com.growatt.chargingpile.util.MathUtil;
 import com.growatt.chargingpile.util.MyUtil;
 import com.growatt.chargingpile.util.Mydialog;
@@ -65,7 +68,9 @@ import com.growatt.chargingpile.view.RoundProgressBar;
 import com.mylhyl.circledialog.CircleDialog;
 import com.mylhyl.circledialog.view.listener.OnInputClickListener;
 import com.mylhyl.circledialog.view.listener.OnLvItemClickListener;
+import com.tencent.mmkv.MMKV;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
@@ -82,15 +87,15 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pub.devrel.easypermissions.EasyPermissions;
 
-import static com.growatt.chargingpile.jpush.TagAliasOperatorHelper.sequence;
+import static com.growatt.chargingpile.jpush.TagAliasOperatorHelper.ALIAS_ACTION;
+import static com.growatt.chargingpile.jpush.TagAliasOperatorHelper.ALIAS_DATA;
+
 
 public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapter.OnItemClickListener {
 
@@ -287,14 +292,19 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
     public String[] solarArrray;
     private String searchId;
 
-    private Timer mTimer;//涂鸦设备操作定时器
-    private TimerTask timerTask;//涂鸦设备定时任务
-    private long period = 1000;//刷新任务的间隔时间
+
     private String moneyUnit = "";
 
-    private boolean isfirst=true;
+    private boolean isfirst = true;
     private String jumpId;
     private DialogFragment dialogFragment;
+
+    //操作定时刷新
+
+    private CustomTimer mOperaterTimer;
+
+    //定时刷新的计时器
+    private CustomTimer mFreshTimer;
 
 
     @Override
@@ -309,97 +319,97 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
         initPullView();
         initStatusView();
         initResource();
-        Set<String> tags = new HashSet<String>();
-        tags.add(SmartHomeUtil.getUserName());
-        setJpushAliasTag(tags, SmartHomeUtil.getUserName());
+        setJPushAlias();
         freshData();
+        //开启定时刷新
+        startFreshTimer();
     }
 
 
+    /**
+     * 操作设备，刷新三次
+     *
+     * @param period
+     * @param delay
+     */
 
+    int taskRunTimes = 0;
 
-    private void setJpushAliasTag(Set<String> tags, String alias) {
-        TagAliasOperatorHelper.TagAliasBean tagAliasBean = new TagAliasOperatorHelper.TagAliasBean();
-        tagAliasBean.action = TagAliasOperatorHelper.ACTION_SET;
-        tagAliasBean.alias = alias;
-        tagAliasBean.tags = tags;
-        tagAliasBean.isAliasAction = true;
-        sequence++;
-        TagAliasOperatorHelper.getInstance().handleAction(getApplicationContext(), sequence, tagAliasBean);
-    /*    tagAliasBean.isAliasAction = false;
-        sequence++;
-        TagAliasOperatorHelper.getInstance().handleAction(getApplicationContext(), sequence, tagAliasBean);*/
-    }
-
-
-    private Handler handler=new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-
-
-
+    private void startOperaterTimer(long period) {
+        stopOperaterTimer();
+        //初始化一个定时器并立即执行
+        mOperaterTimer = new CustomTimer(() -> {
             if (TextUtils.isEmpty(currenStatus)) {
                 return;
             }
-            Integer gunId = gunIds.get(mCurrentPile.getChargeId());
-            if (gunId == null) gunId = 1;
-            switch (currenStatus) {
-                case GunBean.CHARGING:
+            try {
+                if (taskRunTimes <= 3) {
+                    Integer gunId = gunIds.get(mCurrentPile.getChargeId());
+                    if (gunId == null) gunId = 1;
                     freshChargingGun(mCurrentPile.getChargeId(), gunId);
-                    break;
-                case GunBean.ACCEPTED:
-                case GunBean.RESERVENOW:
-                case GunBean.RESERVED:
-                    freshChargingGun(mCurrentPile.getChargeId(), gunId);
-                    break;
-                case GunBean.AVAILABLE://在准备状态，空闲状态，只更新状态，不更新其他ui
-                case GunBean.PREPARING:
-                    timeTaskRefresh(mCurrentPile.getChargeId(), gunId);
-                    break;
-                case GunBean.FINISHING:
-                    freshChargingGun(mCurrentPile.getChargeId(), gunId);
-                    break;
+                    taskRunTimes++;
+                } else {
+                    mOperaterTimer.timerDestroy();
+                }
 
-                default:
-                    freshChargingGun(mCurrentPile.getChargeId(), gunId);
-                    break;
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        }
-    };
+        }, period, 300);
 
-
-    /**
-     * 定时刷新开始
-     */
-    private void startTimer() {
-        if (mTimer == null) mTimer = new Timer();
-        if (timerTask != null) timerTask.cancel();
-        initTask();
-        mTimer.schedule(timerTask, 0, period);
+        mOperaterTimer.timerStart();
     }
 
 
-    private void initTask() {
-        timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                handler.sendEmptyMessage(0);
-            }
-        };
+    private void stopOperaterTimer() {
+        taskRunTimes = 0;
+        if (mOperaterTimer != null) {
+            mOperaterTimer.timerDestroy();
+            mOperaterTimer = null;
+        }
     }
 
 
     /**
-     * 停止定时器
+     * 固定一分钟刷新一次
      */
-    private void stopTimer() {
-        if (mTimer != null) {
-            mTimer.cancel();
-            timerTask.cancel();
-            mTimer.purge();
-            mTimer = null;
+
+    private void startFreshTimer() {
+        //初始化一个定时器并立即执行
+        mFreshTimer = new CustomTimer(() -> {
+            try {
+                if (mCurrentPile != null) {
+                    Integer gunId = gunIds.get(mCurrentPile.getChargeId());
+                    if (gunId == null) gunId = 1;
+
+                    if (GunBean.PREPARING.equals(currenStatus)){
+                        timeTaskRefresh(mCurrentPile.getChargeId(), gunId);
+                    }else {
+                        freshChargingGun(mCurrentPile.getChargeId(), gunId);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }, 60 * 1000, 1000 * 60);
+
+        mFreshTimer.timerStart();
+    }
+
+
+    private void stopFreshTimer() {
+        if (mFreshTimer != null) {
+            mFreshTimer.timerDestroy();
+            mFreshTimer = null;
         }
+    }
+
+
+    private void setJPushAlias() {
+        String registrationId = PushUtils.getRegistrationId(this);
+        MMKV.defaultMMKV().putString(ALIAS_DATA, Cons.userBean.getAccountName());
+        MMKV.defaultMMKV().putInt(ALIAS_ACTION, 1);
+        PushUtils.setAlias(this,Cons.userBean.getAccountName(),PushUtils.sequence++);
     }
 
 
@@ -413,8 +423,9 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
     protected void onResume() {
         super.onResume();
         //列表有充电桩的时候才开启定时器
-        if (mAdapter.getData().size() > 1) {
-            startTimer();
+        if (mFreshTimer != null && mFreshTimer.isPause()) {
+            //定时继续
+            mFreshTimer.timerRuning();
         }
     }
 
@@ -422,7 +433,10 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
     protected void onPause() {
         super.onPause();
         animation = null;
-        stopTimer();
+        if (mFreshTimer != null && !mFreshTimer.isPause()) {
+            //定时暂停
+            mFreshTimer.timerPause();
+        }
     }
 
 
@@ -713,7 +727,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
         tvRate = presetChargingView.findViewById(R.id.tv_rate);
         tvCurrent = presetChargingView.findViewById(R.id.tv_current);
         tvVoltage = presetChargingView.findViewById(R.id.tv_voltage);
-        tvPercentCenter=presetChargingView.findViewById(R.id.tv_percent_center);
+        tvPercentCenter = presetChargingView.findViewById(R.id.tv_percent_center);
 
     }
 
@@ -843,6 +857,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
         Integer gunId = gunIds.get(mCurrentPile.getChargeId());
         if (gunId == null) gunId = 1;
         freshChargingGun(mCurrentPile.getChargeId(), gunId);
+        mFreshTimer.timerRuning();
     }
 
 
@@ -878,9 +893,6 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                             //状态改变,改变自动刷新的时间
                             if (!status.equals(currenStatus)) {
                                 currenStatus = status;
-                                period = 10 * 1000;
-                                stopTimer();
-                                startTimer();
                             }
                         }
                     }
@@ -969,7 +981,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             MyUtil.showAllView(llBottomGroup);
             return;
         }
-        String name = SmartHomeUtil.getLetter().get(data.getConnectorId() - 1) +" "+ getString(R.string.枪);
+        String name = SmartHomeUtil.getLetter().get(data.getConnectorId() - 1) + " " + getString(R.string.枪);
         tvSwitchGun.setText(name);
         /*//初始化充电枪准备中的显示
         getLastAction();*/
@@ -1047,7 +1059,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                             String scheme1 = String.format(getString(R.string.m198预设充电方案) + "-%s", getString(R.string.m201电量));
                             setPresetChargingUi(scheme1, data.getcValue() + "kWh", energy, getString(R.string.m189已充电量),
                                     R.drawable.charging_money, money, getString(R.string.m192消费金额), R.drawable.charging_time, sTimeCharging, getString(R.string.m191已充时长),
-                                    Double.parseDouble(data.getcValue()),  data.getEnergy(),
+                                    Double.parseDouble(data.getcValue()), data.getEnergy(),
                                     String.valueOf(data.getRate()), data.getCurrent() + "A", data.getVoltage() + "V");
                             break;
 
@@ -1139,10 +1151,8 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
         }
         //状态改变  就更新刷新的时间
         if (!status.equals(currenStatus)) {
-            period = 10 * 1000;
             currenStatus = status;
-            stopTimer();
-            startTimer();
+            stopOperaterTimer();
         }
     }
 
@@ -1355,8 +1365,8 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             roundProgressBar.setMax((float) presetValue_value);
         }
         roundProgressBar.setProgress((float) chargedValue_value);
-        double v =   chargedValue_value* 100 / presetValue_value;
-        double percent =MyUtil.divide(v,2);
+        double v = chargedValue_value * 100 / presetValue_value;
+        double percent = MyUtil.divide(v, 2);
         tvPercentCenter.setText(percent + "%");
         roundProgressBar.setTextSize(getResources().getDimensionPixelSize(R.dimen.xa26));
 
@@ -1531,7 +1541,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
      */
     private void setPowerLimit() {
         //弹出时停止刷新
-        stopTimer();
+        mFreshTimer.timerPause();
         View view = LayoutInflater.from(ChargingPileActivity.this).inflate(R.layout.popuwindow_power_limit, null);
         TextView tvSolarMode = view.findViewById(R.id.tv_text1);
         TextView tvLimitPower = view.findViewById(R.id.tv_text2);
@@ -1600,39 +1610,35 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
         int[] location = new int[2];
         mRlSolar.getLocationOnScreen(location);
         pwPowerTips.showAtLocation(mRlSolar, Gravity.NO_GRAVITY, location[0] + mRlSolar.getWidth(), location[1]);
-        //消失时重新开始刷新
-        pwPowerTips.setOnDismissListener(this::startTimer);
+
     }
 
 
-
     private void setNosetRateDialog() {
-        //弹出时停止刷新
-        stopTimer();
-        String []array=new String[]{"ECO","ECO+"};
+        String[] array = new String[]{"ECO", "ECO+"};
         new CircleDialog.Builder()
                 .setItems(array, new OnLvItemClickListener() {
                     @Override
                     public boolean onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        int mode=position+1;
+                        int mode = position + 1;
                         PileSetBean pileSetBean = new PileSetBean();
                         PileSetBean.DataBean dataBean = new PileSetBean.DataBean();
                         dataBean.setG_SolarMode(mode);
                         pileSetBean.setData(dataBean);
                         requestLimit(pileSetBean);
-                        startTimer();
+                        mFreshTimer.timerRuning();
                         return true;
                     }
                 })
                 .setNegative(getString(R.string.m7取消), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startTimer();
+                        mFreshTimer.timerRuning();
                     }
                 }).setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                startTimer();
+
             }
         })
                 .setGravity(Gravity.BOTTOM)
@@ -1641,7 +1647,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
 
 
     private void setLock() {
-        stopTimer();
+        mFreshTimer.timerPause();
         new CircleDialog.Builder().setTitle(getString(R.string.m27温馨提示))
                 .setText(getString(R.string.m是否解除该枪电子锁))
                 .setWidth(0.75f)
@@ -1649,10 +1655,10 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                     requestUnlock();
                 })
                 .setNegative(getString(R.string.m7取消), view -> {
-
+                    mFreshTimer.timerRuning();
                 })
                 .setOnDismissListener(dialogInterface -> {
-                    startTimer();
+
                 })
                 .show(getSupportFragmentManager());
     }
@@ -1685,6 +1691,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                     int code = object.getInt("code");
                     if (code == 0) {
                         freshData();
+                        mFreshTimer.timerRuning();
                     }
                     String data = object.getString("data");
                     toast(data);
@@ -1712,6 +1719,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
         jsonMap.put("cmd", "unlock");//测试id
         jsonMap.put("chargeId", mCurrentPile.getChargeId());//测试id
         jsonMap.put("lan", getLanguage());//测试id
+        jsonMap.put("userId", SmartHomeUtil.getUserName());//测试id
         jsonMap.put("connectorId", mCurrentGunBean.getData().getConnectorId());
         String json = SmartHomeUtil.mapToJsonString(jsonMap);
         PostUtil.postJson(SmartHomeUrlUtil.postByCmd(), json, new PostUtil.postListener() {
@@ -1726,6 +1734,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                     JSONObject object = new JSONObject(json);
                     String data = object.getString("data");
                     toast(data);
+                    mFreshTimer.timerRuning();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -2002,7 +2011,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                 addChargingPile();
             } else {
                 animation = null;
-                stopTimer();
+                mFreshTimer.timerPause();
                 currenStatus = GunBean.NONE;
                 mAdapter.setNowSelectPosition(position);
                 refreshChargingUI();
@@ -2078,7 +2087,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
      * @param v popuwindow显示在哪个view下面
      */
     public void showStorageList(View v) {
-        stopTimer();
+        mFreshTimer.timerPause();
         List<GunBean.DataBean> gunlist = new ArrayList<>();
         List<String> letters = SmartHomeUtil.getLetter();
         String unit = getString(R.string.枪);
@@ -2108,7 +2117,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
             String name = SmartHomeUtil.getLetter().get(id - 1) + " " + getString(R.string.枪);
             tvSwitchGun.setText(name);
             popupGun.dismiss();
-            startTimer();
+            mFreshTimer.timerRuning();
             //刷新充电枪
 //            freshChargingGun(mCurrentPile.getChargeId(), id);
         });
@@ -2213,14 +2222,14 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
      * 弹起时间选择器
      */
     private void selectTime() {
-        Calendar calendar=Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        int min=calendar.get(Calendar.MINUTE);
-        if (!TextUtils.isEmpty(startTime)){
+        int min = calendar.get(Calendar.MINUTE);
+        if (!TextUtils.isEmpty(startTime)) {
             String selectTime = startTime.substring(11, 16);
             String[] time = selectTime.split("[\\D]");
-            hour= Integer.parseInt(time[0]);
-            min= Integer.parseInt(time[1]);
+            hour = Integer.parseInt(time[0]);
+            min = Integer.parseInt(time[1]);
         }
         dialogFragment = CircleDialogUtils.showWhiteTimeSelect(this, hour, min, getSupportFragmentManager(), false, new CircleDialogUtils.timeSelectedListener() {
             @Override
@@ -2230,8 +2239,8 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
 
             @Override
             public void ok(boolean status, int hour, int min) {
-                String hourString=hour <10?("0"+hour):hour+"";
-                String minString=min <10?("0"+min):min+"";
+                String hourString = hour < 10 ? ("0" + hour) : hour + "";
+                String minString = min < 10 ? ("0" + min) : min + "";
                 String time = hourString + ":" + minString;
 
                 //获取年月
@@ -2283,10 +2292,9 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                     JSONObject object = new JSONObject(json);
                     int type = object.optInt("type");
                     if (type == 0) {
-                        Mydialog.showDelayDismissDialog(15 * 1000, ChargingPileActivity.this);
-                        period = 1500;
-                        stopTimer();
-                        startTimer();
+                        ChargeStartFreshMsg chargeStartFreshMsg = new ChargeStartFreshMsg();
+                        chargeStartFreshMsg.setPeriod(2 * 1000);
+                        EventBus.getDefault().post(chargeStartFreshMsg);
                     } else {
                         Mydialog.Dismiss();
                     }
@@ -2335,14 +2343,15 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                     JSONObject object = new JSONObject(json);
                     int type = object.optInt("type");
                     if (type == 0) {
-                        Mydialog.showDelayDismissDialog(15 * 1000, ChargingPileActivity.this);
-                        period = 1500;
-                        stopTimer();
-                        startTimer();
+                        ChargeStartFreshMsg chargeStartFreshMsg = new ChargeStartFreshMsg();
+                        chargeStartFreshMsg.setPeriod(2 * 1000);
+                        EventBus.getDefault().post(chargeStartFreshMsg);
                     } else {
                         Mydialog.Dismiss();
                     }
-                    toast(object.getString("data"));
+                    if (30!=object.optInt("code")){
+                        toast(object.getString("data"));
+                    }
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -2403,9 +2412,9 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                     String data = object.getString("data");
                     int code = object.optInt("type");
                     if (code == 0) {
-                        period = 1500;
-                        stopTimer();
-                        startTimer();
+                        ChargeStartFreshMsg chargeStartFreshMsg = new ChargeStartFreshMsg();
+                        chargeStartFreshMsg.setPeriod(2 * 1000);
+                        EventBus.getDefault().post(chargeStartFreshMsg);
                     }
                     toast(data);
                 } catch (Exception e) {
@@ -2599,7 +2608,6 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            stopTimer();
             if ((System.currentTimeMillis() - mExitTime) > 2000) {
                 toast(R.string.m确认退出);
                 mExitTime = System.currentTimeMillis();
@@ -2645,9 +2653,9 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
                     int code = object.getInt("code");
                     if (code == 0) {
                         if (size - 1 == pos) {
-                            period = 1500;
-                            stopTimer();
-                            startTimer();
+                            ChargeStartFreshMsg chargeStartFreshMsg = new ChargeStartFreshMsg();
+                            chargeStartFreshMsg.setPeriod(2 * 1000);
+                            EventBus.getDefault().post(chargeStartFreshMsg);
                         }
                     }
                 } catch (Exception e) {
@@ -2666,6 +2674,15 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
     protected void onDestroy() {
         super.onDestroy();
         searchId = null;
+        stopFreshTimer();
+        EventBus.getDefault().unregister(this);
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void freshAll(ChargeStartFreshMsg msg) {
+        //对充电桩进行了操作、启动充电 删除预约..
+        startOperaterTimer(msg.getPeriod());
     }
 
 
