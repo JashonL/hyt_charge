@@ -170,6 +170,7 @@
         android:layout_height="@dimen/xa88"
         android:layout_gravity="center_vertical"
         android:layout_marginTop="@dimen/xa30"
+        android:visibility="gone"
         android:orientation="vertical">
 
         <TextView

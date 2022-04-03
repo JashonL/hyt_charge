@@ -322,7 +322,7 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
         initPullView();
         initStatusView();
         initResource();
-        setJPushAlias();
+//        setJPushAlias();
         freshData();
         //开启定时刷新
         startFreshTimer();

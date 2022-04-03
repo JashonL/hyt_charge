@@ -5,7 +5,7 @@ import com.growatt.chargingpile.bean.RegisterMap;
 import com.growatt.chargingpile.bean.UserBean;
 
 public class Cons {
-    public static String isflagId="ceshi007";
+    public static String isflagId="atess1";
     public static RegisterMap regMap = new RegisterMap();
     public static UserBean userBean;
 
