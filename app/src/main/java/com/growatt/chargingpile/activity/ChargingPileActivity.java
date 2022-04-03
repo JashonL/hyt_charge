@@ -312,6 +312,9 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charging_pile);
         ButterKnife.bind(this);
+
+        experience();
+
         initPermission();
         initHeaderViews();
         initCharging();
@@ -323,6 +326,17 @@ public class ChargingPileActivity extends BaseActivity implements BaseQuickAdapt
         freshData();
         //开启定时刷新
         startFreshTimer();
+    }
+
+    //判断到时间不给用
+    private void experience() {
+        Date date = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+        String nowDate = simpleDateFormat.format(date);
+        if ("20220630".equals(nowDate)){
+            MyApplication.getInstance().exit();
+            finish();
+        }
     }
 
 

@@ -3,11 +3,11 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 30
     defaultConfig {
-        applicationId "com.growatt.atess"
+        applicationId "com.hyt.charge"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 26
-        versionName "3.0.2"
+        versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [
                 JPUSH_PKGNAME : applicationId,
