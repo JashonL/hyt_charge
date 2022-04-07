@@ -21,8 +21,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/xa37"
-            android:src="@drawable/login_logo"
-          />
+            android:src="@drawable/login_logo" />
 
         <TextView
             android:id="@+id/textView1"
